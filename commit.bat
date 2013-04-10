@@ -1,6 +1,6 @@
 @echo off
 
-set /p msg=Enter commit description :
+set /p msg=Enter commit description : 
 
 echo.
 echo git add
