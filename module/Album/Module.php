@@ -1,6 +1,6 @@
 <?php
 namespace Album;
-//aaaa
+
 //use Album\Model\Album;
 use Album\Model\AlbumTable;
 //use Zend\Db\ResultSet\ResultSet;
