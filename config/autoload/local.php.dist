@@ -21,4 +21,18 @@ return array(
     // The path in which to cache merged configuration.
     //'cache_dir' =>  './data/cache',
     // ...
+    'doctrine' => array(
+        'connection' => array(
+            'orm_default' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => array(
+                    'host'     => 'localhost',
+                   // 'port'     => '80',
+                    'user'     => 'root',
+                    'password' => '',
+                    'dbname'   => 'CERVIN',
+                )
+            )
+        )
+    ),
 );
