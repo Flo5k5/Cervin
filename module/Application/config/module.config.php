@@ -1,4 +1,5 @@
 <?php
+namespace Application;
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -88,4 +89,6 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+
 );
