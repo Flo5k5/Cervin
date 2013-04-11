@@ -5,7 +5,7 @@ if exist "%LOCALAPPDATA%\Composer\files\" del /f /q /s "%LOCALAPPDATA%\Composer\
 php composer.phar self-update
 php composer.phar update
 
-color 0a
+:EXIT
 echo.
-echo Success!
+echo Press any key to quit
 pause > nul

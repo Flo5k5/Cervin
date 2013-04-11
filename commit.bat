@@ -17,7 +17,7 @@ echo git push
 echo.
 git push origin master
 
-color 0a
+:EXIT
 echo.
-echo Success!
+echo Press any key to quit
 pause > nul

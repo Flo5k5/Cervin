@@ -1,11 +1,4 @@
 !.gitignore
 .composer
-bin/
-bjyoungblood/
-composer/
-doctrine/
-symfony/
-zendframework/
-ZF2/
-zf-commons/
+*/
 autoload.php
