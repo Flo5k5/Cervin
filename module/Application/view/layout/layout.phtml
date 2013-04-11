@@ -2,73 +2,109 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <?php echo $this->headTitle('Cervin')->setSeparator(' - ')->setAutoEscape(false) ?>
-
-    <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
-
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Cervin')->setSeparator(' - ')->setAutoEscape(false) ?>
+    
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+    
         <!-- Le styles -->
-    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico')); ?>
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
 
-    <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
+        <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
 
-<?php echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-all.js') ;?>
+        <?php echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-all.js') ;?>
 
    </head>
    <body>
         <div class="navbar navbar-inverse ">
             <div class="navbar-inner">
                 <div class="container">
-                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                           <span class="icon-bar"></span>
-                           <span class="icon-bar"></span>
-                           <span class="icon-bar"></span>
-                        </a>
-                        <a class="brand" href="#">Cervin</a>
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">Cervin</a>
                     <div class="nav-collapse collapse">
+
                         <ul class="nav">
-                            <li class="active"><a href="#">Accueil</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <li class="active"><a href="index">Accueil</a></li>
+                            <li><a href="apropos">À propos</a></li>
+                            <li><a href="contact">Contact</a></li>
+
+                            <li class="divider-vertical"></li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Collections<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
+                                    <li class="nav-header">Artefacts</li>
+                                    <li><a href="createartefact">Ajouter un artefact</a></li>
+                                    <li><a href="editartefact">Modifier un artefact</a></li>
                                     <li class="divider"></li>
-                                    <li class="nav-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
+                                    <li class="nav-header">Médias</li>
+                                    <li><a href="createmedia">Ajouter un média</a></li>
+                                    <li><a href="editmedia">Modifier un média</a></li>
                                 </ul>
                             </li>
-                        </ul>
-                        <ul class="nav pull-right">
-                            <li><a href="Inscription.html">Inscription</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Parours<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-header">Parcours</li>
+                                    <li><a href="createparcours">Nouveau parcours</a></li>
+                                    <li><a href="editparcours">Éditer un parcours existant</a></li>
+                                </ul>
+                            </li>
+
                             <li class="divider-vertical"></li>
+
+                            <li><a href="Inscription.html">Inscription</a></li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
                                 <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
                                     <form method="post" action="login" accept-charset="UTF-8">
                                         <input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username">
                                         <input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password">
-                                        <input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1">
-                                        <label class="string optional" for="remember-me"> Remember me</label>
+                                        <input style="float: left;" type="checkbox" name="rememberme" id="rememberme" value="1">
+                                        <label class="string optional" for="remember-me">Remember me</label>
                                         <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
                                     </form>
                                 </div>
                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Panneau de contrôle<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="createuser">Créer un utilisateur</a></li>
+                                    <li><a href="edituser">Modifier un compte utilisateur</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider-vertical"></li>
                         </ul>
+
+                        <ul class="nav pull-right">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
+                                    <li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/auth/logout"><i class="icon-off"></i> Logout</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
         </div>
+
         <div class="container">
             <?php echo $this->content; ?>
         </div>
+
         <hr>
             <footer>
-                <p>&copy; 2013 - Cervin</p>
+                <p><dd>&copy; <?php echo date("Y"); ?> - Cervin</dd></p>
             </footer>
     </body>
     <?php echo $this->inlineScript() ?>

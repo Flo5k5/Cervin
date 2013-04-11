@@ -30,8 +30,8 @@ goto DUMP
 
 
 :DUMP
-mysqldump -h %host% -u %user% %db% > cervin.sql
-start notepad cervin.sql
+mysqldump -h %host% -u %user% %db% > %db%.sql
+start notepad %db%.sql
 goto EXIT
 
 :EXIT
