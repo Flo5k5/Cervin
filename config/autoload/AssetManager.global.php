@@ -10,9 +10,6 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
-
-
-
 return array(
     'asset_manager' => array(
         'resolver_configs' => array(
@@ -42,7 +39,13 @@ return array(
                 array(
                     'filter' => 'Lessphp',
                 ),
-            ),  
+            ),/*
+            'js/bootstrap-all.js' => array(
+                array(
+                    'filter' => 'JSMin',
+                ),
+            ),*/
+
         ),
         'caching' => array(
             'default' => array(
