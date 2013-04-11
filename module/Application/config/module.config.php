@@ -12,7 +12,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'User\Controller\User' => 'User\Controller\UserController'
+         //   'User\Controller\User' => 'User\Controller\UserController'
         ),
     ),
     'router' => array(
@@ -27,39 +27,45 @@ return array(
                     ),
                 ),
             ),
-            'User' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/User',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
-            
         ),
     ),
     'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
+    'doctrine' => array(
+        'driver' => array(
+            // overriding zfc-user-doctrine-orm's config
+            'zfcuser_entity' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => __DIR__ . '/../src/SamUser/Entity',
+            ),
 
+            'orm_default' => array(
+                'drivers' => array(
+                    'SamUser\Entity' => 'zfcuser_entity',
+                ),
+            ),
+        ),
+    ),
+    'zfcuser' => array(
+        // telling ZfcUser to use our own class
+        'user_entity_class'       => 'SamUser\Entity\User',
+        // telling ZfcUserDoctrineORM to skip the entities it defines
+        'enable_default_entities' => false,
+    ),
+    'bjyauthorize' => array(
+        // Using the authentication identity provider, which basically reads the roles from the auth service's identity
+        'identity_provider' => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
+
+        'role_providers'        => array(
+            // using an object repository (entity repository) to load all roles into our ACL
+            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
+                'object_manager'    => 'doctrine.entity_manager.orm_default',
+                'role_entity_class' => 'SamUser\Entity\Role',
+            ),
+        ),
+    ),
 
 );

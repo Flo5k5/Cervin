@@ -9,10 +9,24 @@
 
 namespace Application;
 
+use Zend\Db\Adapter\Adapter;
+
+use SamUser\Entity\User;
+
+use Doctrine\ORM\EntityManager;
+
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ServiceProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {
@@ -30,8 +44,21 @@ class Module
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'SamUser' => __DIR__ . '/src/SamUser',
                 ),
             ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'invokables' => array(
+                'zfcuser_user_service' => 'SamUser\Service\User2',
+            ),
+            'factories' => array(
+
+            )
         );
     }
 }
