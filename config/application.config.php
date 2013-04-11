@@ -13,9 +13,10 @@ return array(
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
+        'AssetManager',
         'Application',
         'Album',
-        'Core'
+        'Core',
         ),
     'module_listener_options' => array(
         'module_paths' => array(
