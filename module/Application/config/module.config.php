@@ -41,7 +41,11 @@ return array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'paths' => __DIR__ . '/../src/SamUser/Entity',
             ),
-
+            'users_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/SamUser/Entity')
+            ),
             'orm_default' => array(
                 'drivers' => array(
                     'SamUser\Entity' => 'zfcuser_entity',
