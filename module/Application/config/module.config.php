@@ -27,7 +27,7 @@ return array(
                     ),
                 ),
             ),
-            'Admin' => array(
+            'admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                // 'priority' => 1000,
                 'options' => array(
@@ -39,7 +39,7 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'editusers' => array(
+                    'gestion-users' => array(
                         'type' => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route' => '/gestion-users',

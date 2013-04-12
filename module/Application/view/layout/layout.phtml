@@ -25,7 +25,7 @@
                        <span class="icon-bar"></span>
                        <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="/">Cervin</a>
+                    <a class="brand" href="<?php echo $this->url('home'); ?>">Cervin</a>
                     <div class="nav-collapse collapse">
 
                         <ul class="nav">
@@ -62,8 +62,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Panneau de contrôle<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="createuser">Créer un utilisateur</a></li>
-                                    <li><a href="edituser">Modifier un compte utilisateur</a></li>
+                                    <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
                                 </ul>
                             </li>
                             <li class="divider-vertical"></li>
