@@ -9,12 +9,11 @@
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
     
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
+        <?php $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
 
         <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
 
-        <?php echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-all.js') ;?>
-
+    <?php echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js') ;?>
    </head>
    <body>
         <div class="navbar navbar-inverse ">
@@ -104,6 +103,7 @@
                 <p class="container">&copy; <?php echo date("Y"); ?> - Cervin</p>
             </footer>
     </body>
+
     <?php echo $this->inlineScript() ?>
 </html>
 

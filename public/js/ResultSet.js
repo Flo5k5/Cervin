@@ -137,8 +137,7 @@ var ResultSet = new function() {
 					"sInfo": "Affiche de _START_ à _END_ sur _TOTAL_ éléments",
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
-					"sSearch": "Recherchez",
-					"sProcessing"="Traitement..."
+					"sSearch": "Recherchez"
 				},
 		  		"bProcessing": true,
 		    	"bServerSide": true,

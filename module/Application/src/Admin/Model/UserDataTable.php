@@ -44,17 +44,8 @@ class UserDataTable extends DataTable
 				    $user->username,
 				    $user->displayName,
 				    $user->email,
-				    '<a href="/product/edit/{$user->id}" class="btn btn-primary"><i class="icon-pencil"></i> Modifier</a>'.
-				    '<div class="btn-group">
-		                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-		                	Changer le Role
-		                	<span class="caret"></span>
-		                </a>
-		                <ul class="dropdown-menu">
-		                	<li><a href="#">User</a></li>
-		                	<li><a href="#">Admin</a></li>
-		                </ul>
-		            </div>'
+				    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>
+'
 				    ,
 			    );
 			
