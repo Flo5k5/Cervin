@@ -8,6 +8,8 @@
 
 namespace SamUser\Entity;
 
+use DataTable\Model\ModelAbstract;
+
 use BjyAuthorize\Provider\Role\ProviderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,7 +24,7 @@ use ZfcUser\Entity\UserInterface;
 * 
 * @author Tom Oram <tom@scl.co.uk>
 */
-class User implements UserInterface, ProviderInterface
+class User extends ModelAbstract implements UserInterface, ProviderInterface
 {
     /**
 * @var int

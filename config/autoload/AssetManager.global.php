@@ -17,6 +17,8 @@ return array(
                 'js/bootstrap-all.js' => array(
                     'js/jquery.js',
                     'js/bootstrap.js',
+                    '/js/jquery.dataTables.js',
+                    '/js/ResultSet.js',
                 ),
                 'css/bootstrap-all.css' => array(
                     'css/bootstrap-all-less.css',
@@ -49,7 +51,10 @@ return array(
         ),
         'caching' => array(
             'default' => array(
-                'Apc'     => 'Filesystem',
+                'cache'     => 'FilePath',
+                'options' => array(
+                    'dir' => __DIR__ . '/../../data/cache', // path/to/cache
+                ),
             ),
         ),
     ),

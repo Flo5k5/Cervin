@@ -29,12 +29,36 @@ return array(
             ),
             'Admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
+               // 'priority' => 1000,
                 'options' => array(
-                    'route'    => '/Admin',
+                    'route' => '/admin',
                     'defaults' => array(
                         'controller' => 'Admin',
                         'action'     => 'index',
                     ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'editusers' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/gestion-users',
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'editusers',
+                            ),
+                        ),
+                    ),/*
+                    'authenticate' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/authenticate',
+                            'defaults' => array(
+                                'controller' => 'zfcuser',
+                                'action'     => 'authenticate',
+                            ),
+                        ),
+                    ),*/
                 ),
             ),
         ),
@@ -59,7 +83,13 @@ return array(
             'orm_default' => array(
                 'drivers' => array(
                     'SamUser\Entity' => 'zfcuser_entity',
+                    'Admin\Entity' => 'Admin_driver'
                 ),
+            ),
+            'Admin_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Admin/Entity')
             ),
         ),
     ),
