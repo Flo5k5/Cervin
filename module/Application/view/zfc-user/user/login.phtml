@@ -1,5 +1,4 @@
-<h1>Sign In</h1>
-
+<!-- -->
 <?php
 $form = $this->loginForm;
 $form->prepare();
@@ -26,7 +25,19 @@ $form->setAttribute('method', 'post');
     </dl>
 
 <?php echo $this->form()->closeTag() ?>
+<!-- -->
 
-<?php if ($this->enableRegistration) : ?>
-Not registered? <a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->redirect : '') ?>">Sign up!</a>
-<?php endif; ?>
+<!--
+<form method="get" action="login" accept-charset="UTF-8">
+    <input style="margin-bottom: 15px;" type="text" placeholder="Email" id="email" name="email">
+    <input style="margin-bottom: 15px;" type="password" placeholder="Mot de passe" id="password" name="password">
+    <!--
+    <input style="float: left;" type="checkbox" name="rememberme" id="rememberme" value="1">
+    <label class="string optional" for="remember-me">Remember me</label>
+    - ->
+    <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
+    <input type="hidden" name="redirect" value=""/>
+</form>
+-->
+
+Pas encore de compte ? <a href="<?php echo $this->url('zfcuser/register') ?>">S'enregistrer !</a><br><br>
