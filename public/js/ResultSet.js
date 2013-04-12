@@ -132,12 +132,13 @@ var ResultSet = new function() {
 						"sPrevious": "Précédent",
 						"sLast": "Dernier"
 					},
-					"sLengthMenu": "Afficher _MENU_ les enregistrements par page ",
-					"sZeroRecords": "Enregistrement introuvable",
-					"sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ enregistrementss",
+					"sLengthMenu": "Afficher _MENU_ éléments par page",
+					"sZeroRecords": "Aucune donnée trouvée",
+					"sInfo": "Affiche de _START_ à _END_ sur _TOTAL_ éléments",
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
-					"sSearch": "Recherchez"
+					"sSearch": "Recherchez",
+					"sProcessing"="Traitement..."
 				},
 		  		"bProcessing": true,
 		    	"bServerSide": true,

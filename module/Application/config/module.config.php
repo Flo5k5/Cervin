@@ -99,13 +99,7 @@ return array(
             'orm_default' => array(
                 'drivers' => array(
                     'SamUser\Entity' => 'zfcuser_entity',
-                    'Admin\Entity' => 'Admin_driver'
                 ),
-            ),
-            'Admin_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Admin/Entity')
             ),
         ),
     ),

@@ -22,6 +22,7 @@ class UserDataTable extends DataTable
 	        $configuration = array(
 	            'id',
 	            'username',
+	            'displayName',
 	            'email',
 	        );
 	        $this->setConfiguration($configuration);
@@ -41,6 +42,7 @@ class UserDataTable extends DataTable
 			    $data = array(
 				    $user->id,
 				    $user->username,
+				    $user->displayName,
 				    $user->email,
 				    '<a href="/product/edit/{$user->id}" class="btn btn-primary"><i class="icon-pencil"></i> Modifier</a>'.
 				    '<div class="btn-group">
