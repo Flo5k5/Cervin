@@ -45,6 +45,7 @@ class Module implements AutoloaderProviderInterface,
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                     'SamUser' => __DIR__ . '/src/SamUser',
+                    'Admin' => __DIR__ . '/src/Admin',
                 ),
             ),
         );
