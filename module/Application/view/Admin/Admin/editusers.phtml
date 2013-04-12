@@ -38,21 +38,14 @@ $this->headTitle($title);
     </div>
 </div>
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
+<?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
 
 
 
 <script>
 $(function(){
-	$('.status').editable({
-		value: 2,
-		source: [
-					{value: 1, text: 'Active'},
-					{value: 2, text: 'Blocked'},
-					{value: 3, text: 'Deleted'}
-				]
-		});
+	
 	});
 </script>
 

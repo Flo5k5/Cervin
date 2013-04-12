@@ -145,7 +145,14 @@ var ResultSet = new function() {
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
-			
+			$('.status').editable({
+		value: 2,
+		source: [
+					{value: 1, text: 'Active'},
+					{value: 2, text: 'Blocked'},
+					{value: 3, text: 'Deleted'}
+				]
+		});
 
 			return data;
 		}
