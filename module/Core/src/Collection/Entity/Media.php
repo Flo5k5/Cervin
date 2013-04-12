@@ -13,6 +13,16 @@ use Zend\InputFilter\InputFilterInterface;
 *
 * @ORM\Entity
 * @ORM\Table(name="media")
+* @ORM\InheritanceType("SINGLE_TABLE")
+* @ORM\DiscriminatorColumn(name="discr", type="string")
+* @ORM\DiscriminatorMap({"Media" = "Media", 
+*                      "MediaAutre" = "MediaAutre",
+*                      "MediaImage" = "MediaImage",
+*                      "MediaJeuDonnees" = "MediaJeuDonnees",
+*                      "MediaLogiciel" = "MediaLogiciel",
+*                      "MediaModele3d" = "MediaModele3d",
+*                      "MediaSon" = "MediaSon",
+*                      "MediaVideo" = "MediaVideo"})
 * @property int $id
 * @property string $titre
 * @property string $description

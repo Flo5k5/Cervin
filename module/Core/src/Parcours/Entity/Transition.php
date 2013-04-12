@@ -13,7 +13,7 @@ use Zend\InputFilter\InputFilterInterface;
 *
 * @ORM\Entity
 * @ORM\Table(name="transition")
-* @ORM\InheritanceType("JOINED")
+* @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"TransitionRecommandee" = "TransitionRecommandee",
  *                      "TransitionSecondaire" = "TransitionSecondaire",
