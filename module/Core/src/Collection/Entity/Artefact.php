@@ -13,6 +13,19 @@ use Zend\InputFilter\InputFilterInterface;
 *
 * @ORM\Entity
 * @ORM\Table(name="artefact")
+* @ORM\InheritanceType("SINGLE_TABLE")
+* @ORM\DiscriminatorColumn(name="discr", type="string")
+* @ORM\DiscriminatorMap({"Artefact" = "Artefact", 
+*                      "ArtefactDocument" = "ArtefactDocument",
+*                      "ArtefactMateriel" = "ArtefactMateriel",
+*                      "ArtefactLogiciel" = "ArtefactLogiciel",
+*                      "ArtefactInstitution" = "ArtefactInstitution",
+*                      "ArtefactLieu" = "ArtefactLieu",
+*                      "ArtefactPersonne" = "ArtefactPersonne",
+*                      "ArtefactProjet" = "ArtefactProjet",
+*                      "ArtefactEvenement" = "ArtefactEvenement",
+*                      "ArtefactSite Web" = "ArtefactSiteweb",
+*                      "ArtefactAutre" = "ArtefactAutre"})
 * @property int $id
 * @property string $titre
 * @property string $description
@@ -39,11 +52,10 @@ class Artefact implements InputFilterAwareInterface
     protected $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
+     * @ORM\ManyToMany(targetEntity="Collection\Entity\Media")
      **/
     protected $medias;
-    
-    
+	
     /**
     * Magic getter to expose protected properties.
     *
