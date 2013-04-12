@@ -12,7 +12,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-         //   'User\Controller\User' => 'User\Controller\UserController'
+            'Admin' => 'Admin\Controller\AdminController'
         ),
     ),
     'router' => array(
@@ -23,6 +23,16 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'Admin' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/Admin',
+                    'defaults' => array(
+                        'controller' => 'Admin',
                         'action'     => 'index',
                     ),
                 ),
