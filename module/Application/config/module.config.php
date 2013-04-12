@@ -30,7 +30,7 @@ return array(
             'Admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/Admin',
                     'defaults' => array(
                         'controller' => 'Admin',
                         'action'     => 'index',
