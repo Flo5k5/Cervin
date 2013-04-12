@@ -38,15 +38,15 @@ class Module implements AutoloaderProviderInterface,
             $form->get('username')->setLabel('Login');
             $form->get('password')->setLabel('Mot de passe');
             $form->get('passwordVerify')->setLabel('Vérification mot de passe');
+            $form->get('submit')->setLabel('Valider');
         });
-        //*
         $events->attach('ZfcUser\Form\Login','init', function($e) {
             $form = $e->getTarget();
             
             $form->get('identity')->setLabel('Login');
             $form->get('credential')->setLabel('Mot de passe');
+            $form->get('submit')->setLabel('Valider');
         });
-        //*/
     }
 
     public function getConfig()
