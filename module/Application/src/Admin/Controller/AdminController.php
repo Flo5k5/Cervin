@@ -48,7 +48,13 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function indexAction()
     {
-            if ($this->getRequest()->isXmlHttpRequest()) {
+        
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    public function editusersAction()
+    {
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
             $params = $this->params()->fromQuery();
     
             $entityManager = $this->getEntityManager()
@@ -60,11 +66,5 @@ class AdminController extends AbstractActionController
             
             return $this->getResponse()->setContent($dataTable->findAll());
         }
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    public function editusersAction()
-    {
-
-		return new ViewModel();
     }
 }

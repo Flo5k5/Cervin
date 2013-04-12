@@ -137,8 +137,7 @@ var ResultSet = new function() {
 					"sInfo": "Affiche de _START_ à _END_ sur _TOTAL_ éléments",
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
-					"sSearch": "Recherchez",
-					"sProcessing"="Traitement..."
+					"sSearch": "Recherchez"
 				},
 		  		"bProcessing": true,
 		    	"bServerSide": true,
@@ -146,7 +145,14 @@ var ResultSet = new function() {
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
-			
+			$('.status').editable({
+		value: 2,
+		source: [
+					{value: 1, text: 'Active'},
+					{value: 2, text: 'Blocked'},
+					{value: 3, text: 'Deleted'}
+				]
+		});
 
 			return data;
 		}
