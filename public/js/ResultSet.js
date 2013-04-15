@@ -123,7 +123,7 @@ var ResultSet = new function() {
 
 	return {
 
-		paginate : function(URL) {
+		paginate : function(URL, callback) {
 			var data = $('#data').dataTable({
 				"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 				"sPaginationType": "bootstrap",
@@ -165,7 +165,9 @@ var ResultSet = new function() {
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
-
+			if(typeof callback == "function"){
+				callback();
+			}
 
 			return data;
 		}
