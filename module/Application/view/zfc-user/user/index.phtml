@@ -5,16 +5,16 @@
 	<table border="1">
 		<tr>
 			<!-- modify infos -->
-			<td class="span2">Email :</td>
+			<td class="span2">Email</td>
 			<td class="span3"><?php echo $this->zfcUserIdentity()->getEmail(); ?></td>
-			<td class="span1"><a href="#">Modifier</a></td>
+			<td class="span1"><a href="<?php echo $this->url('zfcuser/changeemail') ?>">Modifier</a></td>
 		</tr>
 
 		<tr>
 			<!-- modify password -->
-			<td class="span2">Mot de passe :</td>
+			<td class="span2">Mot de passe</td>
 			<td class="span3">********</td>
-			<td class="span1"><a href="#">Modifier</a></td>
+			<td class="span1"><a href="<?php echo $this->url('zfcuser/changepassword') ?>">Modifier</a></td>
 		</tr>
 	</table>
 </div>

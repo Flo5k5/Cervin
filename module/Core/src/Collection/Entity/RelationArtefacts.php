@@ -27,7 +27,7 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="artefacts_lies")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relations_artefacts")
      * @ORM\JoinColumn(name="origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $origine;

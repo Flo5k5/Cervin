@@ -1,6 +1,6 @@
 <?php
 
-namespace Parcours\Entity;
+namespace Collection\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
@@ -9,19 +9,18 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une scène
+* La valeur d'un champ d'un élément
 *
 * @ORM\Entity
-* @ORM\Table(name="scene")
-* @ORM\InheritanceType("SINGLE_TABLE")
-* @ORM\DiscriminatorColumn(name="discr", type="string")
-* @ORM\DiscriminatorMap({"SceneRecommandee" = "SceneRecommandee",
- *                      "SceneSecondaire" = "SceneSecondaire"})
+* @ORM\Table(name="data")
 * @property int $id
-* @property string $titre
-* @property string $narration
+* @property date $date
+* @property fichier $string
+* @property nombre $float
+* @property texte $string
+* @property url $string
 */
-class Scene implements InputFilterAwareInterface
+class Data implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
@@ -33,36 +32,46 @@ class Scene implements InputFilterAwareInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
+    * La valeur s'il s'agit d'une date, null sinon
+    * @ORM\Column(type="date")
     */
-    protected $titre;
+    protected $date;
     
     /**
-    * @ORM\Column(type="text")
-    */
-    protected $narration;
+     * La valeur s'il s'agit d'un fichier, null sinon
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $fichier;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Collection\Entity\Element")
-     * @ORM\JoinColumn(name="artefact_id", referencedColumnName="id", nullable=false)
+     * La valeur s'il s'agit d'un nombre, null sinon
+     * @ORM\Column(type="float")
+     */
+    protected $nombre;
+    
+    /**
+     * La valeur s'il s'agit d'un texte, null sinon
+     * @ORM\Column(type="text")
+     */
+    protected $texte;
+    
+    /**
+     * La valeur s'il s'agit d'une url, null sinon
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $url;
+    
+    /**
+     * L'élément auquel la donnée se rapporte
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Element", inversedBy="datas")
      **/
-    protected $elements;
+    protected $element;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parcours\Entity\SousParcours", inversedBy="scenes")
-     * @ORM\JoinColumn(name="sous_parcours_id", referencedColumnName="id", nullable=false)
+     * Le champ auquel la donnée se rapporte
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Champ", inversedBy="datas")
      **/
-    protected $sous_parcours;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\TransitionInterParcours", mappedBy="scene_origine")
-     **/
-    protected $transitions_inter_parcours;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\TransitionSecondaire", mappedBy="scene_origine")
-     **/
-    protected $transitions_secondaires;
+    protected $champ;
     
     /**
     * Magic getter to expose protected properties.

@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une sémantique possible des relations entre deux artefacts
 *
 * @ORM\Entity
-* @ORM\Table(name="semantiqueArtefact")
+* @ORM\Table(name="semantiqueartefact")
 * @property int $id
 * @property string $semantique
 */
