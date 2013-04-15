@@ -1,5 +1,3 @@
-<?php echo $this->doctype(); ?>
-
 <?php
 $title = 'Gestion des utilisateurs';
 $this->headTitle($title);
@@ -46,7 +44,14 @@ $this->headTitle($title);
 
 <script>
 $(function(){
-	
+	$('.status').editable({
+        value: 2,
+        source: [
+                    {value: 1, text: 'Active'},
+                    {value: 2, text: 'Blocked'},
+                    {value: 3, text: 'Deleted'}
+                ]
+        });
 	});
 </script>
 
