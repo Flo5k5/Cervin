@@ -144,6 +144,16 @@ var ResultSet = new function() {
 		  		"bProcessing": true,
 		    	"bServerSide": true,
 		    	"sAjaxSource": URL,
+				"fnInitComplete": function () {
+					$('.status').editable({
+						value: 2,
+						source: [
+									{value: 1, text: 'Active'},
+									{value: 2, text: 'Blocked'},
+									{value: 3, text: 'Deleted'}
+								]
+					});
+				}
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
