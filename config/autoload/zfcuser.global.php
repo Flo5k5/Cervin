@@ -30,7 +30,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'enable_registration' => true,
+    'enable_registration' => true,
 
     /**
      * Enable Username
@@ -101,7 +101,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'login_after_registration' => true,
+    'login_after_registration' => true,
 
     /**
      * Registration Form Captcha
@@ -134,7 +134,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'use_redirect_parameter_if_present' => true,
+    'use_redirect_parameter_if_present' => true,
 
     /**
 	 * Sets the view template for the user login widget
@@ -232,4 +232,5 @@ return array(
             'zfcuser_zend_db_adapter' => (isset($settings['zend_db_adapter'])) ? $settings['zend_db_adapter']: 'Zend\Db\Adapter\Adapter',
         ),
     ),
+    
 );
