@@ -22,9 +22,9 @@ class UserDataTable extends DataTable
 	        $configuration = array(
 	            'id',
 	            'username',
-	          //  'displayName',
-	            'roles',
+	            'displayName',
 	            'email',
+	            'roles',
 	        );
 	        $this->setConfiguration($configuration);
         }	        
@@ -42,14 +42,11 @@ class UserDataTable extends DataTable
 		    foreach ($this->getPaginator() as $user) {
 			    $data = array(
 				    $user->id,
-				    $user->username,
-				  //  $user->displayName,
-				    $user->roles['0'],
-
-				    $user->email,
-				    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>
-'
-				    ,
+                    $user->username,
+                    $user->displayName,
+                    $user->email,
+                    '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
+                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>',
 			    );
 			
 			    $aaData[] = $data;

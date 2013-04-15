@@ -43,21 +43,38 @@ $this->headTitle($title);
 
 
 <script>
-
+	/*$(function() {
         $('.status').editable({
-        value: 2,
-        source: [
-                    {value: 1, text: 'Active'},
-                    {value: 2, text: 'Blocked'},
-                    {value: 3, text: 'Deleted'}
-                ]
+			value: 2,
+			source: [
+						{value: 1, text: 'Active'},
+						{value: 2, text: 'Blocked'},
+						{value: 3, text: 'Deleted'}
+					]
         });
-
+	});*/
 </script>
 
 
 
 <script type="text/javascript">
     var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
-    ResultSet.paginate(URL);
+    ResultSet.paginate(
+		URL, 
+		function(){ 
+			console.info('Callback executed'); 
+		}, 
+		{
+			"fnDrawCallback": function () {
+				$('.status').editable({
+					value: 2,
+					source: [
+								{value: 1, text: 'Active'},
+								{value: 2, text: 'Blocked'},
+								{value: 3, text: 'Deleted'}
+							]
+				});
+			}
+		}
+	);
 </script>
