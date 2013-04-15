@@ -22,7 +22,8 @@ class UserDataTable extends DataTable
 	        $configuration = array(
 	            'id',
 	            'username',
-	            'displayName',
+	          //  'displayName',
+	            'roles',
 	            'email',
 	        );
 	        $this->setConfiguration($configuration);
@@ -42,7 +43,9 @@ class UserDataTable extends DataTable
 			    $data = array(
 				    $user->id,
 				    $user->username,
-				    $user->displayName,
+				  //  $user->displayName,
+				    $user->roles['0'],
+
 				    $user->email,
 				    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>
 '
