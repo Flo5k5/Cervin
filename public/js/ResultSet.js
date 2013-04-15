@@ -90,6 +90,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 			}
 		}
 	}
+
+
 } );
 
 /**
@@ -145,7 +147,7 @@ var ResultSet = new function() {
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
-			
+
 
 			return data;
 		}
