@@ -5,21 +5,45 @@ namespace Collection\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Un autre type d'artefact
+* Un type d'élément de la collection (personne, image, matériel, logiciel, ...)
 *
 * @ORM\Entity
+* @ORM\Table(name="typeelement")
+* @property int $id
+* @property string $nom
 * @property string $type
 */
-class ArtefactAutre extends Artefact
+class TypeElement implements InputFilterAwareInterface
 {
+    protected $inputFilter;
 
     /**
-    * @ORM\Column(type="string", length=100)
+    * @ORM\Id
+    * @ORM\Column(type="integer");
+    * @ORM\GeneratedValue(strategy="AUTO")
     */
+    protected $id;
+
+    /**
+    * @ORM\Column(type="string", length=200)
+    */
+    protected $nom;
+    
+    /**
+     * Type : 'artefact' ou 'media'
+     * @ORM\Column(type="string", length=200)
+     */
     protected $type;
+    
+    /**
+     * L'ensemble des champs décrivant cet artefact
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element")
+     **/
+    protected $champs;
     
     /**
     * Magic getter to expose protected properties.
@@ -53,26 +77,23 @@ class ArtefactAutre extends Artefact
         return get_object_vars($this);
     }
 
-    /*
+    /**
     * Populate from an array.
     *
     * @param array $data
     */
     public function populate($data = array())
     {
-        $this->id = $data['id'];
-        $this->titre = $data['titre'];
-        $this->description = $data['description'];
-        $this->type = $data['type'];
+
     }
 
-     public function setInputFilter(InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
     public function getInputFilter()
     {
-    	
+
     }
 }

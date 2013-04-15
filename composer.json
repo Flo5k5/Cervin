@@ -6,6 +6,7 @@
         "framework",
         "zf2"
     ],
+    "minimum-stability": "dev",
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
@@ -18,7 +19,8 @@
         "kriswallsmith/assetic": ">=1.1.0-alpha1@alpha",
         "rwoverdijk/assetmanager": "1.*",
         "leafo/lessphp": "dev-master",
-        "doctrine/migrations": "dev-master"
+        "doctrine/migrations": "dev-master",
+        "hounddog/doctrine-data-fixture-module": "dev-master"
 
     }
 }

@@ -9,37 +9,54 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Un logiciel
+* Un champ d'un type d'élément
 *
 * @ORM\Entity
-* @property string $editeur
-* @property string $auteur
-* @property string $langage_prog
-* @property string $period
+* @ORM\Table(name="champ")
+* @property int $id
+* @property string $label
+* @property string $description
 */
-class ArtefactLogiciel extends Artefact
+class Champ implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Column(type="string", length=100)
+    * @ORM\Id
+    * @ORM\Column(type="integer");
+    * @ORM\GeneratedValue(strategy="AUTO")
     */
-    protected $editeur;
+    protected $id;
+
+    /**
+     * Nom du champ
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $label;
     
     /**
-    * @ORM\Column(type="string", length=100)
-    */
-    protected $auteur;
+     * Description du champ
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $description;
     
     /**
-    * @ORM\Column(type="string", length=100)
-    */
-    protected $langage_prog;
+     * Format du champ (texte, date, nombre, ...)
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $format;
     
     /**
-    * @ORM\Column(type="string", length=100)
-    */
-    protected $period;
+     * Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ")
+     **/
+    protected $datas;
+    
+    /**
+     * Le type d'élément que décrit ce champ
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
+     **/
+    protected $type_element;
     
     /**
     * Magic getter to expose protected properties.
@@ -80,16 +97,16 @@ class ArtefactLogiciel extends Artefact
     */
     public function populate($data = array())
     {
-    	
+
     }
 
-     public function setInputFilter(InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
     public function getInputFilter()
     {
-        
+
     }
 }
