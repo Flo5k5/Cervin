@@ -152,7 +152,7 @@ var ResultSet = new function() {
 		  		"bProcessing": true,
 		    	"bServerSide": true,
 		    	"sAjaxSource": URL,
-				"fnInitComplete": function () {
+				"fnDrawCallback": function () {
 					$('.status').editable({
 						value: 2,
 						source: [
@@ -161,7 +161,7 @@ var ResultSet = new function() {
 									{value: 3, text: 'Deleted'}
 								]
 					});
-				}
+				},
 		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
 			}).fnFilterOnReturn();
 
