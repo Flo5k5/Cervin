@@ -56,7 +56,14 @@ git status
 
 //Remove dir from git index
 git rm -r --cached vendor
+git rm -r --cached data/cache
 
 //Remove file from git index
 git rm --cached a.txt
+
+
+
+
+pear config-set auto_discover 1
+pear install pear.phpunit.de/PHPUnit
 

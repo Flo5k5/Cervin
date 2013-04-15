@@ -5,6 +5,7 @@ namespace Core;
 return array(
 	
 	// Doctrine config
+
 	'doctrine' => array(
 		'driver' => array(
 			'Core_driver' => array(
@@ -26,5 +27,5 @@ return array(
 	'data-fixture' => array(
 			'Core_fixture' => __DIR__ . '/../src/Collection/Fixture',
 	),
-	
+
 );

@@ -48,7 +48,13 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function indexAction()
     {
-            if ($this->getRequest()->isXmlHttpRequest()) {
+        
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    public function editusersAction()
+    {
+
+		if ($this->getRequest()->isXmlHttpRequest()) {
             $params = $this->params()->fromQuery();
     
             $entityManager = $this->getEntityManager()
@@ -56,15 +62,50 @@ class AdminController extends AbstractActionController
         
             $dataTable = new \Admin\Model\UserDataTable($params);
             $dataTable->setEntityManager($entityManager);
-            $dataTable->findAll();
+            
+            $dataTable->setConfiguration(array(
+                'id',
+                'username',
+                'displayName',
+                'email',
+                //'roles',
+            ));
+
+            $aaData = array();
+            
+            foreach ($dataTable->getPaginator() as $user) {
+                
+            
+                $aaData[] = array(
+                    $user->id,
+                    $user->username,
+                    $user->displayName,
+                    $user->email,
+                    '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
+                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>
+'
+                    ,
+                );
+            }
+            $dataTable->setAaData($aaData);
             
             return $this->getResponse()->setContent($dataTable->findAll());
         }
     }
-    ///////////////////////////////////////////////////////////////////////////
-    public function editusersAction()
+
+    public function chacheRoleAction()
     {
 
-		return new ViewModel();
+		if ($this->getRequest()->isXmlHttpRequest()) {
+            $params = $this->params()->fromQuery();
+    
+            $entityManager = $this->getEntityManager()
+                ->getRepository('SamUser\Entity\Role');
+        
+
+
+            
+            return true;
+        }
     }
 }

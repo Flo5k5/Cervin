@@ -17,8 +17,10 @@ return array(
                 'js/bootstrap-all.js' => array(
                     'js/jquery.js',
                     'js/bootstrap.js',
-                    '/js/jquery.dataTables.js',
-                    '/js/ResultSet.js',
+                ),
+                'js/dataTables.js' => array(
+                    'js/jquery.dataTables.js',
+                    'js/ResultSet.js',
                 ),
                 'css/bootstrap-all.css' => array(
                     'css/bootstrap-all-less.css',

@@ -1,6 +1,4 @@
 <?php echo $this->doctype(); ?>
-
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -9,11 +7,11 @@
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
     
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
+        <?php  $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
 
         <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
 
-        <?php echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-all.js') ;?>
+        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js') ;?>
 
    </head>
    <body>
@@ -73,12 +71,12 @@
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
                                     <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                                        <?php echo $this->zfcUserLoginWidget(array('redirect'=>'../')); ?>
+                                        <?php echo $this->zfcUserLoginWidget(); ?>
                                     </div>
                                 </li>
                             <?php else: ?>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Hello, <?php echo $this->zfcUserIdentity()->getUsername(); ?> <b class="caret"></b></a>
+                                    Hello, <?php echo $this->zfcUserIdentity()->getDisplayName(); ?> <b class="caret"></b></a>
                                     <ul class="dropdown-menu">  
                                         <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
                                         <li><a href="#"><i class="icon-cog"></i> Préférences</a></li>
@@ -106,6 +104,7 @@
     </body>
     <?php echo $this->inlineScript() ?>
 </html>
+
 
 
 

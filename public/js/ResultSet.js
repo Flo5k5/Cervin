@@ -90,6 +90,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 			}
 		}
 	}
+
+
 } );
 
 /**
@@ -121,10 +123,19 @@ var ResultSet = new function() {
 
 	return {
 
-		paginate : function(URL) {
-			var data = $('#data').dataTable({
+		paginate : function(URL, callback, values) {
+		
+			var params = {
 				"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 				"sPaginationType": "bootstrap",
+				"aoColumns": [
+							  null,
+							  null,
+							  null,
+							  null,
+							  { "bSortable": false  },
+							  { "bSortable": false  },
+							],
 				"oLanguage": {
 					"oPaginate": {
 						"sFirst": "Premier",
@@ -137,16 +148,38 @@ var ResultSet = new function() {
 					"sInfo": "Affiche de _START_ à _END_ sur _TOTAL_ éléments",
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
-					"sSearch": "Recherchez",
-					"sProcessing"="Traitement..."
+					"sSearch": "Recherchez"
 				},
-		  		"bProcessing": true,
-		    	"bServerSide": true,
-		    	"sAjaxSource": URL,
-		    	//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
-			}).fnFilterOnReturn();
-
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": URL,
+				"fnDrawCallback": function () {
+					$('.status').editable({
+						value: 2,
+						source: [
+									{value: 1, text: 'Active'},
+									{value: 2, text: 'Blocked'},
+									{value: 3, text: 'Deleted'}
+								]
+					});
+				},
+				//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
+			};
 			
+			if(typeof values != 'undefined'){
+				for (var i in values) {
+					if (values.hasOwnProperty(i)) {
+						//console.log(i + " = " + values[i]);
+						params[i] = values[i];
+					}
+				}
+			}
+
+			var data = $('#data').dataTable(params).fnFilterOnReturn();
+
+			if(typeof callback == "function"){
+				callback();
+			}
 
 			return data;
 		}
