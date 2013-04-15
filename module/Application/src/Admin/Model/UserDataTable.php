@@ -35,7 +35,7 @@ class UserDataTable extends DataTable
 	     * Neste tutorial, a sequencia da listagem está sendo: 'id', 'name', 'description'.
 	     * Desta forma, o array que será atribuido a variável DataTable::aaData deve estar
 	     * na mesma sequencia.
-	     */ 
+	     */  
 		if (! $this->getAaData()) {
 		    $aaData = array();
 		    
@@ -46,7 +46,7 @@ class UserDataTable extends DataTable
                     $user->displayName,
                     $user->email,
                     '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
-                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>',
+                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">Role</a>',
 			    );
 			
 			    $aaData[] = $data;

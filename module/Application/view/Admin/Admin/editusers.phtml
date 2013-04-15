@@ -69,12 +69,20 @@ $this->headTitle($title);
 				$('.status').editable({
 					value: 2,
 					source: [
-								{value: 1, text: 'Active'},
-								{value: 2, text: 'Blocked'},
-								{value: 3, text: 'Deleted'}
+                    <?php foreach ($roles as $role) : ?>
+								{value: <?php echo $role->getId();?>, text: '<?php echo $role->getRoleId();?>'},
+                    <?php endforeach; ?>
 							]
 				});
-			}
+			},
+            "aoColumns": [
+                              null,
+                              null,
+                              null,
+                              null,
+                              { "bSortable": false  },
+                              { "bSortable": false  },
+                            ],
 		}
 	);
 </script>
