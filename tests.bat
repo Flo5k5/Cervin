@@ -1,4 +1,10 @@
 @echo off
 
 cd tests
-start phpunit
+call phpunit
+
+:EXIT
+echo.
+echo.
+echo Press any key to quit
+pause > nul
