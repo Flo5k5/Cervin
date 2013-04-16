@@ -66,11 +66,10 @@ class AdminController extends AbstractActionController
             $dataTable->setEntityManager($entityManager);
             
             $dataTable->setConfiguration(array(
-                'id',
                 'username',
                 'displayName',
                 'email',
-                //'roles',
+               // 'role.roleId',
             ));
 
             $aaData = array();
@@ -78,15 +77,22 @@ class AdminController extends AbstractActionController
             
             foreach ($dataTable->getPaginator() as $user) {
 
+            if(!isset( $user->roles['0']) )
+            {
+                $role = 'null';
+                $roleId = null;
+                
+            } else {
+                $role = $user->roles['0']->getRoleId();
+                $roleId = $user->roles['0']->getId();
+            }
             
                 $aaData[] = array(
-                    $user->id,
-                    $user->username,
-                    $user->displayName,
-                    $user->email,
-                  //  '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
-                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeRole", array("id" => $user->id)).'" data-value="'.$user->roles['0']->getId().'">'.$user->roles['0']->getRoleId().'</a>',
-                    '<a href="#" class="btn"><i class="icon-trash"></i> Supprimer</a>'
+                    '<a href="#" id="username" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" data-type="text" data-pk="1">'.$user->username.'</a>',
+                    '<a href="#" id="displayName" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</a>',
+                    '<a href="#" id="email" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</a>',
+                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$roleId.'">'.$role.'</a>',
+                    '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>'
                     ,
                 );
             }
@@ -101,9 +107,10 @@ class AdminController extends AbstractActionController
         }
     }
 
-    public function changeRoleAction()
+    public function changeUserAjaxAction()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) {
+        if ($this->getRequest()->isXmlHttpRequest()) 
+        {
         
             $postData = $this->params()->fromPost();
 
@@ -114,22 +121,69 @@ class AdminController extends AbstractActionController
 
             try {
                 $user = $this->getEntityManager()->find('SamUser\Entity\User', $id);
-                $role = $this->getEntityManager()->find('SamUser\Entity\Role', $postData['value']);
             }
             catch (\Exception $ex) {
                 return $this->redirect()->toRoute('home');
             }
-            $user->removeRoles($user->getRoles());
-            $user->addRole($role);
 
-            $this->getEntityManager()->persist($user);
-            $this->getEntityManager()->flush();
+            if ($postData['name'] == 'username')
+            {
+
+                $user->setUsername($postData['value']);
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
+                return true;
+
+            }
+            elseif ($postData['name'] == 'displayName')
+            {
+
+                $user->setDisplayName($postData['value']);
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
+                return true;
+
+            }
+            elseif ($postData['name'] == 'email')
+            {
+
+                $user->setEmail($postData['value']);
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
+                return true;
+
+            } 
+            elseif ($postData['name'] == 'role')
+            {
+
+                try {
+                    $role = $this->getEntityManager()->find('SamUser\Entity\Role', $postData['value']);
+                }
+                catch (\Exception $ex) {
+                    return $this->redirect()->toRoute('home');
+                }
+                $user->removeRoles($user->getRoles());
+                $user->addRole($role);
+
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
 
 
-            $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
-            $this->getRequest()->getPost('value');
-            
-            return true;
+                $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
+                $this->getRequest()->getPost('value');
+                
+                return true;
+
+            }
+            elseif ($postData['name'] == 'supprimer')
+            {
+
+                $this->getEntityManager()->remove($user);
+                $this->getEntityManager()->flush();
+                return true;
+
+            }
+           
         } else {
             return $this->redirect()->toRoute('home');
         }
