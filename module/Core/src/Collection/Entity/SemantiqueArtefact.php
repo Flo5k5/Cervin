@@ -32,13 +32,13 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     /**
      * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
      * $type_origine contient la chaîne décrivant le type du premier artefact
-     * @ORM\OneToOne(targetEntity="Collection\Entity\TypeElement")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
      **/
     protected $type_origine;
     
     /**
      * $type_destination contient la chaîne décrivant le type du deuxième artefact
-     * @ORM\OneToOne(targetEntity="Collection\Entity\TypeElement")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
      */
     protected $type_destination;
     

@@ -1,6 +1,5 @@
 <?php
 
-
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 
@@ -311,12 +310,77 @@ class Artefacts implements FixtureInterface
 		 * SEMANTIQUES DES RELATIONS ENTRE ARTEFACTS *
 		* ****************************************** */
 		
+		/*
+		 * On récupère les différents types d'artefacts
+		 */
 		$type_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Matériel', 'type' => 'artefact'));
 		if ($type_materiel == null) {
-			throw new Exception('TypeElement \'Matériel\' non trouvé');
+			throw new Exception('TypeElement \'Materiel\' non trouvé');
 		}
 		$type_logiciel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Logiciel', 'type' => 'artefact'));
-
+		if ($type_logiciel == null) {
+			throw new Exception('TypeElement \'Logiciel\' non trouvé');
+		}
+		$type_document = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Document', 'type' => 'artefact'));
+		if ($type_document == null) {
+			throw new Exception('TypeElement \'Document\' non trouvé');
+		}
+		$type_institution = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Institution', 'type' => 'artefact'));
+		if ($type_institution == null) {
+			throw new Exception('TypeElement \'Institution\' non trouvé');
+		}
+		$type_lieu = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Lieu', 'type' => 'artefact'));
+		if ($type_lieu == null) {
+			throw new Exception('TypeElement \'Lieu\' non trouvé');
+		}
+		$type_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Personne', 'type' => 'artefact'));
+		if ($type_personne == null) {
+			throw new Exception('TypeElement \'Personne\' non trouvé');
+		}
+		$type_projet = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Projet', 'type' => 'artefact'));
+		if ($type_projet == null) {
+			throw new Exception('TypeElement \'Projet\' non trouvé');
+		}
+		$type_evenement = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Evènement', 'type' => 'artefact'));
+		if ($type_evenement == null) {
+			throw new Exception('TypeElement \'Evenement\' non trouvé');
+		}
+		$type_siteweb = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Site Web', 'type' => 'artefact'));
+		if ($type_siteweb == null) {
+			throw new Exception('TypeElement \'Site Web\' non trouvé');
+		}
+		$type_autre = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom' => 'Autre', 'type' => 'artefact'));
+		if ($type_autre == null) {
+			throw new Exception('TypeElement \'Autre\' non trouvé');
+		}
+		
+		/*
+		 * Sémantiques de la relation matériel->matériel
+		 */
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Est composé de');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Est une partie de');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->logiciel
+		*/
 		$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_materiel);
 		$semantique->__set('type_destination', $type_logiciel);
@@ -324,5 +388,751 @@ class Artefacts implements FixtureInterface
 		$manager->persist($semantique);
 		$manager->flush();
 		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->document
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Est décrit dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->institution
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est utilisé par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est fabriquée par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->lieu
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Est inventée à');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Est stockée à');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->personne
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Est inventée par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->projet
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Est utilisé dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->evènement
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->siteweb
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Est décrit dans');
+		$manager->persist($semantique);
+		$manager->flush();
+
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation matériel->autre
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_materiel);
+		$semantique->__set('type_destination', $type_autre);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->matériel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Est utilisé par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->logiciel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Est une partie de');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Est composée de');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->document
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Est décrit dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->institution
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est utilisé par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est publie par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->lieu
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->personne
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Est écrit par');
+		$manager->persist($semantique);
+		$manager->flush();
+
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->projet
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Est utilisé dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->evenement
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->siteweb
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Est décrit dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation logiciel->autre
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_logiciel);
+		$semantique->__set('type_destination', $type_autre);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->materiel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->logiciel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->document
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->institution
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est pulié par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->institution
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est publié par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->lieu
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->personne
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Est écrit par');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->projet
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->evenement
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->siteweb
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Est décrit dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation document->autre
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_autre);
+		$semantique->__set('semantique', 'Décrit');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_document);
+		$semantique->__set('type_destination', $type_autre);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+
+		/*
+		 * Sémantiques de la relation institution->materiel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Fabrique');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_materiel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->logiciel
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Publie');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_logiciel);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->document
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Est décrite dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Publie');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_document);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->institution
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Est partenaire de');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_institution);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->lieu
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Est située à');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_lieu);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->personne
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'A pour membre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'A pour fondateur');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_personne);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->projet
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Mène');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Finance');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Participe à');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_projet);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->evenement
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Organise');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Participe à');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_evenement);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->siteweb
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Est décrite dans');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'A mis en ligne');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_siteweb);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		/*
+		 * Sémantiques de la relation institution->autre
+		*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_institution);
+		$semantique->__set('type_destination', $type_autre);
+		$semantique->__set('semantique', 'Autre');
+		$manager->persist($semantique);
+		$manager->flush();
 	}
 }
