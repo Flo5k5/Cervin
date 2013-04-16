@@ -5,10 +5,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 
 class Artefacts implements FixtureInterface
 {
-	/*
-	 * Initialisation des types de bases d'artefacts
-	 * et des champs qui les décrivent
-	 */
+	
 	public function load(ObjectManager $manager)
 	{
 		
@@ -23,11 +20,11 @@ class Artefacts implements FixtureInterface
 		$type_artefact_materiel->__set('nom', 'Matériel');
 		$type_artefact_materiel->__set('type', 'artefact');
 		
-		$champ_label = new Collection\Entity\Champ();
-		$champ_label->__set('label', 'Fabriquant');
-		$champ_label->__set('description', 'La société qui fabrique ce matériel');
-		$champ_label->__set('format', 'texte');
-		$champ_label->__set('type_element', $type_artefact_materiel);
+		$champ_fabriquant = new Collection\Entity\Champ();
+		$champ_fabriquant->__set('label', 'Fabriquant');
+		$champ_fabriquant->__set('description', 'La société qui fabrique ce matériel');
+		$champ_fabriquant->__set('format', 'texte');
+		$champ_fabriquant->__set('type_element', $type_artefact_materiel);
 		
 		$champ_debut = new Collection\Entity\Champ();
 		$champ_debut->__set('label', 'Début de période');
@@ -42,7 +39,7 @@ class Artefacts implements FixtureInterface
 		$champ_fin->__set('type_element', $type_artefact_materiel);
 		
 		$manager->persist($type_artefact_materiel);
-		$manager->persist($champ_label);
+		$manager->persist($champ_fabriquant);
 		$manager->persist($champ_debut);
 		$manager->persist($champ_fin);
 		$manager->flush();
@@ -2062,6 +2059,93 @@ class Artefacts implements FixtureInterface
 		$semantique->__set('type_destination', $type_autre);
 		$semantique->__set('semantique', 'Autre');
 		$manager->persist($semantique);
+		$manager->flush();
+		
+		
+		/* ***************************** *
+		 * QUELQUES INSANCES D'ARTEFACTS *
+		* ****************************** */
+		
+		/*
+		 * Un matériel
+		 */
+		$calc = new Collection\Entity\Artefact();
+		$calc->__set('titre', 'Calculatrice');
+		$calc->__set('description', 'Machine à calculer mécanique');
+		$calc->__set('type_element', $type_materiel);
+		$manager->persist($calc);
+		
+		$champ_fabriquant = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fabriquant', 'type_element'=>$type_materiel));
+		if ($champ_fabriquant == null) {
+			throw new Exception('Champ "fabriquant" de l\'artefact matériel non trouvé');
+		}
+		$data_fabriquant = new Collection\Entity\Data();
+		$data_fabriquant->__set('champ', $champ_fabriquant);
+		$data_fabriquant->__set('element', $calc);
+		$data_fabriquant->__set('texte', 'Inconnu');
+		$manager->persist($data_fabriquant);
+		
+		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_materiel));
+		if ($champ_debut == null) {
+			throw new Exception('Champ "début" de l\'artefact matériel non trouvé');
+		}
+		$data_debut = new Collection\Entity\Data();
+		$data_debut->__set('champ', $champ_debut);
+		$data_debut->__set('element', $calc);
+		$data_debut->__set('date', new DateTime('1925-01-01'));
+		$manager->persist($data_debut);
+		
+		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_materiel));
+		if ($champ_fin == null) {
+			throw new Exception('Champ "fin" de l\'artefact matériel non trouvé');
+		}
+		$data_fin = new Collection\Entity\Data();
+		$data_fin->__set('champ', $champ_fin);
+		$data_fin->__set('element', $calc);
+		$data_fin->__set('date', new DateTime('1950-01-01'));
+		$manager->persist($data_fin);
+		
+		$manager->flush();
+		
+		/*
+		 * Une personne
+		*/
+		$vauc = new Collection\Entity\Artefact();
+		$vauc->__set('titre', 'Jacques de Vaucanson');
+		$vauc->__set('description', 'Jacques de Vaucanson, né le 24 février 1709 à Grenoble et mort le 21 novembre 1782 à Paris, est un inventeur et mécanicien français. Il a inventé plusieurs automates.');
+		$vauc->__set('type_element', $type_personne);
+		$manager->persist($vauc);
+		
+		$champ_nationnalite = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Nationnalité', 'type_element'=>$type_personne));
+		if ($champ_fabriquant == null) {
+			throw new Exception('Champ "nationnalité" de l\'artefact personne non trouvé');
+		}
+		$data_nationnalite = new Collection\Entity\Data();
+		$data_nationnalite->__set('champ', $champ_nationnalite);
+		$data_nationnalite->__set('element', $vauc);
+		$data_nationnalite->__set('texte', 'Français');
+		$manager->persist($data_nationnalite);
+		
+		$champ_naissance = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début denaissance', 'type_element'=>$type_personne));
+		if ($champ_debut == null) {
+			throw new Exception('Champ "naissance" de l\'artefact matériel non trouvé');
+		}
+		$data_naissance = new Collection\Entity\Data();
+		$data_naissance->__set('champ', $champ_naissance);
+		$data_naissance->__set('element', $vauc);
+		$data_naissance->__set('date', new DateTime('1709-02-24'));
+		$manager->persist($data_naissance);
+		
+		$champ_deces = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de décès', 'type_element'=>$type_personne));
+		if ($champ_fin == null) {
+			throw new Exception('Champ "deces" de l\'artefact personne non trouvé');
+		}
+		$data_deces = new Collection\Entity\Data();
+		$data_deces->__set('champ', $champ_deces);
+		$data_deces->__set('element', $vauc);
+		$data_deces->__set('date', new DateTime('1782-11-21'));
+		$manager->persist($data_deces);
+		
 		$manager->flush();
 		
 	}

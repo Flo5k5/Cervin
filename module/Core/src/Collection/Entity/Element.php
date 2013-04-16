@@ -44,11 +44,6 @@ class Element implements InputFilterAwareInterface
     protected $description;
     
     /**
-     * @ORM\Column(type="text")
-     */
-    protected $droits;
-    
-    /**
      * Type de l'élément
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
      **/
