@@ -71,6 +71,8 @@ return array(
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/login', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/register', 'roles' => array('Visiteur')),
+                array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),
+                array('route' => 'zfcuser/changeemail', 'roles' => array('Utilisateur')),
             ),
         ), 
     ),
