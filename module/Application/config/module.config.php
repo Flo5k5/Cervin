@@ -139,7 +139,7 @@ return array(
         ),
     ),
     'data-fixture' => array(
-            'Roles_fixture' => __DIR__ . '/../src/Admin/Fixture'
+            'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture'
     ),
 
 );
