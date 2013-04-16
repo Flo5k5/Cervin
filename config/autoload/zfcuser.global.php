@@ -232,6 +232,11 @@ return array(
             'zfcuser_zend_db_adapter' => (isset($settings['zend_db_adapter'])) ? $settings['zend_db_adapter']: 'Zend\Db\Adapter\Adapter',
         ),
     ),
+    'controllers' => array(
+        'invokables' => array(
+            'zfcuser' => 'ZfcUser\Controller\UserController',
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'zfcuser' => array(

@@ -85,8 +85,8 @@ class AdminController extends AbstractActionController
                     $user->displayName,
                     $user->email,
                   //  '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
-                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeRole", array("id" => $user->id)).'" data-original-title="Select status">'.$user->roles['0']->getRoleId().'</a>',
-                    'x'
+                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeRole", array("id" => $user->id)).'" data-value="'.$user->roles['0']->getId().'">'.$user->roles['0']->getRoleId().'</a>',
+                    '<a href="#" class="btn"><i class="icon-trash"></i> Supprimer</a>'
                     ,
                 );
             }
@@ -105,8 +105,8 @@ class AdminController extends AbstractActionController
 
     public function changeRoleAction()
     {
-       // if ($this->getRequest()->isXmlHttpRequest()) {
-        if (true) {
+        if ($this->getRequest()->isXmlHttpRequest()) {
+        
             $postData = $this->params()->fromPost();
 
             $id = (int) $this->params()->fromRoute('id', 0);

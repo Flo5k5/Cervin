@@ -43,20 +43,6 @@ $this->headTitle($title);
 
 
 
-<script>
-	/*$(function() {
-        $('.status').editable({
-			value: 2,
-			source: [
-						{value: 1, text: 'Active'},
-						{value: 2, text: 'Blocked'},
-						{value: 3, text: 'Deleted'}
-					]
-        });
-	});*/
-</script>
-
-
 
 <script type="text/javascript">
     var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
@@ -68,7 +54,6 @@ $this->headTitle($title);
 		{
 			"fnDrawCallback": function () {
 				$('.status').editable({
-					value: 2,
 					source: [
                     <?php foreach ($roles as $role) : ?>
 								{value: <?php echo $role->getId();?>, text: '<?php echo $role->getRoleId();?>'},

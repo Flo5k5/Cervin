@@ -46,7 +46,7 @@ class User2 extends ZfcUser2 implements ServiceLocatorAwareInterface
         if($registerresult !== false) {
 
             $User = $this->getEntityManager()->find('SamUser\Entity\User', $registerresult->getId());
-            $Role = $this->getEntityManager()->find('SamUser\Entity\Role', '2');
+            $Role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array('roleId' => 'Utilisateur'));
             $User->addRole($Role);
             $this->getEntityManager()->persist($User);
             $this->getEntityManager()->flush();
