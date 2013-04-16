@@ -79,7 +79,7 @@ return array(
             ),
             'zfcuser' => array(
                 'type' => 'Literal',
-                'priority' => 1000,
+                'priority' => 100,
                 'options' => array(
                     'route' => '/user',
                     'defaults' => array(
