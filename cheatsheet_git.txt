@@ -63,7 +63,13 @@ git rm --cached a.txt
 
 
 
-
+pear update-channels
 pear config-set auto_discover 1
 pear install pear.phpunit.de/PHPUnit
 
+pear clear-cache
+
+pear channel-discover pear.phpunit.de
+pear install --onlyreqdeps phpunit/PHPUnit
+
+pear install --alldeps phpunit/PHPUnit
