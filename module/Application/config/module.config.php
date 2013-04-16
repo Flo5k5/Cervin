@@ -11,7 +11,6 @@ namespace Application;
 return array(
     'controllers' => array(
         'invokables' => array(
-            'zfcuser' => 'ZfcUser\Controller\UserController',
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Admin' => 'Admin\Controller\AdminController',
         ),
@@ -100,6 +99,7 @@ return array(
                             ),
                         ),
                     ),
+                    /*
                     'authenticate' => array(
                         'type' => 'Literal',
                         'options' => array(
@@ -110,56 +110,15 @@ return array(
                             ),
                         ),
                     ),
-                    'logout' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/logout',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'logout',
-                            ),
-                        ),
-                    ),
-                    'register' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/register',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'register',
-                            ),
-                        ),
-                    ),
-                    'changepassword' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/change-password',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'changepassword',
-                            ),
-                        ),
-                    ),
-                    'changeemail' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/change-email',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action' => 'changeemail',
-                            ),
-                        ),
-                    ),
+                    //*/
                 ),
             ),
+            
         ),
     ),
     'service_manager' => array(
         'factories' => array(
             
-        ),
-        'aliases' => array(
-            'zfcuser_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
         ),
     ),
     'view_manager' => array(
@@ -176,7 +135,6 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
-            'zfcuser' => __DIR__ . '/../view',
         ),
     ),
     'doctrine' => array(
@@ -203,8 +161,6 @@ return array(
         'user_entity_class'       => 'SamUser\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
-
-
     ),
     'bjyauthorize' => array(
         // Using the authentication identity provider, which basically reads the roles from the auth service's identity
@@ -221,6 +177,24 @@ return array(
 
 );
 /*
+
+    composer.json requires :
+
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "doctrine/doctrine-orm-module": "0.*",
+        "zendframework/zend-developer-tools": "dev-master",
+        "zf-commons/zfc-user-doctrine-orm": "dev-master",
+        "bjyoungblood/bjy-authorize": "1.2.*",
+        "zendframework/zftool": "dev-master",
+        "kriswallsmith/assetic": ">=1.1.0-alpha1@alpha",
+        "rwoverdijk/assetmanager": "1.*",
+        "leafo/lessphp": "dev-master",
+        "doctrine/migrations": "dev-master",
+        "hounddog/doctrine-data-fixture-module": "dev-master"
+
+
+
 <?php
 return array(
     'view_manager' => array(

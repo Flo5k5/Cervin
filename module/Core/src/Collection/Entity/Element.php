@@ -20,6 +20,7 @@ use Zend\InputFilter\InputFilterInterface;
 * @property int $id
 * @property string $titre
 * @property string $description
+* @property string $droits
 */
 class Element implements InputFilterAwareInterface
 {
@@ -41,7 +42,11 @@ class Element implements InputFilterAwareInterface
     * @ORM\Column(type="text")
     */
     protected $description;
-
+    
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $droits;
     
     /**
      * Type de l'élément
