@@ -121,7 +121,7 @@ class AdminController extends AbstractActionController
             catch (\Exception $ex) {
                 return $this->redirect()->toRoute('home');
             }
-            $user->removeElements($user->getRoles());
+            $user->removeRoles($user->getRoles());
             $user->addRole($role);
 
             $this->getEntityManager()->persist($user);
