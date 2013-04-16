@@ -20,7 +20,7 @@ return array(
                 'object_manager'    => 'doctrine.entity_manager.orm_default',
                 'role_entity_class' => 'SamUser\Entity\Role',
             ),
-        ), 
+        ),
         'guards' => array(
             /* If this guard is specified here (i.e. it is enabled), it will block
              * access to all controllers and actions unless they are specified here.
@@ -55,6 +55,11 @@ return array(
                     'action' => 'changeRole',
                     'roles' => array('Admin')
                 ),
+                /*
+                array(
+                    'controller' => 'Mail',
+                    'roles' => array('Utilisateur')
+                ),*/
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -73,6 +78,10 @@ return array(
                 array('route' => 'zfcuser/register', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/changeemail', 'roles' => array('Utilisateur')),
+                /*
+                array('route' => 'mail/admin', 'roles' => array('Utilisateur')),
+                array('route' => 'mail/collection', 'roles' => array('Utilisateur')),
+                array('route' => 'mail/parcours', 'roles' => array('Utilisateur')),*/
             ),
         ), 
     ),
