@@ -106,4 +106,5 @@ class Role implements HierarchicalRoleInterface
     {
         $this->parent = $parent;
     }
+    
 }

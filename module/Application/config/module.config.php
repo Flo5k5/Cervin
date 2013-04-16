@@ -49,6 +49,56 @@ return array(
                             ),
                         ),
                     ),
+                    'changeRole' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/changeRole[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'changeRole',
+                            ),
+                            
+                        ),
+                        
+                    ),/*
+                    'authenticate' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/authenticate',
+                            'defaults' => array(
+                                'controller' => 'zfcuser',
+                                'action'     => 'authenticate',
+                            ),
+                        ),
+                    ),
+                    //*/
+                ),
+            ),
+            'zfcuser' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/user',
+                    'defaults' => array(
+                        'controller' => 'zfcuser',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'login' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/login',
+                            'defaults' => array(
+                                'controller' => 'zfcuser',
+                                'action'     => 'login',
+                            ),
+                        ),
+                    ),
                     /*
                     'authenticate' => array(
                         'type' => 'Literal',

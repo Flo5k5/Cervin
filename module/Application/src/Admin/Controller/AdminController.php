@@ -13,6 +13,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use SamUser\Entity\User;
+use SamUser\Entity\Role;
+use Zend\Mvc\Controller\Plugin\Url;
 
 // use Admin\Form\ProductForm;
 
@@ -73,39 +75,65 @@ class AdminController extends AbstractActionController
 
             $aaData = array();
             
+            
             foreach ($dataTable->getPaginator() as $user) {
-                
+
             
                 $aaData[] = array(
                     $user->id,
                     $user->username,
                     $user->displayName,
                     $user->email,
-                    '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
-                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>
-'
+                  //  '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
+                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeRole", array("id" => $user->id)).'" data-original-title="Select status">'.$user->roles['0']->getRoleId().'</a>',
+                    'x'
                     ,
                 );
             }
             $dataTable->setAaData($aaData);
             
             return $this->getResponse()->setContent($dataTable->findAll());
+        } else {
+            
+            
+            return new ViewModel(array(
+                'roles' => $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll()
+            ));
+
         }
     }
 
-    public function chacheRoleAction()
+    public function changeRoleAction()
     {
+       // if ($this->getRequest()->isXmlHttpRequest()) {
+        if (true) {
+            $postData = $this->params()->fromPost();
 
-		if ($this->getRequest()->isXmlHttpRequest()) {
-            $params = $this->params()->fromQuery();
-    
-            $entityManager = $this->getEntityManager()
-                ->getRepository('SamUser\Entity\Role');
-        
+            $id = (int) $this->params()->fromRoute('id', 0);
+            if (!$id) {
+                return $this->redirect()->toRoute('admin/changeRole');
+            }
+
+            try {
+                $user = $this->getEntityManager()->find('SamUser\Entity\User', $id);
+                $role = $this->getEntityManager()->find('SamUser\Entity\Role', $postData['value']);
+            }
+            catch (\Exception $ex) {
+                return $this->redirect()->toRoute('home');
+            }
+            $user->removeElements($user->getRoles());
+            $user->addRole($role);
+
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
 
 
+            $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
+            $this->getRequest()->getPost('value');
             
             return true;
+        } else {
+            return $this->redirect()->toRoute('home');
         }
     }
 }

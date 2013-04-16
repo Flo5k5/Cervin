@@ -235,4 +235,10 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     {
         $this->roles[] = $role;
     }
+    public function removeElements(Array $elements)
+    {
+        foreach ($elements as $item) {
+            $this->roles->removeElement($item);
+        }
+    }
 }
