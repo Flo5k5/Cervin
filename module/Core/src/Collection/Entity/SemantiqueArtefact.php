@@ -14,6 +14,8 @@ use Zend\InputFilter\InputFilterInterface;
 * @ORM\Entity
 * @ORM\Table(name="semantiqueartefact")
 * @property int $id
+* @property string $type_origine
+* @property string $type_destination
 * @property string $semantique
 */
 class SemantiqueArtefact implements InputFilterAwareInterface
@@ -27,6 +29,19 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     */
     protected $id;
 
+    /**
+     * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
+     * $type_origine contient la chaîne décrivant le type du premier artefact
+     * @ORM\OneToOne(targetEntity="Collection\Entity\TypeElement")
+     **/
+    protected $type_origine;
+    
+    /**
+     * $type_destination contient la chaîne décrivant le type du deuxième artefact
+     * @ORM\OneToOne(targetEntity="Collection\Entity\TypeElement")
+     */
+    protected $type_destination;
+    
     /**
     * @ORM\Column(type="string", length=200)
     */
@@ -82,32 +97,6 @@ class SemantiqueArtefact implements InputFilterAwareInterface
 
     public function getInputFilter()
     {
-        if (!$this->inputFilter) {
-            $inputFilter = new InputFilter();
-
-            $factory = new InputFactory();
-
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'semantique',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 200,
-                        ),
-                    ),
-                ),
-            )));
-
-            $this->inputFilter = $inputFilter;
-        }
-    return $this->inputFilter;
+    	
     }
 }
