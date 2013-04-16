@@ -294,7 +294,7 @@ class TypesArtefacts implements FixtureInterface
 		
 		$champ_type = new Entity\Champ();
 		$champ_type->__set('label', 'Type d\'artefact');
-		$champ_type->__set('description', '');
+		$champ_type->__set('description', 'Le type d\entité que représente l\'artefact');
 		$champ_type->__set('format', 'date');
 		$champ_type->__set('type_element', $type_artefact_autre);
 		
