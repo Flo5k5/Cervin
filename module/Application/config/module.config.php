@@ -13,7 +13,6 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Admin' => 'Admin\Controller\AdminController',
-            'Mail' => 'Mail\Controller\MailController',
         ),
     ),
     'router' => array(
@@ -28,50 +27,6 @@ return array(
                     ),
                 ),
             ),
-            /*
-            'mail' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/mail',
-                    'defaults' => array(
-                        'controller' => 'Mail',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'admin' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/admin',
-                            'defaults' => array(
-                                'controller' => 'Mail',
-                                'action'     => 'mailAdmin',
-                            ),
-                        ),
-                    ),
-                    'parcours' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/parcours',
-                            'defaults' => array(
-                                'controller' => 'Mail',
-                                'action'     => 'mailParcours',
-                            ),
-                        ),
-                    ),
-                    'collection' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/collection',
-                            'defaults' => array(
-                                'controller' => 'Mail',
-                                'action'     => 'mailCollection',
-                            ),
-                        ),
-                    ),
-                ),
-            ),*/
             'admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 // 'priority' => 1000,
