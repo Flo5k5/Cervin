@@ -49,16 +49,16 @@ return array(
                             ),
                         ),
                     ),
-                    'changeRole' => array(
+                    'changeUserAjax' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/changeRole[/:id]',
+                            'route' => '/changeUserAjax[/:id]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Admin',
-                                'action'     => 'changeRole',
+                                'action'     => 'changeUserAjax',
                             ),
                             
                         ),

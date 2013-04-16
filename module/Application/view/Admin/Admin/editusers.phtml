@@ -19,17 +19,16 @@ $this->headTitle($title);
                 <table class="table table-striped table-bordered" id="data">
                     <thead>
                         <tr>
-                            <th class="span1">Id</th>
                             <th>Login</th>
                             <th>Nom / Prenom</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th class="span3">Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="6">En cours de téléchargement</td>
+                            <td colspan="5">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -45,6 +44,7 @@ $this->headTitle($title);
 
 
 <script type="text/javascript">
+
     var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
     ResultSet.paginate(
 		URL, 
@@ -60,9 +60,26 @@ $this->headTitle($title);
                     <?php endforeach; ?>
 							]
 				});
+
+                $('.text').editable({ });
+
+                $(".SupprimerUser").click(function(event){
+                    if(window.confirm("Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+$(this).attr('data-value')+" ?")){
+                        $.post( 
+                            $(this).attr('data-url'),
+                            { name: "supprimer" },
+                            function(data) {
+                                $("#data").dataTable().fnDraw();
+                            });
+
+                    } else {
+                        return false;
+                    }
+
+                    
+                });
 			},
             "aoColumns": [
-                              null,
                               null,
                               null,
                               null,
