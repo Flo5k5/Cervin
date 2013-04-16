@@ -121,6 +121,7 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function(oSettings) {
 
 var ResultSet = new function() {
 
+
 	return {
 
 		paginate : function(URL, callback, values) {
