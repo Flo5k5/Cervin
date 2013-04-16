@@ -21,6 +21,5 @@
         "leafo/lessphp": "dev-master",
         "doctrine/migrations": "dev-master",
         "hounddog/doctrine-data-fixture-module": "dev-master"
-
     }
 }
