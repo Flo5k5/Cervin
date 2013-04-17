@@ -29,11 +29,11 @@
 				<?php if($role != 'Admin'): ?>
 				<a href="#" class="btn dropdown-toggle" data-toggle="dropdown">Demander +<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a></li>
+					<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a></li>
 					<?php if($role != 'Parcours'): ?>
-						<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a></li>
+						<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a></li>
 						<?php if($role != 'Collection'): ?>
-							<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a></li>
+							<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a></li>
 						<?php endif; ?>
 					<?php endif; ?>
                 </ul>
