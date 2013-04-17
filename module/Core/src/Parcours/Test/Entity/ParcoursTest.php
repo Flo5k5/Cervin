@@ -17,5 +17,6 @@ class ParcoursTest extends PHPUnit_Framework_TestCase
         $this->assertNull($parcours->description, '"description" should initially be null');
         $this->assertNull($parcours->sous_parcours, '"sous_parcours" should initially be null');
         $this->assertNull($parcours->transitions, '"transitions" should initially be null');
+        
     }
 }

@@ -3,7 +3,7 @@
 <phpunit bootstrap="bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="Parcours">
-            <directory>./ParcoursTest</directory>
+            <directory>./Entity</directory>
         </testsuite>
     </testsuites>
 </phpunit>

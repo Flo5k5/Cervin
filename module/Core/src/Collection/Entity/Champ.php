@@ -7,6 +7,7 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use InvalidArgumentException;
 
 /**
 * Un champ d'un type d'élément
@@ -57,6 +58,22 @@ class Champ implements InputFilterAwareInterface
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
+    
+    /**
+     * Constructeur
+     **/
+    public function __construct($label, $type_element, $format) {
+    	$this->label = $label;
+    	$this->type_element = $type_element;
+    	if ($format != "texte" 
+    			&& $format != "date"
+    			&& $format != "fichier"
+    			&& $format != "nombre"
+    			&& $format != "url") {
+    		throw new InvalidArgumentException("Construction d'un objet Champ avec un format interdit");
+    	}
+    	$this->format = $format;
+    }
     
     /**
     * Magic getter to expose protected properties.

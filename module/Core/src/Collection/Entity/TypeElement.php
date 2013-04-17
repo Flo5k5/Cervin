@@ -7,6 +7,7 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use InvalidArgumentException;
 
 /**
 * Un type d'élément de la collection (personne, image, matériel, logiciel, ...)
@@ -44,6 +45,18 @@ class TypeElement implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element")
      **/
     protected $champs;
+    
+    /**
+     * Constructeur
+     **/
+    public function __construct($nom, $type) {
+    	if ($type != "artefact" && $type != "media") {
+    		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type différent de 'artefact' ou 'media' => INTERDIT");
+    	}
+    	$this->nom = $nom;
+    	$this->type = $type;
+    	$this->champs = array();
+    }
     
     /**
     * Magic getter to expose protected properties.
