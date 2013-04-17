@@ -33,31 +33,31 @@ class Data implements InputFilterAwareInterface
 
     /**
     * La valeur s'il s'agit d'une date, null sinon
-    * @ORM\Column(type="date")
+    * @ORM\Column(type="date", nullable=true)
     */
     protected $date;
     
     /**
      * La valeur s'il s'agit d'un fichier, null sinon
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="date", length=200, nullable=true)
      */
     protected $fichier;
     
     /**
      * La valeur s'il s'agit d'un nombre, null sinon
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $nombre;
     
     /**
      * La valeur s'il s'agit d'un texte, null sinon
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $texte;
     
     /**
      * La valeur s'il s'agit d'une url, null sinon
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $url;
     

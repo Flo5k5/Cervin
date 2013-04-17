@@ -2,8 +2,8 @@
 
 <phpunit bootstrap="bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="Album">
-            <directory>./AlbumTest</directory>
+        <testsuite name="Parcours">
+            <directory>./ParcoursTest</directory>
         </testsuite>
     </testsuites>
 </phpunit>

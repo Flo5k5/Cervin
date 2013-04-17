@@ -2,7 +2,12 @@
 	<testsuites>
 		<testsuite name="Tests">
 			<directory>../module/Album/test</directory>
-		</testsuite>
+			<directory>../module/Core/src/Parcours/Test</directory>
+			<directory>../module/Core/src/Collection/Test</directory>
+			<directory>../module/Application/src/SamUser/Test</directory>
+			<!--<directory>../module/Core/test</directory>
+			<directory>../module/DataTable/test</directory>-->
+        </testsuite>
 	</testsuites>
 	<!--<filter>
 		<whitelist>
