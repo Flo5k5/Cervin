@@ -1,1 +1,0 @@
-<?phpecho __FILE__ .'<br/>';var_dump( is_file(__DIR__ . '/../../../init_autoloader.php'));var_dump( is_file(__DIR__ . '/../../../config/application.config.php'));var_dump( is_file(__DIR__ . '/../../../vendor/autoload.php'));
