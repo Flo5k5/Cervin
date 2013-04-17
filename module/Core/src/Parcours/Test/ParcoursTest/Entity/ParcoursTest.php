@@ -1,5 +1,5 @@
 <?php
-namespace ParcoursTest\Entity;
+//namespace ParcoursTest\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Parcours\Entity\Parcours;
