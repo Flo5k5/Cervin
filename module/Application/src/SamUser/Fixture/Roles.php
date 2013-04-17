@@ -50,62 +50,61 @@ class Roles implements FixtureInterface
 		 * Utilisateurs
 		 */
 
-		$user_toto = new SamUser\Entity\User();
-		$user_toto->setUsername('toto');
-		$user_toto->setEmail('toto@toto.fr');
-		$user_toto->setDisplayName('Toto');
+		$admin = new SamUser\Entity\User();
+		$admin->setUsername('adminlogin');
+		$admin->setEmail('admin@mail.fr');
+		$admin->setDisplayName('Administrateur Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
-		$user_toto->setPassword($bcrypt->create('toto123'));
-		$user_toto->addRole($role_Admin);
+		$admin->setPassword($bcrypt->create('toto123'));
+		$admin->addRole($role_Admin);
 
-		$user_titi = new SamUser\Entity\User();
-		$user_titi->setUsername('titi');
-		$user_titi->setEmail('titi@toto.fr');
-		$user_titi->setDisplayName('Titi');
+		$utilisateur = new SamUser\Entity\User();
+		$utilisateur->setUsername('utilisateurlogin');
+		$utilisateur->setEmail('utilisateur@mail.fr');
+		$utilisateur->setDisplayName('Utilisateur Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
-		$user_titi->setPassword($bcrypt->create('toto123'));
-		$user_titi->addRole($role_Utilisateur);
+		$utilisateur->setPassword($bcrypt->create('toto123'));
+		$utilisateur->addRole($role_Utilisateur);
 
-		$user_toto1 = new SamUser\Entity\User();
-		$user_toto1->setUsername('toto1');
-		$user_toto1->setEmail('toto1@toto.fr');
-		$user_toto1->setDisplayName('toto');
+		$collection = new SamUser\Entity\User();
+		$collection->setUsername('collectionlogin');
+		$collection->setEmail('collection@mail.fr');
+		$collection->setDisplayName('Collection Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
-		$user_toto1->setPassword($bcrypt->create('toto123'));
-		$user_toto1->addRole($role_Collection);
+		$collection->setPassword($bcrypt->create('toto123'));
+		$collection->addRole($role_Collection);
 
-		$user_toto2 = new SamUser\Entity\User();
-		$user_toto2->setUsername('toto2');
-		$user_toto2->setEmail('toto2@toto.fr');
-		$user_toto2->setDisplayName('toto');
+		$parcours = new SamUser\Entity\User();
+		$parcours->setUsername('parcourslogin');
+		$parcours->setEmail('parcours@mail.fr');
+		$parcours->setDisplayName('Parcours Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
-		$user_toto2->setPassword($bcrypt->create('toto123'));
-		$user_toto2->addRole($role_Parcours);
+		$parcours->setPassword($bcrypt->create('toto123'));
+		$parcours->addRole($role_Parcours);
 
-		$user_toto3 = new SamUser\Entity\User();
-		$user_toto3->setUsername('toto3');
-		$user_toto3->setEmail('toto3@toto.fr');
-		$user_toto3->setDisplayName('toto');
-		$bcrypt = new Bcrypt;
-        $bcrypt->setCost(14);
-		$user_toto3->setPassword($bcrypt->create('toto123'));
-		$user_toto3->addRole($role_Utilisateur);
-
-
-
-		$manager->persist($user_toto1);
-		$manager->persist($user_toto2);
-		$manager->persist($user_toto3);
-		$manager->persist($user_titi);
-		$manager->persist($user_toto);
-
-
+		$manager->persist($admin);
+		$manager->persist($utilisateur);
+		$manager->persist($collection);
+		$manager->persist($parcours);
 		$manager->flush();
 		
-
+		for ($i = 3; $i <= 25; $i++) {
+			$user = new SamUser\Entity\User();
+			$user->setUsername('utilisateur'.$i.'login');
+			$user->setEmail('utilisateur'.$i.'@mail.fr');
+			$user->setDisplayName('Utilisateur Test '.$i.'');
+			$bcrypt = new Bcrypt;
+	        $bcrypt->setCost(14);
+			$user->setPassword($bcrypt->create('toto123'));
+			$user->addRole($role_Utilisateur);
+			$manager->persist($user);
+			$manager->flush();
+		}
+		
 	}
+	
 }

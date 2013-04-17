@@ -1,8 +1,8 @@
 <?php
-namespace ParcoursTest\Entity;
+
+namespace Parcours;
 
 use Doctrine\ORM\EntityManager;
-use Parcours\Entity\Parcours;
 
 use PHPUnit_Framework_TestCase;
 
@@ -10,7 +10,7 @@ class ParcoursTest extends PHPUnit_Framework_TestCase
 {
     public function testParcoursInitialState()
     {
-        $parcours = new Parcours();
+        $parcours = new Entity\Parcours();
 
         $this->assertNull($parcours->id, '"id" should initially be null');
         $this->assertNull($parcours->titre, '"titre" should initially be null');
