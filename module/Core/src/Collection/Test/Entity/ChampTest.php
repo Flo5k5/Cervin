@@ -3,8 +3,6 @@ namespace Collection;
 
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\ORM\Tools\SchemaTool;
-use Heartsentwined\ArgValidator\ArgValidator;
-use Heartsentwined\FileSystemManager\FileSystemManager;
 
 // $this->application instance of Zend\Mvc\Application
 // $this->sm instance of Zend\ServiceManager\ServiceManager
