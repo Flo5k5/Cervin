@@ -1,5 +1,5 @@
 <?php
-namespace CollectionTest\Entity;
+namespace Collection;
 
 use Doctrine\ORM\EntityManager;
 use Core\Collection\Entity\Champ;
@@ -10,7 +10,7 @@ class ChampTest extends PHPUnit_Framework_TestCase
 {
     public function testChampInitialState()
     {
-        $champ = new Champ();
+        $champ = new Entity\Champ();
 
         $this->assertNull($champ->id, '"id" should initially be null');
         $this->assertNull($champ->label, '"label" should initially be null');
