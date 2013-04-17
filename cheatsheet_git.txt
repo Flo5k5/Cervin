@@ -73,3 +73,5 @@ pear channel-discover pear.phpunit.de
 pear install --onlyreqdeps phpunit/PHPUnit
 
 pear install --alldeps phpunit/PHPUnit
+
+pear install --alldeps phpunit/PHPUnit_SkeletonGenerator

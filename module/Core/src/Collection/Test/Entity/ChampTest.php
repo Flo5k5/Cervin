@@ -1,60 +1,103 @@
 <?php
 namespace Collection;
 
-use Heartsentwined\Phpunit\Testcase\Doctrine as DoctrineTestcase;
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\ORM\Tools\SchemaTool;
+use Heartsentwined\ArgValidator\ArgValidator;
+use Heartsentwined\FileSystemManager\FileSystemManager;
 
-class ChampTest extends DoctrineTestcase
+// $this->application instance of Zend\Mvc\Application
+// $this->sm instance of Zend\ServiceManager\ServiceManager
+// $this->em instance of Doctrine\ORM\EntityManager
+
+class ChampTest extends \PHPUnit_Framework_TestCase
 {
-	public function setUp()
+	protected $application;
+    protected $sm;
+	protected $em;
+    protected $bootstrap;
+	protected $emAlias;
+	
+    public function setUp()
     {
-        // fluent interface available
-        $this
+		$this
             ->setBootstrap(__DIR__ . '/../../../../../../tests/bootstrap.php')
-            ->setEmAlias('doctrine.entitymanager.orm_default')
-            ->setTmpDir(__DIR__ . '/../../../../../../tests/tmp'); // optional: see use case above
-        parent::setUp();
+            ->setEmAlias('doctrine.entitymanager.orm_default');
+			
+        $application = require $this->bootstrap;
+        $this->application = $application;
+        $this->sm = $application->getServiceManager();
+        $this->em = $this->sm->get($this->emAlias);
+
+        $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+        if (!empty($metadatas)) {
+            $tool = new SchemaTool($this->em);
+            //$tool->createSchema($metadatas);
+        } else {
+            throw new SchemaException(
+                'No metadata classes to process'
+            );
+        }
     }
 
-    /*public function tearDown()
+    public function tearDown()
     {
-        // your tearDown() operations
-        parent::tearDown();
-    }*/
+        unset($this->application);
+        unset($this->sm);
+        unset($this->em);
+    }
 
-    /*public function testFoo()
-    {
-        // $this->application instance of Zend\Mvc\Application
-        // $this->sm instance of Zend\ServiceManager\ServiceManager
-        // $this->em instance of Doctrine\ORM\EntityManager
-        // $this->tmpDir = 'foo/tmp'
-    }*/
-	
     public function testChampInitialState()
     {
-        $champ = new Entity\Champ();
+        $champ = new Entity\Champ(null, null, "texte");
 
         $this->assertNull($champ->id, '"id" should initially be null');
         $this->assertNull($champ->label, '"label" should initially be null');
         $this->assertNull($champ->description, '"description" should initially be null');
-        $this->assertNull($champ->format, '"format" should initially be null');
         $this->assertNull($champ->datas, '"datas" should initially be null');
         $this->assertNull($champ->type_element, '"type_element" should initially be null');
     }
     
-    public function testChampSaveEntity(){
+    public function testChampSaveEntity(){ 	
+		$nom = 'Nom';
+    	$type = 'artefact';
+    	$typeElement = new Entity\TypeElement($nom, $type);
+
+		$label = 'Label';
+		$description = 'Description';
+		$format = 'texte';
+		
+    	$champ = new Entity\Champ($label, $typeElement, $format);
+    	$champ->description = $description;
     	
-    	$type = new Entity\TypeElement();
-    	$type->nom = 'Nom';
-    	$type->type = 'Type';
-    	
-    	$champ = new Entity\Champ($type);
-    	$champ->label = 'Label';
-    	$champ->description = 'Description';
-    	$champ->format = 'Format';
-    	
-    	$this->em->persist($type);
+    	$this->em->persist($typeElement);
     	$this->em->persist($champ);
     	$this->em->flush();
+    }
 
+    protected function setBootstrap($bootstrap)
+    {
+        $this->bootstrap = $bootstrap;
+        return $this;
+    }
+    
+    protected function setEmAlias($emAlias)
+    {
+        $this->emAlias = $emAlias;
+        return $this;
+    }
+
+    public function testServiceManagerInstance()
+    {
+        $this->assertInstanceOf(
+            'Zend\ServiceManager\ServiceManager',
+            $this->sm);
+    }
+	
+    public function testEmInstance()
+    {
+        $this->assertInstanceOf(
+            'Doctrine\ORM\EntityManager',
+            $this->em);
     }
 }
