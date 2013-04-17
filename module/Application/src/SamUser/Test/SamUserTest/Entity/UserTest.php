@@ -1,5 +1,5 @@
 <?php
-namespace SamUserTest\Entity;
+namespace SamUser;
 
 use Doctrine\ORM\EntityManager;
 use SamUser\Entity\User;
@@ -10,14 +10,14 @@ class UserTest extends PHPUnit_Framework_TestCase
 {
     public function testUserInitialState()
     {
-        $user = new User();
+        $user = new Entity\User();
 
-        $this->assertNull($user->id, '"id" should initially be null');
-        $this->assertNull($user->username, '"username" should initially be null');
-        $this->assertNull($user->email, '"email" should initially be null');
-        $this->assertNull($user->displayName, '"displayName" should initially be null');
-        $this->assertNull($user->password, '"password" should initially be null');
-        $this->assertNull($user->state, '"state" should initially be null');
-        $this->assertNull($user->roles, '"roles" should initially be null');
+        $this->assertNull($user->getId(), '"id" should initially be null');
+        $this->assertNull($user->getUsername(), '"username" should initially be null');
+        $this->assertNull($user->getEmail(), '"email" should initially be null');
+        $this->assertNull($user->getDisplayName(), '"displayName" should initially be null');
+        $this->assertNull($user->getPassword(), '"password" should initially be null');
+        $this->assertNull($user->getState(), '"state" should initially be null');
+        $this->assertEmpty($user->getRoles(), '"roles" should initially be empty');
     }
 }
