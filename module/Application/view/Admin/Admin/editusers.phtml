@@ -39,8 +39,10 @@ $this->headTitle($title);
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js') ;?>
 
-
+<div id="confirmDiv" >
+</div> 
 
 
 <script type="text/javascript">
@@ -64,19 +66,19 @@ $this->headTitle($title);
                 $('.text').editable({ });
 
                 $(".SupprimerUser").click(function(event){
-                    if(window.confirm("Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+$(this).attr('data-value')+" ?")){
-                        $.post( 
-                            $(this).attr('data-url'),
-                            { name: "supprimer" },
-                            function(data) {
-                                $("#data").dataTable().fnDraw();
-                            });
-
-                    } else {
-                        return false;
-                    }
-
-                    
+                    var dateURL = $(this).attr('data-url');
+                    $('#confirmDiv').confirmModal({
+                        heading:'Confirm your action',
+                        body:'This is a confirm modal, click confirm button to perform your action',
+                        callback: function() {
+                            $.post( 
+                                dateURL,
+                                { name: "supprimer" },
+                                function() {
+                                    $("#data").dataTable().fnDraw();
+                                });
+                        }
+                    });   
                 });
 			},
             "aoColumns": [

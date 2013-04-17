@@ -46,7 +46,7 @@ class UserDataTable extends DataTable
                     $user->displayName,
                     $user->email,
                     '<span class="label label-important">'.$user->roles['0']->getRoleId().'</span>',
-                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">Role</a>',
+                    '<a href="#" class="status" data-type="select" data-pk="1" data-url="/post" data-original-title="Select status">dd</a>',
 			    );
 			
 			    $aaData[] = $data;

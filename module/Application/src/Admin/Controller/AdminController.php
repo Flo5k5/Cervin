@@ -118,7 +118,7 @@ class AdminController extends AbstractActionController
 
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
-                return $this->redirect()->toRoute('admin/changeRole');
+                return $this->redirect()->toRoute('home');
             }
 
             try {
