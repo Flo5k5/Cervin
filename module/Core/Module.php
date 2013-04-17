@@ -13,9 +13,8 @@ class Module
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                	'Core' => __DIR__ .'../Core',
                     'Collection' => __DIR__ . '/src/Collection',
-                    'Parcours' => __DIR__ . '/src/Parcours',
+                    'Parcours' => __DIR__ . '/src/Parcours'
                 ),
             ),
         );
