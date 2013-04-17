@@ -62,10 +62,6 @@ class Media extends Element
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
-		foreach ($type_element->__get('champs') as $champ) {
-			$data = new Data($this, $champ);
-			$this->datas->add($data);
-		}
 	}
 	
 }
