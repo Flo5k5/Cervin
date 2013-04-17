@@ -7,7 +7,7 @@ use Core\Collection\Entity\Champ;
 
 use PHPUnit_Framework_TestCase;
 
-class Test extends PHPUnit_Framework_TestCase
+class ElementsTest extends PHPUnit_Framework_TestCase
 {
 	
 	private function constructeurTypeElement($type) {
