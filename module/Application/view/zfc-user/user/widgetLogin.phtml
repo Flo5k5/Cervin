@@ -4,8 +4,8 @@ $form = $this->loginForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/login'));
 $form->setAttribute('method', 'post');
-$form->get('identity')->setAttribute('placeholder','Login');
-$form->get('credential')->setAttribute('placeholder','Mot de passe');
+$form->get('identity')->setAttributes(array('placeholder'=>'Login','style'=>'margin-bottom: 15px;'));
+$form->get('credential')->setAttributes(array('placeholder'=>'Mot de passe','style'=>'margin-bottom: 10px;'));
 $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-success btn-block');
 
 ?>
@@ -25,23 +25,9 @@ $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-success
         <?php endif ?>
 
         <?php echo $this->formButton($form->get('submit')) ?>
-
+<br>
+Pas encore de compte ? <a class="btn btn-success btn-block" href="<?php echo $this->url('zfcuser/register') ?>">S'enregistrer !</a>
 
 <?php echo $this->form()->closeTag() ?>
-<!-- -->
 
-<!--
-<form method="get" action="login" accept-charset="UTF-8">
-    <input style="margin-bottom: 15px;" type="text" placeholder="Email" id="email" name="email">
-    <input style="margin-bottom: 15px;" type="password" placeholder="Mot de passe" id="password" name="password">
-    <!--
-    <input style="float: left;" type="checkbox" name="rememberme" id="rememberme" value="1">
-    <label class="string optional" for="remember-me">Remember me</label>
-    - ->
-    <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
-    <input type="hidden" name="redirect" value=""/>
-</form>
--->
 
-Pas encore de compte ? <a class="btn btn-success btn-block" href="<?php echo $this->url('zfcuser/register') ?>">S'enregistrer !</a>
-<br>

@@ -23,6 +23,8 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Application\View\Helper\adminEmail;
+
 
 class Module implements AutoloaderProviderInterface,
     ConfigProviderInterface,
@@ -38,6 +40,25 @@ $form = $e->getTarget();
         $events->attach('ZfcUser\Form\Login','init', function($e) {
             $form = $e->getTarget();
            });
+    }
+
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                // the array key here is the name you will call the view helper by in your view scripts
+                /*'adminEmail' => function($sm) {
+                    $locator = $sm->getServiceLocator(); // $sm is the view helper manager, so we need to fetch the main service manager
+                    return new adminEmail($locator->get('Doctrine\ORM\EntityManager'));
+                },*/
+                'adminEmail' => function ($helperPluginManager) {
+                    $serviceLocator = $helperPluginManager->getServiceLocator();
+                    $viewHelper = new adminEmail();
+                    $viewHelper->setServiceLocator($serviceLocator);
+                    return $viewHelper;
+                }
+            ),
+        );
     }
 
     public function getConfig()
