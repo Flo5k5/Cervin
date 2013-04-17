@@ -45,11 +45,20 @@ class adminEmail extends AbstractHelper
         $users =$this->getEntityManager()->getRepository('SamUser\Entity\User')->findAll();
 
         $adminEmailList = '';
+        $i=0;
         foreach($users as $user)
         {
             if($user->roles['0']->getRoleId() == 'Admin')
             {
-                $adminEmailList .= $user->getEmail().";";
+                if($i == 0)
+                {
+                    $i=1;
+                }
+                else
+                {
+                    $adminEmailList .= ';';
+                }
+                $adminEmailList .= $user->getEmail();
             }
         }
         
