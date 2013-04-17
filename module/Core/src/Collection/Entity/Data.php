@@ -74,6 +74,14 @@ class Data implements InputFilterAwareInterface
     protected $champ;
     
     /**
+     * Constructeur
+     **/
+    public function __construct($element, $champ) {
+    	$this->element = $element;
+    	$this->champ = $champ;
+    }
+    
+    /**
     * Magic getter to expose protected properties.
     *
     * @param string $property
