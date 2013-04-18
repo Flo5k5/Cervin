@@ -7,7 +7,7 @@ class Medias implements FixtureInterface
 {
 	/*
 	 * Initialisation des types de bases d'artefacts
-	 * et des champs qui les décrivent
+	 * et des champs qui les dï¿½crivent
 	 */
 	public function load(ObjectManager $manager)
 	{
@@ -17,7 +17,7 @@ class Medias implements FixtureInterface
 		* ********************************* */
 		
 		/*
-		 * Média : Image
+		 * Mï¿½dia : Image
 		 */
 		$type_media_image = new Collection\Entity\TypeElement('Image', 'media');
 		
@@ -37,18 +37,18 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Video
+		 * Mï¿½dia : Video
 		*/
-		$type_media_video = new Collection\Entity\TypeElement('Vidéo', 'media');
+		$type_media_video = new Collection\Entity\TypeElement('VidÃ©o', 'media');
 		
 		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_video, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant la vidéo');
+		$champ_fichier->__set('description', 'Le fichier contenant la vidÃ©o');
 		
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_video, 'date');
-		$champ_date->__set('description', 'La date de publication de la vidéo');
+		$champ_date->__set('description', 'La date de publication de la vidÃ©o');
 		
 		$champ_format = new Collection\Entity\Champ('Format', $type_media_video, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage de la vidéo');
+		$champ_format->__set('description', 'Le format d\'encodage de la vidÃ©o');
 		
 		$manager->persist($type_media_video);
 		$manager->persist($champ_fichier);
@@ -57,7 +57,7 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Son
+		 * Mï¿½dia : Son
 		*/
 		$type_media_son = new Collection\Entity\TypeElement('Son', 'media');
 		
@@ -77,7 +77,7 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Logiciel
+		 * Mï¿½dia : Logiciel
 		*/
 		$type_media_logiciel = new Collection\Entity\TypeElement('Logiciel', 'media');
 		
@@ -85,7 +85,7 @@ class Medias implements FixtureInterface
 		$champ_fichier->__set('description', 'Le fichier contenant le code source du logiciel');
 		
 		$champ_version = new Collection\Entity\Champ('Version', $type_media_logiciel, 'texte');
-		$champ_version->__set('description', 'Le numéro de version du logiciel');
+		$champ_version->__set('description', 'Le numÃ©ro de version du logiciel');
 		
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_logiciel, 'date');
 		$champ_date->__set('description', 'La date de publication du logiciel');
@@ -101,18 +101,18 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Modele 3D
+		 * Mï¿½dia : Modele 3D
 		*/
-		$type_media_modele3d = new Collection\Entity\TypeElement('Modèle 3D', 'media');
+		$type_media_modele3d = new Collection\Entity\TypeElement('Modï¿½le 3D', 'media');
 		
 		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_modele3d, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant le modèle 3D');
+		$champ_fichier->__set('description', 'Le fichier contenant le modÃ¨le 3D');
 		
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_modele3d, 'date');
-		$champ_date->__set('description', 'La date de publication du modèle 3D');
+		$champ_date->__set('description', 'La date de publication du modÃ¨le 3D');
 		
 		$champ_format = new Collection\Entity\Champ('Format', $type_media_modele3d, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du modèle 3D');
+		$champ_format->__set('description', 'Le format d\'encodage du modÃ¨le 3D');
 		
 		$manager->persist($type_media_modele3d);
 		$manager->persist($champ_fichier);
@@ -121,18 +121,18 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Jeu de données
+		 * Mï¿½dia : Jeu de donnï¿½es
 		*/
-		$type_media_jeudonnees = new Collection\Entity\TypeElement('Jeu de données', 'media');
+		$type_media_jeudonnees = new Collection\Entity\TypeElement('Jeu de donnÃ©es', 'media');
 		
 		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_jeudonnees, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant le jeu de données');
+		$champ_fichier->__set('description', 'Le fichier contenant le jeu de donnÃ©es');
 		
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_jeudonnees, 'date');
-		$champ_date->__set('description', 'La date de publication du jeu de données');
+		$champ_date->__set('description', 'La date de publication du jeu de donnÃ©es');
 		
 		$champ_format = new Collection\Entity\Champ('Format', $type_media_jeudonnees, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du jeu de données');
+		$champ_format->__set('description', 'Le format d\'encodage du jeu de donnÃ©es');
 		
 		$manager->persist($type_media_jeudonnees);
 		$manager->persist($champ_fichier);
@@ -141,21 +141,21 @@ class Medias implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Média : Autre
+		 * Mï¿½dia : Autre
 		*/
 		$type_media_autre = new Collection\Entity\TypeElement('Autre', 'media');
 		
-		$champ_type = new Collection\Entity\Champ('Type de média', $type_media_autre, 'date');
-		$champ_type->__set('description', 'Le type de fichier qu\'est ce média');
+		$champ_type = new Collection\Entity\Champ('Type de mÃ©dia', $type_media_autre, 'date');
+		$champ_type->__set('description', 'Le type de fichier qu\'est ce mÃ©dia');
 		
 		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_autre, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant le média');
+		$champ_fichier->__set('description', 'Le fichier contenant le mÃ©dia');
 		
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_autre, 'date');
-		$champ_date->__set('description', 'La date de publication du média');
+		$champ_date->__set('description', 'La date de publication du mÃ©dia');
 		
 		$champ_format = new Collection\Entity\Champ('Format', $type_media_autre, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du média');
+		$champ_format->__set('description', 'Le format d\'encodage du mÃ©dia');
 		
 		$manager->persist($type_media_autre);
 		$manager->persist($champ_type);
