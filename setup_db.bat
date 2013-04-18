@@ -1,8 +1,11 @@
 @echo off
 echo.
 
+set hour=%time:~0,2%
+if "%hour:~0,1%" == " " set hour=0%hour:~1,1%
+
 set bin_doctrine=%~dp0\vendor\doctrine\doctrine-module\bin\doctrine-module
-set file=%date:~6,4%%date:~3,2%%date:~0,2%%time:~0,2%%time:~3,2%%time:~6,2%.sql
+set file="%date:~6,4%%date:~3,2%%date:~0,2%%hour%%time:~3,2%%time:~6,2%.sql"
 set host=localhost
 set db=cervin
 set user=root
@@ -12,6 +15,7 @@ echo -- Default values --
 echo Host : %host%
 echo DB : %db%
 echo User: %user%
+rem echo File: %file%
 echo.
 set /p msg=Use default values : (y/n)? 
 if "%msg%"=="y" goto IMPORT
