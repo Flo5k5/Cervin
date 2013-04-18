@@ -28,10 +28,16 @@ return array(
              */
             'BjyAuthorize\Guard\Controller' => array(
                 array(
+                    'controller' => 'Album\Controller\Album',
+                    'roles' => array('Visiteur')
+                ),
+
+                array(
                     'controller' => 'Application\Controller\Index',
                     'action' => 'index',
                     'roles' => array()
                 ),
+
                 array(
                     'controller' => 'zfcuser',
                     'roles' => array()
@@ -41,6 +47,7 @@ return array(
                     'action' => 'register', 
                     'roles' => array('Visiteur')
                 ),
+
                 array(
                     'controller' => 'Admin',
                     'roles' => array('Admin')
@@ -55,17 +62,24 @@ return array(
                     'action' => 'changeUserAjax',
                     'roles' => array('Admin')
                 ),
-                /*
+
                 array(
-                    'controller' => 'Mail',
-                    'roles' => array('Utilisateur')
-                ),*/
+                    'controller' => 'typeElement',
+                    'roles' => array('Visiteur')
+                ),
+                array(
+                    'controller' => 'typeElement',
+                    'action' => 'add',
+                    'roles' => array('Visiteur')
+                ),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
              * access to all routes unless they are specified here.
              */
             'BjyAuthorize\Guard\Route' => array(
+                array('route' => 'album', 'roles' => array('Visiteur')),
+
                 array('route' => 'home', 'roles' => array('Visiteur')),
 
                 array('route' => 'admin', 'roles' => array('Admin')),
@@ -78,10 +92,9 @@ return array(
                 array('route' => 'zfcuser/register', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/changeemail', 'roles' => array('Utilisateur')),
-                /*
-                array('route' => 'mail/admin', 'roles' => array('Utilisateur')),
-                array('route' => 'mail/collection', 'roles' => array('Utilisateur')),
-                array('route' => 'mail/parcours', 'roles' => array('Utilisateur')),*/
+                
+                array('route' => 'typeElement', 'roles' => array('Visiteur')),
+                array('route' => 'typeElement/add', 'roles' => array('Visiteur')),
             ),
         ), 
     ),
