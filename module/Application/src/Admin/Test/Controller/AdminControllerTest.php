@@ -2,24 +2,10 @@
 
 namespace AdminTest\Controller;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-//use Album\Model\Album;
-//use Album\Form\AlbumForm;
-use Doctrine\ORM\EntityManager;
-//use Album\Entity\Album;
-
-
 use Zend\Http\Request;
 use Zend\Http\Response;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
-use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
-
-
-use Zend\Mvc\Controller\Plugin\Url;
-use BjyAuthorize\Provider\Role\Config;
+use SamUser\Entity\User;
+use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class AdminControllerTest extends AbstractHttpControllerTestCase
 {
@@ -60,12 +46,19 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 	public function testEditusersActionCanBeAccessed()
 	{
 
-		$postData = array('identity' => 'toto',
-	        'credential' => 'toto123');
+		$postData = array(
+							'identity' => 'adminlogin',
+	  						'credential' => 'toto123'
+						);
 
- $this->dispatch('http://zf2.localhost/user/login', 'POST', $postData);
-
+ 		$this->dispatch('/user/login', 'POST', $postData);
+ 		$this->assertMatchedRouteName('zfcuser/login');
 		//$this->assertResponseStatusCode(200);
+		$this->assertRedirectTo('/');
+		
+		//$this->dispatch('/user/login');
+		//$this->assertNotXpathQueryContentContains('/html/body/div[2]/div/form/fieldset/ul/li', 'Authentication failed. Please try again.');
+		
 	   // $csrf = $this->_getLoginFormCSRF();
 	 //   $this->resetResponse();
 		
@@ -78,13 +71,15 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 
 
 
-		$this->dispatch('/admin/gestion-users');
+		/*$this->dispatch('/admin/gestion-users');
 		$this->assertResponseStatusCode(200);
+		//$this->assertNotXpath( '//div[@id="errors"]' );
+		//$this->assertRedirectTo('home');
 
 		$this->assertModuleName('Admin');
-		$this->assertControllerName('Admin\Controller\Admin');
+		$this->assertControllerName('Admin');
 		$this->assertControllerClass('AdminController');
-		$this->assertMatchedRouteName('editusers');
+		$this->assertMatchedRouteName('editusers');*/
 	}
 
 
