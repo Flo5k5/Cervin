@@ -11,28 +11,35 @@ $form = $this->changeEmailForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/changeemail'));
 $form->setAttribute('method', 'post');
-$form->get('newIdentity')->setLabel('Nouvel Email')->setAttribute('placeholder','nouvelEmail@exemple.com');
-$form->get('newIdentityVerify')->setLabel('Vérification nouvel Email')->setAttribute('placeholder','nouvelEmail@exemple.com');
-$form->get('credential')->setLabel('Mot de passe')->setAttribute('placeholder','******');
+$form->setAttribute('class','form-horizontal');
+$form->get('newIdentity')->setLabel('Nouvel Email')->setAttribute('placeholder','nouvelEmail@exemple.com')->setLabelAttributes(array('class' => 'control-label'));
+$form->get('newIdentityVerify')->setLabel('Confirmation')->setAttribute('placeholder','nouvelEmail@exemple.com')->setLabelAttributes(array('class' => 'control-label'));
+$form->get('credential')->setLabel('Mot de passe')->setAttribute('placeholder','******')->setLabelAttributes(array('class' => 'control-label'));
 
 ?>
 <?php echo $this->form()->openTag($form) ?>
-    <dl class="zend_form">
     <?php foreach ($form as $element): ?>
-        <?php if ($element->getLabel() != null): ?>
-            <dt><?php echo $this->formLabel($element) ?></dt>
+        <?php if (!$element instanceof Zend\Form\Element\Button): ?>
+        <div class="control-group">
+            <?php echo $this->formLabel($element, $element->getLabel()); ?>
         <?php endif ?>
+        
         <?php if ($element instanceof Zend\Form\Element\Button): ?>
-            <dd><?php echo $this->formButton($element) ?></dd>
+            <div class="form-actions">
+                <?php echo $this->formButton($element) ?>
+
         <?php elseif ($element instanceof Zend\Form\Element\Captcha): ?>
-            <dd><?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></dd>
+            <?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></div>
         <?php else: ?>
-            <dd><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></dd>
+            <div class="controls"><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></div>
         <?php endif ?>
+        
+        </div>
     <?php endforeach ?>
-    </dl>
     <?php if ($this->redirect): ?>
         <input type="hidden" name="redirect" value="<?php echo $this->redirect ?>" />
     <?php endif ?>
-    <input type="submit" value="Valider" class="btn btn-success" />
+    <div class="form-actions">
+        <input type="submit" value="Valider" class="btn btn-success" />
+    </div>
 <?php echo $this->form()->closeTag() ?>
