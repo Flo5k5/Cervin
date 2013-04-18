@@ -1,8 +1,8 @@
-<h3>Change Email for <?php echo $this->zfcUserDisplayName() ?></h3>
+<h3>Changement d'Email pour <?php echo $this->zfcUserDisplayName() ?></h3>
 <?php if ($status === true) : ?>
-<div class="alert alert-success">Email address changed successfully.</div>
+<div class="alert alert-success">L'adresse Email a été modifiée avec succès.</div>
 <?php elseif ($status === false) : ?>
-<div class="alert alert-error">Unable to update your email address. Please try again.</div>
+<div class="alert alert-error">Impossible de modifier l'adresse. Veuillez réessayer.</div>
 <?php endif; ?>
 <?php
 
@@ -11,6 +11,9 @@ $form = $this->changeEmailForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/changeemail'));
 $form->setAttribute('method', 'post');
+$form->get('newIdentity')->setLabel('Nouvel Email')->setAttribute('placeholder','nouvelEmail@exemple.com');
+$form->get('newIdentityVerify')->setLabel('Vérification nouvel Email')->setAttribute('placeholder','nouvelEmail@exemple.com');
+$form->get('credential')->setLabel('Mot de passe')->setAttribute('placeholder','******');
 
 ?>
 <?php echo $this->form()->openTag($form) ?>
@@ -31,5 +34,5 @@ $form->setAttribute('method', 'post');
     <?php if ($this->redirect): ?>
         <input type="hidden" name="redirect" value="<?php echo $this->redirect ?>" />
     <?php endif ?>
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Valider" class="btn btn-success" />
 <?php echo $this->form()->closeTag() ?>
