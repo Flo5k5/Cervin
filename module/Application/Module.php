@@ -17,6 +17,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Application\View\Helper\adminEmail;
+use Application\View\Helper\redirectUserIndexIfTrue;
 use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
 
@@ -51,7 +52,7 @@ class Module implements AutoloaderProviderInterface,
                     $viewHelper = new adminEmail();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
-                }
+                },
             ),
         );
     }
