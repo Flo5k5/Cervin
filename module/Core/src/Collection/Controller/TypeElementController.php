@@ -55,10 +55,10 @@ class TypeElementController extends AbstractActionController
 		
 
 
-    	return array{
+    	return array(
     		'artefact' => $artefact,
     		'media' => $media,
-    	}
+    	)
 
     }
 
