@@ -478,3 +478,7 @@ a.editable-click.editable-disabled:hover {
   width: 16px;
   height: 16px;
 }
+
+.CursorPointer{
+  cursor: pointer;
+}

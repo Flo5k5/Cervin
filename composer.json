@@ -21,7 +21,6 @@
         "rwoverdijk/assetmanager": "1.*",
         "leafo/lessphp": "dev-master",
         "doctrine/migrations": "dev-master",
-        "hounddog/doctrine-data-fixture-module": "dev-master",
-		"heartsentwined/zf2-phpunit-testcase": "1.*"
+        "hounddog/doctrine-data-fixture-module": "dev-master"
     }
 }
