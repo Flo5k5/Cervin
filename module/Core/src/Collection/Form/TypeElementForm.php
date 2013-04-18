@@ -1,15 +1,16 @@
 <?php
 
-namespace Collection;
+namespace Collection\Form;
 
 use Zend\Form\Form;
 use InvalidArgumentException;
+use Collection\Entity\TypeElement;
 
 class TypeElementForm extends Form
 {
 	public function __construct($type_element, $name = null)
 	{
-		if (!$type_element instanceof Entity\TypeElement) {
+		if (!$type_element instanceof TypeElement) {
 			throw new InvalidArgumentException('Construction d\'un formulaire TypeElementForm avec un paramètre qui n\'est pas de type TypeElement');
 		}
 		parent::__construct('typeelement');

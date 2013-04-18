@@ -8,8 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
-
-require 'Element.php';
+use Collection\Entity\Element;
 
 /**
  * Un artefact
