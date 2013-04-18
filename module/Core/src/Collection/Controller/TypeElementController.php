@@ -52,19 +52,11 @@ class TypeElementController extends AbstractActionController
 
     	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
 
-
-<<<<<<< HEAD
     	return array(
     		'TEartefacts' => $TEartefacts,
     		'TEmedias' => $TEmedias,
     	);
-=======
 
-    	return array(
-    		'artefact' => $artefact,
-    		'media' => $media,
-    	)
->>>>>>> 5abbfb3b4d93ed4bbb024baf836d881f9b79ff78
 
     }
 
