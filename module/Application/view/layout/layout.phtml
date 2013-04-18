@@ -34,37 +34,48 @@
 
                             <li class="divider-vertical"></li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Collections<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-header">Artefacts</li>
-                                    <li><a href="#">Ajouter un artefact</a></li>
-                                    <li><a href="#">Modifier un artefact</a></li>
-                                    <li class="divider"></li>
-                                    <li class="nav-header">Médias</li>
-                                    <li><a href="#">Ajouter un média</a></li>
-                                    <li><a href="#">Modifier un média</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Parours<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-header">Parcours</li>
-                                    <li><a href="#">Nouveau parcours</a></li>
-                                    <li><a href="#">Éditer un parcours existant</a></li>
-                                </ul>
-                            </li>
+                            <?php if($this->zfcUserIdentity()): ?>
+                                <?php $tmp=$this->zfcUserIdentity()->getRoles();
+                                $role=$tmp[0]->getRoleId();
+                                if($role == 'Collection' || $role == 'Parcours' || $role == 'Admin'): ?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Collections<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-header">Artefacts</li>
+                                            <li><a href="#">Ajouter un artefact</a></li>
+                                            <li><a href="#">Modifier un artefact</a></li>
+                                            <li class="divider"></li>
+                                            <li class="nav-header">Médias</li>
+                                            <li><a href="#">Ajouter un média</a></li>
+                                            <li><a href="#">Modifier un média</a></li>
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if($role == 'Parcours' || $role == 'Admin'): ?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Parours<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-header">Parcours</li>
+                                            <li><a href="#">Nouveau parcours</a></li>
+                                            <li><a href="#">Éditer un parcours existant</a></li>
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
 
-                            <li class="divider-vertical"></li>
+                                <li class="divider-vertical"></li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Panneau de contrôle<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
-                                    <li><a href="<?php echo $this->url('typeElement'); ?>">Gestion des types d'elements</a></li>
-                                </ul>
-                            </li>
-                            <li class="divider-vertical"></li>
+                                <?php if($role == 'Admin'): ?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Panneau de contrôle<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
+                                            <li><a href="<?php echo $this->url('typeElement'); ?>">Gestion des types d'elements</a></li>
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
+                                
+                                <li class="divider-vertical"></li>
+                            <?php endif; ?>
                         </ul>
 
                         <ul class="nav pull-right">

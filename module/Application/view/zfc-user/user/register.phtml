@@ -1,8 +1,5 @@
-<!-- -->
-
-
 <ul class="nav nav-tabs">
-    <li><a href="<?php echo $this->url("zfcuser/login"); ?>">Connection</a></li>
+    <li><a href="<?php echo $this->url("zfcuser/login"); ?>">Connexion</a></li>
     <li class="active"><a href="<?php echo $this->url("zfcuser/register"); ?>">Inscription</a></li>
 </ul>
 
@@ -41,7 +38,7 @@ $form->setAttribute('method', 'post');
             <div class="controls"><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></div>
         <?php endif ?>
         
-    </div>
+        </div>
     <?php endforeach ?>
     </fieldset>
     <?php if ($this->redirect): ?>

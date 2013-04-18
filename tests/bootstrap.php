@@ -3,10 +3,10 @@
 
 chdir(dirname(__DIR__));
 
-$loader = include __DIR__ . '/../vendor/autoload.php';
+$autoloader = include __DIR__ . '/../vendor/autoload.php';
 include __DIR__ . '/../init_autoloader.php';
-
-/*$config = array(
+/*
+$config = array(
 		'modules' => array(
 				'ZendDeveloperTools',
 				'DoctrineModule',
@@ -31,33 +31,12 @@ include __DIR__ . '/../init_autoloader.php';
 		)
 );*/
 
+
+require_once __DIR__ . '/library/Phpunit/Doctrine.php';
+$loader = new Zend\Loader\StandardAutoloader();
+$loader->registerNamespace('TestsCervin', realpath('tests/library/Phpunit'));
+$loader->register();
+
+
 return Zend\Mvc\Application::init(include __DIR__ . '/../config/application.config.php');
-//Zend\Mvc\Application::init($config);
-
-/*
-chdir(dirname(__DIR__));
-
-// if you're using composer to install zf2
-include_once  __DIR__ . '/../vendor/autoload.php';
-// if not using composer initialize your custom autoloading here
-
-$configuration = include(__DIR__ . '/../config/application.config.php');
-$serviceManager = new Zend\ServiceManager\ServiceManager(new Zend\Mvc\Service\ServiceManagerConfig(
-	isset($configuration['service_manager']) ? $configuration['service_manager'] : array()
-));
-$serviceManager->setService('ApplicationConfig', $configuration);
-$serviceManager->setFactory('ServiceListener', 'Zend\Mvc\Service\ServiceListenerFactory');
-
-$moduleManager = $serviceManager->get('ModuleManager');
-$moduleManager->loadModules();
-$serviceManager->setAllowOverride(true);
-
-$application = $serviceManager->get('Application');
-$event = new Zend\Mvc\MvcEvent();
-$event->setTarget($application);
-$event->setApplication($application)
-	  ->setRequest($application->getRequest())
-	  ->setResponse($application->getResponse())
-	  ->setRouter($serviceManager->get('Router'));
-
-Core\Collection\ChampTest::setMvcEvent($event);*/
+//return Zend\Mvc\Application::init($config);

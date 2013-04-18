@@ -92,19 +92,6 @@ class Roles implements FixtureInterface
 		$manager->persist($parcours);
 		$manager->flush();
 		
-		for ($i = 3; $i <= 25; $i++) {
-			$user = new SamUser\Entity\User();
-			$user->setUsername('utilisateur'.$i.'login');
-			$user->setEmail('utilisateur'.$i.'@mail.fr');
-			$user->setDisplayName('Utilisateur Test '.$i.'');
-			$bcrypt = new Bcrypt;
-	        $bcrypt->setCost(14);
-			$user->setPassword($bcrypt->create('toto123'));
-			$user->addRole($role_Utilisateur);
-			$manager->persist($user);
-			$manager->flush();
-		}
-		
 	}
 	
 }

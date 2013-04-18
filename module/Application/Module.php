@@ -9,21 +9,17 @@
 
 namespace Application;
 
-use Zend\Db\Adapter\Adapter;
-
 use SamUser\Entity\User;
-
 use Doctrine\ORM\EntityManager;
-
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
-
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Application\View\Helper\adminEmail;
+use Application\View\Helper\redirectUserIndexIfTrue;
+use Zend\I18n\Translator\Translator;
+use Zend\Validator\AbstractValidator;
 
 
 class Module implements AutoloaderProviderInterface,
@@ -32,14 +28,14 @@ class Module implements AutoloaderProviderInterface,
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $events = $e->getApplication()->getEventManager()->getSharedManager();
-        $events->attach('ZfcUser\Form\Register','init', function($e) {
-$form = $e->getTarget();
-            
-        });
-        $events->attach('ZfcUser\Form\Login','init', function($e) {
-            $form = $e->getTarget();
-           });
+        $translator = new Translator();
+        $translator->addTranslationFile(
+         'phpArray',
+         'vendor/zendframework/zendframework/resources/languages/fr/Zend_Validate.php',
+         'default',
+         'fr_FR'
+        );
+        AbstractValidator::setDefaultTranslator($translator);
     }
 
     public function getViewHelperConfig()
@@ -56,7 +52,7 @@ $form = $e->getTarget();
                     $viewHelper = new adminEmail();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
-                }
+                },
             ),
         );
     }

@@ -37,7 +37,7 @@ class Champ implements InputFilterAwareInterface
     
     /**
      * Description du champ
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $description;
     

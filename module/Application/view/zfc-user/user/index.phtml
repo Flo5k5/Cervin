@@ -1,50 +1,72 @@
-<div style="float:left; padding-right:16px;"><?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?></div>
-<h3>Hello, <?php echo $this->zfcUserDisplayName() ?>!</h3><br>
-<div style="margin-top:25px; margin-left:50px;">
-	
-	<table border="1">
-		<tr>
-			<!-- modify infos -->
-			<td class="span2">Email</td>
-			<td class="span3"><?php echo $this->zfcUserIdentity()->getEmail(); ?></td>
-			<td class="span2">
-				<!-- --> <a href="<?php echo $this->url('zfcuser/changeemail'); ?>">Modifier</a> <!-- -->
-			</td>
 
-		</tr>
+<h3>Mon compte</h3><br>
 
-		<tr>
-			<!-- modify password -->
-			<td class="span2">Mot de passe</td>
-			<td class="span3">********</td>
-			<td class="span2">
-				<!-- --> <a href="<?php echo $this->url('zfcuser/changepassword'); ?>">Modifier</a> <!-- -->
-			</td>
-		</tr>
-
-		<tr>
-			<td class="span2">Role</td>
-			<td class="span3"><?php $roles = $this->zfcUserIdentity()->getRoles();
-									$role = $roles[0]->getRoleId(); echo $role; ?></td>
-			<td class="span2 dropdown">
-				<?php if($role != 'Admin'): ?>
-				<a href="#" class="btn dropdown-toggle" data-toggle="dropdown">Demander +<b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a></li>
-					<?php if($role != 'Parcours'): ?>
-						<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a></li>
-						<?php if($role != 'Collection'): ?>
-							<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a></li>
-						<?php endif; ?>
-					<?php endif; ?>
-                </ul>
-            <?php else: ?>
-
-            <?php endif; ?>
-			</td>
-		</tr>
-	</table>
+	<div class="span6 well">
+		<h4>Profil</h4>
+	    <div class="row">
+		    <div class="span3">
+		    	<a class="thumbnail"><img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
+		    	<a href="<?php echo $this->url('zfcuser/logout') ?>" role="button" class="btn btn-danger btn-block" >
+		    		<i class="icon-off"></i>  Déconnexion</a>
+		    </div>
+		    <div class="span3">
+		    	<p><strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)</p>
+				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> Changer mon mail </a>
+				
+				<a href="<?php echo $this->url('zfcuser/changepassword'); ?>" role="button" class="btn btn-primary btn-block"> Changer mon mot de passe </a>
+		    </div>
+	    </div>
+	    <hr>
+	    <h4>Droits</h4>
+	    
+	    <div class="row">
+		    <div class="span3">
+		    	<p> Vous avez le rôle <strong><?php $roles = $this->zfcUserIdentity()->getRoles();
+							  $role = $roles[0]->getRoleId(); 
+							  echo $role; ?></strong> </p>
+		    </div>
+		    
+		    <div class="span3">
+		    	<?php if($role != 'Admin'){ ?>
+					<div class="btn-group">
+						<button class="btn btn-primary">Demander plus de droits</button>
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+						<li>
+							<a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a>
+						</li>
+						<?php if($role != 'Parcours'){ ?>
+							<li>
+								<a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a>
+								</li>
+							<?php if($role != 'Collection'){ ?>
+								<li>
+									<a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a>
+								</li>
+							<?php } ?>
+						<?php } ?>
+		                	</ul>
+		                </div>
+           			<?php } ?>
+		    </div>
+		</div>
+		</br>
+		<div class="alert alert-info">
+	    	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	    	<p class="lead">Information</p>
+    	    <dl class="dl-horizontal">
+			    <dt>Rôle Utilisateur</dt>
+			    <dd>Permet de consulter la collection et les parcours</dd>
+			    <dt>Rôle Collection</dt>
+			    <dd>Permet d'alimenter la collection</dd>
+			    <dt>Rôle Parcours</dt>
+			    <dd>Permet d'éditer des parcours</dd>
+			    <dt>Rôle Admin</dt>
+			    <dd>Tous les droits</dd>
+		    </dl>
+	    </div>
 </div>
 
-<br><a href="<?php echo $this->url('zfcuser/logout') ?>">Déconnexion</a>
 <div style="clear:both;"></div>
