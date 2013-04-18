@@ -24,16 +24,17 @@
 
 		<tr>
 			<td class="span2">Role</td>
-			<td class="span3"><?php $role=$this->zfcUserIdentity()->getRoles()[0]->getRoleId(); echo $role; ?></td>
+			<td class="span3"><?php $roles = $this->zfcUserIdentity()->getRoles();
+									$role = $roles[0]->getRoleId(); echo $role; ?></td>
 			<td class="span2 dropdown">
 				<?php if($role != 'Admin'): ?>
 				<a href="#" class="btn dropdown-toggle" data-toggle="dropdown">Demander +<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a></li>
+					<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Admin.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Admin</a></li>
 					<?php if($role != 'Parcours'): ?>
-						<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a></li>
+						<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Parcours.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Parcours</a></li>
 						<?php if($role != 'Collection'): ?>
-							<li><a href="mailto:<?php $i=0; foreach ($admins as $admin){if($i!=0){echo ";";}else{$i=1;}echo $admin->getEmail();} ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a></li>
+							<li><a href="mailto:<?php echo $this->adminEmail(); ?>?subject=Cervin%20:%20demande%20de%20droits&body=Je%20souhaiterais%20obtenir%20le%20role%20Collection.%20<?php echo $this->zfcUserIdentity()->getDisplayName(); ?>">Collection</a></li>
 						<?php endif; ?>
 					<?php endif; ?>
                 </ul>
@@ -47,4 +48,3 @@
 
 <br><a href="<?php echo $this->url('zfcuser/logout') ?>">Déconnexion</a>
 <div style="clear:both;"></div>
-<?php echo $this->adminEmail(); ?>

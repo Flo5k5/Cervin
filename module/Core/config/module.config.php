@@ -59,8 +59,8 @@ return array(
 			)
 		)
 	),
-	//'data-fixture' => array(
-	//		'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture'
-	//),
+	'data-fixture' => array(
+			'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture'
+	),
 
 );
