@@ -14,7 +14,7 @@ class Artefacts implements FixtureInterface
 		 * *********************************** */
 		
 		/*
-		 * Artefact : Mat�riel
+		 * Artefact : Matériel
 		 */
 		$type_artefact_materiel = new Collection\Entity\TypeElement('Matériel', 'artefact');
 		
