@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
 
-require 'Element.php';
+//require 'Element.php';
 
 /**
  * Un artefact

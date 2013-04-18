@@ -95,6 +95,7 @@ return array(
                 
                 array('route' => 'typeElement', 'roles' => array('Visiteur')),
                 array('route' => 'typeElement/add', 'roles' => array('Visiteur')),
+                array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Visiteur')),
             ),
         ), 
     ),
