@@ -3,9 +3,44 @@
 namespace Core;
 
 return array(
-	
-	// Doctrine config
-
+	'controllers' => array(
+        'invokables' => array(
+            'typeElement' => 'Collection\Controller\TypeElementController',
+        ),
+    ),
+	'router' => array(
+        'routes' => array(
+            'typeElement' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/typeElement',
+                    'defaults' => array(
+                        'controller' => 'typeElement',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/add',
+                            'defaults' => array(
+                                'controller' => 'typeElement',
+                                'action'     => 'add',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'view_manager' => array(
+	    'template_path_stack' => array(
+	        'Collection' => __DIR__ . '/../view',
+	    )
+	),
+    // Doctrine config
 	'doctrine' => array(
 		'driver' => array(
 			'Core_driver' => array(

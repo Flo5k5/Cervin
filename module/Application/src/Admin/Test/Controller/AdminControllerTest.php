@@ -10,6 +10,14 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 //use Album\Entity\Album;
 
+
+use Zend\Http\Request;
+use Zend\Http\Response;
+use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\RouteMatch;
+use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
+
+
 use Zend\Mvc\Controller\Plugin\Url;
 use BjyAuthorize\Provider\Role\Config;
 
@@ -17,11 +25,16 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 {
 	protected $traceError = true;
 
+
+	protected $request;
+
     public function setUp()
     {
         $this->setApplicationConfig(
             include __DIR__ .'/../../../../../../config/application.config.php'
         );
+
+        $this->request    = new Request();
         parent::setUp();
     }
 	
@@ -47,37 +60,21 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 	public function testEditusersActionCanBeAccessed()
 	{
 
+		$postData = array('identity' => 'toto',
+	        'credential' => 'toto123');
 
-$this->dispatch('/zfcuser/login');
+ $this->dispatch('http://zf2.localhost/user/login', 'POST', $postData);
 
-		$lien = 'http://zf2.localhost/user/login' ;// $this->url()->fromRoute("zfcuser/login");
-		$postfields = array(
-			'identity' => 'toto',
-			'credential' => 'toto123'
-		);
+		//$this->assertResponseStatusCode(200);
+	   // $csrf = $this->_getLoginFormCSRF();
+	 //   $this->resetResponse();
+		
 
-		$curl = curl_init();
-
-		curl_setopt($curl, CURLOPT_URL, $lien);
-		curl_setopt($curl, CURLOPT_COOKIESESSION, true);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POST, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
-
-		$return = curl_exec($curl);
-		curl_close($curl);
-
-
-
-		if (!preg_match('#Hello, Toto#i', $return))
-		{
-
-			 $this->assertTrue(true);
-		}
-		else
-		{
-			 $this->assertTrue(FALSE);
-		}
+	   // $this->request->setMethod('POST');
+	   // $this->request->setPost(array(
+	   //     'identity' => 'toto',
+	   //     'credential' => 'toto123',
+	   // ));
 
 
 
