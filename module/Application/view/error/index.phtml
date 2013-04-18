@@ -1,4 +1,13 @@
-<h1><?php echo 'An error occurred' ?></h1>
+<?php
+
+$title = 'Erreur';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
 <h2><?php echo $this->message ?></h2>
 
 <?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>

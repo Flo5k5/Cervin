@@ -1,5 +1,15 @@
+<?php
+
+$title = 'Login';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
 <ul class="nav nav-tabs">
-    <li class="active"><a href="<?php echo $this->url("zfcuser/login"); ?>">Connection</a></li>
+    <li class="active"><a href="<?php echo $this->url("zfcuser/login"); ?>">Connexion</a></li>
     <li><a href="<?php echo $this->url("zfcuser/register"); ?>">Inscription</a></li>
 </ul>
 <div class="tab-content">
@@ -11,7 +21,7 @@ $form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
 $form->get('identity')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'));
 $form->get('credential')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'));
-$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-success');
+$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
 ?>
 
 <?php echo $this->form()->openTag($form) ?>
