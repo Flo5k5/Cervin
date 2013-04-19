@@ -7,17 +7,74 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Application\Controller;
+namespace Collection\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 
-class IndexController extends AbstractActionController
+class CollectionController extends AbstractActionController
 {
+	
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+	
+	public function setEntityManager(EntityManager $em)
+	{
+		$this->em = $em;
+	}
+	
+	/**
+	 * Return a EntityManager
+	 *
+	 * @return Doctrine\ORM\EntityManager
+	 */
+	public function getEntityManager()
+	{
+		if ($this->em === null) {
+			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+		}
+	
+		return $this->em;
+	}
+	
     public function indexAction()
     {
 		return new ViewModel();
+    }
+    
+    public function consulterAction()
+    {
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    		$params = $this->params()->fromQuery();
+    
+    		$entityManager = $this->getEntityManager()->getRepository('Collection\Entity\Element');
+    
+    		$dataTable = new \Collection\Model\ElementDataTable($params);
+    		$dataTable->setEntityManager($entityManager);
+    
+    		$dataTable->setConfiguration(array(
+    				'titre',
+    				'description'
+    		));
+    
+    		$aaData = array();
+    
+    		foreach ($dataTable->getPaginator() as $element) {
+    			$aaData[] = array(
+    					$element->titre,
+    					$element->description
+    			);
+    		}
+    		$dataTable->setAaData($aaData);
+    
+    		return $this->getResponse()->setContent($dataTable->findAll());
+    	} else {
+    		echo 'heheh';
+    		return new ViewModel();
+    	}
     }
     
 }
