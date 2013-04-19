@@ -6,7 +6,9 @@ return array(
 	'controllers' => array(
         'invokables' => array(
             'typeElement' => 'Collection\Controller\TypeElementController',
-        	'Collection' => 'Collection\Controller\CollectionController'
+        	'Collection' => 'Collection\Controller\CollectionController',
+            'Artefact' => 'Collection\Controller\ArtefactController',
+            'Media' => 'Collection\Controller\MediaController',
         ),
     ),
 	'router' => array(
@@ -49,7 +51,7 @@ return array(
                     ),
                 ),
             ),
-        		
+
         	'collection' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
         		'options' => array(
@@ -73,7 +75,55 @@ return array(
         			),
         		),
         	),
-        		
+    		
+            'artefact' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/artefact',
+                    'defaults' => array(
+                        'controller' => 'Artefact',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'ajouter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'media' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/media',
+                    'defaults' => array(
+                        'controller' => 'Media',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'ajouter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
         ),
     ),
 		

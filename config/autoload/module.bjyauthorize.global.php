@@ -52,11 +52,13 @@ return array(
                     'controller' => 'Admin',
                     'roles' => array('Admin')
                 ),
+
                 array(
                     'controller' => 'Admin',
                     'action' => 'editusers',
                     'roles' => array('Admin')
                 ),
+
                 array(
                     'controller' => 'Admin',
                     'action' => 'changeUserAjax',
@@ -67,16 +69,40 @@ return array(
                     'controller' => 'typeElement',
                     'roles' => array('Visiteur')
                 ),
+
                 array(
                     'controller' => 'typeElement',
                     'action' => 'add',
                     'roles' => array('Visiteur')
                 ),
+
             	array(
             		'controller' => 'Collection',
             		'action' => 'consulter',
             		'roles' => array('Utilisateur')
             	),
+
+                array(
+                    'controller' => 'Artefact',
+                    'roles' => array('Collection')
+                ),
+
+                array(
+                    'controller' => 'Artefact',
+                    'action' => 'ajouter',
+                    'roles' => array('Collection')
+                ),
+
+                array(
+                    'controller' => 'Media',
+                    'roles' => array('Collection')
+                ),
+
+                array(
+                    'controller' => 'Media',
+                    'action' => 'ajouter',
+                    'roles' => array('Collection')
+                ),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -103,6 +129,12 @@ return array(
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Visiteur')),
             		
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
+
+                array('route' => 'artefact', 'roles' => array('Collection')),
+                array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
+
+                array('route' => 'media', 'roles' => array('Collection')),
+                array('route' => 'media/ajouter', 'roles' => array('Collection')),
             ),
         ), 
     ),

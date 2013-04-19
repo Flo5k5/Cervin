@@ -42,7 +42,7 @@ class adminEmail extends AbstractHelper
     public function __invoke()
     {
 
-        $users =$this->getEntityManager()->getRepository('SamUser\Entity\User')->findAll();
+        $users = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findAll();
 
         $adminEmailList = '';
         $i=0;
