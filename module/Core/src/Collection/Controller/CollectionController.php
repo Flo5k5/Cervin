@@ -72,7 +72,6 @@ class CollectionController extends AbstractActionController
     
     		return $this->getResponse()->setContent($dataTable->findAll());
     	} else {
-    		echo 'heheh';
     		return new ViewModel();
     	}
     }
