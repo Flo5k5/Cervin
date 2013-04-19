@@ -11,9 +11,14 @@ namespace Collection\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
+
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
+use Collection\Entity\Element;
+use Collection\Entity\Champ;
+use Collection\Form\ChampForm;
 
 class TypeElementController extends AbstractActionController
 {
@@ -71,9 +76,9 @@ class TypeElementController extends AbstractActionController
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
         	$id = (int) $this->params()->fromRoute('id', 0);
-        	echo $id;
+        	
             if (!$id) {
-                return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+                return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Type Element')));
             }
 
             try {
@@ -115,13 +120,66 @@ class TypeElementController extends AbstractActionController
 
             } else {
 
-            	if($postData['name'] == 'nom')
-            	{
+            	switch ($postData['name']) {
+            	case 'nom':
             		$TypeElement->nom = $postData['value'];
 		            $this->getEntityManager()->persist($TypeElement);
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(array('success'=>true)));
-            	}
+                    break;
+            	case 'ajChamp':
+
+
+/*$form = new AlbumForm();
+        $form->get('submit')->setValue('Add');
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $album = new Album();
+            $form->setInputFilter($album->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                //$album->exchangeArray($form->getData());
+                //$this->getAlbumTable()->saveAlbum($album);
+                $album->populate($form->getData()); 
+                $this->getEntityManager()->persist($album);
+                $this->getEntityManager()->flush();
+
+                // Redirect to list of albums
+                return $this->redirect()->toRoute('album');
+            }
+        }
+        return array('form' => $form);*/
+       // var_dump($postData);
+                    $form = new ChampForm();
+                    if ($postData['submit'] != 'false')
+                    {
+                        $request = $this->getRequest();
+                        //var_dump($request);
+                        $champ = new Champ($postData['label'],$TypeElement,$postData['format']);
+                        $champ->description = $postData['description'];
+                      //  $form->setInputFilter($champ->getInputFilter());
+                       // $form->setData($request->getPost());
+                      //  if ($form->isValid()) {
+                         //   $champ->populate($form->getData()); 
+                            $this->getEntityManager()->persist($champ);
+                            $this->getEntityManager()->flush();
+                       // }
+                    }
+
+
+                    $viewModel = new ViewModel(array('form' => $form));
+                    $viewModel->setTerminal(true);
+                    return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+                    
+                   // return $this->getResponse()->setContent(Json::encode(false))->setStatusCode(300);;
+
+                    break;
+                default:
+                    return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+                    break;
+                }
 
             }
             

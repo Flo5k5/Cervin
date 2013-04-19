@@ -37,7 +37,7 @@ class ChampForm extends Form
             'options' => array(
                 'label' => 'Format',
                 'value_options' => array(
-                    'text' => 'Texte',
+                    'texte' => 'Texte',
                     'textarea' => 'Zone de texte',
                     'date' => 'Date',
                     'nombre' => 'Nombre',
@@ -54,7 +54,7 @@ class ChampForm extends Form
 				'name' => 'submit',
 				'attributes' => array(
 					'type'  => 'submit',
-					'value' => 'Go',
+					'value' => 'Ajouter',
 					'id' => 'submitbutton'
 				),
 		));

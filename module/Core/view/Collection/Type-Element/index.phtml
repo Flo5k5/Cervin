@@ -12,92 +12,162 @@ $this->headTitle($title);
 <div class="row">
     <div class="span6">
         <h2>Artefacts
-        <a class="btn btn-primary" href="<?php echo $this->url('zfcuser/register') ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefacts</a></h2>
-        <div class="accordion" id="TEartefact">
-            <?php foreach ($TEartefacts as $TEartefact) : ?>
-            <div class="accordion-group">
-                
-                <div class="accordion-heading">
-                    <a class="accordion-toggle nomValue" pk="label<?php echo $TEartefact->id ;?>" data-toggle="collapse" data-parent="#TEartefact" href="#collapse<?php echo $TEartefact->id ;?>">
-                        <?php echo $TEartefact->nom ;?>
-                    </a>
-                </div>
-                <div id="collapse<?php echo $TEartefact->id ;?>" class="accordion-body collapse">
-                    <div class="accordion-inner">
-                        <h4>Liste des champs : <span class="edit CursorPointer" data-name="nom" data-type="text" data-pk="<?php echo $TEartefact->id ;?>" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id)) ?>"><?php echo $TEartefact->nom ;?></span></h4>
-                        <dl>
-                            <dt class="muted">Titre [text]
-                            </dt>
-                            <dd></dd>
-                            <dt class="muted">Description [textarea]
-                            </dt>
-                            <dd></dd>
-                        <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
+            <a class="btn btn-primary" href="<?php echo $this->url('typeElement/add') ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefacts</a></h2>
+            <div class="accordion" id="TEartefact">
+                <?php foreach ($TEartefacts as $TEartefact) : ?>
+                <div class="accordion-group">
+
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle nomValue" pk="nom<?php echo $TEartefact->id ;?>" data-toggle="collapse" data-parent="#TEartefact" href="#collapse<?php echo $TEartefact->id ;?>">
+                            <?php echo $TEartefact->nom ;?>
+                        </a>
+                    </div>
+                    <div id="collapse<?php echo $TEartefact->id ;?>" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <h4>Liste des champs : <span class="edit CursorPointer" data-name="nom" data-type="text" data-pk="<?php echo $TEartefact->id ;?>" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id)) ?>"><?php echo $TEartefact->nom ;?></span></h4>
+                            <dl>
+                                <dt class="muted">Titre [text]
+                                </dt>
+                                <dd></dd>
+                                <dt class="muted">Description [textarea]
+                                </dt>
+                                <dd></dd>
+                                <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
                                 <dt><span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
-                                    </dt>
+                                </dt>
                                 <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
                                 
-                        <?php endforeach ;?>
+                            <?php endforeach ;?>
                         </dl>
-                        <a class="btn btn-primary" href="<?php echo $this->url('zfcuser/register') ?>"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
+                        <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
                     </div>
                 </div>
             </div>
-            <?php endforeach ;?>
-        </div>
-
+        <?php endforeach ;?>
     </div>
-    <div class="span6">
-        <h2>Medias <a class="btn btn-primary " href="<?php echo $this->url('zfcuser/register') ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
-        <div class="accordion" id="TEmedia">
-            <?php foreach ($TEmedias as $TEmedia) : ?>
-            <div class="accordion-group">
-                
-                <div class="accordion-heading">
-                    <a class="accordion-toggle nomValue" pk="label<?php echo $TEmedia->id ;?>" data-toggle="collapse" data-parent="#TEmedia" href="#collapse<?php echo $TEmedia->id ;?>">
-                        <?php echo $TEmedia->nom ;?>
-                    </a>
-                </div>
-                <div id="collapse<?php echo $TEmedia->id ;?>" class="accordion-body collapse">
-                    <div class="accordion-inner">
-                        <h4>Liste des champs : <span class="edit CursorPointer" data-name="nom" data-type="text" data-pk="<?php echo $TEmedia->id ;?>" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>"><?php echo $TEmedia->nom ;?></span></h4>
-                        <dl>
-                            <dt class="muted">Titre [text]
-                            </dt>
-                            <dd></dd>
-                            <dt class="muted">Description [textarea]
-                            </dt>
-                            <dd></dd>
+
+</div>
+<div class="span6">
+    <h2>Medias <a class="btn btn-primary " href="<?php echo $this->url('typeElement/add') ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
+    <div class="accordion" id="TEmedia">
+        <?php foreach ($TEmedias as $TEmedia) : ?>
+        <div class="accordion-group">
+
+            <div class="accordion-heading">
+                <a class="accordion-toggle nomValue" pk="nom<?php echo $TEmedia->id ;?>" data-toggle="collapse" data-parent="#TEmedia" href="#collapse<?php echo $TEmedia->id ;?>">
+                    <?php echo $TEmedia->nom ;?>
+                </a>
+            </div>
+            <div id="collapse<?php echo $TEmedia->id ;?>" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <h4>Liste des champs : <span class="edit CursorPointer" data-name="nom" data-type="text" data-pk="<?php echo $TEmedia->id ;?>" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>"><?php echo $TEmedia->nom ;?></span></h4>
+                    <dl>
+                        <dt class="muted">Titre [text]
+                        </dt>
+                        <dd></dd>
+                        <dt class="muted">Description [textarea]
+                        </dt>
+                        <dd></dd>
                         <?php foreach ($TEmedia->__get('champs') as $champ) : ?>
                         
-                            
-                                <dt><span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
-                                    </dt>
-                                <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
-                                
-                        <?php endforeach ;?>
-                        </dl>
-                        <a class="btn btn-primary" href="<?php echo $this->url("typeElement/editTypeElementAjax") ?>"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
-                    </div>
+                        <dt><span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+
+                        </dt>
+                        <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
+
+                    <?php endforeach ;?>
+                    </dl>
+                    <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
                 </div>
             </div>
-            <?php endforeach ;?>
         </div>
+        <?php endforeach ;?>
     </div>
 </div>
+</div>
+
+
+<div id="addChampModal"></div>
+
+
 
 <script type="text/javascript">
 
-    $('.edit').on('save', function(e, params) {
-        console.info($(this).attr('data-pk'));
-        $('[pk="'+$(this).attr('data-name')+$(this).attr('data-pk')+'"]').html(params.newValue);
+$('.edit').on('save', function(e, params) {
+    console.info('');
+    $('[pk="'+$(this).attr('data-name')+$(this).attr('data-pk')+'"]').html(params.newValue);
+});
+
+$('.edit').editable({
+    mode: 'inline',
+});
+
+//$('#ajChamp').modal();
+
+
+$(".ajChamp").live("click", function(e){
+ // e.preventDefault();
+    var URL = $(this).attr('data-url');
+    $.ajax({
+        url: URL,
+        type: "POST",
+        data:{ name:'ajChamp', submit:'false' }, 
+        success:function(response){
+            $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+
+    //  $(response).modal();
+            //$('#addChampModal').html(response);
+            //$('#myModal').modal('hide');
+            $('form.ajChampForm').attr('action', URL);
+    
+
+    console.info($('form.ajChampForm').attr('action')+'::'+ URL);
+        },
+        error: function(){
+            alert('Impossible d\'ajouter des champ');
+        }
+
+    
+    });
+});
+
+
+  //  $('.ajChampSubmit').submit(function(event) {
+      //  $(".ajChampSubmit").click(function(event){
+    $(".ajChampSubmit").live("click", function(e){
+        /* stop form from submitting normally */
+        
+//        event.preventDefault();
+
+
+        var $form = $('.ajChampForm');
+        console.info($form);
+        var formatVal = $form.find( 'select[name="format"]' ).val();
+        var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
+        var labelVal = $form.find( 'input[name="label"]' ).val();
+        var URL = $form.attr( 'action' );
+
+
+        $.ajax({
+            url: URL,
+            type: "POST",
+            data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
+            success:function(response){
+               // $('#ChampModal').modal('hide');
+                location.reload();
+               
+            },
+            error: function(){
+                alert('Erreur un des champ est vide non ? ');
+            }
+        });
+
+
     });
 
-    $('.edit').editable({
-            mode: 'inline',
-    });
+
 </script>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
