@@ -20,9 +20,9 @@ class TypeElementForm extends Form
 		));
 		
 		$this->add(array(
-			'name' => 'titre',
+			'name' => 'nom',
 			'attributes' => array('type' => 'text'),
-			'options' => array('label' => 'Titre du type d\'élément')
+			'options' => array('label' => 'Nom du type d\'élément')
 		));
 		
 		$this->add(array(

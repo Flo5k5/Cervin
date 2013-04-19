@@ -10,7 +10,7 @@ use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
 
 /**
-* Un type d'élément de la collection (personne, image, matériel, logiciel, ...)
+* Un type d'ï¿½lï¿½ment de la collection (personne, image, matï¿½riel, logiciel, ...)
 *
 * @ORM\Entity
 * @ORM\Table(name="typeelement")
@@ -41,7 +41,7 @@ class TypeElement implements InputFilterAwareInterface
     protected $type;
     
     /**
-     * L'ensemble des champs décrivant cet artefact
+     * L'ensemble des champs dï¿½crivant cet artefact
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element")
      **/
     protected $champs;
@@ -51,7 +51,7 @@ class TypeElement implements InputFilterAwareInterface
      **/
     public function __construct($nom, $type) {
     	if ($type != "artefact" && $type != "media") {
-    		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type différent de 'artefact' ou 'media' => INTERDIT");
+    		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type diffï¿½rent de 'artefact' ou 'media' => INTERDIT");
     	}
     	$this->nom = $nom;
     	$this->type = $type;
@@ -107,6 +107,38 @@ class TypeElement implements InputFilterAwareInterface
 
     public function getInputFilter()
     {
-
+    	if (!$this->inputFilter) {
+    		$inputFilter = new InputFilter();
+    		$factory = new InputFactory();
+    	
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'id',
+    				'required' => true,
+    				'filters' => array(array('name' => 'Int')),
+    		)));
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'nom',
+    				'required' => true,
+    				'filters' => array(
+    						array('name' => 'StripTags'),
+    						array('name' => 'StringTrim'),
+    				),
+    				'validators' => array(
+    						array(
+    								'name' => 'StringLength',
+    								'options' => array(
+    										'encoding' => 'UTF-8',
+    										'min' => 1,
+    										'max' => 200,
+    								),
+    						),
+    				),
+    		)));
+    		
+    		$this->inputFilter = $inputFilter;
+    	}
+    	
+    	return $this->inputFilter;
     }
 }
