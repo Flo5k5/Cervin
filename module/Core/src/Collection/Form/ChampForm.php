@@ -6,7 +6,7 @@ use Zend\Form\Form;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
-class TypeElementForm extends Form
+class ChampForm extends Form
 {
 	public function __construct($type_element, $name = null)
 	{
