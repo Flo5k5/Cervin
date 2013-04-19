@@ -34,8 +34,8 @@
 
                             <li class="divider-vertical"></li>
 
-                            <?php if($this->zfcUserIdentity()): ?>
-                                <?php $tmp=$this->zfcUserIdentity()->getRoles();
+                            <?php if($this->zfcUserIdentity()):
+                                $tmp=$this->zfcUserIdentity()->getRoles();
                                 $role=$tmp[0]->getRoleId();
                                 if($role == 'Collection' || $role == 'Parcours' || $role == 'Admin'): ?>
                                     <li class="dropdown">

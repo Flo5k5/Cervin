@@ -1,4 +1,11 @@
-
+<?php if($this->statut):
+	if($this->source == "email"): ?>
+		<div class="alert alert-success">L'adresse Email a été modifiée avec succès.</div>
+	<?php endif;
+	if($this->source == "password"): ?>
+		<div class="alert alert-success">Le mot de passe a été modifié avec succès.</div>
+	<?php endif; ?>
+<?php endif; ?>
 <h3>Mon compte</h3><br>
 
 	<div class="span6 well">
