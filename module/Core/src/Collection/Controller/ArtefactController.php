@@ -36,6 +36,13 @@ class ArtefactController extends AbstractActionController
 
 	public function indexAction()
     {
-		return new ViewModel();
+    	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
+		return new ViewModel(array('types' => $TEartefacts));
+    }
+
+    public function ajouterAction()
+    {
+    	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
+    	return new ViewModel(array('types' => $TEartefacts));
     }
 }

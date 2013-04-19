@@ -1,0 +1,23 @@
+<script type="text/javascript">
+	function generateForm(objet) {
+	    if (objet.value=="none")
+    	{
+    	     document.getElementById("formsample").style.display="none";
+    	}
+    	else
+    	{
+    		document.getElementById("formsample").style.display="";
+    	}
+	}
+</script>
+
+<h3>Choisissez le type de média à ajouter</h3>
+
+<select name="nom_select" onchange="generateForm(this);">
+	<option value="none">Veuillez choisir un type</option>
+	<?php foreach ($this->types as $current) : ?>
+		<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+	<?php endforeach; ?>
+</select>
+
+<p id="formsample" style="display:none;">Ici sera displayed le formulaire d'insertion</p>

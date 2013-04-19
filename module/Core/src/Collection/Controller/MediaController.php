@@ -36,6 +36,13 @@ class MediaController extends AbstractActionController
 
 	public function indexAction()
     {
-		return new ViewModel();
+    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
+		return new ViewModel(array('types' => $TEmedias));
+    }
+
+    public function ajouterAction()
+    {
+    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
+		return new ViewModel(array('types' => $TEmedias));
     }
 }

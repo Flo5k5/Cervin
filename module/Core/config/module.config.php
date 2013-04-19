@@ -87,7 +87,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    
+                    'ajouter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
@@ -102,7 +111,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    
+                    'ajouter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
