@@ -72,6 +72,11 @@ return array(
                     'action' => 'add',
                     'roles' => array('Visiteur')
                 ),
+            	array(
+            		'controller' => 'Collection',
+            		'action' => 'consulter',
+            		'roles' => array('Utilisateur')
+            	),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -96,6 +101,8 @@ return array(
                 array('route' => 'typeElement', 'roles' => array('Visiteur')),
                 array('route' => 'typeElement/add', 'roles' => array('Visiteur')),
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Visiteur')),
+            		
+				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
             ),
         ), 
     ),

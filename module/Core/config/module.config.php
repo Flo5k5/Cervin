@@ -6,10 +6,12 @@ return array(
 	'controllers' => array(
         'invokables' => array(
             'typeElement' => 'Collection\Controller\TypeElementController',
+        	'Collection' => 'Collection\Controller\CollectionController'
         ),
     ),
 	'router' => array(
         'routes' => array(
+        		
             'typeElement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -47,8 +49,34 @@ return array(
                     ),
                 ),
             ),
+        		
+        	'collection' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+        		'options' => array(
+        			'route' => '/collection',
+        			'defaults' => array(
+        				'controller' => 'Collection',
+        				'action'     => 'index',
+        			),
+        		),
+        		'may_terminate' => true,
+        		'child_routes' => array(
+        			'consulter' => array(
+        				'type' => 'Zend\Mvc\Router\Http\Literal',
+        				'options' => array(
+        					'route' => '/consulter',
+        					'defaults' => array(
+        						'controller' => 'Collection',
+        						'action'     => 'consulter',
+        					),
+        				),
+        			),
+        		),
+        	),
+        		
         ),
     ),
+		
     'view_manager' => array(
 	    'template_path_stack' => array(
 	        'Collection' => __DIR__ . '/../view',
