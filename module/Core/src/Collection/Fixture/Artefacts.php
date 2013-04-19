@@ -19,7 +19,7 @@ class Artefacts implements FixtureInterface
 		$type_artefact_materiel = new Collection\Entity\TypeElement('Matériel', 'artefact');
 		
 		$champ_fabriquant = new Collection\Entity\Champ('Fabriquant', $type_artefact_materiel, 'texte');
-		$champ_fabriquant->__set('description', 'La société qui fabrique ce mat�riel');
+		$champ_fabriquant->__set('description', 'La société qui fabrique ce matériel');
 		
 		$champ_debut = new Collection\Entity\Champ('Début de période', $type_artefact_materiel, 'date');
 		$champ_debut->__set('description', 'Date du début de la période standard d\'utilisation du matériel');
@@ -139,7 +139,7 @@ class Artefacts implements FixtureInterface
 		$type_artefact_projet = new Collection\Entity\TypeElement('Projet','artefact');
 		
 		$champ_acteurs = new Collection\Entity\Champ('Acteurs', $type_artefact_projet, 'texte');
-		$champ_acteurs->__set('description', 'Les acteurs du projet, personnes ou entit�s');
+		$champ_acteurs->__set('description', 'Les acteurs du projet, personnes ou entités');
 		
 		$champ_debut = new Collection\Entity\Champ('Début', $type_artefact_projet, 'date');
 		$champ_debut->__set('description', 'La date de début du projet');
