@@ -6,7 +6,7 @@ $form->setAttribute('action', $this->url('zfcuser/login'));
 $form->setAttribute('method', 'post');
 $form->get('identity')->setAttributes(array('placeholder'=>'Login','style'=>'margin-bottom: 15px;'));
 $form->get('credential')->setAttributes(array('placeholder'=>'Mot de passe','style'=>'margin-bottom: 10px;'));
-$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-success btn-block');
+$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary btn-block');
 
 ?>
 
@@ -26,7 +26,7 @@ $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-success
 
         <?php echo $this->formButton($form->get('submit')) ?>
 <br>
-Pas encore de compte ? <a class="btn btn-success btn-block" href="<?php echo $this->url('zfcuser/register') ?>">S'enregistrer !</a>
+Pas encore de compte ? <a class="btn btn-primary btn-block" href="<?php echo $this->url('zfcuser/register') ?>">S'enregistrer !</a>
 
 <?php echo $this->form()->closeTag() ?>
 

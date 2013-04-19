@@ -6,7 +6,15 @@
 		<div class="alert alert-success">Le mot de passe a été modifié avec succès.</div>
 	<?php endif; ?>
 <?php endif; ?>
-<h3>Mon compte</h3><br>
+<?php
+
+$title = 'Mon compte';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
 
 	<div class="span6 well">
 		<h4>Profil</h4>
@@ -18,9 +26,9 @@
 		    </div>
 		    <div class="span3">
 		    	<p><strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)</p>
-				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> Changer mon mail </a>
+				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mail </a>
 				
-				<a href="<?php echo $this->url('zfcuser/changepassword'); ?>" role="button" class="btn btn-primary btn-block"> Changer mon mot de passe </a>
+				<a href="<?php echo $this->url('zfcuser/changepassword'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mot de passe </a>
 		    </div>
 	    </div>
 	    <hr>
@@ -36,7 +44,7 @@
 		    <div class="span3">
 		    	<?php if($role != 'Admin'){ ?>
 					<div class="btn-group">
-						<button class="btn btn-primary">Demander plus de droits</button>
+						<button class="btn btn-primary"><i class="icon-plus"></i>  Demander plus de droits</button>
 						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>

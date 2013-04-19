@@ -103,7 +103,7 @@ class Medias implements FixtureInterface
 		/*
 		 * M�dia : Modele 3D
 		*/
-		$type_media_modele3d = new Collection\Entity\TypeElement('Mod�le 3D', 'media');
+		$type_media_modele3d = new Collection\Entity\TypeElement('Modèle 3D', 'media');
 		
 		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_modele3d, 'fichier');
 		$champ_fichier->__set('description', 'Le fichier contenant le modèle 3D');
