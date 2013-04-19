@@ -10,7 +10,7 @@ use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
 
 /**
-* Un champ d'un type d'élément
+* Un champ d'un type d'ï¿½lï¿½ment
 *
 * @ORM\Entity
 * @ORM\Table(name="champ")
@@ -48,13 +48,13 @@ class Champ implements InputFilterAwareInterface
     protected $format;
     
     /**
-     * Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)
+     * Un champ a plusieurs valeurs (une pour chaque instance d'ï¿½lï¿½ment qu'il dï¿½crit)
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ")
      **/
     protected $datas;
     
     /**
-     * Le type d'élément que décrit ce champ
+     * Le type d'ï¿½lï¿½ment que dï¿½crit ce champ
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
@@ -62,7 +62,7 @@ class Champ implements InputFilterAwareInterface
     /**
      * Constructeur
      **/
-    public function __construct($label, $type_element, $format) {
+    public function __construct($label = '', $type_element = null, $format = 'texte') {
     	$this->label = $label;
     	$this->type_element = $type_element;
     	if ($format != "texte" 
@@ -124,6 +124,54 @@ class Champ implements InputFilterAwareInterface
 
     public function getInputFilter()
     {
-
+    	if (!$this->inputFilter) {
+    		$inputFilter = new InputFilter();
+    		$factory = new InputFactory();
+    		
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'id',
+    				'required' => true,
+    				'filters' => array(array('name' => 'Int')),
+    		)));
+    	
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'label',
+    			'required' => true,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    			'validators' => array(
+    				array(
+    					'name' => 'StringLength',
+    					'options' => array(
+    						'encoding' => 'UTF-8',
+    						'min' => 1,
+    						'max' => 200,
+    					),
+    				),
+    			),
+    		)));
+    	
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'description',
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    			'validators' => array(
+    				array(
+    					'name' => 'StringLength',
+    					'options' => array(
+    						'encoding' => 'UTF-8'
+    					),
+    				),
+    			),
+    		)));
+    	
+    		$this->inputFilter = $inputFilter;
+    	}
+    		
+    	return $this->inputFilter;
     }
 }
