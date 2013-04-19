@@ -114,7 +114,9 @@ class Champ implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-
+    	$this->label = $data['label'];
+    	$this->description = $data['description'];
+    	$this->format = $data['format'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

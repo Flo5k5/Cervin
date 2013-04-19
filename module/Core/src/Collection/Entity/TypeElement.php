@@ -97,7 +97,7 @@ class TypeElement implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-
+    	$this->nom = $data['nom'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -112,28 +112,28 @@ class TypeElement implements InputFilterAwareInterface
     		$factory = new InputFactory();
     	
     		$inputFilter->add($factory->createInput(array(
-    				'name' => 'id',
-    				'required' => true,
-    				'filters' => array(array('name' => 'Int')),
+    			'name' => 'id',
+    			'required' => true,
+    			'filters' => array(array('name' => 'Int')),
     		)));
     		 
     		$inputFilter->add($factory->createInput(array(
-    				'name' => 'nom',
-    				'required' => true,
-    				'filters' => array(
-    						array('name' => 'StripTags'),
-    						array('name' => 'StringTrim'),
+    			'name' => 'nom',
+    			'required' => true,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    			'validators' => array(
+    				array(
+    					'name' => 'StringLength',
+    					'options' => array(
+    						'encoding' => 'UTF-8',
+    						'min' => 1,
+    						'max' => 200,
+    					),
     				),
-    				'validators' => array(
-    						array(
-    								'name' => 'StringLength',
-    								'options' => array(
-    										'encoding' => 'UTF-8',
-    										'min' => 1,
-    										'max' => 200,
-    								),
-    						),
-    				),
+    			),
     		)));
     		
     		$this->inputFilter = $inputFilter;
