@@ -65,16 +65,18 @@
 
                         <ul class="nav pull-right">
                         
-                        	<?php if($role == 'Admin'): ?>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>   Administration<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
-                                            <li><a href="<?php echo $this->url('typeElement'); ?>">Gestion des types d'elements</a></li>
-                                        </ul>
-                                    </li>
+                        	<?php 
+                                if($this->zfcUserIdentity()):
+                                    if($role == 'Admin'): ?>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>   Administration<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
+                                                <li><a href="<?php echo $this->url('typeElement'); ?>">Gestion des types d'elements</a></li>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                        
                             <?php if(!$this->zfcUserIdentity()): ?>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
@@ -85,7 +87,7 @@
                             <?php else: ?>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="icon-user"></i>  <?php echo $this->zfcUserIdentity()->getDisplayName(); ?> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">  
+                                    <ul class="dropdown-menu">
                                         <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
                                         <li><a href="/user/logout"><i class="icon-off"></i> Déconnexion</a></li>
                                     </ul>
