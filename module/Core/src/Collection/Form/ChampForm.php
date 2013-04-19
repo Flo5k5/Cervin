@@ -8,7 +8,7 @@ use Collection\Entity\TypeElement;
 
 class ChampForm extends Form
 {
-	public function __construct($type_element, $name = null)
+	public function __construct($name = null)
 	{
 		if (!$type_element instanceof TypeElement) {
 			throw new InvalidArgumentException('Construction d\'un formulaire TypeElementForm avec un param�tre qui n\'est pas de type TypeElement');
