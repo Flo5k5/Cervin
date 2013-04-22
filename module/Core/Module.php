@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+use Collection\View\Helper\formatForm;
+
 class Module
 {
     public function getConfig()
@@ -19,4 +21,16 @@ class Module
             ),
         );
     }
+
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'formatForm' => function ($form) {
+                    return new formatForm($form);
+                },
+            ),
+        );
+    }
+
 }

@@ -273,5 +273,63 @@ class Artefacts implements FixtureInterface
 		
 		$manager->flush();
 		
+		/*
+		 * Un logiciel
+		*/
+		$logiciel = new Collection\Entity\Artefact('MicrosoftOffice 2007', $type_artefact_logiciel);
+		$logiciel->__set('description', 'Microsoft Office est une suite bureautique de la société Microsoft fonctionnant avec les plates-formes Windows et Macintosh.');
+		$manager->persist($logiciel);
+		
+		$champ_editeur = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Editeur', 'type_element'=>$type_artefact_logiciel));
+		if ($champ_editeur == null) {
+			throw new Exception('Champ "editeur" de l\'artefact logiciel non trouvé');
+		}
+		$data_editeur = new Collection\Entity\Data($logiciel, $champ_editeur);
+		$data_editeur->__set('texte', 'Microsoft');
+		$manager->persist($data_editeur);
+		
+		$champ_auteurs = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Auteur(s)', 'type_element'=>$type_artefact_logiciel));
+		if ($champ_auteurs == null) {
+			throw new Exception('Champ "auteurs" de l\'artefact personne non trouvé');
+		}
+		$data_autreurs = new Collection\Entity\Data($logiciel, $champ_auteurs);
+		$data_autreurs->__set('texte', 'Inconnus');
+		$manager->persist($data_autreurs);
+		
+		$champ_langage = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Langages de programmation', 'type_element'=>$type_artefact_logiciel));
+		if ($champ_langage == null) {
+			throw new Exception('Champ "Langage de programmation" de l\'artefact logiciel non trouvé');
+		}
+		$data_langage = new Collection\Entity\Data($logiciel, $champ_langage);
+		$data_langage->__set('texte', 'Inconnu');
+		$manager->persist($data_langage);
+		
+		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_logiciel));
+		if ($champ_debut == null) {
+			throw new Exception('Champ "début" de l\'artefact logiciel non trouvé');
+		}
+		$data_debut = new Collection\Entity\Data($logiciel, $champ_debut);
+		$data_debut->__set('date', new DateTime('2007-01-01'));
+		$manager->persist($data_debut);
+		
+		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_logiciel));
+		if ($champ_fin == null) {
+			throw new Exception('Champ "fin" de l\'artefact logiciel non trouvé');
+		}
+		$data_fin = new Collection\Entity\Data($logiciel, $champ_fin);
+		$data_fin->__set('date', new DateTime('2007-01-01'));
+		$manager->persist($data_fin);
+		
+		$manager->flush();
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'A inventé');
+		$manager->persist($semantique);
+		$manager->flush();
+		
+		$relation = new Collection\Entity\RelationArtefact();
+		
 	}
 }

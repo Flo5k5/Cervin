@@ -46,7 +46,7 @@ class ElementsTest extends Doctrine
 	}
 	
 	private function constructeurChamp($format) {
-		$type_element = new Entity\TypeElement('Exemple de type d\'élément', 'artefact');
+		$type_element = new Entity\TypeElement('Exemple de type d\'element', 'artefact');
 		$champ_artefact = new Entity\Champ('Exemple de label', $type_element, $format);
 		$this->assertEquals($champ_artefact->__get('label'), 'Exemple de label');
 		$this->assertEquals($champ_artefact->__get('type_element'), $type_element);
@@ -89,7 +89,7 @@ class ElementsTest extends Doctrine
 	}
 	
 	private function constructeurArtefact($type) {
-		$type_element = new Entity\TypeElement('Exemple de type d\'élément', $type);
+		$type_element = new Entity\TypeElement('Exemple de type d\'element', $type);
 		$artefact = new Entity\Artefact('Exemple d\'artefact', $type_element);
 		$this->assertEquals($artefact->__get('titre'), 'Exemple d\'artefact');
 		$this->assertEquals($artefact->__get('type_element'), $type_element);
@@ -133,10 +133,10 @@ class ElementsTest extends Doctrine
 		$this->constructeurArtefact('artefact');
 	}
 	
-private function constructeurMedia($type) {
-		$type_element = new Entity\TypeElement('Exemple de type d\'élément', $type);
-		$media = new Entity\Media('Exemple de média', $type_element);
-		$this->assertEquals($media->__get('titre'), 'Exemple de média');
+	private function constructeurMedia($type) {
+		$type_element = new Entity\TypeElement('Exemple de type d\'element', $type);
+		$media = new Entity\Media('Exemple de mÃ©dia', $type_element);
+		$this->assertEquals($media->__get('titre'), 'Exemple de mÃ©dia');
 		$this->assertEquals($media->__get('type_element'), $type_element);
 		$this->assertNull($media->__get('datas'));
 		
@@ -144,7 +144,7 @@ private function constructeurMedia($type) {
 		$this->em->persist($media);
 		$this->em->flush();
 		$bdd_type_element = $this->em->getRepository('Collection\Entity\TypeElement')->findOneBy(array('nom'=>'Exemple de type d\'element', 'type'=>$type));
-		$bdd_media = $this->em->getRepository('Collection\Entity\Media')->findOneBy(array('titre'=>'Exemple de média', 'type_element'=>$bdd_type_element));
+		$bdd_media = $this->em->getRepository('Collection\Entity\Media')->findOneBy(array('titre'=>'Exemple de mÃ©dia', 'type_element'=>$bdd_type_element));
 		$this->assertNotNull($bdd_media);
 		$this->assertNotNull($bdd_type_element);
 		$this->em->remove($bdd_media);

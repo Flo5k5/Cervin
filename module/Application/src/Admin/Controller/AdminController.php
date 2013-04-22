@@ -85,10 +85,10 @@ class AdminController extends AbstractActionController
             }
             
                 $aaData[] = array(
-                    '<a href="#" id="username" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'</a>',
-                    '<a href="#" id="displayName" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</a>',
-                    '<a href="#" id="email" class="text" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</a>',
-                    '<a href="#" id="role" class="status" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$roleId.'">'.$role.'</a>',
+                    '<span id="username" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'</span>',
+                    '<span id="displayName" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</span>',
+                    '<span id="email" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</span>',
+                    '<span id="role" class="status CursorPointer" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$roleId.'">'.$role.'</span>',
                     '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>'
                     ,
                 );
