@@ -50,11 +50,12 @@ class ArtefactController extends AbstractActionController
 
     public function getFormAjaxAction()
     {
+    	$form = new ChampTypeElementForm($type);
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $type = $this->params()->fromPost('type');
         	
-        	return $this->getResponse()->setContent(Json::encode(array('success' => true, 'type' => $type/*, 'form' => new ChampTypeElementForm($type)*/)));
+        	return $this->getResponse()->setContent(Json::encode(array('success' => true, 'type' => $type)));
         } else {
             return $this->redirect()->toRoute('artefact/ajouter');
         }

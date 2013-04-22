@@ -18,7 +18,7 @@
             $('#containsform').html(' ');
         }
         else{
-            $('#containsform').html('form');
+            //$('#containsform').html('form');
             var requete = $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -29,10 +29,11 @@
 
             })
             .done(function(resp) {
-                alert('success ' + resp.type);
+            	//$('#containsform').html(<?php echo $this->form; ?>);
+                $('#containsform').html('success type : ' + resp.type);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-                alert('fail ');
+            	$('#containsform').html(textStatus + " : " + errorThrown);
             });
         }
     });
