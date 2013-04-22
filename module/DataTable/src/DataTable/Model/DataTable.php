@@ -2,6 +2,7 @@
 namespace DataTable\Model;
 
 use DataTable\Model\ModelAbstract;
+use Doctrine\ORM\EntityManager;
 
 /**
  * DataTable
@@ -15,6 +16,7 @@ abstract class DataTable extends ModelAbstract
 {
     /**
      * Entity
+     * @var Doctrine\ORM\EntityManager
      */
     protected $entityManager;
     
@@ -209,17 +211,43 @@ abstract class DataTable extends ModelAbstract
     
     ////////////////////////////////////////////////////////////////////////////
 
-    public function getPaginator()
+    public function getPaginator($conditions = null)
     {
         if (! $this->paginator) {
             $entityManager = $this->getEntityManager();
             
             $alias = 'entity';
+            $alias_type = 't';
+			
+            $query = $entityManager->createQueryBuilder($alias);
+            
+            if(isset($conditions)){
+            	$andX = $query->expr()->andX();
+            	
+            	foreach ($conditions as $key => $value) {  		
+            		if($key != 'type'){
+            			$key = $alias.'.'.$key;
+            		} else {
+            			$key = $alias_type.'.'.$key;
+            		}
 
-            $query = $entityManager->createQueryBuilder($alias)
-               ->setFirstResult($this->getPage())
-               ->setMaxResults($this->getDisplayLength())
-               ->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
+            		if($key !=  $alias.'.titre'){
+            			$andX->add($query->expr()->eq( $key,  $query->expr()->literal($value) ));	
+            		} else {
+            			$andX->add($query->expr()->like( $key,  $query->expr()->literal($value) ));
+            		}
+            	}
+
+            	$query
+            	->leftJoin($alias.'.type_element', $alias_type)
+            	->addSelect($alias_type)
+            	->add('where', $andX);
+            }
+            
+            $query
+            ->setFirstResult($this->getPage())
+            ->setMaxResults($this->getDisplayLength())
+            ->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
 
             if ($this->getSSearch() != null) {               
                 $sSearch = strtoupper($this->getSSearch());
