@@ -138,7 +138,6 @@ class TypeElementController extends AbstractActionController
             $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
             if (!empty($idChamp)) {
 
-
             	try {
                 $Champ = $this->getEntityManager()->find('Collection\Entity\Champ', $idChamp);
 	            }

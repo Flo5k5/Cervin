@@ -1,24 +1,46 @@
-<h3>Choisissez le type d'artefact à ajouter</h3>
+<?php
 
-<select name="type" class="target">
-	<option value="none">Veuillez choisir un type</option>
-	<?php foreach ($this->types as $current) : ?>
-		<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
-	<?php endforeach; ?>
-</select>
+$title = 'Création d\'un artefact';
+$this->headTitle($title);
+?>
 
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="inputEmail">Type d'artefact</label>
+	    <div class="controls">
+			<select name="type" class="target">
+				<option value="none">Veuillez choisir un type</option>
+				<?php foreach ($this->types as $current) : ?>
+					<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+				<?php endforeach; ?>
+			</select>
+	    </div> 
+	</div>
+</form>
 
 <div id="containsform"></div>
-
 
 <script type="text/javascript">
     var select=$(".target");
     select.change(function() {
-        if($("select option:selected").val()=='none'){
-            $('#containsform').html(' ');
-        }
-        else{
-            $('#containsform').html('form');
+        if($("select option:selected").val()=='none') {
+            $('#containsform').html('');
+        } else {
+        	$.ajax({
+        		type: "POST",
+        		url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
+        		data: { type: $("select option:selected").val() }
+        	})
+            .done(function(resp) {
+            	$("#containsform").html(resp);
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+            	alert('fail '+textStatus+' '+errorThrown);
+            });
         }
     });
 </script>

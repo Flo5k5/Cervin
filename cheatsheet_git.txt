@@ -48,6 +48,7 @@ git push origin master
 //Add repo after init
 //git remote add origin git://10.223.150.217:443/cervin.git
 git remote add origin http://cervin@10.223.150.217:443/cervin.git
+git remote add github https://github.com/Flo5k5/Cervin.git
 //git remote add origin http://10.68.150.47/cervin.git
 git push origin master
 

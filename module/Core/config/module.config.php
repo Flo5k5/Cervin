@@ -76,6 +76,16 @@ return array(
         					),
         				),
         			),
+        				'test' => array(
+        						'type' => 'Zend\Mvc\Router\Http\Literal',
+        						'options' => array(
+        								'route' => '/test',
+        								'defaults' => array(
+        										'controller' => 'Collection',
+        										'action'     => 'test',
+        								),
+        						),
+        				),
         		),
         	),
     		
@@ -97,6 +107,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Artefact',
                                 'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                    'getFormAjax' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/getFormAjax',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'getFormAjax',
                             ),
                         ),
                     ),
