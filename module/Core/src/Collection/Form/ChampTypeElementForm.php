@@ -17,48 +17,49 @@ class ChampTypeElementForm extends Form
 		$this->setAttribute('method', 'post');
 
 		$this->add(array(
-				'name' => 'id',
-				'attributes' => array(
-						'type'  => 'hidden'
-				),
+			'name' => 'id',
+			'type' => 'Zend\Form\Element\Hidden',
+			'attributes' => array(
+				'type'  => 'hidden',
+			),
 		));
 		
-		foreach ($type_element->__get('champs') as $champ) {
-			
-			switch ($champ->__get('format')) {
+		foreach ($type_element->champs as $champ) {
+			echo $champ->label;
+			switch ($champ->format) {
 				case 'texte':
 					$this->add(array(
-						'name' => $champ->__get('label'),
+						'name' => $champ->label,
 						'attributes' => array('type'  => 'text'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'date':
 					$this->add(array(
-						'name' => $champ->__get('label'),
+						'name' => $champ->label,
 						'attributes' => array('type'  => 'date'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'nombre':
 					$this->add(array(
-						'name' => $champ->__get('label'),
+						'name' => $champ->label,
 						'attributes' => array('type'  => 'number'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'fichier':
 					$this->add(array(
-						'name' => $champ->__get('label'),
+						'name' => $champ->label,
 						'attributes' => array('type'  => 'file'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'url':
 					$this->add(array(
-						'name' => $champ->__get('label'),
+						'name' => $champ->label,
 						'attributes' => array('type'  => 'url'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label),
 					));
 			} // end switch
 			
@@ -70,7 +71,7 @@ class ChampTypeElementForm extends Form
 				'attributes' => array(
 					'type'  => 'submit',
 					'value' => 'Go',
-					'id' => 'submitbutton'
+					'id' => 'submitbutton',
 				),
 		));
 		

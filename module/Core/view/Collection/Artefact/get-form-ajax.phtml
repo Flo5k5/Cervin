@@ -1,6 +1,3 @@
-BLABLA
-<?php echo $this->type; ?>
-
 <?php 
 $form->prepare();
 $form->setAttribute('action', $this->url('artefact'));
@@ -11,7 +8,7 @@ echo $this->form()->openTag($form);
 foreach ($form as $element):
  	if (!$element instanceof Zend\Form\Element\Button): ?>
         <div class="control-group">
-        <?php echo $this->formLabel($element); ?>
+        <?php echo $this->formLabel($element, 'rien'); ?>
     <?php endif ?>
         
     <?php if ($element instanceof Zend\Form\Element\Button): ?>
@@ -20,10 +17,11 @@ foreach ($form as $element):
 
     <?php else: ?>
         <div class="controls"><?php echo $this->formInput($element) ?></div>
-    <?php endif ?>
+    <?php endif;
+     ?>
         
     </div>
 <?php endforeach;
 
 echo $this->form()->closeTag();
- ?>
+?>
