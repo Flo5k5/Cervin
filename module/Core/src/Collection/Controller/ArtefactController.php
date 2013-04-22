@@ -8,6 +8,7 @@ namespace Collection\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Collection\Form\ChampTypeElementForm;
+use Zend\Json\Json;
 
 class ArtefactController extends AbstractActionController
 {
@@ -45,5 +46,17 @@ class ArtefactController extends AbstractActionController
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
     	return new ViewModel(array('types' => $TEartefacts));
+    }
+
+    public function getFormAjaxAction()
+    {
+    	if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+            $type = $this->params()->fromPost('type');
+        	
+        	return $this->getResponse()->setContent(Json::encode(array('success' => true, 'type' => $type/*, 'form' => new ChampTypeElementForm($type)*/)));
+        } else {
+            return $this->redirect()->toRoute('artefact/ajouter');
+        }
     }
 }

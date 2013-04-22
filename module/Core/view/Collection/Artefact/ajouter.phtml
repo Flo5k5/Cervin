@@ -19,6 +19,21 @@
         }
         else{
             $('#containsform').html('form');
+            var requete = $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
+                async: false,
+    
+                data: { type: $("select option:selected").val() }
+
+            })
+            .done(function(resp) {
+                alert('success ' + resp.type);
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+                alert('fail ');
+            });
         }
     });
 </script>
