@@ -21,16 +21,4 @@ class Module
             ),
         );
     }
-
-    public function getViewHelperConfig()
-    {
-        return array(
-            'factories' => array(
-                'formatForm' => function ($form) {
-                    return new formatForm($form);
-                },
-            ),
-        );
-    }
-
 }
