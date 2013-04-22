@@ -11,7 +11,7 @@ class ChampForm extends Form
 	public function __construct($name = null)
 	{
 		
-		parent::__construct('typeelement');
+		parent::__construct('champ');
 		$this->setAttribute('method', 'post');
 
 		$this->add(array(
@@ -26,13 +26,13 @@ class ChampForm extends Form
 		));
 		
 		$this->add(array(
-				'name' => 'description',
-				'attributes' => array('type'  => 'textarea'),
-				'options' => array('label' => 'Description')
+			'name' => 'description',
+			'attributes' => array('type'  => 'textarea'),
+			'options' => array('label' => 'Description')
 		));
 		
 		$this->add(array(
-            'type' => 'select',
+           	'type' => 'select',
             'name' => 'format',
             'options' => array(
                 'label' => 'Format',
@@ -49,7 +49,7 @@ class ChampForm extends Form
                 'value' => 'text' //set selected to 'text'
             )
         ));
-			
+		
 		$this->add(array(
 				'name' => 'submit',
 				'attributes' => array(

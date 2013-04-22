@@ -27,16 +27,16 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 
     public function setUp()
     {
-        /*$this->setApplicationConfig(
+        $this->setApplicationConfig(
             include __DIR__ .'/../../../../../../config/application.config.php'
-        );*/
+        );
 		
     	/*$di = new Di();
     	$di->instanceManager()->addTypePreference('Zend\ServiceManager\ServiceLocatorInterface', 'Zend\ServiceManager\ServiceManager');
     	$di->instanceManager()->addTypePreference('Zend\EventManager\EventManagerInterface', 'Zend\EventManager\EventManager');
     	$di->instanceManager()->addTypePreference('Zend\EventManager\SharedEventManagerInterface', 'Zend\EventManager\SharedEventManager');
     	$di->instanceManager()->addTypePreference('Zend\EventManager\SharedListenerAggregateInterface', 'Zend\EventManager\SharedListenerAggregate');
-    	*/
+    	
         $this->setBootstrap(__DIR__ . '/../../../../../../tests/bootstrap.php');
         
         $application = require $this->bootstrap;
@@ -79,7 +79,7 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
         -> will($this->returnValue($ZfcUserMock));
         
         $this -> controller->getPluginManager()
-        ->setService('zfcUserAuthentication', $authMock);
+        ->setService('zfcUserAuthentication', $authMock);*/
 
         parent::setUp();
     }
@@ -95,6 +95,7 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
  		$this->assertMatchedRouteName('zfcuser/login');
 		//$this->assertResponseStatusCode(200);
 		$this->assertRedirectTo('/');
+		//$this->assertTrue(Zend_Auth::getInstance()->hasIdentity());
 		
 		//$this->dispatch('/user/login');
 		//$this->assertNotXpathQueryContentContains('/html/body/div[2]/div/form/fieldset/ul/li', 'Authentication failed. Please try again.');
@@ -110,11 +111,11 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 		$this->assertMatchedRouteName('editusers');*/
 	}
 	
-	public function testZfcUserIdentity(){
+	/*public function testZfcUserIdentity(){
 
 		
 		$this->assertTrue($this->zfcUserAuthentication()->hasIdentity());
-	}
+	}*/
 	
 	protected function setBootstrap($bootstrap)
 	{

@@ -26,18 +26,21 @@
 		<?php echo $this->formLabel($form->get('label')) ?>
 		<div class="controls">
 		<?php echo $this->formInput($form->get('label')) ?>
+		<?php echo $this->formElementErrors($form->get('label')) ?>
 		</div>
 	</div>
 	<div class="control-group">
 		<?php echo $this->formLabel($form->get('format')) ?>
 		<div class="controls">
 		<?php echo $this->formSelect($form->get('format')) ?>
+		<?php echo $this->formElementErrors($form->get('format')) ?>
 		</div>
 	</div>
 	<div class="control-group">
 		<?php echo $this->formLabel($form->get('description')) ?>
 		<div class="controls">
 		<?php echo $this->formTextarea($form->get('description')) ?>
+		<?php echo $this->formElementErrors($form->get('description')) ?>
 		</div>
 	</div>
 	  <div class="modal-footer">

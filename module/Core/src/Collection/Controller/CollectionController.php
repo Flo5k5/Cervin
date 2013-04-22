@@ -56,8 +56,10 @@ class CollectionController extends AbstractActionController
     		$dataTable->setEntityManager($entityManager);
     
     		$dataTable->setConfiguration(array(
-    				'titre',
-    				'description'
+    			'titre',
+	            'description',
+    			'type',
+    			'artefact_media'
     		));
     
     		$aaData = array();
@@ -65,7 +67,9 @@ class CollectionController extends AbstractActionController
     		foreach ($dataTable->getPaginator() as $element) {
     			$aaData[] = array(
     					$element->titre,
-    					$element->description
+    					$element->description,
+    					$element->type_element->nom,
+    					$element->type_element->type
     			);
     		}
     		$dataTable->setAaData($aaData);

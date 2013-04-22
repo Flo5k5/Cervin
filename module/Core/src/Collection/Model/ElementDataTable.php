@@ -9,7 +9,6 @@ class ElementDataTable extends DataTable
 	{
 	    if (! $this->getConfiguration()) {
 	        $configuration = array(
-	            'id',
 	            'titre',
 	            'description'
 	        );
@@ -19,9 +18,8 @@ class ElementDataTable extends DataTable
 		    $aaData = array();
 		    foreach ($this->getPaginator() as $element) {
 			    $data = array(
-				    $element->id,
                     $element->titre,
-                    $element->description
+                    $element->description,
 			    );
 			    $aaData[] = $data;
 		    }

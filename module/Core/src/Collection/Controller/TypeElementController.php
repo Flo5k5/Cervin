@@ -67,8 +67,11 @@ class TypeElementController extends AbstractActionController
 
     public function addAction()
     {
-    	
-		return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+    	$mediaArtefacts =  $this->params()->fromRoute('media-artefacts');
+
+        $form = new ChampForm();
+
+		return $viewModel = new ViewModel(array('form'=>$form));;
     }
 
     public function editTypeElementAjaxAction()
@@ -129,51 +132,40 @@ class TypeElementController extends AbstractActionController
                     break;
             	case 'ajChamp':
 
-
-/*$form = new AlbumForm();
-        $form->get('submit')->setValue('Add');
-
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $album = new Album();
-            $form->setInputFilter($album->getInputFilter());
-            $form->setData($request->getPost());
-
-            if ($form->isValid()) {
-                //$album->exchangeArray($form->getData());
-                //$this->getAlbumTable()->saveAlbum($album);
-                $album->populate($form->getData()); 
-                $this->getEntityManager()->persist($album);
-                $this->getEntityManager()->flush();
-
-                // Redirect to list of albums
-                return $this->redirect()->toRoute('album');
-            }
-        }
-        return array('form' => $form);*/
-       // var_dump($postData);
                     $form = new ChampForm();
                     if ($postData['submit'] != 'false')
                     {
                         $request = $this->getRequest();
-                        //var_dump($request);
-                        $champ = new Champ($postData['label'],$TypeElement,$postData['format']);
-                        $champ->description = $postData['description'];
-                      //  $form->setInputFilter($champ->getInputFilter());
-                       // $form->setData($request->getPost());
-                      //  if ($form->isValid()) {
-                         //   $champ->populate($form->getData()); 
+                        $champ = new Champ();
+                        $form->setInputFilter($champ->getInputFilter());
+                        $form->setData($request->getPost());
+                        if ($form->isValid()) {
+                            
+                            $champ->label = $request->getPost('label');
+                            $champ->format = $request->getPost('format');
+                            $champ->description = $request->getPost('description');
+                            $champ->type_element = $TypeElement;
+
                             $this->getEntityManager()->persist($champ);
                             $this->getEntityManager()->flush();
-                       // }
+                            
+                            return $this->getResponse()->setContent(Json::encode(true));
+                        }
+                        else
+                        {
+
+                            $viewModel = new ViewModel(array('form' => $form));
+                            $viewModel->setTerminal(true);
+                            return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+                            
+                            
+                        }
                     }
 
 
                     $viewModel = new ViewModel(array('form' => $form));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
-                    
-                   // return $this->getResponse()->setContent(Json::encode(false))->setStatusCode(300);;
 
                     break;
                 default:

@@ -19,11 +19,13 @@ $this->headTitle($title);
                         <tr>
                             <th>Titre</th>
                             <th>Description</th>
+                            <th>Type</th>
+                            <th>A/M</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="5">En cours de téléchargement</td>
+                            <td colspan="3">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -44,7 +46,8 @@ $this->headTitle($title);
 		{
 			"fnDrawCallback": function () {
 				
-			}
+			},
+           	"aoColumns": [null, null, null, null]
 		}
 	);
 </script>

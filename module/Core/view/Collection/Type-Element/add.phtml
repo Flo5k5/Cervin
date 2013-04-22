@@ -1,1 +1,131 @@
-y
+<?php
+$title = 'Créer un nouveau type d\'éléments';
+$this->headTitle($title);
+?>
+
+<?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
+<div class="row">
+
+
+<?php
+
+	$form = $this->form;
+	 $form->setAttribute('action', $this->url('album', array('action' => 'add')));
+	// $form->setAttribute('method', 'post');
+
+	//$form->setAttribute('class','form-horizontal');
+	$form->get('label')->setAttributes(array('placeholder'=>'Label','class'=>'span12'));
+	$form->get('description')->setAttributes(array('placeholder'=>'Description','class'=>'span12'));
+	$form->get('format');
+	$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
+
+	$form->prepare();
+
+	echo $this->form()->openTag($form);
+	echo $this->formHidden($form->get('id')); ?>
+
+
+
+</div>
+
+
+
+<div class="row">
+<div class="span4"><?php echo $this->formLabel($form->get('label')) ?></div>
+<div class="span3"><?php echo $this->formLabel($form->get('format')) ?></div>
+<div class="span4"><?php echo $this->formLabel($form->get('description')) ?></div>
+<div class="span1"></div>
+</div>
+
+<div class="row-fluid" id="champ1">
+<div class="span4"><?php echo $this->formInput($form->get('label')) ?></div>
+<div class="span3"><?php echo $this->formSelect($form->get('format')) ?></div>
+<div class="span4"><?php echo $this->formTextarea($form->get('description')) ?></div>
+<div class="span1"id="remove"></div>
+</div>
+<div class="row">
+	<div class="span1 offset11">
+		<button id="b1" onClick="addFormField()" class="btn btn-info" type="button">+</button>
+	</div>
+</div>
+<input name="nbChamp" type="hidden" value="1">
+	<?php echo $this->formSubmit($form->get('submit')); ?>
+
+	<?php echo $this->form()->closeTag();?>
+
+
+
+<script type="text/javascript">
+var next = 1;
+function addFormField(){
+	next2 = next + 1;
+	var clone = $('#champ1').clone(true).attr('id', 'champ'+next2);
+	clone.insertAfter($('#champ'+next));
+	next = next + 1;
+	clone.find('input[name="label"]').attr('name', 'label_'+next).attr('placeholder', 'Label_'+next);
+	clone.find('select[name="format"]').attr('name', 'format_'+next);
+	clone.find('textarea[name="description"]').attr('name', 'description_'+next);
+	clone.find('#remove').append('<button id="b1" onClick="removeFormField('+next+')" class="btn btn-info" type="button">-</button>');
+	$('#nbChamp').attr('value', next);
+}
+function removeFormField(champ){
+
+   $('#champ'+champ).remove();
+}
+
+/*
+
+var next = 1;
+        function addFormField2(){
+            var addto = "#field" + next;
+	        next = next + 1;
+            var newIn = '<br /><br /><input autocomplete="off" class="span3" id="field' + next + '" name="field' + next + '" type="text" data-provide="typeahead" data-items="8">';
+            var newInput = $(newIn);
+	        $(addto).after(newInput);
+            $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+            $("#count").val(next);  
+        }
+*/
+/*
+$(function() {
+        var scntDiv = $('#p_scents');
+        var i = $('#p_scents p').size() + 1;
+        
+        $('#addScnt').live('click', function() {
+                $('<p><label for="p_scnts"><input type="text" id="p_scnt" size="20" name="p_scnt_' + i +'" value="" placeholder="Input Value" /></label> <a href="#" id="remScnt">Remove</a></p>').appendTo(scntDiv);
+                i++;
+                return false;
+        });
+        
+        $('#remScnt').live('click', function() { 
+                if( i > 2 ) {
+                        $(this).parents('p').remove();
+                        i--;
+                }
+                return false;
+        });
+});*/
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

@@ -12,7 +12,7 @@ $this->headTitle($title);
 <div class="row">
     <div class="span6">
         <h2>Artefacts
-            <a class="btn btn-primary" href="<?php echo $this->url('typeElement/add') ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefacts</a></h2>
+            <a class="btn btn-primary" href="<?php echo $this->url('typeElement/add',array('media-artefacts'=> 'artefacts')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefacts</a></h2>
             <div class="accordion" id="TEartefact">
                 <?php foreach ($TEartefacts as $TEartefact) : ?>
                 <div class="accordion-group">
@@ -49,7 +49,7 @@ $this->headTitle($title);
 
 </div>
 <div class="span6">
-    <h2>Medias <a class="btn btn-primary " href="<?php echo $this->url('typeElement/add') ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
+    <h2>Medias <a class="btn btn-primary " href="<?php echo $this->url('typeElement/add',array('media-artefacts'=> 'media')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
     <div class="accordion" id="TEmedia">
         <?php foreach ($TEmedias as $TEmedia) : ?>
         <div class="accordion-group">
@@ -104,26 +104,19 @@ $('.edit').editable({
     mode: 'inline',
 });
 
-//$('#ajChamp').modal();
-
 
 $(".ajChamp").live("click", function(e){
- // e.preventDefault();
     var URL = $(this).attr('data-url');
     $.ajax({
         url: URL,
         type: "POST",
         data:{ name:'ajChamp', submit:'false' }, 
         success:function(response){
-            $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+            $('#addChampModal').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 
-    //  $(response).modal();
-            //$('#addChampModal').html(response);
-            //$('#myModal').modal('hide');
             $('form.ajChampForm').attr('action', URL);
-    
 
-    console.info($('form.ajChampForm').attr('action')+'::'+ URL);
+        console.info($('form.ajChampForm').attr('action')+'::'+ URL);
         },
         error: function(){
             alert('Impossible d\'ajouter des champ');
@@ -132,18 +125,10 @@ $(".ajChamp").live("click", function(e){
     
     });
 });
-
-
-  //  $('.ajChampSubmit').submit(function(event) {
-      //  $(".ajChampSubmit").click(function(event){
     $(".ajChampSubmit").live("click", function(e){
-        /* stop form from submitting normally */
-        
-//        event.preventDefault();
 
 
         var $form = $('.ajChampForm');
-        console.info($form);
         var formatVal = $form.find( 'select[name="format"]' ).val();
         var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
         var labelVal = $form.find( 'input[name="label"]' ).val();
@@ -156,11 +141,24 @@ $(".ajChamp").live("click", function(e){
             data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
             success:function(response){
                // $('#ChampModal').modal('hide');
-                location.reload();
+               // location.reload();
                
+                if(response == 'true') {
+                 //   $('#ChampModal').modal('hide');
+                    location.reload();
+                } else {
+
+                 //   $('#ChampModal').modal('hide');
+                    $('#addChampModal').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                  //  $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                    $('form.ajChampForm').attr('action', URL);
+                }
+                
             },
-            error: function(){
-                alert('Erreur un des champ est vide non ? ');
+            error: function(response){
+                $('#ChampModal').modal('hide');
+                $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                $('form.ajChampForm').attr('action', URL);
             }
         });
 
