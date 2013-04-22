@@ -72,19 +72,19 @@ $this->headTitle($title);
                         <?php foreach ($TEmedia->__get('champs') as $champ) : ?>
                         
 
-                        <dt><span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+                        <dt><a href="#" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
                         </dt>
                         <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
 
                     <?php endforeach ;?>
-                    </dl>
-                    <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
-                </div>
+                </dl>
+                <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
             </div>
         </div>
-        <?php endforeach ;?>
     </div>
+<?php endforeach ;?>
+</div>
 </div>
 </div>
 
@@ -102,6 +102,25 @@ $('.edit').editable({
     mode: 'inline',
 });
 
+$('.confirmDiv').on("click", function(){
+    var URL = $(this).attr('data-url');
+    $("#modalDiv").confirmModal({
+    heading:'Confirmation',
+    body:'<div class="container-fluid"><div class="row-fluid"><div class="span2"><i class="icon-warning-sign icon-4x"></i></div><div class="span8"><p>Si vous supprimez ce champ, <strong>toutes les données associées pour tous les artefacts de ce type seront supprimées</strong>.</p><p>Êtes-vous sur de vouloir effectuer cette action ?</p></div><div class="span2"><i class="icon-warning-sign icon-4x"></i></div></div></div>',
+    callback: function() {
+        $.post( 
+            URL,
+            { name: "supprimerChamp" },
+            function(response) {
+                if(response == 'true') {
+                location.reload();
+            } else {
+                alert('Impossible de supprimer ce champ')
+            }
+            });
+    }
+});
+});
 
 $(".ajChamp").on("click", function(e){
     var URL = $(this).attr('data-url');
@@ -114,41 +133,41 @@ $(".ajChamp").on("click", function(e){
 
             $('form.ajChampForm').attr('action', URL);
 
-        console.info($('form.ajChampForm').attr('action')+'::'+ URL);
+            console.info($('form.ajChampForm').attr('action')+'::'+ URL);
         },
         error: function(){
             alert('Impossible d\'ajouter des champ');
         }
 
-    
+
     });
 });
 $("#modalDiv").on("click",".ajChampSubmit", function(e){
 
-        var $form = $('.ajChampForm');
-        var formatVal = $form.find( 'select[name="format"]' ).val();
-        var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
-        var labelVal = $form.find( 'input[name="label"]' ).val();
-        var URL = $form.attr( 'action' );
+    var $form = $('.ajChampForm');
+    var formatVal = $form.find( 'select[name="format"]' ).val();
+    var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
+    var labelVal = $form.find( 'input[name="label"]' ).val();
+    var URL = $form.attr( 'action' );
 
 
-        $.ajax({
-            url: URL,
-            type: "POST",
-            data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
-            success:function(response){
-               
-                if(response == 'true') {
-                    location.reload();
-                } else {
+    $.ajax({
+        url: URL,
+        type: "POST",
+        data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
+        success:function(response){
 
-                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-                    $('form.ajChampForm').attr('action', URL);
-                }
-                
-            },
-            error: function(response){
-                alert('Impossible d\'ajouter des champ');
+            if(response == 'true') {
+                location.reload();
+            } else {
+
+                $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                $('form.ajChampForm').attr('action', URL);
+            }
+
+        },
+        error: function(response){
+            alert('Impossible d\'ajouter des champ');
         }
     });
 
@@ -168,38 +187,38 @@ $(".ajTypeMedia").on("click", function(e){
 
             $('form.ajTypeMediaForm').attr('action', URL);
 
-        console.info($('form.ajTypeMediaForm').attr('action')+'::'+ URL);
+            console.info($('form.ajTypeMediaForm').attr('action')+'::'+ URL);
         },
         error: function(){
             alert('Impossible d\'ajouter des champ');
         }
 
-    
+
     });
 });
 $("#modalDiv").on("click",".ajTypeMediaSubmit", function(e){
 
 
-        var $form = $('.ajTypeMediaForm');
-        var nomVal = $form.find( 'input[name="nom"]' ).val();
-        var URL = $form.attr( 'action' );
+    var $form = $('.ajTypeMediaForm');
+    var nomVal = $form.find( 'input[name="nom"]' ).val();
+    var URL = $form.attr( 'action' );
 
-        $.ajax({
-            url: URL,
-            type: "POST",
-            data:{ name:'ajTypeMedia', submit:'true', nom: nomVal }, 
-            success:function(response){
-               
-                if(response == 'true') {
-                    location.reload();
-                } else {
-                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-                    $('form.ajChampForm').attr('action', URL);
-                }
-                
-            },
-            error: function(response){
-                alert('Impossible d\'ajouter des champ');
+    $.ajax({
+        url: URL,
+        type: "POST",
+        data:{ name:'ajTypeMedia', submit:'true', nom: nomVal }, 
+        success:function(response){
+
+            if(response == 'true') {
+                location.reload();
+            } else {
+                $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                $('form.ajChampForm').attr('action', URL);
+            }
+
+        },
+        error: function(response){
+            alert('Impossible d\'ajouter des champ');
         }
     });
 
@@ -209,6 +228,7 @@ $("#modalDiv").on("click",".ajTypeMediaSubmit", function(e){
 </script>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js') ;?>
 
 
 

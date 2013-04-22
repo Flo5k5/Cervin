@@ -150,18 +150,25 @@ class TypeElementController extends AbstractActionController
             			$Champ->label = $postData['value'];
 		                $this->getEntityManager()->persist($Champ);
 		                $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
             		case 'description':
             			$Champ->description = $postData['value'];
 		                $this->getEntityManager()->persist($Champ);
 		                $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
+                    case 'supprimerChamp':
+                        $this->getEntityManager()->remove($Champ);
+                        $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(true));
+                        break;
             		default:
-            			return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+            			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'name inconu')));
             			break;
             	}
 
-            	return $this->getResponse()->setContent(Json::encode(array('success'=>true)));
+            	return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'switch ??')));
 
 
             } else {
