@@ -34,6 +34,9 @@ $this->headTitle($title);
     </div>
 </div>
 
+<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
+<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
+
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
 
 <script type="text/javascript">
