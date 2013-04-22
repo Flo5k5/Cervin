@@ -8,20 +8,20 @@ echo $this->form()->openTag($form);
 foreach ($form as $element):
  	if (!$element instanceof Zend\Form\Element\Button): ?>
         <div class="control-group">
-        <?php echo $this->formLabel($element, 'rien'); ?>
+        <label class="control-label" for="inputEmail">
+        	<?php echo $this->formLabel($element); ?>
+        </label>
     <?php endif ?>
         
     <?php if ($element instanceof Zend\Form\Element\Button): ?>
         <div class="form-actions">
-        <?php echo $this->formButton($element) ?>
-
+        	<?php echo $this->formButton($element) ?>
     <?php else: ?>
-        <div class="controls"><?php echo $this->formInput($element) ?></div>
-    <?php endif;
-     ?>
+        <div class="controls"><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></div>
+    <?php endif ?>
+
         
     </div>
 <?php endforeach;
-
 echo $this->form()->closeTag();
 ?>

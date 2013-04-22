@@ -3,6 +3,7 @@
 namespace Collection\Form;
 
 use Zend\Form\Form;
+use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
@@ -15,7 +16,6 @@ class ChampTypeElementForm extends Form
 		}
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
-
 		$this->add(array(
 			'name' => 'id',
 			'type' => 'Zend\Form\Element\Hidden',
@@ -32,6 +32,13 @@ class ChampTypeElementForm extends Form
 						'name' => $champ->label,
 						'attributes' => array('type'  => 'text'),
 						'options' => array('label' => $champ->label),
+					));
+					break;
+				case 'textarea':
+					$this->add(array(
+						'name' => $champ->__get('label'),
+						'attributes' => array('type'  => 'textarea'),
+						'options' => array('label' => $champ->__get('label'))
 					));
 					break;
 				case 'date':
@@ -65,16 +72,16 @@ class ChampTypeElementForm extends Form
 			
 		} // end foreach
 
-		
-		$this->add(array(
-				'name' => 'submit',
-				'attributes' => array(
+		$button = new Element\Button('submit');
+		$button->setLabel('Valider')
+				->setValue('submit')
+				->setAttributes(array(
 					'type'  => 'submit',
-					'value' => 'Go',
+					'value' => 'Valider',
 					'id' => 'submitbutton',
-				),
-		));
-		
+					'class' => 'btn btn-primary'
+				));
+		$this->add($button);
 	}
 	
 }
