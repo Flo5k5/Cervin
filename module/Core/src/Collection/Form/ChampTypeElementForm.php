@@ -36,7 +36,7 @@ class ChampTypeElementForm extends Form
 					$this->add(array(
 						'name' => $champ->__get('label'),
 						'attributes' => array('type'  => 'textarea'),
-						'options' => array('label' => $champ->__get('label'))
+						'options' => array('label' => $champ->label)
 					));
 					break;
 				case 'date':
