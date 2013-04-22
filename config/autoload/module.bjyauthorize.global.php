@@ -94,6 +94,12 @@ return array(
                 ),
 
                 array(
+                    'controller' => 'Artefact',
+                    'action' => 'getFormAjax',
+                    'roles' => array('Collection')
+                ),
+
+                array(
                     'controller' => 'Media',
                     'roles' => array('Collection')
                 ),
@@ -132,6 +138,7 @@ return array(
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
+                array('route' => 'artefact/getFormAjax', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
