@@ -1,16 +1,28 @@
-<h3>Choisissez le type d'artefact à ajouter</h3>
+<?php
 
-<select name="type" class="target">
-	<option value="none">Veuillez choisir un type</option>
-	<?php foreach ($this->types as $current) : ?>
-		<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
-	<?php endforeach; ?>
-</select>
+$title = 'Création d\'un artefact';
+$this->headTitle($title);
+?>
 
-
-<div id="containsform">
-
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
+
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="inputEmail">Type d'artefact</label>
+	    <div class="controls">
+			<select name="type" class="target">
+				<option value="none">Veuillez choisir un type</option>
+				<?php foreach ($this->types as $current) : ?>
+					<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+				<?php endforeach; ?>
+			</select>
+	    </div> 
+	</div>
+</form>
+
+<div id="containsform"></div>
 
 <script type="text/javascript">
     var select=$(".target");

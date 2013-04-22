@@ -3,6 +3,7 @@
 namespace Collection\Form;
 
 use Zend\Form\Form;
+use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
@@ -15,13 +16,6 @@ class ChampTypeElementForm extends Form
 		}
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
-
-		$this->add(array(
-				'name' => 'id',
-				'attributes' => array(
-						'type'  => 'hidden'
-				),
-		));
 		
 		foreach ($type_element->__get('champs') as $champ) {
 			
@@ -30,6 +24,13 @@ class ChampTypeElementForm extends Form
 					$this->add(array(
 						'name' => $champ->__get('label'),
 						'attributes' => array('type'  => 'text'),
+						'options' => array('label' => $champ->__get('label'))
+					));
+					break;
+				case 'textarea':
+					$this->add(array(
+						'name' => $champ->__get('label'),
+						'attributes' => array('type'  => 'textarea'),
 						'options' => array('label' => $champ->__get('label'))
 					));
 					break;
@@ -64,15 +65,16 @@ class ChampTypeElementForm extends Form
 			
 		} // end foreach
 
-		
-		$this->add(array(
-				'name' => 'submit',
-				'attributes' => array(
+		$button = new Element\Button('submit');
+		$button->setLabel('Valider')
+				->setValue('submit')
+				->setAttributes(array(
 					'type'  => 'submit',
-					'value' => 'Go',
-					'id' => 'submitbutton'
-				),
-		));
+					'value' => 'Valider',
+					'id' => 'submitbutton',
+					'class' => 'btn btn-primary'
+				));
+		$this->add($button);
 		
 	}
 	
