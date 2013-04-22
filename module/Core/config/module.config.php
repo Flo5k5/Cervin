@@ -28,9 +28,9 @@ return array(
                     'add' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/add[/:media-artefacts]',
+                            'route' => '/add[/:media-artefact]',
                             'constraints' => array(
-                                'media-artefacts'     => 'media|artefacts',
+                                'media-artefact'     => 'media|artefact',
                             ),
                             'defaults' => array(
                                 'controller' => 'typeElement',

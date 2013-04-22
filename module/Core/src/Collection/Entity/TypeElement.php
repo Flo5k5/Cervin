@@ -49,7 +49,7 @@ class TypeElement implements InputFilterAwareInterface
     /**
      * Constructeur
      **/
-    public function __construct($nom, $type) {
+    public function __construct($nom = '', $type) {
     	if ($type != "artefact" && $type != "media") {
     		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type diff�rent de 'artefact' ou 'media' => INTERDIT");
     	}

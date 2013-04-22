@@ -12,7 +12,7 @@ $this->headTitle($title);
 <div class="row">
     <div class="span6">
         <h2>Artefacts
-            <a class="btn btn-primary" href="<?php echo $this->url('typeElement/add',array('media-artefacts'=> 'artefacts')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefacts</a></h2>
+            <a class="ajTypeMedia btn btn-primary " href="#ajTypeMedia" data-url="<?php echo $this->url('typeElement/add',array('media-artefact'=> 'artefact')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
             <div class="accordion" id="TEartefact">
                 <?php foreach ($TEartefacts as $TEartefact) : ?>
                 <div class="accordion-group">
@@ -49,7 +49,7 @@ $this->headTitle($title);
 
 </div>
 <div class="span6">
-    <h2>Medias <a class="btn btn-primary " href="<?php echo $this->url('typeElement/add',array('media-artefacts'=> 'media')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
+    <h2>Medias <a class="ajTypeMedia btn btn-primary " href="#ajTypeMedia" data-url="<?php echo $this->url('typeElement/add',array('media-artefact'=> 'media')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Medias</a></h2>
     <div class="accordion" id="TEmedia">
         <?php foreach ($TEmedias as $TEmedia) : ?>
         <div class="accordion-group">
@@ -89,9 +89,7 @@ $this->headTitle($title);
 </div>
 
 
-<div id="addChampModal"></div>
-
-
+<div id="modalDiv"></div>
 
 <script type="text/javascript">
 
@@ -105,14 +103,14 @@ $('.edit').editable({
 });
 
 
-$(".ajChamp").live("click", function(e){
+$(".ajChamp").on("click", function(e){
     var URL = $(this).attr('data-url');
     $.ajax({
         url: URL,
         type: "POST",
         data:{ name:'ajChamp', submit:'false' }, 
         success:function(response){
-            $('#addChampModal').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 
             $('form.ajChampForm').attr('action', URL);
 
@@ -125,8 +123,7 @@ $(".ajChamp").live("click", function(e){
     
     });
 });
-    $(".ajChampSubmit").live("click", function(e){
-
+$("#modalDiv").on("click",".ajChampSubmit", function(e){
 
         var $form = $('.ajChampForm');
         var formatVal = $form.find( 'select[name="format"]' ).val();
@@ -140,31 +137,74 @@ $(".ajChamp").live("click", function(e){
             type: "POST",
             data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
             success:function(response){
-               // $('#ChampModal').modal('hide');
-               // location.reload();
                
                 if(response == 'true') {
-                 //   $('#ChampModal').modal('hide');
                     location.reload();
                 } else {
 
-                 //   $('#ChampModal').modal('hide');
-                    $('#addChampModal').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-                  //  $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
                     $('form.ajChampForm').attr('action', URL);
                 }
                 
             },
             error: function(response){
-                $('#ChampModal').modal('hide');
-                $('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-                $('form.ajChampForm').attr('action', URL);
-            }
-        });
-
-
+                alert('Impossible d\'ajouter des champ');
+        }
     });
 
+
+});
+
+
+
+$(".ajTypeMedia").on("click", function(e){
+    var URL = $(this).attr('data-url');
+    $.ajax({
+        url: URL,
+        type: "POST",
+        data:{ name:'ajTypeMedia', submit:'false' }, 
+        success:function(response){
+            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+
+            $('form.ajTypeMediaForm').attr('action', URL);
+
+        console.info($('form.ajTypeMediaForm').attr('action')+'::'+ URL);
+        },
+        error: function(){
+            alert('Impossible d\'ajouter des champ');
+        }
+
+    
+    });
+});
+$("#modalDiv").on("click",".ajTypeMediaSubmit", function(e){
+
+
+        var $form = $('.ajTypeMediaForm');
+        var nomVal = $form.find( 'input[name="nom"]' ).val();
+        var URL = $form.attr( 'action' );
+
+        $.ajax({
+            url: URL,
+            type: "POST",
+            data:{ name:'ajTypeMedia', submit:'true', nom: nomVal }, 
+            success:function(response){
+               
+                if(response == 'true') {
+                    location.reload();
+                } else {
+                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                    $('form.ajChampForm').attr('action', URL);
+                }
+                
+            },
+            error: function(response){
+                alert('Impossible d\'ajouter des champ');
+        }
+    });
+
+
+});
 
 </script>
 

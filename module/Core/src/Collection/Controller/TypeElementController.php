@@ -17,8 +17,10 @@ use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
 use Collection\Entity\Element;
+use Collection\Entity\TypeElement;
 use Collection\Entity\Champ;
 use Collection\Form\ChampForm;
+use Collection\Form\TypeElementForm;
 
 class TypeElementController extends AbstractActionController
 {
@@ -67,11 +69,53 @@ class TypeElementController extends AbstractActionController
 
     public function addAction()
     {
-    	$mediaArtefacts =  $this->params()->fromRoute('media-artefacts');
+/*    	$mediaArtefacts =  $this->params()->fromRoute('media-artefacts');
 
-        $form = new ChampForm();
+        $ChampForm = new ChampForm();
+        $TypeElementForm = new TypeElementForm();
 
-		return $viewModel = new ViewModel(array('form'=>$form));;
+        if ($this->request->isPost()) {
+            $TypeElementForm->setData($this->request->getPost());
+            $TypeElement = new TypeElement(null,'artefact');
+            $TypeElementForm->setInputFilter($TypeElement->getInputFilter());
+
+         if ($TypeElementForm->isValid()) {
+             var_dump($TypeElementForm);
+         }
+     }
+
+		return $viewModel = new ViewModel(array('TypeElementForm'=>$TypeElementForm));*/
+        $mediaArtefact =  $this->params()->fromRoute('media-artefact');
+        
+        if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+            $postData = $this->params()->fromPost();
+            if($postData['name'] == 'ajTypeMedia')
+            {
+                $form = new TypeElementForm();
+
+                $request = $this->getRequest();
+                if ($postData['submit'] == 'true') {
+                    $TypeElement = new TypeElement(null,$mediaArtefact);
+                    $form->setInputFilter($TypeElement->getInputFilter());
+                    $form->setData($request->getPost());
+
+                    if ($form->isValid()) {
+                        $TypeElement->populate($form->getData()); 
+                        $this->getEntityManager()->persist($TypeElement);
+                        $this->getEntityManager()->flush();
+
+                        return $this->getResponse()->setContent(Json::encode(true));
+                    }
+                }
+                
+                $viewModel = new ViewModel(array('form'=>$form));
+                $viewModel->setTerminal(true);
+                return $viewModel;
+            }
+        }
+
+
     }
 
     public function editTypeElementAjaxAction()

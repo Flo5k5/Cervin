@@ -67,13 +67,19 @@ return array(
 
                 array(
                     'controller' => 'typeElement',
-                    'roles' => array('Visiteur')
+                    'roles' => array('Admin')
                 ),
 
                 array(
                     'controller' => 'typeElement',
+                    'action' => 'editTypeElementAjax',
+                    'roles' => array('Admin')
+                ),
+                
+                array(
+                    'controller' => 'typeElement',
                     'action' => 'add',
-                    'roles' => array('Visiteur')
+                    'roles' => array('Admin')
                 ),
 
             	array(
@@ -124,9 +130,9 @@ return array(
                 array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/changeemail', 'roles' => array('Utilisateur')),
                 
-                array('route' => 'typeElement', 'roles' => array('Visiteur')),
-                array('route' => 'typeElement/add', 'roles' => array('Visiteur')),
-                array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Visiteur')),
+                array('route' => 'typeElement', 'roles' => array('Admin')),
+                array('route' => 'typeElement/add', 'roles' => array('Admin')),
+                array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
             		
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
 
