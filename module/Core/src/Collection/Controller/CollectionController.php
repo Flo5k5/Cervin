@@ -79,15 +79,10 @@ class CollectionController extends AbstractActionController
     		$dataTable->setEntityManager($entityManager);
     
     		$dataTable->setConfiguration(array(
-<<<<<<< HEAD
-    				'titre',
-    				'description'
-=======
     			'titre',
 	            'description',
     			//'type',
     			//'artefact_media'
->>>>>>> da47675b97636e013049e54fa18d291499f66364
     		));
     
     		$aaData = array();

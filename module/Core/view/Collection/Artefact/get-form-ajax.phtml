@@ -1,0 +1,29 @@
+BLABLA
+<?php echo $this->type; ?>
+
+<?php 
+$form->prepare();
+$form->setAttribute('action', $this->url('artefact'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class','form-horizontal');
+echo $this->form()->openTag($form);
+
+foreach ($form as $element):
+ 	if (!$element instanceof Zend\Form\Element\Button): ?>
+        <div class="control-group">
+        <?php echo $this->formLabel($element); ?>
+    <?php endif ?>
+        
+    <?php if ($element instanceof Zend\Form\Element\Button): ?>
+        <div class="form-actions">
+        <?php echo $this->formButton($element) ?>
+
+    <?php else: ?>
+        <div class="controls"><?php echo $this->formInput($element) ?></div>
+    <?php endif ?>
+        
+    </div>
+<?php endforeach;
+
+echo $this->form()->closeTag();
+ ?>

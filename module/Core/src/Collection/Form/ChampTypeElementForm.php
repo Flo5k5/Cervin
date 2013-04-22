@@ -19,7 +19,7 @@ class ChampTypeElementForm extends Form
 		$this->add(array(
 				'name' => 'id',
 				'attributes' => array(
-						'type'  => 'hidden',
+						'type'  => 'hidden'
 				),
 		));
 		

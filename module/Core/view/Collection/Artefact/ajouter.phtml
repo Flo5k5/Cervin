@@ -8,33 +8,26 @@
 </select>
 
 
-<div id="containsform"></div>
+<div id="containsform">
 
+</div>
 
 <script type="text/javascript">
     var select=$(".target");
     select.change(function() {
-        if($("select option:selected").val()=='none'){
+        if($("select option:selected").val()=='none') {
             $('#containsform').html('');
-        }
-        else{
-            //$('#containsform').html('form');
-            var requete = $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
-                async: false,
-    
-                data: { type: $("select option:selected").val() }
-
-            })
+        } else {
+        	$.ajax({
+        		type: "POST",
+        		url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
+        		data: { type: $("select option:selected").val() }
+        	})
             .done(function(resp) {
-                alert('success ' + resp.typereturned);
-                $('#containsform').html(resp.form);
+            	$("#containsform").html(resp);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-                alert('fail '+textStatus+' '+errorThrown);
-                $('#containsform').html(jqXHR.responseText);
+            	alert('fail '+textStatus+' '+errorThrown);
             });
         }
     });
