@@ -322,6 +322,10 @@ class Artefacts implements FixtureInterface
 		
 		$manager->flush();
 		
+		/* ********************************** *
+		 * DES RELATIONS ENTRE DEUX ARTEFACTS *
+		* *********************************** */
+		
 		$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_artefact_personne);
 		$semantique->__set('type_destination', $type_artefact_materiel);
@@ -329,7 +333,26 @@ class Artefacts implements FixtureInterface
 		$manager->persist($semantique);
 		$manager->flush();
 		
-		$relation = new Collection\Entity\RelationArtefact();
+		$relation = new Collection\Entity\RelationArtefacts();
+		$relation->__set('origine', $vauc);
+		$relation->__set('destination', $calc);
+		$relation->__set('semantique', $semantique);
+		$manager->persist($relation);
+		$manager->flush();
+		
+		$semantique2 = new Collection\Entity\SemantiqueArtefact();
+		$semantique2->__set('type_origine', $type_artefact_personne);
+		$semantique2->__set('type_destination', $type_artefact_logiciel);
+		$semantique2->__set('semantique', 'Est l\'auteur de');
+		$manager->persist($semantique2);
+		$manager->flush();
+		
+		$relation2 = new Collection\Entity\RelationArtefacts();
+		$relation2->__set('origine', $vauc);
+		$relation2->__set('destination', $logiciel);
+		$relation2->__set('semantique', $semantique2);
+		$manager->persist($relation2);
+		$manager->flush();
 		
 	}
 }

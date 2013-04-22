@@ -12,6 +12,7 @@ namespace Collection\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
+use Collection\Form\ChampForm;
 
 class CollectionController extends AbstractActionController
 {
@@ -45,6 +46,13 @@ class CollectionController extends AbstractActionController
 		return new ViewModel();
     }
     
+    public function testAction()
+    {
+    	$em = $this->getEntityManager();
+    	$types_elements = $em->getRepository('Collection\Entity\TypeElement')->findAll();
+    	return array('types_elements' => $types_elements);
+    }
+    
     public function consulterAction()
     {
     	if ($this->getRequest()->isXmlHttpRequest()) {
@@ -56,10 +64,8 @@ class CollectionController extends AbstractActionController
     		$dataTable->setEntityManager($entityManager);
     
     		$dataTable->setConfiguration(array(
-    			'titre',
-	            'description',
-    			'type',
-    			'artefact_media'
+    				'titre',
+    				'description'
     		));
     
     		$aaData = array();
@@ -67,9 +73,7 @@ class CollectionController extends AbstractActionController
     		foreach ($dataTable->getPaginator() as $element) {
     			$aaData[] = array(
     					$element->titre,
-    					$element->description,
-    					$element->type_element->nom,
-    					$element->type_element->type
+    					$element->description
     			);
     		}
     		$dataTable->setAaData($aaData);

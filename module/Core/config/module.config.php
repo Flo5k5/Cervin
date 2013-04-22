@@ -73,6 +73,16 @@ return array(
         					),
         				),
         			),
+        				'test' => array(
+        						'type' => 'Zend\Mvc\Router\Http\Literal',
+        						'options' => array(
+        								'route' => '/test',
+        								'defaults' => array(
+        										'controller' => 'Collection',
+        										'action'     => 'test',
+        								),
+        						),
+        				),
         		),
         	),
     		

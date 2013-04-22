@@ -81,7 +81,13 @@ return array(
             		'action' => 'consulter',
             		'roles' => array('Utilisateur')
             	),
-
+            		
+            		array(
+            				'controller' => 'Collection',
+            				'action' => 'test',
+            				'roles' => array('Utilisateur')
+            		),
+            		
                 array(
                     'controller' => 'Artefact',
                     'roles' => array('Collection')
@@ -129,6 +135,7 @@ return array(
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Visiteur')),
             		
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
+				array('route' => 'collection/test', 'roles' => array('Utilisateur')),
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
