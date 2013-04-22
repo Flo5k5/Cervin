@@ -2,11 +2,13 @@
 	function generateForm(objet) {
 	    if (objet.value=="none")
     	{
-    	     document.getElementById("formsample").style.display="none";
+    	    document.getElementById("formsample").style.display="none";
+    	    document.getElementById("containsform").style.display="none";
     	}
     	else
     	{
     		document.getElementById("formsample").style.display="";
+    		document.getElementById("containsform").style.display="";
     	}
 	}
 </script>
@@ -21,3 +23,5 @@
 </select>
 
 <p id="formsample" style="display:none;">Ici sera displayed le formulaire d'insertion</p>
+
+<div id="containsform" style="display:none;"></div>

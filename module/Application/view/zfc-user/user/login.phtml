@@ -28,24 +28,24 @@ $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary
 
     <fieldset>
         <?php echo $this->formElementErrors($form->get('identity')) ?>
-    <div class="control-group">
-        <?php echo $this->formLabel($form->get('identity')) ?>
-        <div class="controls">
-        <?php echo $this->formInput($form->get('identity')) ?>
+        <div class="control-group">
+            <?php echo $this->formLabel($form->get('identity')) ?>
+            <div class="controls">
+            <?php echo $this->formInput($form->get('identity')) ?>
+            </div>
         </div>
-    </div>
-    <div class="control-group">
-        <?php echo $this->formLabel($form->get('credential')) ?>
-        <div class="controls">
-        <?php echo $this->formInput($form->get('credential')) ?>
+        <div class="control-group">
+            <?php echo $this->formLabel($form->get('credential')) ?>
+            <div class="controls">
+            <?php echo $this->formInput($form->get('credential')) ?>
+            </div>
         </div>
-    </div>
-        <?php if ($this->redirect): ?>
-            <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
-        <?php endif ?>
-    <div class="form-actions">
-        <?php echo $this->formButton($form->get('submit')) ?>
-    </div>
+            <?php if ($this->redirect): ?>
+                <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+            <?php endif ?>
+        <div class="form-actions">
+            <?php echo $this->formButton($form->get('submit')) ?>
+        </div>
     </fieldset>
 <?php echo $this->form()->closeTag() ?>
 </div>

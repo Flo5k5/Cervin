@@ -7,6 +7,7 @@ namespace Collection\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Collection\Form\TypeElementForm;
 
 class ArtefactController extends AbstractActionController
 {
