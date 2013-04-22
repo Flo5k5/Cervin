@@ -6,7 +6,7 @@ $form->setAttribute('class','form-horizontal');
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
- 	if (!$element instanceof Zend\Form\Element\Button): ?>
+ 	if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="control-group">
         <label class="control-label" for="inputEmail">
         	<?php echo $this->formLabel($element); ?>

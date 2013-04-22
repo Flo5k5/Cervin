@@ -16,16 +16,14 @@ class ChampTypeElementForm extends Form
 		}
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
-		$this->add(array(
-			'name' => 'id',
-			'type' => 'Zend\Form\Element\Hidden',
-			'attributes' => array(
+		$hidden=new Element\Hidden();
+		$hidden->setName('id')
+			->setAttributes(array(
 				'type'  => 'hidden',
-			),
-		));
+			));
+		$this->add($hidden);
 		
 		foreach ($type_element->champs as $champ) {
-			echo $champ->label;
 			switch ($champ->format) {
 				case 'texte':
 					$this->add(array(
