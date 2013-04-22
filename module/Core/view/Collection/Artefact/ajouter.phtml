@@ -15,7 +15,7 @@
     var select=$(".target");
     select.change(function() {
         if($("select option:selected").val()=='none'){
-            $('#containsform').html(' ');
+            $('#containsform').html('');
         }
         else{
             //$('#containsform').html('form');
@@ -29,11 +29,12 @@
 
             })
             .done(function(resp) {
-            	//$('#containsform').html(<?php echo $this->form; ?>);
-                $('#containsform').html('success type : ' + resp.type);
+                alert('success ' + resp.typereturned);
+                $('#containsform').html(resp.form);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-            	$('#containsform').html(textStatus + " : " + errorThrown);
+                alert('fail '+textStatus+' '+errorThrown);
+                $('#containsform').html(jqXHR.responseText);
             });
         }
     });
