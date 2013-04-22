@@ -42,8 +42,14 @@ class ChampTypeElementForm extends Form
 				case 'date':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'date'),
-						'options' => array('label' => $champ->label),
+						'attributes' => array(
+							'type'  => 'date',
+							'class' => 'date'
+						),
+						'options' => array(
+							'label' => $champ->label,
+							'data-date-format' => 'dd-mm-yyyy'
+						),
 					));
 					break;
 				case 'nombre':

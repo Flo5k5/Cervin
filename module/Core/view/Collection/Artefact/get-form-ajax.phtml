@@ -1,4 +1,6 @@
 <?php 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+
 $form->prepare();
 $form->setAttribute('action', $this->url('artefact'));
 $form->setAttribute('method', 'post');
@@ -22,9 +24,12 @@ foreach ($form as $element):
             . $this->formElementErrors($element) ?>
         </div>
     <?php endif ?>
-
-        
     </div>
 <?php endforeach;
 echo $this->form()->closeTag();
+
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js') ;
 ?>
+<script type="text/javascript">
+    $('.date').datepicker();
+</script>
