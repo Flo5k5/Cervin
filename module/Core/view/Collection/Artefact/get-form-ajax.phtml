@@ -1,10 +1,10 @@
 <?php 
-$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $form->setAttribute('class','form-horizontal');
 $form->setAttribute('method', 'post');
 $form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type->nom)));
 $form->prepare();
+
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
@@ -46,10 +46,5 @@ foreach ($form as $element):
 <script> 
 	$(function ()  
 		{ $(".description").popover({placement:'top', trigger:'hover'});  
-	});  
-</script>
-
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
-<script type="text/javascript">
-    $('.date').datepicker();
+	});
 </script>

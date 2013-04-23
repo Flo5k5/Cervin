@@ -40,22 +40,17 @@ $this->headTitle($title);
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
 
 <script type="text/javascript">
-    var URL = '<?php echo $this->url("collection/consulter"); ?>';
+	var aaData = <?php echo $aaData; ?>;
     ResultSet.paginate(
-		URL, 
-		function(){ 
-			//console.info('Callback executed'); 
-		}, 
 		{
-			"fnDrawCallback": function () {
-				
-			},
+			"aaData": aaData,
            	"aoColumns": [
 	           	           	null,
 	           	           	null, 
 	           	        	{ "bSortable": false  },
-	                     	{ "bSortable": false  },
-           	           	 ]
+	                     	{ "bSortable": false  }
+           	           	 ],
+           	"iColumns": 4
 		}
 	);
 </script>
