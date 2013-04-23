@@ -51,7 +51,7 @@ class Element implements InputFilterAwareInterface
     
     /**
      * Valeurs des champs decrivant l'élément
-     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element")
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove"}))
      **/
     protected $datas;
     
