@@ -9,3 +9,4 @@ nbproject
 composer.lock
 *.sql
 push_github.bat
+.externalToolBuilders/
