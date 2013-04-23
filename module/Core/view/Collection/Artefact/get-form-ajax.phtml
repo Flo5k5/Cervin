@@ -1,26 +1,56 @@
 <?php 
 $form->prepare();
-$form->setAttribute('action', $this->url('artefact'));
+$form->setAttribute('action', $this->url('artefact/ajouter'));
 $form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
+
+
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
  	if (!$element instanceof Zend\Form\Element\Button): ?>
         <div class="control-group">
-        <label class="control-label" for="inputEmail">
-        	<?php echo $this->formLabel($element); ?>
+        <label class="control-label">
+        	<?php 
+        		echo $this->formLabel($element);
+        		
+        	?>
+        	
         </label>
     <?php endif ?>
         
     <?php if ($element instanceof Zend\Form\Element\Button): ?>
         <div class="form-actions">
         	<?php echo $this->formButton($element) ?>
+        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
     <?php else: ?>
-        <div class="controls"><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></div>
+        <div class="controls">
+        	<div class="input-prepend">
+        		<?php if ($element->getAttribute('description') != null) { ?>
+		        	<span class="add-on">
+		        		<a href="#" 
+		        			id="<?php echo $element->getAttribute('name'); ?>"
+		        			class="description"
+		        			rel="popover" 
+		        			data-content="<?php echo $element->getAttribute('description'); ?>" 
+		        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+						
+			        </span>
+			    <?php } else { ?>
+			    	<span class="add-on"></span>
+			    <?php } ?>
+	        	<?php echo $this->formInput($element) . $this->formElementErrors($element); ?>
+	        </div>
+        </div>
     <?php endif ?>
         
     </div>
 <?php endforeach;
 echo $this->form()->closeTag();
 ?>
+
+<script> 
+	$(function ()  
+		{ $(".description").popover({placement:'top'});  
+	});  
+</script>

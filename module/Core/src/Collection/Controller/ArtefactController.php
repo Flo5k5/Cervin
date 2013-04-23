@@ -10,7 +10,10 @@ use Zend\View\Model\ViewModel;
 use Collection\Form\ChampTypeElementForm;
 use Zend\Json\Json;
 use Zend\Form\Form;
+use Zend\Form\Element;
 use Collection\View\Helper\formatForm;
+use Exception;
+use Collection\Entity\Artefact;
 
 class ArtefactController extends AbstractActionController
 {
@@ -57,6 +60,7 @@ class ArtefactController extends AbstractActionController
             
         	$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
         	$form = new ChampTypeElementForm($TEartefact);
+
         	
         	$viewModel = new ViewModel(array('success' => true, 'type' => $type, 'form' => $form));
         	$viewModel->setTerminal(true);
