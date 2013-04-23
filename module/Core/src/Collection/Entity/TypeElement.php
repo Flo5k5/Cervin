@@ -42,7 +42,7 @@ class TypeElement implements InputFilterAwareInterface
     
     /**
      * L'ensemble des champs d�crivant cet artefact
-     * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element")
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element", cascade={"remove"})
      **/
     protected $champs;
     
