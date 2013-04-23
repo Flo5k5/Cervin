@@ -28,14 +28,14 @@ class ChampTypeElementForm extends Form
 				case 'texte':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'text'),
+						'attributes' => array('type'  => 'text', 'description' => $champ->description),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'textarea':
 					$this->add(array(
 						'name' => $champ->__get('label'),
-						'attributes' => array('type'  => 'textarea'),
+						'attributes' => array('type'  => 'textarea', 'description' => $champ->description),
 						'options' => array('label' => $champ->label)
 					));
 					break;
@@ -44,7 +44,8 @@ class ChampTypeElementForm extends Form
 						'name' => $champ->label,
 						'attributes' => array(
 							'type'  => 'date',
-							'class' => 'date'
+							'class' => 'date',
+							'description' => $champ->description
 						),
 						'options' => array(
 							'label' => $champ->label,
@@ -55,21 +56,21 @@ class ChampTypeElementForm extends Form
 				case 'nombre':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'number'),
+						'attributes' => array('type'  => 'number', 'description' => $champ->description),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'fichier':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'file'),
+						'attributes' => array('type'  => 'file', 'description' => $champ->description),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'url':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'url'),
+						'attributes' => array('type'  => 'url', 'description' => $champ->description),
 						'options' => array('label' => $champ->label),
 					));
 			} // end switch

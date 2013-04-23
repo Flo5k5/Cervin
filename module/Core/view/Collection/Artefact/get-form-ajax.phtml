@@ -15,9 +15,7 @@ foreach ($form as $element):
         <label class="control-label">
         	<?php 
         		echo $this->formLabel($element);
-        		
         	?>
-        	
         </label>
     <?php endif ?>
         
@@ -25,7 +23,7 @@ foreach ($form as $element):
         <div class="form-actions">
         	<?php echo $this->formButton($element) ?>
         	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-    <?php else: ?>
+    <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="controls">
         	<div class="input-prepend">
         		<?php if ($element->getAttribute('description') != null) { ?>
