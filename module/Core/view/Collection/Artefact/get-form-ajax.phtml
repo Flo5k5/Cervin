@@ -2,34 +2,70 @@
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $form->prepare();
-$form->setAttribute('action', $this->url('artefact'));
+$form->setAttribute('action', $this->url('artefact/ajouter'));
 $form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
+
+
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
  	if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="control-group">
-        <label class="control-label" for="inputEmail">
-        	<?php echo $this->formLabel($element); ?>
+        <label class="control-label">
+        	<?php 
+        		echo $this->formLabel($element);
+        	?>
         </label>
     <?php endif ?>
         
     <?php if ($element instanceof Zend\Form\Element\Button): ?>
         <div class="form-actions">
         	<?php echo $this->formButton($element) ?>
-    <?php else: ?>
+        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+    <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="controls">
-            <?php echo $this->formInput($element -> setLabelAttributes(array('class' => 'control-label')))
-            . $this->formElementErrors($element) ?>
+        	<div class="input-prepend">
+
+                <?php echo $element->getAttribute('class'); if($element->getAttribute('class')=='picker'): ?>
+                    <div class="well">
+                        <div class="input-append date" class="dp" data-date-format="dd-mm-yyyy">
+                <?php endif; ?>
+
+                            <?php if ($element->getAttribute('description') != null) { ?>
+	                         	<span class="add-on">
+	                         		<a href="#" 
+	                         			id="<?php echo $element->getAttribute('name'); ?>"
+	                         			class="description"
+	                         			rel="popover" 
+	                         			data-content="<?php echo $element->getAttribute('description'); ?>" 
+	                         			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+			                 		
+		                        </span>
+		                    <?php } else { ?>
+		                   	  <span class="add-on"></span>
+		                    <?php } ?>
+                            <?php echo $this->formInput($element) . $this->formElementErrors($element); ?>
+
+                <?php if($element->getAttribute('class')=='picker'): ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+	        </div>
         </div>
     <?php endif ?>
     </div>
-<?php endforeach;
-echo $this->form()->closeTag();
+<?php endforeach; ?>
+<?php echo $this->form()->closeTag(); ?>
 
-$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js') ;
-?>
+<script> 
+	$(function ()  
+		{ $(".description").popover({placement:'top'});  
+	});  
+</script>
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
 <script type="text/javascript">
-    $('.date').datepicker();
+    $('.dp').datepicker();
 </script>

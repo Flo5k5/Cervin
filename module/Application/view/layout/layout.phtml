@@ -24,12 +24,11 @@
                        <span class="icon-bar"></span>
                     </a>
                     <a class="brand" href="<?php echo $this->url('home'); ?>">Cervin</a>
-                    <div class="nav-collapse collapse">
 
                         <ul class="nav">
                             <li class="divider-vertical"></li>
 
-                            <li class="active"><a href="<?php echo $this->url('home'); ?>">Accueil</a></li>
+                            <li class="active"><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
 
                             <li class="divider-vertical"></li>
                             
@@ -38,36 +37,34 @@
                                 <?php $tmp=$this->zfcUserIdentity()->getRoles();
                                 $role=$tmp[0]->getRoleId(); ?>
                                 <?php if($role == 'Collection' || $role == 'Parcours' || $role == 'Admin'): ?>
-                                	<li><a href="<?php echo $this->url('collection/consulter'); ?>">Collection Numérique</a></li>
+                                	<li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
+                                	<li class="divider-vertical"></li>
                                 <?php endif; ?>
                                 <?php if($role == 'Parcours' || $role == 'Admin'): ?>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gestion des Parours<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-header">Parcours</li>
-                                            <li><a href="#">Nouveau parcours</a></li>
-                                            <li><a href="#">Éditer un parcours existant</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
+                                    <li class="divider-vertical"></li>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </ul>
 
+                        <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
                         
                         	<?php 
                                 if($this->zfcUserIdentity()):
                                     if($role == 'Admin'): ?>
+                                    	<li class="divider-vertical"></li>
                                         <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>   Administration<b class="caret"></b></a>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>  Administration<b class="caret"></b></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>">Gestion des utilisateurs</a></li>
-                                                <li><a href="<?php echo $this->url('typeElement'); ?>">Gestion des types d'elements</a></li>
+                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Gestion des utilisateurs</a></li>
+                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Gestion des types d'elements</a></li>
                                             </ul>
                                         </li>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php if(!$this->zfcUserIdentity()): ?>
+                            	<li class="divider-vertical"></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
                                     <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
@@ -75,6 +72,7 @@
                                     </div>
                                 </li>
                             <?php else: ?>
+                            	<li class="divider-vertical"></li>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="icon-user"></i>  <?php echo $this->zfcUserIdentity()->getDisplayName(); ?> <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
