@@ -56,11 +56,11 @@ $this->headTitle($title);
             	$("#containsform").html(resp);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-            	alert('fail '+textStatus+' '+errorThrown);
+            	alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
             });
         }
     });
-    $('body').on('click', 'input.picker', function(event) {
+    $('#containsform').on('click', 'input.picker', function(event) {
         $(this).datepicker({
             showOn: 'focus',
             yearRange: '1900:+0',

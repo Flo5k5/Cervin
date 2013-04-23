@@ -20,7 +20,6 @@ class ChampTypeElementForm extends Form
 		$hidden->setName('id')
 			->setAttributes(array(
 				'type'  => 'hidden',
-				'class' => 'other',
 			));
 		$this->add($hidden);
 		
@@ -44,7 +43,6 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'text',
 							'description' => $champ->description,
-							'class' => 'other',
 						),
 						'options' => array('label' => $champ->label),
 					));
@@ -55,7 +53,6 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'textarea',
 							'description' => $champ->description,
-							'class' => 'other',
 						),
 						'options' => array('label' => $champ->label),
 					));
@@ -79,7 +76,6 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'number',
 							'description' => $champ->description,
-							'class' => 'other',
 						),
 						'options' => array('label' => $champ->label),
 					));
@@ -90,7 +86,6 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'file',
 							'description' => $champ->description,
-							'class' => 'other',
 						),
 						'options' => array('label' => $champ->label),
 					));
@@ -101,7 +96,6 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'url',
 							'description' => $champ->description,
-							'class' => 'other',
 						),
 						'options' => array('label' => $champ->label),
 					));
