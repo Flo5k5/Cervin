@@ -41,7 +41,7 @@ $this->headTitle($title);
 
 <script type="text/javascript">
 	var aaData = <?php echo $aaData; ?>;
-    ResultSet.paginate(
+    var table = ResultSet.paginate(
 		{
 			"aaData": aaData,
            	"aoColumns": [
