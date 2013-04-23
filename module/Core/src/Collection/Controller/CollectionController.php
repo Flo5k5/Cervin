@@ -57,49 +57,45 @@ class CollectionController extends AbstractActionController
     
     public function consulterAction()
     {
+    	//$conditions = array('type' => 'artefact', 'titre' => '%Jacques%');
+    	$conditions = array('type' => 'artefact');
+    	
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		$params = $this->params()->fromQuery();
+    	} else {
+    		$params = array("iSortCol_0" => "0", "sSortDir_0" => "asc");
+    	}
+    		
+    	$entityManager = $this->getEntityManager()
+    					      ->getRepository('Collection\Entity\Element');
+ 
+    	$dataTable = new \Collection\Model\ElementDataTable($params);
+    	$dataTable->setEntityManager($entityManager);
     
-    		$entityManager = $this->getEntityManager()
-    							  ->getRepository('Collection\Entity\Element');
-    							  //->createQueryBuilder('e')
-    							  //->join('e.type_element', 't', 'WITH', 't.type = "artefact"');
-    							  //->createQuery('SELECT e FROM Collection\Entity\Element e ');
-    							  //->createQuery('SELECT e FROM Element e JOIN e.type_element t WITH t.type = "artefact"');
-    		
-    		/*$query = $this->getEntityManager()
-    		->createQuery('SELECT a
-                    FROM Artefact\Model\Artefact a
-                    WHERE :mediaID NOT MEMBER OF a.medias');
-    		$query->setParameter('mediaID', $id);
-    		$artefactsNonLies = $query->getResult();*/
-    		
-    		
-    		$dataTable = new \Collection\Model\ElementDataTable($params);
-    		$dataTable->setEntityManager($entityManager);
+    	$dataTable->setConfiguration(array(
+    		'titre',
+	        'description',
+    	    'type',
+    		'artefact_media'
+    	));
     
-    		$dataTable->setConfiguration(array(
-    			'titre',
-	            'description',
-    			//'type',
-    			//'artefact_media'
-    		));
-    
-    		$aaData = array();
+    	$aaData = array();
     		
-    		$conditions = array('type' => 'artefact', 'titre' => '%Jacques%');
-    		
-    		foreach ($dataTable->getPaginator($conditions) as $element) {
-    			$aaData[] = array(
-    					$element->titre,
-    					$element->description
-    			);
-    		}
-    		$dataTable->setAaData($aaData);
+    	foreach ($dataTable->getPaginator($conditions) as $element) {
+    		$aaData[] = array(
+    				$element->titre,
+    				$element->description,
+    				$element->type_element->nom,
+    				$element->type_element->type
+    		);
+    	}
+    	
+    	$dataTable->setAaData($aaData);
     
+    	if ($this->getRequest()->isXmlHttpRequest()) {
     		return $this->getResponse()->setContent($dataTable->findAll());
     	} else {
-    		return new ViewModel();
+    		return new ViewModel(array('aaData' => $dataTable->getJSONaaData()));
     	}
     }
     

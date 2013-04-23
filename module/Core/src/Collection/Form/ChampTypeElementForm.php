@@ -12,7 +12,7 @@ class ChampTypeElementForm extends Form
 	public function __construct($type_element, $name = null)
 	{
 		if (!$type_element instanceof TypeElement) {
-			throw new InvalidArgumentException('Construction d\'un formulaire TypeElementForm avec un param�tre qui n\'est pas de type TypeElement');
+			throw new InvalidArgumentException('Construction d\'un formulaire ChampTypeElementForm avec un param�tre qui n\'est pas de type TypeElement');
 		}
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
@@ -23,54 +23,80 @@ class ChampTypeElementForm extends Form
 			));
 		$this->add($hidden);
 		
+		$this->add(array(
+				'name' => 'titre',
+				'attributes' => array('type'  => 'text', 'description' => 'Le titre de l\'élément'),
+				'options' => array('label' => 'Titre'),
+		));
+		
+		$this->add(array(
+				'name' => 'description',
+				'attributes' => array('type'  => 'text', 'description' => 'La description générale de l\'élément'),
+				'options' => array('label' => 'Description'),
+		));
+		
 		foreach ($type_element->champs as $champ) {
 			switch ($champ->format) {
 				case 'texte':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'text', 'description' => $champ->description),
+						'attributes' => array(
+							'type'  => 'text',
+							'description' => $champ->description,
+						),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'textarea':
 					$this->add(array(
-						'name' => $champ->__get('label'),
-						'attributes' => array('type'  => 'textarea', 'description' => $champ->description),
-						'options' => array('label' => $champ->label)
+						'name' => $champ->label,
+						'attributes' => array(
+							'type'  => 'textarea',
+							'description' => $champ->description,
+						),
+						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'date':
 					$this->add(array(
 						'name' => $champ->label,
 						'attributes' => array(
-							'type'  => 'date',
-							'class' => 'date',
-							'description' => $champ->description
+							'type'  => 'text',
+							'description' => $champ->description,
+							'class' => 'picker',
 						),
 						'options' => array(
 							'label' => $champ->label,
-							'data-date-format' => 'dd-mm-yyyy'
 						),
 					));
 					break;
 				case 'nombre':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'number', 'description' => $champ->description),
+						'attributes' => array(
+							'type'  => 'number',
+							'description' => $champ->description,
+						),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'fichier':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'file', 'description' => $champ->description),
+						'attributes' => array(
+							'type'  => 'file',
+							'description' => $champ->description,
+						),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'url':
 					$this->add(array(
 						'name' => $champ->label,
-						'attributes' => array('type'  => 'url', 'description' => $champ->description),
+						'attributes' => array(
+							'type'  => 'url',
+							'description' => $champ->description,
+						),
 						'options' => array('label' => $champ->label),
 					));
 			} // end switch
@@ -84,7 +110,7 @@ class ChampTypeElementForm extends Form
 					'type'  => 'submit',
 					'value' => 'Valider',
 					'id' => 'submitbutton',
-					'class' => 'btn btn-primary'
+					'class' => 'btn btn-primary',
 				));
 		$this->add($button);
 	}

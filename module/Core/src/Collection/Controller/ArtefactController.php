@@ -8,7 +8,6 @@ namespace Collection\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Collection\Form\ChampTypeElementForm;
-use Zend\Json\Json;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Collection\View\Helper\formatForm;

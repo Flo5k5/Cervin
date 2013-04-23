@@ -124,7 +124,7 @@ var ResultSet = new function() {
 
 	return {
 
-		paginate : function(URL, callback, values) {
+		paginate : function(values, callback) {
 		
 			var params = {
 				"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
@@ -143,9 +143,9 @@ var ResultSet = new function() {
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
 					"sSearch": "Recherchez"
 				},
-				"bProcessing": true,
-				"bServerSide": true,
-				"sAjaxSource": URL,
+				"bProcessing": false,
+				"bServerSide": false,
+				"sAjaxSource": "",
 				"fnDrawCallback": function () {
 					$('.status').editable({
 						value: 2,

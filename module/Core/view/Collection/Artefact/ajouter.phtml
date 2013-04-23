@@ -1,4 +1,5 @@
 <?php
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = 'Création d\'un artefact';
 $this->headTitle($title);
@@ -22,12 +23,27 @@ $this->headTitle($title);
 	</div>
 </form>
 
+<div id="annuler">
+	<form class="form-horizontal">
+		<div class="form-actions">
+			<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+		</div>
+	</form>
+</div>
+
 <div id="containsform"></div>
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
 
 <script type="text/javascript">
     var select=$(".target");
     select.change(function() {
         if($("select option:selected").val()=='none') {
+        	$("#annuler").html('<form class="form-horizontal">'+
+        						'<div class="form-actions">'+
+        						'<a href="/collection/consulter" role="button" class="btn"> Annuler </a>'+
+        						'</div>'+
+        						'</form>');
             $('#containsform').html('');
         } else {
         	$.ajax({
@@ -36,11 +52,20 @@ $this->headTitle($title);
         		data: { type: $("select option:selected").val() }
         	})
             .done(function(resp) {
+            	$("#annuler").html("");
             	$("#containsform").html(resp);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-            	alert('fail '+textStatus+' '+errorThrown);
+            	alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
             });
         }
+    });
+    $('#containsform').on('click', 'input.picker', function(event) {
+        $(this).datepicker({
+            showOn: 'focus',
+            yearRange: '1900:+0',
+            changeMonth: true,
+            changeYear: true
+        }).focus();
     });
 </script>
