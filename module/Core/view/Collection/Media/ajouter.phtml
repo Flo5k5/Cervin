@@ -1,24 +1,71 @@
+<?php
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+
+$title = 'Création d\'un média';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="inputEmail">Type de média</label>
+	    <div class="controls">
+			<select name="type" class="target">
+				<option value="none">Veuillez choisir un type</option>
+				<?php foreach ($this->types as $current) : ?>
+					<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+				<?php endforeach; ?>
+			</select>
+	    </div> 
+	</div>
+</form>
+
+<div id="annuler">
+	<form class="form-horizontal">
+		<div class="form-actions">
+			<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+		</div>
+	</form>
+</div>
+
+<div id="containsform"></div>
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
+
 <script type="text/javascript">
-	function generateForm(objet) {
-	    if (objet.value=="none")
-    	{
-    	    document.getElementById("formsample").style.display="none";
-    	}
-    	else
-    	{
-    		document.getElementById("formsample").style.display="";
-    	}
-	}
+    var select=$(".target");
+    select.change(function() {
+        if($("select option:selected").val()=='none') {
+        	$("#annuler").html('<form class="form-horizontal">'+
+        						'<div class="form-actions">'+
+        						'<a href="/collection/consulter" role="button" class="btn"> Annuler </a>'+
+        						'</div>'+
+        						'</form>');
+            $('#containsform').html('');
+        } else {
+        	$.ajax({
+        		type: "POST",
+        		url: "<?php echo $this->url('media/getFormAjax'); ?>",
+        		data: { type: $("select option:selected").val() }
+        	})
+            .done(function(resp) {
+            	$("#annuler").html("");
+            	$("#containsform").html(resp);
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){
+            	alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
+            });
+        }
+    });
+    $('#containsform').on('click', 'input.picker', function(event) {
+        $(this).datepicker({
+            showOn: 'focus',
+            yearRange: '1900:+0',
+            changeMonth: true,
+            changeYear: true
+        }).focus();
+    });
 </script>
-
-<h3>Choisissez le type de média à ajouter</h3>
-
-<select name="nom_select" onchange="generateForm(this);">
-	<option value="none">Veuillez choisir un type</option>
-	<?php foreach ($this->types as $current) : ?>
-		<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
-	<?php endforeach; ?>
-</select>
-
-<p id="formsample" style="display:none;">Ici sera displayed le formulaire d'insertion</p>
-

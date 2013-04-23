@@ -144,6 +144,16 @@ return array(
                             ),
                         ),
                     ),
+                    'getFormAjax' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/getFormAjax',
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'getFormAjax',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
