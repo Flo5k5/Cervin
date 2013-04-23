@@ -85,7 +85,7 @@ class CollectionController extends AbstractActionController
     		$aaData[] = array(
     				$element->titre,
     				$element->description,
-    				$element->type_element->type,
+    				$element->type_element->nom,
     				$element->type_element->type
     		);
     	}
