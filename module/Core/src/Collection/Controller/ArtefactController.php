@@ -48,6 +48,24 @@ class ArtefactController extends AbstractActionController
 
     public function ajouterAction()
     {
+    	/*$request = $this->getRequest();
+    	if ($request->isPost()) {
+	    	$type_element = $this->params()->fromRoute('type_element', 0);
+	    	if (!$type_element) {
+	    		throw new Exception('Type d\'élément non trouvé au moment de la création de l\'artefact');
+	    	}
+	    	$form = new ChampTypeElementForm($type_element);
+	    	$form->setData($request->getPost());
+	    	$artefact = new Artefact();
+	    	//if ($form->isValid()) {
+	    		$artefact->populate($form->getData());
+	    		$this->getEntityManager()->persist($artefact);
+	    		$this->getEntityManager()->flush();
+	    	
+	    		// Redirect to list of albums
+	    		return $this->redirect()->toRoute('collection/ajouter');
+	    	//}
+    	}*/
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
     	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
     }

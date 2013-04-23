@@ -2,10 +2,15 @@
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $form->prepare();
-$form->setAttribute('action', $this->url('artefact/ajouter'));
+$form->setAttribute('action', $this->url(
+    'artefact',
+    array(
+        'action' => 'ajouter',
+        'type_element'     => $type,
+    )
+));
 $form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
-
 
 echo $this->form()->openTag($form);
 
@@ -18,7 +23,6 @@ foreach ($form as $element):
         	?>
         </label>
     <?php endif ?>
-        
     <?php if ($element instanceof Zend\Form\Element\Button): ?>
         <div class="form-actions">
         	<?php echo $this->formButton($element) ?>
@@ -61,7 +65,7 @@ foreach ($form as $element):
 
 <script> 
 	$(function ()  
-		{ $(".description").popover({placement:'top'});  
+		{ $(".description").popover({placement:'top', trigger:'hover'});  
 	});  
 </script>
 

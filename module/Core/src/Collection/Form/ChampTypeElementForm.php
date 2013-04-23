@@ -24,6 +24,18 @@ class ChampTypeElementForm extends Form
 			));
 		$this->add($hidden);
 		
+		$this->add(array(
+				'name' => 'titre',
+				'attributes' => array('type'  => 'text', 'description' => 'Le titre de l\'élément'),
+				'options' => array('label' => 'Titre'),
+		));
+		
+		$this->add(array(
+				'name' => 'description',
+				'attributes' => array('type'  => 'text', 'description' => 'La description générale de l\'élément'),
+				'options' => array('label' => 'Description'),
+		));
+		
 		foreach ($type_element->champs as $champ) {
 			switch ($champ->format) {
 				case 'texte':
