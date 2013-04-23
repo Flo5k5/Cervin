@@ -37,13 +37,14 @@ class ArtefactController extends AbstractActionController
 		if ($this->em === null) {
 			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 		}
-	
+
 		return $this->em;
 	}
 
 	public function indexAction()
+
     {
-		//return $this->redirect()->toRoute('collection/consulter');
+		return $this->redirect()->toRoute('collection/consulter');
     }
 
     public function ajouterAction()
@@ -109,22 +110,41 @@ class ArtefactController extends AbstractActionController
     	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
     }
 
-    public function getFormAjaxAction()
-    {
-    	if ($this->getRequest()->isXmlHttpRequest()) 
-        {
-            $type = $this->params()->fromPost('type');
-            
-        	$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
-        	$form = new ChampTypeElementForm($TEartefact);
+	public function getFormAjaxAction()
+	{
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			$type = $this->params()->fromPost('type');
+			$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
+			$form = new ChampTypeElementForm($TEartefact);
 
-        	$viewModel = new ViewModel(array('success' => true, 'type' => $TEartefact, 'form' => $form));
-        	$viewModel->setTerminal(true);
-        	return $viewModel;
+			$viewModel = new ViewModel(array('success' => true, 'type' => $type, 'form' => $form));
+			$viewModel->setTerminal(true);
+			return $viewModel;
+		} else {
+			return $this->redirect()->toRoute('artefact/ajouter');
+		}
+	}
 
-        } else {
-        	return $this->redirect()->toRoute('artefact/ajouter');
-        }
-    }
+
+	public function ficheArtefactAction()
+	{
+
+		$id = (int) $this->params()->fromRoute('id', 0);
+		if (!$id) {
+			return $this->redirect()->toRoute('error/404');
+		}
+
+		try {
+			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		}
+		catch (\Exception $ex) {
+			return $this->redirect()->toRoute('error/404');
+		}
+
+
+		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
+		return new ViewModel(array('artefact' => $Artefact));
+	}
 
 }

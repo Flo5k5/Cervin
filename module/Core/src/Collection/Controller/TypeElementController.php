@@ -218,6 +218,11 @@ class TypeElementController extends AbstractActionController
                     return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
 
                     break;
+                case 'supprimerTypeElement':
+                        $this->getEntityManager()->remove($TypeElement);
+                        $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(true));
+                        break;
                 default:
                     return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
                     break;
