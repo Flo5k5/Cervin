@@ -49,10 +49,6 @@ $this->headTitle($title);
 
     var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
     ResultSet.paginate(
-		URL, 
-		function(){ 
-			//console.info('Callback executed'); 
-		}, 
 		{
 			"fnDrawCallback": function () {
 				$('.status').editable({
@@ -89,6 +85,9 @@ $this->headTitle($title);
                               { "bSortable": false  },
                               { "bSortable": false  },
                          ],
+            "bProcessing": true,
+         	"bServerSide": true,
+         	"sAjaxSource": URL
 		}
 	);
 </script>

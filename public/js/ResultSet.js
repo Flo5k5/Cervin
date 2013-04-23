@@ -142,21 +142,13 @@ var ResultSet = new function() {
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ total données)",
 					"sSearch": "Recherchez"
-				},
-				"bProcessing": false,
+				}
+				/*"bProcessing": false,
 				"bServerSide": false,
 				"sAjaxSource": "",
 				"fnDrawCallback": function () {
-					$('.status').editable({
-						value: 2,
-						source: [
-									{value: 1, text: 'Active'},
-									{value: 2, text: 'Blocked'},
-									{value: 3, text: 'Deleted'}
-								]
-					});
 				},
-				//"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] 
+				"aoColumnDefs": [ {"bSortable": false, "aTargets": [4]} ] */
 			};
 			
 			if(typeof values != 'undefined'){
