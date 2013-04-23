@@ -1,18 +1,10 @@
 <?php 
 
-$form->prepare();
-$form->setAttribute('action', $this->url(
-    'artefact',
-    array(
-        'action' => 'ajouter',
-        'type_element'     => $type,
-    )
-));
-$form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
-?>
+$form->setAttribute('method', 'post');
+$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type)));
+$form->prepare();
 
-<?php
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
@@ -31,20 +23,19 @@ foreach ($form as $element):
     <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="controls">
         	<div class="input-prepend">
-                <?php if ($element->getAttribute('description') != null) { ?>
-                 	<span class="add-on">
-                 		<a href="#" 
-                 			id="<?php echo $element->getAttribute('name'); ?>"
-                 			class="description"
-                 			rel="popover" 
-                 			data-content="<?php echo $element->getAttribute('description'); ?>" 
-                 			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-                 		
-                    </span>
-                <?php } else { ?>
-               	  <span class="add-on"></span>
-                <?php } ?>
-                <?php echo $this->formInput($element) . $this->formElementErrors($element); ?>
+        		<?php if ($element->getAttribute('description') != null) { ?>
+		        	<span class="add-on">
+		        		<a href="#" 
+		        			id="<?php echo $element->getAttribute('name'); ?>"
+		        			class="description"
+		        			rel="popover" 
+		        			data-content="<?php echo $element->getAttribute('description'); ?>" 
+		        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+			        </span>
+			    <?php } else { ?>
+			    	<span class="add-on"></span>
+			    <?php } ?>
+	        	<?php echo $this->formInput($element) . $this->formElementErrors($element); ?>
 	        </div>
         </div>
     <?php endif ?>

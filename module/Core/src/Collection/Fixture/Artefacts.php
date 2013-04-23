@@ -195,7 +195,7 @@ class Artefacts implements FixtureInterface
 		$type_artefact_autre = new Collection\Entity\TypeElement('Autre', 'artefact');
 		
 		$champ_type = new Collection\Entity\Champ('Type d\'artefact', $type_artefact_autre, 'texte');
-		$champ_type->__set('description', 'Le type d\entité que représente l\'artefact');
+		$champ_type->__set('description', 'Le type d\'entité que représente l\'artefact');
 		
 		$manager->persist($type_artefact_autre);
 		$manager->persist($champ_type);

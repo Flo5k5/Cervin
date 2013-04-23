@@ -76,16 +76,6 @@ return array(
         					),
         				),
         			),
-        				'test' => array(
-        						'type' => 'Zend\Mvc\Router\Http\Literal',
-        						'options' => array(
-        								'route' => '/test',
-        								'defaults' => array(
-        										'controller' => 'Collection',
-        										'action'     => 'test',
-        								),
-        						),
-        				),
         		),
         	),
     		
@@ -101,9 +91,12 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'ajouter' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'type' => 'segment',
                         'options' => array(
-                            'route' => '/ajouter',
+                            'route' => '/ajouter[/:type_element]',
+                        	'constraints' => array(
+                        		'type_element' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                        	),
                             'defaults' => array(
                                 'controller' => 'Artefact',
                                 'action'     => 'ajouter',

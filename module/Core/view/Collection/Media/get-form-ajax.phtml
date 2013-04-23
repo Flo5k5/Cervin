@@ -1,13 +1,7 @@
 <?php 
 
 $form->prepare();
-$form->setAttribute('action', $this->url(
-    'artefact',
-    array(
-        'action' => 'ajouter',
-        'type_element'     => $type,
-    )
-));
+$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type)));
 $form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
 ?>
