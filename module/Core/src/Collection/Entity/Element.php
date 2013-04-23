@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Un élément de la collection numérique (artefact ou média)
+* Un ï¿½lï¿½ment de la collection numï¿½rique (artefact ou mï¿½dia)
 *
 * @ORM\Entity
 * @ORM\Table(name="element")
@@ -34,7 +34,7 @@ class Element implements InputFilterAwareInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
+    * @ORM\Column(type="string", length=200, unique=true)
     */
     protected $titre;
 
@@ -44,13 +44,13 @@ class Element implements InputFilterAwareInterface
     protected $description;
     
     /**
-     * Type de l'élément
+     * Type de l'ï¿½lï¿½ment
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
      **/
     protected $type_element;
     
     /**
-     * Valeurs des champs decrivant l'élément
+     * Valeurs des champs decrivant l'ï¿½lï¿½ment
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove"}))
      **/
     protected $datas;
@@ -106,6 +106,48 @@ class Element implements InputFilterAwareInterface
 
     public function getInputFilter()
     {
+    	if (!$this->inputFilter) {
+    		$inputFilter = new InputFilter();
+    		$factory = new InputFactory();
     	
-    }
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'id',
+    			'required' => true,
+    				'filters' => array(array('name' => 'Int')),
+    		)));
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'titre',
+    			'required' => true,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    			'validators' => array(
+    				array(
+    					'name' => 'StringLength',
+    					'options' => array(
+    						'encoding' => 'UTF-8',
+    						'min' => 1,
+    						'max' => 200,
+    					),
+    				),
+    			),
+    		)));
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'description',
+    			'resuired' => false,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    		)));
+    		 
+    		$this->inputFilter = $inputFilter;
+    	}
+    	
+    	return $this->inputFilter;
+    }	
+
 }

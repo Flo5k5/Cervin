@@ -59,6 +59,7 @@ class ArtefactController extends AbstractActionController
 	    		throw new Exception('Type d\'élément non trouvé au moment de la création de l\'artefact');
 	    	}
 	    	$form = new ChampTypeElementForm($type_element);
+	    	$form->setInputFilter($album->getInputFilter());
 	    	$form->setData($request->getPost());
 	    	$artefact = new Artefact(null, $type_element);
 	    	if ($form->isValid()) {
