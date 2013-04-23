@@ -123,7 +123,7 @@ return array(
                     'ficheArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/ficheArtefact[/:id]',
+                            'route' => '/ficheArtefact/[:id]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
