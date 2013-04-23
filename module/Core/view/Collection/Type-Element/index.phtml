@@ -33,7 +33,7 @@ $this->headTitle($title);
                                 </dt>
                                 <dd></dd>
                                 <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
-                                <dt><span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+                                <dt><a href="#" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
                                 </dt>
                                 <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>

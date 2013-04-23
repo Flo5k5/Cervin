@@ -49,7 +49,7 @@ class Champ implements InputFilterAwareInterface
     
     /**
      * Un champ a plusieurs valeurs (une pour chaque instance d'�l�ment qu'il d�crit)
-     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ")
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}))
      **/
     protected $datas;
     
