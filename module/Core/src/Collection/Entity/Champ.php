@@ -157,6 +157,7 @@ class Champ implements InputFilterAwareInterface
     	
     		$inputFilter->add($factory->createInput(array(
     			'name' => 'description',
+                'required' => false,
     			'filters' => array(
     				array('name' => 'StripTags'),
     				array('name' => 'StringTrim'),

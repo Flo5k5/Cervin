@@ -1,1 +1,39 @@
-y
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Créé un nouveau Type d'element</h3>
+  </div>
+  <div class="modal-body">
+    
+	<?php
+
+	$form = $this->form;
+	 $form->setAttribute('action', $this->url('album', array('action' => 'add')));
+	// $form->setAttribute('method', 'post');
+
+	$form->setAttribute('class','ajTypeMediaForm form-horizontal');
+	$form->get('nom')->setAttribute('placeholder','Nom')->setLabelAttributes(array('class' => 'control-label'));
+
+	$form->get('submit')->setLabel('Valider')->setAttribute('class','ajChampSubmit btn btn-primary');
+
+	$form->prepare();
+
+	echo $this->form()->openTag($form);
+	echo $this->formHidden($form->get('id')); ?>
+
+	<div class="control-group">
+		<?php echo $this->formLabel($form->get('nom')) ?>
+		<div class="controls">
+		<?php echo $this->formInput($form->get('nom')) ?>
+		<?php echo $this->formElementErrors($form->get('nom')) ?>
+		</div>
+	</div>
+
+	  <div class="modal-footer">
+	  	<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+	  	<a href="#" class="btn btn-primary ajTypeMediaSubmit">Ajouter</a>
+	<?php //  echo $this->formSubmit($form->get('submit')); ?>
+	</div>
+	<?php echo $this->form()->closeTag();?>
+</div>
+

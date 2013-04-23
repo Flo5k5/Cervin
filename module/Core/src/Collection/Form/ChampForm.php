@@ -51,12 +51,12 @@ class ChampForm extends Form
         ));
 		
 		$this->add(array(
-			'name' => 'submit',
-			'attributes' => array(
-				'type'  => 'submit',
-				'value' => 'Go',
-				'id' => 'submitbutton'
-			),
+				'name' => 'submit',
+				'attributes' => array(
+					'type'  => 'submit',
+					'value' => 'Ajouter',
+					'id' => 'submitbutton'
+				),
 		));
 		
 	}

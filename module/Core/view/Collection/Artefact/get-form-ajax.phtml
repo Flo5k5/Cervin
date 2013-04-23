@@ -1,4 +1,6 @@
 <?php 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+
 $form->prepare();
 $form->setAttribute('action', $this->url('artefact/ajouter'));
 $form->setAttribute('method', 'post');
@@ -8,7 +10,7 @@ $form->setAttribute('class','form-horizontal');
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
- 	if (!$element instanceof Zend\Form\Element\Button): ?>
+ 	if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="control-group">
         <label class="control-label">
         	<?php 
@@ -43,14 +45,17 @@ foreach ($form as $element):
 	        </div>
         </div>
     <?php endif ?>
-        
     </div>
-<?php endforeach;
-echo $this->form()->closeTag();
-?>
+<?php endforeach; ?>
+<?php echo $this->form()->closeTag(); ?>
 
 <script> 
 	$(function ()  
 		{ $(".description").popover({placement:'top'});  
 	});  
+</script>
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
+<script type="text/javascript">
+    $('.date').datepicker();
 </script>

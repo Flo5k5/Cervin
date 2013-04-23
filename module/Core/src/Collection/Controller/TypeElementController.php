@@ -11,9 +11,16 @@ namespace Collection\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
+
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
+use Collection\Entity\Element;
+use Collection\Entity\TypeElement;
+use Collection\Entity\Champ;
+use Collection\Form\ChampForm;
+use Collection\Form\TypeElementForm;
 
 class TypeElementController extends AbstractActionController
 {
@@ -62,8 +69,53 @@ class TypeElementController extends AbstractActionController
 
     public function addAction()
     {
-    	
-		return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+/*    	$mediaArtefacts =  $this->params()->fromRoute('media-artefacts');
+
+        $ChampForm = new ChampForm();
+        $TypeElementForm = new TypeElementForm();
+
+        if ($this->request->isPost()) {
+            $TypeElementForm->setData($this->request->getPost());
+            $TypeElement = new TypeElement(null,'artefact');
+            $TypeElementForm->setInputFilter($TypeElement->getInputFilter());
+
+         if ($TypeElementForm->isValid()) {
+             var_dump($TypeElementForm);
+         }
+     }
+
+		return $viewModel = new ViewModel(array('TypeElementForm'=>$TypeElementForm));*/
+        $mediaArtefact =  $this->params()->fromRoute('media-artefact');
+        
+        if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+            $postData = $this->params()->fromPost();
+            if($postData['name'] == 'ajTypeMedia')
+            {
+                $form = new TypeElementForm();
+
+                $request = $this->getRequest();
+                if ($postData['submit'] == 'true') {
+                    $TypeElement = new TypeElement(null,$mediaArtefact);
+                    $form->setInputFilter($TypeElement->getInputFilter());
+                    $form->setData($request->getPost());
+
+                    if ($form->isValid()) {
+                        $TypeElement->populate($form->getData()); 
+                        $this->getEntityManager()->persist($TypeElement);
+                        $this->getEntityManager()->flush();
+
+                        return $this->getResponse()->setContent(Json::encode(true));
+                    }
+                }
+                
+                $viewModel = new ViewModel(array('form'=>$form));
+                $viewModel->setTerminal(true);
+                return $viewModel;
+            }
+        }
+
+
     }
 
     public function editTypeElementAjaxAction()
@@ -71,9 +123,9 @@ class TypeElementController extends AbstractActionController
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
         	$id = (int) $this->params()->fromRoute('id', 0);
-        	echo $id;
+        	
             if (!$id) {
-                return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+                return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Type Element')));
             }
 
             try {
@@ -98,29 +150,78 @@ class TypeElementController extends AbstractActionController
             			$Champ->label = $postData['value'];
 		                $this->getEntityManager()->persist($Champ);
 		                $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
             		case 'description':
             			$Champ->description = $postData['value'];
 		                $this->getEntityManager()->persist($Champ);
 		                $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
+                    case 'supprimerChamp':
+                        $this->getEntityManager()->remove($Champ);
+                        $this->getEntityManager()->flush();
+                        return $this->getResponse()->setContent(Json::encode(true));
+                        break;
             		default:
-            			return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+            			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'name inconu')));
             			break;
             	}
 
-            	return $this->getResponse()->setContent(Json::encode(array('success'=>true)));
+            	return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'switch ??')));
 
 
             } else {
 
-            	if($postData['name'] == 'nom')
-            	{
+            	switch ($postData['name']) {
+            	case 'nom':
             		$TypeElement->nom = $postData['value'];
 		            $this->getEntityManager()->persist($TypeElement);
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(array('success'=>true)));
-            	}
+                    break;
+            	case 'ajChamp':
+
+                    $form = new ChampForm();
+                    if ($postData['submit'] != 'false')
+                    {
+                        $request = $this->getRequest();
+                        $champ = new Champ();
+                        $form->setInputFilter($champ->getInputFilter());
+                        $form->setData($request->getPost());
+                        if ($form->isValid()) {
+                            
+                            $champ->label = $request->getPost('label');
+                            $champ->format = $request->getPost('format');
+                            $champ->description = $request->getPost('description');
+                            $champ->type_element = $TypeElement;
+
+                            $this->getEntityManager()->persist($champ);
+                            $this->getEntityManager()->flush();
+                            
+                            return $this->getResponse()->setContent(Json::encode(true));
+                        }
+                        else
+                        {
+
+                            $viewModel = new ViewModel(array('form' => $form));
+                            $viewModel->setTerminal(true);
+                            return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+                            
+                            
+                        }
+                    }
+
+
+                    $viewModel = new ViewModel(array('form' => $form));
+                    $viewModel->setTerminal(true);
+                    return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+
+                    break;
+                default:
+                    return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
+                    break;
+                }
 
             }
             
