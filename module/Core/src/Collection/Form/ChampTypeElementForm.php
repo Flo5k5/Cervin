@@ -44,9 +44,9 @@ class ChampTypeElementForm extends Form
 						'name' => $champ->label,
 						'attributes' => array(
 							'type'  => 'date',
-							'class' => 'date'
 						),
 						'options' => array(
+							'class' => 'input-append date',
 							'label' => $champ->label,
 							'data-date-format' => 'dd-mm-yyyy'
 						),
