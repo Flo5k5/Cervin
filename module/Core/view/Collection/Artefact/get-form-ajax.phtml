@@ -1,17 +1,10 @@
 <?php 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
-$form->prepare();
-$form->setAttribute('action', $this->url(
-    'artefact',
-    array(
-        'action' => 'ajouter',
-        'type_element'     => $type,
-    )
-));
-$form->setAttribute('method', 'post');
 $form->setAttribute('class','form-horizontal');
-
+$form->setAttribute('method', 'post');
+$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type->nom)));
+$form->prepare();
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
@@ -38,7 +31,6 @@ foreach ($form as $element):
 		        			rel="popover" 
 		        			data-content="<?php echo $element->getAttribute('description'); ?>" 
 		        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-						
 			        </span>
 			    <?php } else { ?>
 			    	<span class="add-on"></span>

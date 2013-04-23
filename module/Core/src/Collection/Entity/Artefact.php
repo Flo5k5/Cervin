@@ -30,13 +30,13 @@ class Artefact extends Element
 	protected $id;
 
 	/**
-	 * Médias liés à l'artefact
+	 * Mï¿½dias liï¿½s ï¿½ l'artefact
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 **/
 	protected $medias;
 
 	/**
-	 * Lien vers les artefacts liés
+	 * Lien vers les artefacts liï¿½s
 	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine")
 	 **/
 	protected $relations_artefacts;
@@ -66,9 +66,9 @@ class Artefact extends Element
 	/**
 	 * Constructeur
 	 **/
-	public function __construct($titre, $type_element) {
+	public function __construct($titre = null, $type_element) {
 		if ($type_element->__get('type') != 'artefact') {
-			throw new InvalidArgumentException('Tentative de création d\'un artefact avec un type élément caractérisant un média => INTERDIT');
+			throw new InvalidArgumentException('Tentative de crï¿½ation d\'un artefact avec un type ï¿½lï¿½ment caractï¿½risant un mï¿½dia => INTERDIT');
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
