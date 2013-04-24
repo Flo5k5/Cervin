@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* La valeur d'un champ d'un élément
+* La valeur d'un champ d'un ï¿½lï¿½ment
 *
 * @ORM\Entity
 * @ORM\Table(name="data")
@@ -33,7 +33,7 @@ class Data implements InputFilterAwareInterface
 
     /**
     * La valeur s'il s'agit d'une date, null sinon
-    * @ORM\Column(type="date", nullable=true)
+    * @ORM\Column(type="datetime", nullable=true)
     */
     protected $date;
     
@@ -62,13 +62,13 @@ class Data implements InputFilterAwareInterface
     protected $url;
     
     /**
-     * L'élément auquel la donnée se rapporte
+     * L'ï¿½lï¿½ment auquel la donnï¿½e se rapporte
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Element", inversedBy="datas")
      **/
     protected $element;
     
     /**
-     * Le champ auquel la donnée se rapporte
+     * Le champ auquel la donnï¿½e se rapporte
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Champ", inversedBy="datas")
      **/
     protected $champ;
@@ -120,7 +120,11 @@ class Data implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-
+    	$this->date = $data['date'];
+    	$this->fichier = $data['fichier'];
+    	$this->nombre = $data['nombre'];
+    	$this->texte = $data['texte'];
+    	$this->url = $data['url'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

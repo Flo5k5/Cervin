@@ -93,9 +93,9 @@ return array(
                     'ajouter' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/ajouter[/:type_element]',
+                            'route' => '/ajouter[/:type_element_id]',
                         	'constraints' => array(
-                        		'type_element' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                        		'type_element_id' => '[0-9]+'
                         	),
                             'defaults' => array(
                                 'controller' => 'Artefact',

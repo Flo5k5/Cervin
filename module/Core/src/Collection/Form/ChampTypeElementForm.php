@@ -39,7 +39,7 @@ class ChampTypeElementForm extends Form
 			switch ($champ->format) {
 				case 'texte':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'text',
 							'description' => $champ->description,
@@ -49,7 +49,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'textarea':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'textarea',
 							'description' => $champ->description,
@@ -59,7 +59,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'date':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'text',
 							'description' => $champ->description,
@@ -72,7 +72,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'nombre':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'number',
 							'description' => $champ->description,
@@ -82,7 +82,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'fichier':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'file',
 							'description' => $champ->description,
@@ -92,7 +92,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'url':
 					$this->add(array(
-						'name' => $champ->label,
+						'name' => $champ->id,
 						'attributes' => array(
 							'type'  => 'url',
 							'description' => $champ->description,

@@ -2,7 +2,7 @@
 
 $form->setAttribute('class','form-horizontal');
 $form->setAttribute('method', 'post');
-$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type->nom)));
+$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element_id' => $type_element_id)));
 $form->prepare();
 
 echo $this->form()->openTag($form);
