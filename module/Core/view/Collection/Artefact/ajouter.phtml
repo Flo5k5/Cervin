@@ -77,8 +77,8 @@ $this->headTitle($title);
                         </div>
                         <?php echo $this->formElementErrors($element); ?>
                     </div>
+                    </div>
                 <?php endif ?>
-                </div>
             <?php endforeach; ?>
             <?php echo $this->form()->closeTag(); ?>
             
@@ -87,7 +87,7 @@ $this->headTitle($title);
                     { $(".description").popover({placement:'top', trigger:'hover'});  
                 });
             </script>
-            
+        </div>
     <?php endif; ?>
 </div>
 
