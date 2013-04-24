@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Un �l�ment de la collection num�rique (artefact ou m�dia)
+* Un élément de la collection num�rique (artefact ou m�dia)
 *
 * @ORM\Entity
 * @ORM\Table(name="element")
@@ -44,14 +44,14 @@ class Element implements InputFilterAwareInterface
     protected $description;
     
     /**
-     * Type de l'�l�ment
+     * Type de l'élément
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
      **/
     protected $type_element;
     
     /**
-     * Valeurs des champs decrivant l'�l�ment
-     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove"}))
+     * Valeurs des champs decrivant l'élément
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove", "persist"}))
      **/
     protected $datas;
     
@@ -94,9 +94,41 @@ class Element implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
+    	var_dump($data);
         $this->id = $data['id'];
         $this->titre = $data['titre'];
         $this->description = $data['description'];
+        $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
+        
+        foreach ($this->type_element->champs as $champ) {
+        	$databd = new Data($this, $champ);
+        	switch ($champ->format) {
+        		case 'texte':
+        			$databd->texte =  $data[$champ->id];
+        			$this->datas->add($databd);
+        			break;
+        		case 'textarea':
+        			$databd->textarea = $data[$champ->id];
+        			$this->datas->add($databd);
+        			break;
+        		case 'date':
+        			$databd->date = new \DateTime($data[$champ->id]);
+        			$this->datas->add($databd);
+        			break;
+        		case 'nombre':
+        			$databd->nombre = $data[$champ->id];
+        			$this->datas->add($databd);
+        			break;
+        		case 'fichier':
+        			$databd->fichier = $data[$champ->id];
+        			$this->datas->add($databd);
+        			break;
+        		case 'url':
+        			$databd->url = $data[$champ->id];
+        			$this->datas->add($databd);
+        			break;
+        	}
+        }
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -137,7 +169,7 @@ class Element implements InputFilterAwareInterface
     		 
     		$inputFilter->add($factory->createInput(array(
     			'name' => 'description',
-    			'resuired' => false,
+    			'required' => false,
     			'filters' => array(
     				array('name' => 'StripTags'),
     				array('name' => 'StringTrim'),
