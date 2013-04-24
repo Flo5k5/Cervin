@@ -113,16 +113,30 @@ return array(
                             ),
                         ),
                     ),
-                    'ficheArtefact' => array(
+                    'voirArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/ficheArtefact/[:id]',
+                            'route' => '/voirArtefact/[:id][/:idData]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                                'idData' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'voirArtefact',
+                            ),
+                        ),
+                    ),
+                    'editArtefact' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/editArtefact/[:id]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Artefact',
-                                'action'     => 'ficheArtefact',
+                                'action'     => 'editArtefact',
                             ),
                         ),
                     ),
