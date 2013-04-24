@@ -69,11 +69,12 @@ class ArtefactController extends AbstractActionController
 	    		$this->getEntityManager()->flush();
 	    		return $this->redirect()->toRoute('collection/consulter');
 	    	} else {
-	    		
+	    		$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
+	    		return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type' => $type_element));
 	    	}
     	}
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-    	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
+    	return new ViewModel(array('types' => $TEartefacts, 'form' => null, 'type' => 'none'));
     }
 
 	public function getFormAjaxAction()
