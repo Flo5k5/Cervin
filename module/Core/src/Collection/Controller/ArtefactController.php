@@ -15,6 +15,7 @@ use Collection\View\Helper\formatForm;
 use Exception;
 use Collection\Entity\Artefact;
 use Collection\Entity\Data;
+use Zend\File\Transfer\Adapter\Http;
 
 class ArtefactController extends AbstractActionController
 {
@@ -64,6 +65,9 @@ class ArtefactController extends AbstractActionController
 	    	$form->setInputFilter($artefact->getInputFilter());
 	    	$form->setData($request->getPost());
 	    	if ($form->isValid()) {
+					$upload = new Http();
+					$upload->setDestination('upload');
+				    $upload->receive();
 	    		$datas = $form->getData();
 	    		$artefact->populate($datas);
 	    		$this->getEntityManager()->persist($artefact);
