@@ -42,36 +42,13 @@ class ArtefactController extends AbstractActionController
 	}
 
 	public function indexAction()
+
     {
 		return $this->redirect()->toRoute('collection/consulter');
     }
 
     public function ajouterAction()
     {
-    	$request = $this->getRequest();
-    	$form;
-    	if ($request->isPost()) {
-    		// Le formulaire d'ajout a été posté
-    		// On récupère le type de l'artefact que l'on va créer
-	    	$type_element_id = $this->params()->fromRoute('type_element_id');
-	    	$type_element = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'id'=>$type_element_id));
-	    	if (!$type_element) {
-	    		throw new Exception('Type d\'élément non trouvé au moment de la création de l\'artefact');
-	    	}
-	    	$artefact = new Artefact(null, $type_element);
-	    	$form = new ChampTypeElementForm($type_element);
-	    	$form->setInputFilter($artefact->getInputFilter());
-	    	$form->setData($request->getPost());
-	    	if ($form->isValid()) {
-	    		$datas = $form->getData();
-	    		$artefact->populate($datas);
-	    		$this->getEntityManager()->persist($artefact);
-	    		$this->getEntityManager()->flush();
-	    		return $this->redirect()->toRoute('collection/consulter');
-	    	} else {
-	    		
-	    	}
-    	}
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
     	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
     }
@@ -80,14 +57,39 @@ class ArtefactController extends AbstractActionController
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
-			$type = $this->params()->fromPost('type');
-			$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
-			$form = new ChampTypeElementForm($TEartefact);
-
-			$viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEartefact->id, 'form' => $form));
-			$viewModel->setTerminal(true);
-			return $viewModel;
-		} else {
+			if ($this->params()->fromPost('name') == 'getform') {
+				$type = $this->params()->fromPost('type');
+				$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
+				$form = new ChampTypeElementForm($TEartefact);
+	
+				$viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEartefact->id, 'form' => $form));
+				$viewModel->setTerminal(true);
+				return $viewModel;
+				
+			} elseif ($this->params()->fromPost('name') == 'ajouter') {
+				$type = $this->params()->fromPost('type');
+				$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
+				if (!$TEartefact) {
+					throw new Exception('Type d\'élément non trouvé au moment de la création de l\'artefact');
+				}
+				$artefact = new Artefact(null, $TEartefact);
+				$form = new ChampTypeElementForm($TEartefact);
+				$form->setInputFilter($artefact->getInputFilter());
+				$form->setData($this->params()->fromPost('formdata'));
+				if ($form->isValid()) {
+					$datas = $form->getData();
+					$artefact->populate($datas);
+					$this->getEntityManager()->persist($artefact);
+					$this->getEntityManager()->flush();
+					return $this->getResponse()->setContent('true');
+				} else {
+					$viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEartefact->id, 'form' => $form));
+					$viewModel->setTerminal(true);
+					return $viewModel;
+				}
+				
+			}
+		} else {		
 			return $this->redirect()->toRoute('artefact/ajouter');
 		}
 	}

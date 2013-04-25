@@ -94,7 +94,6 @@ class Element implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-    	var_dump($data);
         $this->id = $data['id'];
         $this->titre = $data['titre'];
         $this->description = $data['description'];

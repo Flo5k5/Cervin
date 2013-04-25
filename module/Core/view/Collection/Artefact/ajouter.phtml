@@ -36,8 +36,8 @@ $this->headTitle($title);
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
 
 <script type="text/javascript">
-    var select=$(".target");
-    select.change(function() {
+
+	$(".target").change(function() {
         if($("select option:selected").val()=='none') {
         	$("#annuler").html('<form class="form-horizontal">'+
         						'<div class="form-actions">'+
@@ -49,7 +49,7 @@ $this->headTitle($title);
         	$.ajax({
         		type: "POST",
         		url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
-        		data: { type: $("select option:selected").val() }
+        		data: { name: 'getform', type: $("select option:selected").val() }
         	})
             .done(function(resp) {
             	$("#annuler").html("");
@@ -60,6 +60,44 @@ $this->headTitle($title);
             });
         }
     });
+
+	$("#containsform").on("click","#valider", function(){
+
+		$.fn.serializeObject = function()
+		{
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(this.value || '');
+		        } else {
+		            o[this.name] = this.value || '';
+		        }
+		    });
+		    return o;
+		};
+
+		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject()};
+	    $.ajax({
+	    	type: "POST",
+	        url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
+	        data: data, 
+	    })
+        .done(function(resp) {
+        	if(resp == 'true') {
+        		window.location.href = "<?php echo $this->url('collection/consulter')?>";
+            } else {
+            	$("#containsform").html(resp);
+            }
+        })
+	    .fail(function(){
+	        alert('fail');
+	    });
+	});
+    
     $('#containsform').on('click', 'input.picker', function(event) {
         $(this).datepicker({
             showOn: 'focus',
@@ -68,4 +106,5 @@ $this->headTitle($title);
             changeYear: true
         }).focus();
     });
+
 </script>
