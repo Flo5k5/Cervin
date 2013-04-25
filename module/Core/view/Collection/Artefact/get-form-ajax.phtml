@@ -49,9 +49,7 @@ echo $this->form()->openTag($form);
 	<?php foreach ($form as $element):
 		if ($element->getName() == 'description'): ?>
         	<!-- Editeur d=pour la description -->
-        	
         		<?php echo $this->formInput($element); ?>
-        	
         <?php endif; ?>
     <?php endforeach; ?>
 	</div>

@@ -1,12 +1,13 @@
 <?php
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 
 $title = 'Création d\'un média';
 $this->headTitle($title);
 ?>
 
 <div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+    <h1><i class="icon-tag"></i>  <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
 <form class="form-horizontal">
@@ -16,7 +17,7 @@ $this->headTitle($title);
 			<select name="type" class="target">
 				<option value="none">Veuillez choisir un type</option>
 				<?php foreach ($this->types as $current) : ?>
-					<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+					<option value="<?php echo $current->nom; ?> <?php if($current->nom == $this->type){echo 'selected="selected"';} ?>"> <?php echo $current->nom; ?> </option>
 				<?php endforeach; ?>
 			</select>
 	    </div> 
@@ -24,21 +25,18 @@ $this->headTitle($title);
 </form>
 
 <div id="annuler">
-	<form class="form-horizontal">
-		<div class="form-actions">
-			<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-		</div>
-	</form>
+        <form class="form-horizontal">
+	       	<div class="form-actions">
+	       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+	       	</div>
+        </form>
 </div>
-
-<?php $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js'); ?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
-
+<hr>
 <div id="containsform"></div>
 
 <script type="text/javascript">
-    var select=$(".target");
-    select.change(function() {
+
+	$(".target").change(function() {
         if($("select option:selected").val()=='none') {
         	$("#annuler").html('<form class="form-horizontal">'+
         						'<div class="form-actions">'+
@@ -48,64 +46,78 @@ $this->headTitle($title);
             $('#containsform').html('');
         } else {
         	$.ajax({
-                type: "POST",
-                url: "<?php echo $this->url('media/getFormAjax'); ?>",
-                data: { name: 'getform', type: $("select option:selected").val() }
-            })
+        		type: "POST",
+        		url: "<?php echo $this->url('media/getFormAjax'); ?>",
+        		data: { name: 'getform', type: $("select option:selected").val() }
+        	})
             .done(function(resp) {
-                $("#annuler").html("");
-                $("#containsform").html(resp);
+            	$("#annuler").html("");
+            	$("#containsform").html(resp);
             })
             .fail(function(jqXHR, textStatus, errorThrown){
-                alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
+            	alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
             });
         }
     });
 
-    $("#containsform").on("click","#valider", function(){
+	$("#containsform").on("click","#valider", function(){
 
-        $.fn.serializeObject = function()
-        {
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function() {
-                if (o[this.name] !== undefined) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
+		$.fn.serializeObject = function()
+		{
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(this.value || '');
+		        } else {
+		            o[this.name] = this.value || '';
+		        }
+		    });
+		    return o;
+		};
 
-        data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject()};
-        $.ajax({
-            type: "POST",
-            url: "<?php echo $this->url('media/getFormAjax'); ?>",
-            data: data, 
-        })
+		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject(), description: $("#description").val()};
+	    $.ajax({
+	    	type: "POST",
+	        url: "<?php echo $this->url('media/getFormAjax'); ?>",
+	        data: data, 
+	    })
         .done(function(resp) {
-            if(resp == 'true') {
+        	if(resp == 'true') {
                 var url="<?php echo $this->url('collection/consulter')?>";
-                $(location).attr('href',url);
+        		$(location).attr('href',url);
             } else {
-                $("#containsform").html(resp);
+            	$("#containsform").html(resp);
             }
         })
-        .fail(function(){
-            alert('fail');
-        });
-    });
+	    .fail(function(){
+	        alert('Erreur : Impossible de créer le média');
+	    });
+	});
 
     $('#containsform').on('click', 'input.picker', function(event) {
+
         $(this).datepicker({
-            showOn: 'focus',
+            shown: 'focus',
             yearRange: '1900:+0',
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            language:'fr',
+            format:'dd-mm-yyyy'
         }).focus();
     });
+
+    
+
 </script>
+
+<?php 
+	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+?>

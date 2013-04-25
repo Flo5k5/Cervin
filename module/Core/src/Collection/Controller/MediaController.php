@@ -78,6 +78,7 @@ class MediaController extends AbstractActionController
                 if ($form->isValid()) {
                     $datas = $form->getData();
                     $media->populate($datas);
+					$media->description = $this->params()->fromPost('description');
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent('true');
