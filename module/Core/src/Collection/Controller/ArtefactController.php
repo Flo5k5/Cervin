@@ -8,6 +8,7 @@ namespace Collection\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Collection\Form\ChampTypeElementForm;
+use Zend\Json\Json;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use Collection\View\Helper\formatForm;
@@ -50,7 +51,7 @@ class ArtefactController extends AbstractActionController
     public function ajouterAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-    	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
+    	return new ViewModel(array('types' => $TEartefacts, 'form' => null, 'type' => 'none'));
     }
 
 	public function getFormAjaxAction()
@@ -95,23 +96,102 @@ class ArtefactController extends AbstractActionController
 	}
 
 
-	public function ficheArtefactAction()
+	public function voirArtefactAction()
 	{
 
 		$id = (int) $this->params()->fromRoute('id', 0);
 		if (!$id) {
-			return $this->redirect()->toRoute('error/404');
+			return $this->redirect()->toRoute('error');
 		}
 
 		try {
 			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		}
 		catch (\Exception $ex) {
-			return $this->redirect()->toRoute('error/404');
+			return $this->redirect()->toRoute('error');
 		}
 
 
 		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
+		return new ViewModel(array('artefact' => $Artefact));
+	}
+
+	public function editArtefactAction()
+	{
+
+		$id = (int) $this->params()->fromRoute('id', 0);
+		if (!$id) {
+			return $this->redirect()->toRoute('error');
+		}
+
+		try {
+			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		}
+		catch (\Exception $ex) {
+			return $this->redirect()->toRoute('error');
+		}
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			//$post = $this->params()->fromPost();
+			$request = $this->params()->fromPost();
+			switch ($request['name']) {
+				case 'titre':
+					$Artefact->titre = $request['value'];
+		            $this->getEntityManager()->persist($Artefact);
+		            $this->getEntityManager()->flush();
+		            return $this->getResponse()->setContent(Json::encode(true));
+				break;
+				case 'description':
+					$Artefact->description = $request['value'];
+		            $this->getEntityManager()->persist($Artefact);
+		            $this->getEntityManager()->flush();
+		            return $this->getResponse()->setContent(Json::encode(true));
+				
+				break;
+				case 'data':
+					$idData = (int) $this->params()->fromRoute('idData', 0);
+					if (!$idData) {
+						return $this->redirect()->toRoute('error');
+					}
+					try {
+						$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
+					}
+					catch (\Exception $ex) {
+						return $this->redirect()->toRoute('error');
+					}
+					switch ($dataDB->champ->format) {
+		    	 		case 'texte':
+		    	 			$dataDB->texte = $request['value'];   	 					
+		    	 			break;
+		    	 		case 'textarea':
+		    	 			$dataDB->textarea = $request['value'];
+		    	 			break;
+		    	 		case 'date':
+		    	 			$dataDB->date = new \DateTime($request['value']);
+		    	 			break;
+		    	 		case 'nombre':
+		    	 			$dataDB->nombre = $request['value']; 
+		    	 			break;
+		    	 		case 'fichier':
+		    	 			$dataDB->fichier = $request['value'];
+		    	 			break;
+		    	 		case 'url':
+		    	 			$dataDB->url = $request['value'];
+			            	break;
+			            default:
+			            	return $this->getResponse()->setContent(Json::encode(false));  
+			            break;
+		    	 	} // end switch
+				
+		            $this->getEntityManager()->persist($dataDB);
+		            $this->getEntityManager()->flush();
+			        return $this->getResponse()->setContent(Json::encode(true)); 
+				break;
+				default:
+		            return $this->getResponse()->setContent(Json::encode(false));  
+		        break;
+			}
+		}
 		return new ViewModel(array('artefact' => $Artefact));
 	}
 

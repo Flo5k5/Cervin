@@ -33,7 +33,7 @@ class Data implements InputFilterAwareInterface
 
     /**
     * La valeur s'il s'agit d'une date, null sinon
-    * @ORM\Column(type="datetime", nullable=true)
+    * @ORM\Column(type="date", nullable=true)
     */
     protected $date;
     

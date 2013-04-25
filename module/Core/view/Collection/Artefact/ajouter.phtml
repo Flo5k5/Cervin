@@ -16,7 +16,7 @@ $this->headTitle($title);
 			<select name="type" class="target">
 				<option value="none">Veuillez choisir un type</option>
 				<?php foreach ($this->types as $current) : ?>
-					<option value="<?php echo $current->nom; ?>"> <?php echo $current->nom; ?> </option>
+					<option value="<?php echo $current->nom; ?> <?php if($current->nom == $this->type){echo 'selected="selected"';} ?>"> <?php echo $current->nom; ?> </option>
 				<?php endforeach; ?>
 			</select>
 	    </div> 
@@ -24,16 +24,72 @@ $this->headTitle($title);
 </form>
 
 <div id="annuler">
-	<form class="form-horizontal">
-		<div class="form-actions">
-			<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-		</div>
-	</form>
+    <?php if($this->form == null): ?>
+        <form class="form-horizontal">
+	       	<div class="form-actions">
+	       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+	       	</div>
+        </form>
+    <?php endif; ?>
 </div>
-
-<div id="containsform"></div>
-
+<?php $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js'); ?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
+<div id="containsform">
+    <?php if($this->form != null): ?>
+        <?php 
+            $form=$this->form;
+            $form->setAttribute('class','form-horizontal');
+            $form->setAttribute('method', 'post');
+            $form->setAttribute('action', $this->url('artefact/ajouter', array('type_element_id' => $this->type->id)));
+            $form->prepare();
+
+            echo $this->form()->openTag($form);
+            
+            foreach ($form as $element):
+                if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
+                    <div class="control-group">
+                    <label class="control-label">
+                        <?php 
+                            echo $this->formLabel($element);
+                        ?>
+                    </label>
+                <?php endif ?>
+                <?php if ($element instanceof Zend\Form\Element\Button): ?>
+                    <div class="form-actions">
+                        <?php echo $this->formButton($element) ?>
+                        <a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+                <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <?php if ($element->getAttribute('description') != null) { ?>
+                                <span class="add-on">
+                                    <a href="#" 
+                                        id="<?php echo $element->getAttribute('name'); ?>"
+                                        class="description"
+                                        rel="popover" 
+                                        data-content="<?php echo $element->getAttribute('description'); ?>" 
+                                        data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+                                </span>
+                            <?php } else { ?>
+                                <span class="add-on"></span>
+                            <?php } ?>
+                            <?php echo $this->formInput($element); ?>
+                        </div>
+                        <?php echo $this->formElementErrors($element); ?>
+                    </div>
+                    </div>
+                <?php endif ?>
+            <?php endforeach; ?>
+            <?php echo $this->form()->closeTag(); ?>
+            
+            <script> 
+                $(function ()  
+                    { $(".description").popover({placement:'top', trigger:'hover'});  
+                });
+            </script>
+        </div>
+    <?php endif; ?>
+</div>
 
 <script type="text/javascript">
 
@@ -97,13 +153,15 @@ $this->headTitle($title);
 	        alert('fail');
 	    });
 	});
-    
-    $('#containsform').on('click', 'input.picker', function(event) {
+
+    $('body').on('click', 'input.picker', function(event) {
+
         $(this).datepicker({
-            showOn: 'focus',
+            shown: 'focus',
             yearRange: '1900:+0',
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            language:'fr'
         }).focus();
     });
 
