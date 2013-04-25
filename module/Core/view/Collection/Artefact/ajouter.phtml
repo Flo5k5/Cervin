@@ -24,13 +24,11 @@ $this->headTitle($title);
 </form>
 
 <div id="annuler">
-    <?php if($this->form == null): ?>
         <form class="form-horizontal">
 	       	<div class="form-actions">
 	       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
 	       	</div>
         </form>
-    <?php endif; ?>
 </div>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js'); ?>
@@ -91,7 +89,8 @@ $this->headTitle($title);
 	    })
         .done(function(resp) {
         	if(resp == 'true') {
-        		window.location.href = "<?php echo $this->url('collection/consulter')?>";
+                var url="<?php echo $this->url('collection/consulter')?>";
+        		$(location).attr('href',url);
             } else {
             	$("#containsform").html(resp);
             }
@@ -101,7 +100,7 @@ $this->headTitle($title);
 	    });
 	});
 
-    $('body').on('click', 'input.picker', function(event) {
+    $('#containsform').on('click', 'input.picker', function(event) {
 
         $(this).datepicker({
             shown: 'focus',
