@@ -2,20 +2,20 @@
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
-$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $artefact->titre;
 $this->headTitle($title);
 ?>
 
 <div class="page-header">
-	<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="title" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
+	<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
 <div class="container">
 	<div class="row-fluid">
 		<div class="span12">
-			<p class="wysihtml5 CursorPointer" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></p>
+			<div class="wysihtml5 CursorPointer" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
 		</div>
 	</div>
 	<br>
@@ -29,106 +29,101 @@ $this->headTitle($title);
 				<div class="tab-pane active" id="tab1">
 					<dl class="dl-horizontal">
 						<?php foreach( ($artefact->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> </dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-            						case 'texte':
-            							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-									break;
-									case 'textarea':
-										echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-									break;
-									case 'date':
-										 echo '<span class="edit CursorPointer" data-name="data" data-type="date" data-pk="1" data-format="yyyy-mm-dd" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->date->format('Y-m-d').'</span>';
-									break;
-									case 'nombre':
-										echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-									break;
-									case 'fichier':
-										echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-									break;
-									case 'url':
-										echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-									break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endforeach ;?>
-					</dl>
-				</div>
-				<div class="tab-pane" id="tab2">
-					<div class="tabbable tabs-left ">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
-							<li><a href="#rB" data-toggle="tab">Section 2</a></li>
-							<li><a href="#rC" data-toggle="tab">Section 3</a></li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="rA">
-								<p>I'm in Section A.</p>
-							</div>
-							<div class="tab-pane" id="rB">
-								<p>Howdy, I'm in Section B.</p>
-							</div>
-							<div class="tab-pane" id="rC">
-								<p>What up girl, this is Section C.</p>
-							</div>
+						<dt><?php echo $data->champ->label ?> </dt>
+						<dd>
+							<?php 
+
+							switch ($data->champ->format) :
+							case 'texte':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
+							break;
+							case 'textarea':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
+							break;
+							case 'date':
+							echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->date->format('d-m-Y').'</span>';
+							break;
+							case 'nombre':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
+							break;
+							case 'fichier':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
+							break;
+							case 'url':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
+							break;
+							?>
+							<?php endswitch ;?>
+						</dd>
+					<?php endforeach ;?>
+				</dl>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<div class="tabbable tabs-left ">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
+						<li><a href="#rB" data-toggle="tab">Section 2</a></li>
+						<li><a href="#rC" data-toggle="tab">Section 3</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="rA">
+							<p>I'm in Section A.</p>
+						</div>
+						<div class="tab-pane" id="rB">
+							<p>Howdy, I'm in Section B.</p>
+						</div>
+						<div class="tab-pane" id="rC">
+							<p>What up girl, this is Section C.</p>
 						</div>
 					</div>
-
 				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-    <a href="#" id="dob" data-type="date" data-pk="1" data-url="/post" data-original-title="Select date">15/05/1984</a>
-    <script>
-    $(function(){
-    $('#dob').editable({
-		mode: 'inline',
-    format: 'yyyy-mm-dd',
-    viewformat: 'dd/mm/yyyy',
-    datepicker: {
-    	language:'fr',
-    weekStart: 1
-    }
-    
-    });
-    });
-    </script>
-
-
-
+</div>
 
 <script type="text/javascript">
 
-$(function(){
-	$('.wysihtml5').editable({
-		mode: 'inline',
-		wysihtml5 :{
+
+$('.wysihtml5').editable({
+	mode: 'inline',
+	wysihtml5 :{
 			locale: "fr-FR",
 			//color: true,
-			"stylesheets": ["<?php echo $this->basePath() . '/css/bootstrap-all.css';?>"]
+			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
 		}
 	});
+$('.picker').editable({
+	mode: 'inline',
+	format: 'yyyy-mm-dd',
+	viewformat: 'dd-mm-yyyy',
+	 datepicker: {
+		language:'fr',
+	}
+
 });
 
 
+
 $('.edit').editable({
-    mode: 'inline',
+	mode: 'inline',
 });
 
 
 
 </script>
 <?php 
-	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
-	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js') ;  
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
+
+$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
+
+
+
+  
 ?>
