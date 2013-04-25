@@ -1,53 +1,54 @@
 <?php 
 
-$form->prepare();
-$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element' => $type)));
-$form->setAttribute('method', 'post');
+$form->setAttribute('id','form');
 $form->setAttribute('class','form-horizontal');
-?>
+$form->setAttribute('method', 'post');
+$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element_id' => $type_element_id)));
+$form->prepare();
 
-<?php
 echo $this->form()->openTag($form);
 
 foreach ($form as $element):
- 	if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
+    if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
         <div class="control-group">
-        <label class="control-label">
-        	<?php 
-        		echo $this->formLabel($element);
-        	?>
-        </label>
-    <?php endif ?>
-    <?php if ($element instanceof Zend\Form\Element\Button): ?>
-        <div class="form-actions">
-        	<?php echo $this->formButton($element) ?>
-        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-    <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
-        <div class="controls">
-        	<div class="input-prepend">
-                <?php if ($element->getAttribute('description') != null) { ?>
-                 	<span class="add-on">
-                 		<a href="#" 
-                 			id="<?php echo $element->getAttribute('name'); ?>"
-                 			class="description"
-                 			rel="popover" 
-                 			data-content="<?php echo $element->getAttribute('description'); ?>" 
-                 			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-                 		
-                    </span>
-                <?php } else { ?>
-               	  <span class="add-on"></span>
-                <?php } ?>
-                <?php echo $this->formInput($element) . $this->formElementErrors($element); ?>
-	        </div>
+            <label class="control-label">
+                <?php echo $this->formLabel($element); ?>
+            </label>
+        <?php endif ?>
+        <?php if ($element instanceof Zend\Form\Element\Button): ?>
+            <div class="form-actions"> 
+                <button id="valider" class="btn btn-primary" type="button">Valider</button>
+                <a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+        <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
+            <div class="controls">
+                <div class="input-prepend">
+                    <?php if ($element->getAttribute('description') != null) { ?>
+                        <span class="add-on">
+                            <a href="#" 
+                                id="<?php echo $element->getAttribute('name'); ?>"
+                                class="description"
+                                rel="popover" 
+                                data-content="<?php echo $element->getAttribute('description'); ?>" 
+                                data-original-title="Description du champ"><i class="icon-question-sign"></i>
+                            </a>  
+                        </span>
+                    <?php } else { ?>
+                        <span class="add-on"></span>
+                    <?php } ?>
+                    <?php echo $this->formInput($element) ?>
+                </div>
+                <?php echo $this->formElementErrors($element); ?>
+            </div>
         </div>
-    <?php endif ?>
-    </div>
+        <?php endif ?>
+    
 <?php endforeach; ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <script> 
-	$(function ()  
-		{ $(".description").popover({placement:'top', trigger:'hover'});  
-	});
+    $(function ()  
+        { $(".description").popover({placement:'top', trigger:'hover'});  
+    });
+
 </script>
+

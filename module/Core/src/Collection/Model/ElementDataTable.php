@@ -30,7 +30,6 @@ class ElementDataTable extends DataTable
 	
 	public function getJSONaaData(){
 		$obj = get_object_vars($this);
-		//var_dump($obj["aaData"]);
 		return json_encode($obj["aaData"]);
 	}
 
@@ -42,35 +41,84 @@ class ElementDataTable extends DataTable
 			$alias = 'entity';
 			$alias_type = 't';
 				
-			$query = $entityManager->createQueryBuilder($alias);
+			$query = $entityManager->createQueryBuilder($alias)
+			                       ->leftJoin($alias.'.type_element', $alias_type)
+			                       ->addSelect($alias_type);
 	
 			if(isset($conditions)){
-				$andX = $query->expr()->andX();
-				 
-				foreach ($conditions as $key => $value) {
-					if($key != 'type'){
-						$key = $alias.'.'.$key;
+
+				$arrayOfType = array();
+				$arrayOfAndX = array();
+
+				foreach ($conditions as $condition) {
+					
+					if($condition["type"] === 'type'){
+						$arrayOfType[] = array( 
+												'type'  => $alias_type.'.type',
+								                'value' => $condition["value"]
+										);
 					} else {
-						$key = $alias_type.'.'.$key;
+						$arrayOfAndX[] = array( 
+												'type'  => $alias.'.'.$condition["type"],
+								                'value' => $condition["value"]
+										);
 					}
-	
-					if($key !=  $alias.'.titre'){
-						$andX->add($query->expr()->eq( $key,  $query->expr()->literal($value) ));
-					} else {
-						$andX->add($query->expr()->like( $key,  $query->expr()->literal($value) ));
-					}
+
 				}
-	
-				$query
-				->leftJoin($alias.'.type_element', $alias_type)
-				->addSelect($alias_type)
-				->add('where', $andX);
+				
+				if( count($arrayOfType) > 1 ){
+					$orX = $query->expr()->orX();
+					
+					foreach ($arrayOfType as $element) {
+						$orX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
+					}
+					
+					$query->add('where', $orX);
+				}
+				
+				if( count($arrayOfAndX) > 0 && count($arrayOfType) === 1 ){
+					$andX = $query->expr()->andX();
+
+					foreach ($arrayOfAndX as $element) {
+						if($element["type"] ===  $alias.'.titre'){
+							$element["value"] = '%'.$element["value"].'%';
+							$andX->add($query->expr()->like( $element["type"],  $query->expr()->literal($element["value"]) ));
+						} else {
+							$andX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
+						}
+					}
+					
+					$andX->add($query->expr()->eq( $arrayOfType[0]["type"],  $query->expr()->literal($arrayOfType[0]["value"]) ));
+					
+					$query->add('where', $andX);
+				}
+				
+				if( count($arrayOfAndX) === 0 && count($arrayOfType) === 1 ){
+					$andX = $query->expr()->andX();
+					$andX->add($query->expr()->eq( $arrayOfType[0]["type"],  $query->expr()->literal($arrayOfType[0]["value"]) ));
+					$query->add('where', $andX);
+				}
+				
+				if( count($arrayOfAndX) > 0 && count($arrayOfType) === 0){
+					$andX = $query->expr()->andX();
+				
+					foreach ($arrayOfAndX as $element) {
+						if($element["type"] ===  $alias.'.titre'){
+							$element["value"] = '%'.$element["value"].'%';
+							$andX->add($query->expr()->like( $element["type"],  $query->expr()->literal($element["value"]) ));
+						} else {
+							$andX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
+						}
+					}
+
+					$query->add('where', $andX);
+				}
 			}
 	
 			$query
 			->setFirstResult($this->getPage())
-			->setMaxResults($this->getDisplayLength())
-			->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
+			->setMaxResults($this->getDisplayLength());
+			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
 	
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());

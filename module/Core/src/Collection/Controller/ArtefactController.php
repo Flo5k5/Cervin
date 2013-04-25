@@ -15,6 +15,7 @@ use Collection\View\Helper\formatForm;
 use Exception;
 use Collection\Entity\Artefact;
 use Collection\Entity\Data;
+use Zend\File\Transfer\Adapter\Http;
 
 class ArtefactController extends AbstractActionController
 {
@@ -51,7 +52,7 @@ class ArtefactController extends AbstractActionController
     public function ajouterAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-    	return new ViewModel(array('types' => $TEartefacts, 'form' => null, 'type' => 'none'));
+    	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
     }
 
 	public function getFormAjaxAction()
@@ -112,6 +113,9 @@ class ArtefactController extends AbstractActionController
 			return $this->redirect()->toRoute('error');
 		}
 
+		if($Artefact==null){
+			return $this->redirect()->toRoute('error');
+		}
 
 		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
 		return new ViewModel(array('artefact' => $Artefact));
