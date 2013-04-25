@@ -1,4 +1,3 @@
-
 <?php
 
 $form->setAttribute('id','form');
@@ -8,47 +7,75 @@ $form->setAttribute('action', $this->url('artefact/ajouter', array('type_element
 $form->prepare();
 
 echo $this->form()->openTag($form);
+?>
 
-foreach ($form as $element):
- 	if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
-        <div class="control-group">
-	        <label class="control-label">
-	        	<?php echo $this->formLabel($element); ?>
-	        </label>
-	    <?php endif ?>
-	    <?php if ($element instanceof Zend\Form\Element\Button): ?>
-	        <div class="form-actions"> 
-	        	<button id="valider" class="btn btn-primary" type="button">Valider</button>
-	        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-	    <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
-	        <div class="controls">
-	        	<div class="input-prepend">
-	        		<?php if ($element->getAttribute('description') != null) { ?>
-			        	<span class="add-on">
-			        		<a href="#" 
-			        			id="<?php echo $element->getAttribute('name'); ?>"
-			        			class="description"
-			        			rel="popover" 
-			        			data-content="<?php echo $element->getAttribute('description'); ?>" 
-			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-				        </span>
-				    <?php } else { ?>
-				    	<span class="add-on"></span>
-				    <?php } ?>
-		        	<?php echo $this->formInput($element) ?>
-		        </div>
-		        <?php echo $this->formElementErrors($element); ?>
-	        </div>
-	    </div>
-	    <?php endif ?>
-    
+<div class="row-fluid">
+	<div class="span5">
+		<?php foreach ($form as $element):
+	 	if (!$element instanceof Zend\Form\Element\Button && 
+			!$element instanceof Zend\Form\Element\Hidden &&
+			$element->getName() != 'description'): ?>
+	 		<!-- Label du champ -->
+	        <div class="control-group">
+		        <label class="control-label">
+		        	<?php echo $this->formLabel($element); ?>
+		        </label>
+		    	<div class="controls">
+		        	<div class="input-prepend">
+		        		<?php if ($element->getAttribute('description') != null) { ?>
+			        		<!-- Bulle d'information sur le champ -->
+					        <span class="add-on">
+					        	<a href="#" 
+				        			id="<?php echo $element->getAttribute('name'); ?>"
+				        			class="description"
+				        			rel="popover" 
+				        			data-content="<?php echo $element->getAttribute('description'); ?>" 
+				        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+					        </span>
+					    <?php } else { ?>
+					    	<span class="add-on"></span>
+					    <?php } ?>
+			        	<?php echo $this->formInput($element) ?>
+			        </div> <!-- /input-prepend -->
+			        <!-- Erreurs de validation du formulaire -->
+			        <?php echo $this->formElementErrors($element); ?>
+		        </div> <!-- /controls -->
+		    </div> <!-- control-group -->
+		<?php endif ?>
+	<?php endforeach; ?>
+	</div>
+
+	<div class="span7 well">
+	<?php foreach ($form as $element):
+		if ($element->getName() == 'description'): ?>
+        	<!-- Editeur d=pour la description -->
+        	
+        		<?php echo $this->formInput($element); ?>
+        	
+        <?php endif; ?>
+    <?php endforeach; ?>
+	</div>
+</div>
+<?php foreach ($form as $element):
+	if ($element instanceof Zend\Form\Element\Button): ?>
+    	<!-- Bouton de validation du formulaire -->
+        <div class="form-actions"> 
+        	<button id="valider" class="btn btn-primary" type="button">Valider</button>
+        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+    	</div> <!-- /form-actions -->
+    <?php endif ?>
 <?php endforeach; ?>
+
 <?php echo $this->form()->closeTag(); ?>
 
 <script> 
+
 	$(function ()  
-		{ $(".description").popover({placement:'top', trigger:'hover'});  
+		{ $(".description").popover({placement:'top', trigger:'hover'}); 
+		$('.wysihtml5-textarea').wysihtml5({image:false}); 
 	});
 
+	
+	
 </script>
 

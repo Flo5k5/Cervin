@@ -16,69 +16,81 @@ class ChampTypeElementForm extends Form
 		}
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
-		$hidden=new Element\Hidden();
+		
+		$hidden = new Element\Hidden();
 		$hidden->setName('id')
 			->setAttributes(array(
 				'type'  => 'hidden',
+				'class' => 'span11'
 			));
 		$this->add($hidden);
 		
-		$this->add(array(
-				'name' => 'titre',
-				'attributes' => array('type'  => 'text', 'description' => 'Le titre de l\'élément'),
-				'options' => array('label' => 'Titre'),
-		));
+		$titre = new Element\Text();
+		$titre->setName('titre')
+			->setLabel('Titre')
+			->setAttributes(array(
+					'description' => 'Le titre de l\'élément',
+					'class' => 'span11'
+			));
+		$this->add($titre);
 		
-		$this->add(array(
-				'name' => 'description',
-				'attributes' => array('type'  => 'text', 'description' => 'La description générale de l\'élément'),
-				'options' => array('label' => 'Description'),
+		$description = new Element\Textarea();
+		$description->setName('description')
+		->setLabel('Description')
+		->setAttributes(array(
+				'description' => 'La description générale de l\'élément',
+				'class' => 'wysihtml5-textarea input-block-level',
+				'style' => 'height: 300px',
+				'placeholder' => 'Description...',
+				'id' => 'description'
 		));
+		$this->add($description);
 		
 		foreach ($type_element->champs as $champ) {
 			switch ($champ->format) {
 				case 'texte':
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'text',
+					$text = new Element\Text();
+					$text->setName($champ->id)
+						->setLabel($champ->label)
+						->setAttributes(array(
 							'description' => $champ->description,
-						),
-						'options' => array('label' => $champ->label),
-					));
+							'class' => 'span11'
+						));
+					$this->add($text);
 					break;
 				case 'textarea':
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'textarea',
+					$textarea = new Element\Textarea();
+					$textarea->setName($champ->id)
+						->setLabel($champ->label)
+						->setAttributes(array(
 							'description' => $champ->description,
-						),
-						'options' => array('label' => $champ->label),
-					));
+							'class' => 'span11'
+						));
+					$this->add($textarea);
 					break;
 				case 'date':
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'text',
+					$date = new Element\Date();
+					$date->setName($champ->id)
+						->setLabel($champ->label)
+						->setAttributes(array(
+							'type'  => 'date',
 							'description' => $champ->description,
-							'class' => 'picker',
-						),
-						'options' => array(
-							'label' => $champ->label,
-						),
-					));
+							'class' => 'picker span11'
+						))
+						->setOptions(array(
+								'format' => 'd-m-Y'
+						));
+					$this->add($date);
 					break;
 				case 'nombre':
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'number',
+					$number = new Element\Number();
+					$number->setName($champ->id)
+						->setLabel($champ->label)
+						->setAttributes(array(
 							'description' => $champ->description,
-						),
-						'options' => array('label' => $champ->label),
-					));
+							'class' => 'span11'
+						));
+					$this->add($number);
 					break;
 				case 'fichier':
 					$this->add(array(
@@ -86,19 +98,21 @@ class ChampTypeElementForm extends Form
 						'attributes' => array(
 							'type'  => 'file',
 							'description' => $champ->description,
+							'class' => 'span11'
 						),
 						'options' => array('label' => $champ->label),
 					));
 					break;
 				case 'url':
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'url',
+					$url = new Element\Url();
+					$url->setName($champ->id)
+						->setLabel($champ->label)
+						->setAttributes(array(
 							'description' => $champ->description,
-						),
-						'options' => array('label' => $champ->label),
-					));
+							'class' => 'span11'
+						));
+					$this->add($url);
+					break;
 			} // end switch
 			
 		} // end foreach

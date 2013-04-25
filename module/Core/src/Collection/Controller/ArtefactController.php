@@ -80,6 +80,7 @@ class ArtefactController extends AbstractActionController
 				if ($form->isValid()) {
 					$datas = $form->getData();
 					$artefact->populate($datas);
+					$artefact->description = $this->params()->fromPost('description');
 					$this->getEntityManager()->persist($artefact);
 					$this->getEntityManager()->flush();
 					return $this->getResponse()->setContent('true');

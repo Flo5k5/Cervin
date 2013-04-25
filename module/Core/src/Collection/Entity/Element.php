@@ -111,7 +111,11 @@ class Element implements InputFilterAwareInterface
         			$this->datas->add($databd);
         			break;
         		case 'date':
-        			$databd->date = new \DateTime($data[$champ->id]);
+        			if ($data[$champ->id] != null) {
+        				$databd->date = new \DateTime($data[$champ->id]);
+        			} else {
+        				$databd->date = null;
+        			}
         			$this->datas->add($databd);
         			break;
         		case 'nombre':
@@ -174,7 +178,41 @@ class Element implements InputFilterAwareInterface
     				array('name' => 'StringTrim'),
     			),
     		)));
-    		 
+    		
+    		foreach ($this->type_element->champs as $champ) {
+	    		switch ($champ->format) {
+	        		case 'texte':
+	        			$inputFilter->add($factory->createInput(array(
+        					'name' => $champ->id,
+        					'required' => false,
+        					'filters' => array(
+        						array('name' => 'StripTags'),
+        						array('name' => 'StringTrim'),
+	        				),
+	        			)));
+	        			break;
+	        		case 'textarea':
+	        			$inputFilter->add($factory->createInput(array(
+        					'name' => $champ->id,
+        					'required' => false,
+        					'filters' => array(
+        						array('name' => 'StripTags'),
+        						array('name' => 'StringTrim'),
+	        				),
+	        			)));
+	        			break;
+	        		case 'date':
+	        		case 'nombre':
+	        		case 'fichier':
+	        		case 'url':
+	        			$inputFilter->add($factory->createInput(array(
+	        				'name' => $champ->id,
+	        				'required' => false
+	        			)));
+	        			break;
+	        	}
+       		}	
+    		
     		$this->inputFilter = $inputFilter;
     	}
     	

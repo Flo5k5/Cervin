@@ -1,5 +1,6 @@
 <?php
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 
 $title = 'Création d\'un artefact';
 $this->headTitle($title);
@@ -32,10 +33,7 @@ $this->headTitle($title);
         </form>
     <?php endif; ?>
 </div>
-
-<?php $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js'); ?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
-
+<hr>
 <div id="containsform"></div>
 
 <script type="text/javascript">
@@ -83,7 +81,7 @@ $this->headTitle($title);
 		    return o;
 		};
 
-		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject()};
+		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject(), description: $("#description").val()};
 	    $.ajax({
 	    	type: "POST",
 	        url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
@@ -97,7 +95,7 @@ $this->headTitle($title);
             }
         })
 	    .fail(function(){
-	        alert('fail');
+	        alert('Erreur : Impossible de créer l\'artefact');
 	    });
 	});
 
@@ -108,8 +106,20 @@ $this->headTitle($title);
             yearRange: '1900:+0',
             changeMonth: true,
             changeYear: true,
-            language:'fr'
+            language:'fr',
+            format:'dd-mm-yyyy'
         }).focus();
     });
 
+    
+
 </script>
+
+<?php 
+	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+?>
+
