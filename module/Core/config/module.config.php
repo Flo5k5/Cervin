@@ -116,7 +116,7 @@ return array(
                     'voirArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/voirArtefact/[:id]',
+                            'route' => '/voirArtefact/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -129,7 +129,7 @@ return array(
                     'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editArtefact/[:id][/:idData]',
+                            'route' => '/editArtefact/:id[/:idData]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                                 'idData' => '[0-9]+',

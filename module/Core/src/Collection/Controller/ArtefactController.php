@@ -112,6 +112,9 @@ class ArtefactController extends AbstractActionController
 			return $this->redirect()->toRoute('error');
 		}
 
+		if($Artefact==null){
+			return $this->redirect()->toRoute('error');
+		}
 
 		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
 		return new ViewModel(array('artefact' => $Artefact));
