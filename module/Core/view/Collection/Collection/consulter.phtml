@@ -13,11 +13,14 @@ $this->headTitle($title);
 
 <div class="container-fluid">
 	<div class="row-fluid">
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
+		<br/><br/>
 		<div class="well">
 		
 			<form id="form-multi" name="form-multi" class="">
 			
-				<br/>
+				<label>Recherche</label>
 				
 				<div class="input-append">
 					<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
@@ -40,8 +43,6 @@ $this->headTitle($title);
 					</div>
 
 				</div>
-				
-				<br/>
 				
 				<button id="submit" class="btn">Rechercher</button>
 				
