@@ -41,7 +41,7 @@ class ChampTypeElementForm extends Form
 				'description' => 'La description générale de l\'élément',
 				'class' => 'wysihtml5-textarea input-block-level',
 				'style' => 'height: 300px',
-				'placeholder' => 'Description...',
+				'placeholder' => 'Entrer la description générale de l\'élément',
 				'id' => 'description'
 		));
 		$this->add($description);
