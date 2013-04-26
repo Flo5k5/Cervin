@@ -48,6 +48,25 @@ class TypeElement implements InputFilterAwareInterface
      **/
     protected $champs;
     
+
+    /**
+     * L'ensemble des champs d�crivant cet artefact
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
+     **/
+    protected $elements;
+
+    /**
+     * Type de l'élément
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_origine", cascade={"remove"})
+     **/
+    protected $relation_origine;
+    
+    /**
+     * Type de l'élément
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_destination", cascade={"remove"})
+     **/
+    protected $relation_destination;
+
     /**
      * Constructeur
      **/
@@ -155,13 +174,13 @@ class TypeElementRepository extends EntityRepository
     {
 
         $query = $this->getEntityManager()->
-        createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'media\'');
+        createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
 
-        $array = $query->getResult(Query::HYDRATE_RECORD); 
+        $array = $query->getResult(Query::HYDRATE_ARRAY); 
         $return = current($array);
     //    $return = array_combine($array['id'],['nom']);
 
-        return $array ;
+        return $array['id'] ;
 
     }
 }

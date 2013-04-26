@@ -85,7 +85,8 @@ class SemantiqueController extends AbstractActionController
 	{
 		$id = (int) $this->params('id', null);
 	    if (null === $id) {
-	      return $this->redirect()->toRoute('error');
+	        $this->getResponse()->setStatusCode(404);
+			return; 
 	    }
 		
 		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
@@ -126,7 +127,8 @@ class SemantiqueController extends AbstractActionController
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+			return; 
         }
         
 			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
