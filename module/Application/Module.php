@@ -53,6 +53,16 @@ class Module implements AutoloaderProviderInterface,
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
                 },
+                'flashMessages' => function($sm) {
+                    $flashmessenger = $sm->getServiceLocator()
+                        ->get('ControllerPluginManager')
+                        ->get('flashmessenger');
+ 
+                    $messages = new \Application\View\Helper\FlashMessages();
+                    $messages->setFlashMessenger($flashmessenger);
+ 
+                    return $messages;
+                }
             ),
         );
     }
