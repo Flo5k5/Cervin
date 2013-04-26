@@ -87,18 +87,12 @@ class SemantiqueController extends AbstractActionController
 	    if (null === $id) {
 	      return $this->redirect()->toRoute('error');
 	    }
-	    try {
-			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		
+		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		if ($SemantiqueArtefact === null) {
+			$this->getResponse()->setStatusCode(404);
+			return; 
 		}
-		catch (\Exception $ex) {
-			return $this->redirect()->toRoute('error');
-		}
-
-		/* c'est comme ça qu'on controle thibaud ton try catch sert a rien doctrine genere pas d'exception il retourne null
-		if($SemantiqueArtefact==null){
-			return $this->redirect()->toRoute('error');
-		}
-		//*/
 
 	 	$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
 	 	$typeElementsArtefactArray = array();
@@ -134,11 +128,11 @@ class SemantiqueController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('error');
         }
-        try {
+        
 			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
-		}
-		catch (\Exception $ex) {
-			return $this->redirect()->toRoute('error');
+		if ($SemantiqueArtefact === null) {
+			$this->getResponse()->setStatusCode(404);
+			return; 
 		}
         
 
