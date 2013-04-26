@@ -10,7 +10,7 @@ $this->headTitle($title);
 
 <?php
 $form = $this->form;
-$form->setAttribute('action', $this->url('semantique/ajouter',array('id'=>$id)));
+$form->setAttribute('action', $this->url('semantique/modifier',array('id'=>$id)));
 $form->prepare();
 
 $form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span6'));

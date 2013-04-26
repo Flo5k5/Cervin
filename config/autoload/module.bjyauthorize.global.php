@@ -21,6 +21,34 @@ return array(
                 'role_entity_class' => 'SamUser\Entity\Role',
             ),
         ),
+        'resource_providers' => array(
+            'BjyAuthorize\Provider\Resource\Config' => array(
+                'menuAdmin' => array(),
+                'menuCollection' => array(),
+                'menuParcours' => array(),
+                'menuUtilisateur' => array(),
+                //'pants' => array(),
+            ),
+        ),
+        'rule_providers' => array(
+            'BjyAuthorize\Provider\Rule\Config' => array(
+                'allow' => array(
+                    // allow guests and users (and admins, through inheritance)
+                    // the "wear" privilege on the resource "pants"
+                    //array(array('guest', 'user'), 'pants', 'wear'),
+                    array(array('Admin'), 'menuAdmin'),
+                    array(array('Collection'), 'menuCollection'),
+                    array(array('Parcours'), 'menuParcours'),
+                    array(array('Utilisateur'), 'menuUtilisateur'),
+                ),
+
+                // Don't mix allow/deny rules if you are using role inheritance.
+                // There are some weird bugs.
+                'deny' => array(
+                    // ...
+                ),
+            ),
+        ),
         'guards' => array(
             /* If this guard is specified here (i.e. it is enabled), it will block
              * access to all controllers and actions unless they are specified here.

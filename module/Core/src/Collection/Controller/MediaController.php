@@ -48,7 +48,7 @@ class MediaController extends AbstractActionController
 
     public function ajouterAction()
     {
-    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
+    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'), array('nom'=>'asc'));
 		return new ViewModel(array('types' => $TEmedias, 'form' => null));
     }
 
