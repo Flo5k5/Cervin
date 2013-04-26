@@ -81,6 +81,7 @@ class MediaController extends AbstractActionController
 					$media->description = $this->params()->fromPost('description');
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
+                    $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Succès!</strong> Le média "%1$s" a bien ete créé.', $media->titre));
                     return $this->getResponse()->setContent('true');
                 } else {
                     $viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEmedia->id, 'form' => $form));
