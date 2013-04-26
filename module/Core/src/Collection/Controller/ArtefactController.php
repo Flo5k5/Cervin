@@ -66,6 +66,7 @@ class ArtefactController extends AbstractActionController
 				return $viewModel;
 				
 			} elseif ($this->params()->fromPost('name') == 'ajouter') {
+
 				$type = $this->params()->fromPost('type');
 				$TEartefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'artefact', 'nom'=>$type));
 				if (!$TEartefact) {
@@ -81,6 +82,7 @@ class ArtefactController extends AbstractActionController
 					$artefact->description = $this->params()->fromPost('description');
 					$this->getEntityManager()->persist($artefact);
 					$this->getEntityManager()->flush();
+					$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Succès!</strong> L\'artefact "%1$s" a bien ete créé.', $artefact->titre));
 					return $this->getResponse()->setContent('true');
 				} else {
 					$viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEartefact->id, 'form' => $form));
