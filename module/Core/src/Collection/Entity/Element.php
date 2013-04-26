@@ -4,6 +4,7 @@ namespace Collection\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
@@ -123,7 +124,7 @@ class Element implements InputFilterAwareInterface
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
-        			$databd->fichier = $data[$champ->id];
+        			$databd->fichier = $data[$champ->id]['tmp_name'];
         			$this->datas->add($databd);
         			break;
         		case 'url':
@@ -201,9 +202,21 @@ class Element implements InputFilterAwareInterface
 	        				),
 	        			)));
 	        			break;
+	        		case 'fichier':
+	        			$file = new FileInput('file'.$champ->id);
+				        $file->setRequired(true);
+				        $file->getFilterChain()->attachByName(
+				            'filerenameupload',
+				            array(
+				                'target'          => 'C/wamp/www/cervin/data/tmpuploads/',
+				                'overwrite'       => true,
+				                'use_upload_name' => true,
+				            )
+				        );
+				        $inputFilter->add($file);
+	        			break;
 	        		case 'date':
 	        		case 'nombre':
-	        		case 'fichier':
 	        		case 'url':
 	        			$inputFilter->add($factory->createInput(array(
 	        				'name' => $champ->id,

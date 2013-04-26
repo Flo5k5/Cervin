@@ -50,6 +50,7 @@ class ArtefactController extends AbstractActionController
 
     public function ajouterAction()
     {
+    	array_map('unlink', glob('./data/tmpuploads/*'));
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
     	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
     }
@@ -77,6 +78,8 @@ class ArtefactController extends AbstractActionController
 				$form = new ChampTypeElementForm($TEartefact);
 				$form->setInputFilter($artefact->getInputFilter());
 				$form->setData($this->params()->fromPost('formdata'));
+				var_dump($this->params()->fromPost('formdata'));
+				return;
 				if ($form->isValid()) {
 					$datas = $form->getData();
 					$artefact->populate($datas);

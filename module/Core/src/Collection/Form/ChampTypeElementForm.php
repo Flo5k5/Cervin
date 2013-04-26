@@ -93,27 +93,16 @@ class ChampTypeElementForm extends Form
 					$this->add($number);
 					break;
 				case 'fichier':
-					$file = new Element\File('fichier' . $champ->id);
-					$file->setName($champ->id)
-							->setAttributes(array(
+					$file = new Element\File('file'.$champ->id);
+					$file->setName('file'.$champ->id)
+						->setLabel($champ->label)
+						 ->setAttributes(array(
 								'type'  => 'file',
 								'description' => $champ->description,
-							))
-							->setOptions(array('label' => $champ->label));
+						 		'class' => 'fichier'
+							));
 					$this->add($file);
 					break;
-					/*
-					$this->add(array(
-						'name' => $champ->id,
-						'attributes' => array(
-							'type'  => 'file',
-							'description' => $champ->description,
-							'class' => 'span11'
-						),
-						'options' => array('label' => $champ->label),
-					));
-					break;
-					//*/
 				case 'url':
 					$url = new Element\Url();
 					$url->setName($champ->id)
