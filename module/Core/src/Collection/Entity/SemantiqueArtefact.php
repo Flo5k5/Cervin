@@ -105,7 +105,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                 'required' => true,
                 'filters' => array(array('name' => 'Int')),
             )));
-                var_dump($typeElementsArtefactArray);
+                //var_dump($typeElementsArtefactArray);
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'type_destination',
                 'validators' => array(

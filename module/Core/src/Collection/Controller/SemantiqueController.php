@@ -61,26 +61,25 @@ class SemantiqueController extends AbstractActionController
 			$typeElementsArtefactArray2[]=$typeElementArtefact->id;
 
 		}
-		$form = new SemantiqueForm($typeElementsArtefactArray);
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $SemantiqueArtefact = new SemantiqueArtefact();
-            $form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
-            $form->setData($request->getPost());
 
-            if ($form->isValid()) {
-				$SemantiqueArtefact->populate($form->getData()); 
-				$this->getEntityManager()->persist($SemantiqueArtefact);
+        $form = new SemantiqueForm($typeElementsArtefactArray);
+		$SemantiqueArtefact = new SemantiqueArtefact();
+	    $form->bind($SemantiqueArtefact);
+		    
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+		    $form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
+			$form->setData($request->getPost());
+			if ($form->isValid()) {
+				$SemantiqueArtefact->type_destination = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($request->getPost()['type_destination']);
+				$SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($request->getPost()['type_origine']);
+			    $this->getEntityManager()->persist($SemantiqueArtefact);
+			    $this->getEntityManager()->flush();
+			 
+	            return $this->redirect()->toRoute('semantique');
+		    }
+		}
 
-
-$SemantiqueArtefact->type_destination = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($form->getData()['type_destination']);
-$SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($form->getData()['type_origine']);
-
-
-				$this->getEntityManager()->flush();
-                return $this->redirect()->toRoute('semantique');
-            }
-        }
 		return new ViewModel(array('form'=>$form));
 
 	}
@@ -89,8 +88,14 @@ $SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Co
 	{
 		$id = (int) $this->params('id', null);
 	    if (null === $id) {
-	      return $this->redirect()->toRoute('post');
+	      return $this->redirect()->toRoute('error');
 	    }
+	    try {
+			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		}
+		catch (\Exception $ex) {
+			return $this->redirect()->toRoute('error');
+		}
 
 	 	$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
 	 	$typeElementsArtefactArray = array();
@@ -100,19 +105,16 @@ $SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Co
 			$typeElementsArtefactArray2[]=$typeElementArtefact->id;
 
 		}
-
-	    
-	    $SemantiqueArtefact = $getEntityManager->getRepository('Collection\Entity\SemantiqueArtefact')->findBy(array('id'=>$id));
-	 
 	    $form = new SemantiqueForm($typeElementsArtefactArray);
 	    $form->bind($SemantiqueArtefact);
 	    
 	    $request = $this->getRequest();
 	    if ($request->isPost()) {
+	    	$form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
 		    $form->setData($request->getPost());
 		    if ($form->isValid()) {
-		        $em->persist($SemantiqueArtefact);
-		        $em->flush();
+		        $this->getEntityManager()->persist($SemantiqueArtefact);
+		        $this->getEntityManager()->flush();
 		 
                 return $this->redirect()->toRoute('semantique');
 		    }
@@ -122,5 +124,24 @@ $SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Co
 	      'form' => $form,
 	      'id' => $id
 	    );
+	}
+	public function supprimerAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('error');
+        }
+        try {
+			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		}
+		catch (\Exception $ex) {
+			return $this->redirect()->toRoute('error');
+		}
+        
+
+        $this->getEntityManager()->remove($SemantiqueArtefact);
+        $this->getEntityManager()->flush();
+        return $this->redirect()->toRoute('semantique');
+        
 	}
 }

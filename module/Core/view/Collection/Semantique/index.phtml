@@ -24,14 +24,31 @@ $this->headTitle($title);
     <td>
 
         <span class="btn-group">
-            <button class="btn"> <a href="<?php echo $this->url('semantique/modifier',
-            array('id' => $semantique->id));?>">Edit</a> </button>
-            <button class="btn"> <a href="<?php echo $this->url('semantique/supprimer',
-            array('id' => $semantique->id));?>">Delete</a> </button>
+            <a class="btn btn-primary" href="<?php echo $this->url('semantique/modifier',
+            array('id' => $semantique->id));?>"><i class="icon-pencil"></i> Edit</a>
+            <a class="btn btn-danger supprimer" href="#" data-url="<?php echo $this->url('semantique/supprimer',
+            array('id' => $semantique->id));?>"><i class="icon-trash"></i> Delete</a>
         </span>
     </td>
 </tr>
 <?php endforeach; ?>
 </table>
 
+<div id="confirmDiv" >
+</div>
 
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js') ;?>
+<script type="text/javascript">
+$(".supprimer").on("click", function(){
+    var dateURL = $(this).attr('data-url');
+    $('#confirmDiv').confirmModal({
+        heading:'Confirmation',
+        body:"Êtes-vous sûr de vouloir supprimer définitivement la semantique ?",
+        callback: function() {
+
+            $(location).attr('href',dateURL);
+        }
+    });   
+}); 
+</script>
