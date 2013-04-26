@@ -73,7 +73,7 @@ class ChampTypeElementForm extends Form
 					$date->setName($champ->id)
 						->setLabel($champ->label)
 						->setAttributes(array(
-							'type'  => 'date',
+							'type'  => 'text',
 							'description' => $champ->description,
 							'class' => 'picker span11'
 						))
