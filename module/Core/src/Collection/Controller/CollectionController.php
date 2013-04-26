@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Collection\Form\ChampForm;
+use Doctrine\DBAL\DriverManager;
 
 class CollectionController extends AbstractActionController
 {
@@ -55,7 +56,7 @@ class CollectionController extends AbstractActionController
     }
     
     public function consulterAction()
-    {
+    {    	
     	//$conditions = array('type' => 'artefact', 'titre' => '%Jacques%');
     	//$conditions = array('type' => 'artefact');
     	$params = null;
