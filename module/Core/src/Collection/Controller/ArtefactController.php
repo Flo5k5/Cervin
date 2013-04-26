@@ -44,7 +44,6 @@ class ArtefactController extends AbstractActionController
 	}
 
 	public function indexAction()
-
     {
 		return $this->redirect()->toRoute('collection/consulter');
     }

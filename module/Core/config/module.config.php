@@ -9,6 +9,7 @@ return array(
         	'Collection' => 'Collection\Controller\CollectionController',
             'Artefact' => 'Collection\Controller\ArtefactController',
             'Media' => 'Collection\Controller\MediaController',
+            'Semantique' => 'Collection\Controller\SemantiqueController',
         ),
     ),
 	'router' => array(
@@ -176,7 +177,55 @@ return array(
                     ),
                 ),
             ),
-
+            'semantique' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/semantique',
+                    'defaults' => array(
+                        'controller' => 'Semantique',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'ajouter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Semantique',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                    'supprimer' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/supprimer/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Semantique',
+                                'action'     => 'supprimer',
+                            ),
+                        ),
+                    ),
+                    'modifier' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifier/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Semantique',
+                                'action'     => 'modifier',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 		

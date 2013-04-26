@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Collection\Form\ChampForm;
+use Doctrine\DBAL\DriverManager;
 
 class CollectionController extends AbstractActionController
 {

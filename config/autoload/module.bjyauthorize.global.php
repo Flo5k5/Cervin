@@ -118,6 +118,23 @@ return array(
                     'action' => 'getFormAjax',
                     'roles' => array('Collection')
                 ),
+                array(
+                    'controller' => 'fileupload_examples',
+                    'roles' => array('Visiteur')
+                ),
+                array(
+                    'controller' => 'fileupload_prgexamples',
+                    'roles' => array('Visiteur')
+                ),
+                array(
+                    'controller' => 'fileupload_progressexamples',
+                    'roles' => array('Visiteur')
+                ),
+
+                array(
+                    'controller' => 'Semantique',
+                    'roles' => array('Admin')
+                ),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -155,6 +172,25 @@ return array(
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
                 array('route' => 'media/getFormAjax', 'roles' => array('Collection')),
+
+                array('route' => 'semantique', 'roles' => array('Admin')),
+                array('route' => 'semantique/ajouter', 'roles' => array('Admin')),
+                array('route' => 'semantique/supprimer', 'roles' => array('Admin')),
+                array('route' => 'semantique/modifier', 'roles' => array('Admin')),
+
+                array('route' => 'fileupload', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/single', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/success', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/multi-html5', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/collection', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/partial', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/prg', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/prg/multi-html5', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/prg/fieldset', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/progress', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/progress/session', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/progress/session_partial', 'roles' => array('Visiteur')),
+                array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
             ),
         ), 
     ),

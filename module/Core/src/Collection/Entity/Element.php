@@ -103,7 +103,7 @@ class Element implements InputFilterAwareInterface
         	$databd = new Data($this, $champ);
         	switch ($champ->format) {
         		case 'texte':
-        			$databd->texte =  $data[$champ->id];
+        			$databd->texte = $data[$champ->id];
         			$this->datas->add($databd);
         			break;
         		case 'textarea':
