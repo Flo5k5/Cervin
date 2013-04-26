@@ -48,7 +48,7 @@ class ElementDataTable extends DataTable
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
-				$allowedType = array("type", "titre", "description");
+				$allowedType = array("type", "titre", "description", "id");
 
 				$arrayOfType = array();
 
@@ -69,7 +69,7 @@ class ElementDataTable extends DataTable
 
 					$requete = "eq";
 					
-					if( $key === "type" ){
+					if( $key === "type" || $key === "id" ){
 						$key = $alias_type.'.'.$key;
 					} else if( $key === "titre" ){
 						$key = $alias.'.'.$key;
@@ -132,6 +132,7 @@ class ElementDataTable extends DataTable
 	
 		return $this->paginator;
 	}
+	
 	
 	
 	
