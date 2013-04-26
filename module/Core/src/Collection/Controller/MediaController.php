@@ -89,7 +89,7 @@ class MediaController extends AbstractActionController
                 }
             }
         } else {        
-            return $this->redirect()->toRoute('artefact/ajouter');
+            return $this->redirect()->toRoute('media/ajouter');
         }
     }
 

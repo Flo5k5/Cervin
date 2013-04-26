@@ -9,87 +9,75 @@ $this->headTitle($title);
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<div class="container">
-	<div class="row-fluid">
-		<div class="span7">
-			<p><?php echo $artefact->description;?></p>
-		</div>
-		<div class="span5 well">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
-				<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Relation</a></li>
-			</ul>
-			<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-				<div class="tab-pane active" id="tab1">
-					<dl class="dl-horizontal">
-						<?php foreach( ($artefact->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> </dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-            						case 'texte':
-            							echo $data->{$data->champ->format};
-									break;
-									case 'textarea':
-										echo $data->{$data->champ->format};
-									break;
-									case 'date':
-										echo $data->date->format('Y-m-d');
-									break;
-									case 'nombre':
-										echo $data->{$data->champ->format};
-									break;
-									case 'fichier':
-										echo $data->{$data->champ->format};
-									break;
-									case 'url':
-										echo $data->{$data->champ->format};
-									break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endforeach ;?>
-					</dl>
-				</div>
-				<div class="tab-pane" id="tab2">
-					<div class="tabbable tabs-left ">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
-							<li><a href="#rB" data-toggle="tab">Section 2</a></li>
-							<li><a href="#rC" data-toggle="tab">Section 3</a></li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="rA">
-								<p>I'm in Section A.</p>
-							</div>
-							<div class="tab-pane" id="rB">
-								<p>Howdy, I'm in Section B.</p>
-							</div>
-							<div class="tab-pane" id="rC">
-								<p>What up girl, this is Section C.</p>
-							</div>
+<div class="row-fluid">
+	<div class="span7">
+		<a href="<?php echo $this->url('artefact/editArtefact',
+            array('id' => $artefact->id)) ?>" class="btn icon-pencil btn-primary">Modifier cet artefact</a>
+        <br/><br/>
+		<p><?php echo $artefact->description;?></p>
+	</div>
+	<div class="span5 well">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
+			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Relation</a></li>
+		</ul>
+		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+			<div class="tab-pane active" id="tab1">
+				<dl class="dl-horizontal">
+					<dt>Type : </dt>
+					<dd><?php echo $artefact->type_element->nom; ?></dd>
+					<?php foreach( ($artefact->datas) as $data) :?>
+						<dt><?php echo $data->champ->label ?> </dt>
+						<dd>
+							<?php switch ($data->champ->format) :
+        						case 'texte':
+        							echo $data->{$data->champ->format};
+								break;
+								case 'textarea':
+									echo $data->{$data->champ->format};
+								break;
+								case 'date':
+									echo $data->date->format('d-m-Y');
+								break;
+								case 'nombre':
+									echo $data->{$data->champ->format};
+								break;
+								case 'fichier':
+									echo $data->{$data->champ->format};
+								break;
+								case 'url':
+									echo $data->{$data->champ->format};
+								break;
+								?>
+							<?php endswitch ;?>
+						</dd>
+					<?php endforeach ;?>
+				</dl>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<div class="tabbable tabs-left ">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
+						<li><a href="#rB" data-toggle="tab">Section 2</a></li>
+						<li><a href="#rC" data-toggle="tab">Section 3</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="rA">
+							<p>I'm in Section A.</p>
+						</div>
+						<div class="tab-pane" id="rB">
+							<p>Howdy, I'm in Section B.</p>
+						</div>
+						<div class="tab-pane" id="rC">
+							<p>What up girl, this is Section C.</p>
 						</div>
 					</div>
-
 				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
