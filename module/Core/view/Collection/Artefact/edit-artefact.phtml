@@ -14,8 +14,8 @@ $this->headTitle($title);
 
 <div class="container">
 	<div class="row-fluid">
-		<div class="span12">
-			<div class="wysihtml5 CursorPointer" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
+		<div class="span12 well">
+			<div class="wysihtml5 CursorPointer" data-class="input-block-level" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
 		</div>
 	</div>
 	<br>
@@ -91,7 +91,7 @@ $('.wysihtml5').editable({
 	mode: 'inline',
 	wysihtml5 :{
 			locale: "fr-FR",
-			//color: true,
+			image: false,
 			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
 		}
 	});

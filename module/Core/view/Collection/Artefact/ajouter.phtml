@@ -1,5 +1,6 @@
 <?php
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 
 $title = 'Création d\'un artefact';
 $this->headTitle($title);
@@ -24,76 +25,18 @@ $this->headTitle($title);
 </form>
 
 <div id="annuler">
-    <?php if($this->form == null): ?>
         <form class="form-horizontal">
 	       	<div class="form-actions">
 	       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
 	       	</div>
         </form>
-    <?php endif; ?>
 </div>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js'); ?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
-<div id="containsform">
-    <?php if($this->form != null): ?>
-        <?php 
-            $form=$this->form;
-            $form->setAttribute('class','form-horizontal');
-            $form->setAttribute('method', 'post');
-            $form->setAttribute('action', $this->url('artefact/ajouter', array('type_element_id' => $this->type->id)));
-            $form->prepare();
-
-            echo $this->form()->openTag($form);
-            
-            foreach ($form as $element):
-                if (!$element instanceof Zend\Form\Element\Button && !$element instanceof Zend\Form\Element\Hidden): ?>
-                    <div class="control-group">
-                    <label class="control-label">
-                        <?php 
-                            echo $this->formLabel($element);
-                        ?>
-                    </label>
-                <?php endif ?>
-                <?php if ($element instanceof Zend\Form\Element\Button): ?>
-                    <div class="form-actions">
-                        <?php echo $this->formButton($element) ?>
-                        <a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-                <?php elseif (!$element instanceof Zend\Form\Element\Hidden): ?>
-                    <div class="controls">
-                        <div class="input-prepend">
-                            <?php if ($element->getAttribute('description') != null) { ?>
-                                <span class="add-on">
-                                    <a href="#" 
-                                        id="<?php echo $element->getAttribute('name'); ?>"
-                                        class="description"
-                                        rel="popover" 
-                                        data-content="<?php echo $element->getAttribute('description'); ?>" 
-                                        data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-                                </span>
-                            <?php } else { ?>
-                                <span class="add-on"></span>
-                            <?php } ?>
-                            <?php echo $this->formInput($element); ?>
-                        </div>
-                        <?php echo $this->formElementErrors($element); ?>
-                    </div>
-                    </div>
-                <?php endif ?>
-            <?php endforeach; ?>
-            <?php echo $this->form()->closeTag(); ?>
-            
-            <script> 
-                $(function ()  
-                    { $(".description").popover({placement:'top', trigger:'hover'});  
-                });
-            </script>
-        </div>
-    <?php endif; ?>
-</div>
+<hr>
+<div id="containsform"></div>
 
 <script type="text/javascript">
-    var select=$(".target");
-    select.change(function() {
+
+	$(".target").change(function() {
         if($("select option:selected").val()=='none') {
         	$("#annuler").html('<form class="form-horizontal">'+
         						'<div class="form-actions">'+
@@ -105,7 +48,7 @@ $this->headTitle($title);
         	$.ajax({
         		type: "POST",
         		url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
-        		data: { type: $("select option:selected").val() }
+        		data: { name: 'getform', type: $("select option:selected").val() }
         	})
             .done(function(resp) {
             	$("#annuler").html("");
@@ -116,13 +59,66 @@ $this->headTitle($title);
             });
         }
     });
-    $('body').on('click', 'input.picker', function(event) {
+
+	$("#containsform").on("click","#valider", function(){
+
+		$.fn.serializeObject = function()
+		{
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(this.value || '');
+		        } else {
+		            o[this.name] = this.value || '';
+		        }
+		    });
+		    return o;
+		};
+
+		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject(), description: $("#description").val()};
+	    $.ajax({
+	    	type: "POST",
+	        url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
+	        data: data, 
+	    })
+        .done(function(resp) {
+        	if(resp == 'true') {
+                var url="<?php echo $this->url('collection/consulter')?>";
+        		$(location).attr('href',url);
+            } else {
+            	$("#containsform").html(resp);
+            }
+        })
+	    .fail(function(){
+	        alert('Erreur : Impossible de créer l\'artefact');
+	    });
+	});
+
+    $('#containsform').on('click', 'input.picker', function(event) {
+
         $(this).datepicker({
             shown: 'focus',
             yearRange: '1900:+0',
             changeMonth: true,
             changeYear: true,
-            language:'fr'
+            language:'fr',
+            format:'dd-mm-yyyy'
         }).focus();
     });
+
+    
+
 </script>
+
+<?php 
+	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+?>
+

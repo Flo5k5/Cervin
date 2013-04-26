@@ -30,7 +30,6 @@ class ElementDataTable extends DataTable
 	
 	public function getJSONaaData(){
 		$obj = get_object_vars($this);
-		//var_dump($obj["aaData"]);
 		return json_encode($obj["aaData"]);
 	}
 
@@ -42,36 +41,76 @@ class ElementDataTable extends DataTable
 			$alias = 'entity';
 			$alias_type = 't';
 				
-			$query = $entityManager->createQueryBuilder($alias);
+			$query = $entityManager->createQueryBuilder($alias)
+			                       ->leftJoin($alias.'.type_element', $alias_type)
+			                       ->addSelect($alias_type);
 	
 			if(isset($conditions)){
-				$andX = $query->expr()->andX();
-				 
-				foreach ($conditions as $key => $value) {
-					if($key != 'type'){
-						$key = $alias.'.'.$key;
-					} else {
-						$key = $alias_type.'.'.$key;
+				
+				//Tableau de types autorisés
+				$allowedType = array("type", "titre", "description");
+
+				$arrayOfType = array();
+
+				//On traite les éléments passés en POST
+				foreach ($conditions as $condition) {
+					//Vérifie que le type est bien autorisé
+					if(in_array($condition["type"], $allowedType)) {
+						//On ajoute le type dans le tableau et on ajoute la valeur dans un sous tableau
+						$arrayOfType[$condition["type"]][] = $condition["value"];
 					}
-	
-					if($key !=  $alias.'.titre'){
-						$andX->add($query->expr()->eq( $key,  $query->expr()->literal($value) ));
+					
+				}
+
+				$andX = $query->expr()->andX();
+
+				//On traite chaque type
+				foreach($arrayOfType as $key => $type){
+
+					$requete = "eq";
+					
+					if( $key === "type" ){
+						$key = $alias_type.'.'.$key;
+					} else if( $key === "titre" ){
+						$key = $alias.'.'.$key;
+						$requete = "like";
 					} else {
-						$andX->add($query->expr()->like( $key,  $query->expr()->literal($value) ));
+						$key = $alias.'.'.$key;
+					}
+
+					//Si il y a plus de 1 valeur pour un type, on les ajoute au tableau de OR
+					if( count($type) > 1 ){
+						
+						$orX = $query->expr()->orX();
+						
+						foreach($type as $value){
+							if($requete === "like"){ $value = '%'.$value.'%'; }
+							
+							$orX->add($query->expr()->$requete( $key,  $query->expr()->literal($value) ));
+						}
+						
+						$andX->add($orX);
+						
+					//Sinon on les ajoute au tableau de AND
+					} else {
+						if($requete === "like"){ $type[0] = '%'.$type[0].'%'; }
+						
+						$andX->add($query->expr()->$requete( $key,  $query->expr()->literal($type[0]) ));
+						
 					}
 				}
-	
-				$query
-				->leftJoin($alias.'.type_element', $alias_type)
-				->addSelect($alias_type)
-				->add('where', $andX);
+
+				$query->add('where', $andX);
+
 			}
-	
+
 			$query
 			->setFirstResult($this->getPage())
-			->setMaxResults($this->getDisplayLength())
-			->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
+			->setMaxResults($this->getDisplayLength());
+			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
 	
+			//var_dump($query->getQuery()->getSQL());
+			
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());
 				$sSearch = preg_replace('/[^[:ascii:]]/', '%', $sSearch);

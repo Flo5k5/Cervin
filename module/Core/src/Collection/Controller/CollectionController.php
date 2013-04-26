@@ -14,7 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Collection\Form\ChampForm;
-
+use Doctrine\DBAL\DriverManager;
 
 class CollectionController extends AbstractActionController
 {
@@ -57,15 +57,14 @@ class CollectionController extends AbstractActionController
     
     public function consulterAction()
     {
-    	//$conditions = array('type' => 'artefact', 'titre' => '%Jacques%');
-    	$conditions = array('type' => 'artefact');
-    	
+    	$params = null;
+
     	if ($this->getRequest()->isXmlHttpRequest()) {
-    		$params = $this->params()->fromQuery();
+    		$params = $this->params()->fromPost();
     	} else {
     		$params = array("iSortCol_0" => "0", "sSortDir_0" => "asc");
     	}
-    		
+    	  		
     	$entityManager = $this->getEntityManager()
     					      ->getRepository('Collection\Entity\Element');
  
@@ -80,8 +79,16 @@ class CollectionController extends AbstractActionController
     	));
     
     	$aaData = array();
+    	
+    	$paginator = null;
+    	
+    	if(isset($params["conditions"])){
+    		$paginator = $dataTable->getPaginator($params["conditions"]);
+    	} else {
+    		$paginator = $dataTable->getPaginator();
+    	}
     		
-    	foreach ($dataTable->getPaginator($conditions) as $element) {
+    	foreach ($paginator as $element) {
     		$aaData[] = array(
     				$element->titre,
     				$element->description,

@@ -45,7 +45,7 @@ class Data implements InputFilterAwareInterface
     
     /**
      * La valeur s'il s'agit d'un nombre, null sinon
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $nombre;
     

@@ -27,8 +27,8 @@ class ChampTypeElementFormTest extends PHPUnit_Framework_TestCase
 		$type_element->__set('champs', $champs);
 		$form = new ChampTypeElementForm($type_element);
 
-		$this->assertNotNull($form->get('Label pour le texte'));
-		$this->assertNotNull($form->get('Label pour la date'));
+		$this->assertNotNull($form->get($champ1->id));
+		$this->assertNotNull($form->get($champ2->id));
 		
 	}
 	
