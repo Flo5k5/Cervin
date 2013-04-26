@@ -13,33 +13,41 @@ $this->headTitle($title);
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<form id="form-multi" name="form-multi" class="">
-			<br/>
-			<div class="input-append">
-				<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
-				<button class="btn" type="button"><i class="icon-plus"> </i></button>
-				<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
-			</div>
-
-			<div>
-				<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
-				<input type="button" class="btn form-button" data-type="type" data-value="media" value="MÃ©dia" />
-			</div>
-
-			<br/>
-			<div>
-				<div id="form-pillbox" class="pillbox">
-					<ul>
-					</ul>
+		<div class="well">
+		
+			<form id="form-multi" name="form-multi" class="">
+			
+				<br/>
+				
+				<div class="input-append">
+					<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
+					<button class="btn form-plus" type="button"><i class="icon-plus"> </i></button>
+					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
 				</div>
+	
+				<div>
+					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
+					<input type="button" class="btn form-button" data-type="type" data-value="media" value="MÃ©dia" />
+				</div>
+	
+				<br/>
+				
+				<div>
+				
+					<div id="form-pillbox" class="pillbox">
+						<ul>
+						</ul>
+					</div>
 
-				<input type="button" class="btn btn-mini" id="btnItems" value="log items to console">
-			</div>
-			<br/>
-			<button id="submit" class="btn">Rechercher</button>
+				</div>
+				
+				<br/>
+				
+				<button id="submit" class="btn">Rechercher</button>
+				
+			</form>
 			
-			
-		</form>
+		</div>
 	</div>
     <div class="row-fluid">
         <div class="span12">
@@ -116,34 +124,21 @@ $this->headTitle($title);
 		);
 
 	    // INITIALIZING PILLBOX
-		$('#btnAdd').click(function () {
-			$('#form-pillbox ul').append('<li>Item Eight</li>');
-		});
-
-		$('#btnRemove').click(function () {
-			$('#form-pillbox li[data-value="foo"]').remove();
-		});
-
-		$('#btnItems').click(function () {
-			var items = $('#form-pillbox').pillbox('items');
-			console.log(items);
-		});
-		
 		$('.form-button').click(function () {
 			if(!isDuplicatePill( $(this) )){
 				$('#form-pillbox ul').append('<li class="status-success" data-type="' + $(this).attr("data-type") + '" data-value="' + $(this).attr("data-value") + '">' + $(this).attr("value") + '</li>');
 			}
-		});
+		});	
 		
-		$('.form-button').click(function () {
-			if(!isDuplicatePill( $(this) )){
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + $(this).attr("data-type") + '" data-value="' + $(this).attr("data-value") + '">' + $(this).attr("value") + '</li>');
-			}
-		});
+		$('.form-plus').click(function () {
+			var e = jQuery.Event("keypress");
+			e.which = 13; // Code touche entrée = 13
+			$(this).parent().children('.form-titre').trigger(e);
+		});	
 
 		$('.form-titre').keypress(function(event){
 			var value = $(this).attr("value").trim();
-			if( event.which == 13 && value != "" ){
+			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
 				$(this).attr("data-value", value);
 				if(!isDuplicatePill( $(this) )){
 					$('#form-pillbox ul').append('<li class="status-success" data-type="' + $(this).attr("data-type") + '" data-value="' + $(this).attr("data-value") + '">' + value + '</li>');

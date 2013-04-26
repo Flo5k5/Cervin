@@ -56,9 +56,7 @@ class CollectionController extends AbstractActionController
     }
     
     public function consulterAction()
-    {    	
-    	//$conditions = array('type' => 'artefact', 'titre' => '%Jacques%');
-    	//$conditions = array('type' => 'artefact');
+    {
     	$params = null;
 
     	if ($this->getRequest()->isXmlHttpRequest()) {
