@@ -44,15 +44,12 @@ class SemantiqueController extends AbstractActionController
 	public function indexAction()
 	{
 		$semantiquesArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findAll();
-
-
-
 		return new ViewModel(array('semantiquesArtefact'=>$semantiquesArtefact));
 	}
 
 	public function ajouterAction()
 	{
-		$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
+		$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'), array('nom'=>'ASC'));
 
 		$typeElementsArtefactArray = array();
 		$typeElementsArtefactArray2 = array();
@@ -96,6 +93,12 @@ class SemantiqueController extends AbstractActionController
 		catch (\Exception $ex) {
 			return $this->redirect()->toRoute('error');
 		}
+
+		/* c'est comme ça qu'on controle thibaud ton try catch sert a rien doctrine genere pas d'exception il retourne null
+		if($SemantiqueArtefact==null){
+			return $this->redirect()->toRoute('error');
+		}
+		//*/
 
 	 	$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
 	 	$typeElementsArtefactArray = array();

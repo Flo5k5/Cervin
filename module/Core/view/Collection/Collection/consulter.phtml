@@ -13,35 +13,38 @@ $this->headTitle($title);
 
 <div class="container-fluid">
 	<div class="row-fluid">
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
+		<br/><br/>
 		<div class="well">
 		
 			<form id="form-multi" name="form-multi" class="">
 			
-				<br/>
+				<label>Recherche</label>
 				
 				<div class="input-append">
 					<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
 					<button class="btn form-plus" type="button"><i class="icon-plus"> </i></button>
 					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
 				</div>
+
+				<br/>
 	
-				<div>
+				<div class="btn-group">
 					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
 					<input type="button" class="btn form-button" data-type="type" data-value="media" value="Média" />
 				</div>
 	
-				<br/>
+				<br/><br/>
 				
 				<div>
-				
+					Tags :
 					<div id="form-pillbox" class="pillbox">
 						<ul>
 						</ul>
 					</div>
 
 				</div>
-				
-				<br/>
 				
 				<button id="submit" class="btn">Rechercher</button>
 				
