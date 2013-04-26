@@ -46,80 +46,71 @@ class ElementDataTable extends DataTable
 			                       ->addSelect($alias_type);
 	
 			if(isset($conditions)){
+				
+				//Tableau de types autorisés
+				$allowedType = array("type", "titre", "description");
 
 				$arrayOfType = array();
-				$arrayOfAndX = array();
 
+				//On traite les éléments passés en POST
 				foreach ($conditions as $condition) {
+					//Vérifie que le type est bien autorisé
+					if(in_array($condition["type"], $allowedType)) {
+						//On ajoute le type dans le tableau et on ajoute la valeur dans un sous tableau
+						$arrayOfType[$condition["type"]][] = $condition["value"];
+					}
 					
-					if($condition["type"] === 'type'){
-						$arrayOfType[] = array( 
-												'type'  => $alias_type.'.type',
-								                'value' => $condition["value"]
-										);
+				}
+
+				$andX = $query->expr()->andX();
+
+				//On traite chaque type
+				foreach($arrayOfType as $key => $type){
+
+					$requete = "eq";
+					
+					if( $key === "type" ){
+						$key = $alias_type.'.'.$key;
+					} else if( $key === "titre" ){
+						$key = $alias.'.'.$key;
+						$requete = "like";
 					} else {
-						$arrayOfAndX[] = array( 
-												'type'  => $alias.'.'.$condition["type"],
-								                'value' => $condition["value"]
-										);
+						$key = $alias.'.'.$key;
 					}
 
-				}
-				
-				if( count($arrayOfType) > 1 ){
-					$orX = $query->expr()->orX();
-					
-					foreach ($arrayOfType as $element) {
-						$orX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
-					}
-					
-					$query->add('where', $orX);
-				}
-				
-				if( count($arrayOfAndX) > 0 && count($arrayOfType) === 1 ){
-					$andX = $query->expr()->andX();
-
-					foreach ($arrayOfAndX as $element) {
-						if($element["type"] ===  $alias.'.titre'){
-							$element["value"] = '%'.$element["value"].'%';
-							$andX->add($query->expr()->like( $element["type"],  $query->expr()->literal($element["value"]) ));
-						} else {
-							$andX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
+					//Si il y a plus de 1 valeur pour un type, on les ajoute au tableau de OR
+					if( count($type) > 1 ){
+						
+						$orX = $query->expr()->orX();
+						
+						foreach($type as $value){
+							if($requete === "like"){ $value = '%'.$value.'%'; }
+							
+							$orX->add($query->expr()->$requete( $key,  $query->expr()->literal($value) ));
 						}
+						
+						$andX->add($orX);
+						
+					//Sinon on les ajoute au tableau de AND
+					} else {
+						if($requete === "like"){ $type[0] = '%'.$type[0].'%'; }
+						
+						$andX->add($query->expr()->$requete( $key,  $query->expr()->literal($type[0]) ));
+						
 					}
-					
-					$andX->add($query->expr()->eq( $arrayOfType[0]["type"],  $query->expr()->literal($arrayOfType[0]["value"]) ));
-					
-					$query->add('where', $andX);
 				}
-				
-				if( count($arrayOfAndX) === 0 && count($arrayOfType) === 1 ){
-					$andX = $query->expr()->andX();
-					$andX->add($query->expr()->eq( $arrayOfType[0]["type"],  $query->expr()->literal($arrayOfType[0]["value"]) ));
-					$query->add('where', $andX);
-				}
-				
-				if( count($arrayOfAndX) > 0 && count($arrayOfType) === 0){
-					$andX = $query->expr()->andX();
-				
-					foreach ($arrayOfAndX as $element) {
-						if($element["type"] ===  $alias.'.titre'){
-							$element["value"] = '%'.$element["value"].'%';
-							$andX->add($query->expr()->like( $element["type"],  $query->expr()->literal($element["value"]) ));
-						} else {
-							$andX->add($query->expr()->eq( $element["type"],  $query->expr()->literal($element["value"]) ));
-						}
-					}
 
-					$query->add('where', $andX);
-				}
+				$query->add('where', $andX);
+
 			}
-	
+
 			$query
 			->setFirstResult($this->getPage())
 			->setMaxResults($this->getDisplayLength());
 			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
 	
+			//var_dump($query->getQuery()->getSQL());
+			
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());
 				$sSearch = preg_replace('/[^[:ascii:]]/', '%', $sSearch);
