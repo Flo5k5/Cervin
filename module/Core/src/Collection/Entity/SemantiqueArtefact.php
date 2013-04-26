@@ -21,7 +21,6 @@ use Zend\InputFilter\InputFilterInterface;
 class SemantiqueArtefact implements InputFilterAwareInterface
 {
     protected $inputFilter;
-
     /**
     * @ORM\Id
     * @ORM\Column(type="integer");
@@ -32,13 +31,13 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     /**
      * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
      * $type_origine contient la chaîne décrivant le type du premier artefact
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      **/
     protected $type_origine;
     
     /**
      * $type_destination contient la chaîne décrivant le type du deuxième artefact
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      */
     protected $type_destination;
     
@@ -85,7 +84,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     * @param array $data
     */
     public function populate($data = array())
-    {
+    { 
         $this->id = $data['id'];
         $this->semantique = $data['semantique'];
     }
@@ -95,8 +94,67 @@ class SemantiqueArtefact implements InputFilterAwareInterface
         throw new \Exception("Not used");
     }
 
-    public function getInputFilter()
+    public function getInputFilter($typeElementsArtefactArray = array())
     {
-    	
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+        
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'id',
+                'required' => true,
+                'filters' => array(array('name' => 'Int')),
+            )));
+                var_dump($typeElementsArtefactArray);
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'type_destination',
+                'validators' => array(
+                    array(
+                        'name'    => 'InArray',
+                        'options' => array(
+                            'haystack' => $typeElementsArtefactArray,
+                            'messages' => array(
+                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Please select your gender !'  
+                            ),
+                        ),
+                    ),
+                ),
+            )));  
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'type_origine',
+                'validators' => array(
+                    array(
+                        'name'    => 'InArray',
+                        'options' => array(
+                            'haystack' => $typeElementsArtefactArray,
+                            'messages' => array(
+                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Please select your gender !'  
+                            ),
+                        ),
+                    ),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'semantique',
+                'required' => true,
+                'filters' => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min' => 1,
+                            'max' => 200,
+                        ),
+                    ),
+                ),
+            )));
+            
+            $this->inputFilter = $inputFilter;
+        }
+    	return $this->inputFilter;
     }
 }

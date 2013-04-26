@@ -8,11 +8,13 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
-
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
+use \Doctrine\ORM\Query;
 /**
 * Un type d'�l�ment de la collection (personne, image, mat�riel, logiciel, ...)
 *
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
 * @ORM\Table(name="typeelement")
 * @property int $id
 * @property string $nom
@@ -140,5 +142,26 @@ class TypeElement implements InputFilterAwareInterface
     	}
     	
     	return $this->inputFilter;
+    }
+}
+class TypeElementRepository extends EntityRepository
+{
+
+
+
+
+
+    public function getIdNameArray()
+    {
+
+        $query = $this->getEntityManager()->
+        createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'media\'');
+
+        $array = $query->getResult(Query::HYDRATE_RECORD); 
+        $return = current($array);
+    //    $return = array_combine($array['id'],['nom']);
+
+        return $array ;
+
     }
 }

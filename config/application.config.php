@@ -19,7 +19,8 @@ return array(
         'Application',
         'Album',
         'Core',
-        'DataTable'
+        'DataTable',
+        'ZF2FileUploadExamples'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

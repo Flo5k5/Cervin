@@ -1,0 +1,54 @@
+<?php
+$title = 'Nouvelle Semantique';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('semantique/ajouter'));
+$form->prepare();
+
+$form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span6'));
+
+$form->get('type_origine')->setAttributes(array('class'=>'span3'));
+$form->get('type_origine')->setAttributes(array('class'=>'span3'));
+
+$form->get('submit')->setLabel('Valider')->setAttribute('class','ajChampSubmit btn btn-primary');
+
+
+echo $this->form()->openTag($form);
+
+echo $this->formHidden($form->get('id'));
+?>
+<div class="row">
+	<div class="span3">
+<?php echo $this->formLabel($form->get('type_origine')) ?></div>
+	<div class="span6">
+<?php echo $this->formLabel($form->get('semantique')) ?></div>
+	<div class="span3">
+<?php echo $this->formLabel($form->get('type_destination')) ?></div>
+</div>
+<div class="row">
+	<div class="span3">
+<?php echo $this->formSelect($form->get('type_origine')) ?>
+<?php echo $this->formElementErrors($form->get('type_origine')) ?></div>
+	<div class="span6">
+<?php echo $this->formInput($form->get('semantique')) ?>
+<?php echo $this->formElementErrors($form->get('semantique')) ?></div>
+	<div class="span3">
+<?php echo $this->formSelect($form->get('type_destination')) ?>
+<?php echo $this->formElementErrors($form->get('type_destination')) ?></div>
+</div>
+
+
+<?php
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+
+?>
+
