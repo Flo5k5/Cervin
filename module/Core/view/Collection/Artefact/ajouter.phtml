@@ -86,8 +86,8 @@ $this->headTitle($title);
 	    	<!-- Bouton de validation du formulaire -->
 	        <div class="form-actions"> 
 	        	<?php echo $this->formSubmit($element); ?>
-	        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-	    	</div> 
+	        	<a href="<?php echo $this->url('collection/consulter') ?>" role="button" class="btn"> Annuler </a>
+	    	</div>
 	    <?php endif ?>
 	
 	<?php endforeach; ?>
@@ -97,7 +97,7 @@ $this->headTitle($title);
 	<div id="annuler">
 	        <form class="form-horizontal">
 		       	<div class="form-actions">
-		       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+		       		<a href="<?php echo $this->url('collection/consulter') ?>" role="button" class="btn"> Annuler </a>
 		       	</div>
 	        </form>
 	</div>

@@ -131,6 +131,7 @@ return array(
                 array('route' => 'admin', 'roles' => array('Admin')),
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
                 array('route' => 'admin/changeUserAjax', 'roles' => array('Admin')),
+                array('route' => 'admin/editAccueil', 'roles' => array('Admin')),
 
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),

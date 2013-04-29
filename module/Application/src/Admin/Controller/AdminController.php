@@ -16,7 +16,6 @@ use SamUser\Entity\User;
 use SamUser\Entity\Role;
 use Zend\Mvc\Controller\Plugin\Url;
 
-
 class AdminController extends AbstractActionController
 {    
 
@@ -184,5 +183,25 @@ class AdminController extends AbstractActionController
         } else {
             return $this->redirect()->toRoute('home');
         }
+    }
+
+    public function editAccueilAction()
+    {
+        $request = $this->getRequest();
+        $page_accueil = $this->getEntityManager()->getRepository('Application\Entity\Page')->findOneBy(array('titre'=>'Accueil'));
+        if ($request->isPost())
+        {
+            //save new text
+            $text = $this->getRequest()->getPost()->toArray()["wysiwyg"];
+            $page_accueil->texte = $text;
+            $this->getEntityManager()->persist($page_accueil);
+            $this->getEntityManager()->flush();
+            return $this->redirect()->toRoute('home');
+        }
+        else
+        {
+            return new ViewModel(array('page' => $page_accueil));
+        }
+        
     }
 }
