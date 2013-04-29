@@ -104,7 +104,7 @@ return array(
                             ),
                         ),
                     ),
-                    'getFormAjax' => array(
+                   /* 'getFormAjax' => array(
                         'type' => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route' => '/getFormAjax',
@@ -113,7 +113,7 @@ return array(
                                 'action'     => 'getFormAjax',
                             ),
                         ),
-                    ),
+                    ),*/
                     'voirArtefact' => array(
                         'type' => 'segment',
                         'options' => array(

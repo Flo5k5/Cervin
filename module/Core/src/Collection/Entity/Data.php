@@ -39,7 +39,7 @@ class Data implements InputFilterAwareInterface
     
     /**
      * La valeur s'il s'agit d'un fichier, null sinon
-     * @ORM\Column(type="date", length=200, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $fichier;
     
@@ -62,7 +62,7 @@ class Data implements InputFilterAwareInterface
     protected $url;
     
     /**
-     * L'�l�ment auquel la donn�e se rapporte
+     * L'élément auquel la donnée se rapporte
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Element", inversedBy="datas")
      **/
     protected $element;

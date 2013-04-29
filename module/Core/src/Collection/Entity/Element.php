@@ -4,6 +4,7 @@ namespace Collection\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
@@ -66,6 +67,7 @@ class Element implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
      **/
     protected $relation_destination;
+    
     /**
     * Magic getter to expose protected properties.
     *
@@ -134,7 +136,7 @@ class Element implements InputFilterAwareInterface
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
-        			$databd->fichier = $data[$champ->id];
+        			$databd->fichier = $data[$champ->id]['tmp_name'];
         			$this->datas->add($databd);
         			break;
         		case 'url':
@@ -212,9 +214,21 @@ class Element implements InputFilterAwareInterface
 	        				),
 	        			)));
 	        			break;
+	        		case 'fichier':
+	        			$file = new FileInput($champ->id);
+				        $file->setRequired(false);
+				        $file->getFilterChain()->attachByName(
+				            'filerenameupload',
+				            array(
+				                'target'          => './data/tmpuploads/',
+				                'overwrite'       => true,
+				                'use_upload_name' => true,
+				            )
+				        );
+				        $inputFilter->add($file);
+	        			break;
 	        		case 'date':
 	        		case 'nombre':
-	        		case 'fichier':
 	        		case 'url':
 	        			$inputFilter->add($factory->createInput(array(
 	        				'name' => $champ->id,
