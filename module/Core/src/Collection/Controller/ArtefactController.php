@@ -118,6 +118,7 @@ class ArtefactController extends AbstractActionController
 		}
 
 		try {
+			$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
 			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		}
 		catch (\Exception $ex) {
@@ -185,7 +186,7 @@ class ArtefactController extends AbstractActionController
 		        break;
 			}
 		}
-		return new ViewModel(array('artefact' => $Artefact));
+		return new ViewModel(array('artefact' => $Artefact,'TEartefacts'=>$TEartefacts));
 	}
 
 }
