@@ -14,10 +14,8 @@ class Pages implements FixtureInterface
 		$page_accueil = new Application\Entity\Page(
 			'Accueil',
 			'
-				<div class="hero-unit">
-    				<h1>Moving-BO</h1>
-    				<h4>Prototype de Back-Office pour le projet Cervin</h4>
-				</div>
+				<h1>Moving-BO</h1>
+				<h4>Prototype de Back-Office pour le projet Cervin</h4>
 			'
 		);
 		$manager->persist($page_accueil);

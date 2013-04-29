@@ -42,6 +42,18 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
     	$page_accueil = $this->getEntityManager()->getRepository('Application\Entity\Page')->findOneBy(array('titre'=>'Accueil'));
+        if($page_accueil == null){
+        	$manager = $this->getEntityManager();
+        	$page_accueil = new Application\Entity\Page(
+			'Accueil',
+			'
+				<h1>Moving-BO</h1>
+				<h4>Prototype de Back-Office pour le projet Cervin</h4>
+			'
+		);
+		$manager->persist($page_accueil);
+		$manager->flush();
+        }
         return new ViewModel(array('display' => $page_accueil->texte));
     }
 }
