@@ -242,6 +242,6 @@ class Element implements InputFilterAwareInterface
     	}
     	
     	return $this->inputFilter;
-    }	
+    }
 
 }
