@@ -63,7 +63,20 @@ return array(
                             
                         ),
                         
-                    ),/*
+                    ),
+                    'editAccueil' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/editAccueil',
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'editAccueil',
+                            ),
+                            
+                        ),
+                        
+                    ),
+                    /*
                     'authenticate' => array(
                         'type' => 'Literal',
                         'options' => array(
