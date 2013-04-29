@@ -10,108 +10,117 @@ $this->headTitle($title);
     <h1><i class="icon-tag"></i>  <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<form class="form-horizontal">
+<form id="selectform" class="form-horizontal">
 	<div class="control-group">
 		<label class="control-label" for="inputEmail">Type d'artefact</label>
 	    <div class="controls">
 			<select name="type" class="target">
 				<option value="none">Veuillez choisir un type</option>
 				<?php foreach ($this->types as $current) : ?>
-					<option value="<?php echo $current->nom; ?> <?php if($current->nom == $this->type){echo 'selected="selected"';} ?>"> <?php echo $current->nom; ?> </option>
+					<option value="<?php echo $current->id; ?>" <?php if($current->id == $type_element_id){echo 'selected="selected"';} ?>> <?php echo $current->nom; ?> </option>
 				<?php endforeach; ?>
 			</select>
 	    </div> 
 	</div>
 </form>
-
-<div id="annuler">
-        <form class="form-horizontal">
-	       	<div class="form-actions">
-	       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-	       	</div>
-        </form>
-</div>
 <hr>
-<div id="containsform"></div>
+
+<div id="containsform">
+<?php if ($form) { 
+	$form->setAttribute('action', $this->url('artefact/ajouter', array('type_element_id' => $type_element_id)));
+	$form->setAttribute('id','form');
+	$form->setAttribute('class','form-horizontal');
+	$form->setAttribute('method', 'post');
+	$form->prepare();
+	
+	echo $this->form()->openTag($form);
+	?>
+	
+	<div class="row-fluid">
+		<div class="span4">
+			<?php foreach ($form as $element):
+		 	if (!$element instanceof Zend\Form\Element\Button && 
+				!$element instanceof Zend\Form\Element\Hidden &&
+				$element->getName() != 'description'): ?>
+		 		<!-- Label du champ -->
+		        <div class="control-group">
+			        <label class="control-label">
+			        	<?php echo $this->formLabel($element); ?>
+			        </label>
+			    	<div class="controls">
+			        	<div class="input-prepend">
+			        		<?php if ($element->getAttribute('description') != null) { ?>
+				        		<!-- Bulle d'information sur le champ -->
+						        <span class="add-on">
+						        	<a href="#" 
+					        			id="<?php echo $element->getAttribute('name'); ?>"
+					        			class="description"
+					        			rel="popover" 
+					        			data-content="<?php echo $element->getAttribute('description'); ?>" 
+					        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+						        </span>
+						    <?php } else { ?>
+						    	<span class="add-on"></span>
+						    <?php } ?>
+				        	<?php echo $this->formInput($element) ?>
+				        </div> <!-- /input-prepend -->
+				        <!-- Erreurs de validation du formulaire -->
+				        <?php echo $this->formElementErrors($element); ?>
+			        </div> <!-- /controls -->
+			    </div> <!-- control-group -->
+			<?php endif ?>
+		<?php endforeach; ?>
+		</div>
+		
+		<div class="span8 well">
+		<?php foreach ($form as $element):
+			if ($element->getName() == 'description'): ?>
+	        	<!-- Editeur pour la description -->
+	        	<?php echo $this->formInput($element); ?>
+	        <?php endif; ?>
+	    <?php endforeach; ?>
+		</div>
+	</div>
+	<?php foreach ($form as $element):
+		if ($element instanceof Zend\Form\Element\Button): ?>
+	    	<!-- Bouton de validation du formulaire -->
+	        <div class="form-actions"> 
+	        	<?php echo $this->formSubmit($element); ?>
+	        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+	    	</div> 
+	    <?php endif ?>
+	
+	<?php endforeach; ?>
+	
+	<?php echo $this->form()->closeTag(); ?>
+<?php } else { ?>
+	<div id="annuler">
+	        <form class="form-horizontal">
+		       	<div class="form-actions">
+		       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+		       	</div>
+	        </form>
+	</div>
+	<hr>
+	<div id="containsform"></div>
+<?php } ?>
+</div>
 
 <script type="text/javascript">
 
 	$(".target").change(function() {
-        if($("select option:selected").val()=='none') {
-        	$("#annuler").html('<form class="form-horizontal">'+
-        						'<div class="form-actions">'+
-        						'<a href="/collection/consulter" role="button" class="btn"> Annuler </a>'+
-        						'</div>'+
-        						'</form>');
-            $('#containsform').html('');
-        } else {
-        	$.ajax({
-        		type: "POST",
-        		url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
-        		data: { name: 'getform', type: $("select option:selected").val() }
-        	})
-            .done(function(resp) {
-            	$("#annuler").html("");
-            	$("#containsform").html(resp);
-            })
-            .fail(function(jqXHR, textStatus, errorThrown){
-            	alert('échec de chargement du formulaire : '+textStatus+' / '+errorThrown);
-            });
-        }
-    });
-
-	$("#containsform").on("click","#valider", function(){
-
-		$.fn.serializeObject = function()
-		{
-		    var o = {};
-		    var a = this.serializeArray();
-		    $.each(a, function() {
-			    var value;
-		        if (o[this.name] !== undefined) {
-		            if (!o[this.name].push) {
-		                o[this.name] = [o[this.name]];
-		            }
-		            o[this.name].push(this.value || '');
-		        } else {
-		            o[this.name] = this.value || '';
-		        }
-		    });
-		    
-		    $(".fichier").each(function() {
-		    	if (o[this.name] !== undefined) {
-		            if (!o[this.name].push) {
-		                o[this.name] = [o[this.name]];
-		            }
-		            o[this.name].push(this.value || '');
-		        } else {
-		            o[this.name] = this.value || '';
-		        }
-		    });
-		    return o;
-		};
-
-		data = { name:'ajouter', type: $("select option:selected").val(), formdata: $('form').serializeObject(), description: $("#description").val()};
-	    $.ajax({
-	    	type: "POST",
-	        url: "<?php echo $this->url('artefact/getFormAjax'); ?>",
-	        data: data, 
-	    })
-        .done(function(resp) {
-        	if(resp == 'true') {
-                var url="<?php echo $this->url('collection/consulter')?>";
-        		$(location).attr('href',url);
-            } else {
-            	$("#containsform").html(resp);
-            }
-        })
-	    .fail(function(){
-	        alert('Erreur : Impossible de créer l\'artefact');
-	    });
+	
+	    if($("select option:selected").val()=='none') {
+	    	var url="<?php echo $this->url('artefact/ajouter')?>";
+			$(location).attr('href',url);
+	    } else {
+		    var id = $("select option:selected").val();
+	    	var url = '<?php echo $this->url('artefact/ajouter', array('type_element_id' => '\'+id+\''))?>';
+			$(location).attr('href',url);
+	    }
 	});
 
     $('#containsform').on('click', 'input.picker', function(event) {
-
         $(this).datepicker({
             shown: 'focus',
             yearRange: '1900:+0',
@@ -121,8 +130,11 @@ $this->headTitle($title);
             format:'dd-mm-yyyy'
         }).focus();
     });
-
     
+    $(function ()  
+    		{ $(".description").popover({placement:'top', trigger:'hover'}); 
+    		$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
+    });
 
 </script>
 
@@ -133,4 +145,3 @@ $this->headTitle($title);
 	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
 	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
 ?>
-

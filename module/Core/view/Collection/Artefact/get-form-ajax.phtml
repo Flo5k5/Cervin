@@ -44,7 +44,7 @@ echo $this->form()->openTag($form);
 		<?php endif ?>
 	<?php endforeach; ?>
 	</div>
-
+	
 	<div class="span7 well">
 	<?php foreach ($form as $element):
 		if ($element->getName() == 'description'): ?>
@@ -60,7 +60,7 @@ echo $this->form()->openTag($form);
         <div class="form-actions"> 
         	<button id="valider" class="btn btn-primary" type="button">Valider</button>
         	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
-    	</div> <!-- /form-actions -->
+    	</div> 
     <?php endif ?>
 
 <?php endforeach; ?>

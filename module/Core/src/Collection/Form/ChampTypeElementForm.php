@@ -36,9 +36,8 @@ class ChampTypeElementForm extends Form
 		
 		$description = new Element\Textarea();
 		$description->setName('description')
-		->setLabel('Description')
-		->setAttributes(array(
-				'description' => 'La description générale de l\'élément',
+			->setLabel('Description')
+			->setAttributes(array(
 				'class' => 'wysihtml5-textarea input-block-level',
 				'style' => 'height: 300px',
 				'placeholder' => 'Description...',
@@ -93,13 +92,12 @@ class ChampTypeElementForm extends Form
 					$this->add($number);
 					break;
 				case 'fichier':
-					$file = new Element\File('file'.$champ->id);
-					$file->setName('file'.$champ->id)
+					$file = new Element\File($champ->id);
+					$file->setName($champ->id)
 						->setLabel($champ->label)
 						 ->setAttributes(array(
-								'type'  => 'file',
 								'description' => $champ->description,
-						 		'class' => 'fichier'
+						 		'class' => 'span11'
 							));
 					$this->add($file);
 					break;

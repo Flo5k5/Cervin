@@ -50,12 +50,46 @@ class ArtefactController extends AbstractActionController
 
     public function ajouterAction()
     {
-    	array_map('unlink', glob('./data/tmpuploads/*'));
+    	//array_map('unlink', glob('./data/tmpuploads/*'));
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-    	return new ViewModel(array('types' => $TEartefacts, 'form' => null));
+    	$form = null;
+    	$type_element_id = (int) $this->params()->fromRoute('type_element_id', 0);
+    	if ($type_element_id) {
+    		// On affiche le formulaire correspondant à ce type d'artefact
+    		$type_element = $this->getEntityManager()
+    				->getRepository('Collection\Entity\TypeElement')
+    				->findOneBy(array('type'=>'artefact', 'id'=>$type_element_id));
+    		if ($type_element) {
+    			$form = new ChampTypeElementForm($type_element);
+    		} else {
+    			echo "<script>alert(\"Erreur : Type d'artefact non trouvé\")</script>";
+    			return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
+    		}
+    		
+    		$request = $this->getRequest();
+    		if ($request->isPost()) {
+    			$artefact = new Artefact(null, $type_element);
+    			$form->setInputFilter($artefact->getInputFilter());
+    			$data = array_merge_recursive(
+    					$this->getRequest()->getPost()->toArray()
+    					//$this->getRequest()->getFiles()->toArray()
+    			);
+    			$form->setData($data);
+    			if ($form->isValid()) {
+    				$datas = $form->getData();
+    				$artefact->populate($datas);
+    				$this->getEntityManager()->persist($artefact);
+    				$this->getEntityManager()->flush();
+    				return $this->redirect()->toRoute('collection/consulter');
+    			} else {
+    				return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
+    			}
+    		}
+    	}
+    	return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
 
-	public function getFormAjaxAction()
+	/*public function getFormAjaxAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
@@ -97,7 +131,7 @@ class ArtefactController extends AbstractActionController
 		} else {		
 			return $this->redirect()->toRoute('artefact/ajouter');
 		}
-	}
+	}*/
 
 
 	public function voirArtefactAction()

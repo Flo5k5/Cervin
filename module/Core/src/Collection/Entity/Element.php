@@ -203,12 +203,12 @@ class Element implements InputFilterAwareInterface
 	        			)));
 	        			break;
 	        		case 'fichier':
-	        			$file = new FileInput('file'.$champ->id);
-				        $file->setRequired(true);
+	        			$file = new FileInput($champ->id);
+				        $file->setRequired(false);
 				        $file->getFilterChain()->attachByName(
 				            'filerenameupload',
 				            array(
-				                'target'          => 'C/wamp/www/cervin/data/tmpuploads/',
+				                'target'          => './data/tmpuploads/',
 				                'overwrite'       => true,
 				                'use_upload_name' => true,
 				            )
