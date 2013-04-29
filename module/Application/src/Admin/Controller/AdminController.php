@@ -192,7 +192,8 @@ class AdminController extends AbstractActionController
         if ($request->isPost())
         {
             //save new text
-            $text = $this->getRequest()->getPost()->toArray()["wysiwyg"];
+            $data = $this->getRequest()->getPost()->toArray();
+            $text = $data["wysiwyg"];
             $page_accueil->texte = $text;
             $this->getEntityManager()->persist($page_accueil);
             $this->getEntityManager()->flush();
