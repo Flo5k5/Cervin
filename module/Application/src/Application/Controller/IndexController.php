@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
     	$page_accueil = $this->getEntityManager()->getRepository('Application\Entity\Page')->findOneBy(array('titre'=>'Accueil'));
         if($page_accueil == null){
         	$manager = $this->getEntityManager();
-        	$page_accueil = new Application\Entity\Page(
+        	$page_accueil = new Page(
 			'Accueil',
 			'
 				<h1>Moving-BO</h1>

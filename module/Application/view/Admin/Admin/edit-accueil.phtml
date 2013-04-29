@@ -9,9 +9,9 @@ $this->headTitle($title);
     <h1><i class="icon-edit"></i>  <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<div class="container well">
+<div class="container">
 
-	<form method="post" action="<?php echo $this->url('admin/editAccueil') ?>" class="form-horizontal">
+	<form method="post" action="<?php echo $this->url('admin/editAccueil') ?>" class="form-horizontal span11">
 		<div class="controls">
 			<input 	type="textarea"
 					class="wysihtml5-textarea input-block-level"
