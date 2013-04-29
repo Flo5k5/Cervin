@@ -102,7 +102,11 @@ class CollectionController extends AbstractActionController
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		return $this->getResponse()->setContent($dataTable->findAll());
     	} else {
-    		return new ViewModel(array('aaData' => $dataTable->getJSONaaData()));
+    		//var_dump($this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findAll());
+    		$allTypeArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findByType('artefact');
+    		$allTypeMedia = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findByType('media');
+    		return new ViewModel( array( 'aaData' => $dataTable->getJSONaaData(), 'allTypeArtefact' => $allTypeArtefact, 'allTypeMedia' => $allTypeMedia, ) );
+    		//return new ViewModel( array( 'aaData' => $dataTable->getJSONaaData() ) );
     	}
     }
     

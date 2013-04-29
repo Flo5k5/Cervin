@@ -45,7 +45,7 @@ class Element implements InputFilterAwareInterface
     
     /**
      * Type de l'élément
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="elements")
      **/
     protected $type_element;
     
@@ -54,7 +54,18 @@ class Element implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove", "persist"}))
      **/
     protected $datas;
+
+    /**
+     * Type de l'élément
+     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine", cascade={"remove"})
+     **/
+    protected $relation_origine;
     
+    /**
+     * Type de l'élément
+     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
+     **/
+    protected $relation_destination;
     /**
     * Magic getter to expose protected properties.
     *
