@@ -66,6 +66,7 @@ class Element implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
      **/
     protected $relation_destination;
+    
     /**
     * Magic getter to expose protected properties.
     *

@@ -7,7 +7,6 @@ use Zend\ServiceManager\ServiceManager;
 
 use Zend\Http\Request;
 use Zend\View\Helper\AbstractHelper;
-use Zend\View\Model\ViewModel;
  
 class CollectionWidget extends AbstractHelper
 {
@@ -34,8 +33,8 @@ class CollectionWidget extends AbstractHelper
     public function __invoke()
     {
 
-        $viewModel = new ViewModel(array('form'=>'zeze'));
-        $viewModel->setTerminal(true);
-        return $viewModel;
+        return $this->getView()->partial('Collection/Collection/CollectionWidget.phtml', array(  
+            'posts' => 'ee'  
+        ));
     }
 }
