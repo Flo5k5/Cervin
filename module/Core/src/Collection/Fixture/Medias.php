@@ -34,7 +34,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Video
@@ -54,7 +53,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Son
@@ -74,7 +72,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Logiciel
@@ -98,7 +95,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_version);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Modele 3D
@@ -118,7 +114,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Jeu de donn�es
@@ -138,7 +133,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
 		/*
 		 * M�dia : Autre
@@ -162,7 +156,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		$manager->persist($champ_format);
-		$manager->flush();
 		
+		$manager->flush();
 	}
 }

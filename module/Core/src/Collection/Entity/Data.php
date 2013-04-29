@@ -44,6 +44,12 @@ class Data implements InputFilterAwareInterface
     protected $fichier;
     
     /**
+     * Le format de fichier s'il s'agit d'un fichier, null sinon
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $format_fichier;
+    
+    /**
      * La valeur s'il s'agit d'un nombre, null sinon
      * @ORM\Column(type="integer", nullable=true)
      */

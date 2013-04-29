@@ -28,12 +28,12 @@ $this->headTitle($title);
 					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
 				</div>
 
-				<br/><br/>
+				<!-- <br/><br/>
 	
 				<div class="btn-group">
 					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
 					<input type="button" class="btn form-button" data-type="type" data-value="media" value="MÃ©dia" />
-				</div>
+				</div>-->
 
 				<br/><br/>
 				
@@ -84,27 +84,9 @@ $this->headTitle($title);
 			
 		</div>
 	</div>
-    <div class="row-fluid">
-        <div class="span12">
-            <div>
-                <table class="table table-striped table-bordered" id="data">
-                    <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Description</th>
-                            <th>Type</th>
-                            <th>A/M</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="4">En cours de tÃ©lÃ©chargement</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+	
+<?php echo $this->CollectionWidget(); ?>
+
 </div>
 
 <a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
@@ -112,118 +94,3 @@ $this->headTitle($title);
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
-
-
-<script type="text/javascript">
-	//$(function() {
-
-		$("#submit").click( function () {
-
-			var data = new Array();
-
-			jQuery.each($('#form-pillbox').pillbox('items'), function() {
-				var item =  new Object();
-				item["type"] = this.type;
-				item["value"] = this.value;
-				data.push(item);
-			});
-
-			var request = $.ajax({
-				url: "<?php echo $this->url("collection/consulter"); ?>",
-				type: "POST",
-				data: {"conditions" : data},
-				dataType: "html"
-			});
-					 
-			request.done(function(msg) {
-				var obj = jQuery.parseJSON(msg);
-				aaData = obj.aaData;
-				ResultSet.paginate({"bDestroy":true, "aaData": aaData});
-			});
-				
-			return false;
-		});
-
-		var aaData = <?php echo $aaData; ?>;
-	    var table = ResultSet.paginate(
-			{
-				"aaData": aaData,
-	           	"aoColumns": [
-		           	           	null,
-		           	           	null, 
-		           	        	{ "bSortable": false  },
-		                     	{ "bSortable": false  }
-	           	           	 ],
-	           	"iColumns": 4
-			}
-		);
-
-	    // INITIALIZING PILLBOX
-		$('.form-button').click(function () {
-			var value = $(this).attr("data-value").trim();
-			var type = $(this).attr("data-type");
-			if(!isDuplicatePill( type, value )){
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
-			}
-		});	
-		
-		$('.form-plus-type').click(function () {
-			var el = $(this).parent().find('.form-type > option:selected')
-			var type = el.attr("data-type");
-			var value = el.attr("data-value");
-			
-			if( el.hasClass('type-all') ){
-				//console.log(el);
-				$('#form-pillbox ul li[data-context="' + value + '"]').remove();
-			}
-			
-			if(!isDuplicatePill( type, value )){
-				var context = el.parent().children('.type-all').attr("data-value");
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '">' + context.ucFirst() + ' - ' + el.val() + '</li>');
-			}
-
-			$(this).parent().children('.form-type').prop('selectedIndex',0);
-
-		});	
-		
-		$('.form-plus-titre').click(function () {
-			var e = jQuery.Event("keypress");
-			e.which = 13; // Code touche entrée = 13
-			$(this).parent().children('.form-titre').trigger(e);
-		});	
-
-		$('.form-titre').keypress(function(event){
-			var value = $(this).attr("value").trim();
-			var type = $(this).attr("data-type");
-			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
-				$(this).attr("data-value", value);
-				if(!isDuplicatePill( type, value )){
-					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '">' + value + '</li>');
-				}
-				$(this).attr("value", "");
-				$(this).attr("data-value", "");
-				event.preventDefault();
-			}
-		});
-		
-		function isDuplicatePill(type, value){
-			var duplicate = false;
-			jQuery.each($('#form-pillbox').pillbox('items'), function() {
-				if(this.value == value && this.type == type){
-					duplicate = true;
-					return;
-				}
-			});
-			return duplicate;
-		}
-		
-		String.prototype.ucFirst = function() {
-		    return this.charAt(0).toUpperCase() + this.slice(1);
-		}
-
-		/*$('#form-switch-titre').click(function () {
-			$('#form-titre').attr('placeholder', 'Titre et description');
-		});*/
-		
-	//});
-</script>

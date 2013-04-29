@@ -8,6 +8,8 @@ use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\Filter;
+use Exception;
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
@@ -114,33 +116,38 @@ class Element implements InputFilterAwareInterface
         
         foreach ($this->type_element->champs as $champ) {
         	$databd = new Data($this, $champ);
+        	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        			$databd->texte = $data[$champ->id];
-        			$this->datas->add($databd);
-        			break;
         		case 'textarea':
-        			$databd->textarea = $data[$champ->id];
+        		case 'nombre':
+        		case 'url':
+        			$databd->texte = $data[$index];
         			$this->datas->add($databd);
         			break;
         		case 'date':
-        			if ($data[$champ->id] != null) {
-        				$databd->date = new \DateTime($data[$champ->id]);
-        			} else {
-        				$databd->date = null;
+        			if ($data[$index] != null) {
+        				$databd->date = new \DateTime($data[$index]);
         			}
         			$this->datas->add($databd);
         			break;
-        		case 'nombre':
-        			$databd->nombre = $data[$champ->id];
-        			$this->datas->add($databd);
-        			break;
         		case 'fichier':
-        			$databd->fichier = $data[$champ->id]['tmp_name'];
-        			$this->datas->add($databd);
-        			break;
-        		case 'url':
-        			$databd->url = $data[$champ->id];
+        			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
+        			if ($data[$index]['tmp_name'] != null) {
+	        			$tmp = $data[$index]['tmp_name'];
+	        			
+	        			$champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
+	        			
+	        			$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
+	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
+	        			
+	        			$name = $data[$index]['name'];
+	        			
+	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
+	        			$databd->fichier = $dest_dir . "/" . $name;
+	        			$databd->format_fichier = $data[$index]['type'];
+        			}
         			$this->datas->add($databd);
         			break;
         	}
@@ -192,11 +199,13 @@ class Element implements InputFilterAwareInterface
     			),
     		)));
     		
+    		
+    		
     		foreach ($this->type_element->champs as $champ) {
 	    		switch ($champ->format) {
 	        		case 'texte':
 	        			$inputFilter->add($factory->createInput(array(
-        					'name' => $champ->id,
+        					'name' => 'champ_'.strval($champ->id),
         					'required' => false,
         					'filters' => array(
         						array('name' => 'StripTags'),
@@ -206,7 +215,7 @@ class Element implements InputFilterAwareInterface
 	        			break;
 	        		case 'textarea':
 	        			$inputFilter->add($factory->createInput(array(
-        					'name' => $champ->id,
+        					'name' => 'champ_'.strval($champ->id),
         					'required' => false,
         					'filters' => array(
         						array('name' => 'StripTags'),
@@ -215,23 +224,22 @@ class Element implements InputFilterAwareInterface
 	        			)));
 	        			break;
 	        		case 'fichier':
-	        			$file = new FileInput($champ->id);
-				        $file->setRequired(false);
-				        $file->getFilterChain()->attachByName(
-				            'filerenameupload',
-				            array(
-				                'target'          => './data/tmpuploads/',
-				                'overwrite'       => true,
-				                'use_upload_name' => true,
-				            )
-				        );
-				        $inputFilter->add($file);
+	        			$file = new FileInput('champ_'.strval($champ->id));
+	        			$file->setRequired(false);
+	        			$file->getFilterChain()->attachByName(
+	        				'filerenameupload',
+	        				array(
+	        					'target' => $_SERVER['DOCUMENT_ROOT']."/tmpuploads/",
+	        					'use_upload_name' => true,
+	        				)
+	        			);
+	        			$inputFilter->add($file);
 	        			break;
 	        		case 'date':
 	        		case 'nombre':
 	        		case 'url':
 	        			$inputFilter->add($factory->createInput(array(
-	        				'name' => $champ->id,
+	        				'name' => 'champ_'.strval($champ->id),
 	        				'required' => false
 	        			)));
 	        			break;
@@ -242,6 +250,6 @@ class Element implements InputFilterAwareInterface
     	}
     	
     	return $this->inputFilter;
-    }	
+    }
 
 }

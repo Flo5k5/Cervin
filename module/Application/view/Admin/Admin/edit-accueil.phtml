@@ -1,0 +1,44 @@
+<?php
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+
+$title = 'Modifier la page d\'accueil';
+$this->headTitle($title);
+?>
+
+<div class="page-header">
+    <h1><i class="icon-edit"></i>  <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+</div>
+
+<div class="container">
+
+	<form method="post" action="<?php echo $this->url('admin/editAccueil') ?>" class="form-horizontal span11">
+		<div class="controls">
+			<input 	type="textarea"
+					class="wysihtml5-textarea input-block-level"
+					style="height: 300px"
+					placeholder="Entrez le contenu de la page d'accueil"
+					value="<?php echo $this->page->texte ?>"
+					name="wysiwyg"
+			/>
+		</div>
+
+		<div class="form-actions">
+        	<button type="submit" role="submit" class="btn btn-primary"> Confirmer </a>
+    	</div>
+
+	</form>
+
+</div>
+
+<script type="text/javascript">
+	$(function ()
+	{
+		$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
+    });
+</script>
+
+<?php 
+	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+?>

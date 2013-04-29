@@ -104,7 +104,7 @@ return array(
                             ),
                         ),
                     ),
-                   /* 'getFormAjax' => array(
+                    /* 'getFormAjax' => array(
                         'type' => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route' => '/getFormAjax',
@@ -156,16 +156,19 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'ajouter' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'type' => 'segment',
                         'options' => array(
-                            'route' => '/ajouter',
+                            'route' => '/ajouter[/:type_element_id]',
+                            'constraints' => array(
+                                'type_element_id' => '[0-9]+'
+                            ),
                             'defaults' => array(
                                 'controller' => 'Media',
                                 'action'     => 'ajouter',
                             ),
                         ),
                     ),
-                    'getFormAjax' => array(
+                    /* 'getFormAjax' => array(
                         'type' => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route' => '/getFormAjax',
@@ -174,7 +177,7 @@ return array(
                                 'action'     => 'getFormAjax',
                             ),
                         ),
-                    ),
+                    ),*/
                     'voirMedia' => array(
                         'type' => 'segment',
                         'options' => array(
