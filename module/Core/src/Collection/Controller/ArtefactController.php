@@ -77,6 +77,7 @@ class ArtefactController extends AbstractActionController
     				$artefact->populate($data);
     				$this->getEntityManager()->persist($artefact);
     				$this->getEntityManager()->flush();
+    				$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact "%1$s" a bien ete créé.', $artefact->titre));
     				return $this->redirect()->toRoute('collection/consulter');
     			} else {
     				return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
