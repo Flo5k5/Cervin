@@ -69,7 +69,7 @@ class ChampTypeElementForm extends Form
 					$this->add($textarea);
 					break;
 				case 'date':
-					$date = new Element\Date();
+					$date = new Element\Text();
 					$date->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(

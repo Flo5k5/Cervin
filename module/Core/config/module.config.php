@@ -104,16 +104,6 @@ return array(
                             ),
                         ),
                     ),
-                    /* 'getFormAjax' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/getFormAjax',
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'getFormAjax',
-                            ),
-                        ),
-                    ),*/
                     'voirArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -168,16 +158,6 @@ return array(
                             ),
                         ),
                     ),
-                    /* 'getFormAjax' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/getFormAjax',
-                            'defaults' => array(
-                                'controller' => 'Media',
-                                'action'     => 'getFormAjax',
-                            ),
-                        ),
-                    ),*/
                     'voirMedia' => array(
                         'type' => 'segment',
                         'options' => array(
