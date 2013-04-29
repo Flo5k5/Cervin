@@ -28,12 +28,12 @@ $this->headTitle($title);
 					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
 				</div>
 
-				<br/><br/>
+				<!-- <br/><br/>
 	
 				<div class="btn-group">
 					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
 					<input type="button" class="btn form-button" data-type="type" data-value="media" value="MÃ©dia" />
-				</div>
+				</div>-->
 
 				<br/><br/>
 				
@@ -125,7 +125,17 @@ $this->headTitle($title);
 				var item =  new Object();
 				item["type"] = this.type;
 				item["value"] = this.value;
+
 				data.push(item);
+				
+				if(typeof(this.context) != 'undefined' && this.type != 'type' ){
+					if(!isDuplicate( 'type', this.context, data )){
+						var obj =  new Object();
+						obj["type"] = 'type';
+						obj["value"] = this.context;
+						data.push(obj);
+					}
+				}
 			});
 
 			var request = $.ajax({
@@ -162,7 +172,7 @@ $this->headTitle($title);
 		$('.form-button').click(function () {
 			var value = $(this).attr("data-value").trim();
 			var type = $(this).attr("data-type");
-			if(!isDuplicatePill( type, value )){
+			if(!isDuplicate( type, value )){
 				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
 			}
 		});	
@@ -172,14 +182,16 @@ $this->headTitle($title);
 			var type = el.attr("data-type");
 			var value = el.attr("data-value");
 			
-			if( el.hasClass('type-all') ){
-				//console.log(el);
-				$('#form-pillbox ul li[data-context="' + value + '"]').remove();
-			}
-			
-			if(!isDuplicatePill( type, value )){
+			if(!isDuplicate( type, value )){
 				var context = el.parent().children('.type-all').attr("data-value");
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '">' + context.ucFirst() + ' - ' + el.val() + '</li>');
+
+				if( el.hasClass('type-all') ){
+					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
+					$('#form-pillbox ul').append('<li class="status-success type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + context.ucFirst() + ' - ' + el.val() + '</li>');
+				} else {
+					$('#form-pillbox ul > li[data-context="' + context + '"].type-all ').remove();
+					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + context.ucFirst() + ' - ' + el.val() + '</li>');
+				}
 			}
 
 			$(this).parent().children('.form-type').prop('selectedIndex',0);
@@ -197,7 +209,7 @@ $this->headTitle($title);
 			var type = $(this).attr("data-type");
 			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
 				$(this).attr("data-value", value);
-				if(!isDuplicatePill( type, value )){
+				if(!isDuplicate( type, value )){
 					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '">' + value + '</li>');
 				}
 				$(this).attr("value", "");
@@ -206,9 +218,10 @@ $this->headTitle($title);
 			}
 		});
 		
-		function isDuplicatePill(type, value){
+		function isDuplicate(type, value, array){
+			var array = ( typeof(array) == 'undefined' ? $('#form-pillbox').pillbox('items') : array );
 			var duplicate = false;
-			jQuery.each($('#form-pillbox').pillbox('items'), function() {
+			jQuery.each(array, function() {
 				if(this.value == value && this.type == type){
 					duplicate = true;
 					return;
