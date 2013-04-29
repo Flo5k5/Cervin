@@ -73,8 +73,6 @@ class ArtefactController extends AbstractActionController
     				$this->getRequest()->getFiles()->toArray()
     			);
     			$form->setData($data);
-    			var_dump($data);
-    			return;
     			if ($form->isValid()) {
     				$artefact->populate($data);
     				$this->getEntityManager()->persist($artefact);
