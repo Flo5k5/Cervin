@@ -68,8 +68,9 @@ class SemantiqueController extends AbstractActionController
 		    $form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
 			$form->setData($request->getPost());
 			if ($form->isValid()) {
-				$SemantiqueArtefact->type_destination = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($request->getPost()['type_destination']);
-				$SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($request->getPost()['type_origine']);
+				$post = $request->getPost();
+				$SemantiqueArtefact->type_destination = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($post['type_destination']);
+				$SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($post['type_origine']);
 			    $this->getEntityManager()->persist($SemantiqueArtefact);
 			    $this->getEntityManager()->flush();
 			 	$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> La semantique a bien ete créé.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
