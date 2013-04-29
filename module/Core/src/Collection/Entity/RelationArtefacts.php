@@ -27,13 +27,13 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relations_artefacts")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relation_origine")
      * @ORM\JoinColumn(name="origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $origine;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relation_destination")
      * @ORM\JoinColumn(name="destination_id", referencedColumnName="id", nullable=false)
      **/
     protected $destination;

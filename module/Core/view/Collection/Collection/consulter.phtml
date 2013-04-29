@@ -24,17 +24,47 @@ $this->headTitle($title);
 				
 				<div class="input-append">
 					<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
-					<button class="btn form-plus" type="button"><i class="icon-plus"> </i></button>
+					<button class="btn form-plus-titre" type="button"><i class="icon-plus"> </i></button>
 					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
 				</div>
 
-				<br/>
+				<br/><br/>
 	
 				<div class="btn-group">
 					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
 					<input type="button" class="btn form-button" data-type="type" data-value="media" value="MÃ©dia" />
 				</div>
-	
+
+				<br/><br/>
+				
+				<div class="input-append">
+					<label>Artefact</label>
+					<select class="form-type">
+						<option class="type-all" data-type="type" data-value="artefact" >Tous</option>
+						<?php 
+							foreach ($allTypeArtefact as $typeElement){
+								echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+							}
+						?>
+					</select>
+					<button class="btn form-plus-type" type="button"><i class="icon-plus"> </i></button>
+				</div>
+				
+				<br/>
+				
+				<div class="input-append">
+					<label>MÃ©dia</label>
+					<select class="form-type">
+						<option class="type-all" data-type="type" data-value="media" >Tous</option>
+						<?php 
+							foreach ($allTypeMedia as $typeElement){
+								echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+							}
+						?>
+					</select>
+					<button class="btn form-plus-type" type="button"><i class="icon-plus"> </i></button>
+				</div>
+				
 				<br/><br/>
 				
 				<div>
@@ -45,6 +75,8 @@ $this->headTitle($title);
 					</div>
 
 				</div>
+				
+				<br/>
 				
 				<button id="submit" class="btn">Rechercher</button>
 				
@@ -128,12 +160,33 @@ $this->headTitle($title);
 
 	    // INITIALIZING PILLBOX
 		$('.form-button').click(function () {
-			if(!isDuplicatePill( $(this) )){
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + $(this).attr("data-type") + '" data-value="' + $(this).attr("data-value") + '">' + $(this).attr("value") + '</li>');
+			var value = $(this).attr("data-value").trim();
+			var type = $(this).attr("data-type");
+			if(!isDuplicatePill( type, value )){
+				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
 			}
 		});	
 		
-		$('.form-plus').click(function () {
+		$('.form-plus-type').click(function () {
+			var el = $(this).parent().find('.form-type > option:selected')
+			var type = el.attr("data-type");
+			var value = el.attr("data-value");
+
+			if(!isDuplicatePill( type, value )){
+				var context = el.parent().children('.type-all').attr("data-value");
+				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '">' + context.ucFirst() + ' - ' + el.val() + '</li>');
+			}
+			
+			if( el.hasClass('type-all') ){
+				//console.log(el);
+				$('#form-pillbox ul').remove('li[data-context="' + value + '"]');
+			}
+			
+			$(this).parent().children('.form-type').prop('selectedIndex',0);
+
+		});	
+		
+		$('.form-plus-titre').click(function () {
 			var e = jQuery.Event("keypress");
 			e.which = 13; // Code touche entrée = 13
 			$(this).parent().children('.form-titre').trigger(e);
@@ -141,10 +194,11 @@ $this->headTitle($title);
 
 		$('.form-titre').keypress(function(event){
 			var value = $(this).attr("value").trim();
+			var type = $(this).attr("data-type");
 			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
 				$(this).attr("data-value", value);
-				if(!isDuplicatePill( $(this) )){
-					$('#form-pillbox ul').append('<li class="status-success" data-type="' + $(this).attr("data-type") + '" data-value="' + $(this).attr("data-value") + '">' + value + '</li>');
+				if(!isDuplicatePill( type, value )){
+					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '">' + value + '</li>');
 				}
 				$(this).attr("value", "");
 				$(this).attr("data-value", "");
@@ -152,15 +206,19 @@ $this->headTitle($title);
 			}
 		});
 		
-		function isDuplicatePill(el){
+		function isDuplicatePill(type, value){
 			var duplicate = false;
 			jQuery.each($('#form-pillbox').pillbox('items'), function() {
-				if(this.value === $(el).attr("data-value") && this.type === $(el).attr("data-type")){
+				if(this.value == value && this.type == type){
 					duplicate = true;
 					return;
 				}
 			});
 			return duplicate;
+		}
+		
+		String.prototype.ucFirst = function() {
+		    return this.charAt(0).toUpperCase() + this.slice(1);
 		}
 
 		/*$('#form-switch-titre').click(function () {

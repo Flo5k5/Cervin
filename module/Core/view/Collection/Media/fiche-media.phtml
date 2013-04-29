@@ -1,0 +1,87 @@
+<?php 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css'); ?>
+
+
+
+
+
+
+
+<div class="row">
+	<div class="span8">
+		
+			<h1>Calculatrice</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+		
+		<dl class="">
+			<dt>Description lists</dt>
+			<dd>A description list is perfect for defining terms.</dd>
+			<dt>Euismod</dt>
+			<dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+			<dd>Donec id elit non mi porta gravida at eget metus.</dd>
+			<dt>Malesuada porta</dt>
+			<dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+		</dl>
+
+
+	</div>
+	<div class="span4">
+		<h3>Relation :</h3>
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
+				<li><a href="#rB" data-toggle="tab">Section 2</a></li>
+				<li><a href="#rC" data-toggle="tab">Section 3</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="rA">
+					<p>I'm in Section A.</p>
+				</div>
+				<div class="tab-pane" id="rB">
+					<p>Howdy, I'm in Section B.</p>
+				</div>
+				<div class="tab-pane" id="rC">
+					<p>What up girl, this is Section C.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+$('body').on('click', 'input.span2', function(event) {
+	$(this).datepicker({
+		showOn: 'focus',
+		yearRange: '1900:+0',
+		changeMonth: true,
+		changeYear: true
+	}).focus();
+});
+
+
+</script>
+
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>

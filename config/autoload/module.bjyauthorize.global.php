@@ -80,55 +80,19 @@ return array(
                     'controller' => 'Admin',
                     'roles' => array('Admin')
                 ),
-                array(
-                    'controller' => 'Admin',
-                    'action' => 'editusers',
-                    'roles' => array('Admin')
-                ),
-                array(
-                    'controller' => 'Admin',
-                    'action' => 'changeUserAjax',
-                    'roles' => array('Admin')
-                ),
 
                 array(
                     'controller' => 'typeElement',
-                    'roles' => array('Admin')
-                ),
-                array(
-                    'controller' => 'typeElement',
-                    'action' => 'editTypeElementAjax',
-                    'roles' => array('Admin')
-                ),
-                array(
-                    'controller' => 'typeElement',
-                    'action' => 'add',
                     'roles' => array('Admin')
                 ),
 
             	array(
             		'controller' => 'Collection',
-            		'action' => 'consulter',
             		'roles' => array('Utilisateur')
             	),
-        		array(
-        				'controller' => 'Collection',
-        				'action' => 'test',
-        				'roles' => array('Utilisateur')
-        		),
             		
                 array(
                     'controller' => 'Artefact',
-                    'roles' => array('Collection')
-                ),
-                array(
-                    'controller' => 'Artefact',
-                    'action' => 'ajouter',
-                    'roles' => array('Collection')
-                ),
-                array(
-                    'controller' => 'Artefact',
-                    'action' => 'getFormAjax',
                     'roles' => array('Collection')
                 ),
 
@@ -136,16 +100,7 @@ return array(
                     'controller' => 'Media',
                     'roles' => array('Collection')
                 ),
-                array(
-                    'controller' => 'Media',
-                    'action' => 'ajouter',
-                    'roles' => array('Collection')
-                ),
-                array(
-                    'controller' => 'Media',
-                    'action' => 'getFormAjax',
-                    'roles' => array('Collection')
-                ),
+
                 array(
                     'controller' => 'fileupload_examples',
                     'roles' => array('Visiteur')
@@ -189,7 +144,6 @@ return array(
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
             		
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
-				array('route' => 'collection/test', 'roles' => array('Utilisateur')),
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
@@ -200,6 +154,8 @@ return array(
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
                 array('route' => 'media/getFormAjax', 'roles' => array('Collection')),
+                array('route' => 'media/voirMedia', 'roles' => array('Collection')),
+                array('route' => 'media/editMedia', 'roles' => array('Collection')),
 
                 array('route' => 'semantique', 'roles' => array('Admin')),
                 array('route' => 'semantique/ajouter', 'roles' => array('Admin')),

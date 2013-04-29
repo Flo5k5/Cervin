@@ -1,5 +1,5 @@
 <?php 
-$title = $artefact->titre;
+$title = $media->titre;
 $this->headTitle($title);
 ?>
 
@@ -11,10 +11,10 @@ $this->headTitle($title);
 
 <div class="row-fluid">
 	<div class="span7">
-		<a href="<?php echo $this->url('artefact/editArtefact',
-            array('id' => $artefact->id)) ?>" class="btn icon-pencil btn-primary">Modifier cet artefact</a>
+		<a href="<?php echo $this->url('media/editMedia',
+            array('id' => $media->id)) ?>" class="btn icon-pencil btn-primary">Modifier ce média</a>
         <br/><br/>
-		<p><?php echo $artefact->description;?></p>
+		<p><?php echo $media->description;?></p>
 	</div>
 	<div class="span5 well">
 		<ul class="nav nav-tabs">
@@ -25,8 +25,8 @@ $this->headTitle($title);
 			<div class="tab-pane active" id="tab1">
 				<dl class="dl-horizontal">
 					<dt>Type : </dt>
-					<dd><?php echo $artefact->type_element->nom; ?></dd>
-					<?php foreach( ($artefact->datas) as $data) :?>
+					<dd><?php echo $media->type_element->nom; ?></dd>
+					<?php foreach( ($media->datas) as $data) :?>
 						<dt><?php echo $data->champ->label ?> </dt>
 						<dd>
 							<?php switch ($data->champ->format) :

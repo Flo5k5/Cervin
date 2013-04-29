@@ -175,6 +175,33 @@ return array(
                             ),
                         ),
                     ),
+                    'voirMedia' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voirMedia/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'voirMedia',
+                            ),
+                        ),
+                    ),
+                    'editMedia' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/editMedia/:id[/:idData]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                                'idData' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'editMedia',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'semantique' => array(
