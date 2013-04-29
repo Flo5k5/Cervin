@@ -241,8 +241,48 @@ class Artefacts implements FixtureInterface
 		$manager->flush();
 		
 		/*
-		 * Une personne
+		 * Des personnes
 		*/
+		for ($i=0; $i < 100; $i++) { 
+			# code...
+		
+			$vauc = new Collection\Entity\Artefact('Personne'.$i, $type_artefact_personne);
+			$vauc->__set('description', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+			$manager->persist($vauc);
+			
+			$champ_nationnalite = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Nationnalité', 'type_element'=>$type_artefact_personne));
+			if ($champ_fabriquant == null) {
+				throw new Exception('Champ "nationnalité" de l\'artefact personne non trouvé');
+			}
+			$data_nationnalite = new Collection\Entity\Data($vauc, $champ_nationnalite);
+			$data_nationnalite->__set('texte', 'Français');
+			$manager->persist($data_nationnalite);
+			
+			$champ_naissance = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de naissance', 'type_element'=>$type_artefact_personne));
+			if ($champ_debut == null) {
+				throw new Exception('Champ "naissance" de l\'artefact personne non trouvé');
+			}
+			$data_naissance = new Collection\Entity\Data($vauc, $champ_naissance);
+			$data_naissance->__set('date', new DateTime('1709-02-24'));
+			$manager->persist($data_naissance);
+			
+			$champ_deces = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de décès', 'type_element'=>$type_artefact_personne));
+			if ($champ_fin == null) {
+				throw new Exception('Champ "deces" de l\'artefact personne non trouvé');
+			}
+			$data_deces = new Collection\Entity\Data($vauc, $champ_deces);
+			$data_deces->__set('date', new DateTime('1782-11-21'));
+			$manager->persist($data_deces);
+			
+			$manager->flush();
+		}
+
+
 		$vauc = new Collection\Entity\Artefact('Jacques de Vaucanson', $type_artefact_personne);
 		$vauc->__set('description', 'Jacques de Vaucanson, né le 24 février 1709 à Grenoble et mort le 21 novembre 1782 à Paris, est un inventeur et mécanicien français. Il a inventé plusieurs automates.');
 		$manager->persist($vauc);
@@ -272,7 +312,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($data_deces);
 		
 		$manager->flush();
-		
 		/*
 		 * Un logiciel
 		*/

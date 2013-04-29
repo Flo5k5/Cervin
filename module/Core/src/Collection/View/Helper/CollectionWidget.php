@@ -32,6 +32,7 @@ class CollectionWidget extends AbstractHelper
  
     public function __invoke()
     {
+        
 
         return $this->getView()->partial('Collection/Collection/CollectionWidget.phtml', array(  
             'posts' => 'ee'  

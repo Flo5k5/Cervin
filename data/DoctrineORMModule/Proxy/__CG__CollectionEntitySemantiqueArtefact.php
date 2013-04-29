@@ -83,10 +83,10 @@ class SemantiqueArtefact extends \Collection\Entity\SemantiqueArtefact implement
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'inputFilter', 'id', 'type_origine', 'type_destination', 'semantique');
+            return array('__isInitialized__', 'inputFilter', 'id', 'type_origine', 'type_destination', 'semantique', 'relations');
         }
 
-        return array('__isInitialized__', 'inputFilter', 'id', 'type_origine', 'type_destination', 'semantique');
+        return array('__isInitialized__', 'inputFilter', 'id', 'type_origine', 'type_destination', 'semantique', 'relations');
     }
 
     /**
