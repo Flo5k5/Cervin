@@ -48,11 +48,46 @@ class MediaController extends AbstractActionController
 
     public function ajouterAction()
     {
-    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'), array('nom'=>'asc'));
-		return new ViewModel(array('types' => $TEmedias, 'form' => null));
+    	//array_map('unlink', glob('./data/tmpuploads/*'));
+        $TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
+        $form = null;
+        $type_element_id = (int) $this->params()->fromRoute('type_element_id', 0);
+        if ($type_element_id) {
+            // On affiche le formulaire correspondant à ce type de média
+            $type_element = $this->getEntityManager()
+                    ->getRepository('Collection\Entity\TypeElement')
+                    ->findOneBy(array('type'=>'media', 'id'=>$type_element_id));
+            if ($type_element) {
+                $form = new ChampTypeElementForm($type_element);
+            } else {
+                echo "<script>alert(\"Erreur : Type de média non trouvé\")</script>";
+                return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
+            }
+            
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $media = new Media(null, $type_element);
+                $form->setInputFilter($media->getInputFilter());
+                $data = array_merge_recursive(
+                        $this->getRequest()->getPost()->toArray()
+                        //$this->getRequest()->getFiles()->toArray()
+                );
+                $form->setData($data);
+                if ($form->isValid()) {
+                    $datas = $form->getData();
+                    $media->populate($datas);
+                    $this->getEntityManager()->persist($media);
+                    $this->getEntityManager()->flush();
+                    return $this->redirect()->toRoute('collection/consulter');
+                } else {
+                    return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
+                }
+            }
+        }
+        return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
 
-    public function getFormAjaxAction()
+    /*public function getFormAjaxAction()
     {
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
@@ -92,7 +127,7 @@ class MediaController extends AbstractActionController
         } else {        
             return $this->redirect()->toRoute('media/ajouter');
         }
-    }
+    }*/
 
     public function voirMediaAction()
     {

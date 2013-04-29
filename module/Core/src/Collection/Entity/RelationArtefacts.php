@@ -39,7 +39,7 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $destination;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\SemantiqueArtefact")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\SemantiqueArtefact", inversedBy="relations")
      * @ORM\JoinColumn(name="semantique_id", referencedColumnName="id", nullable=false)
      **/
     protected $semantique;

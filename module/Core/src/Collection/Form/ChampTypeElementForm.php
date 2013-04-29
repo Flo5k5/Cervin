@@ -40,7 +40,7 @@ class ChampTypeElementForm extends Form
 			->setAttributes(array(
 				'class' => 'wysihtml5-textarea input-block-level',
 				'style' => 'height: 300px',
-				'placeholder' => 'Description...'
+				'placeholder' => 'Entrer la description générale de l\'élément',
 		));
 		$this->add($description);
 		

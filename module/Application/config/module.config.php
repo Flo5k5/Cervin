@@ -113,9 +113,16 @@ return array(
                 'cache' => 'array',
                 'paths' => array(__DIR__ . '/../src/SamUser/Entity')
             ),
+            'Application_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => array(
+                        __DIR__ . '/../src/Application/Entity',
+                )
+            ),
             'orm_default' => array(
                 'drivers' => array(
                     'SamUser\Entity' => 'zfcuser_entity',
+                    'Application\Entity' => 'Application_driver',
                 ),
             ),
         ),
@@ -139,7 +146,8 @@ return array(
         ),
     ),
     'data-fixture' => array(
-            'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture'
+        'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture',
+        'Pages_fixture' => __DIR__ . '/../src/Application/Fixture',
     ),
 
 );
