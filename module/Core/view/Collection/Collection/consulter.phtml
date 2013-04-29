@@ -171,17 +171,17 @@ $this->headTitle($title);
 			var el = $(this).parent().find('.form-type > option:selected')
 			var type = el.attr("data-type");
 			var value = el.attr("data-value");
-
+			
+			if( el.hasClass('type-all') ){
+				//console.log(el);
+				$('#form-pillbox ul li[data-context="' + value + '"]').remove();
+			}
+			
 			if(!isDuplicatePill( type, value )){
 				var context = el.parent().children('.type-all').attr("data-value");
 				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '">' + context.ucFirst() + ' - ' + el.val() + '</li>');
 			}
-			
-			if( el.hasClass('type-all') ){
-				//console.log(el);
-				$('#form-pillbox ul').remove('li[data-context="' + value + '"]');
-			}
-			
+
 			$(this).parent().children('.form-type').prop('selectedIndex',0);
 
 		});	
