@@ -40,16 +40,16 @@ class ChampTypeElementForm extends Form
 			->setAttributes(array(
 				'class' => 'wysihtml5-textarea input-block-level',
 				'style' => 'height: 300px',
-				'placeholder' => 'Description...',
-				'id' => 'description'
+				'placeholder' => 'Description...'
 		));
 		$this->add($description);
 		
 		foreach ($type_element->champs as $champ) {
+			$name = 'champ_'.strval($champ->id);
 			switch ($champ->format) {
 				case 'texte':
 					$text = new Element\Text();
-					$text->setName($champ->id)
+					$text->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
@@ -59,7 +59,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'textarea':
 					$textarea = new Element\Textarea();
-					$textarea->setName($champ->id)
+					$textarea->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
@@ -69,7 +69,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'date':
 					$date = new Element\Date();
-					$date->setName($champ->id)
+					$date->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'type'  => 'text',
@@ -83,7 +83,7 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'nombre':
 					$number = new Element\Number();
-					$number->setName($champ->id)
+					$number->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
@@ -92,18 +92,18 @@ class ChampTypeElementForm extends Form
 					$this->add($number);
 					break;
 				case 'fichier':
-					$file = new Element\File($champ->id);
-					$file->setName($champ->id)
+					$file = new Element\File();
+					$file->setName($name)
 						->setLabel($champ->label)
-						 ->setAttributes(array(
-								'description' => $champ->description,
-						 		'class' => 'span11'
-							));
+						->setAttributes(array(
+							'description' => $champ->description,
+							'class' => 'span11'
+					));
 					$this->add($file);
 					break;
 				case 'url':
 					$url = new Element\Url();
-					$url->setName($champ->id)
+					$url->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,

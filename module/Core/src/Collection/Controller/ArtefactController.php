@@ -69,13 +69,14 @@ class ArtefactController extends AbstractActionController
     			$artefact = new Artefact(null, $type_element);
     			$form->setInputFilter($artefact->getInputFilter());
     			$data = array_merge_recursive(
-    					$this->getRequest()->getPost()->toArray()
-    					//$this->getRequest()->getFiles()->toArray()
+    				$this->getRequest()->getPost()->toArray(),
+    				$this->getRequest()->getFiles()->toArray()
     			);
     			$form->setData($data);
+    			var_dump($data);
+    			return;
     			if ($form->isValid()) {
-    				$datas = $form->getData();
-    				$artefact->populate($datas);
+    				$artefact->populate($data);
     				$this->getEntityManager()->persist($artefact);
     				$this->getEntityManager()->flush();
     				return $this->redirect()->toRoute('collection/consulter');

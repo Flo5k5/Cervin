@@ -8,6 +8,7 @@ use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\Filter;
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
@@ -114,33 +115,38 @@ class Element implements InputFilterAwareInterface
         
         foreach ($this->type_element->champs as $champ) {
         	$databd = new Data($this, $champ);
+        	$name = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        			$databd->texte = $data[$champ->id];
+        			$databd->texte = $data[$name];
         			$this->datas->add($databd);
         			break;
         		case 'textarea':
-        			$databd->textarea = $data[$champ->id];
+        			$databd->textarea = $data[$name];
         			$this->datas->add($databd);
         			break;
         		case 'date':
-        			if ($data[$champ->id] != null) {
-        				$databd->date = new \DateTime($data[$champ->id]);
-        			} else {
-        				$databd->date = null;
+        			if ($data[$name] != null) {
+        				$databd->date = new \DateTime($data[$name]);
         			}
         			$this->datas->add($databd);
         			break;
         		case 'nombre':
-        			$databd->nombre = $data[$champ->id];
+        			$databd->nombre = $data[$name];
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
-        			$databd->fichier = $data[$champ->id]['tmp_name'];
+        			if ($data[$name]['tmp_name'] != null) {
+	        			$tmp = $data[$name]['tmp_name'];
+	        			$dest_dir = $_SERVER['DOCUMENT_ROOT']."/data/uploads/";
+	        			$dest_name = $data[$name]['name'];
+	        			move_uploaded_file($tmp, $dest_dir.$dest_name);
+	        			$databd->fichier = $dest_dir.$dest_name;
+        			}
         			$this->datas->add($databd);
         			break;
         		case 'url':
-        			$databd->url = $data[$champ->id];
+        			$databd->url = $data[$name];
         			$this->datas->add($databd);
         			break;
         	}
@@ -192,11 +198,13 @@ class Element implements InputFilterAwareInterface
     			),
     		)));
     		
+    		
+    		
     		foreach ($this->type_element->champs as $champ) {
 	    		switch ($champ->format) {
 	        		case 'texte':
 	        			$inputFilter->add($factory->createInput(array(
-        					'name' => $champ->id,
+        					'name' => 'champ_'.strval($champ->id),
         					'required' => false,
         					'filters' => array(
         						array('name' => 'StripTags'),
@@ -206,7 +214,7 @@ class Element implements InputFilterAwareInterface
 	        			break;
 	        		case 'textarea':
 	        			$inputFilter->add($factory->createInput(array(
-        					'name' => $champ->id,
+        					'name' => 'champ_'.strval($champ->id),
         					'required' => false,
         					'filters' => array(
         						array('name' => 'StripTags'),
@@ -215,23 +223,23 @@ class Element implements InputFilterAwareInterface
 	        			)));
 	        			break;
 	        		case 'fichier':
-	        			$file = new FileInput($champ->id);
-				        $file->setRequired(false);
-				        $file->getFilterChain()->attachByName(
-				            'filerenameupload',
-				            array(
-				                'target'          => './data/tmpuploads/',
-				                'overwrite'       => true,
-				                'use_upload_name' => true,
-				            )
-				        );
-				        $inputFilter->add($file);
+	        			$file = new FileInput('champ_'.strval($champ->id));
+	        			$file->setRequired(true);
+	        			$file->getFilterChain()->attachByName(
+	        					'filerenameupload',
+	        					array(
+	        							'target'          => $_SERVER['DOCUMENT_ROOT']."/data/tmpuploads/",
+	        							'overwrite'       => true,
+	        							'use_upload_name' => true,
+	        					)
+	        			);
+	        			$inputFilter->add($file);
 	        			break;
 	        		case 'date':
 	        		case 'nombre':
 	        		case 'url':
 	        			$inputFilter->add($factory->createInput(array(
-	        				'name' => $champ->id,
+	        				'name' => 'champ_'.strval($champ->id),
 	        				'required' => false
 	        			)));
 	        			break;

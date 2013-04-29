@@ -33,11 +33,15 @@ $this->headTitle($title);
 	$form->setAttribute('method', 'post');
 	$form->prepare();
 	
+	// Configure Errors Helper
+	$errorsHelper  = $this->plugin('formelementerrors');
+
 	echo $this->form()->openTag($form);
 	?>
 	
 	<div class="row-fluid">
 		<div class="span4">
+
 			<?php foreach ($form as $element):
 		 	if (!$element instanceof Zend\Form\Element\Button && 
 				!$element instanceof Zend\Form\Element\Hidden &&
@@ -45,7 +49,7 @@ $this->headTitle($title);
 		 		<!-- Label du champ -->
 		        <div class="control-group">
 			        <label class="control-label">
-			        	<?php echo $this->formLabel($element); ?>
+			        	<?php echo $this->formLabel($element); echo $element->getAttribute('name'); ?>
 			        </label>
 			    	<div class="controls">
 			        	<div class="input-prepend">
@@ -62,7 +66,11 @@ $this->headTitle($title);
 						    <?php } else { ?>
 						    	<span class="add-on"></span>
 						    <?php } ?>
-				        	<?php echo $this->formInput($element) ?>
+						    <?php if ($element instanceof Zend\Form\Element\File) {
+						    	echo $this->formFile($element);
+						    } else {						    
+				        		echo $this->formInput($element);
+							} ?>
 				        </div> <!-- /input-prepend -->
 				        <!-- Erreurs de validation du formulaire -->
 				        <?php echo $this->formElementErrors($element); ?>
