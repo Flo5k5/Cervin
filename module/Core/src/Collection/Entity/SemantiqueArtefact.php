@@ -45,6 +45,11 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     * @ORM\Column(type="string", length=200)
     */
     protected $semantique;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
+    **/
+    protected $relations;
     
     /**
     * Magic getter to expose protected properties.

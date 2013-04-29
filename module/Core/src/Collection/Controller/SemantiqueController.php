@@ -84,45 +84,37 @@ class SemantiqueController extends AbstractActionController
 
 	public function modifierAction()
 	{
-		$id = (int) $this->params('id', null);
-	    if (null === $id) {
-	        $this->getResponse()->setStatusCode(404);
-			return; 
-	    }
-		
-		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
-		if ($SemantiqueArtefact === null) {
-			$this->getResponse()->setStatusCode(404);
-			return; 
-		}
-
-	 	$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-	 	$typeElementsArtefactArray = array();
-		$typeElementsArtefactArray2 = array();
-		foreach ($typeElementsArtefact as $typeElementArtefact) {
-			$typeElementsArtefactArray[$typeElementArtefact->id] = $typeElementArtefact->nom;
-			$typeElementsArtefactArray2[]=$typeElementArtefact->id;
-
-		}
-	    $form = new SemantiqueForm($typeElementsArtefactArray);
-	    $form->bind($SemantiqueArtefact);
-	    
-	    $request = $this->getRequest();
-	    if ($request->isPost()) {
-	    	$form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
-		    $form->setData($request->getPost());
-		    if ($form->isValid()) {
-		        $this->getEntityManager()->persist($SemantiqueArtefact);
-		        $this->getEntityManager()->flush();
-		 		$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> La semantique a bien ete modifiée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
-                return $this->redirect()->toRoute('semantique');
+		if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+        	
+			$id = (int) $this->params('id', null);
+		    if (null === $id) {
+		        $this->getResponse()->setStatusCode(404);
+				return; 
 		    }
-	    }
-	 
-	    return array(
-	      'form' => $form,
-	      'id' => $id
-	    );
+
+			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+			if ($SemantiqueArtefact === null) {
+				$this->getResponse()->setStatusCode(404);
+				return; 
+			}
+			$request = $this->params()->fromPost();
+			switch ($request['name']) {
+				case 'semantique':
+					$SemantiqueArtefact->semantique = $request['value'];
+					$this->getEntityManager()->persist($SemantiqueArtefact);
+			    	$this->getEntityManager()->flush();
+					break;
+				
+				default:
+					$this->getResponse()->setStatusCode(404);
+					break;
+			}
+			return $this->getResponse()->setContent(Json::encode(true));
+		
+		} else {
+			$this->getResponse()->setStatusCode(404);
+		}
 	}
 	public function supprimerAction()
 	{
