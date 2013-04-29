@@ -97,7 +97,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11'
+							'title' => 'Parcourir'
 					));
 					$this->add($file);
 					break;

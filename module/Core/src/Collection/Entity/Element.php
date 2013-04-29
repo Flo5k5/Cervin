@@ -119,11 +119,10 @@ class Element implements InputFilterAwareInterface
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        			$databd->texte = $data[$index];
-        			$this->datas->add($databd);
-        			break;
         		case 'textarea':
-        			$databd->textarea = $data[$index];
+        		case 'nombre':
+        		case 'url':
+        			$databd->texte = $data[$index];
         			$this->datas->add($databd);
         			break;
         		case 'date':
@@ -132,30 +131,23 @@ class Element implements InputFilterAwareInterface
         			}
         			$this->datas->add($databd);
         			break;
-        		case 'nombre':
-        			$databd->nombre = $data[$index];
-        			$this->datas->add($databd);
-        			break;
         		case 'fichier':
+        			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
 	        			
-	        			$artefact_dir = "/uploads/artefacts/" . (string)$data['id'];
-	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $artefact_dir);
+	        			$champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
 	        			
-	        			$dest_dir = $artefact_dir . "/" . (string)$champ->id . "/";
+	        			$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
 	        			
 	        			$name = $data[$index]['name'];
 	        			
-	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . $name);
-	        			$databd->fichier = $dest_dir . $name;
+	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
+	        			$databd->fichier = $dest_dir . "/" . $name;
 	        			$databd->format_fichier = $data[$index]['type'];
         			}
-        			$this->datas->add($databd);
-        			break;
-        		case 'url':
-        			$databd->url = $data[$index];
         			$this->datas->add($databd);
         			break;
         	}
@@ -233,7 +225,7 @@ class Element implements InputFilterAwareInterface
 	        			break;
 	        		case 'fichier':
 	        			$file = new FileInput('champ_'.strval($champ->id));
-	        			$file->setRequired(true);
+	        			$file->setRequired(false);
 	        			$file->getFilterChain()->attachByName(
 	        				'filerenameupload',
 	        				array(
