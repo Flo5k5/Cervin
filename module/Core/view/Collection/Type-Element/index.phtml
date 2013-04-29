@@ -15,7 +15,7 @@ $this->headTitle($title);
             <a class="ajTypeMedia btn btn-primary " href="#ajTypeMedia" data-url="<?php echo $this->url('typeElement/add',array('media-artefact'=> 'artefact')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type d'Artefact</a></h3>
             <div class="accordion" id="TEartefact">
                 <?php foreach ($TEartefacts as $TEartefact) : ?>
-                <div class="accordion-group">
+                <div class="accordion-group parent">
 
                     <div class="accordion-heading">
                         <a class="accordion-toggle nomValue" pk="nom<?php echo $TEartefact->id ;?>" data-toggle="collapse" data-parent="#TEartefact" href="#collapse<?php echo $TEartefact->id ;?>">
@@ -32,12 +32,13 @@ $this->headTitle($title);
                                 <dt class="muted">Description [textarea]
                                 </dt>
                                 <dd></dd>
-                                <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
+                            <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
+                            <div class="parent">
                                 <dt><a href="#" data-name="supprimerChamp" data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les artefacts de ce type seront supprimées</strong>." data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
                                 </dt>
                                 <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
-                                
+                            </div>    
                             <?php endforeach ;?>
                         </dl>
                         <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
@@ -52,7 +53,7 @@ $this->headTitle($title);
     <h3><i class="icon-picture"></i>  Types de Médias <a class="ajTypeMedia btn btn-primary " href="#ajTypeMedia" data-url="<?php echo $this->url('typeElement/add',array('media-artefact'=> 'media')) ?>"><i class="icon-white icon-plus"></i> Nouveau Type de Média</a></h3>
     <div class="accordion" id="TEmedia">
         <?php foreach ($TEmedias as $TEmedia) : ?>
-        <div class="accordion-group">
+        <div class="accordion-group parent">
 
             <div class="accordion-heading">
                 <a class="accordion-toggle nomValue" pk="nom<?php echo $TEmedia->id ;?>" data-toggle="collapse" data-parent="#TEmedia" href="#collapse<?php echo $TEmedia->id ;?>">
@@ -70,13 +71,13 @@ $this->headTitle($title);
                         </dt>
                         <dd></dd>
                         <?php foreach ($TEmedia->__get('champs') as $champ) : ?>
-                        
+                        <div class="parent">
 
-                        <dt><a href="#" data-name="supprimerChamp" data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les medias de ce type seront supprimées</strong>." data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+                            <dt><a href="#" data-name="supprimerChamp" data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les medias de ce type seront supprimées</strong>." data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
 
-                        </dt>
-                        <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
-
+                            </dt>
+                            <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
+                        </div>
                     <?php endforeach ;?>
                 </dl>
                 <a class="ajChamp btn btn-primary" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id)) ?>" href="#ajChamp"><i class="icon-white icon-plus"></i> Nouveau Champ</a>
@@ -106,6 +107,7 @@ $('.confirmDiv').on("click", function(){
     var URL = $(this).attr('data-url');
     var dataName = $(this).attr('data-name');
     var datavalue = $(this).attr('data-value');
+    var ThisParent = $(this).closest('div.parent');
     $("#modalDiv").confirmModal({
     heading:'Confirmation',
     body:'<div class="container-fluid"><div class="row-fluid"><div class="span2"><i class="icon-warning-sign icon-4x"></i></div><div class="span8"><p>'+datavalue+'</p><p>Êtes-vous sur de vouloir effectuer cette action ?</p></div><div class="span2"><i class="icon-warning-sign icon-4x"></i></div></div></div>',
@@ -115,7 +117,9 @@ $('.confirmDiv').on("click", function(){
             { name: dataName },
             function(response) {
                 if(response == 'true') {
-                location.reload();
+                    ThisParent.remove();
+               // location.reload();
+
             } else {
                 alert('Impossible de supprimer ce champ')
             }

@@ -133,6 +133,8 @@ class SemantiqueController extends AbstractActionController
 
         $this->getEntityManager()->remove($SemantiqueArtefact);
         $this->getEntityManager()->flush();
+	 	$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> La semantique a bien ete supprimée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
+
         return $this->redirect()->toRoute('semantique');
         
 	}
