@@ -11,11 +11,37 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Application\Entity\Page;
 
 class IndexController extends AbstractActionController
 {
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+	
+	public function setEntityManager(EntityManager $em)
+	{
+		$this->em = $em;
+	}
+	
+	/**
+	 * Return a EntityManager
+	 *
+	 * @return Doctrine\ORM\EntityManager
+	 */
+	public function getEntityManager()
+	{
+		if ($this->em === null) {
+			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+		}
+
+		return $this->em;
+	}
+
     public function indexAction()
     {
-        return new ViewModel();
+    	$page_accueil = $this->getEntityManager()->getRepository('Application\Entity\Page')->findOneBy(array('titre'=>'Accueil'));
+        return new ViewModel(array('display' => $page_accueil->texte));
     }
 }

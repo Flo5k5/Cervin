@@ -146,7 +146,8 @@ return array(
         ),
     ),
     'data-fixture' => array(
-        'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture'
+        'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture',
+        'Pages_fixture' => __DIR__ . '/../src/Application/Fixture',
     ),
 
 );

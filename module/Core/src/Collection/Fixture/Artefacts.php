@@ -31,7 +31,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_fabriquant);
 		$manager->persist($champ_debut);
 		$manager->persist($champ_fin);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Logiciel
@@ -59,7 +58,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_langage);
 		$manager->persist($champ_debut);
 		$manager->persist($champ_fin);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Document
@@ -79,7 +77,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_editeur);
 		$manager->persist($champ_auteur);
 		$manager->persist($champ_date);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Institution
@@ -99,7 +96,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_debut);
 		$manager->persist($champ_fin);
 		$manager->persist($champ_adresse);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Lieu
@@ -111,7 +107,6 @@ class Artefacts implements FixtureInterface
 		
 		$manager->persist($type_artefact_lieu);
 		$manager->persist($champ_adresse);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Personne
@@ -131,7 +126,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_nationnalite);
 		$manager->persist($champ_naissance);
 		$manager->persist($champ_deces);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Projet
@@ -151,7 +145,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_acteurs);
 		$manager->persist($champ_debut);
 		$manager->persist($champ_fin);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Evenement
@@ -175,7 +168,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_adresse);
 		$manager->persist($champ_organisateurs);
 		$manager->persist($champ_participants);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Site Web
@@ -187,7 +179,6 @@ class Artefacts implements FixtureInterface
 		
 		$manager->persist($type_artefact_site);
 		$manager->persist($champ_url);
-		$manager->flush();
 		
 		/*
 		 * Artefact : Autre
@@ -199,9 +190,8 @@ class Artefacts implements FixtureInterface
 		
 		$manager->persist($type_artefact_autre);
 		$manager->persist($champ_type);
-		$manager->flush();
 		
-	
+		$manager->flush();
 		
 		/* ***************************** *
 		 * QUELQUES INSANCES D'ARTEFACTS *
@@ -338,7 +328,6 @@ class Artefacts implements FixtureInterface
 		$relation->__set('destination', $calc);
 		$relation->__set('semantique', $semantique);
 		$manager->persist($relation);
-		$manager->flush();
 		
 		$semantique2 = new Collection\Entity\SemantiqueArtefact();
 		$semantique2->__set('type_origine', $type_artefact_personne);
@@ -352,7 +341,8 @@ class Artefacts implements FixtureInterface
 		$relation2->__set('destination', $logiciel);
 		$relation2->__set('semantique', $semantique2);
 		$manager->persist($relation2);
-		$manager->flush();
+
 		
+		$manager->flush();
 	}
 }

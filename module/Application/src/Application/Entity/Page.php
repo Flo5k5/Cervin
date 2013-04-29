@@ -42,7 +42,7 @@ class Page implements InputFilterAwareInterface
     */
     protected $slug;
 
-    public function slugify($text)
+    static public function slugify($text)
 	{ 
 	  	// replace non letter or digits by -
 	  	$text = preg_replace('~[^\\pL\d]+~u', '-', $text);
@@ -90,6 +90,15 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
+     * Constructeur
+     **/
+    public function __construct($title = '', $text = '') {
+        $this->titre = $title;
+        $this->texte = $text;
+        $this->slug = $this->slugify($title);
+    }
+
+    /**
     * Convert the object to an array.
     *
     * @return array
@@ -108,7 +117,7 @@ class Page implements InputFilterAwareInterface
     {
     	$this->titre = $data['titre'];
     	$this->texte = $data['texte'];
-    	$this->slug = slugify($this->titre);
+    	$this->slug = $this->slugify($this->titre);
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

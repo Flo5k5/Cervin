@@ -47,7 +47,7 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function indexAction()
     {
-        
+        return $this->redirect()->toRoute('home');
     }
     ///////////////////////////////////////////////////////////////////////////
     public function editusersAction()
