@@ -55,7 +55,11 @@ $this->headTitle($title);
 			    		<!-- Element du formulaire -->
 			    		<?php if ($element instanceof Zend\Form\Element\File) { 
 			    			echo $this->formFile($element);
-			    		} else {
+			    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
+							echo $this->formTextarea($element);
+						} elseif ($element instanceof Zend\Form\Element\Date) {
+							echo $this->formDate($element);
+						} else {
 		        			echo $this->formInput($element); 
 						} ?> 
 		        		<!-- Bulle d'information sur le champ -->
@@ -72,8 +76,7 @@ $this->headTitle($title);
 			        </div> <!-- /controls -->
 			    </div> <!-- control-group -->
 			<?php endif ?>
-			
-			
+		
 		<?php endforeach; ?>
 		</div>
 		
