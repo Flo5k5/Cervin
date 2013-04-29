@@ -198,9 +198,7 @@ class Element implements InputFilterAwareInterface
     				array('name' => 'StringTrim'),
     			),
     		)));
-    		
-    		
-    		
+    
     		foreach ($this->type_element->champs as $champ) {
 	    		switch ($champ->format) {
 	        		case 'texte':
