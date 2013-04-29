@@ -64,7 +64,7 @@ class CollectionController extends AbstractActionController
     	} else {
     		$params = array("iSortCol_0" => "0", "sSortDir_0" => "asc");
     	}
-    	  		
+
     	$entityManager = $this->getEntityManager()
     					      ->getRepository('Collection\Entity\Element');
  
