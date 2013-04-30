@@ -88,9 +88,20 @@ class CollectionController extends AbstractActionController
     	}
     		
     	foreach ($paginator as $element) {
+    		
+    		$titre = '';
+    		
+    		if($element->type_element->type == 'artefact'){
+    			$titre = '<a href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a>';
+    		} elseif($element->type_element->type == 'media'){
+    			$titre = '<a href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a>';
+    		} else {
+    			$titre = $element->titre;
+    		}
+    		
     		$aaData[] = array(
-    				$element->titre,
-    				$element->description,
+    				$titre,
+    				$dataTable->truncate($element->description, 250, ' ...', false, true),
     				$element->type_element->nom,
     				$element->type_element->type
     		);

@@ -25,48 +25,12 @@
 	$(function() {
 
 		$("#submit").click( function () {
-		
-			/*var data = new Array();
-
-			jQuery.each($('#form-pillbox').pillbox('items'), function() {
-				var item =  new Object();
-				item["type"] = this.type;
-				item["value"] = this.value;
-
-				data.push(item);
-				
-				if(typeof(this.context) != 'undefined' && this.type != 'type' ){
-					if(!isDuplicate( 'type', this.context, data )){
-						var obj =  new Object();
-						obj["type"] = 'type';
-						obj["value"] = this.context;
-						data.push(obj);
-					}
-				}
-			});
-
-			var request = $.ajax({
-				url: "<?php echo $this->url("collection/consulter"); ?>",
-				type: "POST",
-				data: {"conditions" : data},
-				dataType: "html"
-			});
-					 
-			request.done(function(msg) {
-				var obj = jQuery.parseJSON(msg);
-				aaData = obj.aaData;
-				ResultSet.paginate({"bDestroy":true, "aaData": aaData});
-			});*/
-			
 			table.fnDraw();	
 			return false;
 		});
 
-		//var aaData = <?php echo $aaData; ?>;
-
 	    table = ResultSet.paginate(
 			{
-				//"aaData": aaData,
 	           	"aoColumns": [
 		           	           	null,
 		           	           	null, 
@@ -130,21 +94,18 @@
 			if(!isDuplicate( type, value )){
 				var context = el.parent().children('.type-all').attr("data-value");
 				var icon;
-				var color;
 				if (context == 'artefact') {
 					icon = '<i class="icon-tag"> </i>';
-					color = 'status-success';
 				} else {
 					icon = '<i class="icon-picture"> </i>';
-					color = 'status-warning';
 				}
 				
 				if( el.hasClass('type-all') ){
 					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
-					$('#form-pillbox ul').append('<li class="' + color + ' type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="status-success type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				} else {
 					$('#form-pillbox ul > li[data-context="' + context + '"].type-all ').remove();
-					$('#form-pillbox ul').append('<li class="' + color + '" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				}
 			}
 
@@ -164,7 +125,7 @@
 			if( event.which == 13 && value != "" ){ // Code touche entr�e = 13
 				$(this).attr("data-value", value);
 				if(!isDuplicate( type, value )){
-					$('#form-pillbox ul').append('<li class="status-info" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');
+					$('#form-pillbox ul').append('<li class="status-important" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');
 				}
 				$(this).attr("value", "");
 				$(this).attr("data-value", "");
