@@ -118,11 +118,6 @@ return array(
                     'controller' => 'Semantique',
                     'roles' => array('Admin')
                 ),
-
-                array(
-                    'controller' => 'Relation',
-                    'roles' => array('Collection')
-                ),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -165,10 +160,6 @@ return array(
                 array('route' => 'semantique/ajouter', 'roles' => array('Admin')),
                 array('route' => 'semantique/supprimer', 'roles' => array('Admin')),
                 array('route' => 'semantique/modifier', 'roles' => array('Admin')),
-
-                array('route' => 'relation', 'roles' => array('Collection')),
-                array('route' => 'relation/aa', 'roles' => array('Collection')),
-                array('route' => 'relation/am', 'roles' => array('Collection')),
 
                 array('route' => 'fileupload', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/single', 'roles' => array('Visiteur')),

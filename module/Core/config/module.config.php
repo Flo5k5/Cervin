@@ -237,39 +237,6 @@ return array(
                     ),
                 ),
             ),
-            'relation' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/relation',
-                    'defaults' => array(
-                        'controller' => 'Relation',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'aa' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/aa',
-                            'defaults' => array(
-                                'controller' => 'Relation',
-                                'action'     => 'aa',
-                            ),
-                        ),
-                    ),
-                    'am' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/am',
-                            'defaults' => array(
-                                'controller' => 'Relation',
-                                'action'     => 'am',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
         ),
     ),
 		
