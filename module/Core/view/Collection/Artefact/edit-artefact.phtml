@@ -46,7 +46,7 @@ $this->headTitle($title);
 						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
 						break;
 						case 'date':
-						echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->date->format('d-m-Y').'</span>';
+						echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.($data->date != null ? $data->date->format('d-m-Y') : "<br/>").'</span>';
 						break;
 						case 'nombre':
 						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';

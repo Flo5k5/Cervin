@@ -39,7 +39,7 @@ $this->headTitle($title);
 											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
 										break;
 										case 'date':
-											echo ($data->date->format('d-m-Y') != null ? $data->date->format('d-m-Y') : "<br/>");
+											echo ($data->date != null ? $data->date->format('d-m-Y') : "<br/>");
 										break;
 										case 'nombre':
 											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
