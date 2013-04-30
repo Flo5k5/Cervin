@@ -129,13 +129,19 @@
 			
 			if(!isDuplicate( type, value )){
 				var context = el.parent().children('.type-all').attr("data-value");
-
+				var icon;
+				if (context == 'artefact') {
+					icon = '<i class="icon-tag"> </i>';
+				} else {
+					icon = '<i class="icon-picture"> </i>';
+				}
+				
 				if( el.hasClass('type-all') ){
 					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
-					$('#form-pillbox ul').append('<li class="status-success type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + context.ucFirst() + ' - ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="status-success type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				} else {
 					$('#form-pillbox ul > li[data-context="' + context + '"].type-all ').remove();
-					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + context.ucFirst() + ' - ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				}
 			}
 
@@ -145,17 +151,18 @@
 		
 		$('.form-plus-titre').click(function () {
 			var e = jQuery.Event("keypress");
-			e.which = 13; // Code touche entrée = 13
+			e.which = 13; // Code touche entrï¿½e = 13
 			$(this).parent().children('.form-titre').trigger(e);
 		});	
 
 		$('.form-titre').keypress(function(event){
 			var value = $(this).attr("value").trim();
 			var type = $(this).attr("data-type");
-			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
+			if( event.which == 13 && value != "" ){ // Code touche entrï¿½e = 13
 				$(this).attr("data-value", value);
 				if(!isDuplicate( type, value )){
-					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '">' + value + '</li>');
+					icon = '<i class="icon-font"> </i>';
+					$('#form-pillbox ul').append('<li class="status-important" data-type="' + type + '" data-value="' + value + '">' + icon + ' ' + value + '</li>');
 				}
 				$(this).attr("value", "");
 				$(this).attr("data-value", "");

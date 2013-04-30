@@ -45,10 +45,8 @@ echo $this->formHidden($form->get('id'));
 <?php echo $this->formElementErrors($form->get('type_destination')) ?></div>
 </div>
 
-
-<?php
-echo $this->formSubmit($form->get('submit'));
-echo $this->form()->closeTag();
-
-?>
+<div class="form-actions">
+	<?php echo $this->formSubmit($form->get('submit')); ?>
+</div>
+<?php echo $this->form()->closeTag(); ?>
 
