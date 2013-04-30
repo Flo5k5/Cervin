@@ -11,12 +11,13 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
-<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
+<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
+<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
 
 <hr>
 
 <div class="well">
+<h3>Recherche</h3>
 <form id="form-multi" name="form-multi" class="">
 	<div class="row-fluid">
 	
@@ -36,7 +37,7 @@ $this->headTitle($title);
 						}
 					?>
 				</select>
-				<button class="btn btn-info form-plus-type" type="button"><i class="icon-plus"> </i></button>
+				<button class="btn btn-success form-plus-type" type="button"><i class="icon-plus"> </i></button>
 			</div>
 		</div>
 		
@@ -52,7 +53,7 @@ $this->headTitle($title);
 						}
 					?>
 				</select>
-				<button class="btn btn-info form-plus-type" type="button"><i class="icon-plus"> </i></button>
+				<button class="btn btn-warning form-plus-type" type="button"><i class="icon-plus"> </i></button>
 			</div>
 		</div>
 		

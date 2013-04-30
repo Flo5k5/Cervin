@@ -130,18 +130,21 @@
 			if(!isDuplicate( type, value )){
 				var context = el.parent().children('.type-all').attr("data-value");
 				var icon;
+				var color;
 				if (context == 'artefact') {
 					icon = '<i class="icon-tag"> </i>';
+					color = 'status-success';
 				} else {
 					icon = '<i class="icon-picture"> </i>';
+					color = 'status-warning';
 				}
 				
 				if( el.hasClass('type-all') ){
 					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
-					$('#form-pillbox ul').append('<li class="status-success type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="' + color + ' type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				} else {
 					$('#form-pillbox ul > li[data-context="' + context + '"].type-all ').remove();
-					$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
+					$('#form-pillbox ul').append('<li class="' + color + '" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
 				}
 			}
 
@@ -161,7 +164,7 @@
 			if( event.which == 13 && value != "" ){ // Code touche entr�e = 13
 				$(this).attr("data-value", value);
 				if(!isDuplicate( type, value )){
-					$('#form-pillbox ul').append('<li class="status-important" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');
+					$('#form-pillbox ul').append('<li class="status-info" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');
 				}
 				$(this).attr("value", "");
 				$(this).attr("data-value", "");
