@@ -12,10 +12,10 @@ $this->headTitle($title);
 	<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<div class="row-fluid">
 	<a href="<?php echo $this->url('media/voirMedia',
         array('id' => $media->id)) ?>" class="btn icon-pencil btn-primary"> Retour à la fiche de ce média</a>
     <br/><br/>
+<div class="row-fluid">
 	<div class="span12 well">
 		<div class="wysihtml5 CursorPointer" data-class="input-block-level" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $media->description;?></div>
 	</div>
