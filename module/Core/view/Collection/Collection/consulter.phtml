@@ -15,6 +15,7 @@ $this->headTitle($title);
 <a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
 
 <hr>
+
 <div class="well">
 <form id="form-multi" name="form-multi" class="">
 	<div class="row-fluid">
@@ -57,20 +58,20 @@ $this->headTitle($title);
 		
 	</div> <!-- /row-fluid -->
 
-	<p>Tags :</p>
-	<div id="form-pillbox" class="pillbox" style="width:50%;">
-		<ul>
-		</ul>
-	</div>
-
-	<div class="form-actions">	
-		<button id="submit" class="btn btn-primary">Lancer la recherche</button>
+	<div class="form-actions">
+		<div id="form-pillbox" class="pillbox" style="width:100%;">
+			<p><strong>Tags :</strong></p> 
+			<ul>
+			</ul>
+		</div>
+		<button class="btn btn-danger form-clear"><i class="icon-remove"> </i> Vider</button>
+		<button id="submit" class="btn btn-primary"><i class="icon-search"> </i> Lancer la recherche</button>
 	</div>
 
 </form>
 </div>
-	<?php echo $this->CollectionWidget(); ?>
-</div>
+
+<?php echo $this->CollectionWidget(); ?>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
