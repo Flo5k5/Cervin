@@ -8,6 +8,7 @@ $this->headTitle($title);
 <div class="page-header">
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
+
 <div class="container">
 	<div class="row-fluid">
 		<div class="span7">
@@ -28,11 +29,11 @@ $this->headTitle($title);
 						<dt>Type : </dt>
 						<dd><?php echo $artefact->type_element->nom; ?></dd>
 						<?php foreach( ($artefact->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> </dt>
+							<dt><?php echo $data->champ->label ?> :</dt>
 							<dd>
 								<?php switch ($data->champ->format) :
     	    						case 'texte':
-    	    							echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+    	    								echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
 										break;
 										case 'textarea':
 											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");

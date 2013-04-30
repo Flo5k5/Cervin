@@ -61,8 +61,6 @@ class CollectionController extends AbstractActionController
 
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		$params = $this->params()->fromPost();
-    	} else {
-    		$params = array("iSortCol_0" => "0", "sSortDir_0" => "asc");
     	}
 
     	$entityManager = $this->getEntityManager()
@@ -83,7 +81,8 @@ class CollectionController extends AbstractActionController
     	$paginator = null;
     	
     	if(isset($params["conditions"])){
-    		$paginator = $dataTable->getPaginator($params["conditions"]);
+    		$conditions = json_decode($params["conditions"], true);
+    		$paginator = $dataTable->getPaginator($conditions);
     	} else {
     		$paginator = $dataTable->getPaginator();
     	}

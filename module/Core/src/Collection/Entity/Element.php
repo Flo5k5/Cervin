@@ -10,6 +10,8 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Filter;
 use Exception;
+use Collection\Entity\Artefact;
+use Collection\Entity\Media;
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
@@ -135,8 +137,15 @@ class Element implements InputFilterAwareInterface
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
-	        			
-	        			$champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+	        			if($this instanceof Artefact){
+	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+                        }
+                        elseif($this instanceof Media){
+                            $champ_dir = "/uploads/medias/" . (string)$champ->id;
+                        }
+                        else{
+                            throw new \Exception("Error Processing Request");
+                        }
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
 	        			
 	        			$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");

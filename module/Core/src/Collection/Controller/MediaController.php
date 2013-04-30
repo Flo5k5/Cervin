@@ -48,7 +48,6 @@ class MediaController extends AbstractActionController
 
     public function ajouterAction()
     {
-    	//array_map('unlink', glob('./data/tmpuploads/*'));
         $TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
         $form = null;
         $type_element_id = (int) $this->params()->fromRoute('type_element_id', 0);
@@ -66,18 +65,19 @@ class MediaController extends AbstractActionController
             
             $request = $this->getRequest();
             if ($request->isPost()) {
+                // On créé un nouveau média
                 $media = new Media(null, $type_element);
                 $form->setInputFilter($media->getInputFilter());
-                $data = array_merge_recursive(
-                        $this->getRequest()->getPost()->toArray()
-                        //$this->getRequest()->getFiles()->toArray()
+                $datas = array_merge_recursive(
+                    $this->getRequest()->getPost()->toArray(),
+                    $this->getRequest()->getFiles()->toArray()
                 );
-                $form->setData($data);
+                $form->setData($datas);
                 if ($form->isValid()) {
-                    $datas = $form->getData();
                     $media->populate($datas);
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
+                    $this->flashMessenger()->addSuccessMessage(sprintf('Le média "%1$s" a bien ete créé.', $media->titre));
                     return $this->redirect()->toRoute('collection/consulter');
                 } else {
                     return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
@@ -86,48 +86,6 @@ class MediaController extends AbstractActionController
         }
         return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
-
-    /*public function getFormAjaxAction()
-    {
-    	if ($this->getRequest()->isXmlHttpRequest()) 
-        {
-            if ($this->params()->fromPost('name') == 'getform') {
-                $type = $this->params()->fromPost('type');
-                $TEmedia = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'media', 'nom'=>$type));
-                $form = new ChampTypeElementForm($TEmedia);
-    
-                $viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEmedia->id, 'form' => $form));
-                $viewModel->setTerminal(true);
-                return $viewModel;
-                
-            } elseif ($this->params()->fromPost('name') == 'ajouter') {
-                $type = $this->params()->fromPost('type');
-                $TEmedia = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findOneBy(array('type'=>'media', 'nom'=>$type));
-                if (!$TEmedia) {
-                    throw new Exception('Type d\'élément non trouvé au moment de la création du média');
-                }
-                $media = new Media(null, $TEmedia);
-                $form = new ChampTypeElementForm($TEmedia);
-                $form->setInputFilter($media->getInputFilter());
-                $form->setData($this->params()->fromPost('formdata'));
-                if ($form->isValid()) {
-                    $datas = $form->getData();
-                    $media->populate($datas);
-					$media->description = $this->params()->fromPost('description');
-                    $this->getEntityManager()->persist($media);
-                    $this->getEntityManager()->flush();
-                    $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Succès!</strong> Le média "%1$s" a bien ete créé.', $media->titre));
-                    return $this->getResponse()->setContent('true');
-                } else {
-                    $viewModel = new ViewModel(array('success' => true, 'type_element_id' => $TEmedia->id, 'form' => $form));
-                    $viewModel->setTerminal(true);
-                    return $viewModel;
-                }
-            }
-        } else {        
-            return $this->redirect()->toRoute('media/ajouter');
-        }
-    }*/
 
     public function voirMediaAction()
     {
