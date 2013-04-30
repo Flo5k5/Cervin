@@ -13,7 +13,6 @@ $this->headTitle($title);
             array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Modifier cet artefact</a>
 </div>
 
-<<<<<<< HEAD
 <div class="row-fluid">
 	<div class="span7">
 		<p><?php echo $artefact->description;?></p>
@@ -29,7 +28,10 @@ $this->headTitle($title);
 				<dl class="dl-horizontal">
 					<dt>Type</dt>
 					<dd><?php echo $artefact->type_element->nom; ?></dd>
-					<?php foreach( ($artefact->datas) as $data) :?>
+					<?php foreach( ($artefact->datas) as $data) :
+					if($data->{$data->champ->format} != null)
+					{
+						?>
 						<dt><?php echo $data->champ->label ?> </dt>
 						<dd>
 							<?php switch ($data->champ->format) :
@@ -46,96 +48,20 @@ $this->headTitle($title);
 									echo $data->{$data->champ->format};
 								break;
 								case 'fichier':
-
-
-switch ($data->format_fichier) {
-	case 'image/png':
-	case 'image/jpeg':
-	case 'image/jpg':
-	case 'image/gif':
-	echo '	
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" data-src="'.$data->{$data->champ->format}.'">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-  </div>
-</div>';
-
-
-
-		break;
-	
-	default:
-		# code...
-		break;
-}
-									echo $data->format_fichier;
-									echo $data->{$data->champ->format};
-
-									
+									echo '<a href="'.$data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
 								break;
 								case 'url':
-									echo $data->{$data->champ->format};
+									echo '<a href="'.$data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
 								break;
 								?>
 							<?php endswitch ;?>
 						</dd>
-					<?php endforeach ;?>
+					<?php
+					}
+					endforeach ;?>
 				</dl>
 			</div>
 			<div class="tab-pane" id="tab2">
-=======
-<div class="container">
-	<div class="row-fluid">
-		<div class="span7">
-			<a href="<?php echo $this->url('artefact/editArtefact',
-    	        array('id' => $artefact->id)) ?>" class="btn icon-pencil btn-primary">Modifier cet artefact</a>
-    	    <br/><br/>
-			<p><?php echo $artefact->description;?></p>
-		</div>
-		<div class="span5 well">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
-				<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-				<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Medias</a></li>
-			</ul>
-			<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-				<div class="tab-pane active" id="tab1">
-					<dl class="dl-horizontal">
-						<dt>Type : </dt>
-						<dd><?php echo $artefact->type_element->nom; ?></dd>
-						<?php foreach( ($artefact->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> :</dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-    	    						case 'texte':
-    	    								echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'textarea':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'date':
-											echo ($data->date->format('d-m-Y') != null ? $data->date->format('d-m-Y') : "<br/>");
-										break;
-										case 'nombre':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'fichier':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'url':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endforeach ;?>
-					</dl>
-				</div>
-				<div class="tab-pane" id="tab2">
->>>>>>> 315344792115ed263ca21b80696e3043335b02d8
 					<?php $relations_artefacts = array();
 					
 					foreach( ($artefact->relations_artefacts) as $relation_artefact) :

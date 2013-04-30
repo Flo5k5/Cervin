@@ -10,12 +10,10 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Filter;
 use Exception;
-<<<<<<< HEAD
 use Doctrine\ORM\EntityRepository;
-=======
+
 use Collection\Entity\Artefact;
 use Collection\Entity\Media;
->>>>>>> 315344792115ed263ca21b80696e3043335b02d8
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
