@@ -124,8 +124,10 @@ class Element implements InputFilterAwareInterface
         		case 'textarea':
         		case 'nombre':
         		case 'url':
-        			$databd->texte = $data[$index];
-        			$this->datas->add($databd);
+        			if ($data[$index]) {
+        				$databd->texte = $data[$index];
+        				$this->datas->add($databd);
+        			}
         			break;
         		case 'date':
         			if ($data[$index] != null) {
@@ -243,6 +245,20 @@ class Element implements InputFilterAwareInterface
 	        			$inputFilter->add($file);
 	        			break;
 	        		case 'date':
+	        			$inputFilter->add($factory->createInput(array(
+	        				'name' => 'champ_'.strval($champ->id),
+	        				'required' => false,
+	        				'validators' => array(
+	        					array(
+	        						'name' => 'regex', 
+	        						'options'=>array(
+                    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
+                    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
+                    				),
+	        					),
+	        				),
+	        			)));
+	        			break;
 	        		case 'nombre':
 	        		case 'url':
 	        			$inputFilter->add($factory->createInput(array(

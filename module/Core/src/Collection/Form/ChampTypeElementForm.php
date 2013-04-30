@@ -29,8 +29,8 @@ class ChampTypeElementForm extends Form
 		$titre->setName('titre')
 			->setLabel('Titre')
 			->setAttributes(array(
-					'description' => 'Le titre de l\'élément',
-					'class' => 'span11'
+				'description' => 'Le titre de l\'élément',
+				'class' => 'span11'
 			));
 		$this->add($titre);
 		
@@ -78,7 +78,7 @@ class ChampTypeElementForm extends Form
 							'class' => 'picker span11'
 						))
 						->setOptions(array(
-								'format' => 'd-m-Y'
+							'format' => 'd-m-Y'
 						));
 					$this->add($date);
 					break;
