@@ -14,6 +14,7 @@ use Exception;
 use Collection\Entity\Artefact;
 use Collection\Entity\Data;
 use Zend\File\Transfer\Adapter\Http;
+use Zend\Json\Json;
 
 class ArtefactController extends AbstractActionController
 {
@@ -115,16 +116,19 @@ class ArtefactController extends AbstractActionController
 
 		$id = (int) $this->params()->fromRoute('id', 0);
 		if (!$id) {
-			return $this->redirect()->toRoute('error');
+                $this->getResponse()->setStatusCode(404);
+                return; 
 		}
 
-		try {
-			$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
+		
+			$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
 			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		}
-		catch (\Exception $ex) {
-			return $this->redirect()->toRoute('error');
-		}
+		
+		if (null === $ThisChamps and $Artefact === null) {
+                $this->getResponse()->setStatusCode(404);
+                return; 
+        }
+
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			//$post = $this->params()->fromPost();
@@ -144,16 +148,19 @@ class ArtefactController extends AbstractActionController
 				
 				break;
 				case 'data':
-					$idData = (int) $this->params()->fromRoute('idData', 0);
-					if (!$idData) {
-						return $this->redirect()->toRoute('error');
-					}
-					try {
-						$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					}
-					catch (\Exception $ex) {
-						return $this->redirect()->toRoute('error');
-					}
+					$idChamp = (int) $this->params()->fromRoute('idChamp', 0);
+					
+					
+
+					$Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
+					if (null === $Champ) {
+				            $dataDB = new Data($Artefact,$idChamp);
+				    }	
+					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
+					if (null === $dataDB) {
+				        $dataDB = new Data($Artefact,$Champ);
+				    }
+					
 					switch ($dataDB->champ->format) {
 		    	 		case 'texte':
 		    	 			$dataDB->texte = $request['value'];   	 					
@@ -187,7 +194,7 @@ class ArtefactController extends AbstractActionController
 		        break;
 			}
 		}
-		return new ViewModel(array('artefact' => $Artefact,'TEartefacts'=>$TEartefacts));
+		return new ViewModel(array('artefact' => $Artefact,'ThisChamps'=>$ThisChamps));
 	}
 
 }

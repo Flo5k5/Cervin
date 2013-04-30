@@ -5,58 +5,64 @@ $this->headTitle($title);
 
 <?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
 
-<div class="page-header">
+<div class="page-header row-fluid">
+	<div class="span9">
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	</div>
+	<a href="<?php echo $this->url('artefact/editArtefact',
+            array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Modifier cet artefact</a>
 </div>
 
-<div class="container">
-	<div class="row-fluid">
-		<div class="span7">
-			<a href="<?php echo $this->url('artefact/editArtefact',
-    	        array('id' => $artefact->id)) ?>" class="btn icon-pencil btn-primary">Modifier cet artefact</a>
-    	    <br/><br/>
-			<p><?php echo $artefact->description;?></p>
-		</div>
-		<div class="span5 well">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
-				<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-				<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Medias</a></li>
-			</ul>
-			<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-				<div class="tab-pane active" id="tab1">
-					<dl class="dl-horizontal">
-						<dt>Type : </dt>
-						<dd><?php echo $artefact->type_element->nom; ?></dd>
-						<?php foreach( ($artefact->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> :</dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-    	    						case 'texte':
-    	    								echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'textarea':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'date':
-											echo ($data->date != null ? $data->date->format('d-m-Y') : "<br/>");
-										break;
-										case 'nombre':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'fichier':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-										case 'url':
-											echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-										break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endforeach ;?>
-					</dl>
-				</div>
-				<div class="tab-pane" id="tab2">
+<div class="row-fluid">
+	<div class="span7">
+		<p><?php echo $artefact->description;?></p>
+	</div>
+	<div class="span5 well">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
+			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
+			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Medias</a></li>
+		</ul>
+		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+			<div class="tab-pane active" id="tab1">
+				<dl class="dl-horizontal">
+					<dt>Type</dt>
+					<dd><?php echo $artefact->type_element->nom; ?></dd>
+					<?php foreach( ($artefact->datas) as $data) :
+					if($data->{$data->champ->format} != null)
+					{
+						?>
+						<dt><?php echo $data->champ->label ?> </dt>
+						<dd>
+							<?php switch ($data->champ->format) :
+        						case 'texte':
+        							echo $data->{$data->champ->format};
+								break;
+								case 'textarea':
+									echo $data->{$data->champ->format};
+								break;
+								case 'date':
+									echo $data->date->format('d-m-Y');
+								break;
+								case 'nombre':
+									echo $data->{$data->champ->format};
+								break;
+								case 'fichier':
+									echo '<a href="'.$data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
+								break;
+								case 'url':
+									echo '<a href="'.$data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
+								break;
+								?>
+							<?php endswitch ;?>
+						</dd>
+					<?php
+					}
+					endforeach ;?>
+				</dl>
+			</div>
+			<div class="tab-pane" id="tab2">
+
 					<?php $relations_artefacts = array();
 					
 					foreach( ($artefact->relations_artefacts) as $relation_artefact) :

@@ -10,13 +10,15 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Filter;
 use Exception;
+use Doctrine\ORM\EntityRepository;
+
 use Collection\Entity\Artefact;
 use Collection\Entity\Media;
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
 *
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="Collection\Entity\ElementRepository")
 * @ORM\Table(name="element")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -259,4 +261,34 @@ class Element implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 
+}
+class ElementRepository extends EntityRepository
+{
+
+
+
+
+
+    public function getThisChamps($id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+                        ->select('e')
+                        ->from('Collection\Entity\Element', 'e')
+                        ->leftJoin('e.type_element', 'te')
+                        ->leftJoin('te.champs', 'c')
+                        ->leftJoin('e.datas', 'd')
+                        ->where('e.id',$id)    ;
+
+        return $qb->getQuery()->getResult();
+
+        //createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
+
+        //$array = $query->getResult(Query::HYDRATE_ARRAY); 
+        //$return = current($array);
+    //    $return = array_combine($array['id'],['nom']);
+
+       // return $array['id'] ;
+
+    }
 }
