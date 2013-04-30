@@ -137,11 +137,14 @@ var ResultSet = new function() {
 						"sLast": "Dernier"
 					},
 					"sLengthMenu": "Afficher _MENU_ éléments par page",
-					"sZeroRecords": "Aucune donnée trouvée",
+					"sZeroRecords": "Aucun résultat trouvé",
 					"sInfo": "Affiche de _START_ à _END_ sur _TOTAL_ éléments",
 					"sInfoEmpty": "Aucun enregistrement à afficher",
 					"sInfoFiltered": "(filtrés à partir de _MAX_ entrées)",
-					"sSearch": "Recherchez"
+					"sSearch": "Recherche ",
+					"sEmptyTable": "La table est vide",
+					"sLoadingRecords": "Chargement...",
+					"sProcessing": "En cours de traitement..."
 				}
 				/*"bProcessing": false,
 				"bServerSide": false,
