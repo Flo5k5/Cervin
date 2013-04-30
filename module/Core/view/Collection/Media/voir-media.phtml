@@ -56,25 +56,38 @@ $this->headTitle($title);
 					</dl>
 				</div>
 				<div class="tab-pane" id="tab2">
-					<div class="tabbable tabs-left ">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
-							<li><a href="#rB" data-toggle="tab">Section 2</a></li>
-							<li><a href="#rC" data-toggle="tab">Section 3</a></li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="rA">
-								<p>I'm in Section A.</p>
-							</div>
-							<div class="tab-pane" id="rB">
-								<p>Howdy, I'm in Section B.</p>
-							</div>
-							<div class="tab-pane" id="rC">
-								<p>What up girl, this is Section C.</p>
-							</div>
-						</div>
-					</div>
-	
+					<?php $artefacts = array();
+					
+					foreach( ($media->artefacts) as $artefact) :
+						$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
+						$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
+						$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
+						' '.$artefact->semantique->semantique.
+						' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
+						'</a><br>' ;
+
+						endforeach ;
+						echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
+						$i = 0;
+						foreach($artefacts as $key =>$artefact) :
+							if ($i == 0){$active = ' class="active"';} else { $active='';}
+							echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
+						$i++;
+						endforeach ;
+						echo '</ul><div class="tab-content">';
+						$i = 0;
+						foreach($artefacts as $key =>$artefact) :
+							if ($i == 0){$active = ' active';} else { $active='';}
+							echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
+
+								foreach ($artefact['value'] as $value) {
+									echo '<p>'.$value.'</p>';
+								}
+							echo '</div>';
+						$i++;
+						endforeach ;
+						echo '</div></div>';
+						?>
 				</div>
 			</div>
 		</div>
