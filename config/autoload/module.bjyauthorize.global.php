@@ -95,6 +95,11 @@ return array(
                     'controller' => 'Artefact',
                     'roles' => array('Collection')
                 ),
+                array(
+                    'controller' => 'Artefact',
+                    'action' => 'voirArtefact', 
+                    'roles' => array('Utilisateur')
+                ),
 
                 array(
                     'controller' => 'Media',
@@ -148,7 +153,7 @@ return array(
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
-                array('route' => 'artefact/voirArtefact', 'roles' => array('Collection')),
+                array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),

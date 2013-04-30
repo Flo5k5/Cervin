@@ -110,7 +110,9 @@ $this->headTitle($title);
 					echo '</div></div>';
 					?>
 				</div>
-				<div class="span6"><?php echo $this->CollectionWidget(); ?></div>
+				<div class="span6" id="modalDiv">
+					<a calss="ajouter" data-url="<?php // echo $this->url("artefact/addRelation",array('id'=>$artefact->id, 'avecId' => 3))  ;?>" href="">ajouter</a>
+					<?php echo $this->CollectionWidget(); ?></div>
 			</div>
 			<div class="tab-pane" id="tab3">
 				<div class="span6">
@@ -144,6 +146,18 @@ $this->headTitle($title);
 </div>
 
 <script type="text/javascript">
+$("#modalDiv").on("click",".ajouter", function(e){
+
+    var URL = $(this).attr('data-url');
+	$.ajax({
+	        url: URL,
+	        type: "POST",
+	        data:{ name:'ajChamp'  }, 
+
+	}).done(function(return){
+
+	});
+
 
 
 $('.wysihtml5').editable({
