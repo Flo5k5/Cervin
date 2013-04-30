@@ -63,12 +63,13 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11'
+							'class' => 'span11',
+							'rows' => '6'
 						));
 					$this->add($textarea);
 					break;
 				case 'date':
-					$date = new Element\Date();
+					$date = new Element\Text();
 					$date->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(

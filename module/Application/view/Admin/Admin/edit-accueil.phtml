@@ -12,18 +12,18 @@ $this->headTitle($title);
 <div class="container">
 
 	<form method="post" action="<?php echo $this->url('admin/editAccueil') ?>" class="form-horizontal span11">
-		<div class="controls">
+		<div class="well">
 			<input 	type="textarea"
 					class="wysihtml5-textarea input-block-level"
 					style="height: 300px"
 					placeholder="Entrez le contenu de la page d'accueil"
-					value="<?php echo $this->page->texte ?>"
+					value="<?php echo str_replace('"', "'", $this->page->texte); ?>"
 					name="wysiwyg"
 			/>
 		</div>
 
 		<div class="form-actions">
-        	<button type="submit" role="submit" class="btn btn-primary"> Confirmer </a>
+        	<button type="submit" role="submit" class="btn btn-primary"> Valider </a>
     	</div>
 
 	</form>

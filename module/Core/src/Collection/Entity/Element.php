@@ -10,7 +10,12 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Filter;
 use Exception;
+<<<<<<< HEAD
 use Doctrine\ORM\EntityRepository;
+=======
+use Collection\Entity\Artefact;
+use Collection\Entity\Media;
+>>>>>>> 315344792115ed263ca21b80696e3043335b02d8
 
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
@@ -136,8 +141,15 @@ class Element implements InputFilterAwareInterface
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
-	        			
-	        			$champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+	        			if($this instanceof Artefact){
+	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
+                        }
+                        elseif($this instanceof Media){
+                            $champ_dir = "/uploads/medias/" . (string)$champ->id;
+                        }
+                        else{
+                            throw new \Exception("Error Processing Request");
+                        }
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
 	        			
 	        			$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
@@ -199,9 +211,7 @@ class Element implements InputFilterAwareInterface
     				array('name' => 'StringTrim'),
     			),
     		)));
-    		
-    		
-    		
+    
     		foreach ($this->type_element->champs as $champ) {
 	    		switch ($champ->format) {
 	        		case 'texte':

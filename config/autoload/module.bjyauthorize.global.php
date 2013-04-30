@@ -148,13 +148,11 @@ return array(
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
-                array('route' => 'artefact/getFormAjax', 'roles' => array('Collection')),
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
-                array('route' => 'media/getFormAjax', 'roles' => array('Collection')),
                 array('route' => 'media/voirMedia', 'roles' => array('Collection')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
 

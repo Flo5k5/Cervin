@@ -33,11 +33,15 @@ $this->headTitle($title);
 	$form->setAttribute('method', 'post');
 	$form->prepare();
 	
+	// Configure Errors Helper
+	$errorsHelper  = $this->plugin('formelementerrors');
+
 	echo $this->form()->openTag($form);
 	?>
 	
 	<div class="row-fluid">
 		<div class="span4">
+
 			<?php foreach ($form as $element):
 		 	if (!$element instanceof Zend\Form\Element\Button && 
 				!$element instanceof Zend\Form\Element\Hidden &&
@@ -48,30 +52,35 @@ $this->headTitle($title);
 			        	<?php echo $this->formLabel($element); ?>
 			        </label>
 			    	<div class="controls">
-			        	<div class="input-prepend">
-			        		<?php if ($element->getAttribute('description') != null) { ?>
-				        		<!-- Bulle d'information sur le champ -->
-						        <span class="add-on">
-						        	<a href="#" 
-					        			id="<?php echo $element->getAttribute('name'); ?>"
-					        			class="description"
-					        			rel="popover" 
-					        			data-content="<?php echo $element->getAttribute('description'); ?>" 
-					        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-						        </span>
-						    <?php } else { ?>
-						    	<span class="add-on"></span>
-						    <?php } ?>
-				        	<?php echo $this->formInput($element) ?>
-				        </div> <!-- /input-prepend -->
+			        	<!-- Element du formulaire -->
+			    		<?php if ($element instanceof Zend\Form\Element\File) { 
+			    			echo $this->formFile($element);
+			    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
+							echo $this->formTextarea($element);
+						} elseif ($element instanceof Zend\Form\Element\Date) {
+							echo $this->formDate($element);
+						} else {
+		        			echo $this->formInput($element); 
+						} ?> 
+		        		<!-- Bulle d'information sur le champ -->
+			        	<?php if ($element->getAttribute('description') != null) { ?>
+				        	<a href="#" 
+			        			id="<?php echo $element->getAttribute('name'); ?>"
+			        			class="description"
+			        			rel="popover"
+			        			data-content="<?php echo $element->getAttribute('description'); ?>"
+			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+			        	<?php } ?>
 				        <!-- Erreurs de validation du formulaire -->
 				        <?php echo $this->formElementErrors($element); ?>
 			        </div> <!-- /controls -->
 			    </div> <!-- control-group -->
 			<?php endif ?>
+
 		<?php endforeach; ?>
 		</div>
 		
+		<!-- Description -->
 		<div class="span8 well">
 		<?php foreach ($form as $element):
 			if ($element->getName() == 'description'): ?>
@@ -81,12 +90,14 @@ $this->headTitle($title);
 	    <?php endforeach; ?>
 		</div>
 	</div>
+	
+	<!-- Boutton -->
 	<?php foreach ($form as $element):
 		if ($element instanceof Zend\Form\Element\Button): ?>
 	    	<!-- Bouton de validation du formulaire -->
 	        <div class="form-actions"> 
 	        	<?php echo $this->formSubmit($element); ?>
-	        	<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+	        	<a href="<?php echo $this->url('collection/consulter') ?>" role="button" class="btn"> Annuler </a>
 	    	</div> 
 	    <?php endif ?>
 	
@@ -97,7 +108,7 @@ $this->headTitle($title);
 	<div id="annuler">
 	        <form class="form-horizontal">
 		       	<div class="form-actions">
-		       		<a href="/collection/consulter" role="button" class="btn"> Annuler </a>
+		       		<a href="<?php echo $this->url('collection/consulter') ?>" role="button" class="btn"> Annuler </a>
 		       	</div>
 	        </form>
 	</div>
@@ -138,7 +149,8 @@ $this->headTitle($title);
 
 </script>
 
-<?php 
+<?php
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
 	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
 	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
 	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;

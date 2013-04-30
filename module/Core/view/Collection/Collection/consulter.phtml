@@ -11,86 +11,68 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<div class="container-fluid">
+<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
+<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
+
+<hr>
+
+<div class="well">
+<h3>Recherche</h3>
+<form id="form-multi" name="form-multi" class="">
 	<div class="row-fluid">
-		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
-		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
-		<br/><br/>
-		<div class="well">
-		
-			<form id="form-multi" name="form-multi" class="">
-			
-				<label>Recherche</label>
-				
-				<div class="input-append">
-					<input class="form-titre" type="text" placeholder="Titre" data-type="titre" />
-					<button class="btn form-plus-titre" type="button"><i class="icon-plus"> </i></button>
-					<!--<button id="form-switch-titre" class="btn" type="button"><i class="icon-refresh"> </i></button>-->
-				</div>
-
-				<!-- <br/><br/>
 	
-				<div class="btn-group">
-					<input type="button" class="btn form-button" data-type="type" data-value="artefact" value="Artefact" />
-					<input type="button" class="btn form-button" data-type="type" data-value="media" value="Média" />
-				</div>-->
-
-				<br/><br/>
-				
-				<div class="input-append">
-					<label>Artefact</label>
-					<select class="form-type">
-						<option class="type-all" data-type="type" data-value="artefact" >Tous</option>
-						<?php 
-							foreach ($allTypeArtefact as $typeElement){
-								echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
-							}
-						?>
-					</select>
-					<button class="btn form-plus-type" type="button"><i class="icon-plus"> </i></button>
-				</div>
-				
-				<br/>
-				
-				<div class="input-append">
-					<label>Média</label>
-					<select class="form-type">
-						<option class="type-all" data-type="type" data-value="media" >Tous</option>
-						<?php 
-							foreach ($allTypeMedia as $typeElement){
-								echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
-							}
-						?>
-					</select>
-					<button class="btn form-plus-type" type="button"><i class="icon-plus"> </i></button>
-				</div>
-				
-				<br/><br/>
-				
-				<div>
-					Tags :
-					<div id="form-pillbox" class="pillbox">
-						<ul>
-						</ul>
-					</div>
-
-				</div>
-				
-				<br/>
-				
-				<button id="submit" class="btn">Rechercher</button>
-				
-			</form>
-			
+		<div class="span6 input-append">
+			<input class="form-titre span10" type="text" placeholder="Titre" data-type="titre" />
+			<button class="btn btn-info form-plus-titre" type="button"><i class="icon-plus"> </i></button>
 		</div>
-	</div>
-	
-<?php echo $this->CollectionWidget(); ?>
 
+		<div class="span3">
+			<div class="input-prepend input-append">
+				<span class="add-on"><i class="icon-tag"> </i></span>
+				<select class="form-type span9">
+					<option class="type-all" data-type="type" data-value="artefact" >Tous types d'artefacts</option>
+					<?php 
+						foreach ($allTypeArtefact as $typeElement){
+							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+						}
+					?>
+				</select>
+				<button class="btn btn-success form-plus-type" type="button"><i class="icon-plus"> </i></button>
+			</div>
+		</div>
+		
+		<div class="span3">
+			<div class="input-prepend input-append">
+				<!-- <label>Média</label> -->
+				<span class="add-on"><i class="icon-picture"> </i></span>
+				<select class="form-type span9">
+					<option class="type-all" data-type="type" data-value="media" >Tous types de médias</option>
+					<?php 
+						foreach ($allTypeMedia as $typeElement){
+							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+						}
+					?>
+				</select>
+				<button class="btn btn-warning form-plus-type" type="button"><i class="icon-plus"> </i></button>
+			</div>
+		</div>
+		
+	</div> <!-- /row-fluid -->
+
+	<div class="form-actions">
+		<div id="form-pillbox" class="pillbox" style="width:100%;">
+			<p><strong>Tags :</strong></p> 
+			<ul>
+			</ul>
+		</div>
+		<button class="btn btn-danger form-clear"><i class="icon-remove"> </i> Vider</button>
+		<button id="submit" class="btn btn-primary"><i class="icon-search"> </i> Lancer la recherche</button>
+	</div>
+
+</form>
 </div>
 
-<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un artefact</a>
-<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">Ajouter un média</a>
+<?php echo $this->CollectionWidget(); ?>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
 <?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
