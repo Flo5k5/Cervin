@@ -1,0 +1,78 @@
+http://www.siteduzero.com/informatique/tutoriels/gerez-vos-codes-source-avec-git
+
+//Add repo
+//git clone git://10.223.150.217:443/cervin.git
+git clone http://cervin@10.223.150.217:443/cervin.git
+//git clone http://10.68.150.47/cervin.git
+
+//Config
+git config branch.master.remote origin
+git config --global color.diff auto
+git config --global color.status auto
+git config --global color.branch auto
+git config --global user.name "%username%"
+git config --global user.email %mail%@mail.sogeti.com
+git config --global push.default simple
+
+git config --global http.postBuffer 524288000
+
+//Show config
+git config --list
+git config user.name
+
+//Config example
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[user]
+	name = %username%
+	email = %mail%@mail.sogeti.com
+
+//Start repo
+git init
+git add .
+
+//Receive mods
+git pull
+git pull origin master
+
+//Check mods
+git log -p
+
+//Send mods
+git commit
+git commit -m 'Description'
+git push origin master
+
+//Add repo after init
+//git remote add origin git://10.223.150.217:443/cervin.git
+git remote add origin http://cervin@10.223.150.217:443/cervin.git
+git remote add github https://github.com/Flo5k5/Cervin.git
+//git remote add origin http://10.68.150.47/cervin.git
+git push origin master
+
+//Infos
+git status
+
+//Remove dir from git index
+git rm -r --cached vendor
+git rm -r --cached data/cache
+
+//Remove file from git index
+git rm --cached a.txt
+
+
+
+pear update-channels
+pear config-set auto_discover 1
+pear install pear.phpunit.de/PHPUnit
+
+pear clear-cache
+
+pear channel-discover pear.phpunit.de
+pear install --onlyreqdeps phpunit/PHPUnit
+
+pear install --alldeps phpunit/PHPUnit
+
+pear install --alldeps phpunit/PHPUnit_SkeletonGenerator
