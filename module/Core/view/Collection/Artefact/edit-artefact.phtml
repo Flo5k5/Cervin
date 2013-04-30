@@ -58,6 +58,7 @@ $this->headTitle($title);
 							$date = $champ['date']->format('d-m-Y');
 						}
 						echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$date.'</span>';
+
 						break;
 						case 'nombre':
 						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ[$champ['format']].'</span>';
