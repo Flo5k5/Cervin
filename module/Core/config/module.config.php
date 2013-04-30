@@ -10,6 +10,7 @@ return array(
             'Artefact' => 'Collection\Controller\ArtefactController',
             'Media' => 'Collection\Controller\MediaController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
+            'Relation' => 'Collection\Controller\RelationController',
         ),
     ),
 	'router' => array(
@@ -231,6 +232,39 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Semantique',
                                 'action'     => 'modifier',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'relation' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/relation',
+                    'defaults' => array(
+                        'controller' => 'Relation',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'aa' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/aa',
+                            'defaults' => array(
+                                'controller' => 'Relation',
+                                'action'     => 'aa',
+                            ),
+                        ),
+                    ),
+                    'am' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/am',
+                            'defaults' => array(
+                                'controller' => 'Relation',
+                                'action'     => 'am',
                             ),
                         ),
                     ),
