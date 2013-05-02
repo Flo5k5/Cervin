@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une sémantique possible des relations entre deux artefacts
+* Une sï¿½mantique possible des relations entre deux artefacts
 *
 * @ORM\Entity
 * @ORM\Table(name="semantiqueartefact")
@@ -29,14 +29,14 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
-     * $type_origine contient la chaîne décrivant le type du premier artefact
+     * La sï¿½mantique d'une relation entre deux artefacts dï¿½pend du type de ces artefacts
+     * $type_origine contient la chaï¿½ne dï¿½crivant le type du premier artefact
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      **/
     protected $type_origine;
     
     /**
-     * $type_destination contient la chaîne décrivant le type du deuxième artefact
+     * $type_destination contient la chaï¿½ne dï¿½crivant le type du deuxiï¿½me artefact
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      */
     protected $type_destination;

@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
- * Un média
+ * Un mï¿½dia
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="media")
@@ -60,7 +60,7 @@ class Media extends Element
 
 	public function __construct($titre, $type_element) {
 		if ($type_element->__get('type') != 'media') {
-			throw new InvalidArgumentException('Tentative de création d\'un média avec un type élément caractérisant un artefact => INTERDIT');
+			throw new InvalidArgumentException('Tentative de crï¿½ation d\'un mï¿½dia avec un type ï¿½lï¿½ment caractï¿½risant un artefact => INTERDIT');
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;

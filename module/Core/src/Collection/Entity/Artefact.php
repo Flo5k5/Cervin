@@ -31,7 +31,7 @@ class Artefact extends Element
 	protected $id;
 
 	/**
-	 * M�dias li�s � l'artefact
+	 * Médias liés à l'artefact
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 **/
 	protected $medias;
