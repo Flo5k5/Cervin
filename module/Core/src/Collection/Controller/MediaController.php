@@ -194,4 +194,22 @@ class MediaController extends AbstractActionController
         return new ViewModel(array('media' => $Media,'ThisChamps'=>$ThisChamps));
     }
 
+    public function removeMediaAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+    
+        $media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+        if ($media === null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $this->getEntityManager()->remove($media);
+        $this->getEntityManager()->flush();
+        return $this->redirect()->toRoute('collection/consulter');
+    }
+
 }
