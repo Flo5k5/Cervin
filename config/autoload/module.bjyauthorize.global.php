@@ -93,12 +93,12 @@ return array(
             		
                 array(
                     'controller' => 'Artefact',
-                    'roles' => array('Collection')
+                    'roles' => array('Utilisateur')
                 ),
 
                 array(
                     'controller' => 'Media',
-                    'roles' => array('Collection')
+                    'roles' => array('Utilisateur')
                 ),
 
                 array(
@@ -148,12 +148,12 @@ return array(
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
-                array('route' => 'artefact/voirArtefact', 'roles' => array('Collection')),
+                array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
-                array('route' => 'media/voirMedia', 'roles' => array('Collection')),
+                array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
 
                 array('route' => 'semantique', 'roles' => array('Admin')),
