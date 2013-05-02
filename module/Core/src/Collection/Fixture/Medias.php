@@ -170,7 +170,7 @@ class Medias implements FixtureInterface
 		 * Une image
 		 */
 		$logo_cervin = new Collection\Entity\Media('Logo Cervin', $type_media_image);
-		$logo_cervin->description = 'Le logo du projet CERVIN';
+		$logo_cervin->description = '<h2><u>Le logo du projet CERVIN</u></h2>';
 		
 		$champ_fichier = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fichier', 'type_element'=>$type_media_image));
 		if ($champ_fichier == null) {
