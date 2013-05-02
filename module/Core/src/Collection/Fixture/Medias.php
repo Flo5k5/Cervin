@@ -165,28 +165,105 @@ class Medias implements FixtureInterface
 		/* ***************************** *
 		 * QUELQUES INSANCES DE MEDIAS   *
 		* ****************************** */
-		
-
-
 
 		/*
-		 * M�dia : Image
-		 * /
-		$type_media_image = new Collection\Entity\TypeElement('Image', 'media');
+		 * Une image
+		 */
+		$logo_cervin = new Collection\Entity\Media('Logo Cervin', $type_media_image);
+		$logo_cervin->description = '<h2><u>Le logo du projet CERVIN</u></h2>';
+		$logo_cervin->datas = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$champ_fichier = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fichier', 'type_element'=>$type_media_image));
+		if ($champ_fichier == null) {
+			throw new Exception('unexpected');
+		}
+		$data_fichier = new Collection\Entity\Data($logo_cervin, $champ_fichier);
+		$data_fichier->fichier = 'inconnu.jpg';
+		$logo_cervin->datas->add($data_fichier);
 		
-		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_image, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant l\'image');
+		$champ_date = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date', 'type_element'=>$type_media_image));
+		if ($champ_date == null) {
+			throw new Exception('unexpected');
+		}
+		$data_date = new Collection\Entity\Data($logo_cervin, $champ_date);
+		$data_date->date = new DateTime('1999-10-09');
+		$logo_cervin->datas->add($data_date);
 		
-		$champ_date = new Collection\Entity\Champ('Date', $type_media_image, 'date');
-		$champ_date->__set('description', 'La date de publication de l\'image');
+		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_image));
+		if ($champ_format == null) {
+			throw new Exception('unexpected');
+		}
+		$data_format = new Collection\Entity\Data($logo_cervin, $champ_format);
+		$data_format->texte = 'Image jpeg';
+		$logo_cervin->datas->add($data_format);
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_image, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage de l\'image');
+		$manager->persist($logo_cervin);
+		$manager->flush();
+
+		/*
+		 * Un logiciel
+		 */
+		$logiciel = new Collection\Entity\Media('Logiciel sans nom', $type_media_logiciel);
+		$logiciel->description = '<ul><li>Exemple de logiciel de la collection...</li><li>Ceci est un exemple</li></ul>';
+		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$champ_fichier = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fichier', 'type_element'=>$type_media_logiciel));
+		if ($champ_fichier == null) {
+			throw new Exception('unexpected');
+		}
+		$data_fichier = new Collection\Entity\Data($logiciel, $champ_fichier);
+		$data_fichier->fichier = 'inconnu.exe';
+		$logiciel->datas->add($data_fichier);
+
+		$champ_version = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Version', 'type_element'=>$type_media_logiciel));
+		if ($champ_version == null) {
+			throw new Exception('unexpected');
+		}
+		$data_version = new Collection\Entity\Data($logiciel, $champ_version);
+		$data_version->texte = '2.0';
+		$logiciel->datas->add($data_version);
 		
-		$manager->persist($type_media_image);
+		$champ_date = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date', 'type_element'=>$type_media_logiciel));
+		if ($champ_date == null) {
+			throw new Exception('unexpected');
+		}
+		$data_date = new Collection\Entity\Data($logiciel, $champ_date);
+		$data_date->date = new DateTime('1999-10-09');
+		$logiciel->datas->add($data_date);
+		
+		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_logiciel));
+		if ($champ_format == null) {
+			throw new Exception('unexpected');
+		}
+		$data_format = new Collection\Entity\Data($logiciel, $champ_format);
+		$data_format->texte = 'Fichier exe';
+		$logiciel->datas->add($data_format);
+		
+		$manager->persist($logiciel);
+		$manager->flush();
+
+		/*
+		 * M�dia : Logiciel
+		* /
+		$type_media_logiciel = new Collection\Entity\TypeElement('Logiciel', 'media');
+		
+		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_logiciel, 'fichier');
+		$champ_fichier->__set('description', 'Le fichier contenant le code source du logiciel');
+		
+		$champ_version = new Collection\Entity\Champ('Version', $type_media_logiciel, 'texte');
+		$champ_version->__set('description', 'Le numéro de version du logiciel');
+		
+		$champ_date = new Collection\Entity\Champ('Date', $type_media_logiciel, 'date');
+		$champ_date->__set('description', 'La date de publication du logiciel');
+		
+		$champ_format = new Collection\Entity\Champ('Format', $type_media_logiciel, 'texte');
+		$champ_format->__set('description', 'Le format d\'encodage du code source');
+		
+		$manager->persist($type_media_logiciel);
+		$manager->persist($champ_format);
+		$manager->persist($champ_version);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		//*/
 	}
 }

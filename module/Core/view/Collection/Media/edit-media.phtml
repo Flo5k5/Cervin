@@ -34,9 +34,9 @@ $this->headTitle($title);
 		<span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $this->escapeHtml($title); ?></span>
 		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
-
+	
 		<a href="<?php echo $this->url('media/voirMedia',
-        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de ce média</a>
+        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de cet media</a>
 </div>
 
 <div class="row-fluid">
@@ -51,7 +51,6 @@ $this->headTitle($title);
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
@@ -59,31 +58,58 @@ $this->headTitle($title);
 					<dt>Type</dt>
 					<dd><?php echo $media->type_element->nom; ?></dd>
 					<?php 
-					foreach( ($media->datas) as $data) :?>
-					<dt><?php echo $data->champ->label ?> </dt>
+					foreach( ($ThisChamps) as $champ) :?>
+					<dt><?php echo $champ['label'] ?> </dt>
 					<dd>
 						<?php 
-						switch ($data->champ->format) :
-						case 'texte':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-						break;
-						case 'textarea':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-						break;
-						case 'date':
-						echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.($data->date != null ? $data->date->format('d-m-Y') : "<br/>").'</span>';
-						break;
-						case 'nombre':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-						break;
-						case 'fichier':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-						break;
-						case 'url':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';
-						break;
-						?>
-						<?php endswitch ;?>
+						switch ($champ['format']) :
+							case 'texte':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'.
+								$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+							case 'textarea':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'
+								.$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+							case 'date':
+							if($champ['date'] === null){
+								$date = null;
+							} else {
+								$date = $champ['date']->format('d-m-Y');
+							}
+							echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$date.'</span>';
+							break;
+							
+							case 'nombre':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+							case 'fichier':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$champ['fichier'].'</span>';
+							break;
+
+							case 'url':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("media/editMedia",array('id'=> $media->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+						endswitch ;?>
 					</dd>
 				<?php endforeach ;?>
 				</dl>
@@ -97,8 +123,8 @@ $this->headTitle($title);
 						$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
 						$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
 						' '.$artefact->semantique->semantique.
-						' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
-						'</a><br>';
+						' <a href="'.$this->url("media/voirMedia",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
+						'</a><br>' ;
 
 					endforeach ;
 					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';

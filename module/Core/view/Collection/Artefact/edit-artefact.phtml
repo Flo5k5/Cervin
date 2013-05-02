@@ -65,32 +65,53 @@ $this->headTitle($title);
 					<dd>
 						<?php 
 						switch ($champ['format']) :
-						case 'texte':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ[$champ['format']].'</span>';
-						break;
-						case 'textarea':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ[$champ['format']].'</span>';
-						break;
-						case 'date':
-						if($champ['date'] === null){
-							$date = null;
-						} else {
-							$date = $champ['date']->format('d-m-Y');
-						}
-						echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$date.'</span>';
+							case 'texte':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'.
+								$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
 
-						break;
-						case 'nombre':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ[$champ['format']].'</span>';
-						break;
-						case 'fichier':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ['fichier'].'</span>';
-						break;
-						case 'url':
-						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'.$champ['id'].'" data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">'.$champ[$champ['format']].'</span>';
-						break;
-						?>
-						<?php endswitch ;?>
+							case 'textarea':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'
+								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+							case 'date':
+							if($champ['date'] === null){
+								$date = null;
+							} else {
+								$date = $champ['date']->format('d-m-Y');
+							}
+							echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$date.'</span>';
+							break;
+							
+							case 'nombre':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+							case 'fichier':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$champ['fichier'].'</span>';
+							break;
+
+							case 'url':
+							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
+								.$champ['id'].'" data-url="'
+								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
+								.'">'.$champ[$champ['format']].'</span>';
+							break;
+
+						endswitch ;?>
 					</dd>
 				<?php endforeach ;?>
 				</dl>
