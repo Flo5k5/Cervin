@@ -8,9 +8,31 @@ $title = $artefact->titre;
 $this->headTitle($title);
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : modification d'un média</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Cette page vous permet de modifier les informations d'un média. Tous les champs sont modifiables en cliquant directement dessus.
+    	</p>
+    	<p>
+    	L'onglet 'artefacts liés' permet de gérer les relations mais n'est pas encore implémenté.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header row-fluid">
 	<div class="span9">
-		<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
+		<h1>
+		Modification d'un artefact : 
+		<span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
+		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
 	
 		<a href="<?php echo $this->url('artefact/voirArtefact',
@@ -20,7 +42,8 @@ $this->headTitle($title);
 
 <div class="row-fluid">
 	<div class="span12">
-		<div class="wysihtml5 CursorPointer" data-class="input-block-level" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
+		<h3>Description : </h3>
+		<div class="wysihtml5 CursorPointer well" data-class="input-block-level well" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
 	</div>
 </div>
 <br>
@@ -29,7 +52,7 @@ $this->headTitle($title);
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Medias</a></li>
+			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Médias liés</a></li>
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
@@ -94,8 +117,11 @@ $this->headTitle($title);
 				</dl>
 			</div>
 			<div class="tab-pane" id="tab2">
+				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
 				<div class="span6">
-					<?php $relations_artefacts = array();
+					<?php 
+					/*
+					$relations_artefacts = array();
 					
 					foreach( ($artefact->relations_artefacts) as $relation_artefact) :
 						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['nom'] = $relation_artefact->semantique->type_destination->nom;
@@ -126,16 +152,18 @@ $this->headTitle($title);
 					$i++;
 					endforeach ;
 					echo '</div></div>';
+					*/
 					?>
 				</div>
-				<div class="span6"><?php echo $this->CollectionWidget(); ?></div>
+				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
 			</div>
 			<div class="tab-pane" id="tab3">
+				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
 				<div class="span6">
-					<?php foreach( ($artefact->medias) as $media) :?>
-						<?php echo $media->type_element->nom ?>
-					<?php endforeach ;?>
-
+					<?php //foreach( ($artefact->medias) as $media) :?>
+						<?php //echo $media->type_element->nom ?>
+					<?php //endforeach ;?>
+					<!-- 
 					<div class="tabbable tabs-left ">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
@@ -154,8 +182,9 @@ $this->headTitle($title);
 							</div>
 						</div>
 					</div>
+					-->
 				</div>
-				<div class="span6"><?php echo $this->CollectionWidget(); ?></div>
+				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
 			</div>
 		</div>
 	</div>

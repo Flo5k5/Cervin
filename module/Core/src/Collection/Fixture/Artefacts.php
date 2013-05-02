@@ -43,7 +43,7 @@ class Artefacts implements FixtureInterface
 		$champ_auteur = new Collection\Entity\Champ('Auteur(s)', $type_artefact_logiciel, 'texte');
 		$champ_auteur->__set('description', 'Le (les) auteur(s) du logiciel, personne(s) ou société(s)');
 		
-		$champ_langage = new Collection\Entity\Champ('Langages de programmation', $type_artefact_logiciel, 'texte');
+		$champ_langage = new Collection\Entity\Champ('Langages', $type_artefact_logiciel, 'texte');
 		$champ_langage->__set('description', 'Les principaux languages de programmation utilisés dans le code du logiciel');
 		
 		$champ_debut = new Collection\Entity\Champ('Début de période', $type_artefact_logiciel, 'date');
@@ -197,166 +197,175 @@ class Artefacts implements FixtureInterface
 		 * QUELQUES INSANCES D'ARTEFACTS *
 		* ****************************** */
 		
+		$description = "
+			<p><b>Pellentesque habitant morbi tristique</b> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <i>Aenean ultricies mi vitae est.</i> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href='#'>Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+			<h2>Header Level 2</h2>
+			<ol>
+			   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+			   <li>Aliquam tincidunt mauris eu risus.</li>
+			</ol>
+			<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+			<h3>Header Level 3</h3>
+			<ul>
+			   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+			   <li>Aliquam tincidunt mauris eu risus.</li>
+			</ul>";
+		
 		/*
-		 * Un mat�riel
+		 * Un matériel
 		 */
-		$calc = new Collection\Entity\Artefact('Calculatrice', $type_artefact_materiel);
-		$calc->__set('description', 'Machine à calculer mécanique');
-		$manager->persist($calc);
+		$materiel = new Collection\Entity\Artefact('Exemple de matériel', $type_artefact_materiel);
+		$materiel->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$materiel->description = $description;
 		
 		$champ_fabriquant = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fabriquant', 'type_element'=>$type_artefact_materiel));
-		if ($champ_fabriquant == null) {
-			throw new Exception('Champ "fabriquant" de l\'artefact mat�riel non trouv�');
-		}
-		$data_fabriquant = new Collection\Entity\Data($calc, $champ_fabriquant);
+		$data_fabriquant = new Collection\Entity\Data($materiel, $champ_fabriquant);
 		$data_fabriquant->__set('texte', 'Inconnu');
-		$manager->persist($data_fabriquant);
+		$materiel->datas->add($data_fabriquant);
 		
 		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_materiel));
-		if ($champ_debut == null) {
-			throw new Exception('Champ "début" de l\'artefact matériel non trouvé');
-		}
-		$data_debut = new Collection\Entity\Data($calc, $champ_debut);
+		$data_debut = new Collection\Entity\Data($materiel, $champ_debut);
 		$data_debut->__set('date', new DateTime('1925-01-01'));
-		$manager->persist($data_debut);
-		
+		$materiel->datas->add($data_debut);
+
 		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_materiel));
-		if ($champ_fin == null) {
-			throw new Exception('Champ "fin" de l\'artefact matériel non trouvé');
-		}
-		$data_fin = new Collection\Entity\Data($calc, $champ_fin);
+		$data_fin = new Collection\Entity\Data($materiel, $champ_fin);
 		$data_fin->__set('date', new DateTime('1950-01-01'));
-		$manager->persist($data_fin);
-		
+		$materiel->datas->add($data_fin);
+
+		$manager->persist($materiel);
 		$manager->flush();
-		
+
 		/*
-		 * Des personnes
-		* /
-		for ($i=0; $i < 100; $i++) { 
-			# code...
-		
-			$vauc = new Collection\Entity\Artefact('Personne'.$i, $type_artefact_personne);
-			$vauc->__set('description', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
-			$manager->persist($vauc);
-			
-			$champ_nationnalite = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Nationnalité', 'type_element'=>$type_artefact_personne));
-			if ($champ_fabriquant == null) {
-				throw new Exception('Champ "nationnalité" de l\'artefact personne non trouvé');
-			}
-			$data_nationnalite = new Collection\Entity\Data($vauc, $champ_nationnalite);
-			$data_nationnalite->__set('texte', 'Français');
-			$manager->persist($data_nationnalite);
-			
-			$champ_naissance = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de naissance', 'type_element'=>$type_artefact_personne));
-			if ($champ_debut == null) {
-				throw new Exception('Champ "naissance" de l\'artefact personne non trouvé');
-			}
-			$data_naissance = new Collection\Entity\Data($vauc, $champ_naissance);
-			$data_naissance->__set('date', new DateTime('1709-02-24'));
-			$manager->persist($data_naissance);
-			
-			$champ_deces = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de décès', 'type_element'=>$type_artefact_personne));
-			if ($champ_fin == null) {
-				throw new Exception('Champ "deces" de l\'artefact personne non trouvé');
-			}
-			$data_deces = new Collection\Entity\Data($vauc, $champ_deces);
-			$data_deces->__set('date', new DateTime('1782-11-21'));
-			$manager->persist($data_deces);
-			
-			$manager->flush();
-		}
-		//*/
-
-
-		$vauc = new Collection\Entity\Artefact('Jacques de Vaucanson', $type_artefact_personne);
-		$vauc->__set('description', 'Jacques de Vaucanson, né le 24 février 1709 à Grenoble et mort le 21 novembre 1782 à Paris, est un inventeur et mécanicien français. Il a inventé plusieurs automates.');
-		$manager->persist($vauc);
+		 * Une personne
+		 */
+		$personne = new Collection\Entity\Artefact('Exemple de personne', $type_artefact_personne);
+		$personne->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$personne->description = $description;
 		
 		$champ_nationnalite = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Nationnalité', 'type_element'=>$type_artefact_personne));
-		if ($champ_fabriquant == null) {
-			throw new Exception('Champ "nationnalité" de l\'artefact personne non trouvé');
-		}
-		$data_nationnalite = new Collection\Entity\Data($vauc, $champ_nationnalite);
+		$data_nationnalite = new Collection\Entity\Data($personne, $champ_nationnalite);
 		$data_nationnalite->__set('texte', 'Français');
-		$manager->persist($data_nationnalite);
+		$personne->datas->add($data_nationnalite);
 		
 		$champ_naissance = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de naissance', 'type_element'=>$type_artefact_personne));
-		if ($champ_debut == null) {
-			throw new Exception('Champ "naissance" de l\'artefact personne non trouvé');
-		}
-		$data_naissance = new Collection\Entity\Data($vauc, $champ_naissance);
+		$data_naissance = new Collection\Entity\Data($personne, $champ_naissance);
 		$data_naissance->__set('date', new DateTime('1709-02-24'));
-		$manager->persist($data_naissance);
+		$personne->datas->add($data_naissance);
 		
 		$champ_deces = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de décès', 'type_element'=>$type_artefact_personne));
-		if ($champ_fin == null) {
-			throw new Exception('Champ "deces" de l\'artefact personne non trouvé');
-		}
-		$data_deces = new Collection\Entity\Data($vauc, $champ_deces);
+		$data_deces = new Collection\Entity\Data($personne, $champ_deces);
 		$data_deces->__set('date', new DateTime('1782-11-21'));
-		$manager->persist($data_deces);
+		$personne->datas->add($data_deces);
 		
+		$manager->persist($personne);
 		$manager->flush();
+		
 		/*
 		 * Un logiciel
 		*/
-		$logiciel = new Collection\Entity\Artefact('MicrosoftOffice 2007', $type_artefact_logiciel);
-		$logiciel->__set('description', 'Microsoft Office est une suite bureautique de la société Microsoft fonctionnant avec les plates-formes Windows et Macintosh.');
-		$manager->persist($logiciel);
+		$logiciel = new Collection\Entity\Artefact('Exemple de logiciel', $type_artefact_logiciel);
+		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$logiciel->description = $description;
 		
 		$champ_editeur = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Editeur', 'type_element'=>$type_artefact_logiciel));
-		if ($champ_editeur == null) {
-			throw new Exception('Champ "editeur" de l\'artefact logiciel non trouvé');
-		}
 		$data_editeur = new Collection\Entity\Data($logiciel, $champ_editeur);
 		$data_editeur->__set('texte', 'Microsoft');
-		$manager->persist($data_editeur);
+		$logiciel->datas->add($data_editeur);
 		
 		$champ_auteurs = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Auteur(s)', 'type_element'=>$type_artefact_logiciel));
-		if ($champ_auteurs == null) {
-			throw new Exception('Champ "auteurs" de l\'artefact personne non trouvé');
-		}
-		$data_autreurs = new Collection\Entity\Data($logiciel, $champ_auteurs);
-		$data_autreurs->__set('texte', 'Inconnus');
-		$manager->persist($data_autreurs);
+		$data_auteurs = new Collection\Entity\Data($logiciel, $champ_auteurs);
+		$data_auteurs->__set('texte', 'Inconnu');
+		$logiciel->datas->add($data_auteurs);
 		
-		$champ_langage = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Langages de programmation', 'type_element'=>$type_artefact_logiciel));
-		if ($champ_langage == null) {
-			throw new Exception('Champ "Langage de programmation" de l\'artefact logiciel non trouvé');
-		}
+		$champ_langage = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Langages', 'type_element'=>$type_artefact_logiciel));
 		$data_langage = new Collection\Entity\Data($logiciel, $champ_langage);
-		$data_langage->__set('texte', 'Inconnu');
-		$manager->persist($data_langage);
+		$data_langage->__set('texte', 'Java, C');
+		$logiciel->datas->add($data_langage);
 		
 		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_logiciel));
-		if ($champ_debut == null) {
-			throw new Exception('Champ "début" de l\'artefact logiciel non trouvé');
-		}
 		$data_debut = new Collection\Entity\Data($logiciel, $champ_debut);
 		$data_debut->__set('date', new DateTime('2007-01-01'));
-		$manager->persist($data_debut);
+		$logiciel->datas->add($data_debut);
 		
 		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_logiciel));
-		if ($champ_fin == null) {
-			throw new Exception('Champ "fin" de l\'artefact logiciel non trouvé');
-		}
 		$data_fin = new Collection\Entity\Data($logiciel, $champ_fin);
-		$data_fin->__set('date', new DateTime('2007-01-01'));
-		$manager->persist($data_fin);
+		$data_fin->__set('date', new DateTime('2012-01-01'));
+		$logiciel->datas->add($data_fin);
 		
+		$manager->persist($logiciel);
+		$manager->flush();
+		
+		/*
+		 * Un document
+		 */
+		$document = new Collection\Entity\Artefact('Exemple de document', $type_artefact_document);
+		$document->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$document->description = $description;
+		
+		$champ_editeur = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Editeur', 'type_element'=>$type_artefact_document));
+		$data_editeur = new Collection\Entity\Data($document, $champ_editeur);
+		$data_editeur->__set('texte', 'Hachette');
+		$document->datas->add($data_editeur);
+		
+		$champ_auteurs = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Auteur(s)', 'type_element'=>$type_artefact_document));
+		$data_auteurs = new Collection\Entity\Data($document, $champ_auteurs);
+		$data_auteurs->__set('texte', 'Inconnu');
+		$document->datas->add($data_auteurs);
+		
+		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date', 'type_element'=>$type_artefact_document));
+		$data_date = new Collection\Entity\Data($document, $champ_debut);
+		$data_date->__set('date', new DateTime('2011-05-09'));
+		$document->datas->add($data_date);
+		
+		$manager->persist($document);
+		$manager->flush();
+		
+		/*
+		 * Une institution
+		*/
+		$institution = new Collection\Entity\Artefact('Exemple d\'institution', $type_artefact_institution);
+		$institution->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$institution->description = $description;
+		
+		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Création', 'type_element'=>$type_artefact_institution));
+		$data_debut = new Collection\Entity\Data($institution, $champ_debut);
+		$data_debut->__set('date', new DateTime('2008-05-09'));
+		$institution->datas->add($data_debut);
+		
+		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin', 'type_element'=>$type_artefact_institution));
+		$data_fin = new Collection\Entity\Data($institution, $champ_fin);
+		$data_fin->__set('date', new DateTime('2011-12-04'));
+		$institution->datas->add($data_fin);
+		
+		$champ_adresse = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Adresse(s)', 'type_element'=>$type_artefact_institution));
+		$data_adresse = new Collection\Entity\Data($institution, $champ_adresse);
+		$data_adresse->__set('texte', '40 rue de Peupliers 38000 Grenoble');
+		$institution->datas->add($data_adresse);
+		
+		$manager->persist($institution);
+		$manager->flush();
+		
+		/*
+		 * Un lieu
+		*/
+		$lieu = new Collection\Entity\Artefact('Exemple de lieu', $type_artefact_lieu);
+		$lieu->datas = new \Doctrine\Common\Collections\ArrayCollection();
+		$lieu->description = $description;
+		
+		$champ_adresse = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Adresse', 'type_element'=>$type_artefact_lieu));
+		$data_adresse = new Collection\Entity\Data($lieu, $champ_adresse);
+		$data_adresse->__set('texte', '40 rue de Peupliers 38000 Grenoble');
+		$lieu->datas->add($data_adresse);
+		
+		$manager->persist($lieu);
 		$manager->flush();
 		
 		/* ********************************** *
 		 * DES RELATIONS ENTRE DEUX ARTEFACTS *
 		* *********************************** */
 		
-		$semantique = new Collection\Entity\SemantiqueArtefact();
+		/*$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_artefact_personne);
 		$semantique->__set('type_destination', $type_artefact_materiel);
 		$semantique->__set('semantique', 'A inventé');
@@ -383,6 +392,6 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 		$manager->persist($relation2);
 
 		
-		$manager->flush();
+		$manager->flush();*/
 	}
 }

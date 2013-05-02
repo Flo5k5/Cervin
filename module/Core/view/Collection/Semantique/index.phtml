@@ -1,22 +1,46 @@
 <?php
-$title = 'Gestion des Semantique';
+$title = 'Gestion des Sémantique';
 $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : gestion des sémantiques</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Dans la collection numérique, un artefact peut être reliés à plusieurs autres artefacts. Chaque relation doit être porteuse d'une sémantique, petit texte qui explique la logique de cette relation.
+    	</p>
+    	<p>
+    	Pour avoir des sémantiques cohérentes, ces dernières sont prédéfinies et vous pouvez les gérer sur cette page en tant qu'administrateur de l'application.
+    	Lorsqu'un utilisateur décidera de lier deux artefacts entre eux, il aura a choisir une sémantique parmis celle existantes.
+    	</p>
+    	<p>
+    	Une sémantique dépend des types d'artefacts que l'ont relie. Vous pouvez ici modifier ou supprimer une sémantique existante, et en créer de nouvelles.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+    <h1><?php echo $this->escapeHtml($title); ?> 
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 </div>
 
 <div class="container">
-    <a href="<?php echo $this->url('semantique/ajouter') ;?>" class="btn btn-primary"><i class="icon-bookmark"></i> Nouvelle Semantique</a>
+    <a href="<?php echo $this->url('semantique/ajouter') ;?>" class="btn btn-primary"><i class="icon-plus"></i> Nouvelle Sémantique</a>
     
     <br/><br/>
     
     <table class="table">
     <tr>
         <th>Type origine</th>
-        <th>Semantique</th>
+        <th>Sémantique</th>
         <th>Type destination</th>
         <th>&nbsp;</th>
     </tr>

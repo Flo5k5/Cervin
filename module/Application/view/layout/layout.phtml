@@ -34,8 +34,8 @@
                        <!--  <li class="divider-vertical"></li> -->
                     <?php endif; ?>
                     <?php if ($this->isAllowed('menuUtilisateur') === true) :?>
-                        <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
-                        <li class="divider-vertical"></li>
+                        <!--  <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
+                        <li class="divider-vertical"></li> -->
                     <?php endif; ?>
                     </ul>
 
@@ -47,10 +47,10 @@
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>  Administration<b class="caret"></b></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Gestion des utilisateurs</a></li>
-                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Gestion des types d'elements</a></li>
-                                                <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Gestion des semantiques</a></li>
-                                                <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Modifier la page d'accueil</a></li>
+                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs</a></li>
+                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements</a></li>
+                                                <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques</a></li>
+                                                <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
                                             </ul>
                                         </li>
                             <?php endif; ?>
