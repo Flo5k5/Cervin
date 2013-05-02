@@ -36,7 +36,7 @@ $this->headTitle($title);
 	</div>
 	
 		<a href="<?php echo $this->url('artefact/voirArtefact',
-        array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Retour à la fiche de cet artefact</a>
+        	array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de cet artefact</a>
     
 </div>
 
@@ -59,7 +59,6 @@ $this->headTitle($title);
 				<dl class="dl-horizontal">
 					<dt>Type</dt>
 					<dd><?php echo $artefact->type_element->nom; ?></dd>
-
 					<?php 
 					foreach( ($ThisChamps) as $champ) :?>
 					<dt><?php echo $champ['label'] ?> </dt>

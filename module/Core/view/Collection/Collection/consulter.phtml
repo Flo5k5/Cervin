@@ -32,16 +32,18 @@ $this->headTitle($title);
     </div>
 </div>
 
-
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1><?php echo $this->escapeHtml($title); ?> 
 	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
-	<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
-	<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
+	<?php if ($this->isAllowed('menuCollection') === true) :?>
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
+		<hr>
+	<?php endif; ?>
 </div>
-
+	
 <div class="well">
 <h3>Recherche</h3>
 <form id="form-multi" name="form-multi" class="">

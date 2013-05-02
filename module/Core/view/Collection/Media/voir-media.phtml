@@ -9,97 +9,91 @@ $this->headTitle($title);
 	<div class="span9">
 	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 	</div>
-	<a href="<?php echo $this->url('media/editMedia',
-            array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Modifier ce média</a>
+	<?php if ($this->isAllowed('menuCollection') === true) :?>
+		<a href="<?php echo $this->url('media/editMedia',
+            array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Modifier ce média</a>
+    <?php endif; ?>
 </div>
 
-<div class="container">
-	<div class="row-fluid">
-		<div class="span7">
-			<p><?php echo $media->description;?></p>
-		</div>
-		<div class="span5 well">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
-				<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-			</ul>
-			<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-				<div class="tab-pane active" id="tab1">
-					<dl class="dl-horizontal">
-						<dt>Type : </dt>
-						<dd><?php echo $media->type_element->nom; ?></dd>
-						<?php foreach( ($media->datas) as $data) :?>
-							<dt><?php echo $data->champ->label ?> </dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-	        						case 'texte':
-	        							echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-									break;
-									case 'textarea':
-										echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-									break;
-									case 'date':
-										echo ($data->date != null ? $data->date->format('d-m-Y') : "<br/>");
-									break;
-									case 'nombre':
-										echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-									break;
-									case 'fichier':
-										echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-									break;
-									case 'url':
-										echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
-									break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endforeach ;?>
-					</dl>
-				</div>
-				<div class="tab-pane" id="tab2">
-					<?php $artefacts = array();
-					
-					foreach( ($media->artefacts) as $artefact) :
-						$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
-						$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
-						$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
-						' '.$artefact->semantique->semantique.
-						' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
-						'</a><br>' ;
+<div class="row-fluid">
+	<div class="span7">
+		<p><?php echo $media->description;?></p>
+	</div>
+	<div class="span5 well">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
+			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
+		</ul>
+		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+			<div class="tab-pane active" id="tab1">
+				<dl class="dl-horizontal">
+					<dt>Type : </dt>
+					<dd><?php echo $media->type_element->nom; ?></dd>
+					<?php foreach( ($media->datas) as $data) :?>
+						<dt><?php echo $data->champ->label ?> </dt>
+						<dd>
+							<?php switch ($data->champ->format) :
+        						case 'texte':
+        							echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+								break;
+								case 'textarea':
+									echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+								break;
+								case 'date':
+									echo ($data->date != null ? $data->date->format('d-m-Y') : "<br/>");
+								break;
+								case 'nombre':
+									echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+								break;
+								case 'fichier':
+									echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+								break;
+								case 'url':
+									echo ($data->{$data->champ->format} != null ? $data->{$data->champ->format} : "<br/>");
+								break;
+								?>
+							<?php endswitch ;?>
+						</dd>
+					<?php endforeach ;?>
+				</dl>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<?php $artefacts = array();
+				
+				foreach( ($media->artefacts) as $artefact) :
+					$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
+					$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
+					$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
+					' '.$artefact->semantique->semantique.
+					' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
+					'</a><br>' ;
 
-						endforeach ;
-						echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-						$i = 0;
-						foreach($artefacts as $key =>$artefact) :
-							if ($i == 0){$active = ' class="active"';} else { $active='';}
-							echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
-						$i++;
-						endforeach ;
-						echo '</ul><div class="tab-content">';
-						$i = 0;
-						foreach($artefacts as $key =>$artefact) :
-							if ($i == 0){$active = ' active';} else { $active='';}
-							echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
+					endforeach ;
+					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
+					$i = 0;
+					foreach($artefacts as $key =>$artefact) :
+						if ($i == 0){$active = ' class="active"';} else { $active='';}
+						echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
+					$i++;
+					endforeach ;
+					echo '</ul><div class="tab-content">';
+					$i = 0;
+					foreach($artefacts as $key =>$artefact) :
+						if ($i == 0){$active = ' active';} else { $active='';}
+						echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
 
-								foreach ($artefact['value'] as $value) {
-									echo '<p>'.$value.'</p>';
-								}
-							echo '</div>';
-						$i++;
-						endforeach ;
-						echo '</div></div>';
-						?>
-				</div>
+							foreach ($artefact['value'] as $value) {
+								echo '<p>'.$value.'</p>';
+							}
+						echo '</div>';
+					$i++;
+					endforeach ;
+					echo '</div></div>';
+					?>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
 
 <script type="text/javascript">
 
