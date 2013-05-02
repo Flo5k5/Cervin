@@ -232,7 +232,7 @@ class Artefacts implements FixtureInterface
 		
 		/*
 		 * Des personnes
-		*/
+		* /
 		for ($i=0; $i < 100; $i++) { 
 			# code...
 		
@@ -271,6 +271,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 			
 			$manager->flush();
 		}
+		//*/
 
 
 		$vauc = new Collection\Entity\Artefact('Jacques de Vaucanson', $type_artefact_personne);
