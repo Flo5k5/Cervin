@@ -143,8 +143,8 @@ return array(
                 				'controller' => 'Artefact',
                 				'action'     => 'removeArtefact',
                 			),
-                			),
-                		),
+            			),
+            		),
                 ),
             ),
 
@@ -196,6 +196,19 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Media',
                                 'action'     => 'editMedia',
+                            ),
+                        ),
+                    ),
+                    'removeMedia' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/removeMedia/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'removeMedia',
                             ),
                         ),
                     ),

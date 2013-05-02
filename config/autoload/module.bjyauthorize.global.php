@@ -156,6 +156,7 @@ return array(
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
                 array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
+                array('route' => 'media/removeMedia', 'roles' => array('Collection')),
 
                 array('route' => 'semantique', 'roles' => array('Admin')),
                 array('route' => 'semantique/ajouter', 'roles' => array('Admin')),
