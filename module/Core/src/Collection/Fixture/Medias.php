@@ -243,27 +243,38 @@ class Medias implements FixtureInterface
 		$manager->flush();
 
 		/*
-		 * M�dia : Logiciel
-		* /
-		$type_media_logiciel = new Collection\Entity\TypeElement('Logiciel', 'media');
+		 * Un son
+		 */
+		$son_sample = new Collection\Entity\Media('Teaser audio', $type_media_son);
+		$son_sample->description = '<b>Un fichier audio pour annoncer la parution prochaine du <h3>back-office de <u>CERVIN</u></h3></b>';
+		$son_sample->datas = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$champ_fichier = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fichier', 'type_element'=>$type_media_son));
+		if ($champ_fichier == null) {
+			throw new Exception('unexpected');
+		}
+		$data_fichier = new Collection\Entity\Data($son_sample, $champ_fichier);
+		$data_fichier->fichier = 'inconnu.mp3';
+		$son_sample->datas->add($data_fichier);
 		
-		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_logiciel, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant le code source du logiciel');
+		$champ_date = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date', 'type_element'=>$type_media_son));
+		if ($champ_date == null) {
+			throw new Exception('unexpected');
+		}
+		$data_date = new Collection\Entity\Data($son_sample, $champ_date);
+		$data_date->date = new DateTime('1999-10-09');
+		$son_sample->datas->add($data_date);
 		
-		$champ_version = new Collection\Entity\Champ('Version', $type_media_logiciel, 'texte');
-		$champ_version->__set('description', 'Le numéro de version du logiciel');
+		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_son));
+		if ($champ_format == null) {
+			throw new Exception('unexpected');
+		}
+		$data_format = new Collection\Entity\Data($son_sample, $champ_format);
+		$data_format->texte = 'Image jpeg';
+		$son_sample->datas->add($data_format);
 		
-		$champ_date = new Collection\Entity\Champ('Date', $type_media_logiciel, 'date');
-		$champ_date->__set('description', 'La date de publication du logiciel');
+		$manager->persist($son_sample);
+		$manager->flush();
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_logiciel, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du code source');
-		
-		$manager->persist($type_media_logiciel);
-		$manager->persist($champ_format);
-		$manager->persist($champ_version);
-		$manager->persist($champ_fichier);
-		$manager->persist($champ_date);
-		//*/
 	}
 }
