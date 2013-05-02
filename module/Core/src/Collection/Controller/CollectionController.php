@@ -62,7 +62,15 @@ class CollectionController extends AbstractActionController
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		$params = $this->params()->fromPost();
     	}
+    	
+    	if(!isset($params["iSortCol_0"])){
+    		$params["iSortCol_0"] = '0';
+    	}
 
+    	if(!isset($params["sSortDir_0"])){
+    		$params["sSortDir_0"] = 'ASC';
+    	}
+    	
     	$entityManager = $this->getEntityManager()
     					      ->getRepository('Collection\Entity\Element');
  

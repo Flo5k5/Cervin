@@ -44,7 +44,7 @@ class ElementDataTable extends DataTable
 			$query = $entityManager->createQueryBuilder($alias)
 			                       ->leftJoin($alias.'.type_element', $alias_type)
 			                       ->addSelect($alias_type);
-	
+
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
@@ -104,23 +104,42 @@ class ElementDataTable extends DataTable
 
 			}
 
+			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
+
 			$query
+			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0)
+		    //->addOrderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  strtoupper($this->sSortDir_0))
+			->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}")
 			->setFirstResult($this->getPage())
 			->setMaxResults($this->getDisplayLength());
-			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0);
-	
-			//var_dump($query->getQuery()->getSQL());
 
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());
 				$sSearch = preg_replace('/[^[:ascii:]]/', '%', $sSearch);
 				$sSearch = preg_replace('/[%]{1,}/', '%', $sSearch);
+				$sSearch = '%'.$sSearch.'%';
+
 				$this->setSSearch($sSearch);
-				 
-				foreach ($this->getConfiguration() as $column) {
-					$query->orWhere("UPPER({$alias}.{$column}) LIKE '%{$this->getSSearch()}%'");
+				
+				$orX = $query->expr()->orX();
+				
+				for ($i = 0; $i < 2; $i++) {
+
+					$column = $this->configuration[$i];
+					
+					$al = $column != 'type' ? $alias : $alias_type;
+					
+					$orX->add($query->expr()->like( $query->expr()->upper("{$al}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
+					//$query
+					//->orWhere("UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}");
+					//->add("orWhere", "UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}")
+					//->orWhere( $query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
 				}
+				
+				$query->add('where', $orX);
 			}
+			
+			//var_dump($query->getQuery()->getSQL());
 			
 			$paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 
