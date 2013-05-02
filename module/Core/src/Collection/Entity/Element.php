@@ -41,7 +41,7 @@ class Element implements InputFilterAwareInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, unique=true)
+    * @ORM\Column(type="string", length=200)
     */
     protected $titre;
 

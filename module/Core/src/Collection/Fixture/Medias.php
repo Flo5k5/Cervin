@@ -166,38 +166,7 @@ class Medias implements FixtureInterface
 		 * QUELQUES INSANCES DE MEDIAS   *
 		* ****************************** */
 		
-		/*
-		 * Une image
-		 */
-		$logo_cervin = new Collection\Entity\Media('Logo Cervin', $type_media_image);
-		$logo_cervin->description = 'Le logo du projet CERVIN';
-		$manager->persist($logo_cervin);
-		
-		$champ_fabriquant = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fabriquant', 'type_element'=>$type_artefact_materiel));
-		if ($champ_fabriquant == null) {
-			throw new Exception('Champ "fabriquant" de l\'artefact mat�riel non trouv�');
-		}
-		$data_fabriquant = new Collection\Entity\Data($calc, $champ_fabriquant);
-		$data_fabriquant->__set('texte', 'Inconnu');
-		$manager->persist($data_fabriquant);
-		
-		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_materiel));
-		if ($champ_debut == null) {
-			throw new Exception('Champ "début" de l\'artefact matériel non trouvé');
-		}
-		$data_debut = new Collection\Entity\Data($calc, $champ_debut);
-		$data_debut->__set('date', new DateTime('1925-01-01'));
-		$manager->persist($data_debut);
-		
-		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_materiel));
-		if ($champ_fin == null) {
-			throw new Exception('Champ "fin" de l\'artefact matériel non trouvé');
-		}
-		$data_fin = new Collection\Entity\Data($calc, $champ_fin);
-		$data_fin->__set('date', new DateTime('1950-01-01'));
-		$manager->persist($data_fin);
-		
-		$manager->flush();
+
 
 
 		/*
