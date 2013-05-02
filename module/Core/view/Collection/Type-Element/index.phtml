@@ -5,8 +5,38 @@ $this->headTitle($title);
 
 <?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : gestion des types d'éléments</h3>
+    </div>
+    <div class="modal-body">
+    	<p>Cette page vous permet en tant qu'administrateur de l'application de gérer les types d'éléments stockés dans la collection numériques. 
+    	La collection est constituée d'<strong>artefacts</strong> et de <strong>médias</strong>, vous pouvez gérer ici les types d'artefacts (colonne de gauche) et les types de média (colonne de droite).
+    	</p>
+    	<p>
+    	En cliquant sur un type d'artefact (ou de média), vous accédez à l'ensemble des champs qui le décrivent. Un champ a un label, un format et une description.
+    	Par défaut, il y a toujours un champ <em>titre</em> (label : 'titre', format : 'texte') et un champ <em>description</em> (label : 'description', format : 'zone de texte').
+    	</p>
+    	<p>
+    	Vous pouvez <strong>gérer les champs existants</strong> (modifier leur label et leur description en cliquant dessus), <strong>les supprimer</strong> (clic sur la poubelle, attention vous perdez toutes les données correspondantes) et <strong>en ajouter de nouveaux</strong>.
+    	</p>
+    	<p>
+    	Vous pouvez également <strong>modifier le nom du type d'artefact (ou de média)</strong> en cliquant dessus, ou <strong>le supprimer</strong> en cliquant sur la poubelle (attention, tous les éléments de ce type dans la collection seront supprimés !!).
+    	</p>
+    	<p>
+    	Enfin, vous pouvez <strong>créer un nouveau type d'artefact ou de média</strong> via les boutons en haut de l'écran.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+    <h1><?php echo $this->escapeHtml($title); ?> 
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 </div>
 
 <div class="row">

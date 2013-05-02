@@ -5,16 +5,17 @@ $this->headTitle($title);
 
 <?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
 
-<div class="page-header">
+<div class="page-header row-fluid">
+	<div class="span9">
 	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	</div>
+	<a href="<?php echo $this->url('media/editMedia',
+            array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Modifier ce média</a>
 </div>
 
 <div class="container">
 	<div class="row-fluid">
 		<div class="span7">
-			<a href="<?php echo $this->url('media/editMedia',
-	            array('id' => $media->id)) ?>" class="btn icon-pencil btn-primary">Modifier ce média</a>
-	        <br/><br/>
 			<p><?php echo $media->description;?></p>
 		</div>
 		<div class="span5 well">
