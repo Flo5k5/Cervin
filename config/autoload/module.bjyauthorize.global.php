@@ -150,6 +150,7 @@ return array(
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
+                array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),

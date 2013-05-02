@@ -132,6 +132,19 @@ return array(
                             ),
                         ),
                     ),
+                	'removeArtefact' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/removeArtefact/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Artefact',
+                				'action'     => 'removeArtefact',
+                			),
+                			),
+                		),
                 ),
             ),
 

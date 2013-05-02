@@ -193,5 +193,24 @@ class ArtefactController extends AbstractActionController
 		}
 		return new ViewModel(array('artefact' => $Artefact,'ThisChamps'=>$ThisChamps));
 	}
+	
+
+	public function removeArtefactAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+		if (!$id) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	
+		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		if ($artefact === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		$this->getEntityManager()->remove($artefact);
+		$this->getEntityManager()->flush();
+		return $this->redirect()->toRoute('collection/consulter');
+	}
 
 }

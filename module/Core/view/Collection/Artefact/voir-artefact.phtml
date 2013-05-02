@@ -10,9 +10,32 @@ $this->headTitle($title);
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 	</div>
 	<?php if ($this->isAllowed('menuCollection') === true) :?>
-		<a href="<?php echo $this->url('artefact/editArtefact',
-            array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Modifier cet artefact</a>
+		<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 
+			class="btn btn-primary span3">
+			<i class="icon-pencil"> </i> Modifier cet artefact
+		</a>
+		<a href="#confirmModal" 
+			data-toggle="modal" 
+			class="btn btn-danger span3">
+			<i class="icon-trash"> </i>  Supprimer cet artefact
+		</a>
     <?php endif; ?>
+</div>
+
+<!--Confirm Modal -->
+<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Confirmation : suppression d'un artefact</h3>
+    </div>
+    <div class="modal-body">
+    	Êtes-vous sur de vouloir supprimer l'artefact "<?php echo $artefact->titre; ?>" ?
+    </div>
+    <div class="modal-footer">
+	    <a href="<?php echo $this->url('artefact/removeArtefact',
+            array('id' => $artefact->id)) ?>" class="btn btn-primary">Supprimer</a>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
 </div>
 
 <div class="row-fluid">
