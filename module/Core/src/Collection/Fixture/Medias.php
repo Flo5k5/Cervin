@@ -204,7 +204,7 @@ class Medias implements FixtureInterface
 		 * Un logiciel
 		 */
 		$logiciel = new Collection\Entity\Media('Logiciel sans nom', $type_media_logiciel);
-		$logiciel->description = '<ul><li>Exemple de logiciel de la collection...</li></ul>';
+		$logiciel->description = '<ul><li>Exemple de logiciel de la collection...</li><li>Ceci est un exemple</li></ul>';
 		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
 
 		$champ_fichier = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fichier', 'type_element'=>$type_media_logiciel));
