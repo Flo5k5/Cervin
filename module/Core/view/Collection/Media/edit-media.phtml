@@ -8,15 +8,18 @@ $title = $media->titre;
 $this->headTitle($title);
 ?>
 
-<div class="page-header">
-	<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
+<div class="page-header row-fluid">
+	<div class="span9">
+		<h1><i class="icon-tag"></i> <span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> <!-- <small>Subtext for header</small> --></h1>
+	</div>
+
+		<a href="<?php echo $this->url('media/voirMedia',
+        	array('id' => $media->id)) ?>" class="btn icon-pencil btn-primary"> Retour à la fiche de ce média</a>
+
 </div>
 
-	<a href="<?php echo $this->url('media/voirMedia',
-        array('id' => $media->id)) ?>" class="btn icon-pencil btn-primary"> Retour à la fiche de ce média</a>
-    <br/><br/>
 <div class="row-fluid">
-	<div class="span12 well">
+	<div class="span12">
 		<div class="wysihtml5 CursorPointer" data-class="input-block-level" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("media/editMedia",array('id'=>$media->id)) ?>"><?php echo $media->description;?></div>
 	</div>
 </div>
@@ -26,17 +29,18 @@ $this->headTitle($title);
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
+
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
 				<dl class="dl-horizontal">
-					<dt>Type : </dt>
+					<dt>Type</dt>
 					<dd><?php echo $media->type_element->nom; ?></dd>
-					<?php foreach( ($media->datas) as $data) :?>
+					<?php 
+					foreach( ($media->datas) as $data) :?>
 					<dt><?php echo $data->champ->label ?> </dt>
 					<dd>
 						<?php 
-
 						switch ($data->champ->format) :
 						case 'texte':
 						echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">'.$data->{$data->champ->format}.'</span>';

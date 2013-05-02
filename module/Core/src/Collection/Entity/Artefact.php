@@ -76,12 +76,9 @@ class Artefact extends Element
 	}
 
 }
+
 class ArtefactRepository extends EntityRepository
 {
-
-
-
-
 
     public function getThisChamps($id = 2)
     {

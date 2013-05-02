@@ -116,17 +116,16 @@ class ArtefactController extends AbstractActionController
 
 		$id = (int) $this->params()->fromRoute('id', 0);
 		if (!$id) {
-                $this->getResponse()->setStatusCode(404);
-                return; 
+            $this->getResponse()->setStatusCode(404);
+            return;
 		}
 
-		
-			$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
-			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
+		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		
 		if (null === $ThisChamps and $Artefact === null) {
-                $this->getResponse()->setStatusCode(404);
-                return; 
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
 		if ($this->getRequest()->isXmlHttpRequest()) 
@@ -149,8 +148,6 @@ class ArtefactController extends AbstractActionController
 				break;
 				case 'data':
 					$idChamp = (int) $this->params()->fromRoute('idChamp', 0);
-					
-					
 
 					$Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
 					if (null === $Champ) {
@@ -163,7 +160,7 @@ class ArtefactController extends AbstractActionController
 					
 					switch ($dataDB->champ->format) {
 		    	 		case 'texte':
-		    	 			$dataDB->texte = $request['value'];   	 					
+		    	 			$dataDB->texte = $request['value'];
 		    	 			break;
 		    	 		case 'textarea':
 		    	 			$dataDB->textarea = $request['value'];
@@ -172,7 +169,7 @@ class ArtefactController extends AbstractActionController
 		    	 			$dataDB->date = new \DateTime($request['value']);
 		    	 			break;
 		    	 		case 'nombre':
-		    	 			$dataDB->nombre = $request['value']; 
+		    	 			$dataDB->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
 		    	 			$dataDB->fichier = $request['value'];
@@ -181,13 +178,13 @@ class ArtefactController extends AbstractActionController
 		    	 			$dataDB->url = $request['value'];
 			            	break;
 			            default:
-			            	return $this->getResponse()->setContent(Json::encode(false));  
+			            	return $this->getResponse()->setContent(Json::encode(false));
 			            break;
 		    	 	} // end switch
 				
 		            $this->getEntityManager()->persist($dataDB);
 		            $this->getEntityManager()->flush();
-			        return $this->getResponse()->setContent(Json::encode(true)); 
+			        return $this->getResponse()->setContent(Json::encode(true));
 				break;
 				default:
 		            return $this->getResponse()->setContent(Json::encode(false));  
