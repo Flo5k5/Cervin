@@ -85,7 +85,7 @@
 
 	    // INITIALIZING PILLBOX
 		$('.form-button').click(function () {
-			var value = $(this).attr("data-value").trim();
+			var value = $.trim($(this).attr("data-value"));
 			var type = $(this).attr("data-type");
 			if(!isDuplicate( type, value )){
 				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
@@ -129,7 +129,7 @@
 		});	
 
 		$('.form-titre').keypress(function(event){
-			var value = $(this).attr("value").trim();
+			var value = $.trim($(this).attr("value"));
 			var type = $(this).attr("data-type");
 			if( event.which == 13 && value != "" ){ // Code touche entr�e = 13
 				$(this).attr("data-value", value);
