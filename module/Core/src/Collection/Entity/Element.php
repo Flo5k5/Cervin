@@ -123,11 +123,26 @@ class Element implements InputFilterAwareInterface
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        		case 'textarea':
-        		case 'nombre':
-        		case 'url':
         			if ($data[$index]) {
         				$databd->texte = $data[$index];
+        				$this->datas->add($databd);
+        			}
+        			break;
+        		case 'textarea':
+        			if ($data[$index]) {
+        				$databd->textarea = $data[$index];
+        				$this->datas->add($databd);
+        			}
+        			break;
+        		case 'nombre':
+        			if ($data[$index]) {
+        				$databd->nombre = $data[$index];
+        				$this->datas->add($databd);
+        			}
+        			break;
+        		case 'url':
+        			if ($data[$index]) {
+        				$databd->url = $data[$index];
         				$this->datas->add($databd);
         			}
         			break;
@@ -147,7 +162,7 @@ class Element implements InputFilterAwareInterface
                         elseif($this instanceof Media){
                             $champ_dir = "/uploads/medias/" . (string)$champ->id;
                         }
-                        else{
+                        else {
                             throw new \Exception("Error Processing Request");
                         }
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);

@@ -19,13 +19,13 @@ $this->headTitle($title);
 <div class="row">
 	<div class="span6 well">
 		<h4>Profil</h4>
-	    <div class="row">
-		    <div class="span3">
+	    <div class="row-fluid">
+		    <div class="span6">
 		    	<a class="thumbnail"><img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
 		    	<a href="<?php echo $this->url('zfcuser/logout') ?>" role="button" class="btn btn-danger btn-block" >
 		    		<i class="icon-off"></i>  Déconnexion</a>
 		    </div>
-		    <div class="span3">
+		    <div class="span6">
 		    	<p><strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)</p>
 				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mail </a>
 				
@@ -38,14 +38,14 @@ $this->headTitle($title);
 	<div class="span6 well">
 	    <h4>Droits</h4>
 	    
-	    <div class="row">
-		    <div class="span3">
+	    <div class="row-fluid">
+		    <div class="span6">
 		    	<p> Vous avez le rôle <strong><?php $roles = $this->zfcUserIdentity()->getRoles();
 							  $role = $roles[0]->getRoleId(); 
 							  echo $role; ?></strong> </p>
 		    </div>
 		    
-		    <div class="span3">
+		    <div class="span6">
 		    	<?php if($role != 'Admin'){ ?>
 					<div class="btn-group">
 						<button class="btn btn-primary"><i class="icon-plus"></i>  Demander plus de droits</button>
