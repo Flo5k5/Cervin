@@ -188,10 +188,10 @@ return array(
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editMedia/:id[/:idData]',
+                            'route' => '/editMedia/:id[/:idChamp]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idData' => '[0-9]+',
+                                'idChamp' => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Media',

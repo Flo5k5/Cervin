@@ -125,26 +125,26 @@ class Element implements InputFilterAwareInterface
         		case 'texte':
         			if ($data[$index]) {
         				$databd->texte = $data[$index];
-        				$this->datas->add($databd);
         			}
+        			$this->datas->add($databd);
         			break;
         		case 'textarea':
         			if ($data[$index]) {
         				$databd->textarea = $data[$index];
-        				$this->datas->add($databd);
         			}
+        			$this->datas->add($databd);
         			break;
         		case 'nombre':
         			if ($data[$index]) {
         				$databd->nombre = $data[$index];
-        				$this->datas->add($databd);
         			}
+        			$this->datas->add($databd);
         			break;
         		case 'url':
         			if ($data[$index]) {
         				$databd->url = $data[$index];
-        				$this->datas->add($databd);
         			}
+        			$this->datas->add($databd);
         			break;
         		case 'date':
         			if ($data[$index] != null) {
@@ -251,7 +251,7 @@ class Element implements InputFilterAwareInterface
 	        			break;
 	        		case 'fichier':
 	        			$file = new FileInput('champ_'.strval($champ->id));
-	        			$file->setRequired(false);
+	        			$file->setRequired(true);
 	        			$file->getFilterChain()->attachByName(
 	        				'filerenameupload',
 	        				array(

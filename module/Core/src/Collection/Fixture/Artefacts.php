@@ -393,6 +393,7 @@ class Artefacts implements FixtureInterface
 		
 		$manager->persist($lieu);
 		$manager->flush();
+
 		
 		/* ********************************** *
 		 * DES RELATIONS ENTRE DEUX ARTEFACTS *

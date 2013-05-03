@@ -12,14 +12,14 @@ $this->headTitle($title);
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Aide : modification d'un média</h3>
+	    <h3 id="myModalLabel">Aide : modification d'un artefact</h3>
     </div>
     <div class="modal-body">
     	<p>
-    	Cette page vous permet de modifier les informations d'un média. Tous les champs sont modifiables en cliquant directement dessus.
+    	Cette page vous permet de modifier les informations d'un artefact. Tous les champs sont modifiables en cliquant directement dessus.
     	</p>
     	<p>
-    	L'onglet 'artefacts liés' permet de gérer les relations mais n'est pas encore implémenté.
+    	Les onglets 'artefacts liés' et 'médias liés' permet de gérer les relations mais n'est pas encore implémenté.
     	</p>
     </div>
     <div class="modal-footer">
@@ -30,15 +30,17 @@ $this->headTitle($title);
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1>
-		Modification d'un artefact : <br/>
-		<span class="edit CursorPointer" data-inputclass="span5" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
-		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+		Modification d'un artefact : <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
+		<br/>
+		<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
+		</h1>
 	</div>
 	
-		<a href="<?php echo $this->url('artefact/voirArtefact',
+	<a href="<?php echo $this->url('artefact/voirArtefact',
         	array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de cet artefact</a>
-		<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer cet artefact</a>
-		</div>
+	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer cet artefact</a>
+	
+</div>
 
 <!--Confirm Modal -->
 <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -57,81 +59,120 @@ $this->headTitle($title);
 </div>
 		
 <div class="row-fluid">
-	<div class="span12">
-		<h3>Description : </h3>
-		<div class="wysihtml5 CursorPointer well" data-class="input-block-level well" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
+	<div class="span6 well">
+		<div class="wysihtml5 CursorPointer" data-class="input-block-level" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
 	</div>
-</div>
-<br>
-<div class="row-fluid">
-	<div class="span12 well">
+	
+	<div class="span6 well">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
 			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Médias liés</a></li>
 		</ul>
+		
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
 				<dl class="dl-horizontal">
-					<dt>Type</dt>
-					<dd><?php echo $artefact->type_element->nom; ?></dd>
+					<dt>Type d'artefact</dt>
+					<dd>
+						<?php 
+							echo $artefact->type_element->nom; 
+							echo '</br></br>';
+						?>
+					</dd>
 					<?php 
 					foreach( ($ThisChamps) as $champ) :?>
-					<dt><?php echo $champ['label'] ?> </dt>
+					<dt>
+						<?php echo $champ['label'] ?> 
+						<?php if ($champ['description'] != null) : ?>
+				        	<a href="#" 
+			        			class="description"
+			        			rel="popover"
+			        			data-content="<?php echo $champ['description']; ?>"
+			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+			        	<?php endif; ?>
+					</dt>
 					<dd>
 						<?php 
 						switch ($champ['format']) :
 							case 'texte':
-							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
-								.$champ['id'].'" data-url="'.
-								$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$champ[$champ['format']].'</span>';
-							break;
+								echo '<span class="edit CursorPointer" 
+										data-name="data" 
+										data-type="text" 
+										data-pk="'.$champ['id'].'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+									'.$champ['texte'].'
+								</span>';
+								echo '</br></br>';
+								break;
 
 							case 'textarea':
-							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="1" data-url="'
-								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$champ[$champ['format']].'</span>';
-							break;
+								echo '<span class="edit CursorPointer" 
+										data-name="data" 
+										data-type="textarea" 
+										data-pk="'.$champ['id'].'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+	    							'.$champ['textarea'].'
+    							</span>';
+								echo '</br></br>';
+								break;
 
 							case 'date':
-							if($champ['date'] === null){
-								$date = null;
-							} else {
-								$date = $champ['date']->format('d-m-Y');
-							}
-							echo '<span class="picker CursorPointer" data-name="data" data-type="date" data-pk="'
-								.$champ['id'].'" data-url="'
-								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$date.'</span>';
-							break;
+								if($champ['date'] === null){
+									$date = null;
+								} else {
+									$date = $champ['date']->format('d-m-Y');
+								}
+								echo '<span class="picker CursorPointer" 
+    										data-name="data" 
+    										data-type="date" 
+    										data-pk="'.$champ['id'].'" 
+	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+										'.$date.'
+									</span>';
+								echo '</br></br>';
+								break;
 							
 							case 'nombre':
-							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
-								.$champ['id'].'" data-url="'
-								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$champ[$champ['format']].'</span>';
-							break;
-
-							case 'fichier':
-							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
-								.$champ['id'].'" data-url="'
-								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$champ['fichier'].'</span>';
-							break;
+								echo '<span class="edit CursorPointer" 
+											data-name="data" 
+											data-type="number" 
+											data-pk="'.$champ['id'].'" 
+											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+										'.$champ['nombre'].'
+									</span>';
+								echo '</br></br>';
+								break;
 
 							case 'url':
-							echo '<span class="edit CursorPointer" data-name="data" data-type="text" data-pk="'
-								.$champ['id'].'" data-url="'
-								.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id']))
-								.'">'.$champ[$champ['format']].'</span>';
-							break;
+								echo '<span class="edit CursorPointer"
+										data-name="data"
+										data-type="text"
+										data-pk="'.$champ['id'].'"
+	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+	    							'.$champ['url'].'
+    							</span>';
+								echo '</br></br>';
+								break;
+									
+							case 'fichier':
+								/*echo '<span class="edit CursorPointer" 
+											data-name="data" 
+											data-type="text" 
+											data-pk="'.$champ['id'].'" 
+        									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+										'.$champ['fichier'].'
+									</span>';*/
+								echo '<a href="'.$champ['fichier'].'">'. basename($champ['fichier']) .'</a>';
+								echo '</br></br>';
+								break;
 
 						endswitch ;?>
 					</dd>
 				<?php endforeach ;?>
 				</dl>
 			</div>
+			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
 				<div class="span6">
@@ -207,7 +248,8 @@ $this->headTitle($title);
 </div>
 
 <script type="text/javascript">
-
+						
+$(".description").popover({placement:'top', trigger:'hover'}); 
 
 $('.wysihtml5').editable({
 	mode: 'inline',

@@ -130,6 +130,39 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		$manager->flush();
+		
+		/*
+		 * Média : Test démo
+		*/
+		$type_media_test = new Collection\Entity\TypeElement('Test démo', 'media');
+		
+		$champ_texte = new Collection\Entity\Champ('Label texte', $type_media_test, 'texte');
+		$champ_texte->__set('description', 'Description du champ texte');
+		
+		$champ_textarea = new Collection\Entity\Champ('Label textarea', $type_media_test, 'textarea');
+		$champ_textarea->__set('description', 'Description du champ textarea');
+		
+		$champ_nombre = new Collection\Entity\Champ('Label nombre', $type_media_test, 'nombre');
+		$champ_nombre->__set('description', 'Description du champ nombre');
+		
+		$champ_date = new Collection\Entity\Champ('Label date', $type_media_test, 'date');
+		$champ_date->__set('description', 'Description du champ date');
+		
+		$champ_fichier = new Collection\Entity\Champ('Label fichier', $type_media_test, 'fichier');
+		$champ_fichier->__set('description', 'Description du champ fichier');
+		
+		$champ_url = new Collection\Entity\Champ('Label url', $type_media_test, 'url');
+		$champ_url->__set('description', 'Description du champ url');
+		
+		$manager->persist($type_media_test);
+		$manager->persist($champ_texte);
+		$manager->persist($champ_textarea);
+		$manager->persist($champ_nombre);
+		$manager->persist($champ_date);
+		$manager->persist($champ_fichier);
+		$manager->persist($champ_url);
+		
+		$manager->flush();
 
 		/* ***************************** *
 		 * QUELQUES INSANCES DE MEDIAS   *

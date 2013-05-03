@@ -151,9 +151,10 @@ class MediaController extends AbstractActionController
 
                     $Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
                     if (null === $Champ) {
-                            $dataDB = new Data($Media,$idChamp);
+                        $dataDB = new Data($Media,$idChamp);
                     }   
                     $dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Media,'champ'=>$Champ));
+                    
                     if (null === $dataDB) {
                         $dataDB = new Data($Media,$Champ);
                     }
