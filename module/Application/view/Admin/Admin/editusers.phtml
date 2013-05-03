@@ -76,9 +76,21 @@ $this->headTitle($title);
 <?php $this->headScript()->captureStart() ?>
 	var table;
 	$(function() {
-	    var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
 	    table = ResultSet.paginate(
 			{
+				"aoColumns": [
+		           	           	null,
+		           	           	null, 
+		           	        	null,
+		                     	null,
+		                     	{ "bSortable": false  }
+	           	           	 ],
+	           	"iColumns": 5,
+	           	"bAutoWidth": false,
+				"bSortClasses":false,
+	           	"bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?php echo $this->url("admin/gestion-users"); ?>",
 				"fnDrawCallback": function () {
 					$('.status').editable({
 						source: [
@@ -106,20 +118,7 @@ $this->headTitle($title);
 	                        }
 	                    });   
 	                });
-				},
-	            "aoColumns": [
-	                              null,
-	                              null,
-	                              null,
-	                              null,
-	                              { "bSortable": false  },
-	                         ],
-	            "iColumns": 5,
-	            "bAutoWidth": false,
-				"bSortClasses":false,
-	            "bProcessing": true,
-	         	"bServerSide": true,
-	         	"sAjaxSource": URL
+				}
 			}
 		);
 	});
