@@ -66,6 +66,7 @@ class Champ implements InputFilterAwareInterface
     	$this->label = $label;
     	$this->type_element = $type_element;
     	if ($format != "texte" 
+    			&& $format != "textarea"
     			&& $format != "date"
     			&& $format != "fichier"
     			&& $format != "nombre"

@@ -27,13 +27,9 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_image, 'date');
 		$champ_date->__set('description', 'La date de publication de l\'image');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_image, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage de l\'image');
-		
 		$manager->persist($type_media_image);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		/*
 		 * M�dia : Video
@@ -46,13 +42,9 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_video, 'date');
 		$champ_date->__set('description', 'La date de publication de la vidéo');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_video, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage de la vidéo');
-		
 		$manager->persist($type_media_video);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		/*
 		 * M�dia : Son
@@ -65,13 +57,9 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_son, 'date');
 		$champ_date->__set('description', 'La date de publication du son');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_son, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du son');
-		
 		$manager->persist($type_media_son);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		/*
 		 * M�dia : Logiciel
@@ -87,11 +75,7 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_logiciel, 'date');
 		$champ_date->__set('description', 'La date de publication du logiciel');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_logiciel, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du code source');
-		
 		$manager->persist($type_media_logiciel);
-		$manager->persist($champ_format);
 		$manager->persist($champ_version);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
@@ -107,13 +91,9 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_modele3d, 'date');
 		$champ_date->__set('description', 'La date de publication du modèle 3D');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_modele3d, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du modèle 3D');
-		
 		$manager->persist($type_media_modele3d);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		/*
 		 * M�dia : Jeu de donn�es
@@ -126,13 +106,9 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_jeudonnees, 'date');
 		$champ_date->__set('description', 'La date de publication du jeu de données');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_jeudonnees, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du jeu de données');
-		
 		$manager->persist($type_media_jeudonnees);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		/*
 		 * M�dia : Autre
@@ -148,19 +124,12 @@ class Medias implements FixtureInterface
 		$champ_date = new Collection\Entity\Champ('Date', $type_media_autre, 'date');
 		$champ_date->__set('description', 'La date de publication du média');
 		
-		$champ_format = new Collection\Entity\Champ('Format', $type_media_autre, 'texte');
-		$champ_format->__set('description', 'Le format d\'encodage du média');
-		
 		$manager->persist($type_media_autre);
 		$manager->persist($champ_type);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
-		$manager->persist($champ_format);
 		
 		$manager->flush();
-
-
-
 
 		/* ***************************** *
 		 * QUELQUES INSANCES DE MEDIAS   *
@@ -188,14 +157,6 @@ class Medias implements FixtureInterface
 		$data_date = new Collection\Entity\Data($logo_cervin, $champ_date);
 		$data_date->date = new DateTime('1999-10-09');
 		$logo_cervin->datas->add($data_date);
-		
-		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_image));
-		if ($champ_format == null) {
-			throw new Exception('unexpected');
-		}
-		$data_format = new Collection\Entity\Data($logo_cervin, $champ_format);
-		$data_format->texte = 'Image jpeg';
-		$logo_cervin->datas->add($data_format);
 		
 		$manager->persist($logo_cervin);
 		$manager->flush();
@@ -231,14 +192,6 @@ class Medias implements FixtureInterface
 		$data_date->date = new DateTime('1999-10-09');
 		$logiciel->datas->add($data_date);
 		
-		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_logiciel));
-		if ($champ_format == null) {
-			throw new Exception('unexpected');
-		}
-		$data_format = new Collection\Entity\Data($logiciel, $champ_format);
-		$data_format->texte = 'Fichier exe';
-		$logiciel->datas->add($data_format);
-		
 		$manager->persist($logiciel);
 		$manager->flush();
 
@@ -264,14 +217,6 @@ class Medias implements FixtureInterface
 		$data_date = new Collection\Entity\Data($son_sample, $champ_date);
 		$data_date->date = new DateTime('1999-10-09');
 		$son_sample->datas->add($data_date);
-		
-		$champ_format = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Format', 'type_element'=>$type_media_son));
-		if ($champ_format == null) {
-			throw new Exception('unexpected');
-		}
-		$data_format = new Collection\Entity\Data($son_sample, $champ_format);
-		$data_format->texte = 'Image jpeg';
-		$son_sample->datas->add($data_format);
 		
 		$manager->persist($son_sample);
 		$manager->flush();

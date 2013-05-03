@@ -73,7 +73,7 @@ class SemantiqueController extends AbstractActionController
 				$SemantiqueArtefact->type_origine = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->find($post['type_origine']);
 			    $this->getEntityManager()->persist($SemantiqueArtefact);
 			    $this->getEntityManager()->flush();
-			 	$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> La semantique a bien ete créé.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
+			 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été créé.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
 	            return $this->redirect()->toRoute('semantique');
 		    }
 		}
@@ -133,7 +133,7 @@ class SemantiqueController extends AbstractActionController
 
         $this->getEntityManager()->remove($SemantiqueArtefact);
         $this->getEntityManager()->flush();
-	 	$this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> La semantique a bien ete supprimée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
+	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
 
         return $this->redirect()->toRoute('semantique');
         

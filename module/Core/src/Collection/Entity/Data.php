@@ -62,6 +62,12 @@ class Data implements InputFilterAwareInterface
     protected $texte;
     
     /**
+     * La valeur s'il s'agit d'une zone de texte, null sinon
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $textarea;
+    
+    /**
      * La valeur s'il s'agit d'une url, null sinon
      * @ORM\Column(type="string", length=200, nullable=true)
      */
@@ -95,12 +101,7 @@ class Data implements InputFilterAwareInterface
     */
     public function __get($property)
     {
-        if($property!='textarea'){
-            return $this->$property;
-        }
-        else{
-            return $this->texte;
-        }
+        return $this->$property;
     }
 
     /**
