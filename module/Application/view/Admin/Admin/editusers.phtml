@@ -74,49 +74,52 @@ $this->headTitle($title);
 </div> 
 
 
-<script type="text/javascript">
-
-    var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
-    ResultSet.paginate(
-		{
-			"fnDrawCallback": function () {
-				$('.status').editable({
-					source: [
-                    <?php foreach ($roles as $role) : ?>
-								{value: <?php echo $role->getId();?>, text: '<?php echo $role->getRoleId();?>'},
-                    <?php endforeach; ?>
-							]
-				});
-
-                $('.text').editable({ });
-
-                $(".SupprimerUser").click(function(event){
-                    var dateURL = $(this).attr('data-url');
-                    var dateValue = $(this).attr('data-value');
-                    $('#confirmDiv').confirmModal({
-                        heading:'Confirmation',
-                        body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
-                        callback: function() {
-                            $.post( 
-                                dateURL,
-                                { name: "supprimer" },
-                                function() {
-                                    $("#data").dataTable().fnDraw();
-                                });
-                        }
-                    });   
-                });
-			},
-            "aoColumns": [
-                              null,
-                              null,
-                              null,
-                              { "bSortable": false  },
-                              { "bSortable": false  },
-                         ],
-            "bProcessing": true,
-         	"bServerSide": true,
-         	"sAjaxSource": URL
-		}
-	);
-</script>
+<?php $this->headScript()->captureStart() ?>
+	var table;
+	$(function() {
+	    var URL = '<?php echo $this->url("admin/gestion-users"); ?>';
+	    table = ResultSet.paginate(
+			{
+				"fnDrawCallback": function () {
+					$('.status').editable({
+						source: [
+	                    <?php foreach ($roles as $role) : ?>
+									{value: <?php echo $role->getId();?>, text: '<?php echo $role->getRoleId();?>'},
+	                    <?php endforeach; ?>
+								]
+					});
+	
+	                $('.text').editable({ });
+	
+	                $(".SupprimerUser").click(function(event){
+	                    var dateURL = $(this).attr('data-url');
+	                    var dateValue = $(this).attr('data-value');
+	                    $('#confirmDiv').confirmModal({
+	                        heading:'Confirmation',
+	                        body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
+	                        callback: function() {
+	                            $.post( 
+	                                dateURL,
+	                                { name: "supprimer" },
+	                                function() {
+	                                    $("#data").dataTable().fnDraw();
+	                                });
+	                        }
+	                    });   
+	                });
+				},
+	            "aoColumns": [
+	                              null,
+	                              null,
+	                              null,
+	                              null,
+	                              { "bSortable": false  },
+	                         ],
+	            "iColumns": 5,
+	            "bProcessing": true,
+	         	"bServerSide": true,
+	         	"sAjaxSource": URL
+			}
+		);
+	});
+<?php $this->headScript()->captureEnd() ?>

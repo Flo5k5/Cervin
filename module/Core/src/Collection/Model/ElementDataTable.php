@@ -104,14 +104,20 @@ class ElementDataTable extends DataTable
 
 			}
 
-			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
-
 			$query
 			//->orderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  $this->sSortDir_0)
 		    //->addOrderBy("{$alias}.{$this->configuration[$this->iSortCol_0]}",  strtoupper($this->sSortDir_0))
-			->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}")
+			//->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}")
 			->setFirstResult($this->getPage())
 			->setMaxResults($this->getDisplayLength());
+
+			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
+			
+			if( $this->configuration[$iSortCol_0] == 'type' || $this->configuration[$iSortCol_0] == 'nom' ){
+				$query->add("orderBy", "{$alias_type}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			} else {
+				$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			}
 
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());

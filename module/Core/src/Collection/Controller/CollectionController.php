@@ -80,8 +80,8 @@ class CollectionController extends AbstractActionController
     	$dataTable->setConfiguration(array(
     		'titre',
 	        'description',
-    	    'type',
-    		'artefact_media'
+    	    'nom',
+    		'type'
     	));
     
     	$aaData = array();
