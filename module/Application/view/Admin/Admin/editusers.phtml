@@ -92,10 +92,10 @@ $this->headTitle($title);
 
                 $(".SupprimerUser").click(function(event){
                     var dateURL = $(this).attr('data-url');
-                    var dateValue = $(this).attr('data-value');
+                    var dataValue = $(this).attr('data-value');
                     $('#confirmDiv').confirmModal({
                         heading:'Confirmation',
-                        body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
+                        body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dataValue+" ?",
                         callback: function() {
                             $.post( 
                                 dateURL,
