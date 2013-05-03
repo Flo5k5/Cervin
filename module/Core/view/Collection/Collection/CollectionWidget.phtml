@@ -75,7 +75,6 @@
 	     			});
 	     		},
 	     		"fnDrawCallback": function(oSettings, json){
-	     			console.log("Draw called");
 	     			$(".href-type-element").unbind("click").bind("click", function(e) {
 						window.open($(this).attr("href"), "_blank");
 						e.preventDefault();
