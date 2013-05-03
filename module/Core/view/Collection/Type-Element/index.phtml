@@ -64,7 +64,20 @@ $this->headTitle($title);
                                 <dd></dd>
                             <?php foreach ($TEartefact->__get('champs') as $champ) : ?>
                             <div class="parent">
-                                <dt><a href="#" data-name="supprimerChamp" data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les artefacts de ce type seront supprimées</strong>." data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+                                <dt>
+                                    <a href="#" 
+                                        data-name="supprimerChamp" 
+                                        data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les artefacts de ce type seront supprimées</strong>." 
+                                        data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>" 
+                                        class="confirmDiv">
+                                        <i class="icon-white icon-trash"></i>
+                                    </a> 
+                                    <span class="edit CursorPointer" 
+                                        data-name="label" 
+                                        data-type="text" data-pk="1" 
+                                        data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>">
+                                        <?php echo $champ->label;?>
+                                    </span> [<?php echo $champ->format;?>]
 
                                 </dt>
                                 <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
@@ -103,7 +116,21 @@ $this->headTitle($title);
                         <?php foreach ($TEmedia->__get('champs') as $champ) : ?>
                         <div class="parent">
 
-                            <dt><a href="#" data-name="supprimerChamp" data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les medias de ce type seront supprimées</strong>." data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>" class="confirmDiv"><i class="icon-white icon-trash"></i></a> <span class="edit CursorPointer" data-name="label" data-type="text" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->label;?></span> [<?php echo $champ->format;?>]
+                            <dt>
+                                <a href="#" 
+                                    data-name="supprimerChamp" 
+                                    data-value="Si vous supprimez ce champ [<?php echo $champ->label;?>], <strong>toutes les données associées pour tous les medias de ce type seront supprimées</strong>." 
+                                    data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>" 
+                                    class="confirmDiv">
+                                    <i class="icon-white icon-trash"></i>
+                                </a> 
+                                <span class="edit CursorPointer" 
+                                    data-name="label" 
+                                    data-type="text" 
+                                    data-pk="1" 
+                                    data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>">
+                                    <?php echo $champ->label;?>
+                                </span> [<?php echo $champ->format;?>]
 
                             </dt>
                             <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
