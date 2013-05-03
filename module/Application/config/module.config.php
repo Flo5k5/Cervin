@@ -109,9 +109,8 @@ return array(
             'application/index/index'       => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'                     => __DIR__ . '/../view/error/404.phtml',
             'error/index'                   => __DIR__ . '/../view/error/index.phtml',
-            'admin/admin/editusers'     => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
-            'admin/admin/edit-accueil'     => __DIR__ . '/../view/Admin/Admin/edit-accueil.phtml',
-            
+            'admin/admin/editusers'         => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
+            'admin/admin/edit-accueil'      => __DIR__ . '/../view/Admin/Admin/edit-accueil.phtml'            
         ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',
