@@ -36,9 +36,9 @@ $this->headTitle($title);
 		</h1>
 	</div>
 	
-		<a href="<?php echo $this->url('media/voirMedia',
+	<a href="<?php echo $this->url('media/voirMedia',
         	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de ce média</a>
-    	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer ce média</a>
+	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer ce média</a>
 </div>
 
 <!--Confirm Modal -->
@@ -220,7 +220,7 @@ $(".description").popover({placement:'top', trigger:'hover'});
 
 $('.wysihtml5').editable({
 	mode: 'popup',
-	placement: 'right',
+	placement: 'middle',
 	wysihtml5 :{
 			locale: "fr-FR",
 			image: false,
