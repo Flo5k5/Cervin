@@ -88,7 +88,7 @@ class TypeElementController extends AbstractActionController
                         $TypeElement->populate($form->getData()); 
                         $this->getEntityManager()->persist($TypeElement);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> Le Type d\'element "%1$s" a bien ete créé.', $TypeElement->nom));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $TypeElement->nom));
                         return $this->getResponse()->setContent(Json::encode(true));
                     }
                 }
@@ -98,7 +98,6 @@ class TypeElementController extends AbstractActionController
                 return $viewModel;
             }
         }
-
 
     }
 
@@ -145,7 +144,7 @@ class TypeElementController extends AbstractActionController
                     case 'supprimerChamp':
                         $this->getEntityManager()->remove($Champ);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> Le Champ "%1$s" a bien ete supprimer.', $Champ->label));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete supprimer.', $Champ->label));
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
             		default:
@@ -183,7 +182,7 @@ class TypeElementController extends AbstractActionController
 
                             $this->getEntityManager()->persist($champ);
                             $this->getEntityManager()->flush();
-                            $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> Le Champ "%1$s" a bien ete ajouté.', $champ->label));
+                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $champ->label));
                             return $this->getResponse()->setContent(Json::encode(true));
                         }
                         else
@@ -203,7 +202,7 @@ class TypeElementController extends AbstractActionController
                 case 'supprimerTypeElement':
                         $this->getEntityManager()->remove($TypeElement);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('<strong>Success!</strong> Le Type d\'element "%1$s" a bien ete supprimer.', $TypeElement->nom));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete supprimer.', $TypeElement->nom));
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
                 default:
