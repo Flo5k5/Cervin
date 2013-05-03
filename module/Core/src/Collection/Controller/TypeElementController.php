@@ -99,7 +99,6 @@ class TypeElementController extends AbstractActionController
             }
         }
 
-
     }
 
     public function editTypeElementAjaxAction()
@@ -146,6 +145,7 @@ class TypeElementController extends AbstractActionController
                         $this->getEntityManager()->remove($Champ);
                         $this->getEntityManager()->flush();
                         $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete supprimé.', $Champ->label));
+
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
             		default:
@@ -204,6 +204,7 @@ class TypeElementController extends AbstractActionController
                         $this->getEntityManager()->remove($TypeElement);
                         $this->getEntityManager()->flush();
                         $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete supprimé.', $TypeElement->nom));
+
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
                 default:
