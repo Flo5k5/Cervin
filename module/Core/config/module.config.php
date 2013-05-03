@@ -267,6 +267,9 @@ return array(
     ),
 		
     'view_manager' => array(
+    	'template_map' => array(
+    		'collection/semantique/index'           => __DIR__ . '/../view/Collection/Semantique/index.phtml'
+    	),
 	    'template_path_stack' => array(
 	        'Collection' => __DIR__ . '/../view',
 	    )
