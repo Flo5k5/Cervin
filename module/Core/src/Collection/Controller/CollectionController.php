@@ -100,9 +100,9 @@ class CollectionController extends AbstractActionController
     		$titre = '';
     		
     		if($element->type_element->type == 'artefact'){
-    			$titre = '<a href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a>';
+    			$titre = '<a class="href-type-element" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a>';
     		} elseif($element->type_element->type == 'media'){
-    			$titre = '<a href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a>';
+    			$titre = '<a class="href-type-element" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a>';
     		} else {
     			$titre = $element->titre;
     		}
