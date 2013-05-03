@@ -95,7 +95,12 @@ class Data implements InputFilterAwareInterface
     */
     public function __get($property)
     {
-        return $this->$property;
+        if($property!='textarea'){
+            return $this->$property;
+        }
+        else{
+            return $this->texte;
+        }
     }
 
     /**
