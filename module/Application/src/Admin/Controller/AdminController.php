@@ -65,7 +65,7 @@ class AdminController extends AbstractActionController
                 'username',
                 'displayName',
                 'email',
-               // 'role.roleId',
+                'roleId'
             ));
 
             $aaData = array();

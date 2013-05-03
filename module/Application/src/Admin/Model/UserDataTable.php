@@ -58,4 +58,63 @@ class UserDataTable extends DataTable
 		return $this->getJson();
 	}
 	    
+	public function getPaginator()
+	{
+		if (! $this->paginator) {
+			$entityManager = $this->getEntityManager();
+	
+			$alias = 'entity';
+			$alias_type = 'r';
+						
+			$query = $entityManager->createQueryBuilder($alias)
+			                       ->leftJoin($alias.'.roles', $alias_type)
+			                       ->addSelect($alias_type)
+								   ->setFirstResult($this->getPage())
+								   ->setMaxResults($this->getDisplayLength());
+			
+			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
+			
+			if( $this->configuration[$iSortCol_0] == 'roleId' ){
+				$query->add("orderBy", "{$alias_type}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			} else {
+				$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			}
+			
+			if ($this->getSSearch() != null) {
+				$sSearch = strtoupper($this->getSSearch());
+				$sSearch = preg_replace('/[^[:ascii:]]/', '%', $sSearch);
+				$sSearch = preg_replace('/[%]{1,}/', '%', $sSearch);
+				$sSearch = '%'.$sSearch.'%';
+
+				$this->setSSearch($sSearch);
+				
+				$orX = $query->expr()->orX();
+				
+				for ($i = 0; $i < 3; $i++) {
+
+					$column = $this->configuration[$i];
+					
+					$al = $column != 'roleId' ? $alias : $alias_type;
+					
+					$orX->add($query->expr()->like( $query->expr()->upper("{$al}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
+					//$query
+					//->orWhere("UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}");
+					//->add("orWhere", "UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}")
+					//->orWhere( $query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
+				}
+				
+				$query->add('where', $orX);
+			}
+	
+			$paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+	
+			$this->setTotalRecords($paginator->count());
+			$this->setTotalDisplayRecords($paginator->count());
+	
+			$this->paginator = $paginator;
+		}
+	
+		return $this->paginator;
+	}
+	
 }
