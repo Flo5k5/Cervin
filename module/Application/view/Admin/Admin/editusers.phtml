@@ -73,7 +73,7 @@ $this->headTitle($title);
 <div id="confirmDiv" >
 </div> 
 
-<?php $this->headScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart() ?>
 	var table;
 	$(function() {
 	    table = ResultSet.paginate(
@@ -122,4 +122,4 @@ $this->headTitle($title);
 			}
 		);
 	});
-<?php $this->headScript()->captureEnd() ?>
+<?php $this->inlineScript()->captureEnd() ?>

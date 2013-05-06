@@ -68,18 +68,24 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
-<script type="text/javascript">
-$(".supprimer").on("click", function(){
-    var dateURL = $(this).attr('data-url');
-    $('#confirmDiv').confirmModal({
-        heading:'Confirmation',
-        body:"Êtes-vous sûr de vouloir supprimer définitivement la semantique ?",
-        callback: function() {
-            $(location).attr('href',dateURL);
-        }
-    });   
-}); 
-$('.edit').editable({
-    mode: 'inline',
-});
-</script>
+
+<?php $this->inlineScript()->captureStart() ?>
+	$(function() {
+	
+		$(".supprimer").on("click", function(){
+		    var dateURL = $(this).attr('data-url');
+		    $('#confirmDiv').confirmModal({
+		        heading:'Confirmation',
+		        body:"Êtes-vous sûr de vouloir supprimer définitivement la semantique ?",
+		        callback: function() {
+		            $(location).attr('href',dateURL);
+		        }
+		    });   
+		});
+		
+		$('.edit').editable({
+		    mode: 'inline',
+		});
+		
+	});
+<?php $this->inlineScript()->captureEnd() ?>
