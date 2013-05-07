@@ -72,15 +72,19 @@ class AdminController extends AbstractActionController
             
             
             foreach ($dataTable->getPaginator() as $user) {
-	
+				
 	            if(!isset( $user->roles['0']) )
 	            {
 	                $role = 'null';
 	                $roleId = null;
-	                
 	            } else {
 	                $role = $user->roles['0']->getRoleId();
 	                $roleId = $user->roles['0']->getId();
+	            }
+	            
+	            $btn_supprimer = "";
+	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
+	            	$btn_supprimer = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>';
 	            }
 	            
                 $aaData[] = array(
@@ -88,7 +92,7 @@ class AdminController extends AbstractActionController
                     '<span id="displayName" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</span>',
                     '<span id="email" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</span>',
                     '<span id="role" class="status CursorPointer" data-type="select" data-pk="1" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$roleId.'">'.$role.'</span>',
-                    '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>'
+                    $btn_supprimer
                 );
             }
             $dataTable->setAaData($aaData);

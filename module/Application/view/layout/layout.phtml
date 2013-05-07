@@ -1,3 +1,16 @@
+<?php $this->inlineScript()->captureStart() ?>
+	$(function() {
+	
+		//Empêche la validation du formulaire accidentelle du formulaire lorsque l'on presse la touche entrï¿½e sur les input text de la classe .no-submit
+		$(document).on( 'keypress', '.no-submit input[type="text"]', function(event){
+			if( event.which == 13 ){ // Code touche entrï¿½e = 13
+				event.preventDefault();
+			}
+		});
+		
+	});
+<?php $this->inlineScript()->captureEnd() ?>
+
 <?php echo $this->doctype(); ?>
 <html lang="en">
     <head>
@@ -96,29 +109,11 @@
             <?php echo $this->content; ?>
         </div>
 
-            <footer>
-                <hr/>
-                <p class="container"><?php echo date("Y"); ?> - Cervin</p>
-            </footer>
+        <footer>
+			<hr/>
+			<p class="container"><?php echo date("Y"); ?> - Cervin</p>
+        </footer>
+    
+    	<?php echo $this->inlineScript() ?>
     </body>
-    <?php echo $this->inlineScript() ?>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

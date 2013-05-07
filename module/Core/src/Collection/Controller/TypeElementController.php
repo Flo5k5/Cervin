@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
 use Collection\Entity\Element;
 use Collection\Entity\TypeElement;
+use Collection\Entity\Data;
 use Collection\Entity\Champ;
 use Collection\Form\ChampForm;
 use Collection\Form\TypeElementForm;
@@ -183,6 +184,15 @@ class TypeElementController extends AbstractActionController
 
                             $this->getEntityManager()->persist($champ);
                             $this->getEntityManager()->flush();
+                            
+                            $elements_existants = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findBy(array('type_element' => $TypeElement));
+                            foreach ($elements_existants as $element) {
+                            	$data = new Data($element, $champ);
+        						$element->datas->add($data);
+        						$this->getEntityManager()->persist($element);
+                            }
+                            $this->getEntityManager()->flush();
+                            
                             $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $champ->label));
                             return $this->getResponse()->setContent(Json::encode(true));
                         }
