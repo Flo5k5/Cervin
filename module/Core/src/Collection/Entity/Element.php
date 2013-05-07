@@ -73,12 +73,6 @@ class Element implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
      **/
     protected $relation_destination;
-
-    /**
-     * Booléen qui décrit si l'élément est validé ou brouillon
-     * @ORM\Column(type="boolean")
-     **/
-    protected $valide = false;
     
     /**
     * Magic getter to expose protected properties.
@@ -177,11 +171,8 @@ class Element implements InputFilterAwareInterface
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
 	        			
 	        			$name = $data[$index]['name'];
-	        			if (move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name)) {
-	        				$databd->fichier = $dest_dir . "/" . $name;
-	        			} else {
-	        				throw new \Exception("L'upload du fichier a échoué");
-	        			}
+	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
+	        			$databd->fichier = $dest_dir . "/" . $name;
 	        			$databd->format_fichier = $data[$index]['type'];
         			}
         			$this->datas->add($databd);
