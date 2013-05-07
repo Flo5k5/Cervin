@@ -73,6 +73,12 @@ class Element implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
      **/
     protected $relation_destination;
+
+    /**
+     * Booléen qui décrit si l'élément est validé ou brouillon
+     * @ORM\Column(type="boolean")
+     **/
+    protected $valide = false;
     
     /**
     * Magic getter to expose protected properties.

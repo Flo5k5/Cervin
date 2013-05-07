@@ -93,18 +93,21 @@ class MediaController extends AbstractActionController
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         try {
             $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
         }
         catch (\Exception $ex) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         if($Media==null){
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         //$Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>1));
