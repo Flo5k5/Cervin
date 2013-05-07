@@ -58,6 +58,12 @@ class Champ implements InputFilterAwareInterface
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
+
+    /**
+     * Booléen qui décrit si le champ est validé ou brouillon
+     * @ORM\Column(type="boolean")
+     **/
+    protected $valide = false;
     
     /**
      * Constructeur
