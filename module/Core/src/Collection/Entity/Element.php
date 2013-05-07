@@ -156,7 +156,7 @@ class Element implements InputFilterAwareInterface
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
-	        			if($this instanceof Artefact){
+	        			if($this instanceof Artefact){ 
 	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
                         }
                         elseif($this instanceof Media){
@@ -171,9 +171,11 @@ class Element implements InputFilterAwareInterface
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
 	        			
 	        			$name = $data[$index]['name'];
-	        			
-	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
-	        			$databd->fichier = $dest_dir . "/" . $name;
+	        			if (move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name)) {
+	        				$databd->fichier = $dest_dir . "/" . $name;
+	        			} else {
+	        				throw new \Exception("L'upload du fichier a échoué");
+	        			}
 	        			$databd->format_fichier = $data[$index]['type'];
         			}
         			$this->datas->add($databd);

@@ -8,6 +8,7 @@ define('REQUEST_MICROTIME', microtime(true));
  * to the application root now.
  */
 chdir(dirname(__DIR__));
+define('ROOT_DIR', "http://" . $_SERVER["HTTP_HOST"]);
 
 // Setup autoloading
 require 'init_autoloader.php';
