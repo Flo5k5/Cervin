@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* La valeur d'un champ d'un �l�ment
+* La valeur d'un champ d'un élément
 *
 * @ORM\Entity
 * @ORM\Table(name="data")
