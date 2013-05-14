@@ -207,10 +207,18 @@ class MediaController extends AbstractActionController
         }
     
         $media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+        
         if ($media === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        
+    	foreach( ($media->datas) as $data){
+			if($data->fichier !== null){
+				$media->deleteFile($data);
+			}
+		}
+        
         $this->getEntityManager()->remove($media);
         $this->getEntityManager()->flush();
         return $this->redirect()->toRoute('collection/consulter');

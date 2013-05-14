@@ -296,13 +296,42 @@ class Element implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 
+    public function deleteFile($element){
+    	if($element->fichier !== null){
+    		$dir = $_SERVER["DOCUMENT_ROOT"] . dirname($element->fichier);
+    		$this->delTree( $dir );
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    private function delTree($dir) {
+    	if(is_dir($dir)){
+    		$files = glob( $dir . '*', GLOB_MARK );
+    		foreach( $files as $file ){
+    			$file = str_replace('\\', '/', $file);
+    			if( substr( $file, -1 ) == '/' ) {
+    				$this->delTree( $file );
+    			} else {
+    				if( is_file($file) ){
+    					chown( $file, 666 );
+    					chmod( $file, 0666 );
+    					unlink( $file );
+    				}
+    			}
+    		}
+    
+    		rmdir( $dir );
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
+
 class ElementRepository extends EntityRepository
 {
-
-
-
-
 
     public function getThisChamps($id)
     {
