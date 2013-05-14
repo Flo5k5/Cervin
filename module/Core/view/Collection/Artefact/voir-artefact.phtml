@@ -10,11 +10,6 @@ $this->headTitle($title);
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 	</div>
 	<?php if ($this->isAllowed('menuCollection') === true) :?>
-<<<<<<< HEAD
-	<a href="<?php echo $this->url('artefact/editArtefact',
-            array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"></i> Modifier cet artefact</a>
-    <?php endif;?>
-=======
 		<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 
 			class="btn btn-primary span3">
 			<i class="icon-pencil"> </i> Modifier cet artefact
@@ -41,7 +36,6 @@ $this->headTitle($title);
             array('id' => $artefact->id)) ?>" class="btn btn-primary">Supprimer</a>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
     </div>
->>>>>>> 7deefd8a87d97bea16cb18de1e30e1e362e92e60
 </div>
 
 <div class="row-fluid">
