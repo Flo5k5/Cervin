@@ -80,7 +80,17 @@ return array(
                     'controller' => 'Admin',
                     'roles' => array('Admin')
                 ),
+                array(
+                    'controller' => 'Admin',
+                    'action' => 'demandeRole', 
+                    'roles' => array('Utilisateur')
+                ),
 
+                array(
+                    'controller' => 'Admin',
+                    'action' => 'refueRole', 
+                    'roles' => array('Admin')
+                ),
                 array(
                     'controller' => 'typeElement',
                     'roles' => array('Admin')
@@ -93,7 +103,7 @@ return array(
             		
                 array(
                     'controller' => 'Artefact',
-                    'roles' => array('Collection')
+                    'roles' => array('Utilisateur')
                 ),
                 array(
                     'controller' => 'Artefact',
@@ -103,7 +113,7 @@ return array(
 
                 array(
                     'controller' => 'Media',
-                    'roles' => array('Collection')
+                    'roles' => array('Utilisateur')
                 ),
 
                 array(
@@ -137,6 +147,8 @@ return array(
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
                 array('route' => 'admin/changeUserAjax', 'roles' => array('Admin')),
                 array('route' => 'admin/editAccueil', 'roles' => array('Admin')),
+                array('route' => 'admin/demandeRole', 'roles' => array('Utilisateur')),
+                array('route' => 'admin/refueRole', 'roles' => array('Admin')),
 
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),
@@ -155,11 +167,13 @@ return array(
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
+                array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
-                array('route' => 'media/voirMedia', 'roles' => array('Collection')),
+                array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
+                array('route' => 'media/removeMedia', 'roles' => array('Collection')),
 
                 array('route' => 'semantique', 'roles' => array('Admin')),
                 array('route' => 'semantique/ajouter', 'roles' => array('Admin')),

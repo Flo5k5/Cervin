@@ -25,7 +25,7 @@ class Pages implements FixtureInterface
 					<li><i>Diffuser cette histoire de l'informatique et ces réflexions pour offrir à un large public un accès vivant à la culture scientifique. <br></i></li>
 				</ul>
 				</blockquote>
-				(www.aconit.org)
+				<a target=\"_blank\" rel=\"nofollow\" href=\"http://www.aconit.org\">www.aconit.org</a>
 				<br><br>
 				L'association Aconit dispose déjà  d'une collection de plusde 2000 machines et de plusieurs milliers de documents et logiciels. 
 				

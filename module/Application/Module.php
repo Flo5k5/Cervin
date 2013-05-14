@@ -17,6 +17,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Application\View\Helper\adminEmail;
+use Application\View\Helper\demandeRole;
 use Application\View\Helper\redirectUserIndexIfTrue;
 use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
@@ -50,6 +51,12 @@ class Module implements AutoloaderProviderInterface,
                 'adminEmail' => function ($helperPluginManager) {
                     $serviceLocator = $helperPluginManager->getServiceLocator();
                     $viewHelper = new adminEmail();
+                    $viewHelper->setServiceLocator($serviceLocator);
+                    return $viewHelper;
+                },
+                'demandeRole' => function ($helperPluginManager) {
+                    $serviceLocator = $helperPluginManager->getServiceLocator();
+                    $viewHelper = new demandeRole();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
                 },

@@ -29,7 +29,7 @@ $this->headTitle($title);
 <?php if ($form) { 
 	$form->setAttribute('action', $this->url('media/ajouter', array('type_element_id' => $type_element_id)));
 	$form->setAttribute('id','form');
-	$form->setAttribute('class','form-horizontal');
+	$form->setAttribute('class','form-horizontal no-submit');
 	$form->setAttribute('method', 'post');
 	$form->prepare();
 	

@@ -17,7 +17,6 @@ return array(
     	'DoctrineDataFixtureModule',
         'AssetManager',
         'Application',
-        'Album',
         'Core',
         'DataTable',
         'ZF2FileUploadExamples'
@@ -27,6 +26,8 @@ return array(
             './module',
             './vendor'
             ),
-        'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php')
+        'config_glob_paths' => array(
+            'config/autoload/{,*.}{global,local}.php'
         )
-    );
+    )
+);

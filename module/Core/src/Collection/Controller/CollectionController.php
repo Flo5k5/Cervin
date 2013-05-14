@@ -62,7 +62,15 @@ class CollectionController extends AbstractActionController
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		$params = $this->params()->fromPost();
     	}
+    	
+    	if(!isset($params["iSortCol_0"])){
+    		$params["iSortCol_0"] = '0';
+    	}
 
+    	if(!isset($params["sSortDir_0"])){
+    		$params["sSortDir_0"] = 'ASC';
+    	}
+    	
     	$entityManager = $this->getEntityManager()
     					      ->getRepository('Collection\Entity\Element');
  
@@ -72,8 +80,8 @@ class CollectionController extends AbstractActionController
     	$dataTable->setConfiguration(array(
     		'titre',
 	        'description',
-    	    'type',
-    		'artefact_media'
+    	    'nom',
+    		'type'
     	));
     
     	$aaData = array();
@@ -88,9 +96,19 @@ class CollectionController extends AbstractActionController
     	}
     		
     	foreach ($paginator as $element) {
+    		
+    		$titre = '';
+    		if($element->type_element->type == 'artefact'){
+    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+    		} elseif($element->type_element->type == 'media'){
+    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+    		} else {
+    			$titre = $element->titre;
+    		}
+    		
     		$aaData[] = array(
-    				$element->titre,
-    				$element->description,
+    				$titre,
+    				$dataTable->truncate($element->description, 250, ' ...', false, true),
     				$element->type_element->nom,
     				$element->type_element->type
     		);

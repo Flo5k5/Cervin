@@ -31,7 +31,7 @@ class Artefact extends Element
 	protected $id;
 
 	/**
-	 * M�dias li�s � l'artefact
+	 * Médias liés à l'artefact
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 **/
 	protected $medias;
@@ -76,31 +76,26 @@ class Artefact extends Element
 	}
 
 }
+
 class ArtefactRepository extends EntityRepository
 {
-
-
-
-
 
     public function getThisChamps($id = 2)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        	$query = $qb->select('c.label, c.format, d.id, d.date, d.fichier, d.nombre, d.texte, d.url, d.format_fichier,c.id')
+        	$query = $qb->select('c.label, c.format, c.description, d.id, d.date, d.fichier, d.nombre, d.texte, d.textarea, d.url, d.format_fichier, c.id')
         		->from('Collection\Entity\Champ','c')
         		->leftJoin('c.type_element', 'te')
         		->leftJoin('te.elements', 'e')
                 ->where('e.id = '.$id)
                 ->leftJoin('c.datas', 'd')
-
                 ->leftJoin('d.element', 'de')
-                ->andWhere('((de.id = e.id) OR (de IS NULL))')
+                ->andWhere('((de.id = e.id) OR (d IS NULL))')
               ;
 
         return $query->getQuery()->execute();
-
-
     }
+    
 }

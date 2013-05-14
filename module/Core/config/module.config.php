@@ -132,6 +132,19 @@ return array(
                             ),
                         ),
                     ),
+                	'removeArtefact' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/removeArtefact/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Artefact',
+                				'action'     => 'removeArtefact',
+                			),
+            			),
+            		),
                 ),
             ),
 
@@ -175,14 +188,27 @@ return array(
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editMedia/:id[/:idData]',
+                            'route' => '/editMedia/:id[/:idChamp]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idData' => '[0-9]+',
+                                'idChamp' => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Media',
                                 'action'     => 'editMedia',
+                            ),
+                        ),
+                    ),
+                    'removeMedia' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/removeMedia/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Media',
+                                'action'     => 'removeMedia',
                             ),
                         ),
                     ),
@@ -241,6 +267,25 @@ return array(
     ),
 		
     'view_manager' => array(
+    	'template_map' => array(
+    			
+    		'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
+    			
+    		'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',
+    		'collection/artefact/edit-artefact'  => __DIR__ . '/../view/Collection/Artefact/edit-artefact.phtml',
+    		'collection/artefact/voir-artefact'  => __DIR__ . '/../view/Collection/Artefact/voir-artefact.phtml',
+
+    		'collection/media/ajouter'           => __DIR__ . '/../view/Collection/Media/ajouter.phtml',
+    		'collection/media/edit-media'        => __DIR__ . '/../view/Collection/Media/edit-media.phtml',
+    		'collection/media/voir-media'        => __DIR__ . '/../view/Collection/Media/voir-media.phtml',
+    			
+    		'collection/semantique/index'        => __DIR__ . '/../view/Collection/Semantique/index.phtml',
+    		'collection/semantique/ajouter'      => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
+    		'collection/semantique/modifier'     => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
+    			
+    		'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
+    		'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml'
+    	),
 	    'template_path_stack' => array(
 	        'Collection' => __DIR__ . '/../view',
 	    )

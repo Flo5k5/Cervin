@@ -1,3 +1,6 @@
+# Config OVH
+SetEnv PHP_VER 5_4
+
 RewriteEngine On
 # The following rule tells Apache that if the requested filename
 # exists, simply serve it.

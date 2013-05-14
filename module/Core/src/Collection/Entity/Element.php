@@ -41,7 +41,7 @@ class Element implements InputFilterAwareInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, unique=true)
+    * @ORM\Column(type="string", length=200)
     */
     protected $titre;
 
@@ -123,13 +123,28 @@ class Element implements InputFilterAwareInterface
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        		case 'textarea':
-        		case 'nombre':
-        		case 'url':
         			if ($data[$index]) {
         				$databd->texte = $data[$index];
-        				$this->datas->add($databd);
         			}
+        			$this->datas->add($databd);
+        			break;
+        		case 'textarea':
+        			if ($data[$index]) {
+        				$databd->textarea = $data[$index];
+        			}
+        			$this->datas->add($databd);
+        			break;
+        		case 'nombre':
+        			if ($data[$index]) {
+        				$databd->nombre = $data[$index];
+        			}
+        			$this->datas->add($databd);
+        			break;
+        		case 'url':
+        			if ($data[$index]) {
+        				$databd->url = $data[$index];
+        			}
+        			$this->datas->add($databd);
         			break;
         		case 'date':
         			if ($data[$index] != null) {
@@ -141,13 +156,13 @@ class Element implements InputFilterAwareInterface
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
-	        			if($this instanceof Artefact){
+	        			if($this instanceof Artefact){ 
 	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
                         }
                         elseif($this instanceof Media){
                             $champ_dir = "/uploads/medias/" . (string)$champ->id;
                         }
-                        else{
+                        else {
                             throw new \Exception("Error Processing Request");
                         }
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
@@ -156,7 +171,6 @@ class Element implements InputFilterAwareInterface
 	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
 	        			
 	        			$name = $data[$index]['name'];
-	        			
 	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
 	        			$databd->fichier = $dest_dir . "/" . $name;
 	        			$databd->format_fichier = $data[$index]['type'];
@@ -236,7 +250,7 @@ class Element implements InputFilterAwareInterface
 	        			break;
 	        		case 'fichier':
 	        			$file = new FileInput('champ_'.strval($champ->id));
-	        			$file->setRequired(false);
+	        			$file->setRequired(true);
 	        			$file->getFilterChain()->attachByName(
 	        				'filerenameupload',
 	        				array(

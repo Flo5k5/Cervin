@@ -27,70 +27,76 @@ use ZfcUser\Entity\UserInterface;
 class User extends ModelAbstract implements UserInterface, ProviderInterface
 {
     /**
-* @var int
-* @ORM\Id
-* @ORM\Column(type="integer")
-* @ORM\GeneratedValue(strategy="AUTO")
-*/
+    * @var int
+    * @ORM\Id
+    * @ORM\Column(type="integer")
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     protected $id;
 
     /**
-* @var string
-* @ORM\Column(type="string", length=255, unique=true, nullable=true)
-*/
+    * @var string
+    * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+    */
     protected $username;
 
     /**
-* @var string
-* @ORM\Column(type="string", unique=true, length=255)
-*/
+    * @var string
+    * @ORM\Column(type="string", unique=true, length=255)
+    */
     protected $email;
 
     /**
-* @var string
-* @ORM\Column(type="string", length=50, nullable=true)
-*/
+    * @var string
+    * @ORM\Column(type="string", length=50, nullable=true)
+    */
     protected $displayName;
 
     /**
-* @var string
-* @ORM\Column(type="string", length=128)
-*/
+    * @var string
+    * @ORM\Column(type="string", length=128)
+    */
     protected $password;
 
     /**
-* @var int
-*/
+    * @var int
+    */
     protected $state;
 
     /**
-* @var \Doctrine\Common\Collections\Collection
-* @ORM\ManyToMany(targetEntity="SamUser\Entity\Role")
-* @ORM\JoinTable(name="users_roles",
-* joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-* inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
-* )
-*/
+    * @var \Doctrine\Common\Collections\Collection
+    * @ORM\ManyToMany(targetEntity="SamUser\Entity\Role")
+    * @ORM\JoinTable(name="users_roles",
+    * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+    * inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+    * )
+    */
     protected $roles;
 
     /**
-* Initialies the roles variable.
-*/
-    public function __construct()
-    {
-        $this->roles = new ArrayCollection();
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToOne(targetEntity="SamUser\Entity\Role")
+     **/
+    protected $attenteRole;
 
-    }
+    /**
+    * Initialies the roles variable.
+    */
+public function __construct()
+{
+    $this->roles = new ArrayCollection();
+
+}
 
     /**
 * Get id.
 *
 * @return int
 */
-    public function getId()
-    {
-        return $this->id;
-    }
+public function getId()
+{
+    return $this->id;
+}
 
     /**
 * Set id.
@@ -99,20 +105,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setId($id)
-    {
-        $this->id = (int) $id;
-    }
+public function setId($id)
+{
+    $this->id = (int) $id;
+}
 
     /**
 * Get username.
 *
 * @return string
 */
-    public function getUsername()
-    {
-        return $this->username;
-    }
+public function getUsername()
+{
+    return $this->username;
+}
 
     /**
 * Set username.
@@ -121,20 +127,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
+public function setUsername($username)
+{
+    $this->username = $username;
+}
 
     /**
 * Get email.
 *
 * @return string
 */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+public function getEmail()
+{
+    return $this->email;
+}
 
     /**
 * Set email.
@@ -143,20 +149,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
+public function setEmail($email)
+{
+    $this->email = $email;
+}
 
     /**
 * Get displayName.
 *
 * @return string
 */
-    public function getDisplayName()
-    {
-        return $this->displayName;
-    }
+public function getDisplayName()
+{
+    return $this->displayName;
+}
 
     /**
 * Set displayName.
@@ -165,20 +171,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setDisplayName($displayName)
-    {
-        $this->displayName = $displayName;
-    }
+public function setDisplayName($displayName)
+{
+    $this->displayName = $displayName;
+}
 
     /**
 * Get password.
 *
 * @return string
 */
-    public function getPassword()
-    {
-        return $this->password;
-    }
+public function getPassword()
+{
+    return $this->password;
+}
 
     /**
 * Set password.
@@ -187,20 +193,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
+public function setPassword($password)
+{
+    $this->password = $password;
+}
 
     /**
 * Get state.
 *
 * @return int
 */
-    public function getState()
-    {
-        return $this->state;
-    }
+public function getState()
+{
+    return $this->state;
+}
 
     /**
 * Set state.
@@ -209,20 +215,20 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
+public function setState($state)
+{
+    $this->state = $state;
+}
 
     /**
 * Get role.
 *
 * @return array
 */
-    public function getRoles()
-    {
-        return $this->roles->getValues();
-    }
+public function getRoles()
+{
+    return $this->roles->getValues();
+}
 
     /**
 * Add a role to the user.
@@ -231,14 +237,37 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 *
 * @return void
 */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
+public function addRole($role)
+{
+    $this->roles[] = $role;
+}
+
+
+    /**
+* Get attenteRole.
+*
+* @return array
+*/
+public function getAttenteRole()
+{
+    return $this->attenteRole;
+}
+
+/**
+*
+* @param Role $role
+*
+* @return void
+*/
+public function setAttenteRole($attenteRole)
+{
+    $this->attenteRole = $attenteRole;
+}
+
+public function removeRoles(Array $elements)
+{
+    foreach ($elements as $item) {
+        $this->roles->removeElement($item);
     }
-    public function removeRoles(Array $elements)
-    {
-        foreach ($elements as $item) {
-            $this->roles->removeElement($item);
-        }
-    }
+}
 }

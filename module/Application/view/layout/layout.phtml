@@ -1,3 +1,16 @@
+<?php $this->inlineScript()->captureStart() ?>
+	$(function() {
+	
+		//Emp�che la validation du formulaire accidentelle du formulaire lorsque l'on presse la touche entr�e sur les input text de la classe .no-submit
+		$(document).on( 'keypress', '.no-submit input[type="text"]', function(event){
+			if( event.which == 13 ){ // Code touche entr�e = 13
+				event.preventDefault();
+			}
+		});
+		
+	});
+<?php $this->inlineScript()->captureEnd() ?>
+
 <?php echo $this->doctype(); ?>
 <html lang="en">
     <head>
@@ -27,30 +40,34 @@
 
                     <ul class="nav">
                         <li class="divider-vertical"></li>
-                        <li class="active"><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
+                        <li><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
                         <li class="divider-vertical"></li>
                     <?php if ($this->isAllowed('menuUtilisateur') === true) :?>
                         <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
                        <!--  <li class="divider-vertical"></li> -->
                     <?php endif; ?>
-                    <?php if ($this->isAllowed('menuParcours') === true) :?>
-                        <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
-                        <li class="divider-vertical"></li>
+                    <?php if ($this->isAllowed('menuUtilisateur') === true) :?>
+                        <!--  <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
+                        <li class="divider-vertical"></li> -->
                     <?php endif; ?>
                     </ul>
 
-                        <div class="nav-collapse collapse">
+                    <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
                         
                         	<?php if ($this->isAllowed('menuAdmin') === true) :?>
                                     	<li class="divider-vertical"></li>
                                         <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-tasks"></i>  Administration<b class="caret"></b></a>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            	<i class="icon-tasks"></i>  Administration  
+                                            	<span class="badge badge-important small">3</span>
+                                            	<b class="caret"></b>
+                                            </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Gestion des utilisateurs</a></li>
-                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Gestion des types d'elements</a></li>
-                                                <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Gestion des semantiques</a></li>
-                                                <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Modifier la page d'accueil</a></li>
+                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs  <span class="badge badge-important small">2</span></a></li>
+                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements  <span class="badge badge-important small">1</span></a></li>
+                                                <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques</a></li>
+                                                <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
                                             </ul>
                                         </li>
                             <?php endif; ?>
@@ -96,29 +113,11 @@
             <?php echo $this->content; ?>
         </div>
 
-        <hr>
-            <footer>
-                <p class="container"><?php echo date("Y"); ?> - Cervin</p>
-            </footer>
+        <footer>
+			<hr/>
+			<p class="container"><?php echo date("Y"); ?> - Cervin</p>
+        </footer>
+    
+    	<?php echo $this->inlineScript() ?>
     </body>
-    <?php echo $this->inlineScript() ?>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

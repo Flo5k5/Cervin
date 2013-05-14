@@ -32,7 +32,7 @@ class SemantiqueForm extends Form
 		$this->add(array(
 			'name' => 'semantique',
 			'attributes' => array('type' => 'text'),
-			'options' => array('label' => 'Nom du type d\'élément')
+			'options' => array('label' => 'Sémantique')
 			));
 		
 

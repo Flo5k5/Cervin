@@ -7,15 +7,43 @@ $this->headTitle($title);
 <?php $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css'); ?>
 <?php $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css'); ?>
 
-<div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : collection numérique</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la page principale de consultation de la collection numérique.
+    	</p>
+    	<p>
+    	Un système de recherhe par tags vous est proposé. Vous pouvez ainsi rechercher plusieurs titre parmis les types d'artefacts et de médias que vous voulez : cliquez sur le 'plus' pour chaque tag que vous souhaitez ajouter, puis sur 'Lancer la recherche'.
+    	</p>
+    	<p>
+    	Par défaut, la recherche s'effectue parmis tous les types d'artefacts et de médias. Pour réinitialiser la recherche, le bouton 'Vider' permet de retirer tous les tags.
+    	</p>
+    	<p>
+    	Les résultats s'affichent sous forme de tableau, le lien sur chaque ligne permet d'accéder à la fiche détaillée de l'élément.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
 </div>
 
-<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
-<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
 
-<hr>
-
+<div class="page-header row-fluid">
+	<div class="span9">
+		<h1><?php echo $this->escapeHtml($title); ?> 
+	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+	</div>
+	<?php if ($this->isAllowed('menuCollection') === true) :?>
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
+	<?php endif; ?>
+</div>
+	
 <div class="well">
 <h3>Recherche</h3>
 <form id="form-multi" name="form-multi" class="">

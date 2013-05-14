@@ -14,6 +14,7 @@ use Exception;
 use Collection\Entity\Media;
 use Collection\Entity\Data;
 use Zend\File\Transfer\Adapter\Http;
+use Zend\Json\Json;
 
 class MediaController extends AbstractActionController
 {
@@ -92,18 +93,21 @@ class MediaController extends AbstractActionController
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         try {
             $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
         }
         catch (\Exception $ex) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         if($Media==null){
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
         //$Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>1));
@@ -115,15 +119,18 @@ class MediaController extends AbstractActionController
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('error');
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
 
-        try {
-            $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+        $ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Media')->getThisChamps($id);
+        $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+
+        if (null === $ThisChamps and $Media === null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
-        catch (\Exception $ex) {
-            return $this->redirect()->toRoute('error');
-        }
+
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             //$post = $this->params()->fromPost();
@@ -143,19 +150,21 @@ class MediaController extends AbstractActionController
                 
                 break;
                 case 'data':
-                    $idData = (int) $this->params()->fromRoute('idData', 0);
-                    if (!$idData) {
-                        return $this->redirect()->toRoute('error');
+                    $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
+
+                    $Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
+                    if (null === $Champ) {
+                        $dataDB = new Data($Media,$idChamp);
+                    }   
+                    $dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Media,'champ'=>$Champ));
+                    
+                    if (null === $dataDB) {
+                        $dataDB = new Data($Media,$Champ);
                     }
-                    try {
-                        $dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-                    }
-                    catch (\Exception $ex) {
-                        return $this->redirect()->toRoute('error');
-                    }
+                    
                     switch ($dataDB->champ->format) {
                         case 'texte':
-                            $dataDB->texte = $request['value'];                         
+                            $dataDB->texte = $request['value'];
                             break;
                         case 'textarea':
                             $dataDB->textarea = $request['value'];
@@ -164,7 +173,7 @@ class MediaController extends AbstractActionController
                             $dataDB->date = new \DateTime($request['value']);
                             break;
                         case 'nombre':
-                            $dataDB->nombre = $request['value']; 
+                            $dataDB->nombre = $request['value'];
                             break;
                         case 'fichier':
                             $dataDB->fichier = $request['value'];
@@ -173,20 +182,38 @@ class MediaController extends AbstractActionController
                             $dataDB->url = $request['value'];
                             break;
                         default:
-                            return $this->getResponse()->setContent(Json::encode(false));  
+                            return $this->getResponse()->setContent(Json::encode(false));
                         break;
                     } // end switch
                 
                     $this->getEntityManager()->persist($dataDB);
                     $this->getEntityManager()->flush();
-                    return $this->getResponse()->setContent(Json::encode(true)); 
+                    return $this->getResponse()->setContent(Json::encode(true));
                 break;
                 default:
                     return $this->getResponse()->setContent(Json::encode(false));  
                 break;
             }
         }
-        return new ViewModel(array('media' => $Media));
+        return new ViewModel(array('media' => $Media,'ThisChamps'=>$ThisChamps));
+    }
+
+    public function removeMediaAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+    
+        $media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+        if ($media === null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $this->getEntityManager()->remove($media);
+        $this->getEntityManager()->flush();
+        return $this->redirect()->toRoute('collection/consulter');
     }
 
 }

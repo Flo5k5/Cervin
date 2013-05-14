@@ -58,6 +58,12 @@ class Champ implements InputFilterAwareInterface
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
+
+    /**
+     * Booléen qui décrit si le champ est validé ou brouillon
+     * @ORM\Column(type="boolean")
+     **/
+    protected $valide = false;
     
     /**
      * Constructeur
@@ -66,6 +72,7 @@ class Champ implements InputFilterAwareInterface
     	$this->label = $label;
     	$this->type_element = $type_element;
     	if ($format != "texte" 
+    			&& $format != "textarea"
     			&& $format != "date"
     			&& $format != "fichier"
     			&& $format != "nombre"

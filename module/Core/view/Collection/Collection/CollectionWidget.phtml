@@ -20,60 +20,26 @@
         </div>
     </div>
     
-<?php $this->headScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart() ?>
 	var table;
 	$(function() {
-
+	
 		$("#submit").click( function () {
-		
-			/*var data = new Array();
-
-			jQuery.each($('#form-pillbox').pillbox('items'), function() {
-				var item =  new Object();
-				item["type"] = this.type;
-				item["value"] = this.value;
-
-				data.push(item);
-				
-				if(typeof(this.context) != 'undefined' && this.type != 'type' ){
-					if(!isDuplicate( 'type', this.context, data )){
-						var obj =  new Object();
-						obj["type"] = 'type';
-						obj["value"] = this.context;
-						data.push(obj);
-					}
-				}
-			});
-
-			var request = $.ajax({
-				url: "<?php echo $this->url("collection/consulter"); ?>",
-				type: "POST",
-				data: {"conditions" : data},
-				dataType: "html"
-			});
-					 
-			request.done(function(msg) {
-				var obj = jQuery.parseJSON(msg);
-				aaData = obj.aaData;
-				ResultSet.paginate({"bDestroy":true, "aaData": aaData});
-			});*/
-			
-			table.fnDraw();	
+			table.fnDraw();
 			return false;
 		});
 
-		//var aaData = <?php echo $aaData; ?>;
-
 	    table = ResultSet.paginate(
 			{
-				//"aaData": aaData,
 	           	"aoColumns": [
 		           	           	null,
 		           	           	null, 
-		           	        	{ "bSortable": false  },
-		                     	{ "bSortable": false  }
+		           	        	null,
+		                     	null
 	           	           	 ],
 	           	"iColumns": 4,
+	           	//"bAutoWidth": false,
+				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?php echo $this->url("collection/consulter"); ?>",
@@ -109,13 +75,19 @@
 	        			"data": aoData,
 	        			"success": fnCallback
 	     			});
+	     		},
+	     		"fnDrawCallback": function(oSettings, json){
+	     			$(".href-type-element").unbind("click").bind("click", function(e) {
+						window.open($(this).attr("href"), "_blank");
+						e.preventDefault();
+					});
 	     		}
 			}
 		);
 
 	    // INITIALIZING PILLBOX
 		$('.form-button').click(function () {
-			var value = $(this).attr("data-value").trim();
+			var value = $.trim($(this).attr("data-value"));
 			var type = $(this).attr("data-type");
 			if(!isDuplicate( type, value )){
 				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
@@ -159,7 +131,7 @@
 		});	
 
 		$('.form-titre').keypress(function(event){
-			var value = $(this).attr("value").trim();
+			var value = $.trim($(this).attr("value"));
 			var type = $(this).attr("data-type");
 			if( event.which == 13 && value != "" ){ // Code touche entr�e = 13
 				$(this).attr("data-value", value);
@@ -196,4 +168,4 @@
 		}
 
 	});
-<?php $this->headScript()->captureEnd() ?>
+<?php $this->inlineScript()->captureEnd() ?>

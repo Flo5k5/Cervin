@@ -76,6 +76,36 @@ return array(
                         ),
                         
                     ),
+                    'demandeRole' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/demandeRole[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'demandeRole',
+                            ),
+                            
+                        ),
+                        
+                    ),
+                    'refueRole' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/refueRole[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'refueRole',
+                            ),
+                            
+                        ),
+                        
+                    ),
                     /*
                     'authenticate' => array(
                         'type' => 'Literal',
@@ -105,13 +135,16 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/layout'                 => __DIR__ . '/../view/layout/layout.phtml',
+            'application/index/index'       => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404'                     => __DIR__ . '/../view/error/404.phtml',
+            'error/index'                   => __DIR__ . '/../view/error/index.phtml',
+            'admin/admin/editusers'         => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
+            'admin/admin/edit-accueil'      => __DIR__ . '/../view/Admin/Admin/edit-accueil.phtml'            
         ),
         'template_path_stack' => array(
-            __DIR__ . '/../view',
+            'Admin' => __DIR__ . '/../view',
+            'Application' => __DIR__ . '/../view',
         ),
     ),
     'doctrine' => array(
