@@ -237,4 +237,15 @@ class Champ extends \Collection\Entity\Champ implements \Doctrine\ORM\Proxy\Prox
         return parent::getInputFilter();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function deleteFiles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteFiles', array());
+
+        return parent::deleteFiles();
+    }
+
 }

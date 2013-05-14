@@ -209,10 +209,18 @@ class ArtefactController extends AbstractActionController
 		}
 	
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		
 		if ($artefact === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
+		
+		foreach( ($artefact->datas) as $data){
+			if($data->fichier !== null){
+				$artefact->deleteFile($data);
+			}
+		}
+		
 		$this->getEntityManager()->remove($artefact);
 		$this->getEntityManager()->flush();
 		return $this->redirect()->toRoute('collection/consulter');

@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Doctrine\ORM\EntityRepository;
 
 /**
-* Un champ d'un type d'�l�ment
+* Un champ d'un type d'élément
 *
 * @ORM\Entity
 * @ORM\Table(name="champ")
@@ -49,13 +49,13 @@ class Champ implements InputFilterAwareInterface
     protected $format;
     
     /**
-     * Un champ a plusieurs valeurs (une pour chaque instance d'�l�ment qu'il d�crit)
+     * Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}))
      **/
     protected $datas;
     
     /**
-     * Le type d'�l�ment que d�crit ce champ
+     * Le type d'élément que décrit ce champ
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
@@ -177,4 +177,46 @@ class Champ implements InputFilterAwareInterface
     		
     	return $this->inputFilter;
     }
+
+    public function deleteFiles(){
+    	if($this->format === 'fichier'){
+    		$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+    		 
+    		if( $this->type_element->type === 'media' ){
+    			$dir .= 'medias/';
+    		} else if( $this->type_element->type === 'artefact' ) {
+    			$dir .= 'artefacts/';
+    		}
+    		 
+    		$dir .= (string)$this->id . '/';
+    
+    		$this->delTree($dir);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    private function delTree($dir) {
+    	if(is_dir($dir)){
+    		$files = glob( $dir . '*', GLOB_MARK );
+    		foreach( $files as $file ){
+    			$file = str_replace('\\', '/', $file);
+    			if( substr( $file, -1 ) == '/' ) {
+    				$this->delTree( $file );
+    			} else {
+    				if( is_file($file) ){
+    					chown( $file, 666 );
+    					chmod( $file, 0666 );
+    					unlink( $file );
+    				}
+    			}
+    		}
+    
+    		rmdir( $dir );
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
