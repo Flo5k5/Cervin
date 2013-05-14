@@ -123,11 +123,6 @@ return array(
             
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-            
-        ),
-    ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -186,7 +181,7 @@ return array(
         'role_providers'        => array(
             // using an object repository (entity repository) to load all roles into our ACL
             'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
-                'object_manager'    => 'doctrine.entity_manager.orm_default',
+                'object_manager'    => 'doctrine.entitymanager.orm_default',
                 'role_entity_class' => 'SamUser\Entity\Role',
             ),
         ),
@@ -195,5 +190,6 @@ return array(
         'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture',
         'Pages_fixture' => __DIR__ . '/../src/Application/Fixture',
     ),
+
 
 );

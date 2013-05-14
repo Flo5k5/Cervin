@@ -76,15 +76,18 @@ class MediaRepository extends EntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        	$query = $qb->select('c.label, c.format, c.description, d.id, d.date, d.fichier, d.nombre, d.texte, d.textarea, d.url, d.format_fichier, c.id')
-        		->from('Collection\Entity\Champ','c')
-        		->leftJoin('c.type_element', 'te')
-        		->leftJoin('te.elements', 'e')
-                ->where('e.id = '.$id)
-                ->leftJoin('c.datas', 'd')
-                ->leftJoin('d.element', 'de')
-                ->andWhere('((de.id = e.id) OR (d IS NULL))')
-              ;
+        $query = $qb->select('d')
+                    ->from('Collection\Entity\Data','d')
+                    ;
+        
+        /*$query = $qb->select('c.label, c.format, c.description, d.id, d.date, d.fichier, d.nombre, d.texte, d.textarea, d.url, d.format_fichier, c.id')
+        	        ->from('Collection\Entity\Champ','c')
+        	        ->leftJoin('c.type_element', 'te')
+        	        ->leftJoin('te.elements', 'e')
+                    ->where('e.id = '.$id)
+                    ->leftJoin('c.datas', 'd')
+                    ->leftJoin('d.element', 'de')
+                    ->andWhere('((de.id = e.id) OR (d IS NULL))');*/
 
         return $query->getQuery()->execute();
     }
