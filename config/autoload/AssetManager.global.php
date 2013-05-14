@@ -33,7 +33,6 @@ return array(
             ),
             'paths' => array(
                 __DIR__ . '/../../public',
-                __DIR__ . '/../../data/cache',
             ),
             'map' => array(
                 'css/bootstrap.css' => __DIR__ . '/../../public/less/bootstrap.less',
@@ -43,7 +42,7 @@ return array(
 
         'caching' => array(
             'default' => array(
-                'cache'     => 'FilePath',
+                'cache'     => 'Filesystem',
                 'options' => array(
                     'dir' => __DIR__ . '/../../data/cache', // path/to/cache
                 ),
@@ -60,10 +59,16 @@ return array(
                     'filter' => 'CssMinFilter',
                 ),
             ),
-            'application/javascript' => array(
+            'js/dataTables.js' => array(
                 array(
                     // Note: You will need to require the classes used for the filters yourself.
-                    'filter' => 'JSMinFilter',  // Allowed format is Filtername[Filter]. Can also be FQCN
+                    'filter' => 'JSMin',  // Allowed format is Filtername[Filter]. Can also be FQCN
+                ),
+            ),
+            'js/bootstrap-all.js' => array(
+                array(
+                    // Note: You will need to require the classes used for the filters yourself.
+                    'filter' => 'JSMin',  // Allowed format is Filtername[Filter]. Can also be FQCN
                 ),
             ),
 
