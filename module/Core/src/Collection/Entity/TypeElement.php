@@ -172,10 +172,6 @@ class TypeElement implements InputFilterAwareInterface
 class TypeElementRepository extends EntityRepository
 {
 
-
-
-
-
     public function getIdNameArray()
     {
 
