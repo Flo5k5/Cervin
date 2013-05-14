@@ -23,7 +23,9 @@
         "leafo/lessphp": "dev-master",
         "doctrine/migrations": "dev-master",
         "hounddog/doctrine-data-fixture-module": "dev-master",
-        "cgm/zf2-file-upload-examples": ">=1.0.0"
+        "cgm/zf2-file-upload-examples": ">=1.0.0",
+        "natxet/CssMin": "*",
+        "mrclay/minify": "*"
     }
 }
 

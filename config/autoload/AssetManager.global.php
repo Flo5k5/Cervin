@@ -12,6 +12,13 @@
  */
 return array(
     'asset_manager' => array(
+        'resolvers' => array(
+            'AssetManager\Resolver\MapResolver'                 => 1000,
+            'AssetManager\Resolver\PrioritizedPathsResolver'    => 1600,
+            'AssetManager\Resolver\CollectionResolver'          => 1500,
+            'AssetManager\Resolver\PathStackResolver'           => 1700,
+        ),
+        
         'resolver_configs' => array(
             'collections' => array(
                 'js/bootstrap-all.js' => array(
@@ -32,25 +39,14 @@ return array(
             ),
             'paths' => array(
                 __DIR__ . '/../../public',
+                __DIR__ . '/../../data/cache',
             ),
             'map' => array(
                 'css/bootstrap.css' => __DIR__ . '/../../public/less/bootstrap.less',
                 'css/bootstrap-responsive.css' => __DIR__ . '/../../public/less/responsive.less',
             ),
         ),
-        'filters' => array(
-            'css/bootstrap-all-less.css' => array(
-                array(
-                    'filter' => 'Lessphp',
-                ),
-            ),/*
-            'js/bootstrap-all.js' => array(
-                array(
-                    'filter' => 'JSMin',
-                ),
-            ),*/
 
-        ),
         'caching' => array(
             'default' => array(
                 'cache'     => 'FilePath',
@@ -58,6 +54,25 @@ return array(
                     'dir' => __DIR__ . '/../../data/cache', // path/to/cache
                 ),
             ),
+        ),
+        'filters' => array(
+            'css/bootstrap-all-less.css' => array(
+                array(
+                    'filter' => 'Lessphp',
+                ),
+            ),
+            'css/bootstrap-all.css' => array(
+                array(
+                    'filter' => 'CssMinFilter',
+                ),
+            ),
+            'application/javascript' => array(
+                array(
+                    // Note: You will need to require the classes used for the filters yourself.
+                    'filter' => 'JSMinFilter',  // Allowed format is Filtername[Filter]. Can also be FQCN
+                ),
+            ),
+
         ),
     ),
 );

@@ -29,14 +29,15 @@ class Module implements AutoloaderProviderInterface,
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $translator = new Translator();
+        /*$translator = new Translator();
         $translator->addTranslationFile(
          'phpArray',
-         'vendor/zendframework/zendframework/resources/languages/fr/Zend_Validate.php',
+         './vendor/zendframework/zendframework/resources/languages/fr/Zend_Validate.php',
          'default',
          'fr_FR'
         );
-        AbstractValidator::setDefaultTranslator($translator);
+        $translate = new \Zend\I18n\Translator\Translator();
+        AbstractValidator::setDefaultTranslator($translator);*/
     }
 
     public function getViewHelperConfig()
