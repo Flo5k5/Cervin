@@ -177,4 +177,46 @@ class Champ implements InputFilterAwareInterface
     		
     	return $this->inputFilter;
     }
+
+    public function deleteFiles(){
+    	if($this->format === 'fichier'){
+    		$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+    		 
+    		if( $this->type_element->type === 'media' ){
+    			$dir .= 'medias/';
+    		} else if( $this->type_element->type === 'artefact' ) {
+    			$dir .= 'artefacts/';
+    		}
+    		 
+    		$dir .= (string)$this->id . '/';
+    
+    		$this->delTree($dir);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    private function delTree($dir) {
+    	if(is_dir($dir)){
+    		$files = glob( $dir . '*', GLOB_MARK );
+    		foreach( $files as $file ){
+    			$file = str_replace('\\', '/', $file);
+    			if( substr( $file, -1 ) == '/' ) {
+    				$this->delTree( $file );
+    			} else {
+    				if( is_file($file) ){
+    					chown( $file, 666 );
+    					chmod( $file, 0666 );
+    					unlink( $file );
+    				}
+    			}
+    		}
+    
+    		rmdir( $dir );
+    		return true;
+    	}
+    	return false;
+    }
+    
 }

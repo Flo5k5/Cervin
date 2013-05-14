@@ -49,48 +49,7 @@ class TypeElementController extends AbstractActionController
         
         return $this->em;
     }
-    
-    private function deleteFiles($champ){
-    	if($champ->format === 'fichier'){
-	    	$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
-	    		
-	    	if( $champ->type_element->type === 'media' ){
-	    		$dir .= 'medias/';
-	    	} else if( $champ->type_element->type === 'artefact' ) {
-	    		$dir .= 'artefacts/';
-	    	}
-	    		
-	    	$dir .= (string)$champ->id . '/';
-	    	
-	    	$this->delTree($dir);
-	    	return true;
-    	}
-    	return false;
-    }
-    
-    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
-	private function delTree($dir) {
-		if(is_dir($dir)){
-		    $files = glob( $dir . '*', GLOB_MARK ); 
-		    foreach( $files as $file ){ 
-		    	$file = str_replace('\\', '/', $file);
-		        if( substr( $file, -1 ) == '/' ) {
-		            $this->delTree( $file ); 
-		        } else {
-		        	if( is_file($file) ){
-			        	chown( $file, 666 );
-			        	chmod( $file, 0666 );
-			            unlink( $file );
-		        	}
-		        }
-		    }
-		    
-		    rmdir( $dir );
-		    return true;
-		}
-		return false;
-	} 
-    
+
     public function indexAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
@@ -182,7 +141,7 @@ class TypeElementController extends AbstractActionController
                     case 'supprimerChamp':
 
 						if( $Champ->format === 'fichier' ){
-							$this->deleteFiles($Champ);
+							$Champ->deleteFiles();
 						}
 						
 						$this->getEntityManager()->remove($Champ);
@@ -257,7 +216,7 @@ class TypeElementController extends AbstractActionController
 	                
 	                if ($champsFichier !== null) {
 	                	foreach ($champsFichier as $champ) {
-	                		$this->deleteFiles($champ);
+	                		$champ->deleteFiles();
 	                	}
 	                }
 
