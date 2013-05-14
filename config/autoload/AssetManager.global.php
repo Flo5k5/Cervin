@@ -12,12 +12,6 @@
  */
 return array(
     'asset_manager' => array(
-        'resolvers' => array(
-            'AssetManager\Resolver\MapResolver'                 => 1000,
-            'AssetManager\Resolver\PrioritizedPathsResolver'    => 1600,
-            'AssetManager\Resolver\CollectionResolver'          => 1500,
-            'AssetManager\Resolver\PathStackResolver'           => 1700,
-        ),
         
         'resolver_configs' => array(
             'collections' => array(
