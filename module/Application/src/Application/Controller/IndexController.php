@@ -45,14 +45,14 @@ class IndexController extends AbstractActionController
         if($page_accueil == null){
         	$manager = $this->getEntityManager();
         	$page_accueil = new Page(
-			'Accueil',
-			'
-				<h1>Moving-BO</h1>
-				<h4>Prototype de Back-Office pour le projet Cervin</h4>
-			'
-		);
-		$manager->persist($page_accueil);
-		$manager->flush();
+				'Accueil',
+				'
+					<h1>Moving-BO</h1>
+					<h4>Prototype de Back-Office pour le projet Cervin</h4>
+				'
+			);
+			$manager->persist($page_accueil);
+			$manager->flush();
         }
         return new ViewModel(array('display' => $page_accueil->texte));
     }

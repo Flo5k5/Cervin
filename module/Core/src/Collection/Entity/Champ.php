@@ -8,6 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use InvalidArgumentException;
+use Doctrine\ORM\EntityRepository;
 
 /**
 * Un champ d'un type d'�l�ment

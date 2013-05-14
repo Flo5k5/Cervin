@@ -148,7 +148,8 @@ $this->headTitle($title);
 										'.$champ['fichier'].'
 									</span>';
 								echo '<a href="'.$champ['fichier'].'">'. basename($champ['fichier']) .'</a>';*/
-								echo '<a href="'.$champ['fichier'].'">'. basename($champ['fichier']) .'</a>';
+								echo '<a href="' . ROOT_DIR . $champ['fichier'].'">'. basename($champ['fichier']) .'</a></br>';
+								echo '<i class="icon-warning-sign"> </i>  Modification du fichier : section en construction...';
 								echo '</br></br>';
 								break;
 
