@@ -19,6 +19,12 @@ use Zend\Json\Json;
 use Collection\Entity\Element;
 use Collection\Entity\TypeElement;
 use Collection\Entity\Data;
+use Collection\Entity\DataDate;
+use Collection\Entity\DataFichier;
+use Collection\Entity\DataNombre;
+use Collection\Entity\DataTexte;
+use Collection\Entity\DataUrl;
+use Collection\Entity\DataTextarea;
 use Collection\Entity\Champ;
 use Collection\Form\ChampForm;
 use Collection\Form\TypeElementForm;
@@ -68,7 +74,7 @@ class TypeElementController extends AbstractActionController
     	return false;
     }
     
-    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /* Crï¿½dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
 	private function delTree($dir) {
 		if(is_dir($dir)){
 		    $files = glob( $dir . '*', GLOB_MARK ); 
@@ -228,8 +234,28 @@ class TypeElementController extends AbstractActionController
                             $this->getEntityManager()->flush();
                             
                             $elements_existants = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findBy(array('type_element' => $TypeElement));
+                            $data = null;
                             foreach ($elements_existants as $element) {
-                            	$data = new Data($element, $champ);
+                            	switch ($champ->format) {
+                            		case 'texte':
+                            			$data = new DataTexte($element, $champ);
+                            			break;
+                            		case 'textarea':
+                            			$data = new DataTextarea($element, $champ);
+                            			break;
+                            		case 'nombre':
+                            			$data = new DataNombre($element, $champ);
+                            			break;
+                            		case 'url':
+                            			$data = new DataUrl($element, $champ);
+                            			break;
+                            		case 'date':
+                            			$data = new DataDate($element, $champ);
+                            			break;
+                            		case 'fichier':
+                            			$data = new DataFichier($element, $champ);
+                            			break;
+                            	}
         						$element->datas->add($data);
         						$this->getEntityManager()->persist($element);
                             }
