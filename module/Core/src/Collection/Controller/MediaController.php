@@ -69,13 +69,13 @@ class MediaController extends AbstractActionController
                 // On créé un nouveau média
                 $media = new Media(null, $type_element);
                 $form->setInputFilter($media->getInputFilter());
-                $datas = array_merge_recursive(
+                $data = array_merge_recursive(
                     $this->getRequest()->getPost()->toArray(),
                     $this->getRequest()->getFiles()->toArray()
                 );
-                $form->setData($datas);
+                $form->setData($data);
                 if ($form->isValid()) {
-                    $media->populate($datas);
+                    $media->populate($data);
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
                     $this->flashMessenger()->addSuccessMessage(sprintf('Le média "%1$s" a bien ete créé.', $media->titre));
@@ -142,20 +142,22 @@ class MediaController extends AbstractActionController
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
                 break;
+
                 case 'description':
                     $Media->description = $request['value'];
                     $this->getEntityManager()->persist($Media);
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
-                
                 break;
+
                 case 'data':
                     $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
 
                     $Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
                     if (null === $Champ) {
                         $dataDB = new Data($Media,$idChamp);
-                    }   
+                    }
+///
                     $dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Media,'champ'=>$Champ));
                     
                     if (null === $dataDB) {
@@ -198,6 +200,7 @@ class MediaController extends AbstractActionController
         return new ViewModel(array('media' => $Media,'ThisChamps'=>$ThisChamps));
     }
 
+
     public function removeMediaAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -207,10 +210,18 @@ class MediaController extends AbstractActionController
         }
     
         $media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
+        
         if ($media === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        
+    	foreach( ($media->datas) as $data){
+			if($data->fichier !== null){
+				$media->deleteFile($data);
+			}
+		}
+        
         $this->getEntityManager()->remove($media);
         $this->getEntityManager()->flush();
         return $this->redirect()->toRoute('collection/consulter');

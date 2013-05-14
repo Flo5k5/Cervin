@@ -155,10 +155,11 @@ class ArtefactController extends AbstractActionController
 
 					$Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
 					if (null === $Champ) {
-				            $dataDB = new Data($Artefact,$idChamp);
+			            $dataDB = new Data($Artefact,$idChamp);
 				    }	
 ///
 					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
+					
 					if (null === $dataDB) {
 				        $dataDB = new Data($Artefact,$Champ);
 				    }
@@ -209,10 +210,18 @@ class ArtefactController extends AbstractActionController
 		}
 	
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		
 		if ($artefact === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
+		
+		foreach( ($artefact->datas) as $data){
+			if($data->fichier !== null){
+				$artefact->deleteFile($data);
+			}
+		}
+		
 		$this->getEntityManager()->remove($artefact);
 		$this->getEntityManager()->flush();
 		return $this->redirect()->toRoute('collection/consulter');

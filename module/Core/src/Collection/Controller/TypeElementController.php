@@ -19,6 +19,12 @@ use Zend\Json\Json;
 use Collection\Entity\Element;
 use Collection\Entity\TypeElement;
 use Collection\Entity\Data;
+use Collection\Entity\DataDate;
+use Collection\Entity\DataFichier;
+use Collection\Entity\DataNombre;
+use Collection\Entity\DataTexte;
+use Collection\Entity\DataUrl;
+use Collection\Entity\DataTextarea;
 use Collection\Entity\Champ;
 use Collection\Form\ChampForm;
 use Collection\Form\TypeElementForm;
@@ -49,48 +55,7 @@ class TypeElementController extends AbstractActionController
         
         return $this->em;
     }
-    
-    private function deleteFiles($champ){
-    	if($champ->format === 'fichier'){
-	    	$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
-	    		
-	    	if( $champ->type_element->type === 'media' ){
-	    		$dir .= 'medias/';
-	    	} else if( $champ->type_element->type === 'artefact' ) {
-	    		$dir .= 'artefacts/';
-	    	}
-	    		
-	    	$dir .= (string)$champ->id . '/';
-	    	
-	    	$this->delTree($dir);
-	    	return true;
-    	}
-    	return false;
-    }
-    
-    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
-	private function delTree($dir) {
-		if(is_dir($dir)){
-		    $files = glob( $dir . '*', GLOB_MARK ); 
-		    foreach( $files as $file ){ 
-		    	$file = str_replace('\\', '/', $file);
-		        if( substr( $file, -1 ) == '/' ) {
-		            $this->delTree( $file ); 
-		        } else {
-		        	if( is_file($file) ){
-			        	chown( $file, 666 );
-			        	chmod( $file, 0666 );
-			            unlink( $file );
-		        	}
-		        }
-		    }
-		    
-		    rmdir( $dir );
-		    return true;
-		}
-		return false;
-	} 
-    
+
     public function indexAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
@@ -182,7 +147,7 @@ class TypeElementController extends AbstractActionController
                     case 'supprimerChamp':
 
 						if( $Champ->format === 'fichier' ){
-							$this->deleteFiles($Champ);
+							$Champ->deleteFiles();
 						}
 						
 						$this->getEntityManager()->remove($Champ);
@@ -228,8 +193,28 @@ class TypeElementController extends AbstractActionController
                             $this->getEntityManager()->flush();
                             
                             $elements_existants = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findBy(array('type_element' => $TypeElement));
+                            $data = null;
                             foreach ($elements_existants as $element) {
-                            	$data = new Data($element, $champ);
+                            	switch ($champ->format) {
+                            		case 'texte':
+                            			$data = new DataTexte($element, $champ);
+                            			break;
+                            		case 'textarea':
+                            			$data = new DataTextarea($element, $champ);
+                            			break;
+                            		case 'nombre':
+                            			$data = new DataNombre($element, $champ);
+                            			break;
+                            		case 'url':
+                            			$data = new DataUrl($element, $champ);
+                            			break;
+                            		case 'date':
+                            			$data = new DataDate($element, $champ);
+                            			break;
+                            		case 'fichier':
+                            			$data = new DataFichier($element, $champ);
+                            			break;
+                            	}
         						$element->datas->add($data);
         						$this->getEntityManager()->persist($element);
                             }
@@ -257,7 +242,7 @@ class TypeElementController extends AbstractActionController
 	                
 	                if ($champsFichier !== null) {
 	                	foreach ($champsFichier as $champ) {
-	                		$this->deleteFiles($champ);
+	                		$champ->deleteFiles();
 	                	}
 	                }
 
