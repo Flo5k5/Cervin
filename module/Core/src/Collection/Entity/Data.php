@@ -92,11 +92,7 @@ class Data implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-    	$this->date = $data['date'];
-    	$this->fichier = $data['fichier'];
-    	$this->nombre = $data['nombre'];
-    	$this->texte = $data['texte'];
-    	$this->url = $data['url'];
+
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

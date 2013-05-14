@@ -119,40 +119,45 @@ class Element implements InputFilterAwareInterface
         $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
         
         foreach ($this->type_element->champs as $champ) {
-        	$databd = new Data($this, $champ);
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
+        			$databd = new DataTexte($this, $champ);
         			if ($data[$index]) {
         				$databd->texte = $data[$index];
         			}
         			$this->datas->add($databd);
         			break;
         		case 'textarea':
+        			$databd = new DataTextarea($this, $champ);
         			if ($data[$index]) {
         				$databd->textarea = $data[$index];
         			}
         			$this->datas->add($databd);
         			break;
         		case 'nombre':
+        			$databd = new DataNombre($this, $champ);
         			if ($data[$index]) {
         				$databd->nombre = $data[$index];
         			}
         			$this->datas->add($databd);
         			break;
         		case 'url':
+        			$databd = new DataUrl($this, $champ);
         			if ($data[$index]) {
         				$databd->url = $data[$index];
         			}
         			$this->datas->add($databd);
         			break;
         		case 'date':
+        			$databd = new DataDate($this, $champ);
         			if ($data[$index] != null) {
         				$databd->date = new \DateTime($data[$index]);
         			}
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
+        			$databd = new DataFichier($this, $champ);
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
 	        			$tmp = $data[$index]['tmp_name'];
