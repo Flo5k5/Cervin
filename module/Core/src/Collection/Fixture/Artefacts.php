@@ -247,7 +247,7 @@ class Artefacts implements FixtureInterface
 		/*
 		 * Un matériel
 		 */
-		$materiel = new Collection\Entity\Artefact('Exemple de matériel', $type_artefact_materiel);
+		/*$materiel = new Collection\Entity\Artefact('Exemple de matériel', $type_artefact_materiel);
 		$materiel->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$materiel->description = $description;
 		
@@ -267,12 +267,12 @@ class Artefacts implements FixtureInterface
 		$materiel->datas->add($data_fin);
 
 		$manager->persist($materiel);
-		$manager->flush();
+		$manager->flush();*/
 
 		/*
 		 * Une personne
 		 */
-		$personne = new Collection\Entity\Artefact('Exemple de personne', $type_artefact_personne);
+		/*$personne = new Collection\Entity\Artefact('Exemple de personne', $type_artefact_personne);
 		$personne->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$personne->description = $description;
 		
@@ -292,12 +292,12 @@ class Artefacts implements FixtureInterface
 		$personne->datas->add($data_deces);
 		
 		$manager->persist($personne);
-		$manager->flush();
+		$manager->flush();*/
 		
 		/*
 		 * Un logiciel
 		*/
-		$logiciel = new Collection\Entity\Artefact('Exemple de logiciel', $type_artefact_logiciel);
+		/*$logiciel = new Collection\Entity\Artefact('Exemple de logiciel', $type_artefact_logiciel);
 		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$logiciel->description = $description;
 		
@@ -327,12 +327,12 @@ class Artefacts implements FixtureInterface
 		$logiciel->datas->add($data_fin);
 		
 		$manager->persist($logiciel);
-		$manager->flush();
+		$manager->flush();*/
 		
 		/*
 		 * Un document
 		 */
-		$document = new Collection\Entity\Artefact('Exemple de document', $type_artefact_document);
+		/*$document = new Collection\Entity\Artefact('Exemple de document', $type_artefact_document);
 		$document->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$document->description = $description;
 		
@@ -352,12 +352,12 @@ class Artefacts implements FixtureInterface
 		$document->datas->add($data_date);
 		
 		$manager->persist($document);
-		$manager->flush();
+		$manager->flush();*/
 		
 		/*
 		 * Une institution
 		*/
-		$institution = new Collection\Entity\Artefact('Exemple d\'institution', $type_artefact_institution);
+	/*	$institution = new Collection\Entity\Artefact('Exemple d\'institution', $type_artefact_institution);
 		$institution->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$institution->description = $description;
 		
@@ -377,12 +377,12 @@ class Artefacts implements FixtureInterface
 		$institution->datas->add($data_adresse);
 		
 		$manager->persist($institution);
-		$manager->flush();
+		$manager->flush();*/
 		
 		/*
 		 * Un lieu
 		*/
-		$lieu = new Collection\Entity\Artefact('Exemple de lieu', $type_artefact_lieu);
+		/*$lieu = new Collection\Entity\Artefact('Exemple de lieu', $type_artefact_lieu);
 		$lieu->datas = new \Doctrine\Common\Collections\ArrayCollection();
 		$lieu->description = $description;
 		
@@ -392,7 +392,7 @@ class Artefacts implements FixtureInterface
 		$lieu->datas->add($data_adresse);
 		
 		$manager->persist($lieu);
-		$manager->flush();
+		$manager->flush();*/
 
 		
 		/* ********************************** *

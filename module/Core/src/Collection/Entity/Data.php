@@ -13,12 +13,14 @@ use Zend\InputFilter\InputFilterInterface;
 *
 * @ORM\Entity
 * @ORM\Table(name="data")
-* @property int $id
-* @property date $date
-* @property fichier $string
-* @property nombre $float
-* @property texte $string
-* @property url $string
+* @ORM\InheritanceType("SINGLE_TABLE")
+* @ORM\DiscriminatorColumn(name="discr", type="string")
+* @ORM\DiscriminatorMap({"DataDate" = "DataDate", 
+*                        "DataFichier" = "DataFichier", 
+*                        "DataNombre" = "DataNombre", 
+*                        "DataTexte" = "DataTexte", 
+*                        "DataUrl" = "DataUrl", 
+*                        "DataTextarea" = "DataTextarea"})
 */
 class Data implements InputFilterAwareInterface
 {
@@ -30,48 +32,6 @@ class Data implements InputFilterAwareInterface
     * @ORM\GeneratedValue(strategy="AUTO")
     */
     protected $id;
-
-    /**
-    * La valeur s'il s'agit d'une date, null sinon
-    * @ORM\Column(type="date", nullable=true)
-    */
-    protected $date;
-    
-    /**
-     * La valeur s'il s'agit d'un fichier, null sinon
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $fichier;
-    
-    /**
-     * Le format de fichier s'il s'agit d'un fichier, null sinon
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $format_fichier;
-    
-    /**
-     * La valeur s'il s'agit d'un nombre, null sinon
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $nombre;
-    
-    /**
-     * La valeur s'il s'agit d'un texte, null sinon
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $texte;
-    
-    /**
-     * La valeur s'il s'agit d'une zone de texte, null sinon
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $textarea;
-    
-    /**
-     * La valeur s'il s'agit d'une url, null sinon
-     * @ORM\Column(type="string", length=200, nullable=true)
-     */
-    protected $url;
     
     /**
      * L'élément auquel la donnée se rapporte
