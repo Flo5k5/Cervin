@@ -13,7 +13,7 @@ use Zend\InputFilter\InputFilterInterface;
 *
 * @ORM\Entity
 * @ORM\Table(name="data")
-* @ORM\InheritanceType("SINGLE_TABLE")
+* @ORM\InheritanceType("JOINED")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"DataDate" = "DataDate", 
 *                        "DataFichier" = "DataFichier", 
