@@ -155,10 +155,11 @@ class ArtefactController extends AbstractActionController
 
 					$Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
 					if (null === $Champ) {
-				            $dataDB = new Data($Artefact,$idChamp);
+			            $dataDB = new Data($Artefact,$idChamp);
 				    }	
 ///
 					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
+					
 					if (null === $dataDB) {
 				        $dataDB = new Data($Artefact,$Champ);
 				    }

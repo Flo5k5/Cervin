@@ -46,6 +46,7 @@ $this->headTitle($title);
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
+			<!---->
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
@@ -57,9 +58,11 @@ $this->headTitle($title);
 							echo '</br></br>';
 						?>
 					</dd>
+
 					<?php foreach( ($media->datas) as $data) :?>
 						<?php if ($data->{$data->champ->format} != null): ?>
-							<dt><?php echo $data->champ->label ?> 
+							<dt>
+								<?php echo $data->champ->label ?> 
 								<?php if ($data->champ->description != null) : ?>
 					        	<a href="#" 
 				        			class="description"
@@ -79,7 +82,7 @@ $this->headTitle($title);
 										echo '</br></br>';
 									break;
 									case 'date':
-										echo ($data->date != null ? $data->date->format('d-m-Y') : "<br/>");
+										echo $data->date->format('d-m-Y');
 										echo '</br></br>';
 									break;
 									case 'nombre':
@@ -91,14 +94,14 @@ $this->headTitle($title);
 										echo '</br></br>';
 									break;
 									case 'url':
-										echo '<a href="'.$data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
+										echo '<a href="' . $data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
 										echo '</br></br>';
 									break;
 									?>
 								<?php endswitch ;?>
 							</dd>
-						<?php endif;?>
-					<?php endforeach ;?>
+						<?php endif; ?>
+					<?php endforeach ; ?>
 				</dl>
 			</div>
 			<div class="tab-pane" id="tab2">
@@ -135,10 +138,22 @@ $this->headTitle($title);
 					endforeach ;
 					echo '</div></div>';*/
 					?>
+
+
+
+
+
+
+
+
 			</div>
 		</div>
 	</div>
 </div>
+
+
+
+
 
 <script type="text/javascript">
 

@@ -74,82 +74,70 @@ $this->headTitle($title);
 							<dd>
 								<?php switch ($data->champ->format) :
 	        						case 'texte':
-	        							if($data instanceof DataTexte):
-	        								echo $data->texte;
-											echo '</br></br>';
-										endif;
+	        							echo $data->{$data->champ->format};
+										echo '</br></br>';
 									break;
 									case 'textarea':
-										if($data instanceof DataTextarea):
-											echo $data->textarea;
-											echo '</br></br>';
-										endif;
+										echo $data->{$data->champ->format};
+										echo '</br></br>';
 									break;
 									case 'date':
-										if($data instanceof DataDate):
-											echo $data->date->format('d-m-Y');
-											echo '</br></br>';
-										endif;
+										echo $data->date->format('d-m-Y');
+										echo '</br></br>';
 									break;
 									case 'nombre':
-										if($data instanceof DataNombre):
-											echo $data->nombre;
-											echo '</br></br>';
-										endif;
+										echo $data->{$data->champ->format};
+										echo '</br></br>';
 									break;
 									case 'fichier':
-										if($data instanceof DataFichier):
-											echo '<a href="' . ROOT_DIR . $data->fichier.'">'.basename($data->fichier).'</a>';
-											echo '</br></br>';
-										endif;
+										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.basename($data->{$data->champ->format}).'</a>';
+										echo '</br></br>';
 									break;
 									case 'url':
-										if($data instanceof DataUrl):
-											echo '<a href="' . $data->url.'">'.$data->url.'</a>';
-											echo '</br></br>';
-										endif;
+										echo '<a href="' . $data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
+										echo '</br></br>';
 									break;
 									?>
 								<?php endswitch ;?>
 							</dd>
 						<?php endif; ?>
-					<?php endforeach ;?>
+					<?php endforeach ; ?>
 				</dl>
 			</div>
 			<div class="tab-pane" id="tab2">
-					<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-					<?php /*$relations_artefacts = array();
-					
-					foreach( ($artefact->relations_artefacts) as $relation_artefact) :
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['nom'] = $relation_artefact->semantique->type_destination->nom;
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['id'] = $relation_artefact->semantique->type_destination->id;
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['value'][] = $relation_artefact->origine->titre.
-						' '.$relation_artefact->semantique->semantique.
-						' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$relation_artefact->destination->id)).'" >'.$relation_artefact->destination->titre.
-						'</a><br>' ;
+				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
+				<?php /*$relations_artefacts = array();
+				
+				foreach( ($artefact->relations_artefacts) as $relation_artefact) :
+					$relations_artefacts[$relation_artefact->semantique->type_destination->id]['nom'] = $relation_artefact->semantique->type_destination->nom;
+					$relations_artefacts[$relation_artefact->semantique->type_destination->id]['id'] = $relation_artefact->semantique->type_destination->id;
+					$relations_artefacts[$relation_artefact->semantique->type_destination->id]['value'][] = $relation_artefact->origine->titre.
+					' '.$relation_artefact->semantique->semantique.
+					' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$relation_artefact->destination->id)).'" >'.$relation_artefact->destination->titre.
+					'</a><br>' ;
 
-						endforeach ;
-						echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-						$i = 0;
-						foreach($relations_artefacts as $key =>$relation_artefact) :
-							if ($i == 0){$active = ' class="active"';} else { $active='';}
-							echo '<li'.$active.'><a href="#RelA'.$relation_artefact['id'].'" data-toggle="tab">'.$relation_artefact['nom'].'</a></li>';
-						$i++;
-						endforeach ;
-						echo '</ul><div class="tab-content">';
-						$i = 0;
-						foreach($relations_artefacts as $key =>$relation_artefact) :
-							if ($i == 0){$active = ' active';} else { $active='';}
-							echo '<div class="tab-pane'.$active.'" id="RelA'.$relation_artefact['id'].'">';
+					endforeach ;
+					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
+					$i = 0;
+					foreach($relations_artefacts as $key =>$relation_artefact) :
+						if ($i == 0){$active = ' class="active"';} else { $active='';}
+						echo '<li'.$active.'><a href="#RelA'.$relation_artefact['id'].'" data-toggle="tab">'.$relation_artefact['nom'].'</a></li>';
+					$i++;
+					endforeach ;
+					echo '</ul><div class="tab-content">';
+					$i = 0;
+					foreach($relations_artefacts as $key =>$relation_artefact) :
+						if ($i == 0){$active = ' active';} else { $active='';}
+						echo '<div class="tab-pane'.$active.'" id="RelA'.$relation_artefact['id'].'">';
 
-								foreach ($relation_artefact['value'] as $value) {
-									echo '<p>'.$value.'</p>';
-								}
-							echo '</div>';
-						$i++;
-						endforeach ;
-						echo '</div></div>';*/
-						?>
+							foreach ($relation_artefact['value'] as $value) {
+								echo '<p>'.$value.'</p>';
+							}
+						echo '</div>';
+					$i++;
+					endforeach ;
+					echo '</div></div>';*/
+					?>
 				
 				</div>
 				<div class="tab-pane" id="tab3">
