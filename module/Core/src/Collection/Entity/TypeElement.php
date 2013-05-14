@@ -172,13 +172,8 @@ class TypeElement implements InputFilterAwareInterface
 class TypeElementRepository extends EntityRepository
 {
 
-
-
-
-
     public function getIdNameArray()
     {
-
         $query = $this->getEntityManager()->
         createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
 
@@ -187,6 +182,5 @@ class TypeElementRepository extends EntityRepository
     //    $return = array_combine($array['id'],['nom']);
 
         return $array['id'] ;
-
     }
 }

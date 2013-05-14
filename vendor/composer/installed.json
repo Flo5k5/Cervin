@@ -855,12 +855,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/dbal.git",
-            "reference": "2.4.0-BETA2"
+            "reference": "38f679377432e3c299be5a94ab1d034a822d296c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/dbal/zipball/2.4.0-BETA2",
-            "reference": "2.4.0-BETA2",
+            "url": "https://api.github.com/repos/doctrine/dbal/zipball/38f679377432e3c299be5a94ab1d034a822d296c",
+            "reference": "38f679377432e3c299be5a94ab1d034a822d296c",
             "shasum": ""
         },
         "require": {
@@ -874,7 +874,7 @@
         "suggest": {
             "symfony/console": "Allows use of the command line interface"
         },
-        "time": "2013-05-11 08:21:40",
+        "time": "2013-05-14 13:30:37",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -887,7 +887,7 @@
                 "Doctrine\\DBAL\\": "lib/"
             }
         },
-        "notification-url": "https://packagist.org/downloads/",
+        "notification-url": "http://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
@@ -1296,49 +1296,6 @@
         ]
     },
     {
-        "name": "leafo/lessphp",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/leafo/lessphp.git",
-            "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/leafo/lessphp/zipball/dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
-            "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
-            "shasum": ""
-        },
-        "time": "2013-05-07 23:46:12",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.3-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "lessc.inc.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT",
-            "GPL-3.0"
-        ],
-        "authors": [
-            {
-                "name": "Leaf Corcoran",
-                "email": "leafot@gmail.com",
-                "homepage": "http://leafo.net"
-            }
-        ],
-        "description": "lessphp is a compiler for LESS written in PHP.",
-        "homepage": "http://leafo.net/lessphp/"
-    },
-    {
         "name": "hounddog/doctrine-data-fixture-module",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -1745,7 +1702,7 @@
                 "min/lib/"
             ]
         },
-        "notification-url": "https://packagist.org/downloads/",
+        "notification-url": "http://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause"
         ],
@@ -1759,5 +1716,48 @@
         ],
         "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
         "homepage": "http://code.google.com/p/minify/"
+    },
+    {
+        "name": "leafo/lessphp",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/leafo/lessphp.git",
+            "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/leafo/lessphp/zipball/dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
+            "reference": "dbb61d4beaafb0d708b79b008d0b708abeb4eae9",
+            "shasum": ""
+        },
+        "time": "2013-05-07 23:46:12",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.3-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "lessc.inc.php"
+            ]
+        },
+        "notification-url": "http://packagist.org/downloads/",
+        "license": [
+            "MIT",
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Leaf Corcoran",
+                "email": "leafot@gmail.com",
+                "homepage": "http://leafo.net"
+            }
+        ],
+        "description": "lessphp is a compiler for LESS written in PHP.",
+        "homepage": "http://leafo.net/lessphp/"
     }
 ]

@@ -126,6 +126,8 @@ class ArtefactController extends AbstractActionController
 		$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
 		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		
+		\Doctrine\Common\Util\Debug::dump($ThisChamps);
+		
 		if (null === $ThisChamps and $Artefact === null) {
             $this->getResponse()->setStatusCode(404);
             return;
