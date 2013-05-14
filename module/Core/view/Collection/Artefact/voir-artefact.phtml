@@ -74,28 +74,40 @@ $this->headTitle($title);
 							<dd>
 								<?php switch ($data->champ->format) :
 	        						case 'texte':
-	        							echo $data->{$data->champ->format};
-										echo '</br></br>';
+	        							if($data instanceof DataTexte):
+	        								echo $data->texte;
+											echo '</br></br>';
+										endif;
 									break;
 									case 'textarea':
-										echo $data->{$data->champ->format};
-										echo '</br></br>';
+										if($data instanceof DataTextarea):
+											echo $data->textarea;
+											echo '</br></br>';
+										endif;
 									break;
 									case 'date':
-										echo $data->date->format('d-m-Y');
-										echo '</br></br>';
+										if($data instanceof DataDate):
+											echo $data->date->format('d-m-Y');
+											echo '</br></br>';
+										endif;
 									break;
 									case 'nombre':
-										echo $data->{$data->champ->format};
-										echo '</br></br>';
+										if($data instanceof DataNombre):
+											echo $data->nombre;
+											echo '</br></br>';
+										endif;
 									break;
 									case 'fichier':
-										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.basename($data->{$data->champ->format}).'</a>';
-										echo '</br></br>';
+										if($data instanceof DataFichier):
+											echo '<a href="' . ROOT_DIR . $data->fichier.'">'.basename($data->fichier).'</a>';
+											echo '</br></br>';
+										endif;
 									break;
 									case 'url':
-										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
-										echo '</br></br>';
+										if($data instanceof DataUrl):
+											echo '<a href="' . $data->url.'">'.$data->url.'</a>';
+											echo '</br></br>';
+										endif;
 									break;
 									?>
 								<?php endswitch ;?>

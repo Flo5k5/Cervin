@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Doctrine\ORM\EntityRepository;
 
 /**
-* Un champ d'un type d'�l�ment
+* Un champ d'un type d'élément
 *
 * @ORM\Entity
 * @ORM\Table(name="champ")
@@ -49,13 +49,13 @@ class Champ implements InputFilterAwareInterface
     protected $format;
     
     /**
-     * Un champ a plusieurs valeurs (une pour chaque instance d'�l�ment qu'il d�crit)
+     * Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}))
      **/
     protected $datas;
     
     /**
-     * Le type d'�l�ment que d�crit ce champ
+     * Le type d'élément que décrit ce champ
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
