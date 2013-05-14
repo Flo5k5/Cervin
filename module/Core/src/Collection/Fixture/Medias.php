@@ -171,7 +171,7 @@ class Medias implements FixtureInterface
 		/*
 		 * Une image
 		 */
-		$logo_cervin = new Collection\Entity\Media('Logo Cervin', $type_media_image);
+		/*$logo_cervin = new Collection\Entity\Media('Logo Cervin', $type_media_image);
 		$logo_cervin->description = '<h2><u>Le logo du projet CERVIN</u></h2>';
 		$logo_cervin->datas = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -192,12 +192,12 @@ class Medias implements FixtureInterface
 		$logo_cervin->datas->add($data_date);
 		
 		$manager->persist($logo_cervin);
-		$manager->flush();
+		$manager->flush();*/
 
 		/*
 		 * Un logiciel
 		 */
-		$logiciel = new Collection\Entity\Media('Logiciel sans nom', $type_media_logiciel);
+		/*$logiciel = new Collection\Entity\Media('Logiciel sans nom', $type_media_logiciel);
 		$logiciel->description = '<ul><li>Exemple de logiciel de la collection...</li><li>Ceci est un exemple</li></ul>';
 		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -226,12 +226,12 @@ class Medias implements FixtureInterface
 		$logiciel->datas->add($data_date);
 		
 		$manager->persist($logiciel);
-		$manager->flush();
+		$manager->flush();*/
 
 		/*
 		 * Un son
 		 */
-		$son_sample = new Collection\Entity\Media('Teaser audio', $type_media_son);
+		/*$son_sample = new Collection\Entity\Media('Teaser audio', $type_media_son);
 		$son_sample->description = '<b>Un fichier audio pour annoncer la parution prochaine du <h3>back-office de <u>CERVIN</u></h3></b>';
 		$son_sample->datas = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -252,7 +252,7 @@ class Medias implements FixtureInterface
 		$son_sample->datas->add($data_date);
 		
 		$manager->persist($son_sample);
-		$manager->flush();
+		$manager->flush();*/
 		
 	}
 }

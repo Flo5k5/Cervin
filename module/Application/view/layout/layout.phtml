@@ -60,12 +60,22 @@
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             	<i class="icon-tasks"></i>  Administration  
-                                            	<span class="badge badge-important small">3</span>
+                                            	<span class="badge badge-important small">
+                                                    3 <!-- /// afficher ici le nombre de notifications total /// -->
+                                                </span>
                                             	<b class="caret"></b>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs  <span class="badge badge-important small">2</span></a></li>
-                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements  <span class="badge badge-important small">1</span></a></li>
+                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
+                                                    <span class="badge badge-important small">
+                                                        2 <!-- /// afficher ici le nombre de notifications relatif aux utilisateurs /// -->
+                                                    </span>
+                                                </a></li>
+                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements
+                                                    <span class="badge badge-important small">
+                                                        1 <!-- /// afficher ici le nombre de notifications relatif aux types d'éléments /// -->
+                                                    </span>
+                                                </a></li>
                                                 <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques</a></li>
                                                 <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
                                             </ul>

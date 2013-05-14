@@ -142,13 +142,14 @@ class ArtefactController extends AbstractActionController
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(true));
 				break;
+
 				case 'description':
 					$Artefact->description = $request['value'];
 		            $this->getEntityManager()->persist($Artefact);
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(true));
-				
 				break;
+
 				case 'data':
 					$idChamp = (int) $this->params()->fromRoute('idChamp', 0);
 
@@ -156,6 +157,7 @@ class ArtefactController extends AbstractActionController
 					if (null === $Champ) {
 				            $dataDB = new Data($Artefact,$idChamp);
 				    }	
+///
 					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
 					if (null === $dataDB) {
 				        $dataDB = new Data($Artefact,$Champ);

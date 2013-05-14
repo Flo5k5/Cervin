@@ -49,13 +49,50 @@ class TypeElementController extends AbstractActionController
         
         return $this->em;
     }
-
-
-
+    
+    private function deleteFiles($champ){
+    	if($champ->format === 'fichier'){
+	    	$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+	    		
+	    	if( $champ->type_element->type === 'media' ){
+	    		$dir .= 'medias/';
+	    	} else if( $champ->type_element->type === 'artefact' ) {
+	    		$dir .= 'artefacts/';
+	    	}
+	    		
+	    	$dir .= (string)$champ->id . '/';
+	    	
+	    	$this->delTree($dir);
+	    	return true;
+    	}
+    	return false;
+    }
+    
+    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+	private function delTree($dir) {
+		if(is_dir($dir)){
+		    $files = glob( $dir . '*', GLOB_MARK ); 
+		    foreach( $files as $file ){ 
+		    	$file = str_replace('\\', '/', $file);
+		        if( substr( $file, -1 ) == '/' ) {
+		            $this->delTree( $file ); 
+		        } else {
+		        	if( is_file($file) ){
+			        	chown( $file, 666 );
+			        	chmod( $file, 0666 );
+			            unlink( $file );
+		        	}
+		        }
+		    }
+		    
+		    rmdir( $dir );
+		    return true;
+		}
+		return false;
+	} 
+    
     public function indexAction()
     {
-
-
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
 
     	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
@@ -64,8 +101,6 @@ class TypeElementController extends AbstractActionController
     		'TEartefacts' => $TEartefacts,
     		'TEmedias' => $TEmedias,
     	);
-
-
     }
 
     public function addAction()
@@ -112,18 +147,20 @@ class TypeElementController extends AbstractActionController
                 return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Type Element')));
             }
 
-            
             $TypeElement = $this->getEntityManager()->find('Collection\Entity\TypeElement', $id);
+            
             if (null === $TypeElement) {
                 $this->getResponse()->setStatusCode(404);
                 return; 
             }
+            
             $postData = $this->params()->fromPost();
             $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
+            
             if (!empty($idChamp)) {
 
-            	
                 $Champ = $this->getEntityManager()->find('Collection\Entity\Champ', $idChamp);
+                
 	            if (null === $Champ) {
                     $this->getResponse()->setStatusCode(404);
                     return; 
@@ -143,10 +180,15 @@ class TypeElementController extends AbstractActionController
                         return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
                     case 'supprimerChamp':
-                        $this->getEntityManager()->remove($Champ);
-                        $this->getEntityManager()->flush();
-                        //$this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete supprimé.', $Champ->label));
 
+						if( $Champ->format === 'fichier' ){
+							$this->deleteFiles($Champ);
+						}
+						
+						$this->getEntityManager()->remove($Champ);
+						$this->getEntityManager()->flush();
+						//$this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete supprimé.', $Champ->label));
+						
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
             		default:
@@ -155,7 +197,6 @@ class TypeElementController extends AbstractActionController
             	}
 
             	return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'switch ??')));
-
 
             } else {
 
@@ -169,6 +210,7 @@ class TypeElementController extends AbstractActionController
             	case 'ajChamp':
 
                     $form = new ChampForm();
+                    
                     if ($postData['submit'] != 'false')
                     {
                         $request = $this->getRequest();
@@ -211,21 +253,27 @@ class TypeElementController extends AbstractActionController
 
                     break;
                 case 'supprimerTypeElement':
-                        $this->getEntityManager()->remove($TypeElement);
-                        $this->getEntityManager()->flush();
-                        //$this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete supprimé.', $TypeElement->nom));
+	                $champsFichier = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findBy(array('type_element' => $TypeElement, 'format' => 'fichier'));
+	                
+	                if ($champsFichier !== null) {
+	                	foreach ($champsFichier as $champ) {
+	                		$this->deleteFiles($champ);
+	                	}
+	                }
 
-                        return $this->getResponse()->setContent(Json::encode(true));
-                        break;
+                    $this->getEntityManager()->remove($TypeElement);
+                    $this->getEntityManager()->flush();
+                    //$this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete supprimé.', $TypeElement->nom));
+
+                    return $this->getResponse()->setContent(Json::encode(true));
+                    break;
                 default:
                     return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
                     break;
                 }
 
             }
-            
-
-              
+    
         }
     	
     }

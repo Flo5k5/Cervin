@@ -83,10 +83,10 @@ class Champ extends \Collection\Entity\Champ implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'inputFilter', 'id', 'label', 'description', 'format', 'datas', 'type_element');
+            return array('__isInitialized__', 'inputFilter', 'id', 'label', 'description', 'format', 'datas', 'type_element', 'valide');
         }
 
-        return array('__isInitialized__', 'inputFilter', 'id', 'label', 'description', 'format', 'datas', 'type_element');
+        return array('__isInitialized__', 'inputFilter', 'id', 'label', 'description', 'format', 'datas', 'type_element', 'valide');
     }
 
     /**
