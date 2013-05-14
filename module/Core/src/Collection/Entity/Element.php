@@ -305,7 +305,7 @@ class Element implements InputFilterAwareInterface
     	return false;
     }
     
-    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /* Crï¿½dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
     private function delTree($dir) {
     	if(is_dir($dir)){
     		$files = glob( $dir . '*', GLOB_MARK );

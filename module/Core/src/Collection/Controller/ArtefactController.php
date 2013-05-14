@@ -53,6 +53,7 @@ class ArtefactController extends AbstractActionController
     	$form = null;
     	$type_element_id = (int) $this->params()->fromRoute('type_element_id', 0);
     	if ($type_element_id) {
+    		// Un type d'artefact a été choisi dans le select
     		// On affiche le formulaire correspondant à ce type d'artefact
     		$type_element = $this->getEntityManager()
     				->getRepository('Collection\Entity\TypeElement')
@@ -66,7 +67,8 @@ class ArtefactController extends AbstractActionController
     		
     		$request = $this->getRequest();
     		if ($request->isPost()) {
-    			// On créé un nouvel artefact
+    			// Le formulaire a été posté
+    			// On créé le nouvel artefact
     			$artefact = new Artefact(null, $type_element);
     			$form->setInputFilter($artefact->getInputFilter());
     			$data = array_merge_recursive(
