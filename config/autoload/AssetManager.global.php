@@ -39,7 +39,6 @@ return array(
                 'css/bootstrap-responsive.css' => __DIR__ . '/../../public/less/responsive.less',
             ),
         ),
-
         'caching' => array(
             'default' => array(
                 'cache'     => 'Filesystem',

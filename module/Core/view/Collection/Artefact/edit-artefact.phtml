@@ -99,9 +99,9 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="text" 
-										data-pk="'.$champ['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-									'.$champ['texte'].'
+										data-pk="'.$champ['data']->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['data']->id)).'">
+									'.$champ['data']->texte.'
 								</span>';
 								echo '</br></br>';
 								break;
@@ -110,24 +110,24 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="textarea" 
-										data-pk="'.$champ['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-	    							'.$champ['textarea'].'
+										data-pk="'.$champ['data']->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['data']->id)).'">
+	    							'.$champ['data']->textarea.'
     							</span>';
 								echo '</br></br>';
 								break;
 
 							case 'date':
-								if($champ['date'] === null){
+								if($champ['data']->date === null){
 									$date = null;
 								} else {
-									$date = $champ['date']->format('d-m-Y');
+									$date = $champ['data']->date->format('d-m-Y');
 								}
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
     										data-type="date" 
-    										data-pk="'.$champ['id'].'" 
-	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+    										data-pk="'.$champ['data']->id.'" 
+	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['data']->id)).'">
 										'.$date.'
 									</span>';
 								echo '</br></br>';
@@ -137,9 +137,9 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer" 
 											data-name="data" 
 											data-type="number" 
-											data-pk="'.$champ['id'].'" 
-											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-										'.$champ['nombre'].'
+											data-pk="'.$champ['data']->id.'" 
+											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['data']->id)).'">
+										'.$champ['data']->nombre.'
 									</span>';
 								echo '</br></br>';
 								break;
@@ -148,9 +148,9 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer"
 										data-name="data"
 										data-type="url"
-										data-pk="'.$champ['id'].'"
-	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-	    							'.$champ['url'].'
+										data-pk="'.$champ['data']->id.'"
+	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['data']->id)).'">
+	    							'.$champ['data']->url.'
     							</span>';
 								echo '</br></br>';
 								break;
@@ -213,13 +213,9 @@ $this->headTitle($title);
 					*/
 					?>
 				</div>
-<<<<<<< HEAD
 				<div class="span6" id="modalDiv">
 					<a calss="ajouter" data-url="<?php // echo $this->url("artefact/addRelation",array('id'=>$artefact->id, 'avecId' => 3))  ;?>" href="">ajouter</a>
 					<?php echo $this->CollectionWidget(); ?></div>
-=======
-				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
->>>>>>> 7deefd8a87d97bea16cb18de1e30e1e362e92e60
 			</div>
 			<div class="tab-pane" id="tab3">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
