@@ -139,36 +139,28 @@ $this->headTitle($title);
 					echo '</div></div>';*/
 					?>
 
-
-
-
-
-
-
-
 			</div>
 		</div>
 	</div>
 </div>
 
+<?php $this->inlineScript()->captureStart() ?>
 
+	$(function () {
 
+		$(".description").popover({placement:'top', trigger:'hover'}); 
+		
+		$('body').on('click', 'input.span2', function(event) {
+			$(this).datepicker({
+				showOn: 'focus',
+				yearRange: '1900:+0',
+				changeMonth: true,
+				changeYear: true
+			}).focus();
+		});
 
-
-<script type="text/javascript">
-
-$(".description").popover({placement:'top', trigger:'hover'}); 
-
-$('body').on('click', 'input.span2', function(event) {
-	$(this).datepicker({
-		showOn: 'focus',
-		yearRange: '1900:+0',
-		changeMonth: true,
-		changeYear: true
-	}).focus();
-});
-
-
-</script>
+    });
+    
+<?php $this->inlineScript()->captureEnd() ?>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>

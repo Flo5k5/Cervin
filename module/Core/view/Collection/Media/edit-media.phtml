@@ -215,36 +215,42 @@ $this->headTitle($title);
 	</div>
 </div>
 
-<script type="text/javascript">
 
-$(".description").popover({placement:'top', trigger:'hover'}); 
+<?php $this->inlineScript()->captureStart() ?>
 
-$('.wysihtml5').editable({
-	mode: 'popup',
-	placement: 'right',
-	wysihtml5 :{
-			locale: "fr-FR",
-			image: false,
-			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
-	}
-});
+	$(function () {
 
-$('.picker').editable({
-	mode: 'popup',
-	placement: 'top',
-	format: 'yyyy-mm-dd',
-	viewformat: 'dd-mm-yyyy',
-	 datepicker: {
-		language:'fr',
-	}
+		$(".description").popover({placement:'top', trigger:'hover'}); 
+		
+		$('.wysihtml5').editable({
+			mode: 'popup',
+			placement: 'right',
+			wysihtml5 :{
+					locale: "fr-FR",
+					image: false,
+					stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
+			}
+		});
+		
+		$('.picker').editable({
+			mode: 'popup',
+			placement: 'top',
+			format: 'yyyy-mm-dd',
+			viewformat: 'dd-mm-yyyy',
+			 datepicker: {
+				language:'fr',
+			}
+		
+		});
+		
+		$('.edit').editable({
+			mode: 'inline'
+		});
 
-});
-
-$('.edit').editable({
-	mode: 'inline'
-});
-
-</script>
+    });
+    
+<?php $this->inlineScript()->captureEnd() ?>
+	
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
 

@@ -213,13 +213,9 @@ $this->headTitle($title);
 					*/
 					?>
 				</div>
-<<<<<<< HEAD
-				<div class="span6" id="modalDiv">
-					<a calss="ajouter" data-url="<?php // echo $this->url("artefact/addRelation",array('id'=>$artefact->id, 'avecId' => 3))  ;?>" href="">ajouter</a>
-					<?php echo $this->CollectionWidget(); ?></div>
-=======
+
 				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
->>>>>>> 7deefd8a87d97bea16cb18de1e30e1e362e92e60
+
 			</div>
 			<div class="tab-pane" id="tab3">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
@@ -254,54 +250,53 @@ $this->headTitle($title);
 	</div>
 </div>
 
-<script type="text/javascript">
-<<<<<<< HEAD
-$("#modalDiv").on("click",".ajouter", function(e){
+<?php $this->inlineScript()->captureStart() ?>
 
-    var URL = $(this).attr('data-url');
-	$.ajax({
-	        url: URL,
-	        type: "POST",
-	        data:{ name:'ajChamp'  }, 
+	$(function () {
 
-	}).done(function(return){
-
-	});
-
-
-=======
-						
-$(".description").popover({placement:'top', trigger:'hover'}); 
->>>>>>> 7deefd8a87d97bea16cb18de1e30e1e362e92e60
-
-$('.wysihtml5').editable({
-	mode: 'popup',
-	placement: 'right',
-	wysihtml5 :{
-			locale: "fr-FR",
-			image: false,
-			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
-		}
-	});
-$('.picker').editable({
-	mode: 'popup',
-	placement: 'top',
-	format: 'yyyy-mm-dd',
-	viewformat: 'dd-mm-yyyy',
-	 datepicker: {
-		language:'fr',
-	}
-
-});
-
-
-
-$('.edit').editable({
-	mode: 'inline',
-});
-
-</script>
+		$("#modalDiv").on("click",".ajouter", function(e){
+		
+		    var URL = $(this).attr('data-url');
+			$.ajax({
+			        url: URL,
+			        type: "POST",
+			        data:{ name:'ajChamp'  }, 
+		
+			}).done(function(return){
+		
+			});
+		
+		$(".description").popover({placement:'top', trigger:'hover'}); 
+		
+		$('.wysihtml5').editable({
+			mode: 'popup',
+			placement: 'right',
+			wysihtml5 :{
+					locale: "fr-FR",
+					image: false,
+					stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
+				}
+			});
+		$('.picker').editable({
+			mode: 'popup',
+			placement: 'top',
+			format: 'yyyy-mm-dd',
+			viewformat: 'dd-mm-yyyy',
+			 datepicker: {
+				language:'fr',
+			}
+		
+		});
+		
+		$('.edit').editable({
+			mode: 'inline',
+		});
+		
+    });
+    
 <?php 
+
+$this->inlineScript()->captureEnd();
 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;

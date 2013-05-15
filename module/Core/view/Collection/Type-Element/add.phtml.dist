@@ -65,22 +65,24 @@ $label = true;
 <?php  echo $this->formCollection()->renderTemplate($form->get('Champs')); ?>
 
 <button onclick="return add_category()" class="btn btn-info" type="button">+</button>
- 
 
+<?php $this->inlineScript()->captureStart() ?>
 
-<script type="text/javascript">
-    function add_category() {
-        var currentCount = $('#champ').length;
-        console.info(currentCount);
-        var template = $('form > span').data('template');
-        console.info(template);
-        template = template.replace(/__index__/g, currentCount);
+	$(function () {
+		function add_category() {
+			var currentCount = $('#champ').length;
+			//console.info(currentCount);
+			var template = $('form > span').data('template');
+			//console.info(template);
+			template = template.replace(/__index__/g, currentCount);
 
-        $('#champs').append(template);
+			$('#champs').append(template);
 
-        return false;
-    }
-</script>
+			return false;
+		}
+    });
+    
+<?php $this->inlineScript()->captureEnd() ?>
 
 	<?php   echo $this->formSubmit($form->get('submit')); ?>
 <?php echo $this->form()->closeTag(); ?>
