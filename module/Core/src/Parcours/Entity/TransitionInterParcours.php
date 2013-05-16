@@ -11,20 +11,18 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition inter-parcours
 *
 * @ORM\Entity
-* @ORM\Table(name="transitionInterParcours")
+* @ORM\Table(name="movingbo_transitionInterParcours")
 */
 class TransitionInterParcours extends Transition
 {
 
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene", inversedBy="transitions_inter_parcours")
-     * @ORM\JoinColumn(name="scene_origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_origine;
 
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene")
-     * @ORM\JoinColumn(name="scene_destination_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_destination;
 

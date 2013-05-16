@@ -15,7 +15,7 @@ use \Doctrine\ORM\Query;
 * Un type d'�l�ment de la collection (personne, image, mat�riel, logiciel, ...)
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
-* @ORM\Table(name="typeelement")
+* @ORM\Table(name="movingbo_typeelement")
 * @property int $id
 * @property string $nom
 * @property string $type

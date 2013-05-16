@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Un parcours
 *
 * @ORM\Entity
-* @ORM\Table(name="parcours")
+* @ORM\Table(name="movingbo_parcours")
 * @property int $id
 * @property string $titre
 * @property string $description
@@ -40,13 +40,11 @@ class Parcours implements InputFilterAwareInterface
     
     /**
      * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="parcours")
-     * @ORM\JoinColumn(name="sous_parcours_id", referencedColumnName="id", nullable=false)
      **/
     protected $sous_parcours;
     
     /**
      * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours")
-     * @ORM\JoinColumn(name="transition_id", referencedColumnName="id")
      **/
     protected $transitions;
     

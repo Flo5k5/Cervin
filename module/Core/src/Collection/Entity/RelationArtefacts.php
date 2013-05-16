@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une relation entre deux artefacts
 *
 * @ORM\Entity
-* @ORM\Table(name="artefact_artefact")
+* @ORM\Table(name="movingbo_artefact_artefact")
 * @property int $id
 */
 class RelationArtefacts implements InputFilterAwareInterface

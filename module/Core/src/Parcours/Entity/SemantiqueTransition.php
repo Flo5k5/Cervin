@@ -9,10 +9,10 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une sémantique possible des transitions entre scènes
+* Une sï¿½mantique possible des transitions entre scï¿½nes
 *
 * @ORM\Entity
-* @ORM\Table(name="semantiqueTransition")
+* @ORM\Table(name="movingbo_semantiqueTransition")
 * @property int $id
 * @property string $semantique
 */

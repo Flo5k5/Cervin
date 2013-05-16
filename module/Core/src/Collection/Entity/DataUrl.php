@@ -13,6 +13,7 @@ use Collection\Entity\Element;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="movingbo_dataurl")
  */
 class DataUrl extends Data
 {

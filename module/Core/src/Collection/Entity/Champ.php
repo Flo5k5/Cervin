@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityRepository;
 * Un champ d'un type d'élément
 *
 * @ORM\Entity
-* @ORM\Table(name="champ")
+* @ORM\Table(name="movingbo_champ")
 * @property int $id
 * @property string $label
 * @property string $description
@@ -196,7 +196,7 @@ class Champ implements InputFilterAwareInterface
     	return false;
     }
     
-    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
     private function delTree($dir) {
     	if(is_dir($dir)){
     		$files = glob( $dir . '*', GLOB_MARK );

@@ -11,20 +11,18 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition secondaire
 *
 * @ORM\Entity
-* @ORM\Table(name="transitionSecondaire")
+* @ORM\Table(name="movingbo_transitionSecondaire")
 */
 class TransitionSecondaire extends Transition
 {
 
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene", inversedBy="transitions_secondaires")
-     * @ORM\JoinColumn(name="scene_origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_origine;
     
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene")
-     * @ORM\JoinColumn(name="scene_destination_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_destination;    
     

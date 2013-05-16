@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition
 *
 * @ORM\Entity
-* @ORM\Table(name="transition")
+* @ORM\Table(name="movingbo_transition")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"TransitionRecommandee" = "TransitionRecommandee",
@@ -39,7 +39,6 @@ class Transition implements InputFilterAwareInterface
     
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\SemantiqueTransition")
-     * @ORM\JoinColumn(name="semantique_id", referencedColumnName="id", nullable=false)
      **/
     protected $semantique;
     
