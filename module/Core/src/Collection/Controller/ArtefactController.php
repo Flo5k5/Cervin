@@ -125,10 +125,34 @@ class ArtefactController extends AbstractActionController
             return;
 		}
 
-		$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
-		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+
+		/*$champs = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findBy(array('type_element.elements'=>$id));
+
+		foreach ($champs as $champ ) {
+			$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$id,'champ'=>$champ));
+		\Doctrine\Common\Util\Debug::dump($data);
+		}*/
 		
-		\Doctrine\Common\Util\Debug::dump($ThisChamps);
+
+
+		// $ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
+		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		$ThisChamps = array();
+		foreach ($Artefact->type_element->champs as $champ ) {
+
+			$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$id,'champ'=>$champ));
+			if($data == null) {
+				array_push($ThisChamps, array('label'=> $champ->label,'description'=>$champ->description, 'format'=>$champ->format,'data'=>null));
+
+			} else {
+				array_push($ThisChamps, array('label'=> $champ->label,'description'=>$champ->description, 'format'=>$champ->format,'data'=>$data));
+
+			
+			}
+		}
+
+
+		// \Doctrine\Common\Util\Debug::dump($ThisChamps);
 		
 		if (null === $ThisChamps and $Artefact === null) {
             $this->getResponse()->setStatusCode(404);

@@ -87,15 +87,36 @@ class ArtefactRepository extends EntityRepository
         $qb = $em->createQueryBuilder();
 
         //$query = $qb->select('c.label, c.format, c.description, d.id, d.date, d.fichier, d.nombre, d.texte, d.textarea, d.url, d.format_fichier, c.id')
-        $query = $qb->select('c.label, c.format, c.description, c.id')
+        /*$query = $qb->select('c.label, c.format, c.description, c.id, ed.id AS idData, cd.datatexte, cd.datadate')
         		->from('Collection\Entity\Champ','c')
         		->leftJoin('c.type_element', 'te')
         		->leftJoin('te.elements', 'e')
+
                 ->where('e.id = '.$id)
-                ->leftJoin('c.datas', 'd')
-                ->leftJoin('d.element', 'de')
-                ->andWhere('((de.id = e.id) OR (d IS NULL))')
-              ;
+        		->leftJoin('e.datas', 'ed')
+
+                ->leftJoin('c.datas', 'cd')
+               // ->leftJoin('d.element', 'de')
+                ->andWhere('((cd.id = ed.id) OR (ed IS NULL))')
+              ;*/
+
+               $query = $qb->select('c.label,c.description,c.format,d')
+
+               ->from('Collection\Entity\Champ','c')
+
+
+
+               ->innerJoin('c.datas','d')
+               ->innerJoin('d.element','de')
+
+                ->andWhere('de.id = '.$id.'')
+
+
+
+
+
+               ;
+
 
         return $query->getQuery()->execute();
     }
