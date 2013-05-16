@@ -61,10 +61,18 @@ $this->headTitle($title);
 </div>
 		
 <div class="row-fluid">
-	<div class="span6">
-		<div class="wysihtml5 CursorPointer" data-class="" data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
+	<div class="span6 well">
+
+<form id="textarea">
+		<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></textarea>
+<!-- 		<div class="wysihtml5 CursorPointer" data-class="" 
+data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
+ -->
+<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
+<button type="reset" class=" btn editable-cancel"><i class="icon-undo"></i> Effacer toutes les modifications</button>
+</form>
+<div id="textarea-return"></div>
 	</div>
-	
 	<div class="span6 well">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
@@ -177,7 +185,7 @@ $this->headTitle($title);
 			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<div class="span6">
+				
 					<?php 
 					/*
 					$relations_artefacts = array();
@@ -212,10 +220,7 @@ $this->headTitle($title);
 					endforeach ;
 					echo '</div></div>';
 					*/
-					?>
-				</div>
-
-				<div class="span6"><?php echo $this->CollectionWidget(array(array('type'=>'type','value'=>'artefact'))); ?></div>
+					?><?php echo $this->CollectionWidget(array(array('type'=>'type','value'=>'artefact'))); ?></div>
 
 			</div>
 			<div class="tab-pane" id="tab3">
@@ -270,7 +275,7 @@ $this->headTitle($title);
 		
 		$(".description").popover({placement:'top', trigger:'hover'}); 
 		
-		$('.wysihtml5').editable({
+		/* $('.wysihtml5').editable({
 			mode: 'popup',
 			placement: 'right',
 			wysihtml5 :{
@@ -278,7 +283,33 @@ $this->headTitle($title);
 					image: false,
 					stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
 				}
+		}); */
+
+		$('.textarea-wysihtml5').wysihtml5({
+			locale: "fr-FR",
+			image: false,
+			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
+			"events": {
+			"load": function() { 
+				$(editor.composer.iframe).wysihtml5_size_matters();
+			}
+		}
+		});
+
+		$("#textarea").on("click",".textarea-submit", function(e){
+		DataValue = $('.textarea-wysihtml5').val();
+			$.ajax({
+				url: "<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>",
+				type: "POST",
+				data:{ name:'description', value: DataValue }, 
+		
+			}).done(function(){
+				$('#textarea-return').html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Enregistrement réussi</div>')
 			});
+		});
+
+
+
 		$('.picker').editable({
 			mode: 'popup',
 			placement: 'top',
@@ -308,6 +339,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js'
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
-
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
 
 ?>
