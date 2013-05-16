@@ -103,9 +103,21 @@ class AdminController extends AbstractActionController
 	            }
 	            
                 $aaData[] = array(
-                    '<span id="username" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'</span>',
-                    '<span id="displayName" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</span>',
-                    '<span id="email" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</span>',
+                    '<span id="username" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'
+                    </span>',
+                    '<span id="displayName" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'
+                    </span>',
+                    '<span id="email" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'
+                    </span>',
                     '<span 
                         id="role" 
                         class="status CursorPointer" 
@@ -116,8 +128,6 @@ class AdminController extends AbstractActionController
                         data-value="'.$roleId.'">
                             '.$role.' '.$attenteRole.'
                     </span>
-                    
-
 
                     ',
                     $btn_supprimer

@@ -73,7 +73,7 @@ class SemantiqueController extends AbstractActionController
                 $aaData[] = array(
                     '<span> '. $semantique->type_origine->nom .' </span>',
                     '<span class="edit CursorPointer"
-                    	data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+                    	data-url="'.$this->url()->fromRoute("semantique/modifierAjax", array("id" => $semantique->id)).'"
                     	> '. $semantique->semantique .
                 	'</span>',
                     '<span> '. $semantique->type_destination->nom .' </span>',
@@ -200,7 +200,7 @@ class SemantiqueController extends AbstractActionController
                 return $this->redirect()->toRoute('home');
             }
 
-            if ($postData['name'] == 'semantique')
+            if ($postData['name'] == 'Sémantique')
             {
                 $semantique->semantique=$postData['value'];
                 $this->getEntityManager()->persist($semantique);
@@ -208,9 +208,8 @@ class SemantiqueController extends AbstractActionController
                 return true;
             }
             
-        	} else {
-        	    return $this->redirect()->toRoute('home');
-        	}
-		}
+    	} else {
+    	    return $this->redirect()->toRoute('home');
+    	}
 	}
 }
