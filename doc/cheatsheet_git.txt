@@ -76,3 +76,7 @@ pear install --onlyreqdeps phpunit/PHPUnit
 pear install --alldeps phpunit/PHPUnit
 
 pear install --alldeps phpunit/PHPUnit_SkeletonGenerator
+
+
+//Debug Doctrine
+\Doctrine\Common\Util\Debug::dump($ThisChamps);

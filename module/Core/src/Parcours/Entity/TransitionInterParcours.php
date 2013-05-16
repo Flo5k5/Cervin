@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition inter-parcours
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_transitionInterParcours")
+* @ORM\Table(name="mbo_transitionInterParcours")
 */
 class TransitionInterParcours extends Transition
 {

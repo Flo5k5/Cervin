@@ -125,34 +125,10 @@ class ArtefactController extends AbstractActionController
             return;
 		}
 
-
-		/*$champs = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findBy(array('type_element.elements'=>$id));
-
-		foreach ($champs as $champ ) {
-			$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$id,'champ'=>$champ));
-		\Doctrine\Common\Util\Debug::dump($data);
-		}*/
-		
-
-
-		// $ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->getThisChamps($id);
+		$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Element')->getThisChamps($id);
 		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		$ThisChamps = array();
-		foreach ($Artefact->type_element->champs as $champ ) {
-
-			$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$id,'champ'=>$champ));
-			if($data == null) {
-				array_push($ThisChamps, array('label'=> $champ->label,'description'=>$champ->description, 'format'=>$champ->format,'data'=>null));
-
-			} else {
-				array_push($ThisChamps, array('label'=> $champ->label,'description'=>$champ->description, 'format'=>$champ->format,'data'=>$data));
-
-			
-			}
-		}
-
-
-		// \Doctrine\Common\Util\Debug::dump($ThisChamps);
+		
+		//\Doctrine\Common\Util\Debug::dump($ThisChamps);
 		
 		if (null === $ThisChamps and $Artefact === null) {
             $this->getResponse()->setStatusCode(404);
@@ -185,13 +161,13 @@ class ArtefactController extends AbstractActionController
 					if (null === $Champ) {
 			            $dataDB = new Data($Artefact,$idChamp);
 				    }	
-///
+
 					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
 					
 					if (null === $dataDB) {
 				        $dataDB = new Data($Artefact,$Champ);
 				    }
-					
+				    //\Doctrine\Common\Util\Debug::dump($dataDB);
 					switch ($dataDB->champ->format) {
 		    	 		case 'texte':
 		    	 			$dataDB->texte = $request['value'];

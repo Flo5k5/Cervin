@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * La valeur d'un champ d'un élément
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_data")
+* @ORM\Table(name="mbo_data")
 * @ORM\InheritanceType("JOINED")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"DataDate" = "DataDate", 

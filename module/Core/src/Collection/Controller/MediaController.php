@@ -123,7 +123,7 @@ class MediaController extends AbstractActionController
             return;
         }
 
-        $ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Media')->getThisChamps($id);
+        $ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Element')->getThisChamps($id);
         $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
 
         if (null === $ThisChamps and $Media === null) {
@@ -154,10 +154,11 @@ class MediaController extends AbstractActionController
                     $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
 
                     $Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
+                    
                     if (null === $Champ) {
                         $dataDB = new Data($Media,$idChamp);
                     }
-///
+
                     $dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Media,'champ'=>$Champ));
                     
                     if (null === $dataDB) {

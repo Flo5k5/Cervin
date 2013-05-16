@@ -13,7 +13,7 @@ use Zend\InputFilter\InputFilterInterface;
  * Une page
  *
  * @ORM\Entity
- * @ORM\Table(name="movingbo_page")
+ * @ORM\Table(name="mbo_page")
  * @property int $id
  */
 class Page implements InputFilterAwareInterface

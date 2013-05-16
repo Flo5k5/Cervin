@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition recommand�e
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_transitionRecommandee")
+* @ORM\Table(name="mbo_transitionRecommandee")
 */
 class TransitionRecommandee extends Transition
 {

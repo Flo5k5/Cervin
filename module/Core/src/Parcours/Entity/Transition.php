@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une transition
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_transition")
+* @ORM\Table(name="mbo_transition")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"TransitionRecommandee" = "TransitionRecommandee",

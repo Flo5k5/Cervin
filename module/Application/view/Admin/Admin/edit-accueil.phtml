@@ -48,12 +48,13 @@ $this->headTitle($title);
 
 </div>
 
-<script type="text/javascript">
-	$(function ()
-	{
+<?php $this->inlineScript()->captureStart() ?>
+
+	$(function () {
 		$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
     });
-</script>
+    
+<?php $this->inlineScript()->captureEnd() ?>
 
 <?php 
 	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;

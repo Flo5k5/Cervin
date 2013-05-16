@@ -20,7 +20,7 @@ use Doctrine\ORM\EntityRepository;
 * An example of how to implement a role aware user entity.
 *
 * @ORM\Entity(repositoryClass="SamUser\Entity\UserRepository")
-* @ORM\Table(name="movingbo_users")
+* @ORM\Table(name="mbo_users")
 * 
 * @author Tom Oram <tom@scl.co.uk>
 */
@@ -66,7 +66,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     /**
     * @var \Doctrine\Common\Collections\Collection
     * @ORM\ManyToMany(targetEntity="SamUser\Entity\Role")
-    * @ORM\JoinTable(name="movingbo_users_roles",
+    * @ORM\JoinTable(name="mbo_users_roles",
     * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
     * inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
     * )

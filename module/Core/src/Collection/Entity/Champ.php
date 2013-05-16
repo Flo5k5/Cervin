@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityRepository;
 * Un champ d'un type d'élément
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_champ")
+* @ORM\Table(name="mbo_champ")
 * @property int $id
 * @property string $label
 * @property string $description

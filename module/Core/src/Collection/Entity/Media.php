@@ -16,7 +16,7 @@ use Collection\Entity\Element;
  * Un m�dia
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
- * @ORM\Table(name="movingbo_media")
+ * @ORM\Table(name="mbo_media")
  * @property int $id
  */
 class Media extends Element
@@ -32,7 +32,7 @@ class Media extends Element
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Artefact", mappedBy="medias")
-	 * @ORM\JoinTable(name="movingbo_artefact_media")
+	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
 	protected $artefacts;
 
@@ -72,25 +72,4 @@ class Media extends Element
 class MediaRepository extends EntityRepository
 {
 
-    public function getThisChamps($id = 2)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $query = $qb->select('d')
-                    ->from('Collection\Entity\Data','d')
-                    ;
-        
-        /*$query = $qb->select('c.label, c.format, c.description, d.id, d.date, d.fichier, d.nombre, d.texte, d.textarea, d.url, d.format_fichier, c.id')
-        	        ->from('Collection\Entity\Champ','c')
-        	        ->leftJoin('c.type_element', 'te')
-        	        ->leftJoin('te.elements', 'e')
-                    ->where('e.id = '.$id)
-                    ->leftJoin('c.datas', 'd')
-                    ->leftJoin('d.element', 'de')
-                    ->andWhere('((de.id = e.id) OR (d IS NULL))');*/
-
-        return $query->getQuery()->execute();
-    }
-    
 }
