@@ -16,7 +16,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Application\View\Helper\adminEmail;
+use Application\View\Helper\Notification;
 use Application\View\Helper\demandeRole;
 use Application\View\Helper\redirectUserIndexIfTrue;
 use Zend\I18n\Translator\Translator;
@@ -49,9 +49,9 @@ class Module implements AutoloaderProviderInterface,
                     $locator = $sm->getServiceLocator(); // $sm is the view helper manager, so we need to fetch the main service manager
                     return new adminEmail($locator->get('Doctrine\ORM\EntityManager'));
                 },*/
-                'adminEmail' => function ($helperPluginManager) {
+                'Notification' => function ($helperPluginManager) {
                     $serviceLocator = $helperPluginManager->getServiceLocator();
-                    $viewHelper = new adminEmail();
+                    $viewHelper = new Notification();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
                 },

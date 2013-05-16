@@ -117,37 +117,39 @@ $this->headTitle($title);
 <?php } ?>
 </div>
 
-<script type="text/javascript">
+<?php $this->inlineScript()->captureStart() ?>
 
-	$(".target").change(function() {
-	
-	    if($("select option:selected").val()=='none') {
-	    	var url="<?php echo $this->url('artefact/ajouter')?>";
-			$(location).attr('href',url);
-	    } else {
-		    var id = $("select option:selected").val();
-	    	var url = '<?php echo $this->url('artefact/ajouter', array('type_element_id' => '\'+id+\''))?>';
-			$(location).attr('href',url);
-	    }
-	});
+	$(function () { 
 
-    $('#containsform').on('click', 'input.picker', function(event) {
-        $(this).datepicker({
-            shown: 'focus',
-            yearRange: '1900:+0',
-            changeMonth: true,
-            changeYear: true,
-            language:'fr',
-            format:'dd-mm-yyyy'
-        }).focus();
+		$(".target").change(function() {
+		
+		    if($("select option:selected").val()=='none') {
+		    	var url="<?php echo $this->url('artefact/ajouter')?>";
+				$(location).attr('href',url);
+		    } else {
+			    var id = $("select option:selected").val();
+		    	var url = '<?php echo $this->url('artefact/ajouter', array('type_element_id' => '\'+id+\''))?>';
+				$(location).attr('href',url);
+		    }
+		});
+
+	    $('#containsform').on('click', 'input.picker', function(event) {
+	        $(this).datepicker({
+	            shown: 'focus',
+	            yearRange: '1900:+0',
+	            changeMonth: true,
+	            changeYear: true,
+	            language:'fr',
+	            format:'dd-mm-yyyy'
+	        }).focus();
+	    });
+    	
+    	$(".description").popover({placement:'top', trigger:'hover'}); 
+
+    	$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
     });
-    
-    $(function ()  
-    		{ $(".description").popover({placement:'top', trigger:'hover'}); 
-    		$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
-    });
 
-</script>
+<?php $this->inlineScript()->captureEnd() ?>
 
 <?php
 	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
