@@ -47,6 +47,8 @@
     				
     				var data = new Array();
     				
+    				<?php if(isset($js_table)){ echo $js_table; }  ?>
+    				
     				jQuery.each($('#form-pillbox').pillbox('items'), function() {
 						var item =  new Object();
 						item["type"] = this.type;
@@ -84,6 +86,7 @@
 	     		}
 			}
 		);
+		
 	    // INITIALIZING PILLBOX
 		$('.form-button').click(function () {
 			var value = $.trim($(this).attr("data-value"));

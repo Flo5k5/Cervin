@@ -31,7 +31,7 @@ class CollectionWidget extends AbstractHelper
  
     public function __invoke($params = null)
     {
-    	$entityManager = $this->getEntityManager()
+    	/*$entityManager = $this->getEntityManager()
     	->getRepository('Collection\Entity\Element');
     	
     	$dataTable = new \Collection\Model\ElementDataTable($params);
@@ -47,7 +47,7 @@ class CollectionWidget extends AbstractHelper
     	$aaData = array();
     	 
     	$paginator = null;
-    	 var_dump($params);
+
     	if(isset($params["conditions"])){
     		$paginator = $dataTable->getPaginator($params["conditions"]);
     	} else {
@@ -63,14 +63,21 @@ class CollectionWidget extends AbstractHelper
     		);
     	}
     	 
-    	$dataTable->setAaData($aaData);
+    	$dataTable->setAaData($aaData);*/
 
     	//return $this->getResponse()->setContent($dataTable->findAll());
 
     	//return $dataTable->getJSONaaData();
-    		 
+    	$js_table = null;
+    	
+    	if(isset($params)){
+    		foreach ($params as $param){
+    			$js_table .= 'data.push('.json_encode($param, JSON_FORCE_OBJECT).');';
+    		}
+    	}
+    	
         return $this->getView()->partial('Collection/Collection/CollectionWidget.phtml', array(  
-            'aaData' => $dataTable->getJSONaaData()
+            'js_table' => $js_table, 
         ));
     }
 }
