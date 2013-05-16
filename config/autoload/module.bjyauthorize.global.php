@@ -179,7 +179,6 @@ return array(
                 array('route' => 'semantique/ajouter', 'roles' => array('Admin')),
                 array('route' => 'semantique/supprimer', 'roles' => array('Admin')),
                 array('route' => 'semantique/modifier', 'roles' => array('Admin')),
-                array('route' => 'semantique/modifierAjax', 'roles' => array('Admin')),
 
                 array('route' => 'fileupload', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/single', 'roles' => array('Visiteur')),
