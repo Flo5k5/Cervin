@@ -41,7 +41,6 @@ class SemantiqueDataTable extends DataTable
 			$entityManager = $this->getEntityManager();
 	
 			$alias = 'entity';
-			$alias_type = 't';
 				
 			$query = $entityManager->createQueryBuilder($alias)
 			                       /*->leftJoin($alias.'.type_element', $alias_type)
@@ -114,12 +113,9 @@ class SemantiqueDataTable extends DataTable
 			->setMaxResults($this->getDisplayLength());
 
 			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
-			
-			if( $this->configuration[$iSortCol_0] == 'type' || $this->configuration[$iSortCol_0] == 'nom' ){
-				$query->add("orderBy", "{$alias_type}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
-			} else {
-				$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
-			}
+
+			$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+
 
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());
@@ -131,18 +127,13 @@ class SemantiqueDataTable extends DataTable
 				
 				$orX = $query->expr()->orX();
 				
-				for ($i = 0; $i < 2; $i++) {
+				//for ($i = 0; $i < 2; $i++) {
 
-					$column = $this->configuration[$i];
+					$column = $this->configuration[1];
 					
-					$al = $column != 'type' ? $alias : $alias_type;
-					
-					$orX->add($query->expr()->like( $query->expr()->upper("{$al}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
-					//$query
-					//->orWhere("UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}");
-					//->add("orWhere", "UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}")
-					//->orWhere( $query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
-				}
+					$orX->add($query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
+
+				//}
 				
 				$query->add('where', $orX);
 			}
