@@ -47,7 +47,7 @@ class CollectionWidget extends AbstractHelper
     	$aaData = array();
     	 
     	$paginator = null;
-    	 
+    	 var_dump($params);
     	if(isset($params["conditions"])){
     		$paginator = $dataTable->getPaginator($params["conditions"]);
     	} else {

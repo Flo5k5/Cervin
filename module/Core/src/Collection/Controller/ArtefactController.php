@@ -144,6 +144,7 @@ class ArtefactController extends AbstractActionController
 				break;
 
 				case 'data':
+
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
 					if (!idData or $data === null) {

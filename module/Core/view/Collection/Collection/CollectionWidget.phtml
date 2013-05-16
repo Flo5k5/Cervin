@@ -84,7 +84,6 @@
 	     		}
 			}
 		);
-
 	    // INITIALIZING PILLBOX
 		$('.form-button').click(function () {
 			var value = $.trim($(this).attr("data-value"));
@@ -150,7 +149,7 @@
 			$('#form-pillbox ul > li').remove();
 			return false;
 		});
-		
+
 		function isDuplicate(type, value, array){
 			var array = ( typeof(array) == 'undefined' ? $('#form-pillbox').pillbox('items') : array );
 			var duplicate = false;

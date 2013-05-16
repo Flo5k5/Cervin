@@ -2,6 +2,8 @@
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $artefact->titre;
@@ -213,7 +215,7 @@ $this->headTitle($title);
 					?>
 				</div>
 
-				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
+				<div class="span6"><?php echo $this->CollectionWidget(array(array('type'=>'type','value'=>'artefact'))); ?></div>
 
 			</div>
 			<div class="tab-pane" id="tab3">
@@ -298,11 +300,14 @@ $this->headTitle($title);
 
 $this->inlineScript()->captureEnd();
 
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
+
 
 ?>
