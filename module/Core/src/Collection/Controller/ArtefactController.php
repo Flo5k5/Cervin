@@ -120,79 +120,59 @@ class ArtefactController extends AbstractActionController
 	{
 
 		$id = (int) $this->params()->fromRoute('id', 0);
-		if (!$id) {
-            $this->getResponse()->setStatusCode(404);
-            return;
-		}
-
-		$ThisChamps = $this->getEntityManager()->getRepository('Collection\Entity\Element')->getThisChamps($id);
-		$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		
-		//\Doctrine\Common\Util\Debug::dump($ThisChamps);
-		
-		if (null === $ThisChamps and $Artefact === null) {
+		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
+		$datas = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$artefact));
+		if (!$id or $artefact === null or $datas === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
 
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
-			//$post = $this->params()->fromPost();
 			$request = $this->params()->fromPost();
 			switch ($request['name']) {
 				case 'titre':
-					$Artefact->titre = $request['value'];
-		            $this->getEntityManager()->persist($Artefact);
+					$artefact->titre = $request['value'];
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(true));
 				break;
 
 				case 'description':
-					$Artefact->description = $request['value'];
-		            $this->getEntityManager()->persist($Artefact);
+					$artefact->description = $request['value'];
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(true));
 				break;
 
 				case 'data':
-					$idChamp = (int) $this->params()->fromRoute('idChamp', 0);
-
-					$Champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$idChamp));
-					if (null === $Champ) {
-			            $dataDB = new Data($Artefact,$idChamp);
-				    }	
-
-					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
-					
-					if (null === $dataDB) {
-				        $dataDB = new Data($Artefact,$Champ);
-				    }
-				    //\Doctrine\Common\Util\Debug::dump($dataDB);
-					switch ($dataDB->champ->format) {
+					$idData = (int) $this->params()->fromRoute('idData', 0);
+					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
+					if (!idData or $data === null) {
+						$this->getResponse()->setStatusCode(404);
+						return;
+					}
+					switch ($data->champ->format) {
 		    	 		case 'texte':
-		    	 			$dataDB->texte = $request['value'];
+		    	 			$data->texte = $request['value'];
 		    	 			break;
 		    	 		case 'textarea':
-		    	 			$dataDB->textarea = $request['value'];
+		    	 			$data->textarea = $request['value'];
 		    	 			break;
 		    	 		case 'date':
-		    	 			$dataDB->date = new \DateTime($request['value']);
+		    	 			$data->date = new \DateTime($request['value']);
 		    	 			break;
 		    	 		case 'nombre':
-		    	 			$dataDB->nombre = $request['value'];
+		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
-		    	 			$dataDB->fichier = $request['value'];
+		    	 			$data->fichier = $request['value'];
 		    	 			break;
 		    	 		case 'url':
-		    	 			$dataDB->url = $request['value'];
+		    	 			$data->url = $request['value'];
 			            	break;
 			            default:
 			            	return $this->getResponse()->setContent(Json::encode(false));
 			            break;
 		    	 	} // end switch
-				
-		            $this->getEntityManager()->persist($dataDB);
 		            $this->getEntityManager()->flush();
 			        return $this->getResponse()->setContent(Json::encode(true));
 				break;
@@ -201,7 +181,7 @@ class ArtefactController extends AbstractActionController
 		        break;
 			}
 		}
-		return new ViewModel(array('artefact' => $Artefact,'ThisChamps'=>$ThisChamps));
+		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
 

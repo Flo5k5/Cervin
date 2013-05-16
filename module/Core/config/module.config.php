@@ -121,10 +121,10 @@ return array(
                     'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editArtefact/:id[/:idChamp]',
+                            'route' => '/editArtefact/:id[/:idData]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idChamp' => '[0-9]+',
+                                'idData' => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Artefact',
@@ -188,10 +188,9 @@ return array(
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editMedia/:id[/:idChamp]',
+                            'route' => '/editMedia/:id[/:idData]',
                             'constraints' => array(
-                                'id'     => '[0-9]+',
-                                'idChamp' => '[0-9]+',
+                                'idData'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'Media',

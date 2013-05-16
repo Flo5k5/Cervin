@@ -333,12 +333,12 @@ class Element implements InputFilterAwareInterface
 class ElementRepository extends EntityRepository
 {
 
-    public function getThisChamps($id = 2)
+    public function getDataChamp($id = 2)
     {
-        $em = $this->getEntityManager();
+       /* $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $query = $qb->select('d.id, dtx.texte, dd.date, df.fichier, df.format_fichier, dn.nombre, du.url, dta.textarea, c.label, c.format, c.description')
+        $query = $qb->select('d.id, dtx.texte, dd.date, df.fichier, df.format_fichier, dn.nombre, du.url, dta.textarea, c.id as champId, c.label, c.format, c.description')
 			        ->from('Collection\Entity\Data','d')
 			        ->leftJoin('Collection\Entity\DataDate', 'dd', 'WITH', 'd.id = dd.id')
 			        ->leftJoin('Collection\Entity\DataFichier', 'df', 'WITH', 'd.id = df.id')
@@ -350,7 +350,7 @@ class ElementRepository extends EntityRepository
 			        ->where('d.element = '.$id)
 			        ;
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getResult();*/
     }
 
 }
