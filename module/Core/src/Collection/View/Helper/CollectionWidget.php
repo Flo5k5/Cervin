@@ -72,7 +72,7 @@ class CollectionWidget extends AbstractHelper
     	
     	if(isset($params)){
     		foreach ($params as $param){
-    			$js_table .= 'data.push('.json_encode($param, JSON_FORCE_OBJECT).');';
+    			$js_table .= ' data.push('.json_encode($param, JSON_FORCE_OBJECT).'); ';
     		}
     	}
     	
