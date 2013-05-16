@@ -52,7 +52,6 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function editusersAction()
     {
-
 		if ($this->getRequest()->isXmlHttpRequest()) {
             $params = $this->params()->fromQuery();
     
@@ -104,9 +103,21 @@ class AdminController extends AbstractActionController
 	            }
 	            
                 $aaData[] = array(
-                    '<span id="username" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'</span>',
-                    '<span id="displayName" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'</span>',
-                    '<span id="email" class="text CursorPointer" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'</span>',
+                    '<span id="username" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'
+                    </span>',
+                    '<span id="displayName" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'
+                    </span>',
+                    '<span id="email" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'
+                    </span>',
                     '<span 
                         id="role" 
                         class="status CursorPointer" 
@@ -117,8 +128,6 @@ class AdminController extends AbstractActionController
                         data-value="'.$roleId.'">
                             '.$role.' '.$attenteRole.'
                     </span>
-                    
-
 
                     ',
                     $btn_supprimer
@@ -128,7 +137,7 @@ class AdminController extends AbstractActionController
             
             return $this->getResponse()->setContent($dataTable->findAll());
         } else {
-        return new ViewModel(array(
+            return new ViewModel(array(
                 'roles' => $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll()
             ));
 
@@ -137,7 +146,7 @@ class AdminController extends AbstractActionController
 
     public function changeUserAjaxAction()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) 
+        if ($this->getRequest()->isXmlHttpRequest())
         {
         
             $postData = $this->params()->fromPost();

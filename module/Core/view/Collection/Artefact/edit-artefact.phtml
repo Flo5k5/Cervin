@@ -82,28 +82,27 @@ $this->headTitle($title);
 							echo '</br></br>';
 						?>
 					</dd>
-					<?php 
-					foreach( ($ThisChamps) as $champ) :?>
+					<?php foreach($datas as $data) :?>
 					<dt>
-						<?php echo $champ['label'] ?> 
-						<?php if ($champ['description'] != null) : ?>
+						<?php echo $data->champ->label ?> 
+						<?php if ($data->champ->description != null) : ?>
 				        	<a href="#" 
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $champ['description']; ?>"
+			        			data-content="<?php echo $data->champ->description; ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php endif; ?>
 					</dt>
 					<dd>
 						<?php 
-						switch ($champ['format']) :
+						switch ($data->champ->format) :
 							case 'texte':
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="text" 
-										data-pk="'.$champ['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-									'.$champ['texte'].'
+										data-pk="'.$data->champ->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
+									'.$data->texte.'
 								</span>';
 								echo '</br></br>';
 								break;
@@ -112,24 +111,24 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="textarea" 
-										data-pk="'.$champ['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-	    							'.$champ['textarea'].'
+										data-pk="'.$data->champ->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
+	    							'.$data->textarea.'
     							</span>';
 								echo '</br></br>';
 								break;
 
 							case 'date':
-								if($champ['date'] === null){
+								if($data->date === null){
 									$date = null;
 								} else {
-									$date = $champ['date']->format('d-m-Y');
+									$date = $data->date->format('d-m-Y');
 								}
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
     										data-type="date" 
-    										data-pk="'.$champ['id'].'" 
-	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
+    										data-pk="'.$data->champ->id.'" 
+	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
 										'.$date.'
 									</span>';
 								echo '</br></br>';
@@ -139,9 +138,9 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer" 
 											data-name="data" 
 											data-type="number" 
-											data-pk="'.$champ['id'].'" 
-											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-										'.$champ['nombre'].'
+											data-pk="'.$data->champ->id.'" 
+											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
+										'.$data->nombre.'
 									</span>';
 								echo '</br></br>';
 								break;
@@ -150,9 +149,9 @@ $this->headTitle($title);
 								echo '<span class="edit CursorPointer"
 										data-name="data"
 										data-type="url"
-										data-pk="'.$champ['id'].'"
-	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-	    							'.$champ['url'].'
+										data-pk="'.$data->champ->id.'"
+	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
+	    							'.$data->url.'
     							</span>';
 								echo '</br></br>';
 								break;
@@ -165,7 +164,7 @@ $this->headTitle($title);
         									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
 										'.$champ['fichier'].'
 									</span>';*/
-								echo '<a href="' . ROOT_DIR . $champ['fichier'].'">'. basename($champ['fichier']) .'</a></br>';
+								echo '<a href="' . ROOT_DIR . $data->fichier.'">'. basename($data->fichier) .'</a></br>';
 								echo '<i class="icon-warning-sign"> </i>  Modification du fichier : section en construction...';
 								echo '</br></br>';
 								break;
