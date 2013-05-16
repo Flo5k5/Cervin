@@ -8,6 +8,7 @@ use Zend\ServiceManager\ServiceManager;
 
 use Zend\Http\Request;
 use Zend\View\Helper\AbstractHelper;
+
  
 class demandeRole extends AbstractHelper
 {
@@ -39,12 +40,10 @@ class demandeRole extends AbstractHelper
     }
 
  
-    public function __invoke($role = false)
+    public function __invoke($rolesFils = false)
     {
         $urlHelper = $this->view->plugin('url');
 
-        if($role === false)
-        {
             $roles = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll();
 
             $return = '
@@ -54,10 +53,10 @@ class demandeRole extends AbstractHelper
               <ul class="dropdown-menu" role="menu" aria-labelledby="roles">';
             foreach ($roles as $role) :
 
+                if (!in_array($role->getRoleId(),$rolesFils)) {
 
-               $return .= '<li><a role="menuitem" tabindex="-1" href="'.$urlHelper("admin/demandeRole", array("id" => $role->getId())).'">'.$role->getRoleId().'</a></li>';
-
-
+                    $return .= '<li><a role="menuitem" tabindex="-1" href="'.$urlHelper("admin/demandeRole", array("id" => $role->getId())).'">'.$role->getRoleId().'</a></li>';
+                }
 
             endforeach;
 
@@ -66,13 +65,6 @@ class demandeRole extends AbstractHelper
             </div>';
 
 
-
-
-
-
-        } else {
-
-        }
         return $return;
     }
 }
