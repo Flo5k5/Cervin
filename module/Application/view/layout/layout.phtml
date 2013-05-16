@@ -1,4 +1,4 @@
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 	$(function() {
 	
 		//Emp�che la validation du formulaire accidentelle du formulaire lorsque l'on presse la touche entr�e sur les input text de la classe .no-submit
@@ -9,8 +9,7 @@
 		});
 		
 	});
-<?php $this->inlineScript()->captureEnd() ?>
-
+<?php $this->inlineScript()->captureEnd(); ?>
 <?php echo $this->doctype(); ?>
 <html lang="en">
     <head>

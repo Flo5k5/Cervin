@@ -333,26 +333,24 @@ class Element implements InputFilterAwareInterface
 class ElementRepository extends EntityRepository
 {
 
-    public function getThisChamps($id)
+    public function getThisChamps($id = 2)
     {
         $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder()
-                        ->select('e')
-                        ->from('Collection\Entity\Element', 'e')
-                        ->leftJoin('e.type_element', 'te')
-                        ->leftJoin('te.champs', 'c')
-                        ->leftJoin('e.datas', 'd')
-                        ->where('e.id',$id)    ;
+        $qb = $em->createQueryBuilder();
 
-        return $qb->getQuery()->getResult();
+        $query = $qb->select('d.id, dtx.texte, dd.date, df.fichier, df.format_fichier, dn.nombre, du.url, dta.textarea, c.label, c.format, c.description')
+			        ->from('Collection\Entity\Data','d')
+			        ->leftJoin('Collection\Entity\DataDate', 'dd', 'WITH', 'd.id = dd.id')
+			        ->leftJoin('Collection\Entity\DataFichier', 'df', 'WITH', 'd.id = df.id')
+			        ->leftJoin('Collection\Entity\DataNombre', 'dn', 'WITH', 'd.id = dn.id')
+			        ->leftJoin('Collection\Entity\DataTexte', 'dtx', 'WITH', 'd.id = dtx.id')
+			        ->leftJoin('Collection\Entity\DataUrl', 'du', 'WITH', 'd.id = du.id')
+			        ->leftJoin('Collection\Entity\DataTextarea', 'dta', 'WITH', 'd.id = dta.id')
+			        ->innerJoin('Collection\Entity\Champ', 'c', 'WITH', 'd.champ = c.id')
+			        ->where('d.element = '.$id)
+			        ;
 
-        //createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
-
-        //$array = $query->getResult(Query::HYDRATE_ARRAY); 
-        //$return = current($array);
-    //    $return = array_combine($array['id'],['nom']);
-
-       // return $array['id'] ;
-
+        return $query->getQuery()->getResult();
     }
+
 }
