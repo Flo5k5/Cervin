@@ -13,7 +13,7 @@ use Collection\Entity\Element;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="movingbo_datafichier")
+ * @ORM\Table(name="mbo_datafichier")
  */
 class DataFichier extends Data
 {

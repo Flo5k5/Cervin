@@ -13,7 +13,7 @@ use Collection\Entity\Element;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="movingbo_datadate")
+ * @ORM\Table(name="mbo_datadate")
  */
 class DataDate extends Data
 {

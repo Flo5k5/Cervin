@@ -16,7 +16,7 @@ use Collection\Entity\Element;
  * Un m�dia
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
- * @ORM\Table(name="movingbo_media")
+ * @ORM\Table(name="mbo_media")
  * @property int $id
  */
 class Media extends Element
@@ -32,7 +32,7 @@ class Media extends Element
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Artefact", mappedBy="medias")
-	 * @ORM\JoinTable(name="movingbo_artefact_media")
+	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
 	protected $artefacts;
 

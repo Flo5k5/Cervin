@@ -13,7 +13,7 @@ use Collection\Entity\Element;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="movingbo_datanombre")
+ * @ORM\Table(name="mbo_datanombre")
  */
 class DataNombre extends Data
 {

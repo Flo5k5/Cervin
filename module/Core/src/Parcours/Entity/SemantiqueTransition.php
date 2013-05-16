@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une s�mantique possible des transitions entre sc�nes
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_semantiqueTransition")
+* @ORM\Table(name="mbo_semantiqueTransition")
 * @property int $id
 * @property string $semantique
 */

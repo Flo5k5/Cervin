@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Un parcours
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_parcours")
+* @ORM\Table(name="mbo_parcours")
 * @property int $id
 * @property string $titre
 * @property string $description

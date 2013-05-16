@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une s�mantique possible des relations entre deux artefacts
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_semantiqueartefact")
+* @ORM\Table(name="mbo_semantiqueartefact")
 * @property int $id
 * @property string $type_origine
 * @property string $type_destination

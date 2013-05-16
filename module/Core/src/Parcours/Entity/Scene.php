@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une sc�ne
 *
 * @ORM\Entity
-* @ORM\Table(name="movingbo_scene")
+* @ORM\Table(name="mbo_scene")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"SceneRecommandee" = "SceneRecommandee",
@@ -44,7 +44,7 @@ class Scene implements InputFilterAwareInterface
     
     /**
      * @ORM\ManyToMany(targetEntity="Collection\Entity\Element")
-	 * @ORM\JoinTable(name="movingbo_scene_element")
+	 * @ORM\JoinTable(name="mbo_scene_element")
      **/
     protected $elements;
     
