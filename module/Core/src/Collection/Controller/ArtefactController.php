@@ -162,12 +162,14 @@ class ArtefactController extends AbstractActionController
 			            $dataDB = new Data($Artefact,$idChamp);
 				    }	
 
-					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'champ'=>$Champ));
+					$dataDB = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('element'=>$Artefact,'id'=>$Champ));
 					
 					if (null === $dataDB) {
 				        $dataDB = new Data($Artefact,$Champ);
 				    }
 				    //\Doctrine\Common\Util\Debug::dump($dataDB);
+				    echo $dataDB->champ->format;
+				    echo $idChamp;
 					switch ($dataDB->champ->format) {
 		    	 		case 'texte':
 		    	 			$dataDB->texte = $request['value'];
