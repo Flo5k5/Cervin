@@ -261,6 +261,19 @@ return array(
                             ),
                         ),
                     ),
+                    'modifierAjax' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifierAjax[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Semantique',
+                                'action'     => 'modifierAjax',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

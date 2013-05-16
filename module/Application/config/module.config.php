@@ -60,9 +60,7 @@ return array(
                                 'controller' => 'Admin',
                                 'action'     => 'changeUserAjax',
                             ),
-                            
                         ),
-                        
                     ),
                     'editAccueil' => array(
                         'type' => 'Zend\Mvc\Router\Http\Literal',

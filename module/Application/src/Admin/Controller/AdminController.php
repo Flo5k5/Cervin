@@ -52,7 +52,6 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function editusersAction()
     {
-
 		if ($this->getRequest()->isXmlHttpRequest()) {
             $params = $this->params()->fromQuery();
     
@@ -128,7 +127,7 @@ class AdminController extends AbstractActionController
             
             return $this->getResponse()->setContent($dataTable->findAll());
         } else {
-        return new ViewModel(array(
+            return new ViewModel(array(
                 'roles' => $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll()
             ));
 
@@ -137,7 +136,7 @@ class AdminController extends AbstractActionController
 
     public function changeUserAjaxAction()
     {
-        if ($this->getRequest()->isXmlHttpRequest()) 
+        if ($this->getRequest()->isXmlHttpRequest())
         {
         
             $postData = $this->params()->fromPost();
