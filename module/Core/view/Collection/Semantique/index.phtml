@@ -1,7 +1,9 @@
 <?php
 $title = 'Gestion des Sémantique';
 $this->headTitle($title);
+
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 ?>
 <p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
 <!-- Help Modal -->
@@ -37,28 +39,53 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
     
     <br/><br/>
     
-    <table class="table">
-    <tr>
-        <th>Type origine</th>
-        <th>Sémantique</th>
-        <th>Type destination</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php foreach ($semantiquesArtefact as $semantique) : ?>
-    <tr>
-        <td><?php echo $this->escapeHtml($semantique->type_origine->nom);?></td>
-        <td><span class="edit CursorPointer" data-name="semantique" data-type="text" data-pk="1" data-url="<?php echo $this->url("semantique/modifier",array('id'=> $semantique->id));?>"><?php echo $this->escapeHtml($semantique->semantique);?></span></td>
-        <td><?php echo $this->escapeHtml($semantique->type_destination->nom);?></td>
-        <td>
-    
-            <span class="btn-group">
-                <a class="btn btn-danger supprimer" href="#" data-url="<?php echo $this->url('semantique/supprimer',
-                array('id' => $semantique->id));?>"><i class="icon-trash"></i> Supprimer</a>
-            </span>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-    </table>
+    <!--
+        <table class="table">
+        <tr>
+            <th>Type origine</th>
+            <th>Sémantique</th>
+            <th>Type destination</th>
+            <th>&nbsp;</th>
+        </tr>
+        <?php foreach ($semantiquesArtefact as $semantique) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($semantique->type_origine->nom);?></td>
+            <td><span class="edit CursorPointer" data-name="semantique" data-type="text" data-pk="1" data-url="<?php echo $this->url("semantique/modifier",array('id'=> $semantique->id));?>"><?php echo $this->escapeHtml($semantique->semantique);?></span></td>
+            <td><?php echo $this->escapeHtml($semantique->type_destination->nom);?></td>
+            <td>
+        
+                <span class="btn-group">
+                    <a class="btn btn-danger supprimer" href="#" data-url="<?php echo $this->url('semantique/supprimer',
+                    array('id' => $semantique->id));?>"><i class="icon-trash"></i> Supprimer</a>
+                </span>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+        </table>
+    -->
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div>
+                    <table class="table table-striped table-bordered" id="data">
+                        <thead>
+                            <tr>
+                                <th>Type origine</th>
+                                <th>Sémantique</th>
+                                <th>Type destination</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5">En cours de téléchargement</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div id="confirmDiv" >
     </div>
@@ -67,25 +94,50 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
-$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
+?>
 
 <?php $this->inlineScript()->captureStart() ?>
-	$(function() {
-	
-		$(".supprimer").on("click", function(){
-		    var dateURL = $(this).attr('data-url');
-		    $('#confirmDiv').confirmModal({
-		        heading:'Confirmation',
-		        body:"Êtes-vous sûr de vouloir supprimer définitivement la semantique ?",
-		        callback: function() {
-		            $(location).attr('href',dateURL);
-		        }
-		    });   
-		});
+	var table;
+    $(function() {
 		
-		$('.edit').editable({
-		    mode: 'inline',
-		});
-		
+        table = ResultSet.paginate(
+            {
+                "aoColumns": [
+                                null,
+                                null, 
+                                null,
+                                { "bSortable": false  }
+                             ],
+                "iColumns": 4,
+                "bAutoWidth": false,
+                "bSortClasses":false,
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?php echo $this->url("semantique"); ?>",
+                "fnDrawCallback": function () {
+                    $(".SupprimerSemantique").click(function(event){
+                        var dateURL = $(this).attr('data-url');
+                        var dateValue = $(this).attr('data-value');
+                        $('#confirmDiv').confirmModal({
+                            heading:'Confirmation',
+                            body:"Êtes-vous sûr de vouloir supprimer définitivement la sémantique :<br/>"+dateValue+" ?",
+                            callback: function() {
+                                $.post(
+                                    dateURL,
+                                    { name: "supprimer" },
+                                    function() {
+                                        $("#data").dataTable().fnDraw();
+                                    }
+                                );
+                            }
+                        });   
+                    });
+                    $('.edit').editable({ mode: 'inline', });
+                }
+            }
+        );
+
 	});
 <?php $this->inlineScript()->captureEnd() ?>
