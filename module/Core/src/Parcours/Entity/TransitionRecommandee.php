@@ -8,23 +8,21 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une transition recommandée
+* Une transition recommandï¿½e
 *
 * @ORM\Entity
-* @ORM\Table(name="transitionRecommandee")
+* @ORM\Table(name="movingbo_transitionRecommandee")
 */
 class TransitionRecommandee extends Transition
 {
     
     /**
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee", inversedBy="transition_recommandee")
-     * @ORM\JoinColumn(name="scene_origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_origine;
     
     /**
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
-     * @ORM\JoinColumn(name="scene_destination_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_destination;      
 

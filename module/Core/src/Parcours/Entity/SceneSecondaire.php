@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Une scene secondaire
 *
 * @ORM\Entity
-* @ORM\Table(name="sceneSecondaire")
+* @ORM\Table(name="movingbo_sceneSecondaire")
 */
 class SceneSecondaire extends Scene
 {

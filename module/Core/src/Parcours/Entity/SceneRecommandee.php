@@ -8,10 +8,10 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une scene recommandée
+* Une scene recommandï¿½e
 *
 * @ORM\Entity
-* @ORM\Table(name="sceneRecommandee")
+* @ORM\Table(name="movingbo_sceneRecommandee")
 */
 class SceneRecommandee extends Scene
 {

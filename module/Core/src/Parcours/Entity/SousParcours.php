@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Un sous-parcours
 *
 * @ORM\Entity
-* @ORM\Table(name="sousParcours")
+* @ORM\Table(name="movingbo_sousParcours")
 * @property int $id
 * @property string $titre
 */
@@ -34,7 +34,6 @@ class SousParcours implements InputFilterAwareInterface
     
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Parcours", inversedBy="sous_parcours")
-     * @ORM\JoinColumn(name="parcours_id", referencedColumnName="id", nullable=false)
      **/
     protected $parcours;
     
@@ -50,7 +49,6 @@ class SousParcours implements InputFilterAwareInterface
     
     /**
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
-     * @ORM\JoinColumn(name="scene_depart_id", referencedColumnName="id", nullable=false)
      **/
     protected $scene_depart;
 

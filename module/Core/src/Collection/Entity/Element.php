@@ -19,7 +19,7 @@ use Collection\Entity\Media;
 * Un élément de la collection num�rique (artefact ou m�dia)
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\ElementRepository")
-* @ORM\Table(name="element")
+* @ORM\Table(name="movingbo_element")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"Artefact" = "Artefact", 

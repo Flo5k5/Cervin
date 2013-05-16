@@ -9,10 +9,10 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une scène
+* Une scï¿½ne
 *
 * @ORM\Entity
-* @ORM\Table(name="scene")
+* @ORM\Table(name="movingbo_scene")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"SceneRecommandee" = "SceneRecommandee",
@@ -44,13 +44,12 @@ class Scene implements InputFilterAwareInterface
     
     /**
      * @ORM\ManyToMany(targetEntity="Collection\Entity\Element")
-     * @ORM\JoinColumn(name="artefact_id", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinTable(name="movingbo_scene_element")
      **/
     protected $elements;
     
     /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\SousParcours", inversedBy="scenes")
-     * @ORM\JoinColumn(name="sous_parcours_id", referencedColumnName="id", nullable=false)
      **/
     protected $sous_parcours;
     
