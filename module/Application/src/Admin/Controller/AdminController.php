@@ -270,7 +270,7 @@ class AdminController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-        $this->flashMessenger()->addSuccessMessage(sprintf('La demande de droits "%1$s" a bien été prix en compte.', $role->getRoleId()));
+        $this->flashMessenger()->addSuccessMessage(sprintf('La demande de droits "%1$s" a bien été prise en compte.', $role->getRoleId()));
 
         $user->setAttenteRole($role);
         $this->getEntityManager()->persist($user);

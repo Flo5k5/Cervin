@@ -35,7 +35,7 @@ class ElementDataTable extends DataTable
 
 	public function getPaginator($conditions = null)
 	{
-		if (! $this->paginator) {
+		if ( !$this->paginator) {
 			$entityManager = $this->getEntityManager();
 	
 			$alias = 'entity';

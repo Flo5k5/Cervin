@@ -58,6 +58,10 @@ class CollectionController extends AbstractActionController
     public function consulterAction()
     {
     	$params = null;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86dd809ff8299f215a88a341c96aeca677ff17d8
     	if ($this->getRequest()->isXmlHttpRequest()) {
     		$params = $this->params()->fromPost();
     	}

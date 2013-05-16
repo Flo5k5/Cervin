@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Collection\Form\SemantiqueForm;
 use Collection\Entity\SemantiqueArtefact;
+use Zend\Json\Json;
 
 class SemantiqueController extends AbstractActionController
 {
@@ -68,13 +69,15 @@ class SemantiqueController extends AbstractActionController
             		.'" data-value="['.$semantique->type_origine->nom.'] '
             		.$semantique->semantique.' ['
             		.$semantique->type_destination->nom.']" 
-            		class="btn btn-danger SupprimerSemantique"><i class="icon-trash"></i> Supprimer</a>';
+            		class="btn btn-danger SupprimerSemantique"
+            		><i class="icon-trash"></i> Supprimer</a>';
 
                 $aaData[] = array(
                     '<span> '. $semantique->type_origine->nom .' </span>',
                     '<span class="edit CursorPointer"
-                    	data-url="'.$this->url()->fromRoute("semantique/modifierAjax", array("id" => $semantique->id)).'"
-                    	> '. $semantique->semantique .
+                    	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
+                    	data-name="semantique"data-type="text" data-pk="1"> '.
+            			$semantique->semantique .
                 	'</span>',
                     '<span> '. $semantique->type_destination->nom .' </span>',
                     $btn_supprimer
@@ -159,6 +162,7 @@ class SemantiqueController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 		}
 	}
+
 	public function supprimerAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
@@ -182,34 +186,4 @@ class SemantiqueController extends AbstractActionController
         
 	}
 
-	public function modifierAjaxAction()
-	{
-		if ($this->getRequest()->isXmlHttpRequest())
-		{
-			$postData = $this->params()->fromPost();
-
-            $id = (int) $this->params()->fromRoute('id', 0);
-            if (!$id) {
-                return $this->redirect()->toRoute('home');
-            }
-
-            try {
-                $semantique = $this->getEntityManager()->find('Collection\Entity\SemantiqueArtefact', $id);
-            }
-            catch (\Exception $ex) {
-                return $this->redirect()->toRoute('home');
-            }
-
-            if ($postData['name'] == 'Sémantique')
-            {
-                $semantique->semantique=$postData['value'];
-                $this->getEntityManager()->persist($semantique);
-                $this->getEntityManager()->flush();
-                return true;
-            }
-            
-    	} else {
-    	    return $this->redirect()->toRoute('home');
-    	}
-	}
 }

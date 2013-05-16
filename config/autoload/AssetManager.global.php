@@ -41,7 +41,7 @@ return array(
         ),
         'caching' => array(
             'default' => array(
-                'cache'     => 'FilesPath',
+                'cache'     => 'FilePath',
                 'options' => array(
                     'dir' => __DIR__ . '/../../data/cache', // path/to/cache
                 ),
