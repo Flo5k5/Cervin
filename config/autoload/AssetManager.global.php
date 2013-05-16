@@ -42,7 +42,7 @@ return array(
 
         'caching' => array(
             'default' => array(
-                'cache'     => 'Filesystem',
+                'cache'     => 'FilesPath',
                 'options' => array(
                     'dir' => __DIR__ . '/../../data/cache', // path/to/cache
                 ),
