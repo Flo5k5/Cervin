@@ -43,12 +43,18 @@ $this->headTitle($title);
 		    	
 							  $role = $roles[0]->getRoleId(); 
 							  echo $role; ?></strong> </p>
+				<?php if ($this->zfcUserIdentity()->getAttenteRole()) {
+					echo '<p>Votre demande de role "<strong>'.$this->zfcUserIdentity()->getAttenteRole()->getRoleId().'</strong>" bien été prise en compte. </p>';
+				}
+				?>
 		    </div>
 		    
 		    <div class="span6">
 		    	<?php if($role != 'Admin'){ ?>
 
-		    	<?php echo $this->demandeRole(); ?>
+		    	<?php
+		    	$rolesFils = array($role,'Visiteur');
+		    	 echo $this->demandeRole($rolesFils); ?>
 
            			<?php } ?>
 

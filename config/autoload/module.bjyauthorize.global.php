@@ -23,10 +23,10 @@ return array(
         ),
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
-                'menuAdmin' => array(),
-                'menuCollection' => array(),
-                'menuParcours' => array(),
-                'menuUtilisateur' => array(),
+                'Admin' => array(),
+                'Collection' => array(),
+                'Parcours' => array(),
+                'Utilisateur' => array(),
                 //'pants' => array(),
             ),
         ),
@@ -36,10 +36,10 @@ return array(
                     // allow guests and users (and admins, through inheritance)
                     // the "wear" privilege on the resource "pants"
                     //array(array('guest', 'user'), 'pants', 'wear'),
-                    array(array('Admin'), 'menuAdmin'),
-                    array(array('Collection'), 'menuCollection'),
-                    array(array('Parcours'), 'menuParcours'),
-                    array(array('Utilisateur'), 'menuUtilisateur'),
+                    array(array('Admin'), 'Admin'),
+                    array(array('Collection'), 'Collection'),
+                    array(array('Parcours'), 'Parcours'),
+                    array(array('Utilisateur'), 'Utilisateur'),
                 ),
 
                 // Don't mix allow/deny rules if you are using role inheritance.
