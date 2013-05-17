@@ -21,9 +21,12 @@
         <!-- Le styles -->
         <?php  $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
 
-        <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
+        <?php 
+        echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); ?>
 
-        <?php  echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js') ;?>
+        <?php  echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js') ;
+
+        ?>
 
 
         <?php echo $this->headStyle() ?>
@@ -126,13 +129,12 @@
     <?php endforeach; ?>
 
             <?php echo $this->content; ?>
-        </div>
-
         <footer>
 			<hr/>
 			<p class="container"><?php echo date("Y"); ?> - Cervin</p>
         </footer>
-    
+        
+        </div>
     	<?php echo $this->inlineScript() ?>
     </body>
 </html>
