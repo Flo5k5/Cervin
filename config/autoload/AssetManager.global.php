@@ -22,21 +22,26 @@ return array(
                 'js/dataTables.js' => array(
                     'js/jquery.dataTables.js',
                     'js/ResultSet.js',
-                ),
+                ),/*
                 'css/bootstrap-all.css' => array(
-                    'css/bootstrap-all-less.css',
+                    'css/bootstrap-all.less',
                 ),
-                'css/bootstrap-all-less.css' => array(
+                */
+                'css/bootstrap-all.css' => array(
                     'css/bootstrap.css',
                     'css/bootstrap-responsive.css',
-                ),
+                ),/*
+                'css/bootstrap-all.less' => array(
+                    'css/bootstrap.less',
+                    'css/bootstrap-responsive.less',
+                ),*/
             ),
             'paths' => array(
                 __DIR__ . '/../../public',
             ),
             'map' => array(
-                'css/bootstrap.css' => __DIR__ . '/../../public/less/bootstrap.less',
-                'css/bootstrap-responsive.css' => __DIR__ . '/../../public/less/responsive.less',
+               // 'css/bootstrap.less' => __DIR__ . '/../../public/less/bootstrap.less',
+               // 'css/bootstrap-responsive.less' => __DIR__ . '/../../public/less/responsive.less',
             ),
         ),
         'caching' => array(
@@ -48,11 +53,11 @@ return array(
             ),
         ),
         'filters' => array(
-            'css/bootstrap-all-less.css' => array(
+            /*'css/bootstrap-all.less' => array(
                 array(
                     'filter' => 'Lessphp',
                 ),
-            ),
+            ),*/
             'css/bootstrap-all.css' => array(
                 array(
                     'filter' => 'CssMinFilter',
