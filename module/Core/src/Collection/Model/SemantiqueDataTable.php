@@ -70,9 +70,7 @@ class SemantiqueDataTable extends DataTable
 
 					$requete = "eq";
 					
-					if( $key === "type" || $key === "id" ){
-						$key = $alias_type.'.'.$key;
-					} else if( $key === "titre" ){
+					if( $key === "semantique" ){
 						$key = $alias.'.'.$key;
 						$requete = "like";
 					} else {
@@ -125,6 +123,8 @@ class SemantiqueDataTable extends DataTable
 
 				$this->setSSearch($sSearch);
 				
+				$andX = $query->expr()->andX();
+				
 				$orX = $query->expr()->orX();
 				
 				//for ($i = 0; $i < 2; $i++) {
@@ -135,7 +135,10 @@ class SemantiqueDataTable extends DataTable
 
 				//}
 				
-				$query->add('where', $orX);
+				$andX->add($orX);
+				
+				//$query->add('where', $andX);
+				$query->andWhere($andX);
 			}
 			
 			//var_dump($query->getQuery()->getSQL());

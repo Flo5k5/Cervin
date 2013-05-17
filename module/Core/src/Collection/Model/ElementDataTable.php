@@ -127,6 +127,8 @@ class ElementDataTable extends DataTable
 
 				$this->setSSearch($sSearch);
 				
+				$andX = $query->expr()->andX();
+				
 				$orX = $query->expr()->orX();
 				
 				for ($i = 0; $i < 2; $i++) {
@@ -142,7 +144,9 @@ class ElementDataTable extends DataTable
 					//->orWhere( $query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
 				}
 				
-				$query->add('where', $orX);
+				$andX->add($orX);
+				
+				$query->andWhere($andX);
 			}
 			
 			//var_dump($query->getQuery()->getSQL());

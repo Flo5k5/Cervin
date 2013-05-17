@@ -294,10 +294,10 @@ data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $
 			image: false,
 			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
 			"events": {
-			"load": function() { 
-				$(editor.composer.iframe).wysihtml5_size_matters();
+				"load": function() { 
+					$(editor.composer.iframe).wysihtml5_size_matters();
+				}
 			}
-		}
 		});
 
 		$("#textarea").on("click",".textarea-submit", function(e){
