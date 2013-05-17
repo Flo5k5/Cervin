@@ -144,7 +144,17 @@ $this->headTitle($title);
 	    });
 
     	$(".description").popover({placement:'top', trigger:'hover'}); 
-    	$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
+    	
+    	$('.wysihtml5-textarea').wysihtml5({
+			locale: "fr-FR",
+			image: false,
+			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
+			"events": {
+				"load": function() { 
+					$(editor.composer.iframe).wysihtml5_size_matters();
+				}
+			}
+		});
     });
 
 <?php $this->inlineScript()->captureEnd() ?>
@@ -156,4 +166,5 @@ $this->headTitle($title);
 	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
 	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+	$this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js');
 ?>
