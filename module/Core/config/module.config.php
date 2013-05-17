@@ -195,6 +195,16 @@ return array(
                             ),
                         ),
                     ),
+                    'voirRelationMedia' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/voirRelationArtefact',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'voirRelationArtefact',
+                            ),
+                        ),
+                    ),
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(

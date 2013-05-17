@@ -2,6 +2,7 @@
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $media->titre;
@@ -172,7 +173,6 @@ $this->headTitle($title);
 			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<div class="span6">
 					<?php 
 					/*
 					$artefacts = array();
@@ -208,6 +208,14 @@ $this->headTitle($title);
 					echo '</div></div>';
 					*/
 					?>
+				
+				<?php echo $this->DatatableWidget('RelationMedia', array( array('type'=>'type','value'=>'media') ) ); ?>
+					
+			</div>
+			
+			<div class="tab-pane" id="tab3">
+				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
+				<div class="span6">
 				</div>
 				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
 			</div>
@@ -249,18 +257,15 @@ $this->headTitle($title);
 
     });
     
-<?php $this->inlineScript()->captureEnd() ?>
-	
 <?php 
-$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
+$this->inlineScript()->captureEnd();
 
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
 
-
-
-  
 ?>

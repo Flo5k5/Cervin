@@ -169,7 +169,7 @@ class ArtefactController extends AbstractActionController
 					$titre = $element->titre;
 				}
 				
-				$bouton = "Supprimer";
+				$bouton = '<a href="#" class="btn btn-info"><i class="icon-plus"></i> Lier</a>';
 			
 				$aaData[] = array(
 						$titre,

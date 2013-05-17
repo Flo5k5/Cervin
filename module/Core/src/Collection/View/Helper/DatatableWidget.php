@@ -44,6 +44,8 @@ class DatatableWidget extends AbstractHelper
     	
     	if($view === "RelationArtefact"){
     		$viewFile = 'Collection/Artefact/RelationArtefactWidget.phtml';
+    	} else if($view === "RelationMedia"){
+    		$viewFile = 'Collection/Media/RelationMediaWidget.phtml';
     	} else {
     		$viewFile = 'Collection/Collection/CollectionWidget.phtml';
     	}
