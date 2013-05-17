@@ -151,6 +151,7 @@ class ArtefactController extends AbstractActionController
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
+					var_dump($request['value']);
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -165,7 +166,8 @@ class ArtefactController extends AbstractActionController
 		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
-		    	 			$data->fichier = $request['value'];
+		    	 			$artefact->deleteFile($data);
+		    	 			$artefact->updateFile($data, $request['value']['tmp_name'], $request['value']['name'], $request['value']['type']);
 		    	 			break;
 		    	 		case 'url':
 		    	 			$data->url = $request['value'];

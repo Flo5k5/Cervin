@@ -64,13 +64,10 @@ $this->headTitle($title);
 	<div class="span6 well">
 
 <form id="textarea">
-		<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></textarea>
-<!-- 		<div class="wysihtml5 CursorPointer" data-class="" 
-data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></div>
- -->
-<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
-
+	<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $artefact->description;?></textarea>
+	<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
 </form>
+
 <div id="textarea-return"></div>
 	</div>
 	<div class="span6 well">
@@ -165,6 +162,14 @@ data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $
 								break;
 									
 							case 'fichier':
+								echo '<form>
+									<input type="file" 
+										class="file-input"
+										data-name="data"
+										data-type="fichier"
+										data-pk="'.$data->champ->id.'"
+	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
+								</form>';
 								/*echo '<span class="edit CursorPointer" 
 											data-name="data" 
 											data-type="text" 
@@ -312,7 +317,18 @@ data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $
 			});
 		});
 
-
+	     $(".file-input").change(function (){
+	     	alert($(this).val());
+	    	$.ajax({
+				url: $(this).attr('data-url'),
+				type: "POST",
+				data:{ name:'data', value: $(this).val() }, 
+			}).done(function(){
+				alert('ok');
+			});
+			
+			
+	     });
 
 		$('.picker').editable({
 			mode: 'popup',
@@ -344,5 +360,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datep
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
 
 ?>

@@ -157,10 +157,9 @@ class Element implements InputFilterAwareInterface
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
-        			$databd = new DataFichier($this, $champ);
         			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
-	        			$tmp = $data[$index]['tmp_name'];
+	        			/*$tmp = $data[$index]['tmp_name'];
 	        			if($this instanceof Artefact){ 
 	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
                         }
@@ -178,12 +177,40 @@ class Element implements InputFilterAwareInterface
 	        			$name = $data[$index]['name'];
 	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
 	        			$databd->fichier = $dest_dir . "/" . $name;
-	        			$databd->format_fichier = $data[$index]['type'];
+	        			$databd->format_fichier = $data[$index]['type'];*/
+        				$data = new DataFichier($this, $champ);
+        				$this->addFile($data, $data[$index]['tmp_name'], $data[$index]['name'], $data[$index]['type']);
         			}
-        			$this->datas->add($databd);
         			break;
         	}
         }
+    }
+    
+    public function addFile($data, $tmpname ,$name, $format) {
+    	// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
+    	if($this instanceof Artefact){
+    		$champ_dir = "/uploads/artefacts/" . (string)$data->$champ->id;
+    	}
+    	elseif($this instanceof Media){
+    		$champ_dir = "/uploads/medias/" . (string)$data->$champ->id;
+    	}
+    	else {
+    		throw new \Exception("Error Processing Request");
+    	}
+    	mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
+    	
+    	$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
+    	mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
+    	
+    	move_uploaded_file($tmpname, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
+    	$data->fichier = $dest_dir . "/" . $name;
+    	$data->format_fichier = $format;
+    	$this->datas->add($data);
+    }
+    
+    public function updateFile($data, $tmpname ,$name, $format) {
+    	$this->deleteFile($data);
+    	$this->addFile($data, $tmpname ,$name, $format);
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -296,9 +323,9 @@ class Element implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 
-    public function deleteFile($element){
-    	if($element->fichier !== null){
-    		$dir = $_SERVER["DOCUMENT_ROOT"] . dirname($element->fichier);
+    public function deleteFile($data){
+    	if($data->fichier !== null){
+    		$dir = $_SERVER["DOCUMENT_ROOT"] . dirname($data->fichier);
     		$this->delTree( $dir );
     		return true;
     	}
