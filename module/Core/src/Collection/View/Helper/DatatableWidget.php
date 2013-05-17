@@ -42,7 +42,7 @@ class DatatableWidget extends AbstractHelper
     	
     	$viewFile = null;
     	
-    	if($view = "RelationArtefact"){
+    	if($view === "RelationArtefact"){
     		$viewFile = 'Collection/Artefact/RelationArtefactWidget.phtml';
     	} else {
     		$viewFile = 'Collection/Collection/CollectionWidget.phtml';
