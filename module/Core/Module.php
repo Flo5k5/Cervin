@@ -2,7 +2,7 @@
 namespace Core;
 
 use Collection\View\Helper\formatForm;
-use Collection\View\Helper\CollectionWidget;
+use Collection\View\Helper\DatatableWidget;
 
 class Module
 {
@@ -19,9 +19,9 @@ class Module
                     $locator = $sm->getServiceLocator(); // $sm is the view helper manager, so we need to fetch the main service manager
                     return new adminEmail($locator->get('Doctrine\ORM\EntityManager'));
                 },*/
-                'CollectionWidget' => function ($helperPluginManager) {
+                'DatatableWidget' => function ($helperPluginManager) {
                     $serviceLocator = $helperPluginManager->getServiceLocator();
-                    $viewHelper = new CollectionWidget();
+                    $viewHelper = new DatatableWidget();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
                 },

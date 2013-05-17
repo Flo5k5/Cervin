@@ -118,7 +118,17 @@ return array(
                             ),
                         ),
                     ),
-                    'editArtefact' => array(
+                    'voirRelationArtefact' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/voirRelationArtefact',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'voirRelationArtefact',
+                            ),
+                        ),
+                    ),
+					'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
                             'route' => '/editArtefact/:id[/:idData]',

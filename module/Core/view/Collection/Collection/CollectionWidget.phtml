@@ -20,16 +20,16 @@
         </div>
     </div>
     
-<?php $this->inlineScript()->captureStart() ?>
-	var table;
+<?php $this->inlineScript()->captureStart(); ?>
+	var tableCollection;
 	$(function() {
 	
 		$("#submit").click( function () {
-			table.fnDraw();
+			tableCollection.fnDraw();
 			return false;
 		});
 
-	    table = ResultSet.paginate(
+	    tableCollection = ResultSet.paginate(
 			{
 	           	"aoColumns": [
 		           	           	null,
@@ -170,4 +170,4 @@
 		}
 
 	});
-<?php $this->inlineScript()->captureEnd() ?>
+<?php $this->inlineScript()->captureEnd(); ?>
