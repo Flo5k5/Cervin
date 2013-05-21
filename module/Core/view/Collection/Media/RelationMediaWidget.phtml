@@ -11,7 +11,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3">En cours de téléchargement</td>
+                            <td colspan="3">En cours de tÃ©lÃ©chargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -20,15 +20,15 @@
     </div>
     
 <?php $this->inlineScript()->captureStart(); ?>
-	var tableRelationArtefact;
+	var tableRelationMedia;
 	$(function() {
 	
 		$("#submit").click( function () {
-			tableRelationArtefact.fnDraw();
+			tableRelationMedia.fnDraw();
 			return false;
 		});
 
-	    tableRelationArtefact = ResultSet.paginate(
+	    tableRelationMedia = ResultSet.paginate(
 			{
 	           	"aoColumns": [
 		           	           	null,
@@ -68,6 +68,15 @@
 			}
 		);
 
+	    $(document).on( 'click', '.ajouter', function(event){
+			$.ajax({
+				url: "<?php echo $this->url("semantique"); ?>",
+				cache: false
+			}).done(function( html ) {
+				console.log(html);
+			});
+		});
+	    	    
 		function isDuplicate(type, value, array){
 			var array = ( typeof(array) == 'undefined' ? [] : array );
 			var duplicate = false;

@@ -163,7 +163,7 @@ class MediaController extends AbstractActionController
     				$titre = $element->titre;
     			}
     
-    			$bouton = '<a href="#" class="btn btn-info"><i class="icon-plus"></i> Lier</a>';
+    			$bouton = '<a href="#" class="btn btn-info ajouter"><i class="icon-plus"></i> Ajouter</a>';
     				
     			$aaData[] = array(
     					$titre,
