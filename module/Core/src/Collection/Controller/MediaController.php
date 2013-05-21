@@ -193,7 +193,6 @@ class MediaController extends AbstractActionController
     	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
-            //$post = $this->params()->fromPost();
             $request = $this->params()->fromPost();
             switch ($request['name']) {
                 case 'titre':
@@ -229,8 +228,12 @@ class MediaController extends AbstractActionController
                             $data->nombre = $request['value'];
                             break;
                         case 'fichier':
-                            $data->fichier = $request['value'];
-                            break;
+							$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$media->deleteFile($data);
+			    	 			$media->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
                         case 'url':
                             $data->url = $request['value'];
                             break;
