@@ -125,13 +125,13 @@ class ParcoursDataTable extends DataTable
 				
 				$orX = $query->expr()->orX();
 				
-				//for ($i = 0; $i < 2; $i++) {
+				for ($i = 0; $i < 2; $i++) {
 
-					$column = $this->configuration[1];
+					$column = $this->configuration[$i];
 					
 					$orX->add($query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
 
-				//}
+				}
 				
 				$andX->add($orX);
 				
