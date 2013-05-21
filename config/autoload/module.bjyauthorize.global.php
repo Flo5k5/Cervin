@@ -117,6 +117,11 @@ return array(
                 ),
 
                 array(
+                    'controller' => 'Parcours',
+                    'roles' => array('Utilisateur')
+                ),
+
+                array(
                     'controller' => 'fileupload_examples',
                     'roles' => array('Visiteur')
                 ),
@@ -195,6 +200,8 @@ return array(
                 array('route' => 'fileupload/progress/session', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session_partial', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
+
+                array('route' => 'parcours', 'roles' => array('Utilisateur')),
             ),
         ), 
     ),

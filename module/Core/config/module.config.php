@@ -11,6 +11,7 @@ return array(
             'Media' => 'Collection\Controller\MediaController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
             'Relation' => 'Collection\Controller\RelationController',
+            'Parcours' => 'Parcours\Controller\ParcoursController',
         ),
     ),
 	'router' => array(
@@ -282,12 +283,27 @@ return array(
                     ),
                 ),
             ),
+
+            'parcours' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/parcours',
+                    'defaults' => array(
+                        'controller' => 'Parcours',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    
+                ),
+            ),
         ),
     ),
 		
     'view_manager' => array(
     	'template_map' => array(
-    			
+    		
     		'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
     			
     		'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',
