@@ -39,14 +39,28 @@ class Parcours implements InputFilterAwareInterface
     protected $description;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="parcours", cascade={"persist", "remove"})
      **/
     protected $sous_parcours;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours", cascade={"remove", "persist"})
      **/
     protected $transitions;
+    
+    public function addSousParcours($sous_parcours) {
+    	$sous_parcours->parcours = $this;
+    	if (!$this->sous_parcours->contains($sous_parcours)) {
+    		$this->sous_parcours->add($sous_parcours);
+    	}
+    }
+    
+    public function addTransition($transition) {
+    	$transition->parcours = $this;
+    	if (!$this->transitions->contains($transition)) {
+    		$this->transitions->add($transition);
+    	}
+    }
     
     /**
     * Magic getter to expose protected properties.
