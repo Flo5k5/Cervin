@@ -83,12 +83,10 @@ class ParcoursController extends AbstractActionController
     		
     		$titre = '';
     		
-			$titre = '<p class="text-warning">
-						<a class="href-type-element text-warning" href="'
+			$titre = '<a class="href-type-element" href="'
 							.$this->url()->fromRoute('parcours', array('id' => $parcours->id)).'">'
 							.$parcours->titre.'
-						</a>
-					</p>';
+						</a>';
     		
 			//$titre = $parcours->titre;
     		

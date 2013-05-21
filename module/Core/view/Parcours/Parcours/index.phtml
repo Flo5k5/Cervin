@@ -142,8 +142,13 @@ $this->headTitle($title);
 				var context = el.parent().children('.type-all').attr("data-value");
 				var icon;
 				var color;
-				
-				color = 'status-success';
+				if (context == 'artefact') {
+					icon = '<i class="icon-tag"> </i>';
+					color = 'status-success';
+				} else {
+					icon = '<i class="icon-picture"> </i>';
+					color = 'status-warning';
+				}
 				
 				if( el.hasClass('type-all') ){
 					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
