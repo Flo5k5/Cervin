@@ -1,0 +1,97 @@
+    <div class="row-fluid">
+        <div class="span12">
+            <div>
+                <table class="table table-striped table-bordered" id="data">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Type</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">En cours de tÃ©lÃ©chargement</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+<?php $this->inlineScript()->captureStart(); ?>
+	var tableRelationMedia;
+	$(function() {
+	
+		$("#submit").click( function () {
+			tableRelationMedia.fnDraw();
+			return false;
+		});
+
+	    tableRelationMedia = ResultSet.paginate(
+			{
+	           	"aoColumns": [
+		           	           	null,
+		           	           	null, 
+		                     	{ "bSortable": false  }
+	           	           	 ],
+	           	"iColumns": 3,
+	           	//"bAutoWidth": false,
+				"bSortClasses":false,
+	           	"bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?php echo $this->url("media/voirRelationMedia"); ?>",
+    			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
+    				
+    				var data = new Array();
+    				
+    				<?php if(isset($js_table)){ echo $js_table; }  ?>
+
+    				if (data.length > 0) {
+						aoData.push( { "name": "conditions", "value": JSON.stringify(data) } );
+					}
+
+      				oSettings.jqXHR = $.ajax( {
+	        			"dataType": 'json',
+	        			"type": "POST",
+	        			"url": sSource,
+	        			"data": aoData,
+	        			"success": fnCallback
+	     			});
+	     		},
+	     		"fnDrawCallback": function(oSettings, json){
+	     			$(".href-type-element").unbind("click").bind("click", function(e) {
+						window.open($(this).attr("href"), "_blank");
+						e.preventDefault();
+					});
+	     		}
+			}
+		);
+
+	    $(document).on( 'click', '.ajouter', function(event){
+			$.ajax({
+				url: "<?php echo $this->url("semantique"); ?>",
+				cache: false
+			}).done(function( html ) {
+				console.log(html);
+			});
+		});
+	    	    
+		function isDuplicate(type, value, array){
+			var array = ( typeof(array) == 'undefined' ? [] : array );
+			var duplicate = false;
+			jQuery.each(array, function() {
+				if(this.value == value && this.type == type){
+					duplicate = true;
+					return;
+				}
+			});
+			return duplicate;
+		}
+		
+		String.prototype.ucFirst = function() {
+		    return this.charAt(0).toUpperCase() + this.slice(1);
+		}
+
+	});
+<?php $this->inlineScript()->captureEnd(); ?>

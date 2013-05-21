@@ -214,9 +214,7 @@ $this->headTitle($title);
 					*/
 					?>
 				
-
-				<?php echo $this->CollectionWidget(array( array('type'=>'type','value'=>'artefact') ) ); ?>
-
+				<?php echo $this->DatatableWidget('RelationArtefact', array( array('type'=>'type','value'=>'artefact') ) ); ?>
 
 			</div>
 			<div class="tab-pane" id="tab3">
@@ -252,7 +250,7 @@ $this->headTitle($title);
 	</div>
 </div>
 
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () {
 
@@ -304,7 +302,6 @@ $this->headTitle($title);
     });
     
 <?php 
-
 $this->inlineScript()->captureEnd();
 
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;

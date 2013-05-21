@@ -41,22 +41,20 @@
                        <span class="icon-bar"></span>
                     </a>
                     <a class="brand" href="<?php echo $this->url('home'); ?>">Cervin</a>
-
-                    <ul class="nav">
-                        <li class="divider-vertical"></li>
-                        <li><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
-                        <li class="divider-vertical"></li>
-                    <?php if ($this->isAllowed('Utilisateur') === true) :?>
-                        <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
-                       <!--  <li class="divider-vertical"></li> -->
-                    <?php endif; ?>
-                    <?php if ($this->isAllowed('Utilisateur') === true) :?>
-                        <!--  <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
-                        <li class="divider-vertical"></li> -->
-                    <?php endif; ?>
-                    </ul>
-
                     <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="divider-vertical"></li>
+                            <li><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
+                            <li class="divider-vertical"></li>
+                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
+                            <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
+                           <!--  <li class="divider-vertical"></li> -->
+                        <?php endif; ?>
+                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
+                            <!--  <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
+                            <li class="divider-vertical"></li> -->
+                        <?php endif; ?>
+                        </ul>
                         <ul class="nav pull-right">
                         
                         	<?php if ($this->isAllowed('Admin') === true) :?>
@@ -129,12 +127,15 @@
     <?php endforeach; ?>
 
             <?php echo $this->content; ?>
+
+            </div>
+            <div class="container-fluid">
         <footer>
 			<hr/>
-			<p class="container"><?php echo date("Y"); ?> - Cervin</p>
+			<p><?php echo date("Y"); ?> - Cervin</p>
         </footer>
         
-        </div>
+        
     	<?php echo $this->inlineScript() ?>
     </body>
 </html>

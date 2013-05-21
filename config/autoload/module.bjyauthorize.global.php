@@ -166,12 +166,14 @@ return array(
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
+                array('route' => 'artefact/voirRelationArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
                 array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
+                array('route' => 'media/voirRelationMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
                 array('route' => 'media/removeMedia', 'roles' => array('Collection')),
 

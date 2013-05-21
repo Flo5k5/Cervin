@@ -13,10 +13,10 @@ $form = $this->form;
 $form->setAttribute('action', $this->url('semantique/modifier',array('id'=>$id)));
 $form->prepare();
 
-$form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span6'));
+$form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span12'));
 
-$form->get('type_origine')->setAttributes(array('class'=>'span3'));
-$form->get('type_origine')->setAttributes(array('class'=>'span3'));
+$form->get('type_origine')->setAttributes(array('class'=>'span12'));
+$form->get('type_destination')->setAttributes(array('class'=>'span12'));
 
 $form->get('submit')->setLabel('Valider')->setAttribute('class','ajChampSubmit btn btn-primary');
 
@@ -25,22 +25,17 @@ echo $this->form()->openTag($form);
 
 echo $this->formHidden($form->get('id'));
 ?>
-<div class="row">
+<div class="row-fluid">
 	<div class="span3">
-<?php echo $this->formLabel($form->get('type_origine')) ?></div>
-	<div class="span6">
-<?php echo $this->formLabel($form->get('semantique')) ?></div>
-	<div class="span3">
-<?php echo $this->formLabel($form->get('type_destination')) ?></div>
-</div>
-<div class="row">
-	<div class="span3">
+<?php echo $this->formLabel($form->get('type_origine')) ?>
 <?php echo $this->formSelect($form->get('type_origine')) ?>
 <?php echo $this->formElementErrors($form->get('type_origine')) ?></div>
 	<div class="span6">
+<?php echo $this->formLabel($form->get('semantique')) ?>
 <?php echo $this->formInput($form->get('semantique')) ?>
 <?php echo $this->formElementErrors($form->get('semantique')) ?></div>
 	<div class="span3">
+<?php echo $this->formLabel($form->get('type_destination')) ?
 <?php echo $this->formSelect($form->get('type_destination')) ?>
 <?php echo $this->formElementErrors($form->get('type_destination')) ?></div>
 </div>
