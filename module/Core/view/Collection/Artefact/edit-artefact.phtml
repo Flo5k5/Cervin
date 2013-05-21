@@ -162,24 +162,11 @@ $this->headTitle($title);
 								break;
 									
 							case 'fichier':
-								echo '<form>
-									<input type="file" 
-										class="file-input"
-										data-name="data"
-										data-type="fichier"
-										data-pk="'.$data->champ->id.'"
-	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)).'">
-								</form>';
-								/*echo '<span class="edit CursorPointer" 
-											data-name="data" 
-											data-type="text" 
-											data-pk="'.$champ['id'].'" 
-        									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idChamp'=>$champ['id'])).'">
-										'.$champ['fichier'].'
-									</span>';*/
-								echo '<a href="' . ROOT_DIR . $data->fichier.'">'. basename($data->fichier) .'</a></br>';
-								echo '<i class="icon-warning-sign"> </i>  Modification du fichier : section en construction...';
-								echo '</br></br>';
+								echo 'Fichier actuel : <a href="' . ROOT_DIR . $data->fichier.'">'. basename($data->fichier) .'</a></br>';
+								echo '<form class="file-input-form" method="POST" action = "'. $this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$data->id)) .'">
+									<input title="Parcourir" name="file-input" id="'.$data->id.'" type="file">
+									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>
+    							</form>';
 								break;
 
 						endswitch ;?>
@@ -269,31 +256,6 @@ $this->headTitle($title);
 
 	$(function () {
 
-		/*$("#modalDiv").on("click",".ajouter", function(e){
-		
-		    var URL = $(this).attr('data-url');
-			$.ajax({
-			        url: URL,
-			        type: "POST",
-			        data:{ name:'ajChamp'  }, 
-		
-			}).done(function(){
-				return true;
-			});
-		});*/
-		
-		$(".description").popover({placement:'top', trigger:'hover'}); 
-		
-		/* $('.wysihtml5').editable({
-			mode: 'popup',
-			placement: 'right',
-			wysihtml5 :{
-					locale: "fr-FR",
-					image: false,
-					stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"]
-				}
-		}); */
-
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
 			image: false,
@@ -317,18 +279,13 @@ $this->headTitle($title);
 			});
 		});
 
-	     $(".file-input").change(function (){
-	     	alert($(this).val());
-	    	$.ajax({
-				url: $(this).attr('data-url'),
-				type: "POST",
-				data:{ name:'data', value: $(this).val() }, 
-			}).done(function(){
-				alert('ok');
-			});
-			
-			
-	     });
+	    $(".file-input-form").on('submit', function (e){
+	    	e.preventDefault();
+	    	$(this).ajaxSubmit({
+				data: {name: 'data'},
+				success: function(data) { document.location.reload(); }
+            });
+	    });
 
 		$('.picker').editable({
 			mode: 'popup',
@@ -338,7 +295,6 @@ $this->headTitle($title);
 			 datepicker: {
 				language:'fr',
 			}
-		
 		});
 		
 		$('.edit').editable({
@@ -351,6 +307,7 @@ $this->headTitle($title);
 
 $this->inlineScript()->captureEnd();
 
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;

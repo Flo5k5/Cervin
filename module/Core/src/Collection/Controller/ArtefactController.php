@@ -147,11 +147,11 @@ class ArtefactController extends AbstractActionController
 
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!idData or $data === null) {
+					if (!$idData or $data === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
-					var_dump($request['value']);
+					
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -166,8 +166,12 @@ class ArtefactController extends AbstractActionController
 		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
-		    	 			$artefact->deleteFile($data);
-		    	 			$artefact->updateFile($data, $request['value']['tmp_name'], $request['value']['name'], $request['value']['type']);
+		    	 			$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$artefact->deleteFile($data);
+			    	 			$artefact->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
 		    	 			break;
 		    	 		case 'url':
 		    	 			$data->url = $request['value'];
@@ -187,7 +191,6 @@ class ArtefactController extends AbstractActionController
 		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
-
 	public function removeArtefactAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);

@@ -113,7 +113,6 @@ class Element implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-        $this->id = $data['id'];
         $this->titre = $data['titre'];
         $this->description = $data['description'];
         $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
@@ -157,29 +156,8 @@ class Element implements InputFilterAwareInterface
         			$this->datas->add($databd);
         			break;
         		case 'fichier':
-        			// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
         			if ($data[$index]['tmp_name'] != null) {
-	        			/*$tmp = $data[$index]['tmp_name'];
-	        			if($this instanceof Artefact){ 
-	        			    $champ_dir = "/uploads/artefacts/" . (string)$champ->id;
-                        }
-                        elseif($this instanceof Media){
-                            $champ_dir = "/uploads/medias/" . (string)$champ->id;
-                        }
-                        else {
-                            throw new \Exception("Error Processing Request");
-                        }
-	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
-	        			
-	        			$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
-	        			mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
-	        			
-	        			$name = $data[$index]['name'];
-	        			move_uploaded_file($tmp, $_SERVER['DOCUMENT_ROOT'] . $dest_dir . "/" . $name);
-	        			$databd->fichier = $dest_dir . "/" . $name;
-	        			$databd->format_fichier = $data[$index]['type'];*/
-        				$data = new DataFichier($this, $champ);
-        				$this->addFile($data, $data[$index]['tmp_name'], $data[$index]['name'], $data[$index]['type']);
+        				$this->addFile(new DataFichier($this, $champ), $data[$index]['tmp_name'], $data[$index]['name'], $data[$index]['type']);
         			}
         			break;
         	}
@@ -189,10 +167,10 @@ class Element implements InputFilterAwareInterface
     public function addFile($data, $tmpname ,$name, $format) {
     	// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
     	if($this instanceof Artefact){
-    		$champ_dir = "/uploads/artefacts/" . (string)$data->$champ->id;
+    		$champ_dir = "/uploads/artefacts/" . (string)$data->champ->id;
     	}
     	elseif($this instanceof Media){
-    		$champ_dir = "/uploads/medias/" . (string)$data->$champ->id;
+    		$champ_dir = "/uploads/medias/" . (string)$data->champ->id;
     	}
     	else {
     		throw new \Exception("Error Processing Request");
@@ -213,115 +191,7 @@ class Element implements InputFilterAwareInterface
     	$this->addFile($data, $tmpname ,$name, $format);
     }
 
-    public function setInputFilter(InputFilterInterface $inputFilter)
-    {
-        throw new \Exception("Not used");
-    }
-
-    public function getInputFilter()
-    {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
-    	
-    		$inputFilter->add($factory->createInput(array(
-    			'name' => 'id',
-    			'required' => true,
-    				'filters' => array(array('name' => 'Int')),
-    		)));
-    		 
-    		$inputFilter->add($factory->createInput(array(
-    			'name' => 'titre',
-    			'required' => true,
-    			'filters' => array(
-    				array('name' => 'StripTags'),
-    				array('name' => 'StringTrim'),
-    			),
-    			'validators' => array(
-    				array(
-    					'name' => 'StringLength',
-    					'options' => array(
-    						'encoding' => 'UTF-8',
-    						'min' => 1,
-    						'max' => 200,
-    					),
-    				),
-    			),
-    		)));
-    		 
-    		$inputFilter->add($factory->createInput(array(
-    			'name' => 'description',
-    			'required' => false,
-    			'filters' => array(
-    				array('name' => 'StripTags'),
-    				array('name' => 'StringTrim'),
-    			),
-    		)));
-    
-    		foreach ($this->type_element->champs as $champ) {
-	    		switch ($champ->format) {
-	        		case 'texte':
-	        			$inputFilter->add($factory->createInput(array(
-        					'name' => 'champ_'.strval($champ->id),
-        					'required' => false,
-        					'filters' => array(
-        						array('name' => 'StripTags'),
-        						array('name' => 'StringTrim'),
-	        				),
-	        			)));
-	        			break;
-	        		case 'textarea':
-	        			$inputFilter->add($factory->createInput(array(
-        					'name' => 'champ_'.strval($champ->id),
-        					'required' => false,
-        					'filters' => array(
-        						array('name' => 'StripTags'),
-        						array('name' => 'StringTrim'),
-	        				),
-	        			)));
-	        			break;
-	        		case 'fichier':
-	        			$file = new FileInput('champ_'.strval($champ->id));
-	        			$file->setRequired(true);
-	        			$file->getFilterChain()->attachByName(
-	        				'filerenameupload',
-	        				array(
-	        					'target' => $_SERVER['DOCUMENT_ROOT']."/tmpuploads/",
-	        					'use_upload_name' => true,
-	        				)
-	        			);
-	        			$inputFilter->add($file);
-	        			break;
-	        		case 'date':
-	        			$inputFilter->add($factory->createInput(array(
-	        				'name' => 'champ_'.strval($champ->id),
-	        				'required' => false,
-	        				'validators' => array(
-	        					array(
-	        						'name' => 'regex', 
-	        						'options'=>array(
-                    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
-                    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
-                    				),
-	        					),
-	        				),
-	        			)));
-	        			break;
-	        		case 'nombre':
-	        		case 'url':
-	        			$inputFilter->add($factory->createInput(array(
-	        				'name' => 'champ_'.strval($champ->id),
-	        				'required' => false
-	        			)));
-	        			break;
-	        	}
-       		}	
-    		
-    		$this->inputFilter = $inputFilter;
-    	}
-    	
-    	return $this->inputFilter;
-    }
+   
 
     public function deleteFile($data){
     	if($data->fichier !== null){
@@ -353,6 +223,116 @@ class Element implements InputFilterAwareInterface
     		return true;
     	}
     	return false;
+    }
+    
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+    	throw new \Exception("Not used");
+    }
+    
+    public function getInputFilter()
+    {
+    	if (!$this->inputFilter) {
+    		$inputFilter = new InputFilter();
+    		$factory = new InputFactory();
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'id',
+    				'required' => true,
+    				'filters' => array(array('name' => 'Int')),
+    		)));
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'titre',
+    				'required' => true,
+    				'filters' => array(
+    						array('name' => 'StripTags'),
+    						array('name' => 'StringTrim'),
+    				),
+    				'validators' => array(
+    						array(
+    								'name' => 'StringLength',
+    								'options' => array(
+    										'encoding' => 'UTF-8',
+    										'min' => 1,
+    										'max' => 200,
+    								),
+    						),
+    				),
+    		)));
+    		 
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'description',
+    				'required' => false,
+    				'filters' => array(
+    						array('name' => 'StripTags'),
+    						array('name' => 'StringTrim'),
+    				),
+    		)));
+    
+    		foreach ($this->type_element->champs as $champ) {
+    			switch ($champ->format) {
+    				case 'texte':
+    					$inputFilter->add($factory->createInput(array(
+    					'name' => 'champ_'.strval($champ->id),
+    					'required' => false,
+    					'filters' => array(
+    					array('name' => 'StripTags'),
+    					array('name' => 'StringTrim'),
+    					),
+    					)));
+    					break;
+    				case 'textarea':
+    					$inputFilter->add($factory->createInput(array(
+    					'name' => 'champ_'.strval($champ->id),
+    					'required' => false,
+    					'filters' => array(
+    					array('name' => 'StripTags'),
+    					array('name' => 'StringTrim'),
+    					),
+    					)));
+    					break;
+    				case 'fichier':
+    					$file = new FileInput('champ_'.strval($champ->id));
+    					$file->setRequired(true);
+    					$file->getFilterChain()->attachByName(
+    							'filerenameupload',
+    							array(
+    									'target' => $_SERVER['DOCUMENT_ROOT']."/tmpuploads/",
+    									'use_upload_name' => true,
+    							)
+    					);
+    					$inputFilter->add($file);
+    					break;
+    				case 'date':
+    					$inputFilter->add($factory->createInput(array(
+    					'name' => 'champ_'.strval($champ->id),
+    					'required' => false,
+    					'validators' => array(
+    					array(
+    					'name' => 'regex',
+    					'options'=>array(
+    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
+    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
+    					),
+    					),
+    					),
+    					)));
+    					break;
+    				case 'nombre':
+    				case 'url':
+    					$inputFilter->add($factory->createInput(array(
+    					'name' => 'champ_'.strval($champ->id),
+    					'required' => false
+    					)));
+    					break;
+    			}
+    		}
+    
+    		$this->inputFilter = $inputFilter;
+    	}
+    	 
+    	return $this->inputFilter;
     }
     
 }
