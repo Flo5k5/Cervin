@@ -90,7 +90,7 @@ class ParcoursController extends AbstractActionController
 						</a>
 					</p>';
     		
-			$titre = $parcours->titre;
+			//$titre = $parcours->titre;
     		
     		
     		$aaData[] = array(
