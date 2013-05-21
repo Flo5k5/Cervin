@@ -29,7 +29,7 @@ class FixtureParcours implements FixtureInterface
 				Les premiers enseignements de programmation sont mis en place à cette occasion en 1956, d'abord de manière informelle, puis avec la création d'une section \"mathématiques appliquées\" à l'Institut Polytechnique de Grenoble (IPG). Cette initiative préfigure la création en 1960, au sein de l'IPG, d'une École d'ingénieurs en informatique et mathématiques appliquées, qui deviendra l'ENSIMAG, et dont Kuntzmann sera le premier directeur.
 				</p>
 				<p>
-				En 1957, Kuntzmann créée l'AFCAL, Association Française de Calcul (qui deviendra plus tard l'AFCALTI, puis l'AFCET) et, en 1958, la revue \"Chiffres\". En 1957 également, le Laboratoire de Calcul obtient une dotation pour l'achat d'un ordinateur. Sera choisi le Bull Gamma ET, inauguré en janvier 1958. L'arrivée de cet ordinateur marque le début d'une activité de recherche en informatique, qui se concrétisera au début des années 1960 par la soutenance de nombreuses thèses dans ce domaine. Les thèmes de recherche initiaux sont les langages de programmation et la compilation, ainsi que l'architecture des ordinateurs. Le Laboratoire de calcul, devenu Institut de Mathématiques Appliquées de Grenoble (IMAG), élargira plus tard le spectre de ses activités et deviendra en 1966 l'un des premiers laboratoires associés au CNRS (LA n° 7).
+				En 1957, Kuntzmann créée l'AFCAL, Association Française de Calcul (qui deviendra plus tard l'AFCALTI, puis l'AFCET) et, en 1958, la revue \"<i>Chiffres</i>\". En 1957 également, le Laboratoire de Calcul obtient une dotation pour l'achat d'un ordinateur. Sera choisi le Bull Gamma ET, inauguré en janvier 1958. L'arrivée de cet ordinateur marque le début d'une activité de recherche en informatique, qui se concrétisera au début des années 1960 par la soutenance de nombreuses thèses dans ce domaine. Les thèmes de recherche initiaux sont les langages de programmation et la compilation, ainsi que l'architecture des ordinateurs. Le Laboratoire de calcul, devenu Institut de Mathématiques Appliquées de Grenoble (IMAG), élargira plus tard le spectre de ses activités et deviendra en 1966 l'un des premiers laboratoires associés au CNRS (LA n° 7).
 				</p>
 				<p>
 				Kuntzmann gardera la direction de l'IMAG, devenu l'un des tout premiers centres de recherche en informatique en France,  jusqu'à sa retraite en 1977. Dans les années 1970, il avait créé une équipe de recherche sur la didactique des mathématiques, sujet sur lequel il continuera à travailler, publiant plusieurs ouvrages.
@@ -220,12 +220,110 @@ class FixtureParcours implements FixtureInterface
 		 * Transition scene2->scene3
 		*/		
 		$transition2 = new Parcours\Entity\TransitionRecommandee();
-		$transition2->narration = "Vers la formation";
+		$transition2->narration = "De l'automatique à la formation";
 		$transition2->semantique = $semantique_chronologie;
 		$transition2->scene_origine = $scene2;
 		$transition2->scene_destination = $scene3;
 		
 		$sous_parcours_debut->addTransition($transition2);
 		$manager->flush();
+		
+		/*
+		 * Quatrième scène
+		*/
+		$scene4 = new Parcours\Entity\SceneRecommandee();
+		$scene4->titre = "Les débuts de la recherche en informatique";
+		$scene4->narration = "
+				<p>
+				La recherche commence dès la création du Laboratoire de calcul. En effet, les nombreuses applications traitées par le laboratoire nécessitent de perfectionner les méthodes et les outils de ce qui deviendra plus tard l'analyse numérique. Les avancées réalisées font l'objet, en 1955, des Journées alpines de calcul numérique, organisées par le Laboratoire de calcul, IBM et la Sogreah.
+				</p>
+				<p>
+				En 1956 commence l'activité proprement informatique, avec l'arrivée de Louis Bolliet, initialement ingénieur au Laboratoire de calcul. En 1957, Jean Kuntzmann crée l'AFCAL (Association Française de Calcul), qui deviendra plus tard l'AFCALTI, puis l'AFCET. En 1958, il crée la revue Chiffres, dont il sera le premier rédacteur en chef. Cette association et cette revue seront les premiers lieux d'échange d'information en France sur les domaines émergents de l'analyse numérique et de la programmation des ordinateurs. Le premier congrès de l'AFCAL, qui réunit 270 participants, se tiendra à Grenoble en 1960. Il attire divers spécialistes étrangers, dont Friedrich L. Bauer et  Maurice Wilkes.
+				</p>
+				<p>
+				En 1957, arrive Noël Gastinel, mathématicien qui va diriger l'équipe de recherche en analyse numérique. S'intéressant de près aux techniques de l'informatique, il sera également plus tard le premier directeur du centre de calcul. En 1958 arrive Bernard Vauquois, qui s'est orienté vers l'informatique après un début de carrière dans l'astronomie. Il lance une activité autour de la traduction automatique, qui aboutira en 1959 à la création du CETA (Centre d'Études pour la Traduction Automatique) par le CNRS et la DRME (Direction des Recherches et Moyens d'Essai du ministère des Armées). Vauquois fait par ailleurs partie du comité scientifique qui définit le langage Algol 60 entre 1958 et 1961.				
+				</p>
+				<p>
+				En 1961 démarrent des recherches dans deux domaines de l'informatique : l'algèbre de Boole, avec Kuntzmann, et la compilation des langages de programmation, avec Bolliet. Les premières thèses sont lancées, les doctorants venant des formations locales, et notamment de la section spéciale \"mathématiques appliquées\" de l'IPG. Suivant la pratique inaugurée par le Laboratoire de calcul, ces recherches font l'objet de nombreuses collaborations avec l'industrie.
+				</p>
+				<p>
+				Les années 1963-64 voient l'installation du laboratoire (devenu IMAG, Institut de Mathématiques Appliquées de Grenoble) sur le campus créé à Saint-Martin d'Hères et Gières, l'acquisition d'un ordinateur puissant, l'IBM 7044, et l'aboutissement des premières thèses en informatique :
+				<ol>
+				    <li>Jean-Loup Baer, thèse de 3-ème cycle : \"Principes de compilation de COBOL\", 1963.</li>
+				    <li>Jean Le Palmec, thèse de docteur-ingénieur : Étude d'un langage intermédiaire pour la compilation d'Algol 60, 1964</li>
+				    <li>Jean-Claude Boussard, thèse d'État : Étude et réalisation d'un compilateur Algol 60 pour ordinateur 7040-44, 1964.</li>
+				</p>
+				<p>
+				À noter que cette thèse d'État est en \"sciences appliquées\", la discipline Informatique n'étant pas encore officiellement reconnue (il faudra attendre 1969). Au total, cinq thèses de \"sciences appliquées\" seront soutenues dont, en 1967, celle de Louis Bolliet qui prendra alors un poste de professeur.
+				</p>
+				<p>
+				Deux colloques, tenus en 1965, sur l'enseignement de la programmation et sur l'algèbre de Boole, témoignent de la vitalité scientifique du laboratoire. Le groupe Algol WG2.1 de l'IFIP (<i>International Federation for Information Processing</i>) tient cette même année une réunion de travail à Saint-Pierre de Chartreuse. Algol 60 est alors à l'IMAG un thème de travail et un outil privilégié (en témoigne le livre de L. Bolliet, N. Gastinel et P.-J. Laurent, <i>Un nouveau langage scientifique : Algol</i>, Hermann 1964).
+				</p>
+				<p>
+				La recherche en informatique est maintenant lancée; elle va connaître un grand développement et une extension de son domaine dans les années qui suivent.
+				</p>
+		";
+		$scene4->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_debut->addScene($scene4);
+		$manager->flush();
+		
+		/*
+		 * Transition scene3->scene4
+		*/
+		$transition3 = new Parcours\Entity\TransitionRecommandee();
+		$transition3->narration = "De la formation aux débuts de la recherche en informatique";
+		$transition3->semantique = $semantique_chronologie;
+		$transition3->scene_origine = $scene3;
+		$transition3->scene_destination = $scene4;
+		
+		$sous_parcours_debut->addTransition($transition3);
+		$manager->flush();
+		
+		/*
+		 * Cinquième scène
+		*/
+		$scene5 = new Parcours\Entity\SceneRecommandee();
+		$scene5->titre = "Technologie et composants";
+		$scene5->narration = "
+				<p>
+				L'industrie électronique à Grenoble connaît un démarrage lent dans les années 1950. Nous replaçons ici ses débuts dans le contexte plus large de l'histoire des composants électroniques modernes.
+				</p>
+				<blockquote><p>
+				Cette histoire commence avec l'invention du transistor en 1947. Ce dispositif semi-conducteur va rapidement remplacer les tubes électroniques, avec une fiabilité bien plus élevée, un faible encombrement et une consommation d'énergie réduite. Dès 1950, le transistor est intégré dans des produits de grande consommation. Le premier ordinateur transistorisé est construit par les Bell Labs en 1954. Dès lors, l'emploi du transistor dans les circuits des ordinateurs va se généraliser.
+				</p></blockquote>
+				<p>
+				En 1955, la Compagnie Générale de Télégraphie sans fil (CSF) transforme son usine de Saint-Égrève (banlieue ouest de Grenoble), dédiée à la fabrication de tubes à vide, en une usine de production de transistors (ci-contre, vue d'un atelier). Après des déboires initiaux dus à un changement mal maîtrisé des méthodes de production, cette activité sera filialisée en 1960 sous le nom de COSEM (Compagnie générale des semi-conducteurs). En 1961-62, la COSEM détenait près de 45% du marché des semi-conducteurs en France et réalisait 30% de son chiffre d'affaires à l'exportation.
+				</p>
+				<p>
+				En 1956, le Commissariat à l'Énergie Atomique (CEA) crée le Centre d'Études Nucléaires de Grenoble (CENG), également implanté à l'ouest de Grenoble. En 1957 est créé au CENG, sous la direction de Michel Cordelle, un service électronique dont la mission initiale est la conception, la réalisation et la maintenance de l'appareillage de commande et de mesure du réacteur nucléaire Mélusine.
+				</p>
+				<blockquote><p>
+				En 1958, Jack Kilby invente le premier circuit intégré à base de germanium : les transistors ne sont plus des composants discrets (séparés), mais fondus dans la masse même du semi-conducteur. Quelques mois plus tard, en 1959, Robert Noyce invente le circuit intégré à base de silicium, qui deviendra la technique dominante. En France, dans les années 1960, la plus grande partie des circuits intégrés est produite dans des usines d'entreprises américaines (Texas Instruments, Motorola, IBM).
+				</p></blockquote>
+				<p>
+				En 1962, le CEA décide de créer sa propre technologie des transistors et circuits intégrés afin de maîtriser l'environnement électronique des réacteurs. La mission du service électronique du CENG (futur LETI) s'élargit en conséquence. En 1963 sortent les premiers transistors et au début de 1965 le premier circuit intégré, comportant 10 transistors (photo ci-contre).
+				</p>
+				<blockquote><p>
+				En 1965, Gordon Moore énonce sa \"loi\" : le nombre de transistors dans les circuits intégrés doublera environ tous les 18 mois. Plus de 40 ans après, cette loi s'applique toujours, mais on en perçoit les limites.
+				</p></blockquote>
+				";
+		$scene5->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_debut->addScene($scene5);
+		$manager->flush();
+		
+		/*
+		 * Transition scene4->scene5
+		*/
+		$transition4 = new Parcours\Entity\TransitionRecommandee();
+		$transition4->narration = "Des débuts de la recherche vers les technos et composants";
+		$transition4->semantique = $semantique_chronologie;
+		$transition4->scene_origine = $scene4;
+		$transition4->scene_destination = $scene5;
+		
+		$sous_parcours_debut->addTransition($transition4);
+		$manager->flush();
+		
 	}
 }
