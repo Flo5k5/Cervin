@@ -35,20 +35,19 @@ class ParcoursDataTable extends DataTable
 
 	public function getPaginator($conditions = null)
 	{
-		if ( !$this->paginator) {
+		if (! $this->paginator) {
 			$entityManager = $this->getEntityManager();
 	
 			$alias = 'entity';
-			$alias_type = 't';
 				
 			$query = $entityManager->createQueryBuilder($alias)
-			                       ->leftJoin($alias.'.type_element', $alias_type)
-			                       ->addSelect($alias_type);
+			                       /*->leftJoin($alias.'.type_element', $alias_type)
+			                       ->addSelect($alias_type)*/;
 
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
-				$allowedType = array("type", "titre", "description", "id");
+				$allowedType = array("type_origine", "semantique", "type_destination");
 
 				$arrayOfType = array();
 
@@ -69,9 +68,7 @@ class ParcoursDataTable extends DataTable
 
 					$requete = "eq";
 					
-					if( $key === "type" || $key === "id" ){
-						$key = $alias_type.'.'.$key;
-					} else if( $key === "titre" ){
+					if( $key === "semantique" ){
 						$key = $alias.'.'.$key;
 						$requete = "like";
 					} else {
@@ -112,12 +109,9 @@ class ParcoursDataTable extends DataTable
 			->setMaxResults($this->getDisplayLength());
 
 			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
-			
-			if( $this->configuration[$iSortCol_0] == 'type' || $this->configuration[$iSortCol_0] == 'nom' ){
-				$query->add("orderBy", "{$alias_type}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
-			} else {
-				$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
-			}
+
+			$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+
 
 			if ($this->getSSearch() != null) {
 				$sSearch = strtoupper($this->getSSearch());
@@ -131,21 +125,17 @@ class ParcoursDataTable extends DataTable
 				
 				$orX = $query->expr()->orX();
 				
-				for ($i = 0; $i < 2; $i++) {
+				//for ($i = 0; $i < 2; $i++) {
 
-					$column = $this->configuration[$i];
+					$column = $this->configuration[1];
 					
-					$al = $column != 'type' ? $alias : $alias_type;
-					
-					$orX->add($query->expr()->like( $query->expr()->upper("{$al}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
-					//$query
-					//->orWhere("UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}");
-					//->add("orWhere", "UPPER({$alias}.{$column}) LIKE {$query->expr()->literal($this->getSSearch())}")
-					//->orWhere( $query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
-				}
+					$orX->add($query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
+
+				//}
 				
 				$andX->add($orX);
 				
+				//$query->add('where', $andX);
 				$query->andWhere($andX);
 			}
 			
