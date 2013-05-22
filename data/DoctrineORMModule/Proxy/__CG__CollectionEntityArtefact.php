@@ -218,6 +218,39 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
     /**
      * {@inheritDoc}
      */
+    public function addFile($data, $tmpname, $name, $format)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFile', array($data, $tmpname, $name, $format));
+
+        return parent::addFile($data, $tmpname, $name, $format);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function updateFile($data, $tmpname, $name, $format)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateFile', array($data, $tmpname, $name, $format));
+
+        return parent::updateFile($data, $tmpname, $name, $format);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function deleteFile($data)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteFile', array($data));
+
+        return parent::deleteFile($data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setInputFilter(\Zend\InputFilter\InputFilterInterface $inputFilter)
     {
 

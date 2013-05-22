@@ -206,7 +206,7 @@ $this->headTitle($title);
 					*/
 					?>
 				
-				<?php echo $this->DatatableWidget('RelationMedia', array( array('type'=>'type','value'=>'media') ) ); ?>
+				<?php echo $this->DatatableWidget('RelationMedia', array( array('type'=>'type','value'=>'artefact') ) ); ?>
 					
 			</div>
 			
@@ -222,6 +222,8 @@ $this->headTitle($title);
 
 
 <?php $this->inlineScript()->captureStart() ?>
+
+	var element = {'id' : <?php echo $media->id; ?>, 'titre' : '<?php echo $media->titre; ?>', 'description' : '<?php echo $media->description; ?>'};
 
 	$(function () {
 

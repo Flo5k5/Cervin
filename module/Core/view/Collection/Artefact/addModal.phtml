@@ -1,0 +1,37 @@
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Ajouter une sémantique</h3>
+	</div>
+	
+	<div class="modal-body">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Sémantiques</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if( $semantiques != null ) : ?>
+				<?php foreach($semantiques as $semantique) : ?>
+				<tr>
+					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
+					<td>
+						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/ajouterRelationArtefact', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
+							<i class="icon-plus"></i> Ajouter
+						</a>
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<tr>
+					<td colspan="2"> Pas de sémantique correspondante trouvée </td>
+				</tr>
+			<?php endif; ?>
+	    	</tbody>
+		</table>
+		
+		<div class="message">&nbsp;</div>
+	</div>
+

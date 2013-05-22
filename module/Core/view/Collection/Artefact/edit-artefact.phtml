@@ -251,7 +251,9 @@ $this->headTitle($title);
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
-
+	
+	var element = {'id' : <?php echo $this->escapeHtml($artefact->id); ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
+	
 	$(function () {
 
 		$('.textarea-wysihtml5').wysihtml5({
