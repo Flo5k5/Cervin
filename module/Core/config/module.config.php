@@ -13,6 +13,7 @@ return array(
             'Relation' => 'Collection\Controller\RelationController',
             'Parcours' => 'Parcours\Controller\ParcoursController',
             'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
+            'Scene' => 'Parcours\Controller\SceneController',
         ),
     ),
 	'router' => array(
@@ -299,7 +300,7 @@ return array(
                     
                 ),
             ),
-        		
+
         	'semantiquetransition' => array(
         		'type' => 'Zend\Mvc\Router\Http\Literal',
         		'options' => array(
@@ -349,7 +350,34 @@ return array(
         				),
         			),
         		),
-        	
+
+            'scene' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/scene',
+                    'defaults' => array(
+                        'controller' => 'Scene',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'voirScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voirScene/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'voirScene',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
         ),
     ),
 		
