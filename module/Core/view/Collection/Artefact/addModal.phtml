@@ -13,12 +13,12 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php if( $semantiques !== null ) : ?>
+			<?php if( $semantiques != null ) : ?>
 				<?php foreach($semantiques as $semantique) : ?>
 				<tr>
-					<td><?php echo htmlspecialchars($semantique->semantique); ?></td>
+					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
 					<td>
-						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->url('artefact/ajouterRelationArtefact', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination)); ?>">
+						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/ajouterRelationArtefact', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
 							<i class="icon-plus"></i> Ajouter
 						</a>
 					</td>
