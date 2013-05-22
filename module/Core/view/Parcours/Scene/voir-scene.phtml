@@ -30,7 +30,7 @@ $this->headTitle($title);
     	Êtes-vous sur de vouloir supprimer la scène "<?php echo $scene->titre; ?>" ?
     </div>
     <div class="modal-footer">
-	    <a href="#<?php //echo $this->url('scene/removeScene', array('id' => $scene->id)) ?>" class="btn btn-primary">
+	    <a href="<?php echo $this->url('scene/removeScene', array('id' => $scene->id)) ?>" class="btn btn-primary">
 	    	Supprimer
 	    </a>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>

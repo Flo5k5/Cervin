@@ -70,4 +70,48 @@ class SceneController extends AbstractActionController
 		//$Scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>1));
 		return new ViewModel(array('scene' => $Scene));
     }
+
+    public function removeSceneAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+		if (!$id) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	
+		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
+		
+		if ($scene === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
+		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$id));
+		$tr_after = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_origine'=>$id));
+
+		if($tr_before === null && $tr_after === null) // c'est la seule
+		{
+			$this->flashMessenger()->addErrorMessage(sprintf('Impossible de supprimer la dernière scène de ce parcours.'));
+			return $this->redirect()->toRoute('scene/voirScene', array('id' => $scene->id));
+		}
+		elseif($tr_before === null) // c'est la première
+		{
+			$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
+			$this->getEntityManager()->remove($tr_after);
+		}
+		elseif($tr_after === null)// c'est la dernière
+		{
+			$this->getEntityManager()->remove($tr_before);
+		}
+		else // elle est au milieu
+		{
+			$tr_after->scene_origine = $tr_before->scene_origine;
+			$this->getEntityManager()->remove($tr_before);
+		}
+
+		$this->getEntityManager()->remove($scene);
+		$this->getEntityManager()->flush();
+		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
+		return $this->redirect()->toRoute('parcours');
+	}
 }
