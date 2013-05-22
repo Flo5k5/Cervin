@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une s�mantique possible des transitions entre sc�nes
+* Une sémantique possible des transitions entre scènes
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_semantiqueTransition")
@@ -31,6 +31,12 @@ class SemantiqueTransition implements InputFilterAwareInterface
     * @ORM\Column(type="string", length=200)
     */
     protected $semantique;
+    
+    /**
+     * Description de la sémantique
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    protected $description;
     
     /**
     * Magic getter to expose protected properties.
@@ -73,6 +79,7 @@ class SemantiqueTransition implements InputFilterAwareInterface
     {
         $this->id = $data['id'];
         $this->semantique = $data['semantique'];
+        $this->description = $data['description'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

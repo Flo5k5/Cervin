@@ -1,0 +1,69 @@
+<?php
+$title = 'Sémantique des transitions entre scènes';
+$this->headTitle($title);
+?>
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
+
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : sémantique des transitions entre scènes</h3>
+    </div>
+    <div class="modal-body">
+    	A ECRIRE
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
+<div class="page-header row-fluid">
+		<h1><?php echo $this->escapeHtml($title); ?> 
+	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+</div>
+
+<table class="table table-striped">
+	<tr>
+		<th>Sémantique</th>
+		<th>Description</th>
+	</tr>
+	<?php foreach ($semantiques as $semantique): ?>
+		<tr>
+			<!-- <td><?php echo $semantique->semantique; ?></td> -->
+			<td>
+				<span class="edit CursorPointer"
+                    	data-url="<?php echo $this->url("semantiquetransition/modifier", array("id" => $semantique->id)); ?>"
+                    	data-name="semantique" 
+                    	data-type="text" 
+                    	data-pk="1">
+            		<?php  echo $semantique->semantique ?>
+                </span>
+            </td>
+            <td>
+				<span class="edit CursorPointer"
+                    	data-url="<?php echo $this->url("semantiquetransition/modifier", array("id" => $semantique->id)); ?>"
+                    	data-name="description" 
+                    	data-type="textarea" 
+                    	data-pk="1">
+            		<?php  echo $semantique->description ?>
+                </span>
+            </td>
+		</tr>
+	<?php endforeach; ?>
+</table> 
+
+<?php 
+	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+?>
+
+<?php $this->inlineScript()->captureStart() ?>
+	
+	$(function() {
+
+		$('.edit').editable({ mode: 'inline', });
+	
+	});
+	
+<?php $this->inlineScript()->captureEnd() ?>
