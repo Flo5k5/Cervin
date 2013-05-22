@@ -138,6 +138,11 @@ return array(
                     'controller' => 'Semantique',
                     'roles' => array('Admin')
                 ),
+            		
+            	array(
+            		'controller' => 'SemantiqueTransition',
+            		'roles' => array('Admin')
+            	),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -202,6 +207,9 @@ return array(
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
 
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
+            		
+            	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/modifier', 'roles' => array('Admin')),
             ),
         ), 
     ),
