@@ -63,17 +63,26 @@ $this->headTitle($title);
 
 
 
-    <a class="btn btn-large element popover-link" href=""
+    <a class="btn btn-large element popover-link" href="#"
     data-toggle="popover" 
     data-placement="right" 
     data-html="true" 
-    data-content='<ul class="nav nav-list">
-  <li><a href="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
-  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
-  <li><a class="text-error" href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
-</ul>' 
+    data-content='
+    <ul class="nav nav-list">
+        <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
+        <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
+        <li><a 
+                href="#" 
+                data-value="<?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>" 
+                data-url="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"
+                class="text-error SupprimerScene" >
+                    <i class="icon-trash"></i> Supprimer la scene
+            </a>
+        </li>
+    </ul>
+    '
     data-trigger="manual"
-    title="" ><span class="text"><?php echo $sous_parcour->scene_depart->titre ; ?></span></a><br>
+    title="" ><span class="text"><?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?></span></a><br>
 <?php
 
 $debut = $sous_parcour->scene_depart->transition_recommandee;
@@ -90,9 +99,9 @@ while($debut != null):
     data-title='<?php echo $this->escapeHtml($debut->semantique->semantique); ?>' 
     data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
 		<ul class="nav nav-list">
-		  <li><a href="#"><i class="icon-white icon-pencil"></i> Ajouter une scene</a></li>
-		  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la transition</a></li>
-		  <li><a class="text-error" href="#"><i class="icon-white icon-trash"></i> Supprimer la transition</a></li>
+		  <li><a href="#"><i class="icon-plus"></i> Ajouter une scene</a></li>
+		  <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
+		  <li><a class="text-error" href="#"><i class="icon-trash"></i> Supprimer la transition</a></li>
 		</ul>
 	' 
     data-trigger="manual"
@@ -105,50 +114,74 @@ while($debut != null):
     data-html="true"
     data-content='
     <ul class="nav nav-list">
-	  <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
-	  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
-	  <li><a class="text-error" href="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
+        <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
+        <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
+        <li><a 
+                href="#" 
+                data-value="<?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>" 
+                data-url="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"
+                class="text-error SupprimerScene" >
+                    <i class="icon-trash"></i> Supprimer la scene
+            </a>
+        </li>
 	</ul>'
     data-trigger="manual"
-    title="" ><span class="text"><?php echo $debut->scene_destination->titre ; ?></span></a><br>
-
+    title="" ><span class="text"><?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?></span></a><br>
 
 <?php
 	$debut = $debut->scene_destination->transition_recommandee;
 endwhile;
-
-
-
-
 ?>
+    <a class="btn btn-mini liaison popover-link" href="#"
+    title="" ><i class="icon-plus"></i> Ajouter une scene</a><br>
 
 
 <?php endforeach ; ?>
 </div>
 
-
-
-<script type="text/javascript">
-$('.dropdown-menu').dropdown()
-$('.popover-link').each(function () {
-    $(this).click(function () {
-        $(this).popover('show');
-    });
-});
-
-$('body').on('click', function (e) {
-    $('.popover-link').each(function () {
-        //the 'is' for buttons that triggers popups
-        //the 'has' for icons within a button that triggers a popup
-        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-            $(this).popover('hide');
-        }
-    });
-});
+<div id="confirmDiv" >
+</div>
 
 
 
-</script>
+<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
+<?php $this->inlineScript()->captureStart() ?>
+    $(function() {
+        $('.popover-link').each(function () {
+            $(this).click(function () {
+                $(this).popover('show');
+            });
+        });
+
+    $('body').on('click', function (e) {
+        $('.popover-link').each(function () {
+            //the 'is' for buttons that triggers popups
+            //the 'has' for icons within a button that triggers a popup
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+      });
+    $(".elements").on("click",".SupprimerScene", function(e){
+            var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+            $('#confirmDiv').confirmModal({
+                heading:"Confirmation : suppression d'une scène",
+                body:"Êtes-vous sûr de vouloir supprimer définitivement la scène <i>" + dataValue + " </i>?",
+                callback: function() {
+                     $.post(
+                        dataURL,
+                        { name: "supprimer" },
+                        function() {
+                            document.location.reload();
+                        }
+                    );
+                }
+            });
+        });
+}); 
+
+<?php $this->inlineScript()->captureEnd() ?>
 
 
 
