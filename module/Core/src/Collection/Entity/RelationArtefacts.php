@@ -43,6 +43,15 @@ class RelationArtefacts implements InputFilterAwareInterface
      * @ORM\JoinColumn(name="semantique_id", referencedColumnName="id", nullable=false)
      **/
     protected $semantique;
+
+    /**
+     * Constructeur
+     **/
+    public function __construct($origine, $destination, $semantique) {
+    	$this->origine     = $origine;
+    	$this->destination = $destination;
+    	$this->semantique  = $semantique;
+    }
     
     /**
     * Magic getter to expose protected properties.
