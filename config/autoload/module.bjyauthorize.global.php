@@ -115,14 +115,20 @@ return array(
                     'controller' => 'Media',
                     'roles' => array('Utilisateur')
                 ),
-
+                
                 array(
-                    'controller' => 'EditParcours',
+                    'controller' => 'Parcours',
                     'roles' => array('Parcours')
                 ),
 
                 array(
                     'controller' => 'Parcours',
+                    'action' => 'index', 
+                    'roles' => array('Utilisateur')
+                ),
+
+                array(
+                    'controller' => 'Scene',
                     'roles' => array('Utilisateur')
                 ),
 
@@ -143,6 +149,11 @@ return array(
                     'controller' => 'Semantique',
                     'roles' => array('Admin')
                 ),
+            		
+            	array(
+            		'controller' => 'SemantiqueTransition',
+            		'roles' => array('Admin')
+            	),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -207,9 +218,18 @@ return array(
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
 
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
-                array('route' => 'EditParcours', 'roles' => array('Parcours')),
-                array('route' => 'EditParcours/voir', 'roles' => array('Parcours')),
-                array('route' => 'EditParcours/ajouter', 'roles' => array('Parcours')),
+
+                array('route' => 'parcours', 'roles' => array('Parcours')),
+                array('route' => 'parcours/voir', 'roles' => array('Parcours')),
+                array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
+
+
+            	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/modifier', 'roles' => array('Admin')),
+
+                array('route' => 'scene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
             ),
         ), 
     ),

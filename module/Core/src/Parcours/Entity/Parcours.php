@@ -7,6 +7,8 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Parcours\Entity\SousParcours;
+use Parcours\Entity\Scene;
 
 /**
 * Un parcours
@@ -60,6 +62,21 @@ class Parcours implements InputFilterAwareInterface
     	if (!$this->transitions->contains($transition)) {
     		$this->transitions->add($transition);
     	}
+    }
+    public function __construct() {
+        $SousParcours = new SousParcours();
+        $SousParcours->titre = 'Titre sous Parcours';
+        $SousParcours->description = 'Description du sous Parcours';
+        $SousParcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $Scene = new SceneRecommandee();
+        $Scene->titre = '1er Scene';
+        $Scene->narration = 'Narration';
+        $SousParcours->addScene($Scene);
+        $SousParcours->scene_depart = $Scene;
+
+        $this->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addSousParcours($SousParcours);
     }
     
     /**

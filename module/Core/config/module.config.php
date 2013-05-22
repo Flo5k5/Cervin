@@ -3,21 +3,22 @@
 namespace Core;
 
 return array(
-	'controllers' => array(
+    'controllers' => array(
         'invokables' => array(
             'typeElement' => 'Collection\Controller\TypeElementController',
-        	'Collection' => 'Collection\Controller\CollectionController',
+            'Collection' => 'Collection\Controller\CollectionController',
             'Artefact' => 'Collection\Controller\ArtefactController',
             'Media' => 'Collection\Controller\MediaController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
             'Relation' => 'Collection\Controller\RelationController',
             'Parcours' => 'Parcours\Controller\ParcoursController',
-            'EditParcours' => 'Parcours\Controller\EditParcoursController',
+            'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
+            'Scene' => 'Parcours\Controller\SceneController',
         ),
     ),
-	'router' => array(
+    'router' => array(
         'routes' => array(
-        		
+                
             'typeElement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -59,30 +60,30 @@ return array(
                 ),
             ),
 
-        	'collection' => array(
+            'collection' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
-        		'options' => array(
-        			'route' => '/collection',
-        			'defaults' => array(
-        				'controller' => 'Collection',
-        				'action'     => 'index',
-        			),
-        		),
-        		'may_terminate' => true,
-        		'child_routes' => array(
-        			'consulter' => array(
-        				'type' => 'Zend\Mvc\Router\Http\Literal',
-        				'options' => array(
-        					'route' => '/consulter',
-        					'defaults' => array(
-        						'controller' => 'Collection',
-        						'action'     => 'consulter',
-        					),
-        				),
-        			),
-        		),
-        	),
-    		
+                'options' => array(
+                    'route' => '/collection',
+                    'defaults' => array(
+                        'controller' => 'Collection',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'consulter' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/consulter',
+                            'defaults' => array(
+                                'controller' => 'Collection',
+                                'action'     => 'consulter',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            
             'artefact' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -98,9 +99,9 @@ return array(
                         'type' => 'segment',
                         'options' => array(
                             'route' => '/ajouter[/:type_element_id]',
-                        	'constraints' => array(
-                        		'type_element_id' => '[0-9]+'
-                        	),
+                            'constraints' => array(
+                                'type_element_id' => '[0-9]+'
+                            ),
                             'defaults' => array(
                                 'controller' => 'Artefact',
                                 'action'     => 'ajouter',
@@ -130,7 +131,7 @@ return array(
                             ),
                         ),
                     ),
-					'editArtefact' => array(
+                    'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
                             'route' => '/editArtefact/:id[/:idData]',
@@ -144,19 +145,19 @@ return array(
                             ),
                         ),
                     ),
-                	'removeArtefact' => array(
-                		'type' => 'segment',
-                		'options' => array(
-                			'route' => '/removeArtefact/:id',
-                			'constraints' => array(
-                				'id'     => '[0-9]+',
-                			),
-                			'defaults' => array(
-                				'controller' => 'Artefact',
-                				'action'     => 'removeArtefact',
-                			),
-            			),
-            		),
+                    'removeArtefact' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/removeArtefact/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'removeArtefact',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
@@ -284,26 +285,13 @@ return array(
                     ),
                 ),
             ),
+
             'parcours' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route' => '/parcours',
                     'defaults' => array(
                         'controller' => 'Parcours',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    
-                ),
-            ),
-            'EditParcours' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/EditParcours',
-                    'defaults' => array(
-                        'controller' => 'EditParcours',
                         'action'     => 'index',
                     ),
                 ),
@@ -317,7 +305,7 @@ return array(
                                 'id'     => '[0-9]+',
                             ),
                             'defaults' => array(
-                                'controller' => 'EditParcours',
+                                'controller' => 'Parcours',
                                 'action'     => 'voir',
                             ),
                         ),
@@ -327,8 +315,98 @@ return array(
                         'options' => array(
                             'route' => '/ajouter',
                             'defaults' => array(
-                                'controller' => 'EditParcours',
+                                'controller' => 'Parcours',
                                 'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'semantiquetransition' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/semantiquetransition',
+                        'defaults' => array(
+                            'controller' => 'SemantiqueTransition',
+                            'action'     => 'index',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes' => array(
+                        'ajouter' => array(
+                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'options' => array(
+                                'route' => '/ajouter',
+                                'defaults' => array(
+                                    'controller' => 'SemantiqueTransition',
+                                    'action'     => 'ajouter',
+                                ),
+                            ),
+                        ),
+                        'supprimer' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route' => '/supprimer/:id',
+                                'constraints' => array(
+                                    'id'     => '[0-9]+',
+                                ),
+                                'defaults' => array(
+                                    'controller' => 'SemantiqueTransition',
+                                    'action'     => 'supprimer',
+                                ),
+                            ),
+                        ),
+                        'modifier' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route' => '/modifier/:id',
+                                'constraints' => array(
+                                    'id'     => '[0-9]+',
+                                ),
+                                'defaults' => array(
+                                    'controller' => 'SemantiqueTransition',
+                                    'action'     => 'modifier',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+
+            'scene' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/scene',
+                    'defaults' => array(
+                        'controller' => 'Scene',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'voirScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voirScene/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'voirScene',
+                            ),
+                        ),
+                    ),
+                    'removeScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/removeScene/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'removeScene',
                             ),
                         ),
                     ),
@@ -336,53 +414,53 @@ return array(
             ),
         ),
     ),
-		
+        
     'view_manager' => array(
-    	'template_map' => array(
-    		
-    		'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
-    			
-    		'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',
-    		'collection/artefact/edit-artefact'  => __DIR__ . '/../view/Collection/Artefact/edit-artefact.phtml',
-    		'collection/artefact/voir-artefact'  => __DIR__ . '/../view/Collection/Artefact/voir-artefact.phtml',
+        'template_map' => array(
+            
+            'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
+                
+            'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',
+            'collection/artefact/edit-artefact'  => __DIR__ . '/../view/Collection/Artefact/edit-artefact.phtml',
+            'collection/artefact/voir-artefact'  => __DIR__ . '/../view/Collection/Artefact/voir-artefact.phtml',
 
-    		'collection/media/ajouter'           => __DIR__ . '/../view/Collection/Media/ajouter.phtml',
-    		'collection/media/edit-media'        => __DIR__ . '/../view/Collection/Media/edit-media.phtml',
-    		'collection/media/voir-media'        => __DIR__ . '/../view/Collection/Media/voir-media.phtml',
-    			
-    		'collection/semantique/index'        => __DIR__ . '/../view/Collection/Semantique/index.phtml',
-    		'collection/semantique/ajouter'      => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
-    		'collection/semantique/modifier'     => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
-    			
-    		'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
-    		'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml'
-    	),
-	    'template_path_stack' => array(
-	        'Collection' => __DIR__ . '/../view',
-	    )
-	),
+            'collection/media/ajouter'           => __DIR__ . '/../view/Collection/Media/ajouter.phtml',
+            'collection/media/edit-media'        => __DIR__ . '/../view/Collection/Media/edit-media.phtml',
+            'collection/media/voir-media'        => __DIR__ . '/../view/Collection/Media/voir-media.phtml',
+                
+            'collection/semantique/index'        => __DIR__ . '/../view/Collection/Semantique/index.phtml',
+            'collection/semantique/ajouter'      => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
+            'collection/semantique/modifier'     => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
+                
+            'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
+            'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml'
+        ),
+        'template_path_stack' => array(
+            'Collection' => __DIR__ . '/../view',
+        )
+    ),
     // Doctrine config
-	'doctrine' => array(
-		'driver' => array(
-			'Core_driver' => array(
-				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-				'cache' => 'array',
-				'paths' => array(
-						__DIR__ . '/../src/Collection/Entity',
-						__DIR__ . '/../src/Parcours/Entity'
-				)
-			),
-			'orm_default' => array(
-				'drivers' => array(
-					'Collection\Entity' => 'Core_driver',
-					'Parcours\Entity' => 'Core_driver',
-				)
-			)
-		)
-	),
-	'data-fixture' => array(
-			'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture',
-			'Parcours_fixture' => __DIR__ . '/../src/Parcours/Fixture'
-	),
+    'doctrine' => array(
+        'driver' => array(
+            'Core_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                        __DIR__ . '/../src/Collection/Entity',
+                        __DIR__ . '/../src/Parcours/Entity'
+                )
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'Collection\Entity' => 'Core_driver',
+                    'Parcours\Entity' => 'Core_driver',
+                )
+            )
+        )
+    ),
+    'data-fixture' => array(
+            'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture',
+            'Parcours_fixture' => __DIR__ . '/../src/Parcours/Fixture'
+    ),
 
 );

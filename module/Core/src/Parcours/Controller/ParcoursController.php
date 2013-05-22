@@ -13,6 +13,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
+use Parcours\Entity\Parcours;
+use Parcours\Form\ParcoursForm;
 
 class ParcoursController extends AbstractActionController
 {
@@ -104,6 +106,48 @@ class ParcoursController extends AbstractActionController
     	} else {
     		return new ViewModel();
     	}
+    }
+
+    public function ajouterAction()
+    {
+
+        $form = new ParcoursForm();
+        $Parcours = new Parcours();
+        $form->bind($Parcours);
+            
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setInputFilter($Parcours->getInputFilter());
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $this->getEntityManager()->persist($Parcours);
+                $this->getEntityManager()->flush();
+                $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $Parcours->titre));
+                return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
+            }
+        }
+
+        return new ViewModel(array('form'=>$form));
+    }
+
+    public function voirAction()
+    {
+
+
+        $id = (int) $this->params('id', null);
+        if (null === $id) {
+            $this->getResponse()->setStatusCode(404);
+            return; 
+        }
+
+        $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+        if ($Parcours === null) {
+            $this->getResponse()->setStatusCode(404);
+            return; 
+        }
+
+
+        return new ViewModel(array('Parcours'=>$Parcours));
     }
 
 }

@@ -1,0 +1,176 @@
+<?php
+$title = 'Parcours';
+$this->headTitle($Parcours->titre);
+?>
+
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($title); ?> 
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    <p><?php echo $Parcours->description;?></p>
+</div>
+
+
+<style type="text/css">
+.well{
+	margin-bottom: 1px;
+}
+
+
+ .icon-black{
+        color:  rgb(51, 51, 51);
+        text-decoration: none;
+      }
+
+      .voirfond {
+        background: #EDEDED;
+      }
+
+      .elements{
+        text-align: center;
+      }
+      .elements .element {
+        width: 180px;/*
+        line-height:100px;*/
+
+        text-align: center;
+        padding: 30px 10px 30px 10px;
+      }/*
+      .shortcuts .shortcut .text {
+        line-height:1.2;
+  		display:inline-block;
+        vertical-align: middle;
+        text-align: center;
+      }*/
+      .liaison {
+      	margin:2px;
+        width: 188px;
+
+      }
+
+</style>
+
+
+
+
+<?php
+//var_dump($Parcours);
+
+?>
+
+
+<div class="elements">
+<?php foreach( ($Parcours->sous_parcours) as $sous_parcour) : ?>
+
+
+
+    <a class="btn btn-large element popover-link" href="#"
+    data-toggle="popover" 
+    data-placement="right" 
+    data-html="true" 
+    data-content='<ul class="nav nav-list">
+  <li><a href="#"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
+  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
+  <li><a class="text-error" href="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
+</ul>' 
+    data-trigger="manual"
+    title="" ><span class="text"><?php echo $sous_parcour->scene_depart->titre ; ?></span></a><br>
+<?php
+
+$debut = $sous_parcour->scene_depart->transition_recommandee;
+
+
+while($debut != null):
+
+?>
+
+    <a class="btn btn-mini liaison popover-link" href="#"
+    data-toggle="popover" 
+    data-placement="right" 
+    data-html="true"
+    data-title='<?php echo $this->escapeHtml($debut->semantique->semantique); ?>' 
+    data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
+		<ul class="nav nav-list">
+		  <li><a href="#"><i class="icon-white icon-pencil"></i> Ajouter une scene</a></li>
+		  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la transition</a></li>
+		  <li><a class="text-error" href="#"><i class="icon-white icon-trash"></i> Supprimer la transition</a></li>
+		</ul>
+	' 
+    data-trigger="manual"
+    title="" ><i class="icon-arrow-down icon-large"></i></a><br>
+
+
+<a class="btn btn-large element popover-link" href="#"
+    data-toggle="popover" 
+    data-placement="right" 
+    data-html="true"
+    data-content='
+    <ul class="nav nav-list">
+	  <li><a href="#"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
+	  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
+	  <li><a class="text-error" href="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
+	</ul>'
+    data-trigger="manual"
+    title="" ><span class="text"><?php echo $debut->scene_destination->titre ; ?></span></a><br>
+
+
+<?php
+	$debut = $debut->scene_destination->transition_recommandee;
+endwhile;
+
+
+
+
+?>
+
+
+<?php endforeach ; ?>
+</div>
+
+
+
+<script type="text/javascript">
+$('.dropdown-menu').dropdown()
+$('.popover-link').each(function () {
+    $(this).click(function () {
+        $(this).popover('show');
+    });
+});
+
+$('body').on('click', function (e) {
+    $('.popover-link').each(function () {
+        //the 'is' for buttons that triggers popups
+        //the 'has' for icons within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

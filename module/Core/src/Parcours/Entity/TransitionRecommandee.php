@@ -24,7 +24,7 @@ class TransitionRecommandee extends Transition
     /**
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
      **/
-    protected $scene_destination;      
+    protected $scene_destination;
 
     /**
     * Magic getter to expose protected properties.
