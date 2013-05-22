@@ -122,6 +122,11 @@ return array(
                 ),
 
                 array(
+                    'controller' => 'Scene',
+                    'roles' => array('Utilisateur')
+                ),
+
+                array(
                     'controller' => 'fileupload_examples',
                     'roles' => array('Visiteur')
                 ),
@@ -202,6 +207,9 @@ return array(
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
 
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
+
+                array('route' => 'scene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
             ),
         ), 
     ),

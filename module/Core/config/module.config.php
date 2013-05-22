@@ -12,6 +12,7 @@ return array(
             'Semantique' => 'Collection\Controller\SemantiqueController',
             'Relation' => 'Collection\Controller\RelationController',
             'Parcours' => 'Parcours\Controller\ParcoursController',
+            'Scene' => 'Parcours\Controller\SceneController',
         ),
     ),
 	'router' => array(
@@ -296,6 +297,33 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     
+                ),
+            ),
+
+            'scene' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/scene',
+                    'defaults' => array(
+                        'controller' => 'Scene',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'voirScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voirScene/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'voirScene',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
