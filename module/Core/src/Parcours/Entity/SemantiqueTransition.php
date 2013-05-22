@@ -34,7 +34,7 @@ class SemantiqueTransition implements InputFilterAwareInterface
     
     /**
      * Description de la sémantique
-     * @ORM\Column(type="string", length=200, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
     

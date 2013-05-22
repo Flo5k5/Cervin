@@ -323,6 +323,7 @@ return array(
                 ),
             ),
 
+<<<<<<< HEAD
             'semantiquetransition' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -372,6 +373,57 @@ return array(
                         ),
                     ),
                 ),
+=======
+        	'semantiquetransition' => array(
+        		'type' => 'Zend\Mvc\Router\Http\Literal',
+        		'options' => array(
+        			'route' => '/semantiquetransition',
+        				'defaults' => array(
+        					'controller' => 'SemantiqueTransition',
+        					'action'     => 'index',
+        				),
+        			),
+        			'may_terminate' => true,
+        			'child_routes' => array(
+        				'ajouter' => array(
+        					'type' => 'Zend\Mvc\Router\Http\Literal',
+        					'options' => array(
+        						'route' => '/ajouter',
+        						'defaults' => array(
+        							'controller' => 'SemantiqueTransition',
+        							'action'     => 'ajouter',
+        						),
+        					),
+        				),
+        				'supprimer' => array(
+        					'type' => 'segment',
+        					'options' => array(
+        						'route' => '/supprimer/:id',
+        						'constraints' => array(
+        							'id'     => '[0-9]+',
+        						),
+        						'defaults' => array(
+        							'controller' => 'SemantiqueTransition',
+        							'action'     => 'supprimer',
+        						),
+        					),
+        				),
+        				'modifier' => array(
+        					'type' => 'segment',
+        					'options' => array(
+        						'route' => '/modifier/:id',
+        						'constraints' => array(
+        							'id'     => '[0-9]+',
+        						),
+        						'defaults' => array(
+        							'controller' => 'SemantiqueTransition',
+        							'action'     => 'modifier',
+        						),
+        					),
+        				),
+        			),
+        		),
+>>>>>>> 6eb979d5a18c90e684b7349651841140a47590f1
 
             'scene' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
