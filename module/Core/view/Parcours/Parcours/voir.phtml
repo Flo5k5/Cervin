@@ -1,6 +1,6 @@
 <?php
-$title = 'Parcours';
-$this->headTitle($Parcours->titre);
+$title = $Parcours->titre;
+$this->headTitle($title);
 ?>
 
 <div class="page-header">
@@ -63,14 +63,14 @@ $this->headTitle($Parcours->titre);
 
 
 
-    <a class="btn btn-large element popover-link" href="#"
+    <a class="btn btn-large element popover-link" href=""
     data-toggle="popover" 
     data-placement="right" 
     data-html="true" 
     data-content='<ul class="nav nav-list">
-  <li><a href="#"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
+  <li><a href="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
   <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
-  <li><a class="text-error" href="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
+  <li><a class="text-error" href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
 </ul>' 
     data-trigger="manual"
     title="" ><span class="text"><?php echo $sous_parcour->scene_depart->titre ; ?></span></a><br>
@@ -105,7 +105,7 @@ while($debut != null):
     data-html="true"
     data-content='
     <ul class="nav nav-list">
-	  <li><a href="#"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
+	  <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-white icon-eye-open"></i> Voir la scene</a></li>
 	  <li><a href="#"><i class="icon-white icon-pencil"></i> Modifier la scene</a></li>
 	  <li><a class="text-error" href="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-white icon-trash"></i> Supprimer la scene</a></li>
 	</ul>'
