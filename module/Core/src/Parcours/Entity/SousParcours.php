@@ -33,17 +33,22 @@ class SousParcours implements InputFilterAwareInterface
     protected $titre;
     
     /**
+     * @ORM\Column(type="text")
+     */
+    protected $description;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Parcours", inversedBy="sous_parcours")
      **/
     protected $parcours;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="sous_parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="sous_parcours", cascade={"remove", "persist"})
      **/
     protected $transitions;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\Scene", mappedBy="sous_parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\Scene", mappedBy="sous_parcours", cascade={"persist", "remove"})
      **/
     protected $scenes;
     
@@ -51,6 +56,20 @@ class SousParcours implements InputFilterAwareInterface
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
      **/
     protected $scene_depart;
+    
+    public function addTransition($transition) {
+    	$transition->sous_parcours = $this;
+    	if (!$this->transitions->contains($transition)) {
+    		$this->transitions->add($transition);
+    	}
+    }
+    
+    public function addScene($scene) {
+    	$scene->sous_parcours = $this;
+    	if (!$this->scenes->contains($scene)) {
+    		$this->scenes->add($scene);
+    	}
+    }
 
     /**
     * Magic getter to expose protected properties.

@@ -381,7 +381,8 @@ return array(
 		)
 	),
 	'data-fixture' => array(
-			'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture'
+			'Collection_fixture' => __DIR__ . '/../src/Collection/Fixture',
+			'Parcours_fixture' => __DIR__ . '/../src/Parcours/Fixture'
 	),
 
 );
