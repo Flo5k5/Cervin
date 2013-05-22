@@ -259,7 +259,9 @@ data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
-
+	
+	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $artefact->titre; ?>', 'description' : '<?php echo $artefact->description; ?>'};
+	
 	$(function () {
 
 		/*$("#modalDiv").on("click",".ajouter", function(e){
@@ -309,8 +311,6 @@ data-name="description" data-type="wysihtml5" data-pk="1" data-url="<?php echo $
 				$('#textarea-return').html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Enregistrement réussi</div>')
 			});
 		});
-
-
 
 		$('.picker').editable({
 			mode: 'popup',

@@ -19,6 +19,8 @@
         </div>
     </div>
     
+    <div id="modalDiv"></div>
+    
 <?php $this->inlineScript()->captureStart(); ?>
 	var tableRelationMedia;
 	$(function() {
@@ -68,13 +70,27 @@
 			}
 		);
 
-	    $(document).on( 'click', '.ajouter', function(event){
-			$.ajax({
-				url: "<?php echo $this->url("semantique"); ?>",
-				cache: false
-			}).done(function( html ) {
-				console.log(html);
-			});
+	    $(document).on( 'click', '.ajouter', function(e){
+	   		e.preventDefault();
+		    var URL = $(this).attr('data-url');
+		    
+		    if(typeof element != 'undefined'){
+		    
+			    $.ajax({
+			        url: URL,
+			        type: "POST",
+			        data:{ 'idOrigine' : element.id }, 
+			        success:function(response){
+			            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+			        },
+			        error: function(){
+			            alert('Impossible d\'afficher la popup');
+			        }
+			    });
+			    
+			} else {
+				alert("L'objet element n'a pas été défini en javascript");
+			}
 		});
 	    	    
 		function isDuplicate(type, value, array){

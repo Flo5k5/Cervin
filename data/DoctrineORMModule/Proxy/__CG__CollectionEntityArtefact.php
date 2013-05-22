@@ -237,4 +237,15 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
         return parent::getInputFilter();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function deleteFile($element)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteFile', array($element));
+
+        return parent::deleteFile($element);
+    }
+
 }

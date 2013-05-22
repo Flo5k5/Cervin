@@ -19,8 +19,13 @@
         </div>
     </div>
     
+    <div id="modalDiv"></div>
+    
 <?php $this->inlineScript()->captureStart(); ?>
+
 	var tableRelationArtefact;
+	var timer = null;
+	
 	$(function() {
 	
 		$("#submit").click( function () {
@@ -68,6 +73,51 @@
 			}
 		);
 
+	    $(document).on( 'click', '.ajouter', function(e){
+	   		e.preventDefault();
+		    var URL = $(this).attr('data-url');
+		    
+		    if(typeof element != 'undefined'){
+		    
+			    $.ajax({
+			        url: URL,
+			        type: "POST",
+			        data:{ 'idOrigine' : element.id }, 
+			        success:function(response){
+			            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+			        },
+			        error: function(){
+			            alert('Impossible d\'afficher la popup');
+			        }
+			    });
+			    
+			} else {
+				alert("L'objet element n'a pas été défini en javascript");
+			}
+		});
+	   	
+	   	$(document).on("click","#modalDiv .ajouterSemantique", function(e){
+	   		e.preventDefault();
+	   		
+		    var URL = $(this).attr('data-url');
+		    
+			$.ajax({
+				url: URL,
+				type: "GET",
+			}).done(function(e){
+			
+				var resp = jQuery.parseJSON(e);
+				
+				if(resp.success === true){
+					$('.message').showInfos("La relation a bien été ajoutée.", "success");
+				} else {
+					$('.message').showInfos(resp.error, "error");
+				}
+
+			});
+			
+		});
+		
 		function isDuplicate(type, value, array){
 			var array = ( typeof(array) == 'undefined' ? [] : array );
 			var duplicate = false;
@@ -78,10 +128,6 @@
 				}
 			});
 			return duplicate;
-		}
-		
-		String.prototype.ucFirst = function() {
-		    return this.charAt(0).toUpperCase() + this.slice(1);
 		}
 
 	});

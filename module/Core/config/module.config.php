@@ -155,6 +155,31 @@ return array(
                 			),
             			),
             		),
+                	'ajouterRelationArtefact' => array(
+                			'type' => 'segment',
+                			'options' => array(
+                					'route' => '/ajouterRelation[/:idDestination][/:idOrigine][/:idSemantique]',
+                					'constraints' => array(
+                							'idSemantique'  => '[0-9]+',
+                							'idDestination' => '[0-9]+',
+                							'idOrigine'     => '[0-9]+'
+                					),
+                					'defaults' => array(
+                							'controller' => 'Artefact',
+                							'action'     => 'ajouterRelationArtefact',
+                					),
+                			),
+                	),
+                	'voirRelationArtefact' => array(
+                			'type' => 'Zend\Mvc\Router\Http\Literal',
+                			'options' => array(
+                					'route' => '/voirRelationArtefact',
+                					'defaults' => array(
+                							'controller' => 'Artefact',
+                							'action'     => 'voirRelationArtefact',
+                					),
+                			),
+                	),
                 ),
             ),
 
@@ -195,16 +220,6 @@ return array(
                             ),
                         ),
                     ),
-                    'voirRelationMedia' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/voirRelationArtefact',
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'voirRelationArtefact',
-                            ),
-                        ),
-                    ),
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -231,6 +246,29 @@ return array(
                             ),
                         ),
                     ),
+                	'ajouterRelationMedia' => array(
+                			'type' => 'segment',
+                			'options' => array(
+                					'route' => '/ajouterRelation[/:idDestination]',
+                					'constraints' => array(
+                							'idDestination' => '[0-9]+'
+                					),
+                					'defaults' => array(
+                							'controller' => 'Media',
+                							'action'     => 'ajouterRelationMedia',
+                					),
+                			),
+                	),
+                	'voirRelationMedia' => array(
+                			'type' => 'Zend\Mvc\Router\Http\Literal',
+                			'options' => array(
+                					'route' => '/voirRelationMedia',
+                					'defaults' => array(
+                							'controller' => 'Media',
+                							'action'     => 'voirRelationMedia',
+                					),
+                			),
+                	),
                 ),
             ),
             'semantique' => array(
