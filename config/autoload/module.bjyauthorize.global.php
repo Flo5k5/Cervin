@@ -117,6 +117,16 @@ return array(
                 ),
 
                 array(
+                    'controller' => 'EditParcours',
+                    'roles' => array('Parcours')
+                ),
+
+                array(
+                    'controller' => 'Parcours',
+                    'roles' => array('Utilisateur')
+                ),
+
+                array(
                     'controller' => 'fileupload_examples',
                     'roles' => array('Visiteur')
                 ),
@@ -166,12 +176,14 @@ return array(
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
+                array('route' => 'artefact/voirRelationArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
                 array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
+                array('route' => 'media/voirRelationMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
                 array('route' => 'media/removeMedia', 'roles' => array('Collection')),
 
@@ -193,6 +205,11 @@ return array(
                 array('route' => 'fileupload/progress/session', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session_partial', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
+
+                array('route' => 'parcours', 'roles' => array('Utilisateur')),
+                array('route' => 'EditParcours', 'roles' => array('Parcours')),
+                array('route' => 'EditParcours/voir', 'roles' => array('Parcours')),
+                array('route' => 'EditParcours/ajouter', 'roles' => array('Parcours')),
             ),
         ), 
     ),

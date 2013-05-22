@@ -11,6 +11,8 @@ return array(
             'Media' => 'Collection\Controller\MediaController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
             'Relation' => 'Collection\Controller\RelationController',
+            'Parcours' => 'Parcours\Controller\ParcoursController',
+            'EditParcours' => 'Parcours\Controller\EditParcoursController',
         ),
     ),
 	'router' => array(
@@ -118,7 +120,17 @@ return array(
                             ),
                         ),
                     ),
-                    'editArtefact' => array(
+                    'voirRelationArtefact' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/voirRelationArtefact',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'voirRelationArtefact',
+                            ),
+                        ),
+                    ),
+					'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
                             'route' => '/editArtefact/:id[/:idData]',
@@ -182,6 +194,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Media',
                                 'action'     => 'voirMedia',
+                            ),
+                        ),
+                    ),
+                    'voirRelationMedia' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/voirRelationArtefact',
+                            'defaults' => array(
+                                'controller' => 'Artefact',
+                                'action'     => 'voirRelationArtefact',
                             ),
                         ),
                     ),
@@ -262,12 +284,62 @@ return array(
                     ),
                 ),
             ),
+            'parcours' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/parcours',
+                    'defaults' => array(
+                        'controller' => 'Parcours',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    
+                ),
+            ),
+            'EditParcours' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/EditParcours',
+                    'defaults' => array(
+                        'controller' => 'EditParcours',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'voir' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voir[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'EditParcours',
+                                'action'     => 'voir',
+                            ),
+                        ),
+                    ),
+                    'ajouter' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'EditParcours',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 		
     'view_manager' => array(
     	'template_map' => array(
-    			
+    		
     		'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
     			
     		'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',

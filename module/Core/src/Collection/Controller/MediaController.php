@@ -114,6 +114,73 @@ class MediaController extends AbstractActionController
         return new ViewModel(array('media' => $Media));
     }
 
+    public function voirRelationMediaAction()
+    {
+    	$params = null;
+    
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    		$params = $this->params()->fromPost();
+    
+    			
+    		if(!isset($params["iSortCol_0"])){
+    			$params["iSortCol_0"] = '0';
+    		}
+    			
+    		if(!isset($params["sSortDir_0"])){
+    			$params["sSortDir_0"] = 'ASC';
+    		}
+    
+    		$entityManager = $this->getEntityManager()
+    		->getRepository('Collection\Entity\Element');
+    			
+    		$dataTable = new \Collection\Model\ElementDataTable($params);
+    		$dataTable->setEntityManager($entityManager);
+    			
+    		$dataTable->setConfiguration(array(
+    				'titre',
+    				'type'
+    		));
+    			
+    		$aaData = array();
+    
+    		$paginator = null;
+    
+    		if(isset($params["conditions"])){
+    			$conditions = json_decode($params["conditions"], true);
+    			$paginator = $dataTable->getPaginator($conditions);
+    		} else {
+    			$paginator = $dataTable->getPaginator();
+    		}
+    			
+    		foreach ($paginator as $element) {
+    				
+    			$titre = '';
+    			if($element->type_element->type == 'artefact'){
+    				$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+    			} elseif($element->type_element->type == 'media'){
+    				$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+    			} else {
+    				$titre = $element->titre;
+    			}
+    
+    			$bouton = '<a href="#" class="btn btn-info ajouter"><i class="icon-plus"></i> Ajouter</a>';
+    				
+    			$aaData[] = array(
+    					$titre,
+    					$element->type_element->type,
+    					$bouton
+    			);
+    		}
+    
+    		$dataTable->setAaData($aaData);
+    
+    		return $this->getResponse()->setContent($dataTable->findAll());
+    	} else {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    }
+    
     public function editMediaAction()
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
@@ -126,7 +193,6 @@ class MediaController extends AbstractActionController
     	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
-            //$post = $this->params()->fromPost();
             $request = $this->params()->fromPost();
             switch ($request['name']) {
                 case 'titre':
@@ -162,8 +228,12 @@ class MediaController extends AbstractActionController
                             $data->nombre = $request['value'];
                             break;
                         case 'fichier':
-                            $data->fichier = $request['value'];
-                            break;
+							$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$media->deleteFile($data);
+			    	 			$media->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
                         case 'url':
                             $data->url = $request['value'];
                             break;

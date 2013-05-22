@@ -16,6 +16,10 @@ use Collection\Entity\Data;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Json\Json;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\DriverManager;
+
+
 class ArtefactController extends AbstractActionController
 {
 	/**
@@ -116,6 +120,73 @@ class ArtefactController extends AbstractActionController
 		return new ViewModel(array('artefact' => $Artefact));
 	}
 
+	public function voirRelationArtefactAction()
+	{
+		$params = null;
+		
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$params = $this->params()->fromPost();
+	
+		 
+			if(!isset($params["iSortCol_0"])){
+				$params["iSortCol_0"] = '0';
+			}
+			
+			if(!isset($params["sSortDir_0"])){
+				$params["sSortDir_0"] = 'ASC';
+			}
+			 
+			$entityManager = $this->getEntityManager()
+			->getRepository('Collection\Entity\Element');
+			
+			$dataTable = new \Collection\Model\ElementDataTable($params);
+			$dataTable->setEntityManager($entityManager);
+			
+			$dataTable->setConfiguration(array(
+					'titre',
+					'type'
+			));
+			
+			$aaData = array();
+			 
+			$paginator = null;
+			 
+			if(isset($params["conditions"])){
+				$conditions = json_decode($params["conditions"], true);
+				$paginator = $dataTable->getPaginator($conditions);
+			} else {
+				$paginator = $dataTable->getPaginator();
+			}
+			
+			foreach ($paginator as $element) {
+			
+				$titre = '';
+				if($element->type_element->type == 'artefact'){
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} elseif($element->type_element->type == 'media'){
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} else {
+					$titre = $element->titre;
+				}
+				
+				$bouton = '<a href="#" class="btn btn-info ajouter"><i class="icon-plus"></i> Ajouter</a>';
+			
+				$aaData[] = array(
+						$titre,
+						$element->type_element->type,
+						$bouton
+				);
+			}
+			 
+			$dataTable->setAaData($aaData);
+
+			return $this->getResponse()->setContent($dataTable->findAll());
+		} else {			
+			$this->getResponse()->setStatusCode(404);
+            return;
+		}
+	}
+	
 	public function editArtefactAction()
 	{
 
@@ -147,10 +218,11 @@ class ArtefactController extends AbstractActionController
 
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!idData or $data === null) {
+					if (!$idData or $data === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
+					
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -165,7 +237,12 @@ class ArtefactController extends AbstractActionController
 		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
-		    	 			$data->fichier = $request['value'];
+		    	 			$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$artefact->deleteFile($data);
+			    	 			$artefact->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
 		    	 			break;
 		    	 		case 'url':
 		    	 			$data->url = $request['value'];
@@ -185,7 +262,6 @@ class ArtefactController extends AbstractActionController
 		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
-
 	public function removeArtefactAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
