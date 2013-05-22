@@ -97,14 +97,14 @@
                            <!--  <li class="divider-vertical"></li> -->
                         <?php endif; ?>
                         <?php if ($this->isAllowed('Utilisateur') === true) :?>
-                            <!--  <li><a href="#"><i class="icon-road"></i>  Parcours</a></li>
-                            <li class="divider-vertical"></li> -->
+                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
+                            <li class="divider-vertical"></li>
                         <?php endif; ?>
                         </ul>
                         <ul class="nav pull-right">
                         
                         	<?php if ($this->isAllowed('Admin') === true) :?>
-                                    	<li class="divider-vertical"></li>
+                                 		<li class="divider-vertical"></li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             	<i class="icon-tasks"></i>  Administration 
@@ -125,11 +125,25 @@
                                                 <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
                                                     <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
                                                 </a></li>
-                                                <li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements
-
-                                                </a></li>
-                                                <li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques</a></li>
+                                                
                                                 <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
+                                                
+                                                <li class="dropdown-submenu">
+												<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
+													<ul class="dropdown-menu">
+														<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements
+                                                		</a></li>
+                                                		<li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques des relations</a></li>
+													</ul>
+												</li>
+												
+												<li class="dropdown-submenu">
+												<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
+													<ul class="dropdown-menu">
+                                                		<li><a href="<?php echo $this->url('semantiquetransition'); ?>"><i class="icon-bookmark"></i>  Sémantiques des transitions</a></li>
+													</ul>
+												</li>
+												
                                             </ul>
                                         </li>
                             <?php endif; ?>

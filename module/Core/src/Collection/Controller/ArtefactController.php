@@ -152,10 +152,11 @@ class ArtefactController extends AbstractActionController
 
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!idData or $data === null) {
+					if (!$idData or $data === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
+					
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -170,7 +171,12 @@ class ArtefactController extends AbstractActionController
 		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
-		    	 			$data->fichier = $request['value'];
+		    	 			$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$artefact->deleteFile($data);
+			    	 			$artefact->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
 		    	 			break;
 		    	 		case 'url':
 		    	 			$data->url = $request['value'];
@@ -190,7 +196,6 @@ class ArtefactController extends AbstractActionController
 		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
-
 	public function removeArtefactAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
@@ -223,7 +228,7 @@ class ArtefactController extends AbstractActionController
 			
 			$idSemantique = (int) $this->params()->fromRoute('idSemantique', 0);
 			
-			//Si il n'y a pas de sémantique, on veut la modal
+			//Si il n'y a pas de sémantique, on charge la modal
 			if(!$idSemantique){
 				
 				$idElementDestination = (int) $this->params()->fromRoute('idDestination', 0);

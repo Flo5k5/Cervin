@@ -68,7 +68,7 @@ $this->headTitle($title);
 			        			id="<?php echo $element->getAttribute('name'); ?>"
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $element->getAttribute('description'); ?>"
+			        			data-content="<?php echo $this->escapeHtml($element->getAttribute('description')); ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php } ?>
 				        <!-- Erreurs de validation du formulaire -->

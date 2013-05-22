@@ -7,6 +7,8 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Parcours\Entity\SousParcours;
+use Parcours\Entity\Scene;
 
 /**
 * Un parcours
@@ -39,14 +41,43 @@ class Parcours implements InputFilterAwareInterface
     protected $description;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="parcours", cascade={"persist", "remove"})
      **/
     protected $sous_parcours;
     
     /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours")
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours", cascade={"remove", "persist"})
      **/
     protected $transitions;
+    
+    public function addSousParcours($sous_parcours) {
+    	$sous_parcours->parcours = $this;
+    	if (!$this->sous_parcours->contains($sous_parcours)) {
+    		$this->sous_parcours->add($sous_parcours);
+    	}
+    }
+    
+    public function addTransition($transition) {
+    	$transition->parcours = $this;
+    	if (!$this->transitions->contains($transition)) {
+    		$this->transitions->add($transition);
+    	}
+    }
+    public function __construct() {
+        $SousParcours = new SousParcours();
+        $SousParcours->titre = 'Titre sous Parcours';
+        $SousParcours->description = 'Description du sous Parcours';
+        $SousParcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $Scene = new SceneRecommandee();
+        $Scene->titre = '1er Scene';
+        $Scene->narration = 'Narration';
+        $SousParcours->addScene($Scene);
+        $SousParcours->scene_depart = $Scene;
+
+        $this->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addSousParcours($SousParcours);
+    }
     
     /**
     * Magic getter to expose protected properties.
@@ -87,7 +118,9 @@ class Parcours implements InputFilterAwareInterface
     */
     public function populate($data = array())
     {
-
+        $this->id = $data['id'];
+        $this->description = $data['description'];
+        $this->titre = $data['titre'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -97,6 +130,46 @@ class Parcours implements InputFilterAwareInterface
 
     public function getInputFilter()
     {
-
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+             
+            $inputFilter->add($factory->createInput(array(
+                    'name' => 'id',
+                    'required' => true,
+                    'filters' => array(array('name' => 'Int')),
+            )));
+             
+            $inputFilter->add($factory->createInput(array(
+                    'name' => 'titre',
+                    'required' => true,
+                    'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim'),
+                    ),
+                    'validators' => array(
+                            array(
+                                    'name' => 'StringLength',
+                                    'options' => array(
+                                            'encoding' => 'UTF-8',
+                                            'min' => 1,
+                                            'max' => 200,
+                                    ),
+                            ),
+                    ),
+            )));
+             
+            $inputFilter->add($factory->createInput(array(
+                    'name' => 'description',
+                    'required' => false,
+                    'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim'),
+                    ),
+            )));
+            $this->inputFilter = $inputFilter;
+            
+        }
+        return $this->inputFilter;
     }
 }

@@ -32,15 +32,14 @@ $this->headTitle($title);
     </div>
 </div>
 
-
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1><?php echo $this->escapeHtml($title); ?> 
 	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un artefact</a>
-		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn icon-plus btn-primary">  Ajouter un média</a>
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn btn-primary span3"> <i class="icon-white icon-plus"></i>  Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn btn-primary span3"> <i class="icon-white icon-plus"></i> Ajouter un média</a>
 	<?php endif; ?>
 </div>
 	

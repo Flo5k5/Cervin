@@ -126,7 +126,6 @@ class MediaController extends AbstractActionController
     	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
-            //$post = $this->params()->fromPost();
             $request = $this->params()->fromPost();
             switch ($request['name']) {
                 case 'titre':
@@ -162,8 +161,12 @@ class MediaController extends AbstractActionController
                             $data->nombre = $request['value'];
                             break;
                         case 'fichier':
-                            $data->fichier = $request['value'];
-                            break;
+							$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$media->deleteFile($data);
+			    	 			$media->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
                         case 'url':
                             $data->url = $request['value'];
                             break;
@@ -219,8 +222,7 @@ class MediaController extends AbstractActionController
     		if (!$idElementDestination) {
     			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Element Destination')));
     		}
-    		
-    
+
     		if (!$idElementOrigine) {
     			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Element Origine')));
     		}
@@ -229,8 +231,8 @@ class MediaController extends AbstractActionController
     		
     		$elementOrigine = $this->getEntityManager()->find('Collection\Entity\Element', $idElementOrigine);
 
-    		var_dump($elementOrigine->type_element->id);
-    		var_dump($elementDestination->type_element->id);
+    		//var_dump($elementOrigine->type_element->id);
+    		//var_dump($elementDestination->type_element->id);
     		
     		if (null === $elementDestination || null === $elementOrigine ) {
     			$this->getResponse()->setStatusCode(404);

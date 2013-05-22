@@ -115,6 +115,22 @@ return array(
                     'controller' => 'Media',
                     'roles' => array('Utilisateur')
                 ),
+                
+                array(
+                    'controller' => 'Parcours',
+                    'roles' => array('Parcours')
+                ),
+
+                array(
+                    'controller' => 'Parcours',
+                    'action' => 'index', 
+                    'roles' => array('Utilisateur')
+                ),
+
+                array(
+                    'controller' => 'Scene',
+                    'roles' => array('Utilisateur')
+                ),
 
                 array(
                     'controller' => 'fileupload_examples',
@@ -133,6 +149,11 @@ return array(
                     'controller' => 'Semantique',
                     'roles' => array('Admin')
                 ),
+            		
+            	array(
+            		'controller' => 'SemantiqueTransition',
+            		'roles' => array('Admin')
+            	),
             ),
 
             /* If this guard is specified here (i.e. it is enabled), it will block
@@ -197,6 +218,22 @@ return array(
                 array('route' => 'fileupload/progress/session', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session_partial', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
+
+                array('route' => 'parcours', 'roles' => array('Utilisateur')),
+
+                array('route' => 'parcours', 'roles' => array('Parcours')),
+                array('route' => 'parcours/voir', 'roles' => array('Parcours')),
+                array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
+
+
+            	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/modifier', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/supprimer', 'roles' => array('Admin')),
+
+                array('route' => 'scene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
             ),
         ), 
     ),
