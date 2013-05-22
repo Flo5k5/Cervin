@@ -91,9 +91,13 @@ $this->headTitle($title);
                      $.post(
                      	dataURL,
                         { name: "supprimer" },
-                        function() {
-                            document.location.reload();
-                        }
+                        function(response) {
+		                	if(response == 'true') {
+		                		document.location.reload();
+							} else {
+		                		alert("La sémantique ne peut pas être supprimée, elle est probablement utilisée dans une transition existante");
+		           			}
+		            	}
                     );
                 }
           	});

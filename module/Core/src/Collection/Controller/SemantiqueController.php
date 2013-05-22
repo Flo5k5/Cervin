@@ -171,13 +171,12 @@ class SemantiqueController extends AbstractActionController
 			return; 
         }
         
-			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
 		if ($SemantiqueArtefact === null) {
 			$this->getResponse()->setStatusCode(404);
 			return; 
 		}
         
-
         $this->getEntityManager()->remove($SemantiqueArtefact);
         $this->getEntityManager()->flush();
 	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));

@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Form\SemantiqueTransitionForm;
 use Parcours\Entity\SemantiqueTransition;
+use Zend\Json\Json;
+use Exception;
 
 class SemantiqueTransitionController extends AbstractActionController
 {
@@ -121,12 +123,13 @@ class SemantiqueTransitionController extends AbstractActionController
 		}
         try {
 			$this->getEntityManager()->remove($semantiqueTransition);
-        } catch (Exception $e) {
+        } catch (\Doctrine_Validator_Exception $e) {
         	return $this->getResponse()->setContent(Json::encode(false));
+        	//return $e->getMessage();
         }
         $this->getEntityManager()->flush();
 	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.'));
-        return $this->redirect()->toRoute('semantique');
+       	return $this->getResponse()->setContent(Json::encode(true));
 	}
 
 }
