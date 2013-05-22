@@ -214,7 +214,9 @@ return array(
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
 
             	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/modifier', 'roles' => array('Admin')),
+            	array('route' => 'semantiquetransition/supprimer', 'roles' => array('Admin')),
 
                 array('route' => 'scene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),

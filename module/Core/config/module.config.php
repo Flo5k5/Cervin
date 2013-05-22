@@ -312,7 +312,7 @@ return array(
         			),
         			'may_terminate' => true,
         			'child_routes' => array(
-        				/*'ajouter' => array(
+        				'ajouter' => array(
         					'type' => 'Zend\Mvc\Router\Http\Literal',
         					'options' => array(
         						'route' => '/ajouter',
@@ -321,8 +321,8 @@ return array(
         							'action'     => 'ajouter',
         						),
         					),
-        				),*/
-        				/*'supprimer' => array(
+        				),
+        				'supprimer' => array(
         					'type' => 'segment',
         					'options' => array(
         						'route' => '/supprimer/:id',
@@ -334,7 +334,7 @@ return array(
         							'action'     => 'supprimer',
         						),
         					),
-        				),*/
+        				),
         				'modifier' => array(
         					'type' => 'segment',
         					'options' => array(
