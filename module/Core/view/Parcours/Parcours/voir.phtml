@@ -29,11 +29,11 @@ $this->headTitle($title);
         text-align: center;
       }
       .elements .element {
-        width: 180px;/*
+        width: 208px;/*
         line-height:100px;*/
 
         text-align: center;
-        padding: 30px 10px 30px 10px;
+        padding: 20px 10px 20px 10px;
       }/*
       .shortcuts .shortcut .text {
         line-height:1.2;
@@ -43,7 +43,7 @@ $this->headTitle($title);
       }*/
       .liaison {
       	margin:2px;
-        width: 188px;
+        width: 208px;
         background: #FFF;
         border-width: 0;
 
@@ -70,87 +70,100 @@ a [class*=" icon-"]:before {
 
 
 <div class="elements">
-<?php foreach( ($Parcours->sous_parcours) as $sous_parcour) : ?>
+<?php foreach( ($Parcours->sous_parcours) as $sous_parcour) : 
+    if ($this->isAllowed('Parcours') === true) :?>
+        <button class="btn btn-large element popover-link" 
+        data-toggle="popover" 
+        data-placement="right" 
+        data-html="true" 
+        data-content='
+        <ul class="nav nav-list">
+            <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
+            <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
+            <li><a 
+                    href="#" 
+                    data-value="<?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>" 
+                    data-url="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"
+                    class="text-error SupprimerScene" >
+                        <i class="icon-trash"></i> Supprimer la scene
+                </a>
+            </li>
+            <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
+            <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
+        </ul>
+        '
+        data-trigger="manual"
+        title="" ><?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?></button><br>
+    <?php
+    else :
+    ?>
+
+        <a class="btn btn-large element popover-link" 
+            href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>" >
+            <?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>
+        </a>
 
 
+    <?php
+    endif;
 
-    <a class="btn btn-large element popover-link" href="#"
-    data-toggle="popover" 
-    data-placement="right" 
-    data-html="true" 
-    data-content='
-    <ul class="nav nav-list">
-        <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
-        <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
-        <li><a 
-                href="#" 
-                data-value="<?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>" 
-                data-url="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"
-                class="text-error SupprimerScene" >
-                    <i class="icon-trash"></i> Supprimer la scene
-            </a>
-        </li>
-        <li><a href="#"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
-        <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
-    </ul>
-    '
-    data-trigger="manual"
-    title="" ><span class="text"><?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?></span></a><br>
-<?php
-
-$debut = $sous_parcour->scene_depart->transition_recommandee;
-
-
-while($debut != null):
-
+    $debut = $sous_parcour->scene_depart->transition_recommandee;
+    while($debut != null):
+    ?>
+        <i class="icon-minus icon-rotate-270"></i><br>
+        <button class="btn btn-mini liaison popover-link" 
+            data-toggle="popover" 
+            data-placement="right" 
+            data-html="true"
+            data-title='<?php echo ($debut->semantique) ? $this->escapeHtml($debut->semantique->semantique) : 'Défauts' ; ?>' 
+            data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
+                <?php if ($this->isAllowed('Parcours') === true) :?>
+            		<ul class="nav nav-list">
+            		  <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
+            		</ul>
+                <?php endif;?>
+        	' 
+            data-trigger="manual"
+            title="" >
+            <?php echo $this->escapeHtml($debut->narration);?>
+        </button><br>
+        <i class="icon-arrow-down"></i><br>
+        <?php 
+        if ($this->isAllowed('Parcours') === true) :?>
+            <button class="btn btn-large element popover-link"
+                data-toggle="popover" 
+                data-placement="right" 
+                data-html="true"
+                data-content='
+                <ul class="nav nav-list">
+                    <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
+                    <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
+                    <li><a 
+                            href="#" 
+                            data-value="<?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>" 
+                            data-url="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"
+                            class="text-error SupprimerScene" >
+                                <i class="icon-trash"></i> Supprimer la scène
+                        </a>
+                    </li>
+                    <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $debut->scene_destination->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
+                    <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $debut->scene_destination->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
+            	</ul>'
+                data-trigger="manual"
+                title="" ><?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>
+            </button><br>
+        <?php
+        else :
 ?>
-
-    <a class="btn btn-mini liaison popover-link" href="#"
-    data-toggle="popover" 
-    data-placement="right" 
-    data-html="true"
-    data-title='<?php echo $this->escapeHtml($debut->semantique->semantique); ?>' 
-    data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
-		<ul class="nav nav-list">
-		  <li><a href="#" calss="ajScene"><i class="icon-plus"></i> Ajouter une scène</a></li>
-		  <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
-		  <li><a class="text-error" href="#"><i class="icon-trash"></i> Supprimer la transition</a></li>
-		</ul>
-	' 
-    data-trigger="manual"
-    title="" ><i class="icon-arrow-down icon-large"></i></a><br>
-
-
-<a class="btn btn-large element popover-link" href="#"
-    data-toggle="popover" 
-    data-placement="right" 
-    data-html="true"
-    data-content='
-    <ul class="nav nav-list">
-        <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $debut->scene_destination->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
-        <li><a href="#"><i class="icon-pencil"></i> Modifier la scene</a></li>
-        <li><a 
-                href="#" 
-                data-value="<?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>" 
-                data-url="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"
-                class="text-error SupprimerScene" >
-                    <i class="icon-trash"></i> Supprimer la scène
-            </a>
-        </li>
-        <li><a href="#"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
-        <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
-	</ul>'
-    data-trigger="manual"
-    title="" ><span class="text"><?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?></span></a><br>
-
+        <a class="btn btn-large element popover-link" 
+            href="<?php echo $this->url('scene/voirScene', array('id' => $debut->scene_destination->id)) ?>" >
+            <?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>
+        </a>
 <?php
-	$debut = $debut->scene_destination->transition_recommandee;
-endwhile;
-?>
-    <a class="btn btn-mini liaison ajScene" 
-    href="#"
-    data-url="<?php echo $this->url('scene/ajouterScene') ?>"
-    title="" ><i class="icon-plus"></i> Ajouter une scene</a><br>
+        endif;
+    $debut = $debut->scene_destination->transition_recommandee;
+    endwhile;
+    ?>
 
 
 <?php endforeach ; ?>

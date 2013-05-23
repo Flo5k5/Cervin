@@ -13,6 +13,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
+use Parcours\Entity\SceneRecommandee;
+use Parcours\Entity\TransitionRecommandee;
 
 class SceneController extends AbstractActionController
 {
@@ -116,6 +118,94 @@ class SceneController extends AbstractActionController
 	}
 	public function ajouterSceneAction()
 	{
-		# code...
+		$id = (int) $this->params('id', null);
+        $action = $this->params('type', null);
+
+        if (null === $id or null === $action) {
+            $this->getResponse()->setStatusCode(404);
+            return; 
+        }
+        $scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
+		if ($scene === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+        switch ($action) {
+        	case 'ajAvant':
+        		// on récupére la transition "pour" la scene
+				$trBefore = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$id));
+        		// création de la nouvelle Scene entre $sceneBefore et $scene
+	        	$newScene = new SceneRecommandee();
+	        	$newScene->titre = 'Nouvelle scène';
+	        	$newScene->narration = 'Narration';
+	        	// ajout de ma nouvelle scene au sous parcours
+	        	$scene->sous_parcours->addScene($newScene);
+	        	// si on change la 1er scene du sous parcours
+	        	if ($trBefore === null) {
+	        		
+	        		// on change la scene de depart pour la nouvelle scene
+	        		$scene->sous_parcours->scene_depart = $newScene;
+	        		// on créé un nouvelle Transition Recommandee
+	        		$newTransitionRecommandee = new TransitionRecommandee();
+		        	$newTransitionRecommandee->narration = 'Nouvelle Transition';
+		        	// la scene d'origine de la transition est la $newScene
+		        	$newTransitionRecommandee->scene_origine = $newScene;
+		        	// la scene de destination est l'ex scene de depart
+		        	$newTransitionRecommandee->scene_destination = $scene;
+
+		        // si on est bien entre 2 scene
+	        	} else {
+	        	// on réqupére la scene avent la nouvelle scene
+	        	$sceneBefore = $trBefore->scene_origine;
+	        	// on modifie la transition qui pointe sur $scene pour qu'elle parte de $newScene
+	        	$trBefore->scene_origine = $newScene;
+	        	// on créé un nouvelle Transition Recommandee
+	        	$newTransitionRecommandee = new TransitionRecommandee();
+	        	$newTransitionRecommandee->narration = 'Nouvelle Transition';
+	        	// la scene d'origine de la transition est la $sceneBefore
+	        	$newTransitionRecommandee->scene_origine = $sceneBefore;
+	        	// la scene de destination est la nouvelle scene
+	        	$newTransitionRecommandee->scene_destination = $newScene;
+	        	}
+
+	        	$this->getEntityManager()->persist($newScene);
+	        	$this->getEntityManager()->persist($newTransitionRecommandee);
+        		$this->getEntityManager()->flush();
+
+        		break;
+        	case 'ajApres':
+        	    // création de la nouvelle Scene entre $sceneBefore et $scene
+	        	$newScene = new SceneRecommandee();
+	        	$newScene->titre = 'Nouvelle scène';
+	        	$newScene->narration = 'Narration';
+	        	// ajout de ma nouvelle scene au sous parcours
+	        	$scene->sous_parcours->addScene($newScene);
+
+	        	// si il y a une transition apres la scene
+	        	// sinon on est en fin de sous parcours
+	        	if (!$scene->transition_recommandee === null) {
+	        		// on change l'origine 
+	        		$scene->transition_recommandee->scene_origine = $newScene;
+	        	} 
+	        	// on créé un nouvelle Transition Recommandee
+	        	$newTransitionRecommandee = new TransitionRecommandee();
+	        	
+	        	$newTransitionRecommandee->narration = 'Nouvelle Transition';
+	        	// la scene d'origine de la transition est la $scene
+	        	$newTransitionRecommandee->scene_origine = $scene;
+		        // la scene de destination est la nouvelle scene
+	        	$newTransitionRecommandee->scene_destination = $newScene;
+
+	        	$this->getEntityManager()->persist($newScene);
+	        	$this->getEntityManager()->persist($newTransitionRecommandee);
+	        	$this->getEntityManager()->flush();
+        		break;
+        	
+        	default:
+        		# code...
+        		break;
+        }
+         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
+
 	}
 }
