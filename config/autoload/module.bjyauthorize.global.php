@@ -9,7 +9,7 @@ return array(
     ),
     'bjyauthorize' => array(
 
-        // set the 'guest' role as default (must be defined in a role provider)
+        // set the 'Visiteur' role as default (must be defined in a role provider)
         'default_role' => 'Visiteur',
 
         'authenticated_role'    => 'Utilisateur',
@@ -24,8 +24,8 @@ return array(
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
                 'Admin' => array(),
-                'Collection' => array(),
                 'Parcours' => array(),
+                'Collection' => array(),
                 'Utilisateur' => array(),
                 //'pants' => array(),
             ),
@@ -37,8 +37,8 @@ return array(
                     // the "wear" privilege on the resource "pants"
                     //array(array('guest', 'user'), 'pants', 'wear'),
                     array(array('Admin'), 'Admin'),
-                    array(array('Collection'), 'Collection'),
                     array(array('Parcours'), 'Parcours'),
+                    array(array('Collection'), 'Collection'),
                     array(array('Utilisateur'), 'Utilisateur'),
                 ),
 
@@ -118,12 +118,6 @@ return array(
                 
                 array(
                     'controller' => 'Parcours',
-                    'roles' => array('Parcours')
-                ),
-
-                array(
-                    'controller' => 'Parcours',
-                    'action' => 'index', 
                     'roles' => array('Utilisateur')
                 ),
 
@@ -220,11 +214,8 @@ return array(
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
 
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
-
-                array('route' => 'parcours', 'roles' => array('Parcours')),
-                array('route' => 'parcours/voir', 'roles' => array('Parcours')),
+                array('route' => 'parcours/voir', 'roles' => array('Utilisateur')),
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
-
 
             	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),
@@ -235,6 +226,7 @@ return array(
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/ajouterScene', 'roles' => array('Parcours')),
+                array('route' => 'scene/editScene', 'roles' => array('Parcours')),
             ),
         ), 
     ),

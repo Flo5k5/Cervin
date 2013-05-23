@@ -114,8 +114,14 @@ class SceneController extends AbstractActionController
 		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
 		return $this->redirect()->toRoute('parcours');
 	}
+
 	public function ajouterSceneAction()
 	{
-		# code...
+		return new ViewModel();
+	}
+
+	public function editSceneAction()
+	{
+		return new ViewModel();
 	}
 }

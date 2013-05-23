@@ -448,6 +448,29 @@ return array(
                             ),
                         ),
                     ),
+                    'ajouterScene' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'ajouterScene',
+                            ),
+                        ),
+                    ),
+                    'editScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/edit/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'editScene',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
