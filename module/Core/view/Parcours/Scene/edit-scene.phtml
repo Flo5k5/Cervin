@@ -1,0 +1,175 @@
+<?php 
+
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+
+$title = $scene->titre;
+$this->headTitle($title);
+?>
+
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide : modification d'une scène</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Cette page vous permet de modifier les informations d'une scène. Tous les champs sont modifiables en cliquant directement dessus.
+    	</p>
+    	<p>
+    	Le'onglet 'éléments liés' permet de gérer les relations mais n'est pas encore implémenté.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
+<div class="page-header row-fluid">
+	<div class="span9">
+		<h1>
+		Modification d'une scène : 
+		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> <br/>
+		<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
+		</h1>
+	</div>
+	
+	<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" class="btn btn-primary span3">
+		<i class="icon-pencil"> </i>
+        Retour à la fiche de cette scène
+    </a>
+	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3">
+		<i class="icon-trash"> </i>
+		Supprimer cette scène
+	</a>
+	
+</div>
+
+<!--Confirm Modal -->
+<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Confirmation : suppression d'une scène</h3>
+    </div>
+    <div class="modal-body">
+    	Êtes-vous sur de vouloir supprimer la scène "<?php echo $scene->titre; ?>" ?
+    </div>
+    <div class="modal-footer">
+	    <a href="<?php echo $this->url('scene/removeScene',
+            array('id' => $scene->id)) ?>" class="btn btn-primary">Supprimer</a>
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
+<div class="row-fluid">
+
+	<div class="span6 well">
+		<form id="textarea">
+			<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $scene->narration;?></textarea>
+			<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
+		</form>
+		<div id="textarea-return"></div>
+	</div>
+	
+	<div class="span6 well">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Information</a></li>
+			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Eléments liés</a></li>
+		</ul>
+		
+		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+			<div class="tab-pane active" id="tab1">
+				<dl>
+					<dt>Parcours</dt>
+					<dd>
+						<?php 
+							echo $scene->sous_parcours->parcours->titre; 
+							echo '</br></br>';
+						?>
+					</dd>
+					
+				</dl>
+			</div>
+			
+			<div class="tab-pane" id="tab2">
+				
+				
+				
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php $this->inlineScript()->captureStart(); ?>
+	
+	var element = {'id' : <?php echo $this->escapeHtml($scene->id); ?>, 'titre' : '<?php echo $this->escapeHtml($scene->titre); ?>' };
+	
+	$(function () {
+
+		$('.textarea-wysihtml5').wysihtml5({
+			locale: "fr-FR",
+			image: false,
+			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
+			"events": {
+				"load": function() { 
+					$(editor.composer.iframe).wysihtml5_size_matters();
+				}
+			}
+		});
+
+		$("#textarea").on("click",".textarea-submit", function(e){
+		DataValue = $('.textarea-wysihtml5').val();
+			$.ajax({
+				url: "<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>",
+				type: "POST",
+				data:{ name:'description', value: DataValue }, 
+			}).done(function(){
+				$('#textarea-return').html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Enregistrement réussi</div>')
+			});
+		});
+
+	    $(".file-input-form").on('submit', function (e){
+	    	e.preventDefault();
+	    	$(this).ajaxSubmit({
+				data: {name: 'data'},
+				success: function(data) { document.location.reload(); }
+            });
+	    });
+
+		$('.picker').editable({
+			mode: 'popup',
+			placement: 'top',
+			format: 'yyyy-mm-dd',
+			viewformat: 'dd-mm-yyyy',
+			 datepicker: {
+				language:'fr',
+			}
+		});
+		
+		$('.edit').editable({
+			mode: 'inline',
+		});
+		
+    });
+    
+<?php 
+$this->inlineScript()->captureEnd();
+
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
+
+?>

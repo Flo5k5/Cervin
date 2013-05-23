@@ -12,7 +12,7 @@ $this->headTitle($title);
 
 <style type="text/css">
 .well{
-	margin-bottom: 1px;
+    margin-bottom: 1px;
 }
 
 
@@ -37,12 +37,12 @@ $this->headTitle($title);
       }/*
       .shortcuts .shortcut .text {
         line-height:1.2;
-  		display:inline-block;
+        display:inline-block;
         vertical-align: middle;
         text-align: center;
       }*/
       .liaison {
-      	margin:2px;
+        margin:2px;
         width: 208px;
         background: #FFF;
         border-width: 0;
@@ -89,7 +89,7 @@ a [class*=" icon-"]:before {
                 </a>
             </li>
             <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
-            <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
+            <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
         </ul>
         '
         data-trigger="manual"
@@ -101,7 +101,7 @@ a [class*=" icon-"]:before {
         <a class="btn btn-large element popover-link" 
             href="<?php echo $this->url('scene/voirScene', array('id' => $sous_parcour->scene_depart->id)) ?>" >
             <?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>
-        </a>
+        </a><br>
 
 
     <?php
@@ -118,11 +118,11 @@ a [class*=" icon-"]:before {
             data-title='<?php echo ($debut->semantique) ? $this->escapeHtml($debut->semantique->semantique) : 'Défauts' ; ?>' 
             data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
                 <?php if ($this->isAllowed('Parcours') === true) :?>
-            		<ul class="nav nav-list">
-            		  <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
-            		</ul>
+                    <ul class="nav nav-list">
+                      <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
+                    </ul>
                 <?php endif;?>
-        	' 
+            ' 
             data-trigger="manual"
             title="" >
             <?php echo $this->escapeHtml($debut->narration);?>
@@ -148,7 +148,7 @@ a [class*=" icon-"]:before {
                     </li>
                     <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $debut->scene_destination->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
                     <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $debut->scene_destination->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
-            	</ul>'
+                </ul>'
                 data-trigger="manual"
                 title="" ><?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>
             </button><br>
@@ -158,7 +158,7 @@ a [class*=" icon-"]:before {
         <a class="btn btn-large element popover-link" 
             href="<?php echo $this->url('scene/voirScene', array('id' => $debut->scene_destination->id)) ?>" >
             <?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>
-        </a>
+        </a><br>
 <?php
         endif;
     $debut = $debut->scene_destination->transition_recommandee;

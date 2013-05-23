@@ -69,8 +69,32 @@ class SceneController extends AbstractActionController
             return;
 		}
 
-		//$Scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>1));
-		return new ViewModel(array('scene' => $Scene));
+		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$Scene->id));
+		$tr_after = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_origine'=>$Scene->id));
+
+		if($tr_before === null)
+		{
+			$sc_before = null;
+		}
+		else
+		{
+			$sc_before = $tr_before->scene_origine;
+		}
+
+		if($tr_after === null)
+		{
+			$sc_after = null;
+		}
+		else
+		{
+			$sc_after = $tr_after->scene_destination;
+		}
+
+		return new ViewModel(array(
+			'scene' => $Scene, 
+			'precedente' => $sc_before,
+			'suivante' => $sc_after
+		));
     }
 
     public function removeSceneAction()
@@ -116,6 +140,7 @@ class SceneController extends AbstractActionController
 		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
 		return $this->redirect()->toRoute('parcours');
 	}
+
 	public function ajouterSceneAction()
 	{
 		$id = (int) $this->params('id', null);
@@ -206,6 +231,82 @@ class SceneController extends AbstractActionController
         		break;
         }
          return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
+	}
 
+	public function editSceneAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
+		if (!$id or $scene === null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			$request = $this->params()->fromPost();
+			switch ($request['name']) {
+				
+				case 'titre':
+					$scene->titre = $request['value'];
+		            $this->getEntityManager()->flush();
+		            return $this->getResponse()->setContent(Json::encode(true));
+				break;
+
+				case 'description':
+					$scene->narration = $request['value'];
+		            $this->getEntityManager()->flush();
+		            return $this->getResponse()->setContent(Json::encode(true));
+				break;
+
+				/*///
+				case 'data':
+
+					$idData = (int) $this->params()->fromRoute('idData', 0);
+					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
+					if (!$idData or $data === null) {
+						$this->getResponse()->setStatusCode(404);
+						return;
+					}
+					
+					switch ($data->champ->format) {
+		    	 		case 'texte':
+		    	 			$data->texte = $request['value'];
+		    	 			break;
+		    	 		case 'textarea':
+		    	 			$data->textarea = $request['value'];
+		    	 			break;
+		    	 		case 'date':
+		    	 			$data->date = new \DateTime($request['value']);
+		    	 			break;
+		    	 		case 'nombre':
+		    	 			$data->nombre = $request['value'];
+		    	 			break;
+		    	 		case 'fichier':
+		    	 			$files = $this->params()->fromFiles();
+		    	 			$file = $files['file-input'];
+		    	 			if ($file != null) {
+			    	 			$scene->deleteFile($data);
+			    	 			$scene->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+		    	 			}
+		    	 			break;
+		    	 		case 'url':
+		    	 			$data->url = $request['value'];
+			            	break;
+			            default:
+			            	return $this->getResponse()->setContent(Json::encode(false));
+			            break;
+		    	 	} // end switch
+		            $this->getEntityManager()->flush();
+			        return $this->getResponse()->setContent(Json::encode(true));
+				break;
+				default:
+		            return $this->getResponse()->setContent(Json::encode(false));  
+		        break;
+		        //*///
+			}
+			return $this->getResponse()->setContent(Json::encode(true));///
+		}
+		return new ViewModel(array('scene' => $scene));
 	}
 }

@@ -5,14 +5,25 @@ $this->headTitle($title);
 
 <div class="page-header row-fluid">
 	<div class="span9">
-	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	<h1><i class="icon-file-alt"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 	</div>
 	<?php if ($this->isAllowed('Parcours') === true) :?>
-		<a href="#<?php //echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
-			class="btn btn-primary span3">
-			<i class="icon-pencil"> </i> Modifier cette scène
-		</a>
-
+		<span class="btn-group span3 row-fluid">
+			<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
+				class="btn btn-primary span12">
+				<i class="icon-pencil"> </i> Modifier cette scène
+			</a>
+		</span>
+		<span class="btn-group span4 row-fluid">
+			<a href="<?php if($precedente !== null){echo $this->url('scene/voirScene',array('id' => $precedente->id));}else{echo '#';} ?>" 
+				class="btn btn-info span6 <?php if($precedente === null){echo 'disabled';} ?>">
+				<i class="icon-arrow-left"> </i> Scène précédente
+			</a>
+			<a href="<?php if($suivante !== null){echo $this->url('scene/voirScene',array('id' => $suivante->id));}else{echo '#';} ?>" 
+				class="btn btn-info span6 <?php if($suivante === null){echo 'disabled';} ?>">
+				Scène suivante <i class="icon-arrow-right"> </i>
+			</a>
+		</span>
     <?php endif; ?>
 </div>
 
