@@ -5,8 +5,9 @@ $this->headTitle($title);
 
 <div class="row-fluid">
 
-	<div class="span3 well">
-		<p class="lead"><h4> <i class="icon-road"></i> <?php echo $scene->sous_parcours->parcours->titre; ?> </h4></p>
+	<!-- Menu de navigation dasn le parcours -->
+	<div class="span4 well">
+		<h4> <i class="icon-road"></i> <?php echo $scene->sous_parcours->parcours->titre; ?> </h4>
 		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
 			class="btn btn-link"> 
 			<i class="icon-reply"></i> Retour au parcours 
@@ -36,6 +37,12 @@ $this->headTitle($title);
 					$class = "";
 				} ?>
 				<li class="<?php echo $class; ?>">
+					<table class="muted" border="0">
+					<tr>
+						<td> <small> <i class="icon-arrow-down"></i> </small> </td>
+						<td> <small> <?php echo $transition->narration; ?> </small> </td>
+					</tr>
+					</table> 
 					<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
 					<?php echo $transition->scene_destination->titre; ?> 
 					</a>
@@ -45,14 +52,16 @@ $this->headTitle($title);
 		</ul>
 	</div>
 
-	<div class="span9">
+	<!-- Fiche de la scène -->
+	<div class="span8">
 	
+		<!-- Titre de la scène -->
 		<div class="page-header row-fluid">
-			<div class="span9">
+			<div class="span8">
 			<h1><i class="icon-file-alt"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 			</div>
 			<?php if ($this->isAllowed('Parcours') === true) :?>
-				<span class="btn-group span3 row-fluid">
+				<span class="btn-group span4 row-fluid">
 					<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
 						class="btn btn-primary span12">
 						<i class="icon-pencil"> </i> Modifier cette scène
@@ -63,10 +72,12 @@ $this->headTitle($title);
 		
 		<div class="row-fluid">
 		
+			<!-- Narration de la scène -->
 			<div class="span8">
 				<p><?php echo $scene->narration;?></p>
 			</div>
 			
+			<!-- Eléments de la collection liés à la scène -->
 			<div class="span4 well">
 				<h4> A voir dans cette scène </h4>
 				<?php if ($scene->elements->count() == 0): ?>

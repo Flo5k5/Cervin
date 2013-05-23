@@ -42,6 +42,9 @@ class SemantiqueController extends AbstractActionController
 		return $this->em;
 	}
 
+	/**
+	 * Renvoie à la vue les sémantiques à afficher dans le dataTable
+	 */
 	public function indexAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -75,7 +78,7 @@ class SemantiqueController extends AbstractActionController
                     '<span> '. $semantique->type_origine->nom .' </span>',
                     '<span class="edit CursorPointer"
                     	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
-                    	data-name="semantique"data-type="text" data-pk="1"> '.
+                    	data-name="semantique" data-type="text" data-pk="1"> '.
             			$semantique->semantique .
                 	'</span>',
                     '<span> '. $semantique->type_destination->nom .' </span>',
@@ -83,31 +86,36 @@ class SemantiqueController extends AbstractActionController
                 );
             }
             $dataTable->setAaData($aaData);
-            
             return $this->getResponse()->setContent($dataTable->findAll());
-		}
-		else{
+		} else {
 			$semantiquesArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findAll();
 			return new ViewModel(array('semantiquesArtefact'=>$semantiquesArtefact));
 		}
 	}
 
+	/**
+	 * Ajout d'une nouvelle sémantique
+	 * Renvoie le formulaire avec les types d'artefacts possibles en origine et destination d'une sémantique à la vue
+	 * Traite la requête lorsque le formulaire est posté :
+	 * 		Création de la sémantique
+	 * 		Vérification des données du formulaire
+	 * 		Remplissage de la sémantique avec les données
+	 * 		Envoi dans la base de données
+	 * @return \Zend\View\Model\ViewModel
+	 */
 	public function ajouterAction()
 	{
 		$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'), array('nom'=>'ASC'));
-
 		$typeElementsArtefactArray = array();
 		$typeElementsArtefactArray2 = array();
 		foreach ($typeElementsArtefact as $typeElementArtefact) {
 			$typeElementsArtefactArray[$typeElementArtefact->id] = $typeElementArtefact->nom;
 			$typeElementsArtefactArray2[]=$typeElementArtefact->id;
-
 		}
-
         $form = new SemantiqueForm($typeElementsArtefactArray);
 		$SemantiqueArtefact = new SemantiqueArtefact();
 	    $form->bind($SemantiqueArtefact);
-		    
+		
 		$request = $this->getRequest();
 		if ($request->isPost()) {
 		    $form->setInputFilter($SemantiqueArtefact->getInputFilter($typeElementsArtefactArray2));
@@ -122,46 +130,45 @@ class SemantiqueController extends AbstractActionController
 	            return $this->redirect()->toRoute('semantique');
 		    }
 		}
-
 		return new ViewModel(array('form'=>$form));
-
 	}
 
+	/**
+	 * Modification d'une sémantique existante
+	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
+	 * On commence par récupérer la sémantique à modifier : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 */
 	public function modifierAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) 
         {
-        	
 			$id = (int) $this->params('id', null);
-		    if (null === $id) {
-		        $this->getResponse()->setStatusCode(404);
-				return; 
-		    }
-
 			$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
-			if ($SemantiqueArtefact === null) {
+			if ($SemantiqueArtefact === null or $id === null) {
 				$this->getResponse()->setStatusCode(404);
 				return; 
 			}
 			$request = $this->params()->fromPost();
-			switch ($request['name']) {
-				case 'semantique':
-					$SemantiqueArtefact->semantique = $request['value'];
-					$this->getEntityManager()->persist($SemantiqueArtefact);
-			    	$this->getEntityManager()->flush();
-					break;
-				
-				default:
-					$this->getResponse()->setStatusCode(404);
-					break;
-			}
+			$SemantiqueArtefact->semantique = $request['value'];
+			$this->getEntityManager()->persist($SemantiqueArtefact);
+	    	$this->getEntityManager()->flush();
 			return $this->getResponse()->setContent(Json::encode(true));
-		
 		} else {
 			$this->getResponse()->setStatusCode(404);
 		}
 	}
 
+	/**
+	 * Suppression d'une sémantique
+	 * Cette action est déclenché par un appel AJAX 
+	 * lancé depuis la modale de confirmation dans la vue.
+	 * On commence par récupérer la sémantique à supprimer : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * On vérifie ensuite si la sémantique est déjà utilisée dans une relation existante :
+	 * 		Si non, on peut la supprimer sans problème
+	 * 		Si oui, on ne doit pas la supprimer, on le signale à l'utilisateur 
+	 */
 	public function supprimerAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);

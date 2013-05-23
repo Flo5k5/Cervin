@@ -47,6 +47,15 @@ class MediaController extends AbstractActionController
     	return $this->redirect()->toRoute('collection/consulter');
     }
 
+    /**
+     * Création d'un média
+     * On envoi à la vue la liste des types de médias possibles
+     * Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+     * On envoie alors à la vue la formulaire correspondant pour créer un média du type choisi
+     * Lorsque le formulaire est posté, on traite la requête
+     * et on créé le média avec les données remplies
+     * @return \Zend\View\Model\ViewModel
+     */
     public function ajouterAction()
     {
         $TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
@@ -88,15 +97,19 @@ class MediaController extends AbstractActionController
         return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
 
+    /**
+     * Renvoie à la vue le média à afficher
+     * après l'avoir cherché en base de données
+     * à partir de l'id passé dans l'url
+     * @return void|\Zend\View\Model\ViewModel
+     */
     public function voirMediaAction()
     {
-
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
         try {
             $Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
         }
@@ -104,16 +117,28 @@ class MediaController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
-        if($Media==null){
+        if ($Media==null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
         //$Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>1));
         return new ViewModel(array('media' => $Media));
     }
 
+    /**
+     * Modification d'un média existant
+	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
+	 * On commence par récupérer le média à modifier : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * Plusieurs types de requêtes sont traitées ici, 
+	 * on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
+	 * qui peut valoir :
+	 * 		'titre' : on modifie le titre du média
+	 * 		'description' : on modifie la description du média
+	 * 		'data' : on modifie l'une des datas du média, 
+	 * 				 il faut alors regarder de quelle data il s'agit
+     * @return void|\Zend\View\Model\ViewModel
+     */
     public function editMediaAction()
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
@@ -123,7 +148,6 @@ class MediaController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $request = $this->params()->fromPost();
@@ -173,18 +197,24 @@ class MediaController extends AbstractActionController
                         default:
                             return $this->getResponse()->setContent(Json::encode(false));
                         break;
-                    } // end switch
+                    } // end switch format
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
                 break;
                 default:
                     return $this->getResponse()->setContent(Json::encode(false));  
                 break;
-            }
+            } // end switch request name
         }
         return new ViewModel(array('media' => $media,'datas'=>$datas));
     }
 
+    /**
+     * Suppression d'un média
+	 * On commence par récupérer le média à supprimer :
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * On pense bien à supprimer les éventuels fichiers uploadés pour ce média
+     */
     public function removeMediaAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);

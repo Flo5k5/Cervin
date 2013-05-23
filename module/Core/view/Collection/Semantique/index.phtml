@@ -61,6 +61,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
+<!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
 <div id="confirmDiv" >
 </div>
 
@@ -90,6 +91,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
                 "bServerSide": true,
                 "sAjaxSource": "<?php echo $this->url("semantique"); ?>",
                 "fnDrawCallback": function () {
+                	// Modale de confirmation pour la suppression d'un sémantique
                     $(".SupprimerSemantique").click(function(event){
                         var dateURL = $(this).attr('data-url');
                         var dateValue = $(this).attr('data-value');

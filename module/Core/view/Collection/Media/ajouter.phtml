@@ -120,8 +120,10 @@ $this->headTitle($title);
 <?php $this->inlineScript()->captureStart() ?>
 
     $(function () { 
+    
+    	// Modification de la valeur du select des types de médias
+		// On rappelle l'action media/ajouter pour récupérer le formulaire correspondant
     	$(".target").change(function() {
-		
 		    if($("select option:selected").val()=='none') {
 		    	var url="<?php echo $this->url('media/ajouter')?>";
 				$(location).attr('href',url);
@@ -132,6 +134,7 @@ $this->headTitle($title);
 		    }
 		});
 
+    	// Gestion du date picker
 	    $('#containsform').on('click', 'input.picker', function(event) {
 	        $(this).datepicker({
 	            shown: 'focus',
@@ -143,8 +146,10 @@ $this->headTitle($title);
 	        }).focus();
 	    });
 
+	    // Gestion des popover pour la description des champs
     	$(".description").popover({placement:'top', trigger:'hover'}); 
     	
+    	// Gestion du wysihtml5
     	$('.wysihtml5-textarea').wysihtml5({
 			locale: "fr-FR",
 			image: false,

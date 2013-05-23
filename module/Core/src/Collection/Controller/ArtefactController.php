@@ -52,6 +52,15 @@ class ArtefactController extends AbstractActionController
 		return $this->redirect()->toRoute('collection/consulter');
     }
 
+    /**
+     * Création d'un artefact
+     * On envoi à la vue la liste des types d'artefacts possibles
+     * Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+     * On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
+     * Lorsque le formulaire est posté, on traite la requête 
+     * et on créé l'artefact avec les données remplies
+     * @return \Zend\View\Model\ViewModel
+     */
     public function ajouterAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
@@ -69,7 +78,6 @@ class ArtefactController extends AbstractActionController
     			echo "<script>alert(\"Erreur : Type d'artefact non trouvé\")</script>";
     			return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
     		}
-    		
     		$request = $this->getRequest();
     		if ($request->isPost()) {
     			// Le formulaire a été posté
@@ -95,15 +103,19 @@ class ArtefactController extends AbstractActionController
     	return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
 
+    /**
+     * Renvoie à la vue l'artefact à afficher
+     * après l'avoir cherché en base de données
+     * à partir de l'id passé dans l'url
+     * @return void|\Zend\View\Model\ViewModel
+     */
 	public function voirArtefactAction()
 	{
-
 		$id = (int) $this->params()->fromRoute('id', 0);
 		if (!$id) {
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
 		try {
 			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		}
@@ -111,16 +123,27 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
 		if($Artefact==null){
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
-		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
 		return new ViewModel(array('artefact' => $Artefact));
 	}
 	
+	/**
+	 * Modification d'un artefact existant
+	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
+	 * On commence par récupérer l'artefact à modifier : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * Plusieurs types de requêtes sont traitées ici, 
+	 * on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
+	 * qui peut valoir :
+	 * 		'titre' : on modifie le titre de l'artefact
+	 * 		'description' : on modifie la description de l'artefact
+	 * 		'data' : on modifie l'une des datas de l'artefact, 
+	 * 				 il faut alors regarder de quelle data il s'agit
+	 * @return void|\Zend\View\Model\ViewModel
+	 */
 	public function editArtefactAction()
 	{
 
@@ -131,7 +154,6 @@ class ArtefactController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			$request = $this->params()->fromPost();
@@ -149,14 +171,12 @@ class ArtefactController extends AbstractActionController
 				break;
 
 				case 'data':
-
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
 					if (!$idData or $data === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
-					
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -184,51 +204,50 @@ class ArtefactController extends AbstractActionController
 			            default:
 			            	return $this->getResponse()->setContent(Json::encode(false));
 			            break;
-		    	 	} // end switch
+		    	 	} // end switch format
 		            $this->getEntityManager()->flush();
 			        return $this->getResponse()->setContent(Json::encode(true));
 				break;
 				default:
 		            return $this->getResponse()->setContent(Json::encode(false));  
 		        break;
-			}
+			} // end switch request name
 		}
 		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
+	/**
+	 * Suppression d'un artefact
+	 * On commence par récupérer l'artefact à supprimer :
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact
+	 */
 	public function removeArtefactAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
-		if (!$id) {
-			$this->getResponse()->setStatusCode(404);
-			return;
-		}
-	
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		
-		if ($artefact === null) {
+		if ($artefact === null or $id === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-		
 		foreach( ($artefact->datas) as $data){
 			if($data->fichier !== null){
 				$artefact->deleteFile($data);
 			}
 		}
-		
 		$this->getEntityManager()->remove($artefact);
 		$this->getEntityManager()->flush();
 		return $this->redirect()->toRoute('collection/consulter');
 	}
 
+	
 	public function ajouterRelationArtefactAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			
 			$idSemantique = (int) $this->params()->fromRoute('idSemantique', 0);
 			
-			//Si il n'y a pas de s�mantique, on charge la modal
+			//Si il n'y a pas de s�mantique, on charge la modale
 			if(!$idSemantique){
 				
 				$idElementDestination = (int) $this->params()->fromRoute('idDestination', 0);
@@ -265,7 +284,7 @@ class ArtefactController extends AbstractActionController
 				$viewModel->setTerminal(true);
 				return $viewModel->setTemplate('Collection/Artefact/addModal.phtml');
 			
-			//Si la s�mantique est pr�sente en param�tre, on cr�e la relation et la persiste
+			//Si la s�mantique est pr�sente en param�tre, on cr�e la relation et la persiste
 			} else {
 				
 				$idElementDestination = (int) $this->params()->fromRoute('idDestination', 0);

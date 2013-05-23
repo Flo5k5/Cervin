@@ -44,6 +44,10 @@ class SemantiqueTransitionController extends AbstractActionController
 		return $this->em;
 	}
 
+	/**
+	 * Renvoie à la vue toutes les sémantiques pour les afficher dans un tableau
+	 * @return \Zend\View\Model\ViewModel
+	 */
 	public function indexAction()
 	{
 		$semantiques = $this->getEntityManager()
@@ -52,11 +56,19 @@ class SemantiqueTransitionController extends AbstractActionController
 		return new ViewModel(array('semantiques'=>$semantiques));
 	}
 
+	/**
+	 * Ajout d'une nouvelle sémantique
+	 * Renvoie le formulaire à la vue
+	 * Traite la requête lorsque le formulaire est posté :
+	 * 		Création de la sémantique
+	 * 		Vérification des données du formulaire
+	 * 		Remplissage de la sémantique avec les données
+	 * 		Envoi dans la base de données
+	 * @return \Zend\View\Model\ViewModel
+	 */
 	public function ajouterAction()
 	{
-
         $form = new SemantiqueTransitionForm();
-		    
 		$request = $this->getRequest();
 		if ($request->isPost()) {
 			$semantiqueTransition = new SemantiqueTransition();
@@ -71,11 +83,18 @@ class SemantiqueTransitionController extends AbstractActionController
 	            return $this->redirect()->toRoute('semantiquetransition');
 		    }
 		}
-
 		return new ViewModel(array('form'=>$form));
-
 	}
 
+	/**
+	 * Modification d'une sémantique existante
+	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
+	 * On commence par récupérer la sémantique à modifier : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * Deux types de requêtes sont traitées ici, 
+	 * selon si on veut modifier la sémantique elle-même ou bien sa description
+	 * On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
+	 */
 	public function modifierAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) 
@@ -111,6 +130,16 @@ class SemantiqueTransitionController extends AbstractActionController
 		}
 	}
 
+	/**
+	 * Suppression d'une sémantique
+	 * Cette action est déclenché par un appel AJAX 
+	 * lancé depuis la modale de confirmation dans la vue.
+	 * On commence par récupérer la sémantique à supprimer : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * On vérifie ensuite si la sémantique est déjà utilisée dans une transition existante :
+	 * 		Si non, on peut la supprimer sans problème
+	 * 		Si oui, on ne doit pas la supprimer, on le signale à l'utilisateur 
+	 */
 	public function supprimerAction()
 	{
 		$id = (int) $this->params('id', null);

@@ -48,6 +48,12 @@ class CollectionController extends AbstractActionController
 		return new ViewModel();
     }
     
+    /**
+     * C'EST QUOI CETTE ACTION ?
+     * INUTILE ??
+     * A COMMENTER ??
+     * @return multitype:unknown
+     */
     public function testAction()
     {
     	$em = $this->getEntityManager();
@@ -55,6 +61,10 @@ class CollectionController extends AbstractActionController
     	return array('types_elements' => $types_elements);
     }
     
+    /**
+     * COMMENTAIRE A ECRIRE !!!
+     * @return \Zend\View\Model\ViewModel
+     */
     public function consulterAction()
     {
     	$params = null;
