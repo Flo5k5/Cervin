@@ -111,7 +111,7 @@ return array(
                     'voirArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/voirArtefact/:id',
+                            'route' => '/voir/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -124,7 +124,7 @@ return array(
                     'editArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editArtefact/:id[/:idData]',
+                            'route' => '/edit/:id[/:idData]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                                 'idData' => '[0-9]+',
@@ -138,7 +138,7 @@ return array(
                     'removeArtefact' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/removeArtefact/:id',
+                            'route' => '/remove/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -203,7 +203,7 @@ return array(
                     'voirMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/voirMedia/:id',
+                            'route' => '/voir/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -216,7 +216,7 @@ return array(
                     'editMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/editMedia/:id[/:idData]',
+                            'route' => '/edit/:id[/:idData]',
                             'constraints' => array(
                                 'idData'     => '[0-9]+',
                             ),
@@ -229,7 +229,7 @@ return array(
                     'removeMedia' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/removeMedia/:id',
+                            'route' => '/remove/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -415,7 +415,7 @@ return array(
                     'voirScene' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/voirScene/:id',
+                            'route' => '/voir/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
@@ -428,7 +428,7 @@ return array(
                     'removeScene' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/removeScene/:id',
+                            'route' => '/remove/:id',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                             ),
