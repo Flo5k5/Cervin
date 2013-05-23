@@ -227,6 +227,7 @@ return array(
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/ajouterScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/editScene', 'roles' => array('Parcours')),
+                array('route' => 'scene/deleteElement', 'roles' => array('Parcours')),
             ),
         ), 
     ),

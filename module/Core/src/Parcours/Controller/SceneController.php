@@ -170,54 +170,26 @@ class SceneController extends AbstractActionController
 		            return $this->getResponse()->setContent(Json::encode(true));
 				break;
 
-				/*///
-				case 'data':
-
-					$idData = (int) $this->params()->fromRoute('idData', 0);
-					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!$idData or $data === null) {
-						$this->getResponse()->setStatusCode(404);
-						return;
-					}
-					
-					switch ($data->champ->format) {
-		    	 		case 'texte':
-		    	 			$data->texte = $request['value'];
-		    	 			break;
-		    	 		case 'textarea':
-		    	 			$data->textarea = $request['value'];
-		    	 			break;
-		    	 		case 'date':
-		    	 			$data->date = new \DateTime($request['value']);
-		    	 			break;
-		    	 		case 'nombre':
-		    	 			$data->nombre = $request['value'];
-		    	 			break;
-		    	 		case 'fichier':
-		    	 			$files = $this->params()->fromFiles();
-		    	 			$file = $files['file-input'];
-		    	 			if ($file != null) {
-			    	 			$scene->deleteFile($data);
-			    	 			$scene->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
-		    	 			}
-		    	 			break;
-		    	 		case 'url':
-		    	 			$data->url = $request['value'];
-			            	break;
-			            default:
-			            	return $this->getResponse()->setContent(Json::encode(false));
-			            break;
-		    	 	} // end switch
-		            $this->getEntityManager()->flush();
-			        return $this->getResponse()->setContent(Json::encode(true));
-				break;
-				default:
-		            return $this->getResponse()->setContent(Json::encode(false));  
-		        break;
-		        //*///
 			}
-			return $this->getResponse()->setContent(Json::encode(true));///
+			return $this->getResponse()->setContent(Json::encode(true));
+			
 		}
 		return new ViewModel(array('scene' => $scene));
+	}
+
+	public function deleteElementAction()
+	{
+		$idScene = (int) $this->params('idScene', null);
+		$idElement = (int) $this->params('idElement', null);
+		
+		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$idScene));
+		$element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$idElement));
+
+		$scene->elements->removeElement($element);
+
+		$this->getEntityManager()->flush();
+
+		$this->flashMessenger()->addSuccessMessage(sprintf('La liaison a bien été supprimée'));
+		return $this->getResponse()->setContent(Json::encode(true));
 	}
 }

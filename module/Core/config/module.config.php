@@ -471,6 +471,20 @@ return array(
                             ),
                         ),
                     ),
+                    'deleteElement' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/deleteElement/:idScene/:idElement',
+                            'constraints' => array(
+                                'idScene'     => '[0-9]+',
+                                'idElement'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'deleteElement',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
