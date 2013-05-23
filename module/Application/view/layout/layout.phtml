@@ -131,7 +131,7 @@
                                                 <li class="dropdown-submenu">
 												<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
 													<ul class="dropdown-menu">
-														<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'elements
+														<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'éléments
                                                 		</a></li>
                                                 		<li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques des relations</a></li>
 													</ul>
@@ -178,7 +178,7 @@
     <?php foreach ($this->flashMessages() as $namespace => $messages) : ?>
         <?php if (count($messages)) : ?>
             <?php foreach ($messages as $message) : ?>
-            <div class="alert alert-<?=$namespace?>">
+            <div class="message alert alert-<?php echo $namespace; ?>">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <?php echo $message; ?>
             </div>

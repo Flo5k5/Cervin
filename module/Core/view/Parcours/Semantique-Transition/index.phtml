@@ -91,9 +91,9 @@ $this->headTitle($title);
                      $.post(
                      	dataURL,
                         { name: "supprimer" },
-                        function() {
-                            document.location.reload();
-                        }
+                        function(response) {
+		                	document.location.reload();
+		            	}
                     );
                 }
           	});

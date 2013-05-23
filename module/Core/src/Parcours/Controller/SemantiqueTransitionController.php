@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Form\SemantiqueTransitionForm;
 use Parcours\Entity\SemantiqueTransition;
+use Zend\Json\Json;
+use Exception;
 
 class SemantiqueTransitionController extends AbstractActionController
 {
@@ -119,14 +121,17 @@ class SemantiqueTransitionController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-        try {
+		$transitions = $this->getEntityManager()->getRepository("Parcours\Entity\Transition")->findBy(array('semantique' => $semantiqueTransition));
+		if(count($transitions) != 0){
+			// La sémantique est déjà utilisée dans une transition, on ne peut pas la supprimer
+			$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"> </i> La sémantique "'. $semantiqueTransition->semantique .'" ne peut pas être supprimée car elle est déjà utilisée dans une transition existante.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		} else {
 			$this->getEntityManager()->remove($semantiqueTransition);
-        } catch (Exception $e) {
-        	return $this->getResponse()->setContent(Json::encode(false));
-        }
-        $this->getEntityManager()->flush();
-	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.'));
-        return $this->redirect()->toRoute('semantique');
+			$this->getEntityManager()->flush();
+			$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique "'. $semantiqueTransition->semantique .'" a bien été supprimée.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		}
 	}
 
 }
