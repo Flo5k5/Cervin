@@ -121,15 +121,17 @@ class SemantiqueTransitionController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-        try {
+		$transitions = $this->getEntityManager()->getRepository("Parcours\Entity\Transition")->findBy(array('semantique' => $semantiqueTransition));
+		if(count($transitions) != 0){
+			// La sémantique est déjà utilisée dans une transition, on ne peut pas la supprimer
+			$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"> </i> La sémantique "'. $semantiqueTransition->semantique .'" ne peut pas être supprimée car elle est déjà utilisée dans une transition existante.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		} else {
 			$this->getEntityManager()->remove($semantiqueTransition);
-        } catch (\Doctrine_Validator_Exception $e) {
-        	return $this->getResponse()->setContent(Json::encode(false));
-        	//return $e->getMessage();
-        }
-        $this->getEntityManager()->flush();
-	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.'));
-       	return $this->getResponse()->setContent(Json::encode(true));
+			$this->getEntityManager()->flush();
+			$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique "'. $semantiqueTransition->semantique .'" a bien été supprimée.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		}
 	}
 
 }

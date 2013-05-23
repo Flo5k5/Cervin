@@ -170,7 +170,6 @@ class SemantiqueController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
 			return; 
         }
-        
 		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
 		if ($SemantiqueArtefact === null) {
 			$this->getResponse()->setStatusCode(404);

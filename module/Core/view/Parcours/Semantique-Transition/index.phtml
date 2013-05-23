@@ -92,11 +92,7 @@ $this->headTitle($title);
                      	dataURL,
                         { name: "supprimer" },
                         function(response) {
-		                	if(response == 'true') {
-		                		document.location.reload();
-							} else {
-		                		alert("La sémantique ne peut pas être supprimée, elle est probablement utilisée dans une transition existante");
-		           			}
+		                	document.location.reload();
 		            	}
                     );
                 }

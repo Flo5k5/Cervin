@@ -73,6 +73,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
 
 <?php $this->inlineScript()->captureStart() ?>
 	var table;
+	
     $(function() {
 		
         table = ResultSet.paginate(
