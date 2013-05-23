@@ -413,9 +413,13 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'ajouterScene' => array(
-                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'type' => 'segment',
                             'options' => array(
-                                'route' => '/ajouter',
+                                'route' => '/ajouter/:type/:id',
+                                'constraints' => array(
+                                    'type'     => 'ajAvant|ajApres',
+                                    'id'     => '[0-9]+',
+                                ),
                                 'defaults' => array(
                                     'controller' => 'Scene',
                                     'action'     => 'ajouterScene',
@@ -445,16 +449,6 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Scene',
                                 'action'     => 'removeScene',
-                            ),
-                        ),
-                    ),
-                    'ajouterScene' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/ajouter',
-                            'defaults' => array(
-                                'controller' => 'Scene',
-                                'action'     => 'ajouterScene',
                             ),
                         ),
                     ),
