@@ -38,9 +38,14 @@ $this->headTitle($title);
 		</h1>
 	</div>
 	
-	<a href="<?php echo $this->url('scene/voirScene',
-        	array('id' => $scene->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de cette scène</a>
-	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer cette scène</a>
+	<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" class="btn btn-primary span3">
+		<i class="icon-pencil"> </i>
+        Retour à la fiche de cette scène
+    </a>
+	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3">
+		<i class="icon-trash"> </i>
+		Supprimer cette scène
+	</a>
 	
 </div>
 

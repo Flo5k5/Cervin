@@ -67,8 +67,32 @@ class SceneController extends AbstractActionController
             return;
 		}
 
-		//$Scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>1));
-		return new ViewModel(array('scene' => $Scene));
+		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$Scene->id));
+		$tr_after = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_origine'=>$Scene->id));
+
+		if($tr_before === null)
+		{
+			$sc_before = null;
+		}
+		else
+		{
+			$sc_before = $tr_before->scene_origine;
+		}
+
+		if($tr_after === null)
+		{
+			$sc_after = null;
+		}
+		else
+		{
+			$sc_after = $tr_after->scene_destination;
+		}
+
+		return new ViewModel(array(
+			'scene' => $Scene, 
+			'precedente' => $sc_before,
+			'suivante' => $sc_after
+		));
     }
 
     public function removeSceneAction()
