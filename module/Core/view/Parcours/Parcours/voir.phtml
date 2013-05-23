@@ -44,8 +44,19 @@ $this->headTitle($title);
       .liaison {
       	margin:2px;
         width: 188px;
+        background: #FFF;
+        border-width: 0;
 
       }
+
+
+a [class^="icon-"],
+a [class*=" icon-"],
+a [class^="icon-"]:before,
+a [class*=" icon-"]:before {
+  display: inline-block;
+}
+
 
 </style>
 
@@ -79,6 +90,8 @@ $this->headTitle($title);
                     <i class="icon-trash"></i> Supprimer la scene
             </a>
         </li>
+        <li><a href="#"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
+        <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
     </ul>
     '
     data-trigger="manual"
@@ -99,7 +112,7 @@ while($debut != null):
     data-title='<?php echo $this->escapeHtml($debut->semantique->semantique); ?>' 
     data-content='<?php echo $this->escapeHtml($debut->narration); ?><br>
 		<ul class="nav nav-list">
-		  <li><a href="#"><i class="icon-plus"></i> Ajouter une scene</a></li>
+		  <li><a href="#" calss="ajScene"><i class="icon-plus"></i> Ajouter une scène</a></li>
 		  <li><a href="#"><i class="icon-pencil"></i> Modifier la transition</a></li>
 		  <li><a class="text-error" href="#"><i class="icon-trash"></i> Supprimer la transition</a></li>
 		</ul>
@@ -121,9 +134,11 @@ while($debut != null):
                 data-value="<?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?>" 
                 data-url="<?php echo $this->url('scene/removeScene', array('id' => $debut->scene_destination->id)) ?>"
                 class="text-error SupprimerScene" >
-                    <i class="icon-trash"></i> Supprimer la scene
+                    <i class="icon-trash"></i> Supprimer la scène
             </a>
         </li>
+        <li><a href="#"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
+        <li><a href="#"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
 	</ul>'
     data-trigger="manual"
     title="" ><span class="text"><?php echo $this->escapeHtml($debut->scene_destination->titre) ; ?></span></a><br>
@@ -132,16 +147,19 @@ while($debut != null):
 	$debut = $debut->scene_destination->transition_recommandee;
 endwhile;
 ?>
-    <a class="btn btn-mini liaison popover-link" href="#"
+    <a class="btn btn-mini liaison ajScene" 
+    href="#"
+    data-url="<?php echo $this->url('scene/ajouterScene') ?>"
     title="" ><i class="icon-plus"></i> Ajouter une scene</a><br>
 
 
 <?php endforeach ; ?>
 </div>
 
-<div id="confirmDiv" >
-</div>
 
+
+<div id="confirmDiv"></div>
+<div id="modalDiv"></div>
 
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
@@ -179,7 +197,54 @@ endwhile;
                 }
             });
         });
-}); 
+    });
+
+
+    $(".ajScene").on("click", function(e){
+            var URL = $(this).attr('data-url');
+            $.ajax({
+                url: URL,
+                type: "POST",
+                data:{ name:'ajChamp', submit:'false' }, 
+                success:function(response){
+                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+        
+                    $('form.ajChampForm').attr('action', URL);
+        
+                    //console.info($('form.ajChampForm').attr('action')+'::'+ URL);
+                },
+                error: function(){
+                    alert('Impossible d\'ajouter des champ');
+                }
+            });
+        });
+        
+        $("#modalDiv").on("click",".ajChampSubmit", function(e){
+            var $form = $('.ajChampForm');
+            var formatVal = $form.find( 'select[name="format"]' ).val();
+            var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
+            var labelVal = $form.find( 'input[name="label"]' ).val();
+            var URL = $form.attr( 'action' );
+        
+            $.ajax({
+                url: URL,
+                type: "POST",
+                data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
+                success:function(response){
+        
+                    if(response == 'true') {
+                        location.reload();
+                    } else {
+        
+                        $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                        $('form.ajChampForm').attr('action', URL);
+                    }
+                },
+                error: function(response){
+                    alert('Impossible d\'ajouter des champ');
+                }
+            });
+        });
 
 <?php $this->inlineScript()->captureEnd() ?>
 

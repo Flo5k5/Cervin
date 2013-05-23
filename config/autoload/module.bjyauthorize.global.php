@@ -234,6 +234,7 @@ return array(
                 array('route' => 'scene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
+                array('route' => 'scene/ajouterScene', 'roles' => array('Parcours')),
             ),
         ), 
     ),

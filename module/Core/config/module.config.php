@@ -412,6 +412,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'ajouterScene' => array(
+                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'options' => array(
+                                'route' => '/ajouter',
+                                'defaults' => array(
+                                    'controller' => 'Scene',
+                                    'action'     => 'ajouterScene',
+                                ),
+                            ),
+                        ),
                     'voirScene' => array(
                         'type' => 'segment',
                         'options' => array(
