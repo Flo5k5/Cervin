@@ -86,7 +86,7 @@ $this->headTitle($title);
 
 						'<a href="#" data-value="'. $element->titre .'" class="text-error deleteElement"'.
 						'data-url="'. $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)) .'">'.
-						'<i class="icon-remove-sign"></i>'.
+						'<i class="icon-remove"></i>'.
 						'</a>';
 					}
 					elseif($element instanceof Collection\Entity\Media){
@@ -98,7 +98,7 @@ $this->headTitle($title);
 
 						'<a href="#" data-value="'. $element->titre .'" class="text-error deleteElement"'.
 						'data-url="'. $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)) .'">'.
-						'<i class="icon-remove-sign"></i>'.
+						'<i class="icon-remove"></i>'.
 						'</a>';
 					}
 					else{

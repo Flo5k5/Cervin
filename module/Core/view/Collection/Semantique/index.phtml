@@ -64,7 +64,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div id="confirmDiv" >
 </div>
 
-
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
@@ -96,13 +95,14 @@ $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
                         var dateValue = $(this).attr('data-value');
                         $('#confirmDiv').confirmModal({
                             heading:'Confirmation',
-                            body:"Êtes-vous sûr de vouloir supprimer définitivement la sémantique :<br/>"+dateValue+" ?",
+                            body:"Êtes-vous sûr de vouloir supprimer définitivement la sémantique <br> \""+dateValue+"\" ?",
                             callback: function() {
                                 $.post(
                                     dateURL,
                                     { name: "supprimer" },
-                                    function() {
-                                        $("#data").dataTable().fnDraw();
+                                    function(response) {
+                                    	document.location.reload();
+                                        /*$("#data").dataTable().fnDraw();*/
                                     }
                                 );
                             }

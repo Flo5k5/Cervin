@@ -3,80 +3,95 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
-<div class="page-header row-fluid">
-	<div class="span9">
-	<h1><i class="icon-file-alt"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
-	</div>
-	<?php if ($this->isAllowed('Parcours') === true) :?>
-		<span class="btn-group span3 row-fluid">
-			<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
-				class="btn btn-primary span12">
-				<i class="icon-pencil"> </i> Modifier cette scène
-			</a>
-		</span>
-		<span class="btn-group span4 row-fluid">
-			<a href="<?php if($precedente !== null){echo $this->url('scene/voirScene',array('id' => $precedente->id));}else{echo '#';} ?>" 
-				class="btn btn-info span6 <?php if($precedente === null){echo 'disabled';} ?>">
-				<i class="icon-arrow-left"> </i> Scène précédente
-			</a>
-			<a href="<?php if($suivante !== null){echo $this->url('scene/voirScene',array('id' => $suivante->id));}else{echo '#';} ?>" 
-				class="btn btn-info span6 <?php if($suivante === null){echo 'disabled';} ?>">
-				Scène suivante <i class="icon-arrow-right"> </i>
-			</a>
-		</span>
-    <?php endif; ?>
-</div>
-
-
 <div class="row-fluid">
-	<div class="span6">
-		<p><?php echo $scene->narration;?></p>
-	</div>
-	<div class="span6 well">
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Informations</a></li>
-			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Eléments liés</a></li>
-		</ul>
-		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-			<div class="tab-pane active" id="tab1">
-				<dl>
-					<dt>Parcours</dt>
-					<dd>
-						<?php 
-							echo $scene->sous_parcours->parcours->titre; 
-							echo '</br></br>';
-						?>
-					</dd>
-					
-					
-				</dl>
-			</div>
-			<div class="tab-pane" id="tab2">
+
+	<div class="span3 well">
+		<p class="lead"><h4> <i class="icon-road"></i> <?php echo $scene->sous_parcours->parcours->titre; ?> </h4></p>
+		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
+			class="btn btn-link"> 
+			<i class="icon-reply"></i> Retour au parcours 
+		</a>
+		
+		<ul class="nav nav-list">
+			<?php 
+			$scene_depart = $scene->sous_parcours->scene_depart;
+			$transition = $scene_depart->transition_recommandee;
+			$class = "";
+			if ($scene_depart == $scene) {
+				$class = "active";
+			}
+			?>
+			<li class="divider"></li>	
+			<li class="<?php echo $class; ?>">
+				<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
+				<?php echo $scene_depart->titre; ?> 
+				</a>
+			</li>
+			
+			<?php while ($transition != null) : ?>
 				<?php 
-				
-				foreach( ($scene->elements) as $element) :
-					if($element instanceof Collection\Entity\Artefact){
-						echo '<a href="'. $this->url('artefact/voirArtefact',array('id' => $element->id)) .
-						'" class="text-success"> '. 
-						'<i class="icon-tag">'.
-						$element->titre .
-						'</i> </a>';
-					}
-					elseif($element instanceof Collection\Entity\Media){
-						echo '<a href="'. $this->url('media/voirMedia',array('id' => $element->id)) .
-						'" class="text-warning"> '. 
-						'<i class="icon-picture">'.
-						$element->titre .
-						'</i> </a>';
-					}
-					else{
-						echo 'Impossible d\'afficher cet élément';
-					}
-					echo '<br/><br/>';
-				endforeach ;
-				
-				?>
+				if ($transition->scene_destination == $scene) {
+					$class = "active";
+				} else {
+					$class = "";
+				} ?>
+				<li class="<?php echo $class; ?>">
+					<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
+					<?php echo $transition->scene_destination->titre; ?> 
+					</a>
+				</li>
+				<?php $transition = $transition->scene_destination->transition_recommandee; ?>
+			<?php endwhile; ?>
+		</ul>
+	</div>
+
+	<div class="span9">
+	
+		<div class="page-header row-fluid">
+			<div class="span9">
+			<h1><i class="icon-file-alt"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 			</div>
+			<?php if ($this->isAllowed('Parcours') === true) :?>
+				<span class="btn-group span3 row-fluid">
+					<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
+						class="btn btn-primary span12">
+						<i class="icon-pencil"> </i> Modifier cette scène
+					</a>
+				</span>
+		    <?php endif; ?>
 		</div>
+		
+		<div class="row-fluid">
+		
+			<div class="span8">
+				<p><?php echo $scene->narration;?></p>
+			</div>
+			
+			<div class="span4 well">
+				<h4> A voir dans cette scène </h4>
+				<?php if ($scene->elements->count() == 0): ?>
+					Aucun élément de la collection n'est lié à cette scène.
+				<?php endif; ?>
+				<ul class="nav nav-list">
+				<?php foreach( ($scene->elements) as $element) : ?>
+					<?php if($element instanceof Collection\Entity\Artefact): ?>
+						<li>
+							<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id)); ?>">
+							<i class="icon-tag"></i>  <?php echo $element->titre; ?> 
+							</a>
+						</li>
+					<?php else : ?>
+						<li class="">
+							<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id)); ?>">
+							<i class="icon-picture"></i>  <?php echo $element->titre; ?> 
+							</a>
+						</li>
+					<?php endif;  ?>
+				<?php endforeach; ?>
+				</ul>
+			</div>
+			
+		</div>
+		
 	</div>
 </div>

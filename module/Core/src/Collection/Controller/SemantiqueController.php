@@ -61,7 +61,6 @@ class SemantiqueController extends AbstractActionController
 
             $aaData = array();
             
-            
             foreach ($dataTable->getPaginator() as $semantique) {
 				
             	$btn_supprimer = '<a href="#" data-url="'
@@ -166,22 +165,23 @@ class SemantiqueController extends AbstractActionController
 	public function supprimerAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
-            $this->getResponse()->setStatusCode(404);
-			return; 
-        }
-		$SemantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
-		if ($SemantiqueArtefact === null) {
+		$semantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
+		if ($semantiqueArtefact === null || $id === null) {
 			$this->getResponse()->setStatusCode(404);
 			return; 
 		}
-        
-        $this->getEntityManager()->remove($SemantiqueArtefact);
-        $this->getEntityManager()->flush();
-	 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été supprimée.<br>%1$s', '['.$SemantiqueArtefact->type_origine->nom.'] '.$SemantiqueArtefact->semantique.' ['.$SemantiqueArtefact->type_destination->nom.']'));
-
-        return $this->redirect()->toRoute('semantique');
-        
+		$relations = $this->getEntityManager()->getRepository("Collection\Entity\RelationArtefacts")->findBy(array('semantique' => $semantiqueArtefact));
+		if(count($relations) != 0){
+			// La sémantique est déjà utilisée dans une relation, on ne peut pas la supprimer
+			$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"> </i> La sémantique " ['. $semantiqueArtefact->type_origine->nom .'] '.$semantiqueArtefact->semantique.' ['.$semantiqueArtefact->type_destination->nom.']" ne peut pas être supprimée car elle est déjà utilisée dans une transition existante.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		} else {
+			$this->getEntityManager()->remove($semantiqueArtefact);
+			$this->getEntityManager()->flush();
+			$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique "['. $semantiqueArtefact->type_origine->nom .'] '.$semantiqueArtefact->semantique.' ['.$semantiqueArtefact->type_destination->nom.']" a bien été supprimée.'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		}
+		
 	}
 
 }
