@@ -181,19 +181,6 @@ class Artefacts implements FixtureInterface
 		$manager->persist($champ_url);
 		
 		/*
-		 * Artefact : Autre
-		*/
-		$type_artefact_autre = new Collection\Entity\TypeElement('Autre', 'artefact');
-		
-		$champ_type = new Collection\Entity\Champ('Type d\'artefact', $type_artefact_autre, 'texte');
-		$champ_type->__set('description', 'Le type d\'entité que représente l\'artefact');
-		
-		$manager->persist($type_artefact_autre);
-		$manager->persist($champ_type);
-		
-		$manager->flush();
-		
-		/*
 		 * Artefact : Test démo
 		*/
 		$type_artefact_test = new Collection\Entity\TypeElement('Test démo', 'artefact');
@@ -226,206 +213,509 @@ class Artefacts implements FixtureInterface
 		
 		$manager->flush();
 		
-		/* ***************************** *
-		 * QUELQUES INSANCES D'ARTEFACTS *
-		* ****************************** */
-		
-		$description = "
-			<p><b>Pellentesque habitant morbi tristique</b> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <i>Aenean ultricies mi vitae est.</i> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href='#'>Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-			<h2>Header Level 2</h2>
-			<ol>
-			   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			   <li>Aliquam tincidunt mauris eu risus.</li>
-			</ol>
-			<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
-			<h3>Header Level 3</h3>
-			<ul>
-			   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			   <li>Aliquam tincidunt mauris eu risus.</li>
-			</ul>";
-		
 		/*
-		 * Un matériel
+		 * Quelques sémantiques de relations
 		 */
-		/*$materiel = new Collection\Entity\Artefact('Exemple de matériel', $type_artefact_materiel);
-		$materiel->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$materiel->description = $description;
 		
-		$champ_fabriquant = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fabriquant', 'type_element'=>$type_artefact_materiel));
-		$data_fabriquant = new Collection\Entity\Data($materiel, $champ_fabriquant);
-		$data_fabriquant->__set('texte', 'Inconnu');
-		$materiel->datas->add($data_fabriquant);
+		$types = $manager->getRepository("Collection\Entity\TypeElement")->findBy(array("type"=>"artefact"));
 		
-		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_materiel));
-		$data_debut = new Collection\Entity\Data($materiel, $champ_debut);
-		$data_debut->__set('date', new DateTime('1925-01-01'));
-		$materiel->datas->add($data_debut);
-
-		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_materiel));
-		$data_fin = new Collection\Entity\Data($materiel, $champ_fin);
-		$data_fin->__set('date', new DateTime('1950-01-01'));
-		$materiel->datas->add($data_fin);
-
-		$manager->persist($materiel);
-		$manager->flush();*/
-
-		/*
-		 * Une personne
-		 */
-		/*$personne = new Collection\Entity\Artefact('Exemple de personne', $type_artefact_personne);
-		$personne->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$personne->description = $description;
+		foreach ($types as $type) {
+			$types_destination = $manager->getRepository("Collection\Entity\TypeElement")->findBy(array("type"=>"artefact"));
+			foreach ($types_destination as $type_destination) {
+				$semantique = new Collection\Entity\SemantiqueArtefact();
+				$semantique->__set('type_origine', $type);
+				$semantique->__set('type_destination', $type_destination);
+				$semantique->__set('semantique', 'Autre');
+				$manager->persist($semantique);
+			}
+			$semantique = new Collection\Entity\SemantiqueArtefact();
+			$semantique->__set('type_origine', $type_artefact_document);
+			$semantique->__set('type_destination', $type);
+			$semantique->__set('semantique', 'Décrit');
+			$manager->persist($semantique);
+			
+			$semantique = new Collection\Entity\SemantiqueArtefact();
+			$semantique->__set('type_origine', $type);
+			$semantique->__set('type_destination', $type_artefact_document);
+			$semantique->__set('semantique', 'Est décrit dans');
+			$manager->persist($semantique);
+			
+			$semantique = new Collection\Entity\SemantiqueArtefact();
+			$semantique->__set('type_origine', $type_artefact_site);
+			$semantique->__set('type_destination', $type);
+			$semantique->__set('semantique', 'Décrit');
+			$manager->persist($semantique);
+			
+			$semantique = new Collection\Entity\SemantiqueArtefact();
+			$semantique->__set('type_origine', $type);
+			$semantique->__set('type_destination', $type_artefact_site);
+			$semantique->__set('semantique', 'Est décrit dans');
+			$manager->persist($semantique);
+		}
 		
-		$champ_nationnalite = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Nationnalité', 'type_element'=>$type_artefact_personne));
-		$data_nationnalite = new Collection\Entity\Data($personne, $champ_nationnalite);
-		$data_nationnalite->__set('texte', 'Français');
-		$personne->datas->add($data_nationnalite);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est composé de');
+		$manager->persist($semantique);
 		
-		$champ_naissance = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de naissance', 'type_element'=>$type_artefact_personne));
-		$data_naissance = new Collection\Entity\Data($personne, $champ_naissance);
-		$data_naissance->__set('date', new DateTime('1709-02-24'));
-		$personne->datas->add($data_naissance);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est une partie de');
+		$manager->persist($semantique);
 		
-		$champ_deces = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date de décès', 'type_element'=>$type_artefact_personne));
-		$data_deces = new Collection\Entity\Data($personne, $champ_deces);
-		$data_deces->__set('date', new DateTime('1782-11-21'));
-		$personne->datas->add($data_deces);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
 		
-		$manager->persist($personne);
-		$manager->flush();*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est utilisée par');
+		$manager->persist($semantique);
 		
-		/*
-		 * Un logiciel
-		*/
-		/*$logiciel = new Collection\Entity\Artefact('Exemple de logiciel', $type_artefact_logiciel);
-		$logiciel->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$logiciel->description = $description;
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est fabriquée par');
+		$manager->persist($semantique);
 		
-		$champ_editeur = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Editeur', 'type_element'=>$type_artefact_logiciel));
-		$data_editeur = new Collection\Entity\Data($logiciel, $champ_editeur);
-		$data_editeur->__set('texte', 'Microsoft');
-		$logiciel->datas->add($data_editeur);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'A été inventée par');
+		$manager->persist($semantique);
 		
-		$champ_auteurs = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Auteur(s)', 'type_element'=>$type_artefact_logiciel));
-		$data_auteurs = new Collection\Entity\Data($logiciel, $champ_auteurs);
-		$data_auteurs->__set('texte', 'Inconnu');
-		$logiciel->datas->add($data_auteurs);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_lieu);
+		$semantique->__set('semantique', 'A été inventée à');
+		$manager->persist($semantique);
 		
-		$champ_langage = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Langages', 'type_element'=>$type_artefact_logiciel));
-		$data_langage = new Collection\Entity\Data($logiciel, $champ_langage);
-		$data_langage->__set('texte', 'Java, C');
-		$logiciel->datas->add($data_langage);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_lieu);
+		$semantique->__set('semantique', 'Est stocké à');
+		$manager->persist($semantique);
 		
-		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Début de période', 'type_element'=>$type_artefact_logiciel));
-		$data_debut = new Collection\Entity\Data($logiciel, $champ_debut);
-		$data_debut->__set('date', new DateTime('2007-01-01'));
-		$logiciel->datas->add($data_debut);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'A été inventée par');
+		$manager->persist($semantique);
 		
-		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin de période', 'type_element'=>$type_artefact_logiciel));
-		$data_fin = new Collection\Entity\Data($logiciel, $champ_fin);
-		$data_fin->__set('date', new DateTime('2012-01-01'));
-		$logiciel->datas->add($data_fin);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_materiel);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'Est utilisée dans');
+		$manager->persist($semantique);
 		
-		$manager->persist($logiciel);
-		$manager->flush();*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est utilisé par');
+		$manager->persist($semantique);
 		
-		/*
-		 * Un document
-		 */
-		/*$document = new Collection\Entity\Artefact('Exemple de document', $type_artefact_document);
-		$document->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$document->description = $description;
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'Est une partie de');
+		$manager->persist($semantique);
 		
-		$champ_editeur = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Editeur', 'type_element'=>$type_artefact_document));
-		$data_editeur = new Collection\Entity\Data($document, $champ_editeur);
-		$data_editeur->__set('texte', 'Hachette');
-		$document->datas->add($data_editeur);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'Est composé de');
+		$manager->persist($semantique);
 		
-		$champ_auteurs = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Auteur(s)', 'type_element'=>$type_artefact_document));
-		$data_auteurs = new Collection\Entity\Data($document, $champ_auteurs);
-		$data_auteurs->__set('texte', 'Inconnu');
-		$document->datas->add($data_auteurs);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'utilise');
+		$manager->persist($semantique);
 		
-		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Date', 'type_element'=>$type_artefact_document));
-		$data_date = new Collection\Entity\Data($document, $champ_debut);
-		$data_date->__set('date', new DateTime('2011-05-09'));
-		$document->datas->add($data_date);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est utilisé par');
+		$manager->persist($semantique);
 		
-		$manager->persist($document);
-		$manager->flush();*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'A été publié par');
+		$manager->persist($semantique);
 		
-		/*
-		 * Une institution
-		*/
-	/*	$institution = new Collection\Entity\Artefact('Exemple d\'institution', $type_artefact_institution);
-		$institution->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$institution->description = $description;
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'A été écrit par');
+		$manager->persist($semantique);
 		
-		$champ_debut = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Création', 'type_element'=>$type_artefact_institution));
-		$data_debut = new Collection\Entity\Data($institution, $champ_debut);
-		$data_debut->__set('date', new DateTime('2008-05-09'));
-		$institution->datas->add($data_debut);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_logiciel);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'Est utilisé dans');
+		$manager->persist($semantique);
 		
-		$champ_fin = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Fin', 'type_element'=>$type_artefact_institution));
-		$data_fin = new Collection\Entity\Data($institution, $champ_fin);
-		$data_fin->__set('date', new DateTime('2011-12-04'));
-		$institution->datas->add($data_fin);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
 		
-		$champ_adresse = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Adresse(s)', 'type_element'=>$type_artefact_institution));
-		$data_adresse = new Collection\Entity\Data($institution, $champ_adresse);
-		$data_adresse->__set('texte', '40 rue de Peupliers 38000 Grenoble');
-		$institution->datas->add($data_adresse);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est le farbiquant de');
+		$manager->persist($semantique);
 		
-		$manager->persist($institution);
-		$manager->flush();*/
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'Utilise');
+		$manager->persist($semantique);
 		
-		/*
-		 * Un lieu
-		*/
-		/*$lieu = new Collection\Entity\Artefact('Exemple de lieu', $type_artefact_lieu);
-		$lieu->datas = new \Doctrine\Common\Collections\ArrayCollection();
-		$lieu->description = $description;
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'A publié');
+		$manager->persist($semantique);
 		
-		$champ_adresse = $manager->getRepository('Collection\Entity\Champ')->findOneBy(array('label'=>'Adresse', 'type_element'=>$type_artefact_lieu));
-		$data_adresse = new Collection\Entity\Data($lieu, $champ_adresse);
-		$data_adresse->__set('texte', '40 rue de Peupliers 38000 Grenoble');
-		$lieu->datas->add($data_adresse);
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_document);
+		$semantique->__set('semantique', 'A publié');
+		$manager->persist($semantique);
 		
-		$manager->persist($lieu);
-		$manager->flush();*/
-
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_lieu);
+		$semantique->__set('semantique', 'Est basée à');
+		$manager->persist($semantique);
 		
-		/* ********************************** *
-		 * DES RELATIONS ENTRE DEUX ARTEFACTS *
-		* *********************************** */
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'A pour membre');
+		$manager->persist($semantique);
 		
-		/*$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'A pour chef');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'A mené');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'A financé');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'A participé à');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_evenement);
+		$semantique->__set('semantique', 'A participé à');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_institution);
+		$semantique->__set('type_destination', $type_artefact_evenement);
+		$semantique->__set('semantique', 'A organisé');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est l\'endroit où a été inventée');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_materiel);
+		$semantique->__set('semantique', 'Est l\'endroit où est stoké');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est l\'endroit où est basée');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'Est l\'endroit où est né(e)');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_personne);
+		$semantique->__set('semantique', 'Est l\'endroit où est décédé(e)');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_lieu);
+		$semantique->__set('type_destination', $type_artefact_evenement);
+		$semantique->__set('semantique', 'Est l\'endroit où a eu lieu');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_artefact_personne);
 		$semantique->__set('type_destination', $type_artefact_materiel);
 		$semantique->__set('semantique', 'A inventé');
 		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_logiciel);
+		$semantique->__set('semantique', 'A écrit');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est membre de');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_institution);
+		$semantique->__set('semantique', 'Est chef de');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_lieu);
+		$semantique->__set('semantique', 'Est né(e) à');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_lieu);
+		$semantique->__set('semantique', 'Est décédé(e) à');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'Est membre de');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_projet);
+		$semantique->__set('semantique', 'Est chef de');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_evenement);
+		$semantique->__set('semantique', 'A participé à');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_personne);
+		$semantique->__set('type_destination', $type_artefact_evenement);
+		$semantique->__set('semantique', 'A organisé');
+		$manager->persist($semantique);
+		/*
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_projet);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);
+		
+		$semantique = new Collection\Entity\SemantiqueArtefact();
+		$semantique->__set('type_origine', $type_artefact_);
+		$semantique->__set('type_destination', $type_artefact_);
+		$semantique->__set('semantique', '');
+		$manager->persist($semantique);*/
+		
+		
 		$manager->flush();
-		
-		$relation = new Collection\Entity\RelationArtefacts();
-		$relation->__set('origine', $vauc);
-		$relation->__set('destination', $calc);
-		$relation->__set('semantique', $semantique);
-		$manager->persist($relation);
-		
-		$semantique2 = new Collection\Entity\SemantiqueArtefact();
-		$semantique2->__set('type_origine', $type_artefact_personne);
-		$semantique2->__set('type_destination', $type_artefact_logiciel);
-		$semantique2->__set('semantique', 'Est l\'auteur de');
-		$manager->persist($semantique2);
-		$manager->flush();
-		
-		$relation2 = new Collection\Entity\RelationArtefacts();
-		$relation2->__set('origine', $vauc);
-		$relation2->__set('destination', $logiciel);
-		$relation2->__set('semantique', $semantique2);
-		$manager->persist($relation2);
-
-		
-		$manager->flush();*/
 	}
 }

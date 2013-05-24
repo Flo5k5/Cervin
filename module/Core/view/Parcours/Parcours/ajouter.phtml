@@ -7,41 +7,35 @@ $this->headTitle($title);
 	<h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-
 <?php
 $form = $this->form;
-$form->setAttribute('action', $this->url('EditParcours/ajouter'));
+$form->setAttribute('action', $this->url('parcours/ajouter'));
 $form->setAttribute('class','form-horizontal no-submit');
-	$form->setAttribute('method', 'post');
+$form->setAttribute('method', 'post');
 $form->prepare();
-
-
 $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
 
-
 echo $this->form()->openTag($form);
-
 echo $this->formHidden($form->get('id'));
 ?>
 <div class="control-group">
 	<label class="control-label">
-<?php echo $this->formLabel($form->get('titre')) ?>
+		<?php echo $this->formLabel($form->get('titre')) ?>
 	</label>
 	<div class="controls">
-<?php echo $this->formInput($form->get('titre')) ?>
-<?php echo $this->formElementErrors($form->get('titre')) ?>
+		<?php echo $this->formInput($form->get('titre')) ?>
+		<?php echo $this->formElementErrors($form->get('titre')) ?>
 	</div>
 </div>
 <div class="control-group">
 	<label class="control-label">
-<?php echo $this->formLabel($form->get('description')) ?>
+		<?php echo $this->formLabel($form->get('description')) ?>
 	</label>
 	<div class="controls">
-<?php echo $this->formTextarea($form->get('description')) ?>
-<?php echo $this->formElementErrors($form->get('description')) ?>
+		<?php echo $this->formTextarea($form->get('description')) ?>
+		<?php echo $this->formElementErrors($form->get('description')) ?>
 	</div>
 </div>
-
 
 <div class="form-actions">
 	<?php echo $this->formSubmit($form->get('submit')); ?>

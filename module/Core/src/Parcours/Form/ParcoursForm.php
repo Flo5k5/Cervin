@@ -5,6 +5,10 @@ namespace Parcours\Form;
 use Zend\Form\Form;
 use InvalidArgumentException;
 
+/**
+ * Formulaire utilisé pour la création d'un parcours
+ *
+ */
 class ParcoursForm extends Form
 {
 	public function __construct($name = null)

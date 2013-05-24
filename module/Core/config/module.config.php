@@ -435,6 +435,20 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'ajouterScene' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route' => '/ajouter/:type/:id',
+                                'constraints' => array(
+                                    'type'     => 'ajAvant|ajApres',
+                                    'id'     => '[0-9]+',
+                                ),
+                                'defaults' => array(
+                                    'controller' => 'Scene',
+                                    'action'     => 'ajouterScene',
+                                ),
+                            ),
+                        ),
                     'voirScene' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -458,6 +472,33 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Scene',
                                 'action'     => 'removeScene',
+                            ),
+                        ),
+                    ),
+                    'editScene' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/edit/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'editScene',
+                            ),
+                        ),
+                    ),
+                    'deleteElement' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/deleteElement/:idScene/:idElement',
+                            'constraints' => array(
+                                'idScene'     => '[0-9]+',
+                                'idElement'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'deleteElement',
                             ),
                         ),
                     ),

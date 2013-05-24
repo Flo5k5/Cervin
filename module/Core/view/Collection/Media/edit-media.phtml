@@ -38,7 +38,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	</div>
 	
 	<a href="<?php echo $this->url('media/voirMedia',
-        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de ce média</a>
+        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-reply"> </i> Retour à la fiche de ce média</a>
 	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer ce média</a>
 </div>
 
@@ -187,6 +187,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 	$(function () {
 
+		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
 			image: false,
@@ -198,6 +199,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			}
 		});
 
+		// Enregistrement de la description tapée dans le wysihtml5
+		// via un appel ajax
 		$("#textarea").on("click",".textarea-submit", function(e){
 			DataValue = $('.textarea-wysihtml5').val();
 			$.ajax({
@@ -210,6 +213,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			});
 		});
 		
+		// Modification d'un fichier uploadé (remplacement)
+		// via un appel ajax
 		$(".file-input-form").on('submit', function (e){
 	    	e.preventDefault();
 	    	$(this).ajaxSubmit({
@@ -218,6 +223,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
             });
 	    });
 		
+		// Gestion du date picker
 		$('.picker').editable({
 			mode: 'popup',
 			placement: 'top',
@@ -229,6 +235,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		
 		});
 		
+		// Gestion de X-Editable
 		$('.edit').editable({
 			mode: 'inline'
 		});
