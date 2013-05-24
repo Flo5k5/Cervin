@@ -348,6 +348,32 @@ return array(
                             ),
                         ),
                     ),
+                    'modifierTransition' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifierTransition/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Parcours',
+                                'action'     => 'modifierTransition',
+                            ),
+                        ),
+                    ),
+                    'modifier' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifier/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Parcours',
+                                'action'     => 'modifier',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 

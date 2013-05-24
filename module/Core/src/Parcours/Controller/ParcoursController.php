@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\Parcours;
 use Parcours\Form\ParcoursForm;
+use Parcours\Entity\TransitionRecommandee;
+use Zend\Json\Json;
 
 class ParcoursController extends AbstractActionController
 {
@@ -145,9 +147,87 @@ class ParcoursController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return; 
         }
+        $SemantiqueTransitions = $this->getEntityManager()
+                            ->getRepository('Parcours\Entity\SemantiqueTransition')
+                            ->findBy(array(), array('semantique'=>'asc'));
 
-
-        return new ViewModel(array('Parcours'=>$Parcours));
+        return new ViewModel(array('Parcours'=>$Parcours,'SemantiqueTransitions'=>$SemantiqueTransitions));
     }
+
+    public function modifierAction()
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+            $id = (int) $this->params('id', null);
+            $semantiqueTransition = $this->getEntityManager()
+                                        ->getRepository('Parcours\Entity\SemantiqueTransition')
+                                        ->findOneBy(array('id'=>$id));
+            if ($semantiqueTransition === null || $id === null) {
+                $this->getResponse()->setStatusCode(404);
+                return;
+            }
+            $request = $this->params()->fromPost();
+            switch ($request['name']) {
+                case 'semantique':
+                    $semantiqueTransition->semantique = $request['value'];
+                    $this->getEntityManager()->flush();
+                    break;
+                    
+                case 'description':
+                    $semantiqueTransition->description = $request['value'];
+                    $this->getEntityManager()->flush();
+                    break;
+            
+                default:
+                    $this->getResponse()->setStatusCode(404);
+                    break;
+            }
+            return $this->getResponse()->setContent(Json::encode(true));
+        
+        } else {
+            $this->getResponse()->setStatusCode(404);
+        }
+    }
+
+
+        public function modifierTransitionAction()
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) 
+        {
+            $id = (int) $this->params('id', null);
+            $TransitionRecommandee = $this->getEntityManager()
+                                        ->getRepository('Parcours\Entity\TransitionRecommandee')
+                                        ->findOneBy(array('id'=>$id));
+            if ($TransitionRecommandee === null || $id === null) {
+                $this->getResponse()->setStatusCode(404);
+                return;
+            }
+            $request = $this->params()->fromPost();
+            switch ($request['name']) {
+                case 'semantique':
+                    $SemantiqueTransition = $this->getEntityManager()
+                                        ->getRepository('Parcours\Entity\SemantiqueTransition')
+                                        ->findOneBy(array('id'=>$request['value']));
+                    $TransitionRecommandee->semantique = $SemantiqueTransition;
+                    $this->getEntityManager()->flush();
+                    return $this->getResponse()->setContent(Json::encode(array('return'=>$TransitionRecommandee->semantique->semantique)));
+                    break;
+                    
+                case 'narration':
+                    $TransitionRecommandee->narration = $request['value'];
+                    $this->getEntityManager()->flush();
+                    return $this->getResponse()->setContent(Json::encode(true));
+                    break;
+            
+                default:
+                    $this->getResponse()->setStatusCode(404);
+                    break;
+            }
+        
+        } else {
+            $this->getResponse()->setStatusCode(404);
+        }
+    }
+
 
 }
