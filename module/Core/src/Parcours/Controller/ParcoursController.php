@@ -156,22 +156,22 @@ class ParcoursController extends AbstractActionController
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $id = (int) $this->params('id', null);
-            $semantiqueTransition = $this->getEntityManager()
-                                        ->getRepository('Parcours\Entity\SemantiqueTransition')
+            $Parcours = $this->getEntityManager()
+                                        ->getRepository('Parcours\Entity\Parcours')
                                         ->findOneBy(array('id'=>$id));
-            if ($semantiqueTransition === null || $id === null) {
+            if ($Parcours === null || $id === null) {
                 $this->getResponse()->setStatusCode(404);
                 return;
             }
             $request = $this->params()->fromPost();
             switch ($request['name']) {
-                case 'semantique':
-                    $semantiqueTransition->semantique = $request['value'];
+                case 'titre':
+                    $Parcours->titre = $request['value'];
                     $this->getEntityManager()->flush();
                     break;
                     
                 case 'description':
-                    $semantiqueTransition->description = $request['value'];
+                    $Parcours->description = $request['value'];
                     $this->getEntityManager()->flush();
                     break;
             

@@ -5,10 +5,21 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
 
+
 <div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> 
+    <h1><span class="edit CursorPointer"
+                        data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
+                        data-name="titre" 
+                        data-type="text" 
+                        data-inputclass="span10" 
+                        data-pk="1"><?php echo $this->escapeHtml($title); ?></span>
     <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
-    <p><?php echo $Parcours->description;?></p>
+    <p class="edit CursorPointer"
+                        data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
+                        data-inputclass="span10" 
+                        data-name="description" 
+                        data-type="textarea" 
+                        data-pk="1"><?php echo $this->escapeHtml($Parcours->description);?></p>
 </div>
 
 
@@ -118,17 +129,18 @@ a [class*=" icon-"]:before {
             data-placement="right" 
             data-html="true"
             data-title='
-                    <?php $semantique = ($debut->semantique) ? $this->escapeHtml($debut->semantique->semantique) : 'Semantique inconnue' ; echo $semantique ;?>
+                    <?php echo ($debut->semantique) ? $this->escapeHtml($debut->semantique->semantique) : 'Semantique inconnue' ;?>
                     <?php if ($this->isAllowed('Parcours') === true) :?>
                     <a href="#" 
                        class="selectSemantiques" 
+                       data-value="<?php echo ($debut->semantique) ? $debut->semantique->id : 'null' ; ?>"
                        data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $debut->id)) ?>">
                         <i class="icon-pencil"></i>
                     </a>
                     <?php endif;?>
             ' 
             data-content='
-                        <span class="edit CursorPointer"
+                        <span class="edit2 CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $debut->id)); ?>"
                         data-name="narration" 
                         data-type="textarea" 
@@ -194,11 +206,37 @@ a [class*=" icon-"]:before {
     $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
 <?php $this->inlineScript()->captureStart() ?>
     $(function() {
+        // on active editable
+        $(".edit").editable({ mode: 'inline', });
+        
+        // afficher les popover et activer les champs editable
+        $('.popover-link').click(function () {
+            var t = $(this)
+            $(this).popover('show');
+            $(".edit2").editable().on('save', function(e, params) {
+                t.text(params.newValue);
+            });
+        });
+        // fermer les popover ouverte si on en ouvre une autre
+        $('body').on('click', function (e) {
+            $('.popover-link').each(function () {
+                //the 'is' for buttons that triggers popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        }); 
+        <?php if ($this->isAllowed('Parcours') === true) :?>
 
         // on affiche le modal avec les semmantiques
         $(".elements").on("click",".selectSemantiques", function(e){
             var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+
             var body = new String('<form id="semantiqueTransitions" action="'+dataURL+'"><dl><?php foreach ($SemantiqueTransitions as $semantique) { ?><label class="radio"><dt><input type="radio" name="SemantiqueTransitions" id="SemantiqueTransitions<?php echo $this->escapeHtml($semantique->id) ;?>" value="<?php echo $this->escapeHtml($semantique->id) ;?>" ><?php echo $this->escapeHtml($semantique->semantique) ;?></dt><dd><?php echo $this->escapeHtml($semantique->description) ;?></dd></label><?php } ?></dl></form>');
+
+            body = body.replace('id="SemantiqueTransitions'+dataValue+'"', 'id="SemantiqueTransitions'+dataValue+'" checked="checked"' );
 
             $('#confirmDiv').confirmModal({
                 heading:"Sélectionner le type de Semantique",
@@ -218,25 +256,9 @@ a [class*=" icon-"]:before {
                     );
                 }
             });
+            $('#SemantiqueTransitions'+dataValue).prop('checked');
         });
-        // afficher les popover et activer les champs editable
-        $('.popover-link').click(function () {
-            var t = $(this)
-            $(this).popover('show');
-            $(".edit").editable().on('save', function(e, params) {
-                t.text(params.newValue);
-            });
-        });
-        // fermer les popover ouverte si on en ouvre une autre
-        $('body').on('click', function (e) {
-            $('.popover-link').each(function () {
-                //the 'is' for buttons that triggers popups
-                //the 'has' for icons within a button that triggers a popup
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
-                }
-            });
-        }); 
+
         // modal de confirmation : suppression de scene
         $(".elements").on("click",".SupprimerScene", function(e){
             var dataURL = $(this).attr('data-url');
@@ -273,6 +295,7 @@ a [class*=" icon-"]:before {
                 }
             });
         });
+        <?php endif;?>
     });
 
 <?php $this->inlineScript()->captureEnd() ?>
