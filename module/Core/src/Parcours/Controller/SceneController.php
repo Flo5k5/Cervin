@@ -143,7 +143,7 @@ class SceneController extends AbstractActionController
 		// transition recommandée dans le sous-parcours
 		$newScene = new SceneRecommandee();
 		$newScene->titre = 'Nouvelle scène';
-		$newScene->narration = 'Narration';
+		$newScene->narration = 'Narration à écrire';
 		$scene->sous_parcours->addScene($newScene);
 		$newTransitionRecommandee = new TransitionRecommandee();
 		$newTransitionRecommandee->narration = 'Nouvelle Transition';
