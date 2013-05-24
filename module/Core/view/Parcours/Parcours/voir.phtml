@@ -7,6 +7,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 
 <div class="page-header">
+    <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1><span class="edit CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
                         data-name="titre" 
@@ -20,6 +21,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                         data-name="description" 
                         data-type="textarea" 
                         data-pk="1"><?php echo $this->escapeHtml($Parcours->description);?></p>
+    <?php else : ?>
+        <h1><?php echo $this->escapeHtml($title); ?>
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    <p><?php echo $this->escapeHtml($Parcours->description);?></p>
+    <?php endif;?>
 </div>
 
 
@@ -140,11 +146,15 @@ a [class*=" icon-"]:before {
                     <?php endif;?>
             ' 
             data-content='
+                    <?php if ($this->isAllowed('Parcours') === true) :?>
                         <span class="edit2 CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $debut->id)); ?>"
                         data-name="narration" 
                         data-type="textarea" 
                         data-pk="1"><?php echo $this->escapeHtml($debut->narration); ?></span>
+                    <?php else : ?>
+                        <?php echo $this->escapeHtml($debut->narration); ?>
+                    <?php endif;?>
             ' 
             data-trigger="manual"
             title="" >
