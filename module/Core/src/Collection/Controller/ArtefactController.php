@@ -127,7 +127,10 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-		return new ViewModel(array('artefact' => $Artefact));
+		$relations = $this->getEntityManager()
+		->getRepository('Collection\Entity\RelationArtefacts')
+		->findBy(array('origine'=>$Artefact));
+		return new ViewModel(array('artefact' => $Artefact, 'relations'=>$relations));
 	}
 	
 	/**
@@ -146,7 +149,6 @@ class ArtefactController extends AbstractActionController
 	 */
 	public function editArtefactAction()
 	{
-
 		$id = (int) $this->params()->fromRoute('id', 0);
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		$datas = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$artefact));
@@ -213,7 +215,10 @@ class ArtefactController extends AbstractActionController
 		        break;
 			} // end switch request name
 		}
-		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
+		$relations = $this->getEntityManager()
+						->getRepository('Collection\Entity\RelationArtefacts')
+						->findBy(array('origine'=>$artefact));
+		return new ViewModel(array('artefact' => $artefact, 'datas'=>$datas, 'relations'=>$relations));
 	}
 	
 	/**
@@ -387,7 +392,7 @@ class ArtefactController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
+				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
 				$aaData[] = array(
 						$titre,
@@ -502,7 +507,7 @@ class ArtefactController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
+				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
 				$aaData[] = array(
 						$titre,
