@@ -110,11 +110,9 @@ class ParcoursController extends AbstractActionController
 
     public function ajouterAction()
     {
-
         $form = new ParcoursForm();
         $Parcours = new Parcours();
         $form->bind($Parcours);
-            
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($Parcours->getInputFilter());
@@ -126,7 +124,6 @@ class ParcoursController extends AbstractActionController
                 return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
             }
         }
-
         return new ViewModel(array('form'=>$form));
     }
 

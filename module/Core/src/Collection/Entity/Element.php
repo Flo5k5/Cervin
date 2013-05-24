@@ -18,6 +18,7 @@ use Collection\Entity\Media;
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
 *
+* @ORM\Entity
 * @ORM\Table(name="mbo_element")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
