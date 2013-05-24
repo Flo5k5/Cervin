@@ -128,8 +128,8 @@ class ArtefactController extends AbstractActionController
             return;
 		}
 		$relations = $this->getEntityManager()
-		->getRepository('Collection\Entity\RelationArtefacts')
-		->findBy(array('origine'=>$Artefact));
+				->getRepository('Collection\Entity\RelationArtefacts')
+				->findBy(array('origine'=>$Artefact));
 		return new ViewModel(array('artefact' => $Artefact, 'relations'=>$relations));
 	}
 	
@@ -245,6 +245,28 @@ class ArtefactController extends AbstractActionController
 		return $this->redirect()->toRoute('collection/consulter');
 	}
 
+	/**
+	 * Suppression d'une relation entre deux artefacts
+	 * Cette action est déclenché par un appel AJAX
+	 * lancé depuis la modale de confirmation dans la vue.
+	 * L'id de la relation à supprimer est passé en paramètre de la requête
+	 */
+	public function supprimerRelationArtefactSemantiqueAction()
+	{
+		$idRelation = (int) $this->params('idRelation', null);
+		$relation = $this->getEntityManager()
+				->getRepository('Collection\Entity\RelationArtefacts')
+				->findOneBy(array('id'=>$idRelation));
+		if ($idRelation === null || $relation === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		$this->getEntityManager()->remove($relation);
+		$this->getEntityManager()->flush();
+		$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été supprimée.'));
+		return $this->getResponse()->setContent(Json::encode(true));
+	}
+	
 	public function addRelationArtefactSemantiqueAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -258,19 +280,21 @@ class ArtefactController extends AbstractActionController
 				$idElementOrigine     = (int) $this->params()->fromPost('idOrigine', 0);
 
 				if (!$idElementDestination) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant de l\'élément de destination' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant de l\'élément de destination.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 				
 				if (!$idElementOrigine) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant de l\'élément d\'origine' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant de l\'élément d\'origine.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 				
 				$elementDestination = $this->getEntityManager()->find('Collection\Entity\Element', $idElementDestination);
 				$elementOrigine     = $this->getEntityManager()->find('Collection\Entity\Element', $idElementOrigine);
 				
 				if (null === $elementDestination || null === $elementOrigine ) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Entity not found' )));
-					return;
+					$this->flashMessenger()->addErrorMessage(sprintf('Entity not found'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 				
 				$semantiques = $this->getEntityManager()
@@ -295,11 +319,13 @@ class ArtefactController extends AbstractActionController
 				$idElementOrigine     = (int) $this->params()->fromRoute('idOrigine', 0);
 
 				if (!$idElementDestination) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant de l\'élément de destination' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant de l\'élément de destination.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 				
 				if (!$idElementOrigine) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant de l\'élément d\'origine' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant de l\'élément d\'origine.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 
 				$testRelationArtefacts = $this->getEntityManager()
@@ -307,7 +333,8 @@ class ArtefactController extends AbstractActionController
 								              ->findOneBy( array( 'origine' => $idElementOrigine, 'destination' => $idElementDestination, 'semantique' => $idSemantique ));
 				
 				if( $testRelationArtefacts != null ){
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déjà présente en base de donnée' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Cette relation existe déjà.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 				
 				$elementOrigine = $this->getEntityManager()
@@ -323,7 +350,8 @@ class ArtefactController extends AbstractActionController
 								   ->findOneBy( array( 'id' => $idSemantique ));
 				
 				if ( $elementOrigine === null || $elementDestination === null || $semantique === null ) {
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Une des entités est introuvable.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 
 				try {
@@ -331,10 +359,11 @@ class ArtefactController extends AbstractActionController
 					$this->getEntityManager()->persist($relationArtefacts);
 					$this->getEntityManager()->flush();
 				} catch (Exception $e) {
-					return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Erreur durant l\'insertion en base de donnée.'));
+					return $this->getResponse()->setContent(Json::encode( array( 'success' => false) ));
 				}
-				
-				return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée.' ) ));
+				$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
+				return $this->getResponse()->setContent(Json::encode( array( 'success' => true) ));
 			}
 			
 		} else {
@@ -396,7 +425,7 @@ class ArtefactController extends AbstractActionController
 	
 				$aaData[] = array(
 						$titre,
-						$element->type_element->type,
+						$element->type_element->nom,
 						$bouton
 				);
 			}
@@ -418,11 +447,13 @@ class ArtefactController extends AbstractActionController
 			$idArtefact = (int) $this->params()->fromPost('idArtefact', 0);
 	
 			if (!$idMedia) {
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour le média' )));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour le média.'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 			}
 				
 			if (!$idArtefact) {
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour l\'artefact' )));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour l\'artefact.'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 			}
 	
 			$artefact = $this->getEntityManager()
@@ -434,12 +465,14 @@ class ArtefactController extends AbstractActionController
 			->findOneBy( array( 'id' => $idMedia ));
 				
 			if ( $media === null || $artefact === null ) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Une des entités est introuvable.'));
 				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
 			}
 				
 			foreach($artefact->medias as $mediaArt){
 				if($mediaArt->id === $media->id ){
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déjà présente en base de donnée' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Cette relation existe déjà.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 			}
 	
@@ -447,10 +480,11 @@ class ArtefactController extends AbstractActionController
 				$artefact->medias->add($media);
 				$this->getEntityManager()->flush();
 			} catch (Exception $e) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Erreur durant l\'insertion en base de donnée.'));
 				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
 			}
-	
-			return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée.' ) ));
+			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
+			return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
 	
 		} else {
 			$this->getResponse()->setStatusCode(404);
@@ -507,11 +541,11 @@ class ArtefactController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
+				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
 				$aaData[] = array(
 						$titre,
-						$element->type_element->type,
+						$element->type_element->nom,
 						$bouton
 				);
 			}

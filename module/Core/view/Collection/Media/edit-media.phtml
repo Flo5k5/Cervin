@@ -172,17 +172,27 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			<div class="tab-pane" id="tab2">
 				<h4> Artefacts déjà liés </h4>
 				<?php if ($media->artefacts->count() > 0) : ?>
-					<ul class="nav nav-list">
+				<table class="table">
 					<?php foreach( ($media->artefacts) as $artefact) : ?>
-						<li >
-							<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
-							<i class="icon-tag"></i>  
-							<?php echo $artefact->titre; ?> 
-							[<?php echo $artefact->type_element->nom; ?>]
-							</a>
-						</li>
+						<tr>
+							<td>
+								<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
+								<i class="icon-tag"></i>  
+								<?php echo $artefact->titre; ?> 
+								[<?php echo $artefact->type_element->nom; ?>]
+								</a>
+							</td>
+							<td>
+								<!-- Le boutton supprimer déclenche en javascript une modale de confirmation -->
+				            	<a href="#" 
+				            		data-url="<?php echo $this->url('media/supprimerRelationMediaArtefact', array('idMedia'=>$media->id, 'idArtefact'=>$artefact->id)); ?> ""
+				            		class="SupprimerRelation">
+				            	<i class="icon-trash"></i>
+				            	</a>
+			            	</td>
+						</tr>
 					<?php endforeach; ?>
-					</ul>
+					</table>
 				<?php else : ?>
 					<p> Aucun artefact n'est lié à ce média. </p>
 				<?php endif; ?>
@@ -197,6 +207,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	</div>
 </div>
 
+<!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
+<div id="confirmDiv" >
+</div>
 
 <?php $this->inlineScript()->captureStart() ?>
 
@@ -256,12 +269,29 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		$('.edit').editable({
 			mode: 'inline'
 		});
+		
+		// Modale de confirmation pour la suppression d'une relation avec un artefact
+		$(".SupprimerRelation").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer cette relation ?",
+                callback: function() {
+                     $.post(
+                     	dataURL,
+                        function(response) {
+		                	document.location.reload();
+		            	}
+                    );
+                }
+          	});
+      	});
 
     });
     
 <?php 
 $this->inlineScript()->captureEnd();
-
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
@@ -270,5 +300,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js'
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
 
 ?>

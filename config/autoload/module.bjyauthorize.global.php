@@ -183,9 +183,10 @@ return array(
                 array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
-            	array('route' => 'artefact/addRelationArtefactSemantique', 'roles' => array('Utilisateur')),
+            	array('route' => 'artefact/supprimerRelationArtefactSemantique', 'roles' => array('Collection')),
+            	array('route' => 'artefact/addRelationArtefactSemantique', 'roles' => array('Collection')),
             	array('route' => 'artefact/getAllArtefact', 'roles' => array('Utilisateur')),
-            	array('route' => 'artefact/addRelationArtefactMedia', 'roles' => array('Utilisateur')),
+            	array('route' => 'artefact/addRelationArtefactMedia', 'roles' => array('Collection')),
             	array('route' => 'artefact/getAllMedia', 'roles' => array('Utilisateur')),
 
                 array('route' => 'media', 'roles' => array('Collection')),
@@ -193,7 +194,8 @@ return array(
                 array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
                 array('route' => 'media/removeMedia', 'roles' => array('Collection')),
-            	array('route' => 'media/addRelationMediaArtefact', 'roles' => array('Utilisateur')),
+            	array('route' => 'media/addRelationMediaArtefact', 'roles' => array('Collection')),
+            	array('route' => 'media/supprimerRelationMediaArtefact', 'roles' => array('Collection')),
             	array('route' => 'media/getAllArtefact', 'roles' => array('Utilisateur')),
 
                 array('route' => 'semantique', 'roles' => array('Admin')),

@@ -109,9 +109,11 @@
 				var resp = jQuery.parseJSON(e);
 				
 				if(resp.success === true){
-					$('.messageSemantique').showInfos(resp.message, "success");
+					location.reload();
+					//$('.messageSemantique').showInfos(resp.message, "success");
 				} else {
-					$('.messageSemantique').showInfos(resp.error, "error");
+					location.reload();
+					//$('.messageSemantique').showInfos(resp.error, "error");
 				}
 
 			});

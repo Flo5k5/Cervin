@@ -81,8 +81,8 @@ class Parcours implements InputFilterAwareInterface
         $SousParcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 
         $Scene = new SceneRecommandee();
-        $Scene->titre = '1er Scene';
-        $Scene->narration = 'Narration';
+        $Scene->titre = 'Nouvelle scène';
+        $Scene->narration = 'Narration à écrire';
         $SousParcours->addScene($Scene);
         $SousParcours->scene_depart = $Scene;
 

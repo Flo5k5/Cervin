@@ -5,10 +5,10 @@
 	</div>
 	
 	<div class="modal-body">
-		<table class="table table-bordered table-striped">
+		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Sémantiques</th>
+					<th>Sémantique</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -18,7 +18,7 @@
 				<tr>
 					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
 					<td>
-						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
+						<a href="#" class="btn btn-primary ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
 							<i class="icon-plus"></i> Lier avec cette sémantique
 						</a>
 					</td>
@@ -34,4 +34,3 @@
 		
 		<div class="messageSemantique">&nbsp;</div>
 	</div>
-
