@@ -227,6 +227,7 @@ $this->headTitle($title);
 
 	$(function () {
 
+		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
 			image: false,
@@ -238,6 +239,8 @@ $this->headTitle($title);
 			}
 		});
 
+		// Enregistrement de la description tapée dans le wysihtml5
+		// via un appel ajax
 		$("#textarea").on("click",".textarea-submit", function(e){
 			DataValue = $('.textarea-wysihtml5').val();
 			$.ajax({
@@ -250,6 +253,8 @@ $this->headTitle($title);
 			});
 		});
 		
+		// Modification d'un fichier uploadé (remplacement)
+		// via un appel ajax
 		$(".file-input-form").on('submit', function (e){
 	    	e.preventDefault();
 	    	$(this).ajaxSubmit({
@@ -258,6 +263,7 @@ $this->headTitle($title);
             });
 	    });
 		
+		// Gestion du date picker
 		$('.picker').editable({
 			mode: 'popup',
 			placement: 'top',
@@ -269,6 +275,7 @@ $this->headTitle($title);
 		
 		});
 		
+		// Gestion de X-Editable
 		$('.edit').editable({
 			mode: 'inline'
 		});

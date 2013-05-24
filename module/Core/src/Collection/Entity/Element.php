@@ -18,7 +18,6 @@ use Collection\Entity\Media;
 /**
 * Un élément de la collection num�rique (artefact ou m�dia)
 *
-* @ORM\Entity(repositoryClass="Collection\Entity\ElementRepository")
 * @ORM\Table(name="mbo_element")
 * @ORM\InheritanceType("SINGLE_TABLE")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -108,6 +107,8 @@ class Element implements InputFilterAwareInterface
 
     /**
     * Populate from an array.
+    * Cette fonction est liée au formulaire ChampTypeElementForm
+    * Elle prend en entrée les datas postés depuis ce formulaire
     *
     * @param array $data
     */
@@ -164,15 +165,18 @@ class Element implements InputFilterAwareInterface
         }
     }
     
+    /**
+     * Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
+     * et ajoute le chemin vers ce fichier aux datas de l'élément
+     */
     public function addFile($data, $tmpname ,$name, $format) {
     	// On stocke le fichier dans le dossier public/uploads/artefacts/'champ_id'/'datetime'/
+    	// ou dans public/uploads/medias/'champ_id'/'datetime'/
     	if($this instanceof Artefact){
     		$champ_dir = "/uploads/artefacts/" . (string)$data->champ->id;
-    	}
-    	elseif($this instanceof Media){
+    	} elseif($this instanceof Media) {
     		$champ_dir = "/uploads/medias/" . (string)$data->champ->id;
-    	}
-    	else {
+    	} else {
     		throw new \Exception("Error Processing Request");
     	}
     	mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
@@ -191,8 +195,9 @@ class Element implements InputFilterAwareInterface
     	$this->addFile($data, $tmpname ,$name, $format);
     }
 
-   
-
+	/**
+	 * Supprime le fichier attaché à un DataFichier
+	 */
     public function deleteFile($data){
     	if($data->fichier !== null){
     		$dir = $_SERVER["DOCUMENT_ROOT"] . dirname($data->fichier);
@@ -202,7 +207,7 @@ class Element implements InputFilterAwareInterface
     	return false;
     }
     
-    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
     private function delTree($dir) {
     	if(is_dir($dir)){
     		$files = glob( $dir . '*', GLOB_MARK );
@@ -328,36 +333,9 @@ class Element implements InputFilterAwareInterface
     					break;
     			}
     		}
-    
     		$this->inputFilter = $inputFilter;
     	}
-    	 
     	return $this->inputFilter;
     }
     
-}
-
-class ElementRepository extends EntityRepository
-{
-
-    public function getDataChamp($id = 2)
-    {
-       /* $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $query = $qb->select('d.id, dtx.texte, dd.date, df.fichier, df.format_fichier, dn.nombre, du.url, dta.textarea, c.id as champId, c.label, c.format, c.description')
-			        ->from('Collection\Entity\Data','d')
-			        ->leftJoin('Collection\Entity\DataDate', 'dd', 'WITH', 'd.id = dd.id')
-			        ->leftJoin('Collection\Entity\DataFichier', 'df', 'WITH', 'd.id = df.id')
-			        ->leftJoin('Collection\Entity\DataNombre', 'dn', 'WITH', 'd.id = dn.id')
-			        ->leftJoin('Collection\Entity\DataTexte', 'dtx', 'WITH', 'd.id = dtx.id')
-			        ->leftJoin('Collection\Entity\DataUrl', 'du', 'WITH', 'd.id = du.id')
-			        ->leftJoin('Collection\Entity\DataTextarea', 'dta', 'WITH', 'd.id = dta.id')
-			        ->innerJoin('Collection\Entity\Champ', 'c', 'WITH', 'd.champ = c.id')
-			        ->where('d.element = '.$id)
-			        ;
-
-        return $query->getQuery()->getResult();*/
-    }
-
 }

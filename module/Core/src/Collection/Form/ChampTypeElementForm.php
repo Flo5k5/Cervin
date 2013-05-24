@@ -7,6 +7,10 @@ use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
+/**
+ * Formulaire utilisé pour la création d'un nouvel élément de la collection
+ *
+ */
 class ChampTypeElementForm extends Form
 {
 	public function __construct($type_element, $name = null)

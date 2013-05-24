@@ -49,19 +49,6 @@ class CollectionController extends AbstractActionController
     }
     
     /**
-     * C'EST QUOI CETTE ACTION ?
-     * INUTILE ??
-     * A COMMENTER ??
-     * @return multitype:unknown
-     */
-    public function testAction()
-    {
-    	$em = $this->getEntityManager();
-    	$types_elements = $em->getRepository('Collection\Entity\TypeElement')->findAll();
-    	return array('types_elements' => $types_elements);
-    }
-    
-    /**
      * COMMENTAIRE A ECRIRE !!!
      * @return \Zend\View\Model\ViewModel
      */

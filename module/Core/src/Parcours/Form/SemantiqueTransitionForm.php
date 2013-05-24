@@ -7,6 +7,11 @@ use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
+/**
+ * Formulaire utilisé pour la création d'une 
+ * sémantique des transitions entre scènes
+ *
+ */
 class SemantiqueTransitionForm extends Form
 {
 	public function __construct($name = null)
