@@ -70,25 +70,35 @@ class SceneController extends AbstractActionController
 		));
     }
 
+    /**
+	 * Suppression d'une scène à l'intérieur d'un parcours
+	 * Cette action est déclenchée par un appel AJAX
+	 * Il faut traiter les différentes possibilités de placement de la scène
+	 * afin de garder la cohérence du parcours et des transitions
+	 * A noter : cette version marche tant qu'on n'a que des scènes recommandées
+	 * mais il faudra la modifier pour gérer les autres types de scènes et de transitions
+	 */
     public function removeSceneAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
-		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
+		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$id));
 		if ($scene === null or $id === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
 		
+		$parcours = $scene->sous_parcours->parcours;
 		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$id));
-		$tr_after = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_origine'=>$id));
+		$tr_after = $scene->transition_recommandee;
 
 		if($tr_before === null && $tr_after === null) // c'est la seule
 		{
-			$this->flashMessenger()->addErrorMessage(sprintf('Impossible de supprimer la dernière scène de ce parcours.'));
-			return $this->redirect()->toRoute('scene/voirScene', array('id' => $scene->id));
+			$this->flashMessenger()->addErrorMessage(sprintf('Impossible de supprimer la seule scène de ce parcours.'));
+			return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
 		}
 		elseif($tr_before === null) // c'est la première
 		{
+			// la nouvelle première est la suivante
 			$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
 			$this->getEntityManager()->remove($tr_after);
 		}
@@ -98,6 +108,7 @@ class SceneController extends AbstractActionController
 		}
 		else // elle est au milieu
 		{
+			// rediriger la transition d'après sur la scène d'avant pour garder la cohérence
 			$tr_after->scene_origine = $tr_before->scene_origine;
 			$this->getEntityManager()->remove($tr_before);
 		}
@@ -105,7 +116,7 @@ class SceneController extends AbstractActionController
 		$this->getEntityManager()->remove($scene);
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
-		return $this->redirect()->toRoute('parcours');
+		return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
 	}
 
 	/**
@@ -186,7 +197,7 @@ class SceneController extends AbstractActionController
         		return;
         		break;
         }
-         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
+        return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
 	}
 
 	public function editSceneAction()
