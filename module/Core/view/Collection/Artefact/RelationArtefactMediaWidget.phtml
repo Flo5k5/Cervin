@@ -88,9 +88,9 @@
 					var resp = jQuery.parseJSON(e);
 					
 					if(resp.success === true){
-						$('.messageArtMed').showInfos(resp.message, "success");
+						location.reload();
 					} else {
-						$('.messageArtMed').showInfos(resp.error, "error");
+						location.reload();
 					}
 
 			    });

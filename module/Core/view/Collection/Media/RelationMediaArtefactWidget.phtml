@@ -86,9 +86,11 @@
 					var resp = jQuery.parseJSON(e);
 					
 					if(resp.success === true){
-						$('.messageMedArt').showInfos(resp.message, "success");
+						location.reload();
+						//$('.messageMedArt').showInfos(resp.message, "success");
 					} else {
-						$('.messageMedArt').showInfos(resp.error, "error");
+						location.reload();
+						//$('.messageMedArt').showInfos(resp.error, "error");
 					}
 
 			    });

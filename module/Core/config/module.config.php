@@ -163,6 +163,19 @@ return array(
                 					),
                 			),
                 	),
+                	'supprimerRelationArtefactSemantique' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/supprimerRelationArtefactSemantique/:idRelation',
+                			'constraints' => array(
+                				'idRelation'  => '[0-9]+'
+                			),
+                			'defaults' => array(
+                				'controller' => 'Artefact',
+                				'action'     => 'supprimerRelationArtefactSemantique',
+                			),
+                		),
+                	),
                 	'getAllArtefact' => array(
                 			'type' => 'Zend\Mvc\Router\Http\Literal',
                 			'options' => array(
@@ -274,6 +287,20 @@ return array(
                 							'action'     => 'addRelationMediaArtefact',
                 					),
                 			),
+                	),
+                	'supprimerRelationMediaArtefact' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/supprimerRelationMediaArtefact/:idMedia/:idArtefact',
+                			'constraints' => array(
+                				'idArtefact' => '[0-9]+',
+                				'idMedia' => '[0-9]+'
+                			),
+                			'defaults' => array(
+                				'controller' => 'Media',
+                				'action'     => 'supprimerRelationMediaArtefact',
+                			),
+                		),
                 	),
                 	'getAllArtefact' => array(
                 			'type' => 'Zend\Mvc\Router\Http\Literal',

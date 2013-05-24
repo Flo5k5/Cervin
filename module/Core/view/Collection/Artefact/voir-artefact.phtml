@@ -137,17 +137,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			
 			<div class="tab-pane" id="tab3">
 				<?php if ($artefact->medias->count() > 0) : ?>
-					<ul class="nav nav-list">
+					<table class="table">
 					<?php foreach( ($artefact->medias) as $media) : ?>
-						<li >
+						<tr>
+						<td>
 							<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)); ?>">
 							<i class="icon-picture"></i>  
 							<?php echo $media->titre; ?>
 							[<?php echo $media->type_element->nom; ?>] 
 							</a>
-						</li>
+						</td>
+						</tr>
 					<?php endforeach; ?>
-					</ul>
+					</table>
 				<?php else : ?>
 					<p> Aucun média n'est lié à cet artefact. </p>
 				<?php endif; ?>

@@ -241,6 +241,34 @@ class MediaController extends AbstractActionController
         return $this->redirect()->toRoute('collection/consulter');
     }
 
+    /**
+     * Suppression d'une relation entre un média et un artefact
+     * Cette action est déclenché par un appel AJAX
+     * lancé depuis la modale de confirmation dans la vue.
+     * Les id du média et de l'artefact à délier son pssés en
+     * paramètre de la requête
+     */
+    public function supprimerRelationMediaArtefactAction()
+    {
+    	$idArtefact = (int) $this->params('idArtefact', null);
+    	$idMedia = (int) $this->params('idMedia', null);
+    	$artefact = $this->getEntityManager()
+    			->getRepository('Collection\Entity\Artefact')
+    			->findOneBy(array('id'=>$idArtefact));
+    	$media = $this->getEntityManager()
+    			->getRepository('Collection\Entity\Media')
+    			->findOneBy(array('id'=>$idMedia));
+    	if ($idMedia === null || $idArtefact === null 
+    		|| $artefact === null || $media === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$artefact->medias->removeElement($media);
+    	$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été supprimée.'));
+    	return $this->getResponse()->setContent(Json::encode(true));
+    }
+    
     public function addRelationMediaArtefactAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -250,11 +278,13 @@ class MediaController extends AbstractActionController
 			
 
 			if (!$idMedia) {
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour le média' )));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour le média'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 			}
 			
 			if (!$idArtefact) {
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour l\'artefact' )));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour l\'artefact'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 			}
 
 			$artefact = $this->getEntityManager()
@@ -266,12 +296,14 @@ class MediaController extends AbstractActionController
 						  ->findOneBy( array( 'id' => $idMedia ));
 			
 			if ( $media === null || $artefact === null ) {
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Une des entités est introuvable'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 			}
 			
 			foreach($artefact->medias as $mediaArt){
 				if($mediaArt->id === $media->id ){
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déjà présente en base de donnée' )));
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Cette relation existe déjà'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
 				}
 			}
 
@@ -279,9 +311,10 @@ class MediaController extends AbstractActionController
 				$artefact->medias->add($media);
 				$this->getEntityManager()->flush();
 			} catch (Exception $e) {
-				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Erreur durant l\'insertion en base de donnée'));
+				return $this->getResponse()->setContent(Json::encode( array( 'success' => false)));
 			}
-
+			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
 			return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée.' ) ));
 
 		} else {
@@ -339,11 +372,11 @@ class MediaController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('media/addRelationMediaArtefact', array('idArtefact' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
+				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('media/addRelationMediaArtefact', array('idArtefact' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
 				$aaData[] = array(
 						$titre,
-						$element->type_element->type,
+						$element->type_element->nom,
 						$bouton
 				);
 			}

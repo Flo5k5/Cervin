@@ -195,6 +195,13 @@ $this->headTitle($title);
 								[<?php echo $relation->destination->type_element->nom; ?>]
 								</a>
 							</td>
+							<td>
+								<a href="#" 
+				            		data-url="<?php echo $this->url('artefact/supprimerRelationArtefactSemantique', array('idRelation'=>$relation->id)); ?> ""
+				            		class="SupprimerRelationArtefact">
+				            	<i class="icon-trash"></i>
+				            	</a>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 					</table>
@@ -211,17 +218,27 @@ $this->headTitle($title);
 			<div class="tab-pane" id="tab3">
 				<h4> Médias déjà liés </h4>
 				<?php if ($artefact->medias->count() > 0) : ?>
-					<ul class="nav nav-list">
+					<table class="table">
 					<?php foreach( ($artefact->medias) as $media) : ?>
-						<li >
+						<tr>
+						<td>
 							<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)); ?>">
 							<i class="icon-picture"></i>  
 							<?php echo $media->titre; ?> 
 							[<?php echo $media->type_element->nom; ?>]
 							</a>
-						</li>
+						</td>
+						<td>
+							<!-- Le boutton supprimer déclenche en javascript une modale de confirmation -->
+			            	<a href="#" 
+			            		data-url="<?php echo $this->url('media/supprimerRelationMediaArtefact', array('idMedia'=>$media->id, 'idArtefact'=>$artefact->id)); ?> ""
+			            		class="SupprimerRelationMedia">
+			            	<i class="icon-trash"></i>
+			            	</a>
+						</td>
+						</tr>
 					<?php endforeach; ?>
-					</ul>
+					</table>
 				<?php else : ?>
 					<p> Aucun média n'est lié à cet artefact. </p>
 				<?php endif; ?>
@@ -233,6 +250,10 @@ $this->headTitle($title);
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
+<div id="confirmDiv" >
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
@@ -292,11 +313,45 @@ $this->headTitle($title);
 			mode: 'inline',
 		});
 		
+		// Modale de confirmation pour la suppression d'une relation avec un média
+		$(".SupprimerRelationMedia").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer cette relation ?",
+                callback: function() {
+                     $.post(
+                     	dataURL,
+                        function(response) {
+		                	document.location.reload();
+		            	}
+                    );
+                }
+          	});
+      	});
+      	
+      	// Modale de confirmation pour la suppression d'une relation avec un autre artefact
+		$(".SupprimerRelationArtefact").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer cette relation ?",
+                callback: function() {
+                     $.post(
+                     	dataURL,
+                        function(response) {
+		                	document.location.reload();
+		            	}
+                    );
+                }
+          	});
+      	});
+		
     });
     
 <?php 
 $this->inlineScript()->captureEnd();
-
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
 //$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
