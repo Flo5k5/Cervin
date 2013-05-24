@@ -190,6 +190,7 @@ $this->headTitle($title);
 							<td> <?php echo $relation->semantique->semantique; ?>  </td>
 							<td>
 								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->destination->id)); ?>">
+								<i class="icon-tag"></i>  
 								<?php echo $relation->destination->titre; ?> 
 								[<?php echo $relation->destination->type_element->nom; ?>]
 								</a>
