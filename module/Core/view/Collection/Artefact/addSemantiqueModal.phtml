@@ -1,7 +1,7 @@
 
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3>Ajouter une sémantique</h3>
+		<h3>Choisir une sémantique</h3>
 	</div>
 	
 	<div class="modal-body">
@@ -19,7 +19,7 @@
 					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
 					<td>
 						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
-							<i class="icon-plus"></i> Ajouter
+							<i class="icon-plus"></i> Lier avec cette sémantique
 						</a>
 					</td>
 				</tr>

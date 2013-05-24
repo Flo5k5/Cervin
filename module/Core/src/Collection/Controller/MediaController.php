@@ -339,7 +339,7 @@ class MediaController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('media/addRelationMediaArtefact', array('idArtefact' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
+				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('media/addRelationMediaArtefact', array('idArtefact' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
 				$aaData[] = array(
 						$titre,

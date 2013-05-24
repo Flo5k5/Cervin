@@ -107,10 +107,21 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				</dl>
 			</div>
 			<div class="tab-pane" id="tab2">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				
-				<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
-				
+				<?php if ($media->artefacts->count() > 0) : ?>
+					<ul class="nav nav-list">
+					<?php foreach( ($media->artefacts) as $artefact) : ?>
+						<li >
+							<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
+							<i class="icon-picture"></i> 
+							<?php echo $artefact->titre; ?> 
+							[<?php echo $artefact->type_element->nom; ?>]
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php else : ?>
+					<p> Aucun artefact n'est lié à ce média. </p>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
