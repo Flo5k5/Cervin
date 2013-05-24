@@ -1,11 +1,12 @@
-<?php 
+<?php
+$title = $media->titre;
+$this->headTitle($title);
+
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
-$title = $media->titre;
-$this->headTitle($title);
 ?>
 
 <!-- Help Modal -->
@@ -170,52 +171,11 @@ $this->headTitle($title);
 			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-					<?php 
-					/*
-					$artefacts = array();
-					
-					foreach( ($media->artefacts) as $artefact) :
-						$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
-						$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
-						$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
-						' '.$artefact->semantique->semantique.
-						' <a href="'.$this->url("media/voirMedia",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
-						'</a><br>' ;
-
-					endforeach ;
-					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' class="active"';} else { $active='';}
-						echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
-					$i++;
-					endforeach ;
-					echo '</ul><div class="tab-content">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' active';} else { $active='';}
-						echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
-
-							foreach ($artefact['value'] as $value) {
-								echo '<p>'.$value.'</p>';
-							}
-						echo '</div>';
-					$i++;
-					endforeach ;
-					echo '</div></div>';
-					*/
-					?>
 				
-				<?php echo $this->DatatableWidget('RelationMedia', array( array('type'=>'type','value'=>'artefact') ) ); ?>
+				<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
 					
 			</div>
-			
-			<div class="tab-pane" id="tab3">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<div class="span6">
-				</div>
-				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
-			</div>
+
 		</div>
 	</div>
 </div>

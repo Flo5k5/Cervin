@@ -148,10 +148,10 @@ return array(
                             ),
                         ),
                     ),
-                	'ajouterRelationArtefact' => array(
+                	'addRelationArtefactSemantique' => array(
                 			'type' => 'segment',
                 			'options' => array(
-                					'route' => '/ajouterRelation[/:idDestination][/:idOrigine][/:idSemantique]',
+                					'route' => '/addRelationArtefactSemantique[/:idDestination][/:idOrigine][/:idSemantique]',
                 					'constraints' => array(
                 							'idSemantique'  => '[0-9]+',
                 							'idDestination' => '[0-9]+',
@@ -159,17 +159,40 @@ return array(
                 					),
                 					'defaults' => array(
                 							'controller' => 'Artefact',
-                							'action'     => 'ajouterRelationArtefact',
+                							'action'     => 'addRelationArtefactSemantique',
                 					),
                 			),
                 	),
-                	'voirRelationArtefact' => array(
+                	'getAllArtefact' => array(
                 			'type' => 'Zend\Mvc\Router\Http\Literal',
                 			'options' => array(
-                					'route' => '/voirRelationArtefact',
+                					'route' => '/getAllArtefact',
                 					'defaults' => array(
                 							'controller' => 'Artefact',
-                							'action'     => 'voirRelationArtefact',
+                							'action'     => 'getAllArtefact',
+                					),
+                			),
+                	),
+                	'addRelationArtefactMedia' => array(
+                			'type' => 'segment',
+                			'options' => array(
+                					'route' => '/addRelationArtefactMedia[/:idMedia]',
+                					'constraints' => array(
+                							'idMedia' => '[0-9]+'
+                					),
+                					'defaults' => array(
+                							'controller' => 'Artefact',
+                							'action'     => 'addRelationArtefactMedia',
+                					),
+                			),
+                	),
+                	'getAllMedia' => array(
+                			'type' => 'Zend\Mvc\Router\Http\Literal',
+                			'options' => array(
+                					'route' => '/getAllMedia',
+                					'defaults' => array(
+                							'controller' => 'Artefact',
+                							'action'     => 'getAllMedia',
                 					),
                 			),
                 	),
@@ -239,26 +262,26 @@ return array(
                             ),
                         ),
                     ),
-                	'ajouterRelationMedia' => array(
+                	'addRelationMediaArtefact' => array(
                 			'type' => 'segment',
                 			'options' => array(
-                					'route' => '/ajouterRelation[/:idDestination]',
+                					'route' => '/addRelationMediaArtefact[/:idArtefact]',
                 					'constraints' => array(
-                							'idDestination' => '[0-9]+'
+                							'idArtefact' => '[0-9]+'
                 					),
                 					'defaults' => array(
                 							'controller' => 'Media',
-                							'action'     => 'ajouterRelationMedia',
+                							'action'     => 'addRelationMediaArtefact',
                 					),
                 			),
                 	),
-                	'voirRelationMedia' => array(
+                	'getAllArtefact' => array(
                 			'type' => 'Zend\Mvc\Router\Http\Literal',
                 			'options' => array(
-                					'route' => '/voirRelationMedia',
+                					'route' => '/getAllArtefact',
                 					'defaults' => array(
                 							'controller' => 'Media',
-                							'action'     => 'voirRelationMedia',
+                							'action'     => 'getAllArtefact',
                 					),
                 			),
                 	),

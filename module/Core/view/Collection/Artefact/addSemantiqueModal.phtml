@@ -18,7 +18,7 @@
 				<tr>
 					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
 					<td>
-						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/ajouterRelationArtefact', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
+						<a href="#" class="btn btn-info ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
 							<i class="icon-plus"></i> Ajouter
 						</a>
 					</td>
@@ -32,6 +32,6 @@
 	    	</tbody>
 		</table>
 		
-		<div class="message">&nbsp;</div>
+		<div class="messageSemantique">&nbsp;</div>
 	</div>
 

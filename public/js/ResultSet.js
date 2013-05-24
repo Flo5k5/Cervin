@@ -95,8 +95,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 } );
 
 /**
- * Método utilizado para fazer com que a busca no plugin seja feito após a tecla
- * "enter" ser precionada, e não através do evento keyup. 
+ * Método utilizado para fazer com que a busca no plugin seja feito apÃ³s a tecla
+ * "enter" ser precionada, e nÃ£o através do evento keyup. 
  */ 
 jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function(oSettings) {
 	var _that = this;
@@ -124,8 +124,18 @@ var ResultSet = new function() {
 
 	return {
 
-		paginate : function(values, callback) {
-		
+		paginate : function(element, values, callback) {
+			
+			if( !(element instanceof jQuery) ){
+				alert("L'argument passé à dataTable n'est pas un élément du DOM")
+				return false;
+			}
+			
+			if( !(element.is('table')) ){
+				alert("L'argument passé à dataTable n'est pas un élément table")
+				return false;
+			}
+
 			var params = {
 				"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 				"sPaginationType": "bootstrap",
@@ -163,7 +173,7 @@ var ResultSet = new function() {
 				}
 			}
 
-			var data = $('#data').dataTable(params).fnFilterOnReturn();
+			var data = element.dataTable(params).fnFilterOnReturn();
 
 			if(typeof callback == "function"){
 				callback();

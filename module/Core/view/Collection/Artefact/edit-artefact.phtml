@@ -3,7 +3,7 @@
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
-$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $artefact->titre;
@@ -177,74 +177,15 @@ $this->headTitle($title);
 			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				
-					<?php 
-					/*
-					$relations_artefacts = array();
-					
-					foreach( ($artefact->relations_artefacts) as $relation_artefact) :
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['nom'] = $relation_artefact->semantique->type_destination->nom;
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['id'] = $relation_artefact->semantique->type_destination->id;
-						$relations_artefacts[$relation_artefact->semantique->type_destination->id]['value'][] = $relation_artefact->origine->titre.
-						' '.$relation_artefact->semantique->semantique.
-						' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$relation_artefact->destination->id)).'" >'.$relation_artefact->destination->titre.
-						'</a><br>' ;
 
-					endforeach ;
-					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-					$i = 0;
-					foreach($relations_artefacts as $key =>$relation_artefact) :
-						if ($i == 0){$active = ' class="active"';} else { $active='';}
-						echo '<li'.$active.'><a href="#RelA'.$relation_artefact['id'].'" data-toggle="tab">'.$relation_artefact['nom'].'</a></li>';
-					$i++;
-					endforeach ;
-					echo '</ul><div class="tab-content">';
-					$i = 0;
-					foreach($relations_artefacts as $key =>$relation_artefact) :
-						if ($i == 0){$active = ' active';} else { $active='';}
-						echo '<div class="tab-pane'.$active.'" id="RelA'.$relation_artefact['id'].'">';
-
-							foreach ($relation_artefact['value'] as $value) {
-								echo '<p>'.$value.'</p>';
-							}
-						echo '</div>';
-					$i++;
-					endforeach ;
-					echo '</div></div>';
-					*/
-					?>
-				
-				<?php echo $this->DatatableWidget('RelationArtefact', array( array('type'=>'type','value'=>'artefact') ) ); ?>
+				<?php echo $this->DatatableWidget('semantique', array( array('type'=>'type','value'=>'artefact') ) ); ?>
 
 			</div>
 			<div class="tab-pane" id="tab3">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<div class="span6">
-					<?php //foreach( ($artefact->medias) as $media) :?>
-						<?php //echo $media->type_element->nom ?>
-					<?php //endforeach ;?>
-					<!-- 
-					<div class="tabbable tabs-left ">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
-							<li><a href="#rB" data-toggle="tab">Section 2</a></li>
-							<li><a href="#rC" data-toggle="tab">Section 3</a></li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="rA">
-								<p>I'm in Section A.</p>
-							</div>
-							<div class="tab-pane" id="rB">
-								<p>Howdy, I'm in Section B.</p>
-							</div>
-							<div class="tab-pane" id="rC">
-								<p>What up girl, this is Section C.</p>
-							</div>
-						</div>
-					</div>
-					-->
-				</div>
-				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
+				
+				<?php echo $this->DatatableWidget('artefact', array( array('type'=>'type','value'=>'media') ) ); ?>
+				
 			</div>
 		</div>
 	</div>
@@ -307,7 +248,7 @@ $this->inlineScript()->captureEnd();
 
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
-$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
+//$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
