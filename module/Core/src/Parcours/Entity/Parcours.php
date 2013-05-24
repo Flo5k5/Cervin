@@ -50,6 +50,9 @@ class Parcours implements InputFilterAwareInterface
      **/
     protected $transitions;
     
+    /**
+     * Ajoute un sous parcours au parcours
+     */
     public function addSousParcours($sous_parcours) {
     	$sous_parcours->parcours = $this;
     	if (!$this->sous_parcours->contains($sous_parcours)) {
@@ -57,12 +60,20 @@ class Parcours implements InputFilterAwareInterface
     	}
     }
     
+    /**
+     * Ajoute une transition au parcours
+     */
     public function addTransition($transition) {
     	$transition->parcours = $this;
     	if (!$this->transitions->contains($transition)) {
     		$this->transitions->add($transition);
     	}
     }
+    
+    /**
+     * Constructeur : on initialise le parcours avec uns seul sous parcours 
+     * contenant une seule scène recommandée
+     */
     public function __construct() {
         $SousParcours = new SousParcours();
         $SousParcours->titre = 'Titre sous Parcours';

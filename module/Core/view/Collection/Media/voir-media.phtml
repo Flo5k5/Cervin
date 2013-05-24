@@ -1,9 +1,11 @@
 <?php 
 $title = $media->titre;
 $this->headTitle($title);
-?>
 
-<?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); 
+
+?>
 
 <div class="page-header row-fluid">
 	<div class="span9">
@@ -106,46 +108,18 @@ $this->headTitle($title);
 			</div>
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<?php /*$artefacts = array();
 				
-				foreach( ($media->artefacts) as $artefact) :
-					$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
-					$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
-					$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
-					' '.$artefact->semantique->semantique.
-					' <a href="'.$this->url("artefact/voirArtefact",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
-					'</a><br>' ;
-
-					endforeach ;
-					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' class="active"';} else { $active='';}
-						echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
-					$i++;
-					endforeach ;
-					echo '</ul><div class="tab-content">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' active';} else { $active='';}
-						echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
-
-							foreach ($artefact['value'] as $value) {
-								echo '<p>'.$value.'</p>';
-							}
-						echo '</div>';
-					$i++;
-					endforeach ;
-					echo '</div></div>';*/
-					?>
-
+				<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
+				
 			</div>
 		</div>
 	</div>
 </div>
 
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 
+	var element = {'id' : <?php echo $this->escapeHtml($media->id); ?>, 'titre' : '<?php echo $this->escapeHtml($media->titre); ?>' };
+	
 	$(function () {
 
 		$(".description").popover({placement:'top', trigger:'hover'}); 
@@ -161,6 +135,11 @@ $this->headTitle($title);
 
     });
     
-<?php $this->inlineScript()->captureEnd() ?>
+<?php 
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); ?>
+$this->inlineScript()->captureEnd();
+
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); 
+
+?>

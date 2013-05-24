@@ -110,25 +110,6 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_date);
 		
-		/*
-		 * M�dia : Autre
-		*/
-		$type_media_autre = new Collection\Entity\TypeElement('Autre', 'media');
-		
-		$champ_type = new Collection\Entity\Champ('Type de média', $type_media_autre, 'date');
-		$champ_type->__set('description', 'Le type de fichier qu\'est ce média');
-		
-		$champ_fichier = new Collection\Entity\Champ('Fichier', $type_media_autre, 'fichier');
-		$champ_fichier->__set('description', 'Le fichier contenant le média');
-		
-		$champ_date = new Collection\Entity\Champ('Date', $type_media_autre, 'date');
-		$champ_date->__set('description', 'La date de publication du média');
-		
-		$manager->persist($type_media_autre);
-		$manager->persist($champ_type);
-		$manager->persist($champ_fichier);
-		$manager->persist($champ_date);
-		
 		$manager->flush();
 		
 		/*

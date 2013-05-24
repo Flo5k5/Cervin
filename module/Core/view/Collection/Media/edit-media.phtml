@@ -1,11 +1,12 @@
-<?php 
+<?php
+$title = $media->titre;
+$this->headTitle($title);
+
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
-$title = $media->titre;
-$this->headTitle($title);
 ?>
 
 <!-- Help Modal -->
@@ -37,7 +38,7 @@ $this->headTitle($title);
 	</div>
 	
 	<a href="<?php echo $this->url('media/voirMedia',
-        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-pencil"> </i> Retour à la fiche de ce média</a>
+        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-reply"> </i> Retour à la fiche de ce média</a>
 	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer ce média</a>
 </div>
 
@@ -170,52 +171,11 @@ $this->headTitle($title);
 			
 			<div class="tab-pane" id="tab2">
 				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-					<?php 
-					/*
-					$artefacts = array();
-					
-					foreach( ($media->artefacts) as $artefact) :
-						$artefacts[$artefact->semantique->type_destination->id]['nom'] = $artefact->semantique->type_destination->nom;
-						$artefacts[$artefact->semantique->type_destination->id]['id'] = $artefact->semantique->type_destination->id;
-						$artefacts[$artefact->semantique->type_destination->id]['value'][] = $artefact->origine->titre.
-						' '.$artefact->semantique->semantique.
-						' <a href="'.$this->url("media/voirMedia",array('id'=>$artefact->destination->id)).'" >'.$artefact->destination->titre.
-						'</a><br>' ;
-
-					endforeach ;
-					echo '<div class="tabbable tabs-left"><ul class="nav nav-tabs">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' class="active"';} else { $active='';}
-						echo '<li'.$active.'><a href="#RelA'.$artefact['id'].'" data-toggle="tab">'.$artefact['nom'].'</a></li>';
-					$i++;
-					endforeach ;
-					echo '</ul><div class="tab-content">';
-					$i = 0;
-					foreach($artefacts as $key =>$artefact) :
-						if ($i == 0){$active = ' active';} else { $active='';}
-						echo '<div class="tab-pane'.$active.'" id="RelA'.$artefact['id'].'">';
-
-							foreach ($artefact['value'] as $value) {
-								echo '<p>'.$value.'</p>';
-							}
-						echo '</div>';
-					$i++;
-					endforeach ;
-					echo '</div></div>';
-					*/
-					?>
 				
-				<?php echo $this->DatatableWidget('RelationMedia', array( array('type'=>'type','value'=>'artefact') ) ); ?>
+				<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
 					
 			</div>
-			
-			<div class="tab-pane" id="tab3">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-				<div class="span6">
-				</div>
-				<div class="span6"><?php //echo $this->CollectionWidget(); ?></div>
-			</div>
+
 		</div>
 	</div>
 </div>
@@ -227,6 +187,7 @@ $this->headTitle($title);
 
 	$(function () {
 
+		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
 			image: false,
@@ -238,6 +199,8 @@ $this->headTitle($title);
 			}
 		});
 
+		// Enregistrement de la description tapée dans le wysihtml5
+		// via un appel ajax
 		$("#textarea").on("click",".textarea-submit", function(e){
 			DataValue = $('.textarea-wysihtml5').val();
 			$.ajax({
@@ -250,6 +213,8 @@ $this->headTitle($title);
 			});
 		});
 		
+		// Modification d'un fichier uploadé (remplacement)
+		// via un appel ajax
 		$(".file-input-form").on('submit', function (e){
 	    	e.preventDefault();
 	    	$(this).ajaxSubmit({
@@ -258,6 +223,7 @@ $this->headTitle($title);
             });
 	    });
 		
+		// Gestion du date picker
 		$('.picker').editable({
 			mode: 'popup',
 			placement: 'top',
@@ -269,6 +235,7 @@ $this->headTitle($title);
 		
 		});
 		
+		// Gestion de X-Editable
 		$('.edit').editable({
 			mode: 'inline'
 		});

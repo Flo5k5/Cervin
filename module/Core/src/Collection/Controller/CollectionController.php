@@ -48,13 +48,10 @@ class CollectionController extends AbstractActionController
 		return new ViewModel();
     }
     
-    public function testAction()
-    {
-    	$em = $this->getEntityManager();
-    	$types_elements = $em->getRepository('Collection\Entity\TypeElement')->findAll();
-    	return array('types_elements' => $types_elements);
-    }
-    
+    /**
+     * COMMENTAIRE A ECRIRE !!!
+     * @return \Zend\View\Model\ViewModel
+     */
     public function consulterAction()
     {
     	$params = null;

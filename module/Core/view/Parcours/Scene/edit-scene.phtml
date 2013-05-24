@@ -10,42 +10,20 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
-<!-- Help Modal -->
-<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Aide : modification d'une scène</h3>
-    </div>
-    <div class="modal-body">
-    	<p>
-    	Cette page vous permet de modifier les informations d'une scène. Tous les champs sont modifiables en cliquant directement dessus.
-    	</p>
-    	<p>
-    	Le'onglet 'éléments liés' permet de gérer les relations mais n'est pas encore implémenté.
-    	</p>
-    </div>
-    <div class="modal-footer">
-	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
-    </div>
-</div>
+
 
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1>
-		Modification d'une scène : 
-		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> <br/>
+		Modification d'une scène : <br/>
 		<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
 		</h1>
 	</div>
 	
 	<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" class="btn btn-primary span3">
-		<i class="icon-pencil"> </i>
+		<i class="icon-reply"> </i>
         Retour à la fiche de cette scène
     </a>
-	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3">
-		<i class="icon-trash"> </i>
-		Supprimer cette scène
-	</a>
 	
 </div>
 
@@ -96,13 +74,47 @@ $this->headTitle($title);
 			</div>
 			
 			<div class="tab-pane" id="tab2">
-				
-				
-				
+				<?php
 
+				foreach( ($scene->elements) as $element) :
+					if($element instanceof Collection\Entity\Artefact){
+						echo '<a href="'. $this->url('artefact/voirArtefact',array('id' => $element->id)) .
+						'" class="text-success"> '. 
+						'<i class="icon-tag"> &nbsp;'.
+						$element->titre .
+						'</i> </a> &nbsp;&nbsp;'.
+
+						'<a href="#" data-value="'. $element->titre .'" class="deleteElement"'.
+						'data-url="'. $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)) .'">'.
+						'<i class="icon-trash"></i>'.
+						'</a>';
+					}
+					elseif($element instanceof Collection\Entity\Media){
+						echo '<a href="'. $this->url('media/voirMedia',array('id' => $element->id)) .
+						'" class="text-warning"> '. 
+						'<i class="icon-picture"> &nbsp;'.
+						$element->titre .
+						'</i> </a> &nbsp;&nbsp;'.
+
+						'<a href="#" data-value="'. $element->titre .'" class="deleteElement"'.
+						'data-url="'. $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)) .'">'.
+						'<i class="icon-trash"></i>'.
+						'</a>';
+					}
+					else{
+						echo 'Impossible d\'afficher cet élément';
+					}
+					echo '<br/><br/>';
+				endforeach ;
+
+				?>
+				
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="confirmDiv" >
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
@@ -110,6 +122,24 @@ $this->headTitle($title);
 	var element = {'id' : <?php echo $this->escapeHtml($scene->id); ?>, 'titre' : '<?php echo $this->escapeHtml($scene->titre); ?>' };
 	
 	$(function () {
+
+		$(".deleteElement").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer définitivement la liaison entre cette scène et <i>" + dataValue + " </i>?",
+                callback: function() {
+                     $.post(
+                     	dataURL,
+                        { name: "supprimer" },
+                        function(response) {
+		                	document.location.reload();
+		            	}
+                    );
+                }
+          	});
+      	});
 
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
@@ -171,5 +201,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysih
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 
 ?>

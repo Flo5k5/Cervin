@@ -6,6 +6,9 @@ use Zend\Form\Form;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
+/**
+ * Formulaire utilisé pour la création d'une nouvelle sémantique des relations entre artefacts
+ */
 class SemantiqueForm extends Form
 {
 	public function __construct($TypeElement, $name = null)

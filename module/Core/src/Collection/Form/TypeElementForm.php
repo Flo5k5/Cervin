@@ -6,6 +6,10 @@ use Zend\Form\Form;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
+/**
+ * Formulaire utilisé pour la création d'un nouveau type d'élément
+ *
+ */
 class TypeElementForm extends Form
 {
 	public function __construct($name = null)

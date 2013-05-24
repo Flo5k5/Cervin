@@ -28,7 +28,6 @@ class DatatableWidget extends AbstractHelper
         return $this->em;
     }
 
- 
     public function __invoke($view = null, $params = null)
     {
 
@@ -41,11 +40,13 @@ class DatatableWidget extends AbstractHelper
     	}
     	
     	$viewFile = null;
-    	
-    	if($view === "RelationArtefact"){
-    		$viewFile = 'Collection/Artefact/RelationArtefactWidget.phtml';
-    	} else if($view === "RelationMedia"){
-    		$viewFile = 'Collection/Media/RelationMediaWidget.phtml';
+
+    	if($view === "semantique"){
+    		$viewFile = 'Collection/Artefact/RelationArtefactSemantiqueWidget.phtml';
+    	} else if($view === "artefact"){
+    		$viewFile = 'Collection/Artefact/RelationArtefactMediaWidget.phtml';
+    	} else if($view === "media"){
+    		$viewFile = 'Collection/Media/RelationMediaArtefactWidget.phtml';
     	} else {
     		$viewFile = 'Collection/Collection/CollectionWidget.phtml';
     	}

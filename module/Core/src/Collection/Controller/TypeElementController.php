@@ -56,35 +56,39 @@ class TypeElementController extends AbstractActionController
         return $this->em;
     }
 
+    /**
+     * On renvoi à la vue tous les types d'artefacts et de médias qu'elle doit gérer
+     * @return multitype:unknown
+     */
     public function indexAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-
     	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
-
     	return array(
     		'TEartefacts' => $TEartefacts,
     		'TEmedias' => $TEmedias,
     	);
     }
 
+    /**
+     * Ajout d'un nouveau type d'élément
+     * A COMMENTER !!!!
+     * @return \Zend\View\Model\ViewModel
+     */
     public function addAction()
     {
-        $mediaArtefact =  $this->params()->fromRoute('media-artefact');
-        
+        $mediaArtefact = $this->params()->fromRoute('media-artefact');
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $postData = $this->params()->fromPost();
             if($postData['name'] == 'ajTypeMedia')
             {
                 $form = new TypeElementForm();
-
                 $request = $this->getRequest();
                 if ($postData['submit'] == 'true') {
                     $TypeElement = new TypeElement(null,$mediaArtefact);
                     $form->setInputFilter($TypeElement->getInputFilter());
                     $form->setData($request->getPost());
-
                     if ($form->isValid()) {
                         $TypeElement->populate($form->getData()); 
                         $this->getEntityManager()->persist($TypeElement);
@@ -93,44 +97,34 @@ class TypeElementController extends AbstractActionController
                         return $this->getResponse()->setContent(Json::encode(true));
                     }
                 }
-                
                 $viewModel = new ViewModel(array('form'=>$form));
                 $viewModel->setTerminal(true);
                 return $viewModel;
             }
         }
-
     }
 
+    /**
+     * A COMMENTER ELLE EST SACREMENT VIOLENTE CETTE FONCTION YA PLEIN DE TRUCS A EXPLIQUER !!
+     */
     public function editTypeElementAjaxAction()
     {
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
         	$id = (int) $this->params()->fromRoute('id', 0);
-        	
-            if (!$id) {
-                return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'id Type Element')));
-            }
-
             $TypeElement = $this->getEntityManager()->find('Collection\Entity\TypeElement', $id);
-            
-            if (null === $TypeElement) {
+            if (null === $TypeElement or $id === null) {
                 $this->getResponse()->setStatusCode(404);
                 return; 
             }
-            
             $postData = $this->params()->fromPost();
             $idChamp = (int) $this->params()->fromRoute('idChamp', 0);
-            
             if (!empty($idChamp)) {
-
                 $Champ = $this->getEntityManager()->find('Collection\Entity\Champ', $idChamp);
-                
 	            if (null === $Champ) {
                     $this->getResponse()->setStatusCode(404);
                     return; 
                 }
-            	
             	switch ($postData['name']) {
             		case 'label':
             			$Champ->label = $postData['value'];
@@ -145,37 +139,30 @@ class TypeElementController extends AbstractActionController
                         return $this->getResponse()->setContent(Json::encode(array(true)));
             			break;
                     case 'supprimerChamp':
-
 						if( $Champ->format === 'fichier' ){
 							$Champ->deleteFiles();
 						}
-						
 						$this->getEntityManager()->remove($Champ);
 						$this->getEntityManager()->flush();
-						//$this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete supprimé.', $Champ->label));
-						
                         return $this->getResponse()->setContent(Json::encode(true));
                         break;
             		default:
             			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'name inconu')));
             			break;
             	}
-
             	return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'switch ??')));
-
             } else {
-
             	switch ($postData['name']) {
+            		
             	case 'nom':
             		$TypeElement->nom = $postData['value'];
 		            $this->getEntityManager()->persist($TypeElement);
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(array('success'=>true)));
                     break;
-            	case 'ajChamp':
-
-                    $form = new ChampForm();
                     
+            	case 'ajChamp':
+                    $form = new ChampForm();
                     if ($postData['submit'] != 'false')
                     {
                         $request = $this->getRequest();
@@ -183,7 +170,6 @@ class TypeElementController extends AbstractActionController
                         $form->setInputFilter($champ->getInputFilter());
                         $form->setData($request->getPost());
                         if ($form->isValid()) {
-                            
                             $champ->label = $request->getPost('label');
                             $champ->format = $request->getPost('format');
                             $champ->description = $request->getPost('description');
@@ -219,48 +205,38 @@ class TypeElementController extends AbstractActionController
         						$this->getEntityManager()->persist($element);
                             }
                             $this->getEntityManager()->flush();
-                            
                             $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $champ->label));
                             return $this->getResponse()->setContent(Json::encode(true));
-                        }
-                        else
-                        {
+                        } else {
+                        	// Form non valide
                             $viewModel = new ViewModel(array('form' => $form));
                             $viewModel->setTerminal(true);
                             return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                         }
-                    }
-
-
+                    } 
                     $viewModel = new ViewModel(array('form' => $form));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
-
-                    break;
+                    break; // end case ajChamp
+                    
                 case 'supprimerTypeElement':
 	                $champsFichier = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findBy(array('type_element' => $TypeElement, 'format' => 'fichier'));
-	                
 	                if ($champsFichier !== null) {
 	                	foreach ($champsFichier as $champ) {
 	                		$champ->deleteFiles();
 	                	}
 	                }
-
                     $this->getEntityManager()->remove($TypeElement);
                     $this->getEntityManager()->flush();
-                    //$this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete supprimé.', $TypeElement->nom));
-
                     return $this->getResponse()->setContent(Json::encode(true));
                     break;
+                    
                 default:
                     return $this->getResponse()->setContent(Json::encode(array('success'=>false)));
                     break;
-                }
-
-            }
-    
-        }
-    	
-    }
+                } //end swith $postData['nama']
+            } // end if (!empty($idChamp))
+        } // end if ($this->getRequest()->isXmlHttpRequest()) 
+    } // end action
     
 }

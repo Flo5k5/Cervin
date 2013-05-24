@@ -1,7 +1,7 @@
     <div class="row-fluid">
         <div class="span12">
             <div>
-                <table class="table table-striped table-bordered" id="data">
+                <table class="table table-striped table-bordered dataRelArtMed">
                     <thead>
                         <tr>
                             <th>Titre</th>
@@ -11,7 +11,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3">En cours de tÃ©lÃ©chargement</td>
+                            <td colspan="3">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -19,18 +19,21 @@
         </div>
     </div>
     
-    <div id="modalDiv"></div>
+    <div class="messageArtMed"></div>
     
 <?php $this->inlineScript()->captureStart(); ?>
-	var tableRelationMedia;
+
+	var tblRelArtMed;
+	
 	$(function() {
 	
 		$("#submit").click( function () {
-			tableRelationMedia.fnDraw();
+			tblRelArtMed.fnDraw();
 			return false;
 		});
 
-	    tableRelationMedia = ResultSet.paginate(
+	    tblRelArtMed = ResultSet.paginate(
+	    	$('.dataRelArtMed'),
 			{
 	           	"aoColumns": [
 		           	           	null,
@@ -42,7 +45,7 @@
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,
-                "sAjaxSource": "<?php echo $this->url("media/voirRelationMedia"); ?>",
+                "sAjaxSource": "<?php echo $this->url("artefact/getAllMedia"); ?>",
     			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
     				
     				var data = new Array();
@@ -69,8 +72,8 @@
 	     		}
 			}
 		);
-
-	    $(document).on( 'click', '.ajouter', function(e){
+		
+	    $(document).on( 'click', '.dataRelArtMed .ajouter', function(e){
 	   		e.preventDefault();
 		    var URL = $(this).attr('data-url');
 		    
@@ -79,20 +82,24 @@
 			    $.ajax({
 			        url: URL,
 			        type: "POST",
-			        data:{ 'idOrigine' : element.id }, 
-			        success:function(response){
-			            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-			        },
-			        error: function(){
-			            alert('Impossible d\'afficher la popup');
-			        }
+			        data:{ 'idArtefact' : element.id }, 
+			    }).done(function(e){
+			
+					var resp = jQuery.parseJSON(e);
+					
+					if(resp.success === true){
+						$('.messageArtMed').showInfos(resp.message, "success");
+					} else {
+						$('.messageArtMed').showInfos(resp.error, "error");
+					}
+
 			    });
 			    
 			} else {
 				alert("L'objet element n'a pas été défini en javascript");
 			}
 		});
-	    	    
+		
 		function isDuplicate(type, value, array){
 			var array = ( typeof(array) == 'undefined' ? [] : array );
 			var duplicate = false;
@@ -103,10 +110,6 @@
 				}
 			});
 			return duplicate;
-		}
-		
-		String.prototype.ucFirst = function() {
-		    return this.charAt(0).toUpperCase() + this.slice(1);
 		}
 
 	});

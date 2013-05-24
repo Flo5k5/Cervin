@@ -220,7 +220,7 @@ class FixtureParcours implements FixtureInterface
 		 */
 		
 		$transition1 = new Parcours\Entity\TransitionRecommandee();
-		$transition1->narration = "Du calcul à l'automatique.";
+		$transition1->narration = "Vers l'automatique.";
 		$transition1->semantique = $semantique_chronologie;
 		$transition1->scene_origine = $scene1;
 		$transition1->scene_destination = $scene2;
@@ -279,7 +279,7 @@ class FixtureParcours implements FixtureInterface
 		 * Transition scene2->scene3
 		*/		
 		$transition2 = new Parcours\Entity\TransitionRecommandee();
-		$transition2->narration = "De l'automatique à la formation";
+		$transition2->narration = "Vers la formation";
 		$transition2->semantique = $semantique_chronologie;
 		$transition2->scene_origine = $scene2;
 		$transition2->scene_destination = $scene3;
@@ -331,7 +331,7 @@ class FixtureParcours implements FixtureInterface
 		 * Transition scene3->scene4
 		*/
 		$transition3 = new Parcours\Entity\TransitionRecommandee();
-		$transition3->narration = "De la formation aux débuts de la recherche en informatique";
+		$transition3->narration = "Vers les débuts de la recherche en informatique";
 		$transition3->semantique = $semantique_chronologie;
 		$transition3->scene_origine = $scene3;
 		$transition3->scene_destination = $scene4;
@@ -376,7 +376,7 @@ class FixtureParcours implements FixtureInterface
 		 * Transition scene4->scene5
 		*/
 		$transition4 = new Parcours\Entity\TransitionRecommandee();
-		$transition4->narration = "Des débuts de la recherche vers les technos et composants";
+		$transition4->narration = "Vers les technos et composants";
 		$transition4->semantique = $semantique_chronologie;
 		$transition4->scene_origine = $scene4;
 		$transition4->scene_destination = $scene5;

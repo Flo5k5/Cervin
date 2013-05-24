@@ -57,6 +57,10 @@ class SousParcours implements InputFilterAwareInterface
      **/
     protected $scene_depart;
     
+    /**
+     * Ajout d'une transition au sous-parcours
+     * @param unknown_type $transition
+     */
     public function addTransition($transition) {
     	$transition->sous_parcours = $this;
     	if (!$this->transitions->contains($transition)) {
@@ -64,6 +68,9 @@ class SousParcours implements InputFilterAwareInterface
     	}
     }
     
+    /**
+     * Ajout d'une scène au sous-parcours
+     */
     public function addScene($scene) {
     	$scene->sous_parcours = $this;
     	if (!$this->scenes->contains($scene)) {

@@ -47,7 +47,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $semantique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
+    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique")
     **/
     protected $relations;
 
@@ -116,7 +116,6 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                 'required' => true,
                 'filters' => array(array('name' => 'Int')),
             )));
-                //var_dump($typeElementsArtefactArray);
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'type_destination',
                 'validators' => array(

@@ -52,6 +52,15 @@ class ArtefactController extends AbstractActionController
 		return $this->redirect()->toRoute('collection/consulter');
     }
 
+    /**
+     * Création d'un artefact
+     * On envoi à la vue la liste des types d'artefacts possibles
+     * Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+     * On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
+     * Lorsque le formulaire est posté, on traite la requête 
+     * et on créé l'artefact avec les données remplies
+     * @return \Zend\View\Model\ViewModel
+     */
     public function ajouterAction()
     {
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
@@ -69,7 +78,6 @@ class ArtefactController extends AbstractActionController
     			echo "<script>alert(\"Erreur : Type d'artefact non trouvé\")</script>";
     			return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
     		}
-    		
     		$request = $this->getRequest();
     		if ($request->isPost()) {
     			// Le formulaire a été posté
@@ -95,15 +103,19 @@ class ArtefactController extends AbstractActionController
     	return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
     }
 
+    /**
+     * Renvoie à la vue l'artefact à afficher
+     * après l'avoir cherché en base de données
+     * à partir de l'id passé dans l'url
+     * @return void|\Zend\View\Model\ViewModel
+     */
 	public function voirArtefactAction()
 	{
-
 		$id = (int) $this->params()->fromRoute('id', 0);
 		if (!$id) {
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
 		try {
 			$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
 		}
@@ -111,16 +123,27 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
 		if($Artefact==null){
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
-		//$Artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>1));
 		return new ViewModel(array('artefact' => $Artefact));
 	}
 	
+	/**
+	 * Modification d'un artefact existant
+	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
+	 * On commence par récupérer l'artefact à modifier : 
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * Plusieurs types de requêtes sont traitées ici, 
+	 * on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
+	 * qui peut valoir :
+	 * 		'titre' : on modifie le titre de l'artefact
+	 * 		'description' : on modifie la description de l'artefact
+	 * 		'data' : on modifie l'une des datas de l'artefact, 
+	 * 				 il faut alors regarder de quelle data il s'agit
+	 * @return void|\Zend\View\Model\ViewModel
+	 */
 	public function editArtefactAction()
 	{
 
@@ -131,7 +154,6 @@ class ArtefactController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			$request = $this->params()->fromPost();
@@ -149,14 +171,12 @@ class ArtefactController extends AbstractActionController
 				break;
 
 				case 'data':
-
 					$idData = (int) $this->params()->fromRoute('idData', 0);
 					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
 					if (!$idData or $data === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
-					
 					switch ($data->champ->format) {
 		    	 		case 'texte':
 		    	 			$data->texte = $request['value'];
@@ -184,51 +204,49 @@ class ArtefactController extends AbstractActionController
 			            default:
 			            	return $this->getResponse()->setContent(Json::encode(false));
 			            break;
-		    	 	} // end switch
+		    	 	} // end switch format
 		            $this->getEntityManager()->flush();
 			        return $this->getResponse()->setContent(Json::encode(true));
 				break;
 				default:
 		            return $this->getResponse()->setContent(Json::encode(false));  
 		        break;
-			}
+			} // end switch request name
 		}
 		return new ViewModel(array('artefact' => $artefact,'datas'=>$datas));
 	}
 	
+	/**
+	 * Suppression d'un artefact
+	 * On commence par récupérer l'artefact à supprimer :
+	 * son ID est passé en paramètre dans la requête AJAX
+	 * On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact
+	 */
 	public function removeArtefactAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
-		if (!$id) {
-			$this->getResponse()->setStatusCode(404);
-			return;
-		}
-	
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		
-		if ($artefact === null) {
+		if ($artefact === null or $id === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-		
 		foreach( ($artefact->datas) as $data){
 			if($data->fichier !== null){
 				$artefact->deleteFile($data);
 			}
 		}
-		
 		$this->getEntityManager()->remove($artefact);
 		$this->getEntityManager()->flush();
 		return $this->redirect()->toRoute('collection/consulter');
 	}
 
-	public function ajouterRelationArtefactAction()
+	public function addRelationArtefactSemantiqueAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			
 			$idSemantique = (int) $this->params()->fromRoute('idSemantique', 0);
-			
-			//Si il n'y a pas de s�mantique, on charge la modal
+
+			//Si il n'y a pas de sémantique, on charge la modal
 			if(!$idSemantique){
 				
 				$idElementDestination = (int) $this->params()->fromRoute('idDestination', 0);
@@ -263,9 +281,9 @@ class ArtefactController extends AbstractActionController
 				);
 				
 				$viewModel->setTerminal(true);
-				return $viewModel->setTemplate('Collection/Artefact/addModal.phtml');
-			
-			//Si la s�mantique est pr�sente en param�tre, on cr�e la relation et la persiste
+				return $viewModel->setTemplate('Collection/Artefact/addSemantiqueModal.phtml');
+
+			//Si la sémantique est présente en paramétre, on crée la relation et la persiste
 			} else {
 				
 				$idElementDestination = (int) $this->params()->fromRoute('idDestination', 0);
@@ -284,7 +302,7 @@ class ArtefactController extends AbstractActionController
 								              ->findOneBy( array( 'origine' => $idElementOrigine, 'destination' => $idElementDestination, 'semantique' => $idSemantique ));
 				
 				if( $testRelationArtefacts != null ){
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déja présente en base de donnée' )));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déjà présente en base de donnée' )));
 				}
 				
 				$elementOrigine = $this->getEntityManager()
@@ -302,13 +320,16 @@ class ArtefactController extends AbstractActionController
 				if ( $elementOrigine === null || $elementDestination === null || $semantique === null ) {
 					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
 				}
-				
-				$relationArtefacts = new RelationArtefacts($elementOrigine, $elementDestination, $semantique);
-				
-				$this->getEntityManager()->persist($relationArtefacts);
-				$this->getEntityManager()->flush();
 
-				return $this->getResponse()->setContent(Json::encode( array( 'success' => true ) ));
+				try {
+					$relationArtefacts = new RelationArtefacts($elementOrigine, $elementDestination, $semantique);
+					$this->getEntityManager()->persist($relationArtefacts);
+					$this->getEntityManager()->flush();
+				} catch (Exception $e) {
+					return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
+				}
+				
+				return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée.' ) ));
 			}
 			
 		} else {
@@ -317,7 +338,7 @@ class ArtefactController extends AbstractActionController
 		}
 	}
 	
-	public function voirRelationArtefactAction()
+	public function getAllArtefactAction() 
 	{
 		$params = null;
 	
@@ -366,7 +387,122 @@ class ArtefactController extends AbstractActionController
 					$titre = $element->titre;
 				}
 	
-				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/ajouterRelationArtefact', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
+				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
+	
+				$aaData[] = array(
+						$titre,
+						$element->type_element->type,
+						$bouton
+				);
+			}
+	
+			$dataTable->setAaData($aaData);
+	
+			return $this->getResponse()->setContent($dataTable->findAll());
+		} else {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	}
+	
+	public function addRelationArtefactMediaAction()
+	{
+		if ($this->getRequest()->isXmlHttpRequest()) {
+
+			$idMedia    = (int) $this->params()->fromRoute('idMedia', 0);
+			$idArtefact = (int) $this->params()->fromPost('idArtefact', 0);
+	
+			if (!$idMedia) {
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour le média' )));
+			}
+				
+			if (!$idArtefact) {
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour l\'artefact' )));
+			}
+	
+			$artefact = $this->getEntityManager()
+			->getRepository('Collection\Entity\Artefact')
+			->findOneBy( array( 'id' => $idArtefact ));
+	
+			$media = $this->getEntityManager()
+			->getRepository('Collection\Entity\Media')
+			->findOneBy( array( 'id' => $idMedia ));
+				
+			if ( $media === null || $artefact === null ) {
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
+			}
+				
+			foreach($artefact->medias as $mediaArt){
+				if($mediaArt->id === $media->id ){
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Relation déjà présente en base de donnée' )));
+				}
+			}
+	
+			try {
+				$artefact->medias->add($media);
+				$this->getEntityManager()->flush();
+			} catch (Exception $e) {
+				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
+			}
+	
+			return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée.' ) ));
+	
+		} else {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	}
+	
+	public function getAllMediaAction()
+	{
+		$params = null;
+	
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$params = $this->params()->fromPost();
+	
+	
+			if(!isset($params["iSortCol_0"])){
+				$params["iSortCol_0"] = '0';
+			}
+	
+			if(!isset($params["sSortDir_0"])){
+				$params["sSortDir_0"] = 'ASC';
+			}
+	
+			$entityManager = $this->getEntityManager()
+			->getRepository('Collection\Entity\Element');
+	
+			$dataTable = new \Collection\Model\ElementDataTable($params);
+			$dataTable->setEntityManager($entityManager);
+	
+			$dataTable->setConfiguration(array(
+					'titre',
+					'type'
+			));
+	
+			$aaData = array();
+	
+			$paginator = null;
+	
+			if(isset($params["conditions"])){
+				$conditions = json_decode($params["conditions"], true);
+				$paginator = $dataTable->getPaginator($conditions);
+			} else {
+				$paginator = $dataTable->getPaginator();
+			}
+	
+			foreach ($paginator as $element) {
+	
+				$titre = '';
+				if($element->type_element->type == 'artefact'){
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} elseif($element->type_element->type == 'media'){
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} else {
+					$titre = $element->titre;
+				}
+	
+				$bouton = '<a href="#" class="btn btn-info ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Ajouter</a>';
 	
 				$aaData[] = array(
 						$titre,
