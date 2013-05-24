@@ -120,7 +120,7 @@ class SceneController extends AbstractActionController
 	}
 
 	/**
-	 * Ajout d'une scène à parcours
+	 * Ajout d'une scène à un parcours
 	 * Cette action est déclenchée par un appel AJAX
 	 * Deux types de requêtes sont traitées ici, 
 	 * selon si on veut ajouter une scène avant ou après une scène existante
@@ -134,7 +134,7 @@ class SceneController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return; 
         }
-        $scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
+        $scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$id));
 		if ($scene === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
@@ -175,14 +175,14 @@ class SceneController extends AbstractActionController
         		
         	case 'ajApres':
         		// On ajoute une scène après $scene
-        		$tr_after = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_origine'=>$scene));
+        		$tr_after = $scene->transition_recommandee;
         		if ($tr_after === null) {
         			// c'est la dernière scène du parcours : $newTransitionRecommandee relie $newScene à $scene
         			$newTransitionRecommandee->scene_origine = $scene;
         			$newTransitionRecommandee->scene_destination = $newScene;
         		} else {
         			// Ce n'est pas la dernière : on doit insérer $newScene entre $scene et $sceneAfter
-        			$scenaAfter = $tr_after->scene_destination;
+        			$sceneAfter = $tr_after->scene_destination;
         			// $newTransitionRecommandee relie $scene et $newScene
         			$newTransitionRecommandee->scene_origine = $scene;
         			$newTransitionRecommandee->scene_destination = $newScene;
@@ -197,6 +197,9 @@ class SceneController extends AbstractActionController
         		return;
         		break;
         }
+
+        $this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
+
         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
 	}
 

@@ -170,10 +170,27 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			</div>
 			
 			<div class="tab-pane" id="tab2">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
+				<h4> Artefacts déjà liés </h4>
+				<?php if ($media->artefacts->count() > 0) : ?>
+					<ul class="nav nav-list">
+					<?php foreach( ($media->artefacts) as $artefact) : ?>
+						<li >
+							<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
+							<i class="icon-tag"></i>  
+							<?php echo $artefact->titre; ?> 
+							[<?php echo $artefact->type_element->nom; ?>]
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php else : ?>
+					<p> Aucun artefact n'est lié à ce média. </p>
+				<?php endif; ?>
 				
-				<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
-					
+				<h4>Lier un nouveau</h4>
+				<div class="well">
+					<?php echo $this->DatatableWidget('media', array( array('type'=>'type','value'=>'artefact') ) ); ?>
+				</div>
 			</div>
 
 		</div>

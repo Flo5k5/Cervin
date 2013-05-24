@@ -49,7 +49,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Informations</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Medias</a></li>
+			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Médias liés</a></li>
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
@@ -109,17 +109,48 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			</div>
 			
 			<div class="tab-pane" id="tab2">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-
-				<?php echo $this->DatatableWidget('semantique', array( array('type'=>'type','value'=>'artefact') ) ); ?>
-
+				<?php if ($relations != null) : ?>
+					<table class="table">
+					<tr>
+						<th> Origine  </th>
+						<th> Sémantique  </th>
+						<th> Destination </th>
+					</tr>
+					<?php foreach($relations as $relation) : ?>
+						<tr>
+							<td> <?php echo $artefact->titre; ?>  </td>
+							<td> <?php echo $relation->semantique->semantique; ?>  </td>
+							<td>
+								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->destination->id)); ?>">
+								<i class="icon-tag"></i>
+								<?php echo $relation->destination->titre; ?> 
+								[<?php echo $relation->destination->type_element->nom; ?>]
+								</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</table>
+				<?php else : ?>
+					<p> Aucun artefact n'est lié à cet artefact. </p>
+				<?php endif; ?>
 			</div>
 			
 			<div class="tab-pane" id="tab3">
-				<p> <i class="icon-warning-sign"> </i>  Section en construction... </p>
-
-				<?php echo $this->DatatableWidget('artefact', array( array('type'=>'type','value'=>'media') ) ); ?>
-					
+				<?php if ($artefact->medias->count() > 0) : ?>
+					<ul class="nav nav-list">
+					<?php foreach( ($artefact->medias) as $media) : ?>
+						<li >
+							<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)); ?>">
+							<i class="icon-picture"></i>  
+							<?php echo $media->titre; ?>
+							[<?php echo $media->type_element->nom; ?>] 
+							</a>
+						</li>
+					<?php endforeach; ?>
+					</ul>
+				<?php else : ?>
+					<p> Aucun média n'est lié à cet artefact. </p>
+				<?php endif; ?>
 			</div>
 
 		</div>
