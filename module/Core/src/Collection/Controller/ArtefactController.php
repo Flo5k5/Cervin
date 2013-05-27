@@ -63,6 +63,8 @@ class ArtefactController extends AbstractActionController
      */
     public function ajouterAction()
     {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
     	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
     	$form = null;
     	$type_element_id = (int) $this->params()->fromRoute('type_element_id', 0);
@@ -93,7 +95,7 @@ class ArtefactController extends AbstractActionController
     				$artefact->populate($data);
     				$this->getEntityManager()->persist($artefact);
     				$this->getEntityManager()->flush();
-    				$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact "%1$s" a bien ete créé.', $this->escapeHtml($artefact->titre)));
+    				$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact "%1$s" a bien ete créé.', $escapeHtml($artefact->titre)));
     				return $this->redirect()->toRoute('collection/consulter');
     			} else {
     				return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
@@ -374,6 +376,8 @@ class ArtefactController extends AbstractActionController
 	
 	public function getAllArtefactAction() 
 	{
+		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		$params = null;
 	
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -414,11 +418,11 @@ class ArtefactController extends AbstractActionController
 	
 				$titre = '';
 				if($element->type_element->type == 'artefact'){
-					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 				} elseif($element->type_element->type == 'media'){
-					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 				} else {
-					$titre = $this->escapeHtml($element->titre);
+					$titre = $escapeHtml($element->titre);
 				}
 	
 				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
@@ -534,11 +538,11 @@ class ArtefactController extends AbstractActionController
 	
 				$titre = '';
 				if($element->type_element->type == 'artefact'){
-					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 				} elseif($element->type_element->type == 'media'){
-					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 				} else {
-					$titre = $this->escapeHtml($element->titre);
+					$titre = $escapeHtml($element->titre);
 				}
 	
 				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactMedia', array('idMedia' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';

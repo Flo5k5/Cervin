@@ -47,6 +47,8 @@ class ParcoursController extends AbstractActionController
 
     public function indexAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
     	$params = null;
 
     	if ($this->getRequest()->isXmlHttpRequest()) {
@@ -89,7 +91,7 @@ class ParcoursController extends AbstractActionController
     		
 			$titre = '<a class="href-type-element" href="'
 							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
-							.$this->escapeHtml($parcours->titre).'
+							.$escapeHtml($parcours->titre).'
 						</a>';
     		
 			//$titre = $parcours->titre;
@@ -112,6 +114,8 @@ class ParcoursController extends AbstractActionController
 
     public function ajouterAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
         $form = new ParcoursForm();
         $Parcours = new Parcours();
         $form->bind($Parcours);
@@ -122,7 +126,7 @@ class ParcoursController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getEntityManager()->persist($Parcours);
                 $this->getEntityManager()->flush();
-                $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $this->escapeHtml($Parcours->titre)));
+                $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
                 return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
             }
         }

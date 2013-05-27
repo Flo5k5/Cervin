@@ -52,6 +52,8 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function editusersAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		if ($this->getRequest()->isXmlHttpRequest()) {
             $params = $this->params()->fromQuery();
     
@@ -106,17 +108,17 @@ class AdminController extends AbstractActionController
                     '<span id="username" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$this->escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1">'.$this->escapeHtml($user->username).'
+                        data-value="'.$escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1">'.$escapeHtml($user->username).'
                     </span>',
                     '<span id="displayName" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$this->escapeHtml($user->displayName).'" data-type="text" data-pk="1">'.$this->escapeHtml($user->displayName).'
+                        data-value="'.$escapeHtml($user->displayName).'" data-type="text" data-pk="1">'.$escapeHtml($user->displayName).'
                     </span>',
                     '<span id="email" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$this->escapeHtml($user->email).'" data-type="text" data-pk="1">'.$this->escapeHtml($user->email).'
+                        data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1">'.$escapeHtml($user->email).'
                     </span>',
                     '<span 
                         id="role" 

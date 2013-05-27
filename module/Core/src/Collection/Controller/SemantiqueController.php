@@ -47,6 +47,8 @@ class SemantiqueController extends AbstractActionController
 	 */
 	public function indexAction()
 	{
+		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$params = $this->params()->fromQuery();
     
@@ -75,13 +77,13 @@ class SemantiqueController extends AbstractActionController
             		><i class="icon-trash"></i> Supprimer</a>';
 
                 $aaData[] = array(
-                    '<span> '. $this->escapeHtml($semantique->type_origine->nom) .' </span>',
+                    '<span> '. $escapeHtml($semantique->type_origine->nom) .' </span>',
                     '<span class="edit CursorPointer"
                     	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
                     	data-name="semantique" data-type="text" data-pk="1"> '.
-            			$this->escapeHtml($semantique->semantique) .
+            			$escapeHtml($semantique->semantique) .
                 	'</span>',
-                    '<span> '. $this->escapeHtml($semantique->type_destination->nom) .' </span>',
+                    '<span> '. $escapeHtml($semantique->type_destination->nom) .' </span>',
                     $btn_supprimer
                 );
             }
@@ -105,6 +107,8 @@ class SemantiqueController extends AbstractActionController
 	 */
 	public function ajouterAction()
 	{
+		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		$typeElementsArtefact = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'), array('nom'=>'ASC'));
 		$typeElementsArtefactArray = array();
 		$typeElementsArtefactArray2 = array();
@@ -128,9 +132,9 @@ class SemantiqueController extends AbstractActionController
 			    $this->getEntityManager()->flush();
 			 	$this->flashMessenger()->addSuccessMessage(sprintf(
 			 		'La sémantique a bien été créé.<br>%1$s', '['
-			 		.$this->escapeHtml($SemantiqueArtefact->type_origine->nom).'] '
-			 		.$this->escapeHtml($SemantiqueArtefact->semantique)
-			 		.' ['.$this->escapeHtml($SemantiqueArtefact->type_destination->nom).']'));
+			 		.$escapeHtml($SemantiqueArtefact->type_origine->nom).'] '
+			 		.$escapeHtml($SemantiqueArtefact->semantique)
+			 		.' ['.$escapeHtml($SemantiqueArtefact->type_destination->nom).']'));
 	            return $this->redirect()->toRoute('semantique');
 		    }
 		}
@@ -175,6 +179,8 @@ class SemantiqueController extends AbstractActionController
 	 */
 	public function supprimerAction()
 	{
+		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		$id = (int) $this->params()->fromRoute('id', 0);
 		$semantiqueArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findOneBy(array('id'=>$id));
 		if ($semantiqueArtefact === null || $id === null) {
@@ -186,18 +192,18 @@ class SemantiqueController extends AbstractActionController
 			// La sémantique est déjà utilisée dans une relation, on ne peut pas la supprimer
 			$this->flashMessenger()->addErrorMessage(sprintf(
 				'<i class="icon-warning-sign"> </i> La sémantique " ['
-				. $this->escapeHtml($semantiqueArtefact->type_origine->nom) .'] '
-				.$this->escapeHtml($semantiqueArtefact->semantique)
-				.' ['.$this->escapeHtml($semantiqueArtefact->type_destination->nom)
+				. $escapeHtml($semantiqueArtefact->type_origine->nom) .'] '
+				.$escapeHtml($semantiqueArtefact->semantique)
+				.' ['.$escapeHtml($semantiqueArtefact->type_destination->nom)
 				.']" ne peut pas être supprimée car elle est déjà utilisée dans une transition existante.'));
 			return $this->getResponse()->setContent(Json::encode(true));
 		} else {
 			$this->getEntityManager()->remove($semantiqueArtefact);
 			$this->getEntityManager()->flush();
 			$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique "['
-				. $this->escapeHtml($semantiqueArtefact->type_origine->nom) .'] '
-				.$this->escapeHtml($semantiqueArtefact->semantique$this->escapeHtml(.
-					' ['.$this->escapeHtml($semantiqueArtefact->type_destination->nom)
+				. $escapeHtml($semantiqueArtefact->type_origine->nom) .'] '
+				.$escapeHtml($semantiqueArtefact->semantique$this->escapeHtml(.
+					' ['.$escapeHtml($semantiqueArtefact->type_destination->nom)
 					.']" a bien été supprimée.'));
 			return $this->getResponse()->setContent(Json::encode(true));
 		}

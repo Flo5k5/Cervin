@@ -54,6 +54,8 @@ class CollectionController extends AbstractActionController
      */
     public function consulterAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
     	$params = null;
 
     	if ($this->getRequest()->isXmlHttpRequest()) {
@@ -96,11 +98,11 @@ class CollectionController extends AbstractActionController
     		
     		$titre = '';
     		if($element->type_element->type == 'artefact'){
-    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
     		} elseif($element->type_element->type == 'media'){
-    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
+    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
     		} else {
-    			$titre = $this->escapeHtml($element->titre);
+    			$titre = $escapeHtml($element->titre);
     		}
     		
     		$aaData[] = array(
