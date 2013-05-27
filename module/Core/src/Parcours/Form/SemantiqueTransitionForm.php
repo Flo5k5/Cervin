@@ -27,10 +27,18 @@ class SemantiqueTransitionForm extends Form
 		));
 		$this->add($hidden);
 		
+		/*
 		$semantique = new Element\Text();
 		$semantique->setName('semantique')
 					->setLabel('Semantique');
 		$this->add($semantique);
+		//*/
+
+		$this->add(array(
+			'name' => 'semantique',
+			'attributes' => array('type' => 'text'),
+			'options' => array('label' => 'Sémantique')
+		));
 		
 		$description = new Element\Textarea();
 		$description->setName("description")
