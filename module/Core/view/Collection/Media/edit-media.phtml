@@ -49,7 +49,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	    <h3 id="myModalLabel">Confirmation : suppression d'un média</h3>
     </div>
     <div class="modal-body">
-    	Êtes-vous sur de vouloir supprimer le média "<?php echo $media->titre; ?>" ?
+    	Êtes-vous sur de vouloir supprimer le média "<?php echo $this->escapeHtml($media->titre); ?>" ?
     </div>
     <div class="modal-footer">
 	    <a href="<?php echo $this->url('media/removeMedia',
@@ -78,18 +78,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<dt>Type de média</dt>
 					<dd>
 						<?php 
-							echo $media->type_element->nom; 
+							echo $this->escapeHtml($media->type_element->nom); 
 							echo '</br></br>';
 						?>
 					</dd>
 					<?php foreach($datas as $data) :?>
 					<dt>
-						<?php echo $data->champ->label ?> 
+						<?php echo $this->escapeHtml($data->champ->label); ?> 
 						<?php if ($data->champ->description != null) : ?>
 				        	<a href="#" 
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $data->champ->description; ?>"
+			        			data-content="<?php echo $this->escapeHtml($data->champ->description); ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php endif; ?>
 					</dt>
@@ -102,7 +102,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 											data-type="text" 
 											data-pk="'.$data->champ->id.'" 
 											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-										'.$data->texte.'
+										'.$this->escapeHtml($data->texte).'
 									</span>';
 								echo '</br></br>';
 								break;
@@ -112,7 +112,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 											data-type="textarea" 
 											data-pk="'.$data->champ->id.'" 
 											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-	    								'.$data->textarea.'
+	    								'.$this->escapeHtml($data->textarea).'
     								</span>';
 								echo '</br></br>';
 								break;
@@ -139,13 +139,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 											data-type="number" 
 											data-pk="'.$data->champ->id.'" 
 											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-										'.$data->nombre.'
+										'.$this->escapeHtml($data->nombre).'
 									</span>';
 								echo '</br></br>';
 								break;
 
 							case 'fichier':
-								echo 'Fichier actuel : <a href="' . ROOT_DIR . $data->fichier.'">'. basename($data->fichier) .'</a></br>';
+								echo 'Fichier actuel : <a href="' . ROOT_DIR . $data->fichier.'">'. $this->escapeHtml(basename($data->fichier)) .'</a></br>';
 								echo '<form class="file-input-form" method="POST" action = "'. $this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)) .'">
 									<input title="Parcourir" name="file-input" id="'.$data->id.'" type="file">
 									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>
@@ -158,7 +158,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	    									data-type="url" 
 	    									data-pk="'.$data->champ->id.'" 
     										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-    									'.$data->url.'
+    									'.$this->escapeHtml($data->url).'
 	    							</span>';
 								echo '</br></br>';
 								break;
@@ -178,14 +178,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							<td>
 								<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
 								<i class="icon-tag"></i>  
-								<?php echo $artefact->titre; ?> 
-								[<?php echo $artefact->type_element->nom; ?>]
+								<?php echo $this->escapeHtml($artefact->titre); ?> 
+								[<?php echo $this->escapeHtml($artefact->type_element->nom); ?>]
 								</a>
 							</td>
 							<td>
 								<!-- Le boutton supprimer déclenche en javascript une modale de confirmation -->
 				            	<a href="#" 
-				            		data-url="<?php echo $this->url('media/supprimerRelationMediaArtefact', array('idMedia'=>$media->id, 'idArtefact'=>$artefact->id)); ?> ""
+				            		data-url="<?php echo $this->url('media/supprimerRelationMediaArtefact', array('idMedia'=>$media->id, 'idArtefact'=>$artefact->id)); ?> "
 				            		class="SupprimerRelation">
 				            	<i class="icon-trash"></i>
 				            	</a>
@@ -213,7 +213,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 <?php $this->inlineScript()->captureStart() ?>
 
-	var element = {'id' : <?php echo $media->id; ?>, 'titre' : '<?php echo $media->titre; ?>', 'description' : '<?php echo $media->description; ?>'};
+	var element = {'id' : <?php echo $media->id; ?>, 'titre' : '<?php echo $this->escapeHtml($media->titre); ?>', 'description' : '<?php echo $media->description; ?>'};
 
 	$(function () {
 

@@ -17,7 +17,7 @@ $this->headTitle($title);
 			<select name="type" class="target">
 				<option value="none">Veuillez choisir un type</option>
 				<?php foreach ($this->types as $current) : ?>
-					<option value="<?php echo $current->id; ?>" <?php if($current->id == $type_element_id){echo 'selected="selected"';} ?>> <?php echo $current->nom; ?> </option>
+					<option value="<?php echo $current->id; ?>" <?php if($current->id == $type_element_id){echo 'selected="selected"';} ?>> <?php echo $this->escapeHtml($current->nom); ?> </option>
 				<?php endforeach; ?>
 			</select>
 	    </div> 

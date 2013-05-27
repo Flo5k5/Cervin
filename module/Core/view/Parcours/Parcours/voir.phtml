@@ -101,7 +101,7 @@ a [class*=" icon-"]:before {
             <li><a href="<?php echo $this->url('scene/editScene', array('id' => $sous_parcour->scene_depart->id)) ?>"><i class="icon-pencil"></i> Modifier la scene</a></li>
             <li><a 
                     href="#" 
-                    data-value="<?php echo $this->escapeHtml($sous_parcour->scene_depart->titre) ; ?>" 
+                    data-value="<?php echo $this->escapeHtml($sous_parcour->scene_depart->titre); ?>" 
                     data-url="<?php echo $this->url('scene/removeScene', array('id' => $sous_parcour->scene_depart->id)) ?>"
                     class="text-error SupprimerScene" >
                         <i class="icon-trash"></i> Supprimer la scene

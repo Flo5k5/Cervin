@@ -60,7 +60,7 @@ $this->headTitle($title);
 					<option class="type-all" data-type="type" data-value="artefact" >Tous types d'artefacts</option>
 					<?php 
 						foreach ($allTypeArtefact as $typeElement){
-							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$this->escapeHtml($typeElement->nom).'</option>';
 						}
 					?>
 				</select>
@@ -76,7 +76,7 @@ $this->headTitle($title);
 					<option class="type-all" data-type="type" data-value="media" >Tous types de médias</option>
 					<?php 
 						foreach ($allTypeMedia as $typeElement){
-							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$typeElement->nom.'</option>';
+							echo '<option data-type="id" data-value="'.$typeElement->id.'" >'.$this->escapeHtml($typeElement->nom).'</option>';
 						}
 					?>
 				</select>

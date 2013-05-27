@@ -79,7 +79,7 @@ class SemantiqueTransitionController extends AbstractActionController
 				$semantiqueTransition->populate($form->getData());
 				$this->getEntityManager()->persist($semantiqueTransition);
 			    $this->getEntityManager()->flush();
-			 	$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été créée.'));
+			 	//$this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été créée.'));
 	            return $this->redirect()->toRoute('semantiquetransition');
 		    }
 		}
