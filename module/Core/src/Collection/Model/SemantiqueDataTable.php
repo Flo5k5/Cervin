@@ -42,16 +42,16 @@ class SemantiqueDataTable extends DataTable
 	
 			$alias = 'entity';
 				
-			$query = $entityManager->createQueryBuilder($alias)
-			                       /*->leftJoin($alias.'.type_element', $alias_type)
-			                       ->addSelect($alias_type)*/;
-
+			$query = $entityManager->createQueryBuilder($alias);
+			                       
+			//var_dump($conditions);
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
-				$allowedType = array("type_origine", "semantique", "type_destination");
+				$allowedType = array("id", "type_destination", "semantique", "type_origine","type");
 
 				$arrayOfType = array();
+				$arrayOfTe = array();
 
 				//On traite les éléments passés en POST
 				foreach ($conditions as $condition) {
@@ -61,40 +61,49 @@ class SemantiqueDataTable extends DataTable
 						$arrayOfType[$condition["type"]][] = $condition["value"];
 					}
 					
+					
 				}
+
+
 
 				$andX = $query->expr()->andX();
 
+				 
 				//On traite chaque type
 				foreach($arrayOfType as $key => $type){
 
 					$requete = "eq";
-					
-					if( $key === "semantique" ){
-						$key = $alias.'.'.$key;
+					$key1 = null;
+					if( $key === "type_destination" || $key === "type_origine" ){
+
+						$query->leftJoin($alias.'.'.$key, $key)
+			                       ->addSelect($key);
+						$key1 = $key.'.id';
+					} else if( $key === "semantique" ){
+						$key1 = $alias.'.'.$key;
 						$requete = "like";
 					} else {
-						$key = $alias.'.'.$key;
+						$key1 = $alias.'.'.$key;
 					}
 
 					//Si il y a plus de 1 valeur pour un type, on les ajoute au tableau de OR
 					if( count($type) > 1 ){
 						
-						$orX = $query->expr()->orX();
+						$andx = $query->expr()->andx();
 						
 						foreach($type as $value){
 							if($requete === "like"){ $value = '%'.$value.'%'; }
 							
-							$orX->add($query->expr()->$requete( $key,  $query->expr()->literal($value) ));
+							$andx->add($query->expr()->$requete( $key1,  $query->expr()->literal($value) ));
 						}
 						
-						$andX->add($orX);
+						$andX->add($andx);
 						
 					//Sinon on les ajoute au tableau de AND
 					} else {
 						if($requete === "like"){ $type[0] = '%'.$type[0].'%'; }
 						
-						$andX->add($query->expr()->$requete( $key,  $query->expr()->literal($type[0]) ));
+						$andX->add($query->expr()->$requete( $key1,  $query->expr()->literal($type[0]) ));
 						
 					}
 				}
@@ -141,7 +150,7 @@ class SemantiqueDataTable extends DataTable
 				$query->andWhere($andX);
 			}
 			
-			//var_dump($query->getQuery()->getSQL());
+			//echo $query->getQuery()->getSQL();
 			
 			$paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 

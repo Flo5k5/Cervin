@@ -50,6 +50,10 @@ class AdminController extends AbstractActionController
         return $this->redirect()->toRoute('home');
     }
     ///////////////////////////////////////////////////////////////////////////
+    /**
+    *  Affiche le tableau de gestion des utilisateurs
+    *
+    **/
     public function editusersAction()
     {
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -143,7 +147,9 @@ class AdminController extends AbstractActionController
 
         }
     }
-
+    /**
+    *   Permets de modifier les informations des utilisateurs via Ajax
+    **/
     public function changeUserAjaxAction()
     {
         if ($this->getRequest()->isXmlHttpRequest())
@@ -249,6 +255,10 @@ class AdminController extends AbstractActionController
         }
         
     }
+    /**
+    *   Droit : Utilisateur
+    *   Set AttenteRole avec la valeur du role demandee
+    **/
     public function demandeRoleAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -280,6 +290,9 @@ class AdminController extends AbstractActionController
 
 
     }
+    /**
+    *   Permet a l'admin de supprimer la demande de role 
+    **/
     public function refueRoleAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);

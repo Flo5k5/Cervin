@@ -185,8 +185,10 @@ class ParcoursController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
         }
     }
-
-
+    /**  
+    *   Modifier la semantique ou la narration d'une transition 
+    *    
+    **/ 
         public function modifierTransitionAction()
     {
         if ($this->getRequest()->isXmlHttpRequest()) 

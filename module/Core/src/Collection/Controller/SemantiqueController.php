@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Collection\Form\SemantiqueForm;
 use Collection\Entity\SemantiqueArtefact;
+use Collection\Entity\SemantiqueArtefactRepository;
 use Zend\Json\Json;
 
 class SemantiqueController extends AbstractActionController
@@ -47,49 +48,76 @@ class SemantiqueController extends AbstractActionController
 	 */
 	public function indexAction()
 	{
+		$params = null;
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$params = $this->params()->fromQuery();
-    
-            $entityManager = $this->getEntityManager()
-                ->getRepository('Collection\Entity\SemantiqueArtefact');
-        
-            $dataTable = new \Collection\Model\SemantiqueDataTable($params);
-            $dataTable->setEntityManager($entityManager);
-            
-            $dataTable->setConfiguration(array(
-                'type_origine',
-                'semantique',
-                'type_destination'
-            ));
 
-            $aaData = array();
-            
-            foreach ($dataTable->getPaginator() as $semantique) {
-				
-            	$btn_supprimer = '<a href="#" data-url="'
-            		.$this->url()->fromRoute('semantique/supprimer', array('id' => $semantique->id))
-            		.'" data-value="['.$semantique->type_origine->nom.'] '
-            		.$semantique->semantique.' ['
-            		.$semantique->type_destination->nom.']" 
-            		class="btn btn-danger SupprimerSemantique"
-            		><i class="icon-trash"></i> Supprimer</a>';
+	    	if ($this->getRequest()->isXmlHttpRequest()) {
+	    		$params = $this->params()->fromPost();
+	    	}
+	    }
+	    if(!isset($params["iSortCol_0"])){
+	    	$params["iSortCol_0"] = '0';
+	    }
 
-                $aaData[] = array(
-                    '<span> '. $semantique->type_origine->nom .' </span>',
-                    '<span class="edit CursorPointer"
-                    	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
-                    	data-name="semantique" data-type="text" data-pk="1"> '.
-            			$semantique->semantique .
-                	'</span>',
-                    '<span> '. $semantique->type_destination->nom .' </span>',
-                    $btn_supprimer
-                );
-            }
-            $dataTable->setAaData($aaData);
+	    if(!isset($params["sSortDir_0"])){
+	    	$params["sSortDir_0"] = 'ASC';
+	    }
+	    
+	    $entityManager = $this->getEntityManager()
+	    ->getRepository('Collection\Entity\SemantiqueArtefact');
+	    
+	    $dataTable = new \Collection\Model\SemantiqueDataTable($params);
+	    $dataTable->setEntityManager($entityManager);
+	    
+	    $dataTable->setConfiguration(array(
+	    	'type_origine',
+	    	'semantique',
+	    	'type_destination'
+	    	));
+
+	    $aaData = array();
+
+	    $paginator = null;
+
+	    if(isset($params["conditions"])){
+	    	$conditions = json_decode($params["conditions"], true);
+	    	$paginator = $dataTable->getPaginator($conditions);
+	    } else {
+	    	$paginator = $dataTable->getPaginator();
+	    }
+	    
+	    foreach ($dataTable->getPaginator() as $semantique) {
+	    	
+	    	$btn_supprimer = '<a href="#" data-url="'
+	    	.$this->url()->fromRoute('semantique/supprimer', array('id' => $semantique->id))
+	    	.'" data-value="['.$semantique->type_origine->nom.'] '
+	    	.$semantique->semantique.' ['
+	    	.$semantique->type_destination->nom.']" 
+	    	class="btn btn-danger SupprimerSemantique"
+	    	><i class="icon-trash"></i> Supprimer</a>';
+
+            $aaData[] = array(
+                '<span> '. $semantique->type_origine->nom .' </span>',
+                '<span class="edit CursorPointer"
+                	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
+                	data-name="semantique" data-type="text" data-pk="1"> '.
+        			$semantique->semantique .
+            	'</span>',
+                '<span> '. $semantique->type_destination->nom .' </span>',
+                $btn_supprimer
+            );
+        }
+        $dataTable->setAaData($aaData);
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
             return $this->getResponse()->setContent($dataTable->findAll());
 		} else {
-			$semantiquesArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findAll();
-			return new ViewModel(array('semantiquesArtefact'=>$semantiquesArtefact));
+
+			//	$TypeDestination = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy($post['type_destination']);
+				$TypesOrigines = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->getSemantiqueOrigine();
+				$TypesDestinations = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->getSemantiqueDestination();
+				$semantiquesArtefact = $this->getEntityManager()->getRepository('Collection\Entity\SemantiqueArtefact')->findAll();
+			return new ViewModel(array('aaData' => $dataTable->getJSONaaData(), 'semantiquesArtefact'=>$semantiquesArtefact,'TypesOrigines'=>$TypesOrigines,'TypesDestinations'=>$TypesDestinations));
 		}
 	}
 

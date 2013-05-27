@@ -7,11 +7,14 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
+use \Doctrine\ORM\Query;
 
 /**
 * Une s�mantique possible des relations entre deux artefacts
 *
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
 * @ORM\Table(name="mbo_semantiqueartefact")
 * @property int $id
 * @property string $type_origine
@@ -166,5 +169,32 @@ class SemantiqueArtefact implements InputFilterAwareInterface
             $this->inputFilter = $inputFilter;
         }
     	return $this->inputFilter;
+    }
+}
+class SemantiqueArtefactRepository extends EntityRepository
+{
+
+    public function getSemantiqueOrigine()
+    {
+        $query = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->from('Collection\Entity\SemantiqueArtefact', 'SA')
+            ->select("t.nom,t.id")
+            ->leftJoin('SA.type_origine', 't') 
+            ->groupBy('t.nom');
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function getSemantiqueDestination()
+    {
+        $query = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->from('Collection\Entity\SemantiqueArtefact', 'SA')
+            ->select("t.nom,t.id")
+            ->leftJoin('SA.type_destination', 't') 
+            ->groupBy('t.nom');
+
+        return $query->getQuery()->getResult();
     }
 }
