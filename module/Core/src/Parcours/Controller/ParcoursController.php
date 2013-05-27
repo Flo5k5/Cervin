@@ -89,7 +89,7 @@ class ParcoursController extends AbstractActionController
     		
 			$titre = '<a class="href-type-element" href="'
 							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
-							.$parcours->titre.'
+							.$this->escapeHtml($parcours->titre).'
 						</a>';
     		
 			//$titre = $parcours->titre;
@@ -122,7 +122,7 @@ class ParcoursController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getEntityManager()->persist($Parcours);
                 $this->getEntityManager()->flush();
-                $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $Parcours->titre));
+                $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $this->escapeHtml($Parcours->titre)));
                 return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
             }
         }

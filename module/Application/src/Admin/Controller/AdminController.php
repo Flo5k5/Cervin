@@ -106,17 +106,17 @@ class AdminController extends AbstractActionController
                     '<span id="username" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$user->username.'" data-placement="right" data-type="text" data-pk="1">'.$user->username.'
+                        data-value="'.$this->escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1">'.$this->escapeHtml($user->username).'
                     </span>',
                     '<span id="displayName" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$user->displayName.'" data-type="text" data-pk="1">'.$user->displayName.'
+                        data-value="'.$this->escapeHtml($user->displayName).'" data-type="text" data-pk="1">'.$this->escapeHtml($user->displayName).'
                     </span>',
                     '<span id="email" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$user->email.'" data-type="text" data-pk="1">'.$user->email.'
+                        data-value="'.$this->escapeHtml($user->email).'" data-type="text" data-pk="1">'.$this->escapeHtml($user->email).'
                     </span>',
                     '<span 
                         id="role" 

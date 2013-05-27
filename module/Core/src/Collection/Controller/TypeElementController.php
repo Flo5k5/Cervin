@@ -93,7 +93,7 @@ class TypeElementController extends AbstractActionController
                         $TypeElement->populate($form->getData()); 
                         $this->getEntityManager()->persist($TypeElement);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $TypeElement->nom));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $this->escapeHtml($TypeElement->nom));
                         return $this->getResponse()->setContent(Json::encode(true));
                     }
                 }
@@ -205,7 +205,7 @@ class TypeElementController extends AbstractActionController
         						$this->getEntityManager()->persist($element);
                             }
                             $this->getEntityManager()->flush();
-                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $champ->label));
+                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $this->escapeHtml($champ->label)));
                             return $this->getResponse()->setContent(Json::encode(true));
                         } else {
                         	// Form non valide

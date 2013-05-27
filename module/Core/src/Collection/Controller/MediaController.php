@@ -87,7 +87,7 @@ class MediaController extends AbstractActionController
                     $media->populate($data);
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
-                    $this->flashMessenger()->addSuccessMessage(sprintf('Le média "%1$s" a bien ete créé.', $media->titre));
+                    $this->flashMessenger()->addSuccessMessage(sprintf('Le média "%1$s" a bien ete créé.', $this->escapeHtml($media->titre)));
                     return $this->redirect()->toRoute('collection/consulter');
                 } else {
                     return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
@@ -365,11 +365,11 @@ class MediaController extends AbstractActionController
 	
 				$titre = '';
 				if($element->type_element->type == 'artefact'){
-					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
 				} elseif($element->type_element->type == 'media'){
-					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$this->escapeHtml($element->titre).'</a></p>';
 				} else {
-					$titre = $element->titre;
+					$titre = $this->escapeHtml($element->titre);
 				}
 	
 				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('media/addRelationMediaArtefact', array('idArtefact' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
