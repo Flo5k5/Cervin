@@ -77,6 +77,8 @@ class TypeElementController extends AbstractActionController
      */
     public function addAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
         $mediaArtefact = $this->params()->fromRoute('media-artefact');
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
@@ -93,7 +95,7 @@ class TypeElementController extends AbstractActionController
                         $TypeElement->populate($form->getData()); 
                         $this->getEntityManager()->persist($TypeElement);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $TypeElement->nom));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $escapeHtml($TypeElement->nom));
                         return $this->getResponse()->setContent(Json::encode(true));
                     }
                 }
@@ -109,6 +111,8 @@ class TypeElementController extends AbstractActionController
      */
     public function editTypeElementAjaxAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
     	if ($this->getRequest()->isXmlHttpRequest()) 
         {
         	$id = (int) $this->params()->fromRoute('id', 0);
@@ -205,7 +209,7 @@ class TypeElementController extends AbstractActionController
         						$this->getEntityManager()->persist($element);
                             }
                             $this->getEntityManager()->flush();
-                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $champ->label));
+                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $escapeHtml($champ->label)));
                             return $this->getResponse()->setContent(Json::encode(true));
                         } else {
                         	// Form non valide

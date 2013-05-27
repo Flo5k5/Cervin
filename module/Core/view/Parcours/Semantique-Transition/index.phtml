@@ -21,7 +21,7 @@ $this->headTitle($title);
 
 <div class="page-header row-fluid">
 	<div class="span9">
-		<h1><?php echo $this->escapeHtml($title); ?> 
+		<h1><?php echo $this->escapeHtml($title); ?>
 	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
 	<a href="<?php echo $this->url('semantiquetransition/ajouter') ?>" class="btn btn-primary span3"><i class="icon-white icon-plus"></i> Ajouter une sémantique </a>
@@ -41,7 +41,7 @@ $this->headTitle($title);
                     	data-name="semantique" 
                     	data-type="text" 
                     	data-pk="1">
-            		<?php  echo $semantique->semantique ?>
+            		<?php echo $this->escapeHtml($semantique->semantique); ?>
                 </span>
             </td>
             <td>
@@ -50,14 +50,14 @@ $this->headTitle($title);
                     	data-name="description" 
                     	data-type="textarea" 
                     	data-pk="1">
-            		<?php  echo $semantique->description ?>
+            		<?php  echo $this->escapeHtml($semantique->description); ?>
                 </span>
             </td>
             <td>
             	<!-- Le boutton supprimer déclenche en javascript une modale de confirmation -->
             	<a href="#" 
             		data-url="<?php echo $this->url('semantiquetransition/supprimer', array('id' => $semantique->id)); ?> "
-            		data-value="<?php  echo $semantique->semantique ?>"
+            		data-value="<?php  echo $this->escapeHtml($semantique->semantique); ?>"
             		class="btn btn-danger SupprimerSemantique">
             	<i class="icon-trash"></i> Supprimer
             	</a>

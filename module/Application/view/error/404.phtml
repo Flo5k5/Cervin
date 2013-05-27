@@ -8,7 +8,7 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 </div>
 
-<h2><?php echo $this->message ?></h2>
+<h2><?php echo $this->escapeHtml($this->message); ?></h2>
 
 <?php if (isset($this->reason) && $this->reason): ?>
 
@@ -33,7 +33,7 @@ switch ($this->reason) {
 }
 ?>
 
-<p><?php echo $reasonMessage ?></p>
+<p><?php echo $this->escapeHtml($reasonMessage); ?></p>
 
 <?php endif ?>
 

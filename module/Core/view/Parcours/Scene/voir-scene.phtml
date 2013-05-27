@@ -6,7 +6,7 @@ $this->headTitle($title); ?>
 
 	<!-- Menu de navigation dasn le parcours -->
 	<div class="span4 well">
-		<h4> <i class="icon-road"></i> <?php echo $scene->sous_parcours->parcours->titre; ?> </h4>
+		<h4> <i class="icon-road"></i> <?php echo $this->escapeHtml($scene->sous_parcours->parcours->titre); ?> </h4>
 		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
 			class="btn btn-link"> 
 			<i class="icon-reply"></i> Retour au parcours 
@@ -24,7 +24,7 @@ $this->headTitle($title); ?>
 			<li class="divider"></li>	
 			<li class="<?php echo $class; ?>">
 				<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
-				<?php echo $scene_depart->titre; ?> 
+				<?php echo $this->escapeHtml($scene_depart->titre); ?> 
 				</a>
 			</li>
 			
@@ -39,11 +39,11 @@ $this->headTitle($title); ?>
 					<table class="muted" border="0">
 					<tr>
 						<td> <small> <i class="icon-arrow-down"></i> </small> </td>
-						<td> <small> <?php echo $transition->narration; ?> </small> </td>
+						<td> <small> <?php echo $this->escapeHtml($transition->narration); ?> </small> </td>
 					</tr>
 					</table> 
 					<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
-					<?php echo $transition->scene_destination->titre; ?> 
+					<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
 					</a>
 				</li>
 				<?php $transition = $transition->scene_destination->transition_recommandee; ?>
@@ -73,7 +73,7 @@ $this->headTitle($title); ?>
 		
 			<!-- Narration de la scène -->
 			<div class="span8">
-				<p><?php echo $scene->narration;?></p>
+				<p><?php echo $scene->narration;?></p> <!-- créé avec le wysihtml5 donc pas de escapehtml -->
 			</div>
 			
 			<!-- Eléments de la collection liés à la scène -->
@@ -87,13 +87,13 @@ $this->headTitle($title); ?>
 					<?php if($element instanceof Collection\Entity\Artefact): ?>
 						<li>
 							<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id)); ?>">
-							<i class="icon-tag"></i>  <?php echo $element->titre; ?> 
+							<i class="icon-tag"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
 							</a>
 						</li>
 					<?php else : ?>
 						<li class="">
 							<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id)); ?>">
-							<i class="icon-picture"></i>  <?php echo $element->titre; ?> 
+							<i class="icon-picture"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
 							</a>
 						</li>
 					<?php endif;  ?>

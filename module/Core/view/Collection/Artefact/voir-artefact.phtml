@@ -32,7 +32,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	    <h3 id="myModalLabel">Confirmation : suppression d'un artefact</h3>
     </div>
     <div class="modal-body">
-    	Êtes-vous sur de vouloir supprimer l'artefact "<?php echo $artefact->titre; ?>" ?
+    	Êtes-vous sur de vouloir supprimer l'artefact "<?php echo $this->escapeHtml($artefact->titre); ?>" ?
     </div>
     <div class="modal-footer">
 	    <a href="<?php echo $this->url('artefact/removeArtefact',
@@ -43,7 +43,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 <div class="row-fluid">
 	<div class="span6">
-		<p><?php echo $artefact->description;?></p>
+		<p><?php echo $artefact->description;?></p> <!-- créé avec le wysihtml5 donc pas de escapehtml -->
 	</div>
 	<div class="span6 well">
 		<ul class="nav nav-tabs">
@@ -57,7 +57,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<dt>Type d'artefact</dt>
 					<dd>
 						<?php 
-							echo $artefact->type_element->nom; 
+							echo $this->escapeHtml($artefact->type_element->nom); 
 							echo '</br></br>';
 						?>
 					</dd>
@@ -65,23 +65,23 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<?php foreach( ($artefact->datas) as $data) : ?>
 						<?php if ($data->{$data->champ->format} != null): ?>
 							<dt>
-								<?php echo $data->champ->label ?> 
+								<?php echo $this->escapeHtml($data->champ->label); ?> 
 								<?php if ($data->champ->description != null) : ?>
 					        	<a href="#" 
 				        			class="description"
 				        			rel="popover"
-				        			data-content="<?php echo $data->champ->description; ?>"
+				        			data-content="<?php echo $this->escapeHtml($data->champ->description); ?>"
 				        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 				        		<?php endif; ?>
 							</dt>
 							<dd>
 								<?php switch ($data->champ->format) :
 	        						case 'texte':
-	        							echo $data->{$data->champ->format};
+	        							echo $this->escapeHtml($data->{$data->champ->format});
 										echo '</br></br>';
 									break;
 									case 'textarea':
-										echo $data->{$data->champ->format};
+										echo $this->escapeHtml($data->{$data->champ->format});
 										echo '</br></br>';
 									break;
 									case 'date':
@@ -89,15 +89,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 										echo '</br></br>';
 									break;
 									case 'nombre':
-										echo $data->{$data->champ->format};
+										echo $this->escapeHtml($data->{$data->champ->format});
 										echo '</br></br>';
 									break;
 									case 'fichier':
-										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.basename($data->{$data->champ->format}).'</a>';
+										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.$this->escapeHtml(basename($data->{$data->champ->format})).'</a>';
 										echo '</br></br>';
 									break;
 									case 'url':
-										echo '<a href="' . $data->{$data->champ->format}.'">'.$data->{$data->champ->format}.'</a>';
+										echo '<a href="' . $data->{$data->champ->format}.'">'.$this->escapeHtml($data->{$data->champ->format}).'</a>';
 										echo '</br></br>';
 									break;
 									?>
@@ -118,13 +118,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					</tr>
 					<?php foreach($relations as $relation) : ?>
 						<tr>
-							<td> <?php echo $artefact->titre; ?>  </td>
-							<td> <?php echo $relation->semantique->semantique; ?>  </td>
+							<td> <?php echo $this->escapeHtml($artefact->titre); ?>  </td>
+							<td> <?php echo $this->escapeHtml($relation->semantique->semantique); ?>  </td>
 							<td>
 								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->destination->id)); ?>">
 								<i class="icon-tag"></i>
-								<?php echo $relation->destination->titre; ?> 
-								[<?php echo $relation->destination->type_element->nom; ?>]
+								<?php echo $this->escapeHtml($relation->destination->titre); ?> 
+								[<?php echo $this->escapeHtml($relation->destination->type_element->nom); ?>]
 								</a>
 							</td>
 						</tr>
@@ -143,8 +143,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 						<td>
 							<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)); ?>">
 							<i class="icon-picture"></i>  
-							<?php echo $media->titre; ?>
-							[<?php echo $media->type_element->nom; ?>] 
+							<?php echo $this->escapeHtml($media->titre); ?>
+							[<?php echo $this->escapeHtml($media->type_element->nom); ?>] 
 							</a>
 						</td>
 						</tr>
@@ -161,7 +161,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 <?php $this->inlineScript()->captureStart(); ?>
 
-	var element = {'id' : <?php echo $this->escapeHtml($artefact->id); ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
+	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
 
 	$(function () {
 							
