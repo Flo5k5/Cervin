@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\SceneRecommandee;
 use Parcours\Entity\TransitionRecommandee;
+use Zend\Json\Json;
 
 class SceneController extends AbstractActionController
 {
@@ -251,4 +252,126 @@ class SceneController extends AbstractActionController
 		$this->flashMessenger()->addSuccessMessage(sprintf('La liaison a bien été supprimée'));
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
+	
+	public function getAllElementAction()
+	{
+		$params = null;
+		
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			$params = $this->params()->fromPost();
+		
+		
+			if(!isset($params["iSortCol_0"])){
+				$params["iSortCol_0"] = '0';
+			}
+		
+			if(!isset($params["sSortDir_0"])){
+				$params["sSortDir_0"] = 'ASC';
+			}
+		
+			$entityManager = $this->getEntityManager()
+			->getRepository('Collection\Entity\Element');
+		
+			$dataTable = new \Collection\Model\ElementDataTable($params);
+			$dataTable->setEntityManager($entityManager);
+		
+			$dataTable->setConfiguration(array(
+					'titre',
+					'type'
+			));
+		
+			$aaData = array();
+		
+			$paginator = null;
+		
+			if(isset($params["conditions"])){
+				$conditions = json_decode($params["conditions"], true);
+				$paginator = $dataTable->getPaginator($conditions);
+			} else {
+				$paginator = $dataTable->getPaginator();
+			}
+		
+			foreach ($paginator as $element) {
+		
+				$titre = '';
+				if($element->type_element->type == 'artefact'){
+					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} elseif($element->type_element->type == 'media'){
+					$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$element->titre.'</a></p>';
+				} else {
+					$titre = $element->titre;
+				}
+		
+				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('scene/addRelationSceneElement', array('idElement' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
+		
+				$aaData[] = array(
+						$titre,
+						$element->type_element->nom,
+						$bouton
+				);
+			}
+		
+			$dataTable->setAaData($aaData);
+		
+			return $this->getResponse()->setContent($dataTable->findAll());
+		} else {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	}
+	
+	public function addRelationSceneElementAction()
+	{
+		if ($this->getRequest()->isXmlHttpRequest()) {
+	
+			$idElement = (int) $this->params()->fromRoute('idElement', 0);
+			$idScene   = (int) $this->params()->fromPost('idScene', 0);
+	
+			if (!$idElement) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour l\'élément.'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+			}
+	
+			if (!$idScene) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour la scène.'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+			}
+	
+			$element = $this->getEntityManager()
+			->getRepository('Collection\Entity\Element')
+			->findOneBy( array( 'id' => $idElement ));
+	
+			$scene = $this->getEntityManager()
+			->getRepository('Parcours\Entity\Scene')
+			->findOneBy( array( 'id' => $idScene ));
+	
+			if ( $element === null || $scene === null ) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Une des entités est introuvable.'));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Une des entités est introuvable' )));
+			}
+
+			foreach($scene->elements as $elementScene){
+				if($elementScene->id === $element->id ){
+					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Cette relation existe déjà.'));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+				}
+			}
+	
+			try {
+				$scene->elements->add($element);
+				$this->getEntityManager()->flush();
+			} catch (Exception $e) {
+				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Erreur durant l\'insertion en base de donnée.'));
+				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
+			}
+			
+			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
+			return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
+	
+		} else {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+	}
+	
 }

@@ -40,8 +40,10 @@ class DatatableWidget extends AbstractHelper
     	}
     	
     	$viewFile = null;
-
-    	if($view === "semantique"){
+		
+    	if($view === "scene"){
+    		$viewFile = 'Parcours/Scene/RelationSceneElementWidget.phtml';
+    	} else if($view === "semantique"){
     		$viewFile = 'Collection/Artefact/RelationArtefactSemantiqueWidget.phtml';
     	} else if($view === "artefact"){
     		$viewFile = 'Collection/Artefact/RelationArtefactMediaWidget.phtml';
