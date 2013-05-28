@@ -10,7 +10,7 @@ class SemantiqueDataTable extends DataTable
 	    if (! $this->getConfiguration()) {
 	        $configuration = array(
 	            'Type origine',
-	            'Sémantique',
+	            'SÃ©mantique',
 	            'Type destination'
 	        );
 	        $this->setConfiguration($configuration);
@@ -43,35 +43,29 @@ class SemantiqueDataTable extends DataTable
 			$alias = 'entity';
 				
 			$query = $entityManager->createQueryBuilder($alias);
-			                       
-			//var_dump($conditions);
+
 			if(isset($conditions)){
 				
-				//Tableau de types autorisés
+				//Tableau de types autorisÃ©s
 				$allowedType = array("id", "type_destination", "semantique", "type_origine","type");
 
 				$arrayOfType = array();
 				$arrayOfTe = array();
 
-				//On traite les éléments passés en POST
+				//On traite les Ã©lÃ©ments passÃ©s en POST
 				foreach ($conditions as $condition) {
-					//Vérifie que le type est bien autorisé
+					//VÃ©rifie que le type est bien autorisÃ©
 					if(in_array($condition["type"], $allowedType)) {
 						//On ajoute le type dans le tableau et on ajoute la valeur dans un sous tableau
 						$arrayOfType[$condition["type"]][] = $condition["value"];
 					}
-					
-					
 				}
-
-
 
 				$andX = $query->expr()->andX();
 
-				 
 				//On traite chaque type
 				foreach($arrayOfType as $key => $type){
-
+					
 					$requete = "eq";
 					$key1 = null;
 					if( $key === "type_destination" || $key === "type_origine" ){
@@ -108,7 +102,10 @@ class SemantiqueDataTable extends DataTable
 					}
 				}
 
-				$query->add('where', $andX);
+				//Si $andX est vide, il contient son initialisation
+				if( $andX != $query->expr()->andX() ){
+					$query->add('where', $andX);
+				}
 
 			}
 
@@ -165,7 +162,7 @@ class SemantiqueDataTable extends DataTable
 
 	
 	/**
-	 * Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
+	 * CrÃ©dit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
 	 * 
 	 * Truncates text.
 	 *

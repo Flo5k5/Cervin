@@ -5,7 +5,6 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
 
-
 <div class="page-header">
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1><span class="edit CursorPointer"
@@ -183,21 +182,18 @@ a [class*=" icon-"]:before {
     endwhile;
     ?>
 
-
 <?php endforeach ; ?>
 </div>
-
-
-
 
 <div id="confirmDiv"></div>
 <div id="modalDiv"></div>
 
-
 <?php
-    $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
-    $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js'); ?>
-<?php $this->inlineScript()->captureStart() ?>
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
+
+$this->inlineScript()->captureStart();
+?>
     $(function() {
         // on active editable
         $(".edit").editable({ mode: 'inline', });
@@ -291,29 +287,4 @@ a [class*=" icon-"]:before {
         <?php endif;?>
     });
 
-<?php $this->inlineScript()->captureEnd() ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<?php $this->inlineScript()->captureEnd(); ?>

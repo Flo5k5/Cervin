@@ -1,10 +1,8 @@
 <?php
-
 $title = 'Changer mon email';
 $this->headTitle($title);
-?>
 
-<?php if ($status === true) : ?>
+if ($status === true) : ?>
     <!-- <div class="alert alert-success">L'adresse Email a été modifiée avec succès.</div> <!-- -->
     <!-- 
     <script type="text/javascript">
@@ -65,5 +63,5 @@ $this->headTitle($title);
             <input type="submit" value="Valider" class="btn btn-primary" />
             <a href="/user" role="button" class="btn"> Annuler </a>
         </div>
-    <?php echo $this->form()->closeTag() ?>
-<?php endif; ?>    
+    <?php echo $this->form()->closeTag();
+endif; ?>    

@@ -240,6 +240,8 @@ return array(
                 array('route' => 'scene/ajouterScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/editScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/deleteElement', 'roles' => array('Parcours')),
+                array('route' => 'scene/getAllElement', 'roles' => array('Parcours')),
+                array('route' => 'scene/addRelationSceneElement', 'roles' => array('Parcours')),
             ),
         ), 
     ),

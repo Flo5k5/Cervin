@@ -568,6 +568,29 @@ return array(
                             ),
                         ),
                     ),
+                	'getAllElement' => array(
+                		'type' => 'Zend\Mvc\Router\Http\Literal',
+                		'options' => array(
+                				'route' => '/getAllElement',
+                				'defaults' => array(
+                						'controller' => 'Scene',
+                						'action'     => 'getAllElement',
+                				),
+                		),
+                	),
+                	'addRelationSceneElement' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                				'route' => '/addRelationSceneElement[/:idElement]',
+                				'constraints' => array(
+                						'idElement' => '[0-9]+'
+                				),
+                				'defaults' => array(
+                						'controller' => 'Scene',
+                						'action'     => 'addRelationSceneElement',
+                				),
+                		),
+                	),
                 ),
             ),
         ),

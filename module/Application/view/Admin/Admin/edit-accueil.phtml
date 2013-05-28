@@ -1,8 +1,8 @@
 <?php
-$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
-
 $title = 'Modifier la page d\'accueil';
 $this->headTitle($title);
+
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 ?>
 
 <!-- Help Modal -->
@@ -48,16 +48,16 @@ $this->headTitle($title);
 
 </div>
 
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () {
 		$('.wysihtml5-textarea').wysihtml5({image:false, locale: "fr-FR"}); 
     });
     
-<?php $this->inlineScript()->captureEnd() ?>
-
 <?php 
-	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
-	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+$this->inlineScript()->captureEnd();
+
+$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 ?>

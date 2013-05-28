@@ -71,11 +71,11 @@ $this->headTitle($title);
 </div>
 
 <?php 
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
-?>
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 
-<?php $this->inlineScript()->captureStart() ?>
+$this->inlineScript()->captureStart();
+?>
 	
 	$(function() {
 		
@@ -102,4 +102,4 @@ $this->headTitle($title);
       	
 	});
 	
-<?php $this->inlineScript()->captureEnd() ?>
+<?php $this->inlineScript()->captureEnd(); ?>

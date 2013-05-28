@@ -1,7 +1,7 @@
 <phpunit bootstrap="./bootstrap.php" colors="true" backupGlobals="false" >
 	<testsuites>
 		<testsuite name="Tests">
-			<directory>../module/Album/src/Album/Test</directory>
+			
 			<directory>../module/Core/src/Parcours/Test</directory>
 			<directory>../module/Core/src/Collection/Test</directory>
 			<directory>../module/Application/src/Admin/Test</directory>

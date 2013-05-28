@@ -78,8 +78,10 @@ class TypeElementController extends AbstractActionController
     public function addAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-        $escapeHtml = $viewHelperManager->get('escapeHtml');
-        $mediaArtefact = $this->params()->fromRoute('media-artefact');
+        $escapeHtml        = $viewHelperManager->get('escapeHtml');
+        
+        $mediaArtefact     = $this->params()->fromRoute('media-artefact');
+        
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $postData = $this->params()->fromPost();
@@ -95,7 +97,7 @@ class TypeElementController extends AbstractActionController
                         $TypeElement->populate($form->getData()); 
                         $this->getEntityManager()->persist($TypeElement);
                         $this->getEntityManager()->flush();
-                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $escapeHtml($TypeElement->nom));
+                        $this->flashMessenger()->addSuccessMessage(sprintf('Le Type d\'element "%1$s" a bien ete créé.', $escapeHtml( $TypeElement->nom ) ) );
                         return $this->getResponse()->setContent(Json::encode(true));
                     }
                 }

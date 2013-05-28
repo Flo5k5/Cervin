@@ -1,5 +1,4 @@
 <?php
-
 $title = 'Login';
 $this->headTitle($title);
 ?>
@@ -15,21 +14,21 @@ $this->headTitle($title);
 
 <div class="tab-content">
 <?php
-$form = $this->registerForm;
-$form->prepare();
-$form->setAttribute('action', $this->url('zfcuser/register'));
-$form->setAttribute('method', 'post');
+	$form = $this->registerForm;
+	$form->prepare();
+	$form->setAttribute('action', $this->url('zfcuser/register'));
+	$form->setAttribute('method', 'post');
+	
+	$form->setAttribute('class','form-horizontal');
+	$form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom')->setLabelAttributes(array('class' => 'control-label'));
+	$form->get('email')->setAttribute('placeholder','exemple@exemple.fr')->setLabelAttributes(array('class' => 'control-label'));
+	$form->get('username')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'));
+	$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'));
+	$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'));
+	$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
 
-            $form->setAttribute('class','form-horizontal');
-            $form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom')->setLabelAttributes(array('class' => 'control-label'));
-            $form->get('email')->setAttribute('placeholder','exemple@exemple.fr')->setLabelAttributes(array('class' => 'control-label'));
-            $form->get('username')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'));
-            $form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'));
-            $form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'));
-            $form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
+	echo $this->form()->openTag($form);
 ?>
-
-<?php echo $this->form()->openTag($form) ?>
     <fieldset>
     <?php foreach ($form as $element): ?>
     
