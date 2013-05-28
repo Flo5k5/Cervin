@@ -1,9 +1,9 @@
 <?php
-$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
-$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
-
 $title = 'Création d\'un artefact';
 $this->headTitle($title);
+
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 ?>
 
 <div class="page-header">
@@ -117,7 +117,7 @@ $this->headTitle($title);
 <?php } ?>
 </div>
 
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () { 
 
@@ -163,14 +163,14 @@ $this->headTitle($title);
 		
     });
 
-<?php $this->inlineScript()->captureEnd() ?>
+<?php 
+$this->inlineScript()->captureEnd();
 
-<?php
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
-	$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
-	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
-	$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
-	$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
+$this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js');
 ?>

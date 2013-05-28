@@ -1,10 +1,10 @@
 <?php
 $title = 'Gestion des utilisateurs';
 $this->headTitle($title);
-?>
 
-<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
-<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css'); ?>
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+?>
      
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -66,14 +66,10 @@ $this->headTitle($title);
     </div>
 </div>
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js') ;?>
-
 <div id="confirmDiv" >
 </div> 
 
-<?php $this->inlineScript()->captureStart() ?>
+<?php $this->inlineScript()->captureStart(); ?>
 	var table;
 	$(function() {
 	    table = ResultSet.paginate(
@@ -133,4 +129,10 @@ $this->headTitle($title);
 			}
 		);
 	});
-<?php $this->inlineScript()->captureEnd() ?>
+<?php
+$this->inlineScript()->captureEnd();
+
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
+?>

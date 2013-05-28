@@ -1,9 +1,9 @@
 <?php
 $title = 'Gestion des types d\'éléments';
 $this->headTitle($title);
-?>
 
-<?php  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
+?>
 
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -173,16 +173,16 @@ $this->headTitle($title);
 </div>
 </div>
 
-
 <div id="modalDiv"></div>
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js') ;?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js') ;?>
+<?php 
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 
-<?php $this->inlineScript()->captureStart() ?>
+$this->inlineScript()->captureStart();
+ ?>
 	$(function() {
 		$('.edit').on('save', function(e, params) {
-		    //console.info('');
 		    $('[pk="'+$(this).attr('data-name')+$(this).attr('data-pk')+'"]').html(params.newValue);
 		});
 		
@@ -306,4 +306,4 @@ $this->headTitle($title);
 		});
 
 	});
-<?php $this->inlineScript()->captureEnd() ?>
+<?php $this->inlineScript()->captureEnd(); ?>

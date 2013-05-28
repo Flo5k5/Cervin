@@ -1,11 +1,11 @@
 <?php
 $title = 'La collection numérique';
 $this->headTitle($title);
-?>
 
-<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); ?>
-<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css'); ?>
-<?php $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css'); ?>
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
+?>
 
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -99,7 +99,9 @@ $this->headTitle($title);
 </form>
 </div>
 
-<?php echo $this->DatatableWidget(); ?>
+<?php 
+echo $this->DatatableWidget();
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
+$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
+?>

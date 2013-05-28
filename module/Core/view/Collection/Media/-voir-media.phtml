@@ -1,24 +1,24 @@
 <?php 
-$title = $artefact->titre;
+$title = $media->titre;
 $this->headTitle($title);
 
-$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); 
 ?>
 
 <div class="page-header row-fluid">
 	<div class="span9">
-	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
 	</div>
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 
+		<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>"
 			class="btn btn-primary span3">
-			<i class="icon-pencil"> </i> Modifier cet artefact
+			<i class="icon-pencil"> </i> Modifier ce média
 		</a>
 		<a href="#confirmModal" 
 			data-toggle="modal" 
 			class="btn btn-danger span3">
-			<i class="icon-trash"> </i>  Supprimer cet artefact
+			<i class="icon-trash"> </i>  Supprimer ce média
 		</a>
     <?php endif; ?>
 </div>
@@ -27,40 +27,39 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Confirmation : suppression d'un artefact</h3>
+	    <h3 id="myModalLabel">Confirmation : suppression d'un média</h3>
     </div>
     <div class="modal-body">
-    	Êtes-vous sur de vouloir supprimer l'artefact "<?php echo $this->escapeHtml($artefact->titre); ?>" ?
+    	Êtes-vous sur de vouloir supprimer le média "<?php echo $this->escapeHtml($media->titre); ?>" ?
     </div>
     <div class="modal-footer">
-	    <a href="<?php echo $this->url('artefact/removeArtefact',
-            array('id' => $artefact->id)) ?>" class="btn btn-primary">Supprimer</a>
+	    <a href="<?php echo $this->url('media/removeMedia', array('id' => $media->id)) ?>" class="btn btn-primary">Supprimer</a>
         <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
     </div>
 </div>
 
 <div class="row-fluid">
 	<div class="span6">
-		<p><?php echo $artefact->description;?></p> <!-- créé avec le wysihtml5 donc pas de escapehtml -->
+		<p><?php echo $media->description;?></p> <!-- créé avec le wysihtml5 donc pas de escapehtml -->
 	</div>
 	<div class="span6 well">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-info-sign"></i> Informations</a></li>
 			<li><a href="#tab2" data-toggle="tab"><i class="icon-sitemap"></i> Artefacts liés</a></li>
-			<li><a href="#tab3" data-toggle="tab"><i class="icon-sitemap"></i> Médias liés</a></li>
+			<!---->
 		</ul>
 		<div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			<div class="tab-pane active" id="tab1">
 				<dl>
-					<dt>Type d'artefact</dt>
+					<dt>Type de média </dt>
 					<dd>
 						<?php 
-							echo $this->escapeHtml($artefact->type_element->nom); 
+							echo $this->escapeHtml($media->type_element->nom); 
 							echo '</br></br>';
 						?>
 					</dd>
-					
-					<?php foreach( ($artefact->datas) as $data) : ?>
+
+					<?php foreach( ($media->datas) as $data) :?>
 						<?php if ($data->{$data->champ->format} != null): ?>
 							<dt>
 								<?php echo $this->escapeHtml($data->champ->label); ?> 
@@ -71,7 +70,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				        			data-content="<?php echo $this->escapeHtml($data->champ->description); ?>"
 				        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 				        		<?php endif; ?>
-							</dt>
+				        	</dt>
 							<dd>
 								<?php switch ($data->champ->format) :
 	        						case 'texte':
@@ -105,77 +104,35 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<?php endforeach ; ?>
 				</dl>
 			</div>
-			
 			<div class="tab-pane" id="tab2">
-				<?php if ($relations_out != null || $relations_in != null) : ?>
+				<?php if ($media->artefacts->count() > 0) : ?>
 					<table class="table">
-					<tr>
-						<th> Origine  </th>
-						<th> Sémantique  </th>
-						<th> Destination </th>
-					</tr>
-					<?php foreach($relations_out as $relation) : ?>
-						<tr>
-							<td> <?php echo $this->escapeHtml($artefact->titre); ?>  </td>
-							<td> <?php echo $this->escapeHtml($relation->semantique->semantique); ?>  </td>
-							<td>
-								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->destination->id)); ?>">
-								<i class="icon-tag"></i>
-								<?php echo $this->escapeHtml($relation->destination->titre); ?> 
-								[<?php echo $this->escapeHtml($relation->destination->type_element->nom); ?>]
-								</a>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-					<?php foreach($relations_in as $relation) : ?>
-						<tr>
-							<td>
-								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->origine->id)); ?>">
-								<i class="icon-tag"></i>
-								<?php echo $this->escapeHtml($relation->origine->titre); ?> 
-								[<?php echo $this->escapeHtml($relation->origine->type_element->nom); ?>]
-								</a>
-							</td>
-							<td> <?php echo $this->escapeHtml($relation->semantique->semantique); ?>  </td>
-							<td> <?php echo $this->escapeHtml($artefact->titre); ?>  </td>
-						</tr>
-					<?php endforeach; ?>
-					</table>
-				<?php else : ?>
-					<p> Aucun artefact n'est lié à cet artefact. </p>
-				<?php endif; ?>
-			</div>
-			
-			<div class="tab-pane" id="tab3">
-				<?php if ($artefact->medias->count() > 0) : ?>
-					<table class="table">
-					<?php foreach( ($artefact->medias) as $media) : ?>
+					<?php foreach( ($media->artefacts) as $artefact) : ?>
 						<tr>
 						<td>
-							<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)); ?>">
-							<i class="icon-picture"></i>  
-							<?php echo $this->escapeHtml($media->titre); ?>
-							[<?php echo $this->escapeHtml($media->type_element->nom); ?>] 
+							<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
+							<i class="icon-tag"></i> 
+							<?php echo $this->escapeHtml($artefact->titre); ?> 
+							[<?php echo $this->escapeHtml($artefact->type_element->nom); ?>]
 							</a>
 						</td>
 						</tr>
 					<?php endforeach; ?>
 					</table>
 				<?php else : ?>
-					<p> Aucun média n'est lié à cet artefact. </p>
+					<p> Aucun artefact n'est lié à ce média. </p>
 				<?php endif; ?>
 			</div>
-
 		</div>
 	</div>
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
 
-	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
-
+	var element = {'id' : <?php echo $media->id; ?>, 'titre' : '<?php echo $this->escapeHtml($media->titre); ?>' };
+	
 	$(function () {
-							
+
 		$(".description").popover({placement:'top', trigger:'hover'}); 
 		
 		$('body').on('click', 'input.span2', function(event) {
@@ -190,8 +147,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     });
     
 <?php 
-$this->inlineScript()->captureEnd(); 
+$this->inlineScript()->captureEnd();
 
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
-$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js'); 
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
 ?>

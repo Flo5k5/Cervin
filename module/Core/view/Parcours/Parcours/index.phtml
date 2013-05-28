@@ -166,14 +166,14 @@ $this->headTitle($title);
 		
 		$('.form-plus-titre').click(function () {
 			var e = jQuery.Event("keypress");
-			e.which = 13; // Code touche entr�e = 13
+			e.which = 13; // Code touche entrée = 13
 			$(this).parent().children('.form-titre').trigger(e);
 		});	
 
 		$('.form-titre').keypress(function(event){
 			var value = $.trim($(this).attr("value"));
 			var type = $(this).attr("data-type");
-			if( event.which == 13 && value != "" ){ // Code touche entr�e = 13
+			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
 				$(this).attr("data-value", value);
 				if(!isDuplicate( type, value )){
 					$('#form-pillbox ul').append('<li class="status-info" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');

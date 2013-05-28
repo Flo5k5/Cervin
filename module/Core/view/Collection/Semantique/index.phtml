@@ -55,7 +55,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							                    <option class="type-all" data-type="" data-value="" >Tous types d'origines</option>
 							                    <?php 
 							                        foreach ($TypesOrigines as $TypeOrigine){
-							                            echo '<option data-type="type_origine" data-value="'.$TypeOrigine['id'].'" >'.$TypeOrigine['nom'].'</option>';
+							                            echo '<option data-type="type_origine" data-value="'.$TypeOrigine['id'].'" >'.$this->escapeHtml($TypeOrigine['nom']).'</option>';
 							                        }
 							                    ?>
 							                </select>
@@ -72,7 +72,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							                    <option class="type-all" data-type="" data-value="" >Tous types de destinations</option>
 							                    <?php 
 							                        foreach ($TypesDestinations as $TypeDestination){
-							                            echo '<option data-type="type_destination" data-value="'.$TypeDestination['id'].'" >'.$TypeDestination['nom'].'</option>';
+							                            echo '<option data-type="type_destination" data-value="'.$TypeDestination['id'].'" >'.$this->escapeHtml($TypeDestination['nom']).'</option>';
 							                        }
 							                    ?>
 							                </select>

@@ -1,12 +1,12 @@
-<?php if($this->statut):
+<?php 
+if($this->statut):
 	if($this->source == "email"): ?>
 		<div class="alert alert-success">L'adresse Email a été modifiée avec succès.</div>
 	<?php endif;
 	if($this->source == "password"): ?>
 		<div class="alert alert-success">Le mot de passe a été modifié avec succès.</div>
-	<?php endif; ?>
-<?php endif; ?>
-<?php
+	<?php endif;
+endif;
 
 $title = 'Mon compte';
 $this->headTitle($title);
@@ -23,12 +23,13 @@ $this->headTitle($title);
 		    <div class="span6">
 		    	<a class="thumbnail"><img src="http://critterapp.pagodabox.com/img/user.jpg" alt=""></a>
 		    	<a href="<?php echo $this->url('zfcuser/logout') ?>" role="button" class="btn btn-danger btn-block" >
-		    		<i class="icon-off"></i>  Déconnexion</a>
+		    	<i class="icon-off"></i>  Déconnexion</a>
 		    </div>
 		    <div class="span6">
-		    	<p><strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)</p>
-				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mail </a>
-				
+		    	<p>
+		    		<strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)
+		    	</p>
+				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mail </a>			
 				<a href="<?php echo $this->url('zfcuser/changepassword'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mot de passe </a>
 		    </div>
 	    </div>
@@ -39,26 +40,29 @@ $this->headTitle($title);
 	    
 	    <div class="row-fluid">
 		    <div class="span6">
-		    	<p> Vous avez le rôle <strong><?php $roles = $this->zfcUserIdentity()->getRoles();
-		    	
-							  $role = $roles[0]->getRoleId(); 
-							  echo $role; ?></strong> </p>
-				<?php if ($this->zfcUserIdentity()->getAttenteRole()) {
+		    	<p> 
+		    		Vous avez le rôle 
+			    	<strong>
+				    	<?php 
+				    	$roles = $this->zfcUserIdentity()->getRoles();
+				    	$role = $roles[0]->getRoleId(); 
+						echo $role; ?>
+					</strong>
+				</p>
+				<?php 
+				if ($this->zfcUserIdentity()->getAttenteRole()) {
 					echo '<p>Votre demande de role "<strong>'.$this->zfcUserIdentity()->getAttenteRole()->getRoleId().'</strong>" bien été prise en compte. </p>';
 				}
 				?>
 		    </div>
 		    
 		    <div class="span6">
-		    	<?php if($role != 'Admin'){ ?>
-
-		    	<?php
-		    	$rolesFils = array($role,'Visiteur');
-		    	 echo $this->demandeRole($rolesFils); ?>
-
-           			<?php } ?>
-
-           			
+		    	<?php 
+		    	if($role != 'Admin'){
+		    		$rolesFils = array($role,'Visiteur');
+		    	 	echo $this->demandeRole($rolesFils);
+           		} 
+           		?>
 		    </div>
 		</div>
 		<br/>

@@ -1,13 +1,12 @@
 <?php 
+$title = $artefact->titre;
+$this->headTitle($title);
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
-
-$title = $artefact->titre;
-$this->headTitle($title);
 ?>
 
 <!-- Help Modal -->
@@ -54,8 +53,7 @@ $this->headTitle($title);
     	Êtes-vous sur de vouloir supprimer l'artefact "<?php echo $this->escapeHtml($artefact->titre); ?>" ?
     </div>
     <div class="modal-footer">
-	    <a href="<?php echo $this->url('artefact/removeArtefact',
-            array('id' => $artefact->id)) ?>" class="btn btn-primary">Supprimer</a>
+	    <a href="<?php echo $this->url('artefact/removeArtefact', array('id' => $artefact->id)) ?>" class="btn btn-primary">Supprimer</a>
 	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
     </div>
 </div>
@@ -273,8 +271,7 @@ $this->headTitle($title);
 </div>
 
 <!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
-<div id="confirmDiv" >
-</div>
+<div id="confirmDiv" > </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
 	
@@ -371,6 +368,7 @@ $this->headTitle($title);
     
 <?php 
 $this->inlineScript()->captureEnd();
+
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.form.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
@@ -383,5 +381,4 @@ $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysih
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
-
 ?>
