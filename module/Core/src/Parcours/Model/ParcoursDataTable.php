@@ -97,7 +97,10 @@ class ParcoursDataTable extends DataTable
 					}
 				}
 
-				$query->add('where', $andX);
+				//Si $andX est vide, il contient son initialisation
+				if( $andX != $query->expr()->andX() ){
+					$query->add('where', $andX);
+				}
 
 			}
 

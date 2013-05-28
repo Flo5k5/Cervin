@@ -47,14 +47,14 @@ class ElementDataTable extends DataTable
 
 			if(isset($conditions)){
 				
-				//Tableau de types autorisés
+				//Tableau de types autorisï¿½s
 				$allowedType = array("type", "titre", "description", "id");
 
 				$arrayOfType = array();
 
-				//On traite les éléments passés en POST
+				//On traite les ï¿½lï¿½ments passï¿½s en POST
 				foreach ($conditions as $condition) {
-					//Vérifie que le type est bien autorisé
+					//Vï¿½rifie que le type est bien autorisï¿½
 					if(in_array($condition["type"], $allowedType)) {
 						//On ajoute le type dans le tableau et on ajoute la valeur dans un sous tableau
 						$arrayOfType[$condition["type"]][] = $condition["value"];
@@ -100,7 +100,10 @@ class ElementDataTable extends DataTable
 					}
 				}
 
-				$query->add('where', $andX);
+				//Si $andX est vide, il contient son initialisation
+				if( $andX != $query->expr()->andX() ){
+					$query->add('where', $andX);
+				}
 
 			}
 
@@ -164,7 +167,7 @@ class ElementDataTable extends DataTable
 
 	
 	/**
-	 * Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
+	 * Crï¿½dit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
 	 * 
 	 * Truncates text.
 	 *
