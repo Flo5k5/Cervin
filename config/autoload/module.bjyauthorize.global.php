@@ -100,7 +100,12 @@ return array(
             		'controller' => 'Collection',
             		'roles' => array('Utilisateur')
             	),
-            		
+            	array(
+                    'controller' => 'Admin',
+                    'action' => 'onLine', 
+                    'roles' => array('Collection')
+                ),
+
                 array(
                     'controller' => 'Artefact',
                     'roles' => array('Utilisateur')
@@ -177,6 +182,7 @@ return array(
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
             		
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
+                array('route' => 'collection/onLine', 'roles' => array('Collection')),
 
                 array('route' => 'artefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),

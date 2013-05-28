@@ -49,6 +49,11 @@ class Element implements InputFilterAwareInterface
     * @ORM\Column(type="text", nullable=true)
     */
     protected $description;
+
+    /**
+    * @ORM\Column(type="boolean", nullable=true)
+    */
+    protected $onLine;
     
     /**
      * Type de l'élément
