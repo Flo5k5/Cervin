@@ -370,7 +370,7 @@ class Artefacts implements FixtureInterface
 		$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_artefact_institution);
 		$semantique->__set('type_destination', $type_artefact_materiel);
-		$semantique->__set('semantique', 'Est le farbiquant de');
+		$semantique->__set('semantique', 'Est le fabriquant de');
 		$manager->persist($semantique);
 		
 		$semantique = new Collection\Entity\SemantiqueArtefact();

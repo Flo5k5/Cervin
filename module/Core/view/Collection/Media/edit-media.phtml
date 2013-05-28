@@ -176,7 +176,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<?php foreach( ($media->artefacts) as $artefact) : ?>
 						<tr>
 							<td>
-								<a href="<?php echo $this->url('media/voirMedia',array('id' => $artefact->id)); ?>">
+								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $artefact->id)); ?>">
 								<i class="icon-tag"></i>  
 								<?php echo $this->escapeHtml($artefact->titre); ?> 
 								[<?php echo $this->escapeHtml($artefact->type_element->nom); ?>]

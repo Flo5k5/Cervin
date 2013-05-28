@@ -109,14 +109,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			</div>
 			
 			<div class="tab-pane" id="tab2">
-				<?php if ($relations != null) : ?>
+				<?php if ($relations_out != null || $relations_in != null) : ?>
 					<table class="table">
 					<tr>
 						<th> Origine  </th>
 						<th> Sémantique  </th>
 						<th> Destination </th>
 					</tr>
-					<?php foreach($relations as $relation) : ?>
+					<?php foreach($relations_out as $relation) : ?>
 						<tr>
 							<td> <?php echo $this->escapeHtml($artefact->titre); ?>  </td>
 							<td> <?php echo $this->escapeHtml($relation->semantique->semantique); ?>  </td>
@@ -127,6 +127,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								[<?php echo $this->escapeHtml($relation->destination->type_element->nom); ?>]
 								</a>
 							</td>
+						</tr>
+					<?php endforeach; ?>
+					<?php foreach($relations_in as $relation) : ?>
+						<tr>
+							<td>
+								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $relation->origine->id)); ?>">
+								<i class="icon-tag"></i>
+								<?php echo $this->escapeHtml($relation->origine->titre); ?> 
+								[<?php echo $this->escapeHtml($relation->origine->type_element->nom); ?>]
+								</a>
+							</td>
+							<td> <?php echo $this->escapeHtml($relation->semantique->semantique); ?>  </td>
+							<td> <?php echo $this->escapeHtml($artefact->titre); ?>  </td>
 						</tr>
 					<?php endforeach; ?>
 					</table>

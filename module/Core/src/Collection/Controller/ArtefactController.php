@@ -129,10 +129,13 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-		$relations = $this->getEntityManager()
+		$relations_out = $this->getEntityManager()
 				->getRepository('Collection\Entity\RelationArtefacts')
 				->findBy(array('origine'=>$Artefact));
-		return new ViewModel(array('artefact' => $Artefact, 'relations'=>$relations));
+		$relations_in = $this->getEntityManager()
+				->getRepository('Collection\Entity\RelationArtefacts')
+				->findBy(array('destination'=>$Artefact));
+		return new ViewModel(array('artefact' => $Artefact, 'relations_out'=>$relations_out, 'relations_in'=>$relations_in));
 	}
 	
 	/**
@@ -217,10 +220,13 @@ class ArtefactController extends AbstractActionController
 		        break;
 			} // end switch request name
 		}
-		$relations = $this->getEntityManager()
+		$relations_out = $this->getEntityManager()
 						->getRepository('Collection\Entity\RelationArtefacts')
 						->findBy(array('origine'=>$artefact));
-		return new ViewModel(array('artefact' => $artefact, 'datas'=>$datas, 'relations'=>$relations));
+		$relations_in = $this->getEntityManager()
+						->getRepository('Collection\Entity\RelationArtefacts')
+						->findBy(array('destination'=>$artefact));
+		return new ViewModel(array('artefact' => $artefact, 'datas'=>$datas, 'relations_out'=>$relations_out, 'relations_in'=>$relations_in));
 	}
 	
 	/**
