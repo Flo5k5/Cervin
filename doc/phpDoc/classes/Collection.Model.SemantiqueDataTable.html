@@ -1,0 +1,965 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Collection\Model\SemantiqueDataTable</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Admin.html"><i class="icon-th"></i> Admin</a></li>
+<li><a href="../namespaces/AdminTest.html"><i class="icon-th"></i> AdminTest</a></li>
+<li><a href="../namespaces/Album.html"><i class="icon-th"></i> Album</a></li>
+<li><a href="../namespaces/AlbumTest.html"><i class="icon-th"></i> AlbumTest</a></li>
+<li><a href="../namespaces/Application.html"><i class="icon-th"></i> Application</a></li>
+<li><a href="../namespaces/Collection.html"><i class="icon-th"></i> Collection</a></li>
+<li><a href="../namespaces/Core.html"><i class="icon-th"></i> Core</a></li>
+<li><a href="../namespaces/DataTable.html"><i class="icon-th"></i> DataTable</a></li>
+<li><a href="../namespaces/Parcours.html"><i class="icon-th"></i> Parcours</a></li>
+<li><a href="../namespaces/SamUser.html"><i class="icon-th"></i> SamUser</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">543</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method___construct" title="__construct :: Default class constructor."><span class="description">Default class constructor.</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method___get" title="__get :: Magic method used to return a value of this class"><span class="description">Magic method used to return a value of this class</span><pre>__get()</pre></a></li>
+<li class="method public inherited"><a href="#method___set" title="__set :: Magic method used to set a value in a attribute."><span class="description">Magic method used to set a value in a attribute.</span><pre>__set()</pre></a></li>
+<li class="method public inherited"><a href="#method_exchangeArray" title="exchangeArray :: Populate this object from an array."><span class="description">Populate this object from an array.</span><pre>exchangeArray()</pre></a></li>
+<li class="method public "><a href="#method_findAll" title="findAll :: "><span class="description">findAll()
+        </span><pre>findAll()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAaData" title="getAaData :: "><span class="description">getAaData()
+        </span><pre>getAaData()</pre></a></li>
+<li class="method public inherited"><a href="#method_getArrayCopy" title="getArrayCopy :: Return this object in array format."><span class="description">Return this object in array format.</span><pre>getArrayCopy()</pre></a></li>
+<li class="method public inherited"><a href="#method_getBSortable" title="getBSortable :: "><span class="description">getBSortable()
+        </span><pre>getBSortable()</pre></a></li>
+<li class="method public inherited"><a href="#method_getConfiguration" title="getConfiguration :: "><span class="description">getConfiguration()
+        </span><pre>getConfiguration()</pre></a></li>
+<li class="method public inherited"><a href="#method_getDisplayLength" title="getDisplayLength :: "><span class="description">getDisplayLength()
+        </span><pre>getDisplayLength()</pre></a></li>
+<li class="method public inherited"><a href="#method_getDisplayStart" title="getDisplayStart :: "><span class="description">getDisplayStart()
+        </span><pre>getDisplayStart()</pre></a></li>
+<li class="method public inherited"><a href="#method_getEntityManager" title="getEntityManager :: "><span class="description">getEntityManager()
+        </span><pre>getEntityManager()</pre></a></li>
+<li class="method public inherited"><a href="#method_getISortCol" title="getISortCol :: "><span class="description">getISortCol()
+        </span><pre>getISortCol()</pre></a></li>
+<li class="method public "><a href="#method_getJSONaaData" title="getJSONaaData :: "><span class="description">getJSONaaData()
+        </span><pre>getJSONaaData()</pre></a></li>
+<li class="method public inherited"><a href="#method_getJson" title="getJson :: Return this object in json format."><span class="description">Return this object in json format.</span><pre>getJson()</pre></a></li>
+<li class="method public inherited"><a href="#method_getPage" title="getPage :: "><span class="description">getPage()
+        </span><pre>getPage()</pre></a></li>
+<li class="method public "><a href="#method_getPaginator" title="getPaginator :: "><span class="description">getPaginator()
+        </span><pre>getPaginator()</pre></a></li>
+<li class="method public inherited"><a href="#method_getParams" title="getParams :: "><span class="description">getParams()
+        </span><pre>getParams()</pre></a></li>
+<li class="method public inherited"><a href="#method_getSEcho" title="getSEcho :: "><span class="description">getSEcho()
+        </span><pre>getSEcho()</pre></a></li>
+<li class="method public inherited"><a href="#method_getSSearch" title="getSSearch :: "><span class="description">getSSearch()
+        </span><pre>getSSearch()</pre></a></li>
+<li class="method public inherited"><a href="#method_getSSortDir" title="getSSortDir :: "><span class="description">getSSortDir()
+        </span><pre>getSSortDir()</pre></a></li>
+<li class="method public inherited"><a href="#method_getTotalDisplayRecords" title="getTotalDisplayRecords :: "><span class="description">getTotalDisplayRecords()
+        </span><pre>getTotalDisplayRecords()</pre></a></li>
+<li class="method public inherited"><a href="#method_getTotalRecords" title="getTotalRecords :: "><span class="description">getTotalRecords()
+        </span><pre>getTotalRecords()</pre></a></li>
+<li class="method public inherited"><a href="#method_setAaData" title="setAaData :: "><span class="description">setAaData()
+        </span><pre>setAaData()</pre></a></li>
+<li class="method public inherited"><a href="#method_setBSortable" title="setBSortable :: "><span class="description">setBSortable()
+        </span><pre>setBSortable()</pre></a></li>
+<li class="method public inherited"><a href="#method_setConfiguration" title="setConfiguration :: "><span class="description">setConfiguration()
+        </span><pre>setConfiguration()</pre></a></li>
+<li class="method public inherited"><a href="#method_setDisplayLength" title="setDisplayLength :: "><span class="description">setDisplayLength()
+        </span><pre>setDisplayLength()</pre></a></li>
+<li class="method public inherited"><a href="#method_setDisplayStart" title="setDisplayStart :: "><span class="description">setDisplayStart()
+        </span><pre>setDisplayStart()</pre></a></li>
+<li class="method public inherited"><a href="#method_setEntityManager" title="setEntityManager :: "><span class="description">setEntityManager()
+        </span><pre>setEntityManager()</pre></a></li>
+<li class="method public inherited"><a href="#method_setISortCol" title="setISortCol :: "><span class="description">setISortCol()
+        </span><pre>setISortCol()</pre></a></li>
+<li class="method public inherited"><a href="#method_setPage" title="setPage :: "><span class="description">setPage()
+        </span><pre>setPage()</pre></a></li>
+<li class="method public inherited"><a href="#method_setPaginator" title="setPaginator :: "><span class="description">setPaginator()
+        </span><pre>setPaginator()</pre></a></li>
+<li class="method public inherited"><a href="#method_setParams" title="setParams :: "><span class="description">setParams()
+        </span><pre>setParams()</pre></a></li>
+<li class="method public inherited"><a href="#method_setSEcho" title="setSEcho :: "><span class="description">setSEcho()
+        </span><pre>setSEcho()</pre></a></li>
+<li class="method public inherited"><a href="#method_setSSearch" title="setSSearch :: "><span class="description">setSSearch()
+        </span><pre>setSSearch()</pre></a></li>
+<li class="method public inherited"><a href="#method_setSSortCol" title="setSSortCol :: "><span class="description">setSSortCol()
+        </span><pre>setSSortCol()</pre></a></li>
+<li class="method public inherited"><a href="#method_setTotalDisplayRecords" title="setTotalDisplayRecords :: "><span class="description">setTotalDisplayRecords()
+        </span><pre>setTotalDisplayRecords()</pre></a></li>
+<li class="method public inherited"><a href="#method_setTotalRecords" title="setTotalRecords :: "><span class="description">setTotalRecords()
+        </span><pre>setTotalRecords()</pre></a></li>
+<li class="method public "><a href="#method_truncate" title="truncate :: Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/"><span class="description">Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/</span><pre>truncate()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected inherited"><a href="#property_aaData" title="$aaData :: It's a data will be sent to DataTable"><span class="description"></span><pre>$aaData</pre></a></li>
+<li class="property protected inherited"><a href="#property_configuration" title="$configuration :: Store all columns into an array to order the datatable"><span class="description"></span><pre>$configuration</pre></a></li>
+<li class="property protected inherited"><a href="#property_entityManager" title="$entityManager :: Entity"><span class="description"></span><pre>$entityManager</pre></a></li>
+<li class="property protected inherited"><a href="#property_iDisplayLength" title="$iDisplayLength :: Total of records displayed per page"><span class="description"></span><pre>$iDisplayLength</pre></a></li>
+<li class="property protected inherited"><a href="#property_iDisplayStart" title="$iDisplayStart :: Initial number to paginate the records."><span class="description"></span><pre>$iDisplayStart</pre></a></li>
+<li class="property protected inherited"><a href="#property_iSortCol_0" title="$iSortCol_0 :: Store the column number that will be ordered."><span class="description"></span><pre>$iSortCol_0</pre></a></li>
+<li class="property protected inherited"><a href="#property_iTotalDisplayRecords" title="$iTotalDisplayRecords :: Total of records displayed"><span class="description"></span><pre>$iTotalDisplayRecords</pre></a></li>
+<li class="property protected inherited"><a href="#property_iTotalRecords" title="$iTotalRecords :: Total of records found"><span class="description"></span><pre>$iTotalRecords</pre></a></li>
+<li class="property protected inherited"><a href="#property_page" title="$page :: Store the page number used from \Doctrine\ORM\Tools\Pagination\Paginator"><span class="description"></span><pre>$page</pre></a></li>
+<li class="property protected inherited"><a href="#property_paginator" title="$paginator :: Store the pagination results."><span class="description"></span><pre>$paginator</pre></a></li>
+<li class="property protected inherited"><a href="#property_params" title="$params :: All data that came of the requisition."><span class="description"></span><pre>$params</pre></a></li>
+<li class="property protected inherited"><a href="#property_sEcho" title="$sEcho :: Plugin control number"><span class="description"></span><pre>$sEcho</pre></a></li>
+<li class="property protected inherited"><a href="#property_sSearch" title="$sSearch :: Term to be searched"><span class="description"></span><pre>$sSearch</pre></a></li>
+<li class="property protected inherited"><a href="#property_sSortDir_0" title="$sSortDir_0 :: Kind of ordination, can be asc or desc."><span class="description"></span><pre>$sSortDir_0</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\Collection\Model\SemantiqueDataTable"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Collection.html">Collection</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/Collection.Model.html">Model</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Collection.Model.SemantiqueDataTable.html">SemantiqueDataTable</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">DataTable</p>
+<div class="details">
+<div class="long_description"><p>This classe allow you to work easily with DataTables using the
+pagination of Zend Paginator.</p></div>
+<table class="table table-bordered"><tr>
+<th>author</th>
+<td><a href="mailto:thiago.pelizoni@gmail.com">Thiago Pelizoni</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Default class constructor.</h2>
+<pre>__construct(array $data) : \DataTable\Model\DataTable\Model\Abstract</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This model can be filled automatically
+with the form data.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::__construct()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\DataTable\Model\DataTable\Model\Abstract</code></div>
+</div></div>
+</div>
+<a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
+<h2>Magic method used to return a value of this class</h2>
+<pre>__get(string $attribute) : \DataTable\Model\DataTable\Model\Abstract;</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\ModelAbstract::__get()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::__get()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attribute</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\DataTable\Model\DataTable\Model\Abstract;</code></div>
+</div></div>
+</div>
+<a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
+<h2>Magic method used to set a value in a attribute.</h2>
+<pre>__set(string $attribute, mixed $value) : \DataTable\Model\DataTable\Model\Abstract;</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\ModelAbstract::__set()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::__set()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attribute</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\DataTable\Model\DataTable\Model\Abstract;</code></div>
+</div></div>
+</div>
+<a id="method_exchangeArray"></a><div class="element clickable method public method_exchangeArray" data-toggle="collapse" data-target=".method_exchangeArray .collapse">
+<h2>Populate this object from an array.</h2>
+<pre>exchangeArray(array $data) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\ModelAbstract::exchangeArray()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::exchangeArray()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method_findAll"></a><div class="element clickable method public method_findAll" data-toggle="collapse" data-target=".method_findAll .collapse">
+<h2>findAll()
+        </h2>
+<pre>findAll() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getAaData"></a><div class="element clickable method public method_getAaData" data-toggle="collapse" data-target=".method_getAaData .collapse">
+<h2>getAaData()
+        </h2>
+<pre>getAaData() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getAaData()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getArrayCopy"></a><div class="element clickable method public method_getArrayCopy" data-toggle="collapse" data-target=".method_getArrayCopy .collapse">
+<h2>Return this object in array format.</h2>
+<pre>getArrayCopy() : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Very useful when you need work with Zend\Form.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getArrayCopy()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_getBSortable"></a><div class="element clickable method public method_getBSortable" data-toggle="collapse" data-target=".method_getBSortable .collapse">
+<h2>getBSortable()
+        </h2>
+<pre>getBSortable() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getBSortable()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getConfiguration"></a><div class="element clickable method public method_getConfiguration" data-toggle="collapse" data-target=".method_getConfiguration .collapse">
+<h2>getConfiguration()
+        </h2>
+<pre>getConfiguration() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getConfiguration()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getDisplayLength"></a><div class="element clickable method public method_getDisplayLength" data-toggle="collapse" data-target=".method_getDisplayLength .collapse">
+<h2>getDisplayLength()
+        </h2>
+<pre>getDisplayLength() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getDisplayLength()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getDisplayStart"></a><div class="element clickable method public method_getDisplayStart" data-toggle="collapse" data-target=".method_getDisplayStart .collapse">
+<h2>getDisplayStart()
+        </h2>
+<pre>getDisplayStart() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getDisplayStart()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getEntityManager"></a><div class="element clickable method public method_getEntityManager" data-toggle="collapse" data-target=".method_getEntityManager .collapse">
+<h2>getEntityManager()
+        </h2>
+<pre>getEntityManager() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getEntityManager()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getISortCol"></a><div class="element clickable method public method_getISortCol" data-toggle="collapse" data-target=".method_getISortCol .collapse">
+<h2>getISortCol()
+        </h2>
+<pre>getISortCol() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getISortCol()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getJSONaaData"></a><div class="element clickable method public method_getJSONaaData" data-toggle="collapse" data-target=".method_getJSONaaData .collapse">
+<h2>getJSONaaData()
+        </h2>
+<pre>getJSONaaData() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getJson"></a><div class="element clickable method public method_getJson" data-toggle="collapse" data-target=".method_getJson .collapse">
+<h2>Return this object in json format.</h2>
+<pre>getJson() : \DataTable\Model\json</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Very useful when you need work with Restful API.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\ModelAbstract::getJson()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getJson()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>\DataTable\Model\json</code></div>
+</div></div>
+</div>
+<a id="method_getPage"></a><div class="element clickable method public method_getPage" data-toggle="collapse" data-target=".method_getPage .collapse">
+<h2>getPage()
+        </h2>
+<pre>getPage() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getPage()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getPaginator"></a><div class="element clickable method public method_getPaginator" data-toggle="collapse" data-target=".method_getPaginator .collapse">
+<h2>getPaginator()
+        </h2>
+<pre>getPaginator($conditions) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$conditions</h4></div>
+</div></div>
+</div>
+<a id="method_getParams"></a><div class="element clickable method public method_getParams" data-toggle="collapse" data-target=".method_getParams .collapse">
+<h2>getParams()
+        </h2>
+<pre>getParams() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getParams()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getSEcho"></a><div class="element clickable method public method_getSEcho" data-toggle="collapse" data-target=".method_getSEcho .collapse">
+<h2>getSEcho()
+        </h2>
+<pre>getSEcho() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getSEcho()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getSSearch"></a><div class="element clickable method public method_getSSearch" data-toggle="collapse" data-target=".method_getSSearch .collapse">
+<h2>getSSearch()
+        </h2>
+<pre>getSSearch() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getSSearch()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getSSortDir"></a><div class="element clickable method public method_getSSortDir" data-toggle="collapse" data-target=".method_getSSortDir .collapse">
+<h2>getSSortDir()
+        </h2>
+<pre>getSSortDir() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getSSortDir()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getTotalDisplayRecords"></a><div class="element clickable method public method_getTotalDisplayRecords" data-toggle="collapse" data-target=".method_getTotalDisplayRecords .collapse">
+<h2>getTotalDisplayRecords()
+        </h2>
+<pre>getTotalDisplayRecords() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getTotalDisplayRecords()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getTotalRecords"></a><div class="element clickable method public method_getTotalRecords" data-toggle="collapse" data-target=".method_getTotalRecords .collapse">
+<h2>getTotalRecords()
+        </h2>
+<pre>getTotalRecords() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::getTotalRecords()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_setAaData"></a><div class="element clickable method public method_setAaData" data-toggle="collapse" data-target=".method_setAaData .collapse">
+<h2>setAaData()
+        </h2>
+<pre>setAaData($aaData) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setAaData()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$aaData</h4></div>
+</div></div>
+</div>
+<a id="method_setBSortable"></a><div class="element clickable method public method_setBSortable" data-toggle="collapse" data-target=".method_setBSortable .collapse">
+<h2>setBSortable()
+        </h2>
+<pre>setBSortable($bSortable) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setBSortable()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$bSortable</h4></div>
+</div></div>
+</div>
+<a id="method_setConfiguration"></a><div class="element clickable method public method_setConfiguration" data-toggle="collapse" data-target=".method_setConfiguration .collapse">
+<h2>setConfiguration()
+        </h2>
+<pre>setConfiguration($configuration) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setConfiguration()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$configuration</h4></div>
+</div></div>
+</div>
+<a id="method_setDisplayLength"></a><div class="element clickable method public method_setDisplayLength" data-toggle="collapse" data-target=".method_setDisplayLength .collapse">
+<h2>setDisplayLength()
+        </h2>
+<pre>setDisplayLength($iDisplayLength) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setDisplayLength()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$iDisplayLength</h4></div>
+</div></div>
+</div>
+<a id="method_setDisplayStart"></a><div class="element clickable method public method_setDisplayStart" data-toggle="collapse" data-target=".method_setDisplayStart .collapse">
+<h2>setDisplayStart()
+        </h2>
+<pre>setDisplayStart($iDisplayStart) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setDisplayStart()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$iDisplayStart</h4></div>
+</div></div>
+</div>
+<a id="method_setEntityManager"></a><div class="element clickable method public method_setEntityManager" data-toggle="collapse" data-target=".method_setEntityManager .collapse">
+<h2>setEntityManager()
+        </h2>
+<pre>setEntityManager($entityManager) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setEntityManager()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$entityManager</h4></div>
+</div></div>
+</div>
+<a id="method_setISortCol"></a><div class="element clickable method public method_setISortCol" data-toggle="collapse" data-target=".method_setISortCol .collapse">
+<h2>setISortCol()
+        </h2>
+<pre>setISortCol($iSortCol_0) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setISortCol()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$iSortCol_0</h4></div>
+</div></div>
+</div>
+<a id="method_setPage"></a><div class="element clickable method public method_setPage" data-toggle="collapse" data-target=".method_setPage .collapse">
+<h2>setPage()
+        </h2>
+<pre>setPage($page) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setPage()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$page</h4></div>
+</div></div>
+</div>
+<a id="method_setPaginator"></a><div class="element clickable method public method_setPaginator" data-toggle="collapse" data-target=".method_setPaginator .collapse">
+<h2>setPaginator()
+        </h2>
+<pre>setPaginator($paginator) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setPaginator()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$paginator</h4></div>
+</div></div>
+</div>
+<a id="method_setParams"></a><div class="element clickable method public method_setParams" data-toggle="collapse" data-target=".method_setParams .collapse">
+<h2>setParams()
+        </h2>
+<pre>setParams($params) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setParams()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$params</h4></div>
+</div></div>
+</div>
+<a id="method_setSEcho"></a><div class="element clickable method public method_setSEcho" data-toggle="collapse" data-target=".method_setSEcho .collapse">
+<h2>setSEcho()
+        </h2>
+<pre>setSEcho($sEcho) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setSEcho()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$sEcho</h4></div>
+</div></div>
+</div>
+<a id="method_setSSearch"></a><div class="element clickable method public method_setSSearch" data-toggle="collapse" data-target=".method_setSSearch .collapse">
+<h2>setSSearch()
+        </h2>
+<pre>setSSearch($sSearch) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setSSearch()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$sSearch</h4></div>
+</div></div>
+</div>
+<a id="method_setSSortCol"></a><div class="element clickable method public method_setSSortCol" data-toggle="collapse" data-target=".method_setSSortCol .collapse">
+<h2>setSSortCol()
+        </h2>
+<pre>setSSortCol($sSortDir_0) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setSSortCol()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$sSortDir_0</h4></div>
+</div></div>
+</div>
+<a id="method_setTotalDisplayRecords"></a><div class="element clickable method public method_setTotalDisplayRecords" data-toggle="collapse" data-target=".method_setTotalDisplayRecords .collapse">
+<h2>setTotalDisplayRecords()
+        </h2>
+<pre>setTotalDisplayRecords($iTotalDisplayRecords) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setTotalDisplayRecords()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$iTotalDisplayRecords</h4></div>
+</div></div>
+</div>
+<a id="method_setTotalRecords"></a><div class="element clickable method public method_setTotalRecords" data-toggle="collapse" data-target=".method_setTotalRecords .collapse">
+<h2>setTotalRecords()
+        </h2>
+<pre>setTotalRecords($iTotalRecords) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::setTotalRecords()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$iTotalRecords</h4></div>
+</div></div>
+</div>
+<a id="method_truncate"></a><div class="element clickable method public method_truncate" data-toggle="collapse" data-target=".method_truncate .collapse">
+<h2>Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/</h2>
+<pre>truncate(string $text, integer $length, mixed $ending, boolean $exact, boolean $considerHtml) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Truncates text.</p>
+
+<p>Cuts a string to the length of $length and replaces the last characters
+with the ending if the text is longer than length.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$text</h4>
+<code>string</code><p>String to truncate.</p></div>
+<div class="subelement argument">
+<h4>$length</h4>
+<code>integer</code><p>Length of returned string, including ellipsis.</p></div>
+<div class="subelement argument">
+<h4>$ending</h4>
+<code>mixed</code><p>If string, will be used as Ending and appended to the trimmed string. Can also be an associative array that can contain the last three params of this method.</p></div>
+<div class="subelement argument">
+<h4>$exact</h4>
+<code>boolean</code><p>If false, $text will not be cut mid-word</p>
+</div>
+<div class="subelement argument">
+<h4>$considerHtml</h4>
+<code>boolean</code><p>If true, HTML tags would be handled correctly</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Trimmed string.</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_aaData"> </a><div class="element clickable property protected property_aaData" data-toggle="collapse" data-target=".property_aaData .collapse">
+<h2></h2>
+<pre>$aaData : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$aaData</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_configuration"> </a><div class="element clickable property protected property_configuration" data-toggle="collapse" data-target=".property_configuration .collapse">
+<h2></h2>
+<pre>$configuration : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$configuration</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_entityManager"> </a><div class="element clickable property protected property_entityManager" data-toggle="collapse" data-target=".property_entityManager .collapse">
+<h2></h2>
+<pre>$entityManager : \DataTable\Model\Doctrine\ORM\EntityManager</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$entityManager</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_iDisplayLength"> </a><div class="element clickable property protected property_iDisplayLength" data-toggle="collapse" data-target=".property_iDisplayLength .collapse">
+<h2></h2>
+<pre>$iDisplayLength : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$iDisplayLength</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_iDisplayStart"> </a><div class="element clickable property protected property_iDisplayStart" data-toggle="collapse" data-target=".property_iDisplayStart .collapse">
+<h2></h2>
+<pre>$iDisplayStart : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$iDisplayStart</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_iSortCol_0"> </a><div class="element clickable property protected property_iSortCol_0" data-toggle="collapse" data-target=".property_iSortCol_0 .collapse">
+<h2></h2>
+<pre>$iSortCol_0 : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$iSortCol_0</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_iTotalDisplayRecords"> </a><div class="element clickable property protected property_iTotalDisplayRecords" data-toggle="collapse" data-target=".property_iTotalDisplayRecords .collapse">
+<h2></h2>
+<pre>$iTotalDisplayRecords : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Case this number to be a query result, this number is not total pagination
+records  but the total of records found in a query.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$iTotalDisplayRecords</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_iTotalRecords"> </a><div class="element clickable property protected property_iTotalRecords" data-toggle="collapse" data-target=".property_iTotalRecords .collapse">
+<h2></h2>
+<pre>$iTotalRecords : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$iTotalRecords</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_page"> </a><div class="element clickable property protected property_page" data-toggle="collapse" data-target=".property_page .collapse">
+<h2></h2>
+<pre>$page : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$page</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_paginator"> </a><div class="element clickable property protected property_paginator" data-toggle="collapse" data-target=".property_paginator .collapse">
+<h2></h2>
+<pre>$paginator : \Doctrine\ORM\Tools\Pagination\Paginator</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$paginator</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_params"> </a><div class="element clickable property protected property_params" data-toggle="collapse" data-target=".property_params .collapse">
+<h2></h2>
+<pre>$params : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$params</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_sEcho"> </a><div class="element clickable property protected property_sEcho" data-toggle="collapse" data-target=".property_sEcho .collapse">
+<h2></h2>
+<pre>$sEcho : int</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$sEcho</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_sSearch"> </a><div class="element clickable property protected property_sSearch" data-toggle="collapse" data-target=".property_sSearch .collapse">
+<h2></h2>
+<pre>$sSearch : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$sSearch</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_sSortDir_0"> </a><div class="element clickable property protected property_sSortDir_0" data-toggle="collapse" data-target=".property_sSortDir_0 .collapse">
+<h2></h2>
+<pre>$sSortDir_0 : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\DataTable\Model\DataTable::$$sSortDir_0</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-05-29T11:17:17+02:00.<br></footer></div>
+</div>
+</body>
+</html>
