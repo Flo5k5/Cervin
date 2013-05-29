@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Doctrine\ORM\EntityRepository;
 
 /**
-* Un champ d'un type d'élément
+* Entité d'un champ d'un type d'élément
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_champ")

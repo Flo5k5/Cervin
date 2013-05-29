@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une transition
+* Entité d'une transition
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_transition")

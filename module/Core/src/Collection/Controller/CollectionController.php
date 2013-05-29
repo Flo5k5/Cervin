@@ -19,19 +19,24 @@ use Zend\Json\Json;
 
 class CollectionController extends AbstractActionController
 {
-	
 	/**
 	 * @var Doctrine\ORM\EntityManager
 	 */
 	protected $em;
 	
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
 	public function setEntityManager(EntityManager $em)
 	{
 		$this->em = $em;
 	}
 	
 	/**
-	 * Return a EntityManager
+	 * Retourne l'Entity Manager
 	 *
 	 * @return Doctrine\ORM\EntityManager
 	 */

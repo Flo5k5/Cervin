@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">543</span></a></li>
+                <span class="label label-info">530</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -68,11 +68,7 @@
                     <ul>
 <li class="method public "><a href="#method_addRelationMediaArtefactAction" title="addRelationMediaArtefactAction :: "><span class="description">addRelationMediaArtefactAction()
         </span><pre>addRelationMediaArtefactAction()</pre></a></li>
-<li class="method public "><a href="#method_ajouterAction" title="ajouterAction :: Création d'un média
-On envoi à la vue la liste des types de médias possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action."><span class="description">Création d'un média
-On envoi à la vue la liste des types de médias possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.</span><pre>ajouterAction()</pre></a></li>
+<li class="method public "><a href="#method_ajouterAction" title="ajouterAction :: Création d'un média"><span class="description">Création d'un média</span><pre>ajouterAction()</pre></a></li>
 <li class="method public "><a href="#method_editMediaAction" title="editMediaAction :: Modification d'un média existant
 Cette action est déclenchée par un appel AJAX lancé par X-Editable
 On commence par récupérer le média à modifier :
@@ -96,7 +92,7 @@ qui peut valoir :
 				 il faut alors regarder de quelle data il s'agit</span><pre>editMediaAction()</pre></a></li>
 <li class="method public "><a href="#method_getAllArtefactAction" title="getAllArtefactAction :: "><span class="description">getAllArtefactAction()
         </span><pre>getAllArtefactAction()</pre></a></li>
-<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Return a EntityManager"><span class="description">Return a EntityManager</span><pre>getEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Retourne l'Entity Manager"><span class="description">Retourne l'Entity Manager</span><pre>getEntityManager()</pre></a></li>
 <li class="method public "><a href="#method_indexAction" title="indexAction :: "><span class="description">indexAction()
         </span><pre>indexAction()</pre></a></li>
 <li class="method public "><a href="#method_removeMediaAction" title="removeMediaAction :: Suppression d'un média
@@ -106,8 +102,7 @@ On pense bien à supprimer les éventuels fichiers uploadés pour ce média"><sp
 On commence par récupérer le média à supprimer :
 son ID est passé en paramètre dans la requête AJAX
 On pense bien à supprimer les éventuels fichiers uploadés pour ce média</span><pre>removeMediaAction()</pre></a></li>
-<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: "><span class="description">setEntityManager()
-        </span><pre>setEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: Initialisation de l'Entity Manager"><span class="description">Initialisation de l'Entity Manager</span><pre>setEntityManager()</pre></a></li>
 <li class="method public "><a href="#method_supprimerRelationMediaArtefactAction" title="supprimerRelationMediaArtefactAction :: Suppression d'une relation entre un média et un artefact
 Cette action est déclenché par un appel AJAX
 lancé depuis la modale de confirmation dans la vue."><span class="description">Suppression d'une relation entre un média et un artefact
@@ -153,13 +148,13 @@ après l'avoir cherché en base de données
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_ajouterAction"></a><div class="element clickable method public method_ajouterAction" data-toggle="collapse" data-target=".method_ajouterAction .collapse">
-<h2>Création d'un média
-On envoi à la vue la liste des types de médias possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.</h2>
+<h2>Création d'un média</h2>
 <pre>ajouterAction() : \Zend\View\Model\ViewModel</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>On envoie alors à la vue la formulaire correspondant pour créer un média du type choisi
+<div class="long_description"><p>On envoi à la vue la liste des types de médias possibles
+Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+On envoie alors à la vue la formulaire correspondant pour créer un média du type choisi
 Lorsque le formulaire est posté, on traite la requête
 et on créé le média avec les données remplies</p></div>
 <h3>Returns</h3>
@@ -196,7 +191,7 @@ qui peut valoir :
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_getEntityManager"></a><div class="element clickable method public method_getEntityManager" data-toggle="collapse" data-target=".method_getEntityManager .collapse">
-<h2>Return a EntityManager</h2>
+<h2>Retourne l'Entity Manager</h2>
 <pre>getEntityManager() : \Collection\Controller\Doctrine\ORM\EntityManager</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -222,14 +217,16 @@ On pense bien à supprimer les éventuels fichiers uploadés pour ce média</h2>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_setEntityManager"></a><div class="element clickable method public method_setEntityManager" data-toggle="collapse" data-target=".method_setEntityManager .collapse">
-<h2>setEntityManager()
-        </h2>
-<pre>setEntityManager(\Collection\Controller\EntityManager $em) </pre>
+<h2>Initialisation de l'Entity Manager</h2>
+<pre>setEntityManager(\Collection\Controller\EntityManager $em) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$em</h4></div>
+<div class="subelement argument">
+<h4>$em</h4>
+<code>\Collection\Controller\Doctrine\ORM\EntityManager</code>
+</div>
 </div></div>
 </div>
 <a id="method_supprimerRelationMediaArtefactAction"></a><div class="element clickable method public method_supprimerRelationMediaArtefactAction" data-toggle="collapse" data-target=".method_supprimerRelationMediaArtefactAction .collapse">
@@ -269,7 +266,7 @@ après l'avoir cherché en base de données
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T11:17:17+02:00.<br></footer></div>
+            generated on 2013-05-29T16:34:19+02:00.<br></footer></div>
 </div>
 </body>
 </html>

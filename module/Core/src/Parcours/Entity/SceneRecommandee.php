@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une scene recommand�e
+* Entité d'une scène recommandée
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_sceneRecommandee")

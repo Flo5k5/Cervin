@@ -11,7 +11,7 @@ use Parcours\Entity\SousParcours;
 use Parcours\Entity\Scene;
 
 /**
-* Un parcours
+* Entité d'un parcours
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_parcours")
@@ -52,6 +52,9 @@ class Parcours implements InputFilterAwareInterface
     
     /**
      * Ajoute un sous parcours au parcours
+     * 
+     * @param Parcours\Entity\SousParcours Sous Parcours
+     * @return void
      */
     public function addSousParcours($sous_parcours) {
     	$sous_parcours->parcours = $this;
@@ -62,6 +65,9 @@ class Parcours implements InputFilterAwareInterface
     
     /**
      * Ajoute une transition au parcours
+     * 
+     * @param Parcours\Entity\Transition Transition
+     * @return void
      */
     public function addTransition($transition) {
     	$transition->parcours = $this;
@@ -71,8 +77,12 @@ class Parcours implements InputFilterAwareInterface
     }
     
     /**
+     * Constructeur de la classe
+     * 
      * Constructeur : on initialise le parcours avec uns seul sous parcours 
      * contenant une seule scène recommandée
+     * 
+     * @return void
      */
     public function __construct() {
         $SousParcours = new SousParcours();
@@ -113,9 +123,9 @@ class Parcours implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
+    * Retourne l'objet sous forme de tableau
     *
-    * @return array
+    * @return array Objet au format tableau
     */
     public function getArrayCopy()
     {
@@ -126,6 +136,7 @@ class Parcours implements InputFilterAwareInterface
     * Populate from an array.
     *
     * @param array $data
+    * @return void
     */
     public function populate($data = array())
     {

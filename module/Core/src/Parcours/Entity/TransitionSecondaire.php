@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une transition secondaire
+* Entité d'une transition secondaire
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_transitionSecondaire")

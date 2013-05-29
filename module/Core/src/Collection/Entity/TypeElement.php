@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use \Doctrine\ORM\Query;
 /**
-* Un type d'�l�ment de la collection (personne, image, mat�riel, logiciel, ...)
+* Entité d'un type d'élément de la collection (personne, image, matériel, logiciel, ...)
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
 * @ORM\Table(name="mbo_typeelement")
@@ -43,14 +43,14 @@ class TypeElement implements InputFilterAwareInterface
     protected $type;
     
     /**
-     * L'ensemble des champs d�crivant cet artefact
+     * L'ensemble des champs décrivant cet artefact
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element", cascade={"remove"})
      **/
     protected $champs;
     
 
     /**
-     * L'ensemble des champs d�crivant cet artefact
+     * L'ensemble des champs décrivant cet artefact
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
      **/
     protected $elements;
@@ -78,7 +78,7 @@ class TypeElement implements InputFilterAwareInterface
      **/
     public function __construct($nom = '', $type) {
     	if ($type != "artefact" && $type != "media") {
-    		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type diff�rent de 'artefact' ou 'media' => INTERDIT");
+    		throw new InvalidArgumentException("Construction d'un objet TypeElement avec un attribut type différent de 'artefact' ou 'media' => INTERDIT");
     	}
     	$this->nom = $nom;
     	$this->type = $type;

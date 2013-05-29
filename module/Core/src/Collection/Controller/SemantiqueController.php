@@ -23,14 +23,20 @@ class SemantiqueController extends AbstractActionController
 	 * @var Doctrine\ORM\EntityManager
 	 */
 	protected $em;
-	
+
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
 	public function setEntityManager(EntityManager $em)
 	{
 		$this->em = $em;
 	}
-	
+
 	/**
-	 * Return a EntityManager
+	 * Retourne l'Entity Manager
 	 *
 	 * @return Doctrine\ORM\EntityManager
 	 */
@@ -42,7 +48,7 @@ class SemantiqueController extends AbstractActionController
 
 		return $this->em;
 	}
-
+	
 	/**
 	 * Renvoie à la vue les sémantiques à afficher dans le dataTable
 	 */
@@ -126,12 +132,14 @@ class SemantiqueController extends AbstractActionController
 
 	/**
 	 * Ajout d'une nouvelle sémantique
+	 * 
 	 * Renvoie le formulaire avec les types d'artefacts possibles en origine et destination d'une sémantique à la vue
 	 * Traite la requête lorsque le formulaire est posté :
 	 * 		Création de la sémantique
 	 * 		Vérification des données du formulaire
 	 * 		Remplissage de la sémantique avec les données
 	 * 		Envoi dans la base de données
+	 * 
 	 * @return \Zend\View\Model\ViewModel
 	 */
 	public function ajouterAction()
@@ -172,6 +180,7 @@ class SemantiqueController extends AbstractActionController
 
 	/**
 	 * Modification d'une sémantique existante
+	 * 
 	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
 	 * On commence par récupérer la sémantique à modifier : 
 	 * son ID est passé en paramètre dans la requête AJAX
@@ -198,6 +207,7 @@ class SemantiqueController extends AbstractActionController
 
 	/**
 	 * Suppression d'une sémantique
+	 * 
 	 * Cette action est déclenché par un appel AJAX 
 	 * lancé depuis la modale de confirmation dans la vue.
 	 * On commence par récupérer la sémantique à supprimer : 

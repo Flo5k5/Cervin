@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">543</span></a></li>
+                <span class="label label-info">530</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -70,8 +70,7 @@
 <li class="method public inherited"><a href="#method___get" title="__get :: Magic method used to return a value of this class"><span class="description">Magic method used to return a value of this class</span><pre>__get()</pre></a></li>
 <li class="method public inherited"><a href="#method___set" title="__set :: Magic method used to set a value in a attribute."><span class="description">Magic method used to set a value in a attribute.</span><pre>__set()</pre></a></li>
 <li class="method public inherited"><a href="#method_exchangeArray" title="exchangeArray :: Populate this object from an array."><span class="description">Populate this object from an array.</span><pre>exchangeArray()</pre></a></li>
-<li class="method public "><a href="#method_findAll" title="findAll :: "><span class="description">findAll()
-        </span><pre>findAll()</pre></a></li>
+<li class="method public "><a href="#method_findAll" title="findAll :: Permet de compléter la configuration"><span class="description">Permet de compléter la configuration</span><pre>findAll()</pre></a></li>
 <li class="method public inherited"><a href="#method_getAaData" title="getAaData :: "><span class="description">getAaData()
         </span><pre>getAaData()</pre></a></li>
 <li class="method public inherited"><a href="#method_getArrayCopy" title="getArrayCopy :: Return this object in array format."><span class="description">Return this object in array format.</span><pre>getArrayCopy()</pre></a></li>
@@ -87,13 +86,11 @@
         </span><pre>getEntityManager()</pre></a></li>
 <li class="method public inherited"><a href="#method_getISortCol" title="getISortCol :: "><span class="description">getISortCol()
         </span><pre>getISortCol()</pre></a></li>
-<li class="method public "><a href="#method_getJSONaaData" title="getJSONaaData :: "><span class="description">getJSONaaData()
-        </span><pre>getJSONaaData()</pre></a></li>
+<li class="method public "><a href="#method_getJSONaaData" title="getJSONaaData :: Retourne aaData au format JSON"><span class="description">Retourne aaData au format JSON</span><pre>getJSONaaData()</pre></a></li>
 <li class="method public inherited"><a href="#method_getJson" title="getJson :: Return this object in json format."><span class="description">Return this object in json format.</span><pre>getJson()</pre></a></li>
 <li class="method public inherited"><a href="#method_getPage" title="getPage :: "><span class="description">getPage()
         </span><pre>getPage()</pre></a></li>
-<li class="method public "><a href="#method_getPaginator" title="getPaginator :: "><span class="description">getPaginator()
-        </span><pre>getPaginator()</pre></a></li>
+<li class="method public "><a href="#method_getPaginator" title="getPaginator :: Effectue une recherche multi-critères"><span class="description">Effectue une recherche multi-critères</span><pre>getPaginator()</pre></a></li>
 <li class="method public inherited"><a href="#method_getParams" title="getParams :: "><span class="description">getParams()
         </span><pre>getParams()</pre></a></li>
 <li class="method public inherited"><a href="#method_getSEcho" title="getSEcho :: "><span class="description">getSEcho()
@@ -136,7 +133,7 @@
         </span><pre>setTotalDisplayRecords()</pre></a></li>
 <li class="method public inherited"><a href="#method_setTotalRecords" title="setTotalRecords :: "><span class="description">setTotalRecords()
         </span><pre>setTotalRecords()</pre></a></li>
-<li class="method public "><a href="#method_truncate" title="truncate :: Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/"><span class="description">Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/</span><pre>truncate()</pre></a></li>
+<li class="method public "><a href="#method_truncate" title="truncate :: Truncates text."><span class="description">Truncates text.</span><pre>truncate()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -285,11 +282,16 @@ with the form data.</p></div>
 </div></div>
 </div>
 <a id="method_findAll"></a><div class="element clickable method public method_findAll" data-toggle="collapse" data-target=".method_findAll .collapse">
-<h2>findAll()
-        </h2>
-<pre>findAll() </pre>
+<h2>Permet de compléter la configuration</h2>
+<pre>findAll() : \DataTable\Model\json</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Permet de compléter la configuration de l'objet Datatable si
+elle est manquante et retourne cet objet au format JSON</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\DataTable\Model\json</code>Objet au format JSON</div>
+</div></div>
 </div>
 <a id="method_getAaData"></a><div class="element clickable method public method_getAaData" data-toggle="collapse" data-target=".method_getAaData .collapse">
 <h2>getAaData()
@@ -397,11 +399,15 @@ with the form data.</p></div>
 </div></div>
 </div>
 <a id="method_getJSONaaData"></a><div class="element clickable method public method_getJSONaaData" data-toggle="collapse" data-target=".method_getJSONaaData .collapse">
-<h2>getJSONaaData()
-        </h2>
-<pre>getJSONaaData() </pre>
+<h2>Retourne aaData au format JSON</h2>
+<pre>getJSONaaData() : \DataTable\Model\json</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Retourne l'attribut aaData de l'objet au format JSON</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\DataTable\Model\json</code>aaData au format JSON</div>
+</div></div>
 </div>
 <a id="method_getJson"></a><div class="element clickable method public method_getJson" data-toggle="collapse" data-target=".method_getJson .collapse">
 <h2>Return this object in json format.</h2>
@@ -437,14 +443,20 @@ with the form data.</p></div>
 </div></div>
 </div>
 <a id="method_getPaginator"></a><div class="element clickable method public method_getPaginator" data-toggle="collapse" data-target=".method_getPaginator .collapse">
-<h2>getPaginator()
-        </h2>
-<pre>getPaginator($conditions) </pre>
+<h2>Effectue une recherche multi-critères</h2>
+<pre>getPaginator(array $conditions) : \Doctrine\ORM\Tools\Pagination\Paginator</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Récupère les conditions passées en paramètres pour construire
+une requête permettant de récupérer les informations pour la
+Datatable.</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$conditions</h4></div>
+<div class="subelement argument">
+<h4>$conditions</h4>
+<code>array</code><p>Tableau de conditions</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\Doctrine\ORM\Tools\Pagination\Paginator</code>Résultats paginés</div>
 </div></div>
 </div>
 <a id="method_getParams"></a><div class="element clickable method public method_getParams" data-toggle="collapse" data-target=".method_getParams .collapse">
@@ -751,14 +763,13 @@ with the form data.</p></div>
 </div></div>
 </div>
 <a id="method_truncate"></a><div class="element clickable method public method_truncate" data-toggle="collapse" data-target=".method_truncate .collapse">
-<h2>Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/</h2>
+<h2>Truncates text.</h2>
 <pre>truncate(string $text, integer $length, mixed $ending, boolean $exact, boolean $considerHtml) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Truncates text.</p>
-
-<p>Cuts a string to the length of $length and replaces the last characters
-with the ending if the text is longer than length.</p></div>
+<div class="long_description"><p>Cuts a string to the length of $length and replaces the last characters
+with the ending if the text is longer than length.
+Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$text</h4>
@@ -959,7 +970,7 @@ records  but the total of records found in a query.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T11:17:17+02:00.<br></footer></div>
+            generated on 2013-05-29T16:34:19+02:00.<br></footer></div>
 </div>
 </body>
 </html>

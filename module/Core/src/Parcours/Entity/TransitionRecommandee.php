@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une transition recommand�e
+* Entité d'une transition recommandée
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_transitionRecommandee")

@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">543</span></a></li>
+                <span class="label label-info">530</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -68,12 +68,9 @@
                     <ul>
 <li class="method public "><a href="#method___invoke" title="__invoke :: "><span class="description">__invoke()
         </span><pre>__invoke()</pre></a></li>
-<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: "><span class="description">getEntityManager()
-        </span><pre>getEntityManager()</pre></a></li>
-<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: "><span class="description">setEntityManager()
-        </span><pre>setEntityManager()</pre></a></li>
-<li class="method public "><a href="#method_setServiceLocator" title="setServiceLocator :: "><span class="description">setServiceLocator()
-        </span><pre>setServiceLocator()</pre></a></li>
+<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Retourne l'Entity Manager"><span class="description">Retourne l'Entity Manager</span><pre>getEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: Initialisation de l'Entity Manager"><span class="description">Initialisation de l'Entity Manager</span><pre>setEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_setServiceLocator" title="setServiceLocator :: Initialisation du Service Manager"><span class="description">Initialisation du Service Manager</span><pre>setServiceLocator()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -120,45 +117,52 @@
 </div></div>
 </div>
 <a id="method_getEntityManager"></a><div class="element clickable method public method_getEntityManager" data-toggle="collapse" data-target=".method_getEntityManager .collapse">
-<h2>getEntityManager()
-        </h2>
-<pre>getEntityManager() </pre>
+<h2>Retourne l'Entity Manager</h2>
+<pre>getEntityManager() : \Collection\View\Helper\Doctrine\ORM\EntityManager</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\Collection\View\Helper\Doctrine\ORM\EntityManager</code></div>
+</div></div>
 </div>
 <a id="method_setEntityManager"></a><div class="element clickable method public method_setEntityManager" data-toggle="collapse" data-target=".method_setEntityManager .collapse">
-<h2>setEntityManager()
-        </h2>
-<pre>setEntityManager(\Doctrine\ORM\EntityManager $em) </pre>
+<h2>Initialisation de l'Entity Manager</h2>
+<pre>setEntityManager(\Doctrine\ORM\EntityManager $em) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$em</h4></div>
+<div class="subelement argument">
+<h4>$em</h4>
+<code>\Collection\View\Helper\Doctrine\ORM\EntityManager</code>
+</div>
 </div></div>
 </div>
 <a id="method_setServiceLocator"></a><div class="element clickable method public method_setServiceLocator" data-toggle="collapse" data-target=".method_setServiceLocator .collapse">
-<h2>setServiceLocator()
-        </h2>
-<pre>setServiceLocator(\Zend\ServiceManager\ServiceManager $serviceLocator) </pre>
+<h2>Initialisation du Service Manager</h2>
+<pre>setServiceLocator(\Zend\ServiceManager\ServiceManager $serviceLocator) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$serviceLocator</h4></div>
+<div class="subelement argument">
+<h4>$serviceLocator</h4>
+<code>\Collection\View\Helper\Zend\ServiceManager\ServiceManager</code>
+</div>
 </div></div>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property_em"> </a><div class="element clickable property protected property_em" data-toggle="collapse" data-target=".property_em .collapse">
 <h2></h2>
-<pre>$em </pre>
+<pre>$em : \Collection\View\Helper\Doctrine\ORM\EntityManager</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="property_serviceLocator"> </a><div class="element clickable property protected property_serviceLocator" data-toggle="collapse" data-target=".property_serviceLocator .collapse">
 <h2></h2>
-<pre>$serviceLocator </pre>
+<pre>$serviceLocator : \Collection\View\Helper\Zend\ServiceManager\ServiceManager</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -168,7 +172,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T11:17:17+02:00.<br></footer></div>
+            generated on 2013-05-29T16:34:19+02:00.<br></footer></div>
 </div>
 </body>
 </html>

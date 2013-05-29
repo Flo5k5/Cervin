@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une sémantique possible des transitions entre scènes
+* Entité d'une sémantique possible des transitions entre scènes
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_semantiqueTransition")

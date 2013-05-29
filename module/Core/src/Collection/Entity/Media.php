@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
- * Un m�dia
+ * Entité d'un média
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_media")

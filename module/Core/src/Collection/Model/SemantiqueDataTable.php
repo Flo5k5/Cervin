@@ -5,6 +5,14 @@ use DataTable\Model\DataTable;
 
 class SemantiqueDataTable extends DataTable
 {
+	/**
+	 * Permet de compléter la configuration
+	 *
+	 * Permet de compléter la configuration de l'objet Datatable si
+	 * elle est manquante et retourne cet objet au format JSON
+	 *
+	 * @return \DataTable\Model\json Objet au format JSON
+	 */
 	public function findAll()
 	{
 	    if (! $this->getConfiguration()) {
@@ -30,11 +38,28 @@ class SemantiqueDataTable extends DataTable
 		return $this->getJson();
 	}
 	
+	/**
+	 * Retourne aaData au format JSON
+	 *
+	 * Retourne l'attribut aaData de l'objet au format JSON
+	 *
+	 * @return \DataTable\Model\json aaData au format JSON
+	 */
 	public function getJSONaaData(){
 		$obj = get_object_vars($this);
 		return json_encode($obj["aaData"]);
 	}
 
+	/**
+	 * Effectue une recherche multi-critères
+	 *
+	 * Récupère les conditions passées en paramètres pour construire
+	 * une requête permettant de récupérer les informations pour la
+	 * Datatable. 
+	 *
+	 * @param array  $conditions Tableau de conditions
+	 * @return \Doctrine\ORM\Tools\Pagination\Paginator Résultats paginés
+	 */
 	public function getPaginator($conditions = null)
 	{
 		if (! $this->paginator) {
@@ -160,14 +185,12 @@ class SemantiqueDataTable extends DataTable
 		return $this->paginator;
 	}
 
-	
 	/**
-	 * Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
-	 * 
 	 * Truncates text.
 	 *
 	 * Cuts a string to the length of $length and replaces the last characters
 	 * with the ending if the text is longer than length.
+	 * Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-html-en-php/
 	 *
 	 * @param string  $text String to truncate.
 	 * @param integer $length Length of returned string, including ellipsis.

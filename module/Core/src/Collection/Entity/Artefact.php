@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
- * Un artefact
+ * Entité d'un artefact
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_artefact")

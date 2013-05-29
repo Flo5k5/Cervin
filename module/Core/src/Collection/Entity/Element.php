@@ -16,7 +16,7 @@ use Collection\Entity\Artefact;
 use Collection\Entity\Media;
 
 /**
-* Un élément de la collection num�rique (artefact ou m�dia)
+* Entité d'un élément de la collection numérique (artefact ou média)
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_element")

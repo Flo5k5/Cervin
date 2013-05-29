@@ -31,33 +31,39 @@ use Collection\Form\TypeElementForm;
 
 class TypeElementController extends AbstractActionController
 {
-
 	/**
-	* @var Doctrine\ORM\EntityManager
-	*/
-    protected $em;
-
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
- 
-    /**
-	* Return a EntityManager
-	*
-	* @return Doctrine\ORM\EntityManager
-	*/
-    public function getEntityManager()
-    {
-        if ($this->em === null) {
-            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        }
-        
-        return $this->em;
-    }
-
+	 * @var Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+	
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
+	public function setEntityManager(EntityManager $em)
+	{
+		$this->em = $em;
+	}
+	
+	/**
+	 * Retourne l'Entity Manager
+	 *
+	 * @return Doctrine\ORM\EntityManager
+	 */
+	public function getEntityManager()
+	{
+		if ($this->em === null) {
+			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+		}
+	
+		return $this->em;
+	}
+	
     /**
      * On renvoi à la vue tous les types d'artefacts et de médias qu'elle doit gérer
+     * 
      * @return multitype:unknown
      */
     public function indexAction()
@@ -72,7 +78,9 @@ class TypeElementController extends AbstractActionController
 
     /**
      * Ajout d'un nouveau type d'élément
+     * 
      * A COMMENTER !!!!
+     * 
      * @return \Zend\View\Model\ViewModel
      */
     public function addAction()

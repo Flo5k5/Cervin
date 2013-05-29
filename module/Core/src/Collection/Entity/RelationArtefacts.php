@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une relation entre deux artefacts
+* Entité d'une relation entre deux artefacts
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_artefact_artefact")

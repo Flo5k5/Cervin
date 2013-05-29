@@ -22,14 +22,20 @@ class MediaController extends AbstractActionController
 	 * @var Doctrine\ORM\EntityManager
 	 */
 	protected $em;
-	
+
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
 	public function setEntityManager(EntityManager $em)
 	{
 		$this->em = $em;
 	}
-	
+
 	/**
-	 * Return a EntityManager
+	 * Retourne l'Entity Manager
 	 *
 	 * @return Doctrine\ORM\EntityManager
 	 */
@@ -38,10 +44,10 @@ class MediaController extends AbstractActionController
 		if ($this->em === null) {
 			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 		}
-	
+
 		return $this->em;
 	}
-
+	
 	public function indexAction()
     {
     	return $this->redirect()->toRoute('collection/consulter');
@@ -49,11 +55,13 @@ class MediaController extends AbstractActionController
 
     /**
      * Création d'un média
+     * 
      * On envoi à la vue la liste des types de médias possibles
      * Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
      * On envoie alors à la vue la formulaire correspondant pour créer un média du type choisi
      * Lorsque le formulaire est posté, on traite la requête
      * et on créé le média avec les données remplies
+     * 
      * @return \Zend\View\Model\ViewModel
      */
     public function ajouterAction()

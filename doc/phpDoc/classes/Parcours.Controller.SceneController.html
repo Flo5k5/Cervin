@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">543</span></a></li>
+                <span class="label label-info">530</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -68,37 +68,18 @@
                     <ul>
 <li class="method public "><a href="#method_addRelationSceneElementAction" title="addRelationSceneElementAction :: "><span class="description">addRelationSceneElementAction()
         </span><pre>addRelationSceneElementAction()</pre></a></li>
-<li class="method public "><a href="#method_ajouterSceneAction" title="ajouterSceneAction :: Ajout d'une scène à un parcours
-Cette action est déclenchée par un appel AJAX
-Deux types de requêtes sont traitées ici,
-selon si on veut ajouter une scène avant ou après une scène existante
-On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête"><span class="description">Ajout d'une scène à un parcours
-Cette action est déclenchée par un appel AJAX
-Deux types de requêtes sont traitées ici,
-selon si on veut ajouter une scène avant ou après une scène existante
-On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête</span><pre>ajouterSceneAction()</pre></a></li>
+<li class="method public "><a href="#method_ajouterSceneAction" title="ajouterSceneAction :: Ajout d'une scène à un parcours"><span class="description">Ajout d'une scène à un parcours</span><pre>ajouterSceneAction()</pre></a></li>
 <li class="method public "><a href="#method_deleteElementAction" title="deleteElementAction :: "><span class="description">deleteElementAction()
         </span><pre>deleteElementAction()</pre></a></li>
 <li class="method public "><a href="#method_editSceneAction" title="editSceneAction :: "><span class="description">editSceneAction()
         </span><pre>editSceneAction()</pre></a></li>
 <li class="method public "><a href="#method_getAllElementAction" title="getAllElementAction :: "><span class="description">getAllElementAction()
         </span><pre>getAllElementAction()</pre></a></li>
-<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Return a EntityManager"><span class="description">Return a EntityManager</span><pre>getEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Retourne l'Entity Manager"><span class="description">Retourne l'Entity Manager</span><pre>getEntityManager()</pre></a></li>
 <li class="method public "><a href="#method_indexAction" title="indexAction :: "><span class="description">indexAction()
         </span><pre>indexAction()</pre></a></li>
-<li class="method public "><a href="#method_removeSceneAction" title="removeSceneAction :: Suppression d'une scène à l'intérieur d'un parcours
-Cette action est déclenchée par un appel AJAX
-Il faut traiter les différentes possibilités de placement de la scène
-afin de garder la cohérence du parcours et des transitions
-A noter : cette version marche tant qu'on n'a que des scènes recommandées
-mais il faudra la modifier pour gérer les autres types de scènes et de transitions"><span class="description">Suppression d'une scène à l'intérieur d'un parcours
-Cette action est déclenchée par un appel AJAX
-Il faut traiter les différentes possibilités de placement de la scène
-afin de garder la cohérence du parcours et des transitions
-A noter : cette version marche tant qu'on n'a que des scènes recommandées
-mais il faudra la modifier pour gérer les autres types de scènes et de transitions</span><pre>removeSceneAction()</pre></a></li>
-<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: "><span class="description">setEntityManager()
-        </span><pre>setEntityManager()</pre></a></li>
+<li class="method public "><a href="#method_removeSceneAction" title="removeSceneAction :: Suppression d'une scène à l'intérieur d'un parcours"><span class="description">Suppression d'une scène à l'intérieur d'un parcours</span><pre>removeSceneAction()</pre></a></li>
+<li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: Initialisation de l'Entity Manager"><span class="description">Initialisation de l'Entity Manager</span><pre>setEntityManager()</pre></a></li>
 <li class="method public "><a href="#method_voirSceneAction" title="voirSceneAction :: "><span class="description">voirSceneAction()
         </span><pre>voirSceneAction()</pre></a></li>
 </ul>
@@ -136,14 +117,13 @@ mais il faudra la modifier pour gérer les autres types de scènes et de transit
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_ajouterSceneAction"></a><div class="element clickable method public method_ajouterSceneAction" data-toggle="collapse" data-target=".method_ajouterSceneAction .collapse">
-<h2>Ajout d'une scène à un parcours
-Cette action est déclenchée par un appel AJAX
-Deux types de requêtes sont traitées ici,
-selon si on veut ajouter une scène avant ou après une scène existante
-On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête</h2>
+<h2>Ajout d'une scène à un parcours</h2>
 <pre>ajouterSceneAction() </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Cette action est déclenchée par un appel AJAX
+Deux types de requêtes sont traitées ici,
+selon si on veut ajouter une scène avant ou après une scène existante
+On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête</p></div></div></div>
 </div>
 <a id="method_deleteElementAction"></a><div class="element clickable method public method_deleteElementAction" data-toggle="collapse" data-target=".method_deleteElementAction .collapse">
 <h2>deleteElementAction()
@@ -167,7 +147,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_getEntityManager"></a><div class="element clickable method public method_getEntityManager" data-toggle="collapse" data-target=".method_getEntityManager .collapse">
-<h2>Return a EntityManager</h2>
+<h2>Retourne l'Entity Manager</h2>
 <pre>getEntityManager() : \Parcours\Controller\Doctrine\ORM\EntityManager</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -184,25 +164,26 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_removeSceneAction"></a><div class="element clickable method public method_removeSceneAction" data-toggle="collapse" data-target=".method_removeSceneAction .collapse">
-<h2>Suppression d'une scène à l'intérieur d'un parcours
-Cette action est déclenchée par un appel AJAX
+<h2>Suppression d'une scène à l'intérieur d'un parcours</h2>
+<pre>removeSceneAction() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Cette action est déclenchée par un appel AJAX
 Il faut traiter les différentes possibilités de placement de la scène
 afin de garder la cohérence du parcours et des transitions
 A noter : cette version marche tant qu'on n'a que des scènes recommandées
-mais il faudra la modifier pour gérer les autres types de scènes et de transitions</h2>
-<pre>removeSceneAction() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+mais il faudra la modifier pour gérer les autres types de scènes et de transitions</p></div></div></div>
 </div>
 <a id="method_setEntityManager"></a><div class="element clickable method public method_setEntityManager" data-toggle="collapse" data-target=".method_setEntityManager .collapse">
-<h2>setEntityManager()
-        </h2>
-<pre>setEntityManager(\Doctrine\ORM\EntityManager $em) </pre>
+<h2>Initialisation de l'Entity Manager</h2>
+<pre>setEntityManager(\Doctrine\ORM\EntityManager $em) : void</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$em</h4></div>
+<div class="subelement argument">
+<h4>$em</h4>
+<code>\Parcours\Controller\Doctrine\ORM\EntityManager</code>
+</div>
 </div></div>
 </div>
 <a id="method_voirSceneAction"></a><div class="element clickable method public method_voirSceneAction" data-toggle="collapse" data-target=".method_voirSceneAction .collapse">
@@ -226,7 +207,7 @@ mais il faudra la modifier pour gérer les autres types de scènes et de transit
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T11:17:17+02:00.<br></footer></div>
+            generated on 2013-05-29T16:34:20+02:00.<br></footer></div>
 </div>
 </body>
 </html>

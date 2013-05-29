@@ -25,14 +25,20 @@ class ParcoursController extends AbstractActionController
 	 * @var Doctrine\ORM\EntityManager
 	 */
 	protected $em;
-	
+
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
 	public function setEntityManager(EntityManager $em)
 	{
 		$this->em = $em;
 	}
-	
+
 	/**
-	 * Return a EntityManager
+	 * Retourne l'Entity Manager
 	 *
 	 * @return Doctrine\ORM\EntityManager
 	 */
@@ -190,7 +196,7 @@ class ParcoursController extends AbstractActionController
         }
     }
     /**  
-    *   Modifier la semantique ou la narration d'une transition 
+    * Modifier la semantique ou la narration d'une transition 
     *    
     **/ 
         public function modifierTransitionAction()

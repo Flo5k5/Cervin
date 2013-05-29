@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une scene secondaire
+* Entité d'uUne scène secondaire
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_sceneSecondaire")

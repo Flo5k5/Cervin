@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une sc�ne
+* Entité d'une scène
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_scene")

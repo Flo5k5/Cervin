@@ -25,13 +25,19 @@ class SceneController extends AbstractActionController
 	 */
 	protected $em;
 	
+	/**
+	 * Initialisation de l'Entity Manager
+	 *
+	 * @param Doctrine\ORM\EntityManager
+	 * @return void
+	 */
 	public function setEntityManager(EntityManager $em)
 	{
 		$this->em = $em;
 	}
-	
+
 	/**
-	 * Return a EntityManager
+	 * Retourne l'Entity Manager
 	 *
 	 * @return Doctrine\ORM\EntityManager
 	 */
@@ -73,6 +79,7 @@ class SceneController extends AbstractActionController
 
     /**
 	 * Suppression d'une scène à l'intérieur d'un parcours
+	 * 
 	 * Cette action est déclenchée par un appel AJAX
 	 * Il faut traiter les différentes possibilités de placement de la scène
 	 * afin de garder la cohérence du parcours et des transitions
@@ -122,6 +129,7 @@ class SceneController extends AbstractActionController
 
 	/**
 	 * Ajout d'une scène à un parcours
+	 * 
 	 * Cette action est déclenchée par un appel AJAX
 	 * Deux types de requêtes sont traitées ici, 
 	 * selon si on veut ajouter une scène avant ou après une scène existante

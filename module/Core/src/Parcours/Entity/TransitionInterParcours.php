@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Une transition inter-parcours
+* Entité d'une transition inter-parcours
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_transitionInterParcours")

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use \Doctrine\ORM\Query;
 
 /**
-* Une s�mantique possible des relations entre deux artefacts
+* Entité d'une sémantique possible des relations entre deux artefacts
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
 * @ORM\Table(name="mbo_semantiqueartefact")
@@ -32,14 +32,14 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * La s�mantique d'une relation entre deux artefacts d�pend du type de ces artefacts
-     * $type_origine contient la cha�ne d�crivant le type du premier artefact
+     * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
+     * $type_origine contient la chaéne décrivant le type du premier artefact
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      **/
     protected $type_origine;
     
     /**
-     * $type_destination contient la cha�ne d�crivant le type du deuxi�me artefact
+     * $type_destination contient la chaîne décrivant le type du deuxième artefact
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      */
     protected $type_destination;
@@ -55,7 +55,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $relations;
 
     /**
-     * Booléen qui décrit si la sémantique est validéec ou brouillon
+     * Booléen qui décrit si la sémantique est validée ou brouillon
      * @ORM\Column(type="boolean")
      **/
     protected $valide = false;

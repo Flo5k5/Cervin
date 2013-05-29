@@ -9,7 +9,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Un sous-parcours
+* Entité d'un sous-parcours
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_sousParcours")
