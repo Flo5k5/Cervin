@@ -196,7 +196,9 @@ class Champ implements InputFilterAwareInterface
     	return false;
     }
     
-    /* Cr�dit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /**
+     * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
+     */
     private function delTree($dir) {
     	if(is_dir($dir)){
     		$files = glob( $dir . '*', GLOB_MARK );

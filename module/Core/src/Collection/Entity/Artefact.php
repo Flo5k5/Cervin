@@ -78,6 +78,9 @@ class Artefact extends Element
 
 }
 
+/**
+ * Repository d'un artefact
+ */
 class ArtefactRepository extends EntityRepository
 {
 

@@ -69,6 +69,9 @@ class Media extends Element
 	
 }
 
+/**
+ * Repository d'un média
+ */
 class MediaRepository extends EntityRepository
 {
 
