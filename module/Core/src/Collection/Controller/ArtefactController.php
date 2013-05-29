@@ -60,11 +60,13 @@ class ArtefactController extends AbstractActionController
 
     /**
      * Création d'un artefact
+     * 
      * On envoi à la vue la liste des types d'artefacts possibles
      * Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
      * On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
      * Lorsque le formulaire est posté, on traite la requête 
      * et on créé l'artefact avec les données remplies
+     * 
      * @return \Zend\View\Model\ViewModel
      */
     public function ajouterAction()
@@ -113,8 +115,11 @@ class ArtefactController extends AbstractActionController
 
     /**
      * Renvoie à la vue l'artefact à afficher
+     * 
+     * Renvoie à la vue l'artefact à afficher
      * après l'avoir cherché en base de données
      * à partir de l'id passé dans l'url
+     * 
      * @return void|\Zend\View\Model\ViewModel
      */
 	public function voirArtefactAction()
@@ -146,6 +151,7 @@ class ArtefactController extends AbstractActionController
 	
 	/**
 	 * Modification d'un artefact existant
+	 * 
 	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
 	 * On commence par récupérer l'artefact à modifier : 
 	 * son ID est passé en paramètre dans la requête AJAX
@@ -156,6 +162,7 @@ class ArtefactController extends AbstractActionController
 	 * 		'description' : on modifie la description de l'artefact
 	 * 		'data' : on modifie l'une des datas de l'artefact, 
 	 * 				 il faut alors regarder de quelle data il s'agit
+	 * 
 	 * @return void|\Zend\View\Model\ViewModel
 	 */
 	public function editArtefactAction()
@@ -237,6 +244,7 @@ class ArtefactController extends AbstractActionController
 	
 	/**
 	 * Suppression d'un artefact
+	 * 
 	 * On commence par récupérer l'artefact à supprimer :
 	 * son ID est passé en paramètre dans la requête AJAX
 	 * On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact
@@ -261,6 +269,7 @@ class ArtefactController extends AbstractActionController
 
 	/**
 	 * Suppression d'une relation entre deux artefacts
+	 * 
 	 * Cette action est déclenché par un appel AJAX
 	 * lancé depuis la modale de confirmation dans la vue.
 	 * L'id de la relation à supprimer est passé en paramètre de la requête

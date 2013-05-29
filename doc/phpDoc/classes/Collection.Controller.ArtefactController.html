@@ -70,32 +70,8 @@
         </span><pre>addRelationArtefactMediaAction()</pre></a></li>
 <li class="method public "><a href="#method_addRelationArtefactSemantiqueAction" title="addRelationArtefactSemantiqueAction :: "><span class="description">addRelationArtefactSemantiqueAction()
         </span><pre>addRelationArtefactSemantiqueAction()</pre></a></li>
-<li class="method public "><a href="#method_ajouterAction" title="ajouterAction :: Création d'un artefact
-On envoi à la vue la liste des types d'artefacts possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action."><span class="description">Création d'un artefact
-On envoi à la vue la liste des types d'artefacts possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.</span><pre>ajouterAction()</pre></a></li>
-<li class="method public "><a href="#method_editArtefactAction" title="editArtefactAction :: Modification d'un artefact existant
-Cette action est déclenchée par un appel AJAX lancé par X-Editable
-On commence par récupérer l'artefact à modifier :
-son ID est passé en paramètre dans la requête AJAX
-Plusieurs types de requêtes sont traitées ici,
-on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
-qui peut valoir :
-		'titre' : on modifie le titre de l'artefact
-		'description' : on modifie la description de l'artefact
-		'data' : on modifie l'une des datas de l'artefact,
-				 il faut alors regarder de quelle data il s'agit"><span class="description">Modification d'un artefact existant
-Cette action est déclenchée par un appel AJAX lancé par X-Editable
-On commence par récupérer l'artefact à modifier :
-son ID est passé en paramètre dans la requête AJAX
-Plusieurs types de requêtes sont traitées ici,
-on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
-qui peut valoir :
-		'titre' : on modifie le titre de l'artefact
-		'description' : on modifie la description de l'artefact
-		'data' : on modifie l'une des datas de l'artefact,
-				 il faut alors regarder de quelle data il s'agit</span><pre>editArtefactAction()</pre></a></li>
+<li class="method public "><a href="#method_ajouterAction" title="ajouterAction :: Création d'un artefact"><span class="description">Création d'un artefact</span><pre>ajouterAction()</pre></a></li>
+<li class="method public "><a href="#method_editArtefactAction" title="editArtefactAction :: Modification d'un artefact existant"><span class="description">Modification d'un artefact existant</span><pre>editArtefactAction()</pre></a></li>
 <li class="method public "><a href="#method_getAllArtefactAction" title="getAllArtefactAction :: "><span class="description">getAllArtefactAction()
         </span><pre>getAllArtefactAction()</pre></a></li>
 <li class="method public "><a href="#method_getAllMediaAction" title="getAllMediaAction :: "><span class="description">getAllMediaAction()
@@ -103,24 +79,10 @@ qui peut valoir :
 <li class="method public "><a href="#method_getEntityManager" title="getEntityManager :: Retourne l'Entity Manager"><span class="description">Retourne l'Entity Manager</span><pre>getEntityManager()</pre></a></li>
 <li class="method public "><a href="#method_indexAction" title="indexAction :: "><span class="description">indexAction()
         </span><pre>indexAction()</pre></a></li>
-<li class="method public "><a href="#method_removeArtefactAction" title="removeArtefactAction :: Suppression d'un artefact
-On commence par récupérer l'artefact à supprimer :
-son ID est passé en paramètre dans la requête AJAX
-On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact"><span class="description">Suppression d'un artefact
-On commence par récupérer l'artefact à supprimer :
-son ID est passé en paramètre dans la requête AJAX
-On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact</span><pre>removeArtefactAction()</pre></a></li>
+<li class="method public "><a href="#method_removeArtefactAction" title="removeArtefactAction :: Suppression d'un artefact"><span class="description">Suppression d'un artefact</span><pre>removeArtefactAction()</pre></a></li>
 <li class="method public "><a href="#method_setEntityManager" title="setEntityManager :: Initialisation de l'Entity Manager"><span class="description">Initialisation de l'Entity Manager</span><pre>setEntityManager()</pre></a></li>
-<li class="method public "><a href="#method_supprimerRelationArtefactSemantiqueAction" title="supprimerRelationArtefactSemantiqueAction :: Suppression d'une relation entre deux artefacts
-Cette action est déclenché par un appel AJAX
-lancé depuis la modale de confirmation dans la vue."><span class="description">Suppression d'une relation entre deux artefacts
-Cette action est déclenché par un appel AJAX
-lancé depuis la modale de confirmation dans la vue.</span><pre>supprimerRelationArtefactSemantiqueAction()</pre></a></li>
-<li class="method public "><a href="#method_voirArtefactAction" title="voirArtefactAction :: Renvoie à la vue l'artefact à afficher
-après l'avoir cherché en base de données
-à partir de l'id passé dans l'url"><span class="description">Renvoie à la vue l'artefact à afficher
-après l'avoir cherché en base de données
-à partir de l'id passé dans l'url</span><pre>voirArtefactAction()</pre></a></li>
+<li class="method public "><a href="#method_supprimerRelationArtefactSemantiqueAction" title="supprimerRelationArtefactSemantiqueAction :: Suppression d'une relation entre deux artefacts"><span class="description">Suppression d'une relation entre deux artefacts</span><pre>supprimerRelationArtefactSemantiqueAction()</pre></a></li>
+<li class="method public "><a href="#method_voirArtefactAction" title="voirArtefactAction :: Renvoie à la vue l'artefact à afficher"><span class="description">Renvoie à la vue l'artefact à afficher</span><pre>voirArtefactAction()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -163,13 +125,13 @@ après l'avoir cherché en base de données
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_ajouterAction"></a><div class="element clickable method public method_ajouterAction" data-toggle="collapse" data-target=".method_ajouterAction .collapse">
-<h2>Création d'un artefact
-On envoi à la vue la liste des types d'artefacts possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.</h2>
+<h2>Création d'un artefact</h2>
 <pre>ajouterAction() : \Zend\View\Model\ViewModel</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
+<div class="long_description"><p>On envoi à la vue la liste des types d'artefacts possibles
+Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
 Lorsque le formulaire est posté, on traite la requête
 et on créé l'artefact avec les données remplies</p></div>
 <h3>Returns</h3>
@@ -177,21 +139,20 @@ et on créé l'artefact avec les données remplies</p></div>
 </div></div>
 </div>
 <a id="method_editArtefactAction"></a><div class="element clickable method public method_editArtefactAction" data-toggle="collapse" data-target=".method_editArtefactAction .collapse">
-<h2>Modification d'un artefact existant
-Cette action est déclenchée par un appel AJAX lancé par X-Editable
+<h2>Modification d'un artefact existant</h2>
+<pre>editArtefactAction() : void | \Zend\View\Model\ViewModel</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Cette action est déclenchée par un appel AJAX lancé par X-Editable
 On commence par récupérer l'artefact à modifier :
 son ID est passé en paramètre dans la requête AJAX
 Plusieurs types de requêtes sont traitées ici,
 on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
 qui peut valoir :
-		'titre' : on modifie le titre de l'artefact
-		'description' : on modifie la description de l'artefact
-		'data' : on modifie l'une des datas de l'artefact,
-				 il faut alors regarder de quelle data il s'agit</h2>
-<pre>editArtefactAction() : void | \Zend\View\Model\ViewModel</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+        'titre' : on modifie le titre de l'artefact
+        'description' : on modifie la description de l'artefact
+        'data' : on modifie l'une des datas de l'artefact,
+                 il faut alors regarder de quelle data il s'agit</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>void</code><code>\Zend\View\Model\ViewModel</code>
@@ -230,13 +191,12 @@ qui peut valoir :
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_removeArtefactAction"></a><div class="element clickable method public method_removeArtefactAction" data-toggle="collapse" data-target=".method_removeArtefactAction .collapse">
-<h2>Suppression d'un artefact
-On commence par récupérer l'artefact à supprimer :
-son ID est passé en paramètre dans la requête AJAX
-On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact</h2>
+<h2>Suppression d'un artefact</h2>
 <pre>removeArtefactAction() </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>On commence par récupérer l'artefact à supprimer :
+son ID est passé en paramètre dans la requête AJAX
+On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact</p></div></div></div>
 </div>
 <a id="method_setEntityManager"></a><div class="element clickable method public method_setEntityManager" data-toggle="collapse" data-target=".method_setEntityManager .collapse">
 <h2>Initialisation de l'Entity Manager</h2>
@@ -252,21 +212,21 @@ On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact</
 </div></div>
 </div>
 <a id="method_supprimerRelationArtefactSemantiqueAction"></a><div class="element clickable method public method_supprimerRelationArtefactSemantiqueAction" data-toggle="collapse" data-target=".method_supprimerRelationArtefactSemantiqueAction .collapse">
-<h2>Suppression d'une relation entre deux artefacts
-Cette action est déclenché par un appel AJAX
-lancé depuis la modale de confirmation dans la vue.</h2>
+<h2>Suppression d'une relation entre deux artefacts</h2>
 <pre>supprimerRelationArtefactSemantiqueAction() </pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"><p>L'id de la relation à supprimer est passé en paramètre de la requête</p></div></div></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Cette action est déclenché par un appel AJAX
+lancé depuis la modale de confirmation dans la vue.
+L'id de la relation à supprimer est passé en paramètre de la requête</p></div></div></div>
 </div>
 <a id="method_voirArtefactAction"></a><div class="element clickable method public method_voirArtefactAction" data-toggle="collapse" data-target=".method_voirArtefactAction .collapse">
-<h2>Renvoie à la vue l'artefact à afficher
-après l'avoir cherché en base de données
-à partir de l'id passé dans l'url</h2>
+<h2>Renvoie à la vue l'artefact à afficher</h2>
 <pre>voirArtefactAction() : void | \Zend\View\Model\ViewModel</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Renvoie à la vue l'artefact à afficher
+après l'avoir cherché en base de données
+à partir de l'id passé dans l'url</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>void</code><code>\Zend\View\Model\ViewModel</code>
@@ -287,7 +247,7 @@ après l'avoir cherché en base de données
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T16:34:19+02:00.<br></footer></div>
+            generated on 2013-05-29T16:40:27+02:00.<br></footer></div>
 </div>
 </body>
 </html>

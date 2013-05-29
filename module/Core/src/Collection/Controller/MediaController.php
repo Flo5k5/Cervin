@@ -109,8 +109,11 @@ class MediaController extends AbstractActionController
 
     /**
      * Renvoie à la vue le média à afficher
+     * 
+     * Renvoie à la vue le média à afficher
      * après l'avoir cherché en base de données
      * à partir de l'id passé dans l'url
+     * 
      * @return void|\Zend\View\Model\ViewModel
      */
     public function voirMediaAction()
@@ -137,6 +140,7 @@ class MediaController extends AbstractActionController
 
     /**
      * Modification d'un média existant
+     * 
 	 * Cette action est déclenchée par un appel AJAX lancé par X-Editable
 	 * On commence par récupérer le média à modifier : 
 	 * son ID est passé en paramètre dans la requête AJAX
@@ -147,6 +151,7 @@ class MediaController extends AbstractActionController
 	 * 		'description' : on modifie la description du média
 	 * 		'data' : on modifie l'une des datas du média, 
 	 * 				 il faut alors regarder de quelle data il s'agit
+	 * 
      * @return void|\Zend\View\Model\ViewModel
      */
     public function editMediaAction()
@@ -221,6 +226,7 @@ class MediaController extends AbstractActionController
 
     /**
      * Suppression d'un média
+     * 
 	 * On commence par récupérer le média à supprimer :
 	 * son ID est passé en paramètre dans la requête AJAX
 	 * On pense bien à supprimer les éventuels fichiers uploadés pour ce média
@@ -253,6 +259,7 @@ class MediaController extends AbstractActionController
 
     /**
      * Suppression d'une relation entre un média et un artefact
+     * 
      * Cette action est déclenché par un appel AJAX
      * lancé depuis la modale de confirmation dans la vue.
      * Les id du média et de l'artefact à délier son pssés en

@@ -1924,10 +1924,10 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
       <error line="31" code="50010">No DocBlock was found for method getAutoloaderConfig()</error>
     </parse_markers>
   </file>
-  <file path="Core\src\Collection\Controller\ArtefactController.php" hash="bdeefc99709e798defaf67d33ea01af3" package="Default">
+  <file path="Core\src\Collection\Controller\ArtefactController.php" hash="0f6f5f8d16d5d2ed3e7cdecc4b57a950" package="Default">
     <docblock line="2">
-      <description/>
-      <long-description/>
+      <description></description>
+      <long-description></long-description>
     </docblock>
     <class final="false" abstract="false" namespace="Collection\Controller" line="24" package="Default">
       <extends>\Zend\Mvc\Controller\AbstractActionController</extends>
@@ -1935,10 +1935,10 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
       <full_name>\Collection\Controller\ArtefactController</full_name>
       <property final="false" static="false" visibility="protected" line="29" namespace="Collection\Controller" package="Default">
         <name>$em</name>
-        <default/>
+        <default></default>
         <docblock line="26">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="26" name="var" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -1949,7 +1949,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         <full_name>setEntityManager</full_name>
         <docblock line="31">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="31" name="param" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -1959,7 +1959,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         </docblock>
         <argument line="37">
           <name>$em</name>
-          <default/>
+          <default></default>
           <type>\Doctrine\ORM\EntityManager</type>
         </argument>
       </method>
@@ -1968,7 +1968,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         <full_name>getEntityManager</full_name>
         <docblock line="42">
           <description>Retourne l'Entity Manager</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="42" name="return" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -1978,14 +1978,14 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         <name>indexAction</name>
         <full_name>indexAction</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="70" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="72" package="Default">
         <name>ajouterAction</name>
         <full_name>ajouterAction</full_name>
         <docblock line="61">
-          <description>Création d'un artefact
-On envoi à la vue la liste des types d'artefacts possibles
-Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.</description>
-          <long-description>&lt;p&gt;On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
+          <description>Création d'un artefact</description>
+          <long-description>&lt;p&gt;On envoi à la vue la liste des types d'artefacts possibles
+Lorsque l'utilisateur en a choisi un, javascript dans le vue fait rappelle cette action.
+On envoie alors à la vue la formulaire correspondant pour créer un artefact du type choisi
 Lorsque le formulaire est posté, on traite la requête
 et on créé l'artefact avec les données remplies&lt;/p&gt;</long-description>
           <tag line="61" name="return" description="" type="\Zend\View\Model\ViewModel">
@@ -1993,76 +1993,74 @@ et on créé l'artefact avec les données remplies&lt;/p&gt;</long-description>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="120" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="125" package="Default">
         <name>voirArtefactAction</name>
         <full_name>voirArtefactAction</full_name>
-        <docblock line="114">
-          <description>Renvoie à la vue l'artefact à afficher
+        <docblock line="116">
+          <description>Renvoie à la vue l'artefact à afficher</description>
+          <long-description>&lt;p&gt;Renvoie à la vue l'artefact à afficher
 après l'avoir cherché en base de données
-à partir de l'id passé dans l'url</description>
-          <long-description/>
-          <tag line="114" name="return" description="" type="void|\Zend\View\Model\ViewModel">
+à partir de l'id passé dans l'url&lt;/p&gt;</long-description>
+          <tag line="116" name="return" description="" type="void|\Zend\View\Model\ViewModel">
             <type by_reference="false">void</type>
             <type by_reference="false">\Zend\View\Model\ViewModel</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="161" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="168" package="Default">
         <name>editArtefactAction</name>
         <full_name>editArtefactAction</full_name>
-        <docblock line="147">
-          <description>Modification d'un artefact existant
-Cette action est déclenchée par un appel AJAX lancé par X-Editable
+        <docblock line="152">
+          <description>Modification d'un artefact existant</description>
+          <long-description>&lt;p&gt;Cette action est déclenchée par un appel AJAX lancé par X-Editable
 On commence par récupérer l'artefact à modifier :
 son ID est passé en paramètre dans la requête AJAX
 Plusieurs types de requêtes sont traitées ici,
 on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
 qui peut valoir :
-		'titre' : on modifie le titre de l'artefact
-		'description' : on modifie la description de l'artefact
-		'data' : on modifie l'une des datas de l'artefact,
-				 il faut alors regarder de quelle data il s'agit</description>
-          <long-description/>
-          <tag line="147" name="return" description="" type="void|\Zend\View\Model\ViewModel">
+        'titre' : on modifie le titre de l'artefact
+        'description' : on modifie la description de l'artefact
+        'data' : on modifie l'une des datas de l'artefact,
+                 il faut alors regarder de quelle data il s'agit&lt;/p&gt;</long-description>
+          <tag line="152" name="return" description="" type="void|\Zend\View\Model\ViewModel">
             <type by_reference="false">void</type>
             <type by_reference="false">\Zend\View\Model\ViewModel</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="244" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="252" package="Default">
         <name>removeArtefactAction</name>
         <full_name>removeArtefactAction</full_name>
-        <docblock line="238">
-          <description>Suppression d'un artefact
-On commence par récupérer l'artefact à supprimer :
+        <docblock line="245">
+          <description>Suppression d'un artefact</description>
+          <long-description>&lt;p&gt;On commence par récupérer l'artefact à supprimer :
 son ID est passé en paramètre dans la requête AJAX
-On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact</description>
-          <long-description/>
+On pense bien à supprimer les éventuels fichiers uploadés pour cet artefact&lt;/p&gt;</long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="268" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="277" package="Default">
         <name>supprimerRelationArtefactSemantiqueAction</name>
         <full_name>supprimerRelationArtefactSemantiqueAction</full_name>
-        <docblock line="262">
-          <description>Suppression d'une relation entre deux artefacts
-Cette action est déclenché par un appel AJAX
-lancé depuis la modale de confirmation dans la vue.</description>
-          <long-description>&lt;p&gt;L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&gt;</long-description>
+        <docblock line="270">
+          <description>Suppression d'une relation entre deux artefacts</description>
+          <long-description>&lt;p&gt;Cette action est déclenché par un appel AJAX
+lancé depuis la modale de confirmation dans la vue.
+L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&gt;</long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="284" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="293" package="Default">
         <name>addRelationArtefactSemantiqueAction</name>
         <full_name>addRelationArtefactSemantiqueAction</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="389" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="398" package="Default">
         <name>getAllArtefactAction</name>
         <full_name>getAllArtefactAction</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="458" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="467" package="Default">
         <name>addRelationArtefactMediaAction</name>
         <full_name>addRelationArtefactMediaAction</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="511" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="520" package="Default">
         <name>getAllMediaAction</name>
         <full_name>getAllMediaAction</full_name>
       </method>
@@ -2073,10 +2071,10 @@ lancé depuis la modale de confirmation dans la vue.</description>
       <critical line="26" code="50019">No short description for property $em</critical>
       <error line="31" code="50016">The type hint of the argument is incorrect for the type definition of the @param tag with argument $em in setEntityManager()</error>
       <error line="56" code="50010">No DocBlock was found for method indexAction()</error>
-      <error line="284" code="50010">No DocBlock was found for method addRelationArtefactSemantiqueAction()</error>
-      <error line="389" code="50010">No DocBlock was found for method getAllArtefactAction()</error>
-      <error line="458" code="50010">No DocBlock was found for method addRelationArtefactMediaAction()</error>
-      <error line="511" code="50010">No DocBlock was found for method getAllMediaAction()</error>
+      <error line="293" code="50010">No DocBlock was found for method addRelationArtefactSemantiqueAction()</error>
+      <error line="398" code="50010">No DocBlock was found for method getAllArtefactAction()</error>
+      <error line="467" code="50010">No DocBlock was found for method addRelationArtefactMediaAction()</error>
+      <error line="520" code="50010">No DocBlock was found for method getAllMediaAction()</error>
     </parse_markers>
   </file>
   <file path="Core\src\Collection\Controller\CollectionController.php" hash="8d75bb1246268725697a396050a987ac" package="Default">
@@ -2160,10 +2158,10 @@ lancé depuis la modale de confirmation dans la vue.</description>
       <error line="134" code="50010">No DocBlock was found for method onLineAction()</error>
     </parse_markers>
   </file>
-  <file path="Core\src\Collection\Controller\MediaController.php" hash="77f9282e706638cbdd9f4739d625d743" package="Default">
+  <file path="Core\src\Collection\Controller\MediaController.php" hash="0b633a2c5261aa60f5b2a5699e6cf19b" package="Default">
     <docblock line="2">
-      <description/>
-      <long-description/>
+      <description></description>
+      <long-description></long-description>
     </docblock>
     <class final="false" abstract="false" namespace="Collection\Controller" line="19" package="Default">
       <extends>\Zend\Mvc\Controller\AbstractActionController</extends>
@@ -2171,10 +2169,10 @@ lancé depuis la modale de confirmation dans la vue.</description>
       <full_name>\Collection\Controller\MediaController</full_name>
       <property final="false" static="false" visibility="protected" line="24" namespace="Collection\Controller" package="Default">
         <name>$em</name>
-        <default/>
+        <default></default>
         <docblock line="21">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="21" name="var" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2185,7 +2183,7 @@ lancé depuis la modale de confirmation dans la vue.</description>
         <full_name>setEntityManager</full_name>
         <docblock line="26">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="26" name="param" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2195,7 +2193,7 @@ lancé depuis la modale de confirmation dans la vue.</description>
         </docblock>
         <argument line="32">
           <name>$em</name>
-          <default/>
+          <default></default>
           <type>\Collection\Controller\EntityManager</type>
         </argument>
       </method>
@@ -2204,7 +2202,7 @@ lancé depuis la modale de confirmation dans la vue.</description>
         <full_name>getEntityManager</full_name>
         <docblock line="37">
           <description>Retourne l'Entity Manager</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="37" name="return" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2229,69 +2227,67 @@ et on créé le média avec les données remplies&lt;/p&gt;</long-description>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="116" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="119" package="Default">
         <name>voirMediaAction</name>
         <full_name>voirMediaAction</full_name>
         <docblock line="110">
-          <description>Renvoie à la vue le média à afficher
+          <description>Renvoie à la vue le média à afficher</description>
+          <long-description>&lt;p&gt;Renvoie à la vue le média à afficher
 après l'avoir cherché en base de données
-à partir de l'id passé dans l'url</description>
-          <long-description/>
+à partir de l'id passé dans l'url&lt;/p&gt;</long-description>
           <tag line="110" name="return" description="" type="void|\Zend\View\Model\ViewModel">
             <type by_reference="false">void</type>
             <type by_reference="false">\Zend\View\Model\ViewModel</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="152" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="157" package="Default">
         <name>editMediaAction</name>
         <full_name>editMediaAction</full_name>
-        <docblock line="138">
-          <description>Modification d'un média existant
-Cette action est déclenchée par un appel AJAX lancé par X-Editable
+        <docblock line="141">
+          <description>Modification d'un média existant</description>
+          <long-description>&lt;p&gt;Cette action est déclenchée par un appel AJAX lancé par X-Editable
 On commence par récupérer le média à modifier :
 son ID est passé en paramètre dans la requête AJAX
 Plusieurs types de requêtes sont traitées ici,
 on sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé par la vue
 qui peut valoir :
-		'titre' : on modifie le titre du média
-		'description' : on modifie la description du média
-		'data' : on modifie l'une des datas du média,
-				 il faut alors regarder de quelle data il s'agit</description>
-          <long-description/>
-          <tag line="138" name="return" description="" type="void|\Zend\View\Model\ViewModel">
+        'titre' : on modifie le titre du média
+        'description' : on modifie la description du média
+        'data' : on modifie l'une des datas du média,
+                 il faut alors regarder de quelle data il s'agit&lt;/p&gt;</long-description>
+          <tag line="141" name="return" description="" type="void|\Zend\View\Model\ViewModel">
             <type by_reference="false">void</type>
             <type by_reference="false">\Zend\View\Model\ViewModel</type>
           </tag>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="228" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="234" package="Default">
         <name>removeMediaAction</name>
         <full_name>removeMediaAction</full_name>
-        <docblock line="222">
-          <description>Suppression d'un média
-On commence par récupérer le média à supprimer :
+        <docblock line="227">
+          <description>Suppression d'un média</description>
+          <long-description>&lt;p&gt;On commence par récupérer le média à supprimer :
 son ID est passé en paramètre dans la requête AJAX
-On pense bien à supprimer les éventuels fichiers uploadés pour ce média</description>
-          <long-description/>
+On pense bien à supprimer les éventuels fichiers uploadés pour ce média&lt;/p&gt;</long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="261" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="268" package="Default">
         <name>supprimerRelationMediaArtefactAction</name>
         <full_name>supprimerRelationMediaArtefactAction</full_name>
-        <docblock line="254">
-          <description>Suppression d'une relation entre un média et un artefact
-Cette action est déclenché par un appel AJAX
-lancé depuis la modale de confirmation dans la vue.</description>
-          <long-description>&lt;p&gt;Les id du média et de l'artefact à délier son pssés en
+        <docblock line="260">
+          <description>Suppression d'une relation entre un média et un artefact</description>
+          <long-description>&lt;p&gt;Cette action est déclenché par un appel AJAX
+lancé depuis la modale de confirmation dans la vue.
+Les id du média et de l'artefact à délier son pssés en
 paramètre de la requête&lt;/p&gt;</long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="282" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="289" package="Default">
         <name>addRelationMediaArtefactAction</name>
         <full_name>addRelationMediaArtefactAction</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="336" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="Collection\Controller" line="343" package="Default">
         <name>getAllArtefactAction</name>
         <full_name>getAllArtefactAction</full_name>
       </method>
@@ -2302,8 +2298,8 @@ paramètre de la requête&lt;/p&gt;</long-description>
       <critical line="21" code="50019">No short description for property $em</critical>
       <error line="26" code="50016">The type hint of the argument is incorrect for the type definition of the @param tag with argument $em in setEntityManager()</error>
       <error line="51" code="50010">No DocBlock was found for method indexAction()</error>
-      <error line="282" code="50010">No DocBlock was found for method addRelationMediaArtefactAction()</error>
-      <error line="336" code="50010">No DocBlock was found for method getAllArtefactAction()</error>
+      <error line="289" code="50010">No DocBlock was found for method addRelationMediaArtefactAction()</error>
+      <error line="343" code="50010">No DocBlock was found for method getAllArtefactAction()</error>
     </parse_markers>
   </file>
   <file path="Core\src\Collection\Controller\SemantiqueController.php" hash="ff49b5b199a9118379b0552bb175d639" package="Default">
@@ -5286,7 +5282,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
   <file path="Core\src\Parcours\Controller\ParcoursController.php" hash="d21d5beb459375f7b262c8e9e41b51ec" package="Default">
     <docblock line="2">
       <description>Zend Framework (http://framework.zend.com/)</description>
-      <long-description></long-description>
+      <long-description/>
       <tag line="2" name="link" description="for the canonical source repository" link="http://github.com/zendframework/ZendSkeletonApplication"/>
       <tag line="2" name="copyright" description="Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)"/>
       <tag line="2" name="license" description="http://framework.zend.com/license/new-bsd New BSD License"/>
@@ -5297,10 +5293,10 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
       <full_name>\Parcours\Controller\ParcoursController</full_name>
       <property final="false" static="false" visibility="protected" line="27" namespace="Parcours\Controller" package="Default">
         <name>$em</name>
-        <default></default>
+        <default/>
         <docblock line="24">
-          <description></description>
-          <long-description></long-description>
+          <description/>
+          <long-description/>
           <tag line="24" name="var" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5311,7 +5307,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         <full_name>setEntityManager</full_name>
         <docblock line="29">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="29" name="param" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5321,7 +5317,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         </docblock>
         <argument line="35">
           <name>$em</name>
-          <default></default>
+          <default/>
           <type>\Doctrine\ORM\EntityManager</type>
         </argument>
       </method>
@@ -5330,7 +5326,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         <full_name>getEntityManager</full_name>
         <docblock line="40">
           <description>Retourne l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="40" name="return" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5357,7 +5353,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         <full_name>modifierTransitionAction</full_name>
         <docblock line="198">
           <description>Modifier la semantique ou la narration d'une transition</description>
-          <long-description></long-description>
+          <long-description/>
         </docblock>
       </method>
     </class>
@@ -5374,7 +5370,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
   <file path="Core\src\Parcours\Controller\SceneController.php" hash="63a1d254e9066ac9cfbc0392508393d4" package="Default">
     <docblock line="2">
       <description>Zend Framework (http://framework.zend.com/)</description>
-      <long-description></long-description>
+      <long-description/>
       <tag line="2" name="link" description="for the canonical source repository" link="http://github.com/zendframework/ZendSkeletonApplication"/>
       <tag line="2" name="copyright" description="Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)"/>
       <tag line="2" name="license" description="http://framework.zend.com/license/new-bsd New BSD License"/>
@@ -5385,10 +5381,10 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
       <full_name>\Parcours\Controller\SceneController</full_name>
       <property final="false" static="false" visibility="protected" line="26" namespace="Parcours\Controller" package="Default">
         <name>$em</name>
-        <default></default>
+        <default/>
         <docblock line="23">
-          <description></description>
-          <long-description></long-description>
+          <description/>
+          <long-description/>
           <tag line="23" name="var" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5399,7 +5395,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         <full_name>setEntityManager</full_name>
         <docblock line="28">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="28" name="param" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5409,7 +5405,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         </docblock>
         <argument line="34">
           <name>$em</name>
-          <default></default>
+          <default/>
           <type>\Doctrine\ORM\EntityManager</type>
         </argument>
       </method>
@@ -5418,7 +5414,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
         <full_name>getEntityManager</full_name>
         <docblock line="39">
           <description>Retourne l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="39" name="return" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5487,7 +5483,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
   <file path="Core\src\Parcours\Controller\SemantiqueTransitionController.php" hash="3b3dd854983f3f3bcf329f3c9069391c" package="Default">
     <docblock line="2">
       <description>Zend Framework (http://framework.zend.com/)</description>
-      <long-description></long-description>
+      <long-description/>
       <tag line="2" name="link" description="for the canonical source repository" link="http://github.com/zendframework/ZendSkeletonApplication"/>
       <tag line="2" name="copyright" description="Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)"/>
       <tag line="2" name="license" description="http://framework.zend.com/license/new-bsd New BSD License"/>
@@ -5498,10 +5494,10 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
       <full_name>\Parcours\Controller\SemantiqueTransitionController</full_name>
       <property final="false" static="false" visibility="protected" line="27" namespace="Parcours\Controller" package="Default">
         <name>$em</name>
-        <default></default>
+        <default/>
         <docblock line="24">
-          <description></description>
-          <long-description></long-description>
+          <description/>
+          <long-description/>
           <tag line="24" name="var" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5512,7 +5508,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
         <full_name>setEntityManager</full_name>
         <docblock line="29">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="29" name="param" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5522,7 +5518,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
         </docblock>
         <argument line="35">
           <name>$em</name>
-          <default></default>
+          <default/>
           <type>\Doctrine\ORM\EntityManager</type>
         </argument>
       </method>
@@ -5531,7 +5527,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
         <full_name>getEntityManager</full_name>
         <docblock line="40">
           <description>Retourne l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="40" name="return" description="" type="\Parcours\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Parcours\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -5542,7 +5538,7 @@ On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé d
         <full_name>indexAction</full_name>
         <docblock line="53">
           <description>Renvoie à la vue toutes les sémantiques pour les afficher dans un tableau</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="53" name="return" description="" type="\Zend\View\Model\ViewModel">
             <type by_reference="false">\Zend\View\Model\ViewModel</type>
           </tag>
