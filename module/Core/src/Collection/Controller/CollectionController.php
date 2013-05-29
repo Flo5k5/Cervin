@@ -15,6 +15,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Collection\Form\ChampForm;
 use Doctrine\DBAL\DriverManager;
+use Zend\Json\Json;
 
 class CollectionController extends AbstractActionController
 {
@@ -124,6 +125,30 @@ class CollectionController extends AbstractActionController
     		return new ViewModel( array( 'aaData' => $dataTable->getJSONaaData(), 'allTypeArtefact' => $allTypeArtefact, 'allTypeMedia' => $allTypeMedia, ) );
     		//return new ViewModel( array( 'aaData' => $dataTable->getJSONaaData() ) );
     	}
+    }
+    public function onLineAction()
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) {
+
+            $id = (int) $this->params('id', null);
+            $element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$id));
+            if ($element === null or $id === null) {
+                $this->getResponse()->setStatusCode(404);
+                return; 
+            }
+            $post = $this->params()->fromPost();
+
+
+            $element->onLine = ($post['onLine'] == 'true') ?  1 : 0 ;
+            
+
+            $this->getEntityManager()->persist($element);
+            $this->getEntityManager()->flush();
+
+            return $this->getResponse()->setContent(Json::encode(true));
+        }
+        $this->getResponse()->setStatusCode(404);
+        return; 
     }
     
 }

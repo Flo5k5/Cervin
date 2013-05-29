@@ -81,6 +81,19 @@ return array(
                             ),
                         ),
                     ),
+                    'onLine' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/onLine/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]+'
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Collection',
+                                'action'     => 'onLine',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             

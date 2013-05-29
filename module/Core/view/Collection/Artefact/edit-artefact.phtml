@@ -40,7 +40,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	<a href="<?php echo $this->url('artefact/voirArtefact',
         	array('id' => $artefact->id)) ?>" class="btn btn-primary span3"><i class="icon-reply"> </i> Retour à la fiche de cet artefact</a>
 	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer cet artefact</a>
-	
+	<label class="checkbox span3">
+		<input type="checkbox" id="onLine" name="onLine" value="true"> En ligne
+	</label>
 </div>
 
 <!--Confirm Modal -->
@@ -274,10 +276,25 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div id="confirmDiv" > </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
-	
+
 	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
 	
 	$(function () {
+		// on checked ou non l'input En ligne 
+		$('input[name=onLine]').attr('checked', <?php echo ($artefact->onLine == 1 ) ? 'true' : 'false' ; ?>);
+
+		// si on click sur l'input En ligne
+		$("#onLine").on("click", function(e){
+			val = $('input[name=onLine]').is(':checked')
+
+			$.ajax({
+			        url: '<?php echo $this->url("collection/onLine",array('id'=>$artefact->id)) ?>',
+			        type: "POST",
+			        data: { onLine: val } , 
+			    }).done(function(){
+			    });
+		});
+		
 
 		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
