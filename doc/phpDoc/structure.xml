@@ -1926,8 +1926,8 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
   </file>
   <file path="Core\src\Collection\Controller\ArtefactController.php" hash="0f6f5f8d16d5d2ed3e7cdecc4b57a950" package="Default">
     <docblock line="2">
-      <description></description>
-      <long-description></long-description>
+      <description/>
+      <long-description/>
     </docblock>
     <class final="false" abstract="false" namespace="Collection\Controller" line="24" package="Default">
       <extends>\Zend\Mvc\Controller\AbstractActionController</extends>
@@ -1935,10 +1935,10 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
       <full_name>\Collection\Controller\ArtefactController</full_name>
       <property final="false" static="false" visibility="protected" line="29" namespace="Collection\Controller" package="Default">
         <name>$em</name>
-        <default></default>
+        <default/>
         <docblock line="26">
-          <description></description>
-          <long-description></long-description>
+          <description/>
+          <long-description/>
           <tag line="26" name="var" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -1949,7 +1949,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         <full_name>setEntityManager</full_name>
         <docblock line="31">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="31" name="param" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -1959,7 +1959,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         </docblock>
         <argument line="37">
           <name>$em</name>
-          <default></default>
+          <default/>
           <type>\Doctrine\ORM\EntityManager</type>
         </argument>
       </method>
@@ -1968,7 +1968,7 @@ DataTables junto com o ORM Doctrine para efetuar paginações.&lt;/p&gt;
         <full_name>getEntityManager</full_name>
         <docblock line="42">
           <description>Retourne l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="42" name="return" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2160,8 +2160,8 @@ L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&g
   </file>
   <file path="Core\src\Collection\Controller\MediaController.php" hash="0b633a2c5261aa60f5b2a5699e6cf19b" package="Default">
     <docblock line="2">
-      <description></description>
-      <long-description></long-description>
+      <description/>
+      <long-description/>
     </docblock>
     <class final="false" abstract="false" namespace="Collection\Controller" line="19" package="Default">
       <extends>\Zend\Mvc\Controller\AbstractActionController</extends>
@@ -2169,10 +2169,10 @@ L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&g
       <full_name>\Collection\Controller\MediaController</full_name>
       <property final="false" static="false" visibility="protected" line="24" namespace="Collection\Controller" package="Default">
         <name>$em</name>
-        <default></default>
+        <default/>
         <docblock line="21">
-          <description></description>
-          <long-description></long-description>
+          <description/>
+          <long-description/>
           <tag line="21" name="var" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2183,7 +2183,7 @@ L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&g
         <full_name>setEntityManager</full_name>
         <docblock line="26">
           <description>Initialisation de l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="26" name="param" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager" variable="$em">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2193,7 +2193,7 @@ L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&g
         </docblock>
         <argument line="32">
           <name>$em</name>
-          <default></default>
+          <default/>
           <type>\Collection\Controller\EntityManager</type>
         </argument>
       </method>
@@ -2202,7 +2202,7 @@ L'id de la relation à supprimer est passé en paramètre de la requête&lt;/p&g
         <full_name>getEntityManager</full_name>
         <docblock line="37">
           <description>Retourne l'Entity Manager</description>
-          <long-description></long-description>
+          <long-description/>
           <tag line="37" name="return" description="" type="\Collection\Controller\Doctrine\ORM\EntityManager">
             <type by_reference="false">\Collection\Controller\Doctrine\ORM\EntityManager</type>
           </tag>
@@ -2500,14 +2500,14 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       <error line="39" code="50016">The type hint of the argument is incorrect for the type definition of the @param tag with argument $em in setEntityManager()</error>
     </parse_markers>
   </file>
-  <file path="Core\src\Collection\Entity\Artefact.php" hash="38bf7c76da3ddb0df5b2e8511357fa95" package="Default">
+  <file path="Core\src\Collection\Entity\Artefact.php" hash="8e23ca93fcdca432b393e689d0442342" package="Default">
     <class final="false" abstract="false" namespace="Collection\Entity" line="22" package="Default">
       <extends>\Collection\Entity\Element</extends>
       <name>Artefact</name>
       <full_name>\Collection\Entity\Artefact</full_name>
       <docblock line="15">
         <description>Entité d'un artefact</description>
-        <long-description/>
+        <long-description></long-description>
         <tag line="15" name="ORM\Entity" description="repositoryClass=&quot;Collection\Entity\ArtefactRepository&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-entity" content="(repositoryClass=&quot;Collection\Entity\ArtefactRepository&quot;)">
           <argument field-name="(repositoryClass">"Collection\Entity\ArtefactRepository")</argument>
         </tag>
@@ -2520,14 +2520,14 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </docblock>
       <property final="false" static="false" visibility="protected" line="24" namespace="Collection\Entity" package="Default">
         <name>$inputFilter</name>
-        <default/>
+        <default></default>
       </property>
       <property final="false" static="false" visibility="protected" line="31" namespace="Collection\Entity" package="Default">
         <name>$id</name>
-        <default/>
+        <default></default>
         <docblock line="26">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="26" name="ORM\Id" description="Id" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-id" content=""/>
           <tag line="26" name="ORM\Column" description="(type=&quot;integer&quot;);"/>
           <tag line="26" name="ORM\GeneratedValue" description="strategy=&quot;AUTO&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-generatedvalue" content="(strategy=&quot;AUTO&quot;)">
@@ -2537,10 +2537,10 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </property>
       <property final="false" static="false" visibility="protected" line="38" namespace="Collection\Entity" package="Default">
         <name>$medias</name>
-        <default/>
+        <default></default>
         <docblock line="33">
           <description>Médias liés à l'artefact</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="33" name="ORM\ManyToMany" description="targetEntity=&quot;Collection\Entity\Media&quot;, inversedBy=&quot;artefacts&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-manytomany" content="(targetEntity=&quot;Collection\Entity\Media&quot;, inversedBy=&quot;artefacts&quot;)">
             <argument field-name="(targetEntity">"Collection\Entity\Media"</argument>
             <argument field-name="inversedBy">"artefacts")</argument>
@@ -2552,10 +2552,10 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </property>
       <property final="false" static="false" visibility="protected" line="44" namespace="Collection\Entity" package="Default">
         <name>$relations_artefacts</name>
-        <default/>
+        <default></default>
         <docblock line="40">
           <description>Lien vers les artefacts li�s</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="40" name="ORM\OneToMany" description="targetEntity=&quot;Collection\Entity\RelationArtefacts&quot;, mappedBy=&quot;origine&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-onetomany" content="(targetEntity=&quot;Collection\Entity\RelationArtefacts&quot;, mappedBy=&quot;origine&quot;)">
             <argument field-name="(targetEntity">"Collection\Entity\RelationArtefacts"</argument>
             <argument field-name="mappedBy">"origine")</argument>
@@ -2567,7 +2567,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__get</full_name>
         <docblock line="46">
           <description>Magic getter to expose protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="46" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -2577,7 +2577,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         </docblock>
         <argument line="52">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -2586,7 +2586,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__set</full_name>
         <docblock line="57">
           <description>Magic setter to save protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="57" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -2596,12 +2596,12 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         </docblock>
         <argument line="63">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
         <argument line="63">
           <name>$value</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -2610,7 +2610,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__construct</full_name>
         <docblock line="68">
           <description>Constructeur</description>
-          <long-description/>
+          <long-description></long-description>
         </docblock>
         <argument line="71">
           <name>$titre</name>
@@ -2619,15 +2619,19 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         </argument>
         <argument line="71">
           <name>$type_element</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="Collection\Entity" line="81" package="Default">
+    <class final="false" abstract="false" namespace="Collection\Entity" line="84" package="Default">
       <extends>\Doctrine\ORM\EntityRepository</extends>
       <name>ArtefactRepository</name>
       <full_name>\Collection\Entity\ArtefactRepository</full_name>
+      <docblock line="81">
+        <description>Repository d'un artefact</description>
+        <long-description></long-description>
+      </docblock>
     </class>
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file Core\src\Collection\Entity\Artefact.php</error>
@@ -2635,10 +2639,9 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       <critical line="26" code="50019">No short description for property $id</critical>
       <error line="68" code="50015">Argument $titre is missing from the Docblock of __construct()</error>
       <error line="68" code="50015">Argument $type_element is missing from the Docblock of __construct()</error>
-      <error line="81" code="50000">No DocBlock was found for \Collection\Entity\ArtefactRepository</error>
     </parse_markers>
   </file>
-  <file path="Core\src\Collection\Entity\Champ.php" hash="1ec22a41617899f9a50ce4fff5baedac" package="Default">
+  <file path="Core\src\Collection\Entity\Champ.php" hash="9eca9b1cf4ca9c3149910c863ecf008b" package="Default">
     <class final="false" abstract="false" namespace="Collection\Entity" line="22" package="Default">
       <extends/>
       <implements>\Zend\InputFilter\InputFilterAwareInterface</implements>
@@ -2646,7 +2649,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       <full_name>\Collection\Entity\Champ</full_name>
       <docblock line="13">
         <description>Entité d'un champ d'un type d'élément</description>
-        <long-description/>
+        <long-description></long-description>
         <tag line="13" name="ORM\Entity" description="Entity" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-entity" content=""/>
         <tag line="13" name="ORM\Table" description="name=&quot;mbo_champ&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-table" content="(name=&quot;mbo_champ&quot;)">
           <argument field-name="(name">"mbo_champ")</argument>
@@ -2663,14 +2666,14 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </docblock>
       <property final="false" static="false" visibility="protected" line="24" namespace="Collection\Entity" package="Default">
         <name>$inputFilter</name>
-        <default/>
+        <default></default>
       </property>
       <property final="false" static="false" visibility="protected" line="31" namespace="Collection\Entity" package="Default">
         <name>$id</name>
-        <default/>
+        <default></default>
         <docblock line="26">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="26" name="ORM\Id" description="Id" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-id" content=""/>
           <tag line="26" name="ORM\Column" description="(type=&quot;integer&quot;);"/>
           <tag line="26" name="ORM\GeneratedValue" description="strategy=&quot;AUTO&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-generatedvalue" content="(strategy=&quot;AUTO&quot;)">
@@ -2680,25 +2683,25 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </property>
       <property final="false" static="false" visibility="protected" line="37" namespace="Collection\Entity" package="Default">
         <name>$label</name>
-        <default/>
+        <default></default>
         <docblock line="33">
           <description>Nom du champ</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="33" name="ORM\Column" description="(type=&quot;string&quot;, length=200)"/>
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="43" namespace="Collection\Entity" package="Default">
         <name>$description</name>
-        <default/>
+        <default></default>
         <docblock line="39">
           <description>Description du champ</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="39" name="ORM\Column" description="(type=&quot;string&quot;, length=200, nullable=true)"/>
         </docblock>
       </property>
       <property final="false" static="false" visibility="protected" line="49" namespace="Collection\Entity" package="Default">
         <name>$format</name>
-        <default/>
+        <default></default>
         <docblock line="45">
           <description>Format du champ (texte, date, nombre, .</description>
           <long-description>&lt;p&gt;..)&lt;/p&gt;</long-description>
@@ -2707,10 +2710,10 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </property>
       <property final="false" static="false" visibility="protected" line="55" namespace="Collection\Entity" package="Default">
         <name>$datas</name>
-        <default/>
+        <default></default>
         <docblock line="51">
           <description>Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="51" name="ORM\OneToMany" description="targetEntity=&quot;Collection\Entity\Data&quot;, mappedBy=&quot;champ&quot;, cascade={&quot;remove&quot;})" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-onetomany" content="(targetEntity=&quot;Collection\Entity\Data&quot;, mappedBy=&quot;champ&quot;, cascade={&quot;remove&quot;}))">
             <argument field-name="(targetEntity">"Collection\Entity\Data"</argument>
             <argument field-name="mappedBy">"champ"</argument>
@@ -2720,10 +2723,10 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       </property>
       <property final="false" static="false" visibility="protected" line="61" namespace="Collection\Entity" package="Default">
         <name>$type_element</name>
-        <default/>
+        <default></default>
         <docblock line="57">
           <description>Le type d'élément que décrit ce champ</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="57" name="ORM\ManyToOne" description="targetEntity=&quot;Collection\Entity\TypeElement&quot;, inversedBy=&quot;champs&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-manytoone" content="(targetEntity=&quot;Collection\Entity\TypeElement&quot;, inversedBy=&quot;champs&quot;)">
             <argument field-name="(targetEntity">"Collection\Entity\TypeElement"</argument>
             <argument field-name="inversedBy">"champs")</argument>
@@ -2735,7 +2738,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <default>false</default>
         <docblock line="63">
           <description>Booléen qui décrit si le champ est validé ou brouillon</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="63" name="ORM\Column" description="(type=&quot;boolean&quot;)"/>
         </docblock>
       </property>
@@ -2744,7 +2747,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__construct</full_name>
         <docblock line="69">
           <description>Constructeur</description>
-          <long-description/>
+          <long-description></long-description>
         </docblock>
         <argument line="72">
           <name>$label</name>
@@ -2767,7 +2770,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__get</full_name>
         <docblock line="86">
           <description>Magic getter to expose protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="86" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -2777,7 +2780,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         </docblock>
         <argument line="92">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -2786,7 +2789,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>__set</full_name>
         <docblock line="97">
           <description>Magic setter to save protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="97" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -2796,12 +2799,12 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         </docblock>
         <argument line="103">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
         <argument line="103">
           <name>$value</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -2810,7 +2813,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>getArrayCopy</full_name>
         <docblock line="108">
           <description>Convert the object to an array.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="108" name="return" description="" type="array">
             <type by_reference="false">array</type>
           </tag>
@@ -2821,7 +2824,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>populate</full_name>
         <docblock line="118">
           <description>Populate from an array.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="118" name="param" description="" type="array" variable="$data">
             <type by_reference="false">array</type>
           </tag>
@@ -2837,7 +2840,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <full_name>setInputFilter</full_name>
         <argument line="130">
           <name>$inputFilter</name>
-          <default/>
+          <default></default>
           <type>\Zend\InputFilter\InputFilterInterface</type>
         </argument>
       </method>
@@ -2849,12 +2852,16 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
         <name>deleteFiles</name>
         <full_name>deleteFiles</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="Collection\Entity" line="200" package="Default">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="Collection\Entity" line="202" package="Default">
         <name>delTree</name>
         <full_name>delTree</full_name>
-        <argument line="200">
+        <docblock line="199">
+          <description>Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661</description>
+          <long-description></long-description>
+        </docblock>
+        <argument line="202">
           <name>$dir</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -2869,7 +2876,7 @@ On vérifie ensuite si la sémantique est déjà utilisée dans une relation exi
       <error line="130" code="50010">No DocBlock was found for method setInputFilter()</error>
       <error line="135" code="50010">No DocBlock was found for method getInputFilter()</error>
       <error line="181" code="50010">No DocBlock was found for method deleteFiles()</error>
-      <error line="200" code="50010">No DocBlock was found for method delTree()</error>
+      <error line="199" code="50015">Argument $dir is missing from the Docblock of delTree()</error>
     </parse_markers>
   </file>
   <file path="Core\src\Collection\Entity\Data.php" hash="ff131b951f575bb7d8c4dd1b9b277565" package="Default">
@@ -3806,14 +3813,14 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
       <error line="244" code="50010">No DocBlock was found for method getInputFilter()</error>
     </parse_markers>
   </file>
-  <file path="Core\src\Collection\Entity\Media.php" hash="8f05642a5d04d1e35ea6343160a67507" package="Default">
+  <file path="Core\src\Collection\Entity\Media.php" hash="e89198d3445cba8ced74372782c17a48" package="Default">
     <class final="false" abstract="false" namespace="Collection\Entity" line="22" package="Default">
       <extends>\Collection\Entity\Element</extends>
       <name>Media</name>
       <full_name>\Collection\Entity\Media</full_name>
       <docblock line="15">
         <description>Entité d'un média</description>
-        <long-description/>
+        <long-description></long-description>
         <tag line="15" name="ORM\Entity" description="repositoryClass=&quot;Collection\Entity\ArtefactRepository&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-entity" content="(repositoryClass=&quot;Collection\Entity\ArtefactRepository&quot;)">
           <argument field-name="(repositoryClass">"Collection\Entity\ArtefactRepository")</argument>
         </tag>
@@ -3826,14 +3833,14 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
       </docblock>
       <property final="false" static="false" visibility="protected" line="24" namespace="Collection\Entity" package="Default">
         <name>$inputFilter</name>
-        <default/>
+        <default></default>
       </property>
       <property final="false" static="false" visibility="protected" line="31" namespace="Collection\Entity" package="Default">
         <name>$id</name>
-        <default/>
+        <default></default>
         <docblock line="26">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="26" name="ORM\Id" description="Id" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-id" content=""/>
           <tag line="26" name="ORM\Column" description="(type=&quot;integer&quot;);"/>
           <tag line="26" name="ORM\GeneratedValue" description="strategy=&quot;AUTO&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-generatedvalue" content="(strategy=&quot;AUTO&quot;)">
@@ -3843,10 +3850,10 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
       </property>
       <property final="false" static="false" visibility="protected" line="37" namespace="Collection\Entity" package="Default">
         <name>$artefacts</name>
-        <default/>
+        <default></default>
         <docblock line="33">
-          <description/>
-          <long-description/>
+          <description></description>
+          <long-description></long-description>
           <tag line="33" name="ORM\ManyToMany" description="targetEntity=&quot;Collection\Entity\Artefact&quot;, mappedBy=&quot;medias&quot;" plugin="doctrine" link="http://www.doctrine-project.org/docs/orm/2.1/en/reference/annotations-reference.html#annref-manytomany" content="(targetEntity=&quot;Collection\Entity\Artefact&quot;, mappedBy=&quot;medias&quot;)">
             <argument field-name="(targetEntity">"Collection\Entity\Artefact"</argument>
             <argument field-name="mappedBy">"medias")</argument>
@@ -3861,7 +3868,7 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
         <full_name>__get</full_name>
         <docblock line="40">
           <description>Magic getter to expose protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="40" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -3871,7 +3878,7 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
         </docblock>
         <argument line="46">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -3880,7 +3887,7 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
         <full_name>__set</full_name>
         <docblock line="51">
           <description>Magic setter to save protected properties.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="51" name="param" description="" type="string" variable="$property">
             <type by_reference="false">string</type>
           </tag>
@@ -3890,12 +3897,12 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
         </docblock>
         <argument line="57">
           <name>$property</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
         <argument line="57">
           <name>$value</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -3904,20 +3911,24 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
         <full_name>__construct</full_name>
         <argument line="62">
           <name>$titre</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
         <argument line="62">
           <name>$type_element</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="Collection\Entity" line="72" package="Default">
+    <class final="false" abstract="false" namespace="Collection\Entity" line="75" package="Default">
       <extends>\Doctrine\ORM\EntityRepository</extends>
       <name>MediaRepository</name>
       <full_name>\Collection\Entity\MediaRepository</full_name>
+      <docblock line="72">
+        <description>Repository d'un média</description>
+        <long-description></long-description>
+      </docblock>
     </class>
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file Core\src\Collection\Entity\Media.php</error>
@@ -3925,7 +3936,6 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</description>
       <critical line="26" code="50019">No short description for property $id</critical>
       <critical line="33" code="50019">No short description for property $artefacts</critical>
       <error line="62" code="50010">No DocBlock was found for method __construct()</error>
-      <error line="72" code="50000">No DocBlock was found for \Collection\Entity\MediaRepository</error>
     </parse_markers>
   </file>
   <file path="Core\src\Collection\Entity\RelationArtefacts.php" hash="592af42490401998509129279a8e66c5" package="Default">
@@ -7594,7 +7604,7 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
       <error line="0" code="50007">No page-level DocBlock was found in file Core\view\Parcours\Parcours\ajouter.phtml</error>
     </parse_markers>
   </file>
-  <file path="Core\view\Parcours\Parcours\index.phtml" hash="2d65e431002e749c4e6d845869686cc1" package="Default">
+  <file path="Core\view\Parcours\Parcours\index.phtml" hash="aef84c193e54e7e49a7e364907498e42" package="Default">
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file Core\view\Parcours\Parcours\index.phtml</error>
     </parse_markers>
@@ -7634,17 +7644,17 @@ Crédit : http://www.ycerdan.fr/php/tronquer-un-texte-en-conservant-les-tags-htm
       <error line="0" code="50007">No page-level DocBlock was found in file Core\view\Parcours\Semantique-Transition\index.phtml</error>
     </parse_markers>
   </file>
-  <file path="DataTable\autoload_classmap.php" hash="7b18cdaef37b7e77da9b570b7147e20a" package="Default">
+  <file path="DataTable\autoload_classmap.php" hash="9c56284ee857798b9b71750657fd8761" package="Default">
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file DataTable\autoload_classmap.php</error>
     </parse_markers>
   </file>
-  <file path="DataTable\config\module.config.php" hash="61177ba5ef6e706fbc5d528a7fd14064" package="Default">
+  <file path="DataTable\config\module.config.php" hash="9ed8e96841dd397c66426abb996b496b" package="Default">
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file DataTable\config\module.config.php</error>
     </parse_markers>
   </file>
-  <file path="DataTable\Module.php" hash="ea1fa62ea4f3409331e3410e2daaba47" package="Default">
+  <file path="DataTable\Module.php" hash="3e2f22377aea5f9fd50187c69fb26157" package="Default">
     <include line="22" type="Include" package="Default">
       <name/>
     </include>
@@ -8079,14 +8089,14 @@ records  but the total of records found in a query.&lt;/p&gt;</long-description>
       <error line="407" code="50010">No DocBlock was found for method getArrayCopy()</error>
     </parse_markers>
   </file>
-  <file path="DataTable\src\DataTable\Model\ModelAbstract.php" hash="0ce23d906c403f429a536322b270b6bf" package="Default">
+  <file path="DataTable\src\DataTable\Model\ModelAbstract.php" hash="118669d687887a5c73afa079115cd53a" package="Default">
     <class final="false" abstract="true" namespace="DataTable\Model" line="9" package="Default">
       <extends/>
       <name>ModelAbstract</name>
       <full_name>\DataTable\Model\ModelAbstract</full_name>
       <docblock line="4">
         <description>Abstract class with some methods that other classes can use it.</description>
-        <long-description/>
+        <long-description></long-description>
         <tag line="4" name="author" description="Thiago Pelizoni &lt;thiago.pelizoni@gmail.com&gt;"/>
       </docblock>
       <method final="false" abstract="false" static="false" visibility="public" namespace="DataTable\Model" line="18" package="Default">
@@ -8114,14 +8124,14 @@ with the form data.&lt;/p&gt;</long-description>
         <full_name>exchangeArray</full_name>
         <docblock line="25">
           <description>Populate this object from an array.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="25" name="param" description="" type="array" variable="$data">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
         <argument line="30">
           <name>$data</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -8130,7 +8140,7 @@ with the form data.&lt;/p&gt;</long-description>
         <full_name>__set</full_name>
         <docblock line="42">
           <description>Magic method used to set a value in a attribute.</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="42" name="param" description="" type="string" variable="$attribute">
             <type by_reference="false">string</type>
           </tag>
@@ -8143,12 +8153,12 @@ with the form data.&lt;/p&gt;</long-description>
         </docblock>
         <argument line="49">
           <name>$attribute</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
         <argument line="49">
           <name>$value</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
@@ -8157,7 +8167,7 @@ with the form data.&lt;/p&gt;</long-description>
         <full_name>__get</full_name>
         <docblock line="56">
           <description>Magic method used to return a value of this class</description>
-          <long-description/>
+          <long-description></long-description>
           <tag line="56" name="param" description="" type="string" variable="$attribute">
             <type by_reference="false">string</type>
           </tag>
@@ -8167,7 +8177,7 @@ with the form data.&lt;/p&gt;</long-description>
         </docblock>
         <argument line="62">
           <name>$attribute</name>
-          <default/>
+          <default></default>
           <type/>
         </argument>
       </method>
