@@ -17,20 +17,10 @@ use Collection\Entity\Element;
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_media")
- * @property int $id
  */
 class Media extends Element
 {
 	protected $inputFilter;
-
-	/**
-	 * Id du media
-	 * 
-	 * @ORM\Id
-	 * @ORM\Column(type="integer");
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
 
 	/**
 	 * Artefact(s) lié(s) au media

@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format datetexte
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_datatexte")
+ * 
+ * @property string $texte La valeur de la donnée de format texte
+ * 
  */
 class DataTexte extends Data
 {

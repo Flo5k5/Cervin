@@ -19,7 +19,9 @@ class FixtureParcours implements FixtureInterface
 		 */
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Personne'));
-		$jean_kuntzmann = new Collection\Entity\Artefact('Jean Kutzmann', $type_artefact_personne);
+		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$jean_kuntzmann->populate(null);
+		$jean_kuntzmann->titre = 'Jean Kutzmann';
 		$jean_kuntzmann->description = "
 				<br>
 				Jean Kuntzmann (1912-1992) fut un mathématicien français qui joua un rôle décisif dans le développement de l'informatique et des mathématiques appliquées dans la recherche et l'enseignement supérieur en France.
@@ -46,7 +48,9 @@ class FixtureParcours implements FixtureInterface
 		$manager->persist($jean_kuntzmann);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$gamma_3 = new Collection\Entity\Artefact('Gamma 3', $type_artefact_materiel);
+		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$gamma_3->populate(null);
+		$gamma_3->titre = 'Gamma 3';
 		$gamma_3->description = "
 				<br>
 				Le calculateur Bull Gamma 3A symbolise la transition entre mécanographie et informatique. Cette machine est composée d’une tabulatrice dont l’organe de calcul est un calculateur électronique, qui est donc “esclave” de la tabulatrice. Ce calculateur est programmable au moyen d’un tableau de connexion, ce qui lui permet d’enchaîner plusieurs opérations en vue de calculs complexes.
@@ -58,7 +62,9 @@ class FixtureParcours implements FixtureInterface
 		$manager->persist($gamma_3);
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Personne'));
-		$rene_perret = new Collection\Entity\Artefact('René Perret', $type_artefact_personne);
+		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$rene_perret->populate(null);
+		$rene_perret->titre = 'René Perret';
 		$rene_perret->description = "
 				<br>
 				René Perret (1924-2003) a été l’un des pionniers de l'enseignement et de la recherche universitaire en automatique en France. En 1957, il a fondé le Laboratoire de Servomécanismes qui deviendra le Laboratoire d'Automatique de Grenoble (LAG), puis le Gipsa-Lab. Il a été le directeur de ce laboratoire de 1957 à 1982, puis directeur honoraire de 1983 à 1994. Il a été à l'origine du premier calculateur industriel issu d'une université française (MAT 01) ; un des premiers calculateurs au monde utilisant la technologie des circuits intégrés. Ce calculateur, construit par la société Mors, était la version industrielle d'un calculateur conçu par deux thésards du LAG dirigés par R. Perret. Ce calculateur a permis au LAG d'entreprendre des recherches sur les méthodes de contrôle/commande de procédés par calculateur et à la société Mors de réaliser les premières installations industrielles de contrôle/commande.
@@ -67,11 +73,15 @@ class FixtureParcours implements FixtureInterface
 		$manager->persist($rene_perret);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$MAT_01 = new Collection\Entity\Artefact('Calculateur MAT 01', $type_artefact_materiel);
+		$MAT_01 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$MAT_01->populate(null);
+		$MAT_01->titre = 'Calculateur MAT 01';
 		$manager->persist($MAT_01);
 		
 		$type_artefact_document = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Document'));
-		$cours = new Collection\Entity\Artefact('Cours "Calculateurs Electroniques" de René Perret', $type_artefact_document);
+		$cours = new Collection\Entity\Artefact(null, $type_artefact_document);
+		$cours->populate(null);
+		$cours->titre = 'Cours "Calculateurs Electroniques" de René Perret';
 		$cours->description = "
 				<br>
 				En 1961-62, René Perret inaugure un cours sur les calculateurs électroniques, en 3-ème année de l'EIEG (École d'Ingénieurs Électroniciens de Grenoble). C'est l'un des tout premiers enseignements délivrés en France sur ce sujet. Il est notamment alimenté par les recherches menées au LAG (Laboratoire d'Automatique de Grenoble).

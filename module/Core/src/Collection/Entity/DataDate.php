@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format date
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_datadate")
+ * 
+ * @property date $date La valeur de la donnée de format date
+ * 
  */
 class DataDate extends Data
 {

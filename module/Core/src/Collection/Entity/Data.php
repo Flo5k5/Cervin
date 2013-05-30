@@ -9,7 +9,10 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Entité de la valeur d'un champ d'un élément
+* Entité de la valeur d'un champ d'un élément (data)
+* 
+* Un objet data se spécialise en DataTexte, DataUrl, DataDate, Datafichier, DataTextarea, ou DataNombre
+* selon le format de la donnée qu'il contient défini par le champ auquel il est associé
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_data")
@@ -21,6 +24,9 @@ use Zend\InputFilter\InputFilterInterface;
 *                        "DataTexte" = "DataTexte", 
 *                        "DataUrl" = "DataUrl", 
 *                        "DataTextarea" = "DataTextarea"})
+* @property int $id Identifiant unique du data
+* @property \Collection\Entity\Element $element L'élément de la collection auquel se rapporte le data
+* @property \Collection\Entity\Champ $champ Le data contient la valeur du champ $champ de l'élément $element
 */
 class Data implements InputFilterAwareInterface
 {
@@ -34,8 +40,6 @@ class Data implements InputFilterAwareInterface
     protected $id;
     
     /**
-     * L'élément auquel la donnée se rapporte
-     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Element", inversedBy="datas")
      **/
     protected $element;
