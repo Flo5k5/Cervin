@@ -24,6 +24,8 @@ class DataUrl extends Data
 {
 
     /**
+     * Champs contenant l'url
+     * 
      * @ORM\Column(type="string", nullable=true)
      */
     protected $url;

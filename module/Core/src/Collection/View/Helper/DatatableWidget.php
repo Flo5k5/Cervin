@@ -10,19 +10,19 @@ use Zend\View\Helper\AbstractHelper;
 class DatatableWidget extends AbstractHelper
 {
 	/**
-	 * @var Doctrine\ORM\EntityManager
+	 * @var Doctrine\ORM\EntityManager Entity Manager
 	 */
 	protected $em;
 	
 	/**
-	 * @var Zend\ServiceManager\ServiceManager
+	 * @var Zend\ServiceManager\ServiceManager Service Manager
 	 */
 	protected $serviceLocator;
 	
 	/**
 	 * Initialisation du Service Manager
 	 *
-	 * @param Zend\ServiceManager\ServiceManager
+	 * @param Zend\ServiceManager\ServiceManager Service Manager
 	 * @return void
 	 */
     public function setServiceLocator(ServiceManager $serviceLocator) 
@@ -33,7 +33,7 @@ class DatatableWidget extends AbstractHelper
     /**
      * Initialisation de l'Entity Manager
      *
-     * @param Doctrine\ORM\EntityManager
+     * @param Doctrine\ORM\EntityManager Entity Manager
      * @return void
      */
     public function setEntityManager(EntityManager $em)
@@ -44,7 +44,7 @@ class DatatableWidget extends AbstractHelper
     /**
      * Retourne l'Entity Manager
      *
-     * @return Doctrine\ORM\EntityManager
+     * @return Doctrine\ORM\EntityManager Entity Manager
      */
     public function getEntityManager()
     {

@@ -20,7 +20,13 @@ use Zend\Json\Json;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 
-
+/**
+ * Controleur des artefacts
+ * 
+ * Permet la création, lecture, modification et suppression d'un artefact
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class ArtefactController extends AbstractActionController
 {
 	/**
@@ -53,6 +59,11 @@ class ArtefactController extends AbstractActionController
 		return $this->em;
 	}
 
+	/**
+	 * Redirige sur la page de consultation de la collection numérique
+	 * 
+	 * @return void
+	 */
 	public function indexAction()
     {
 		return $this->redirect()->toRoute('collection/consulter');
@@ -167,13 +178,15 @@ class ArtefactController extends AbstractActionController
 	 */
 	public function editArtefactAction()
 	{
-		$id = (int) $this->params()->fromRoute('id', 0);
+		$id       = (int) $this->params()->fromRoute('id', 0);
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		$datas = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$artefact));
+		$datas    = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$artefact));
+		
 		if (!$id or $artefact === null or $datas === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			$request = $this->params()->fromPost();
@@ -270,9 +283,9 @@ class ArtefactController extends AbstractActionController
 	/**
 	 * Suppression d'une relation entre deux artefacts
 	 * 
-	 * Cette action est déclenché par un appel AJAX
+	 * Cette action est déclenchée par un appel AJAX
 	 * lancé depuis la modale de confirmation dans la vue.
-	 * L'id de la relation à supprimer est passé en paramètre de la requête
+	 * L'id de la relation à supprimer est passé en paramètre de la requête.
 	 */
 	public function supprimerRelationArtefactSemantiqueAction()
 	{
@@ -290,6 +303,18 @@ class ArtefactController extends AbstractActionController
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 	
+	/**
+	 * Crée la relation entre une sémantique et deux artefacts
+	 * 
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle récupère l'id de la sémantique et de l'élément de destination présents dans 
+	 * les paramètres de la route puis l'id de l'élément d'origine depuis les variables 
+	 * POST. On vérifie ensuite que tous les ids sont bien présents, si l'id de la 
+	 * sémantique est absent on envoie la modal sinon on vérifie que les ids 
+	 * correspondent à un élément en base de donnée. Et enfin on ajoute la relation. 
+	 * 
+	 * @return void|\Zend\Stdlib\mixed|Ambigous <\Zend\View\Model\ViewModel, \Zend\View\Model\ViewModel>
+	 */
 	public function addRelationArtefactSemantiqueAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -395,14 +420,26 @@ class ArtefactController extends AbstractActionController
 		}
 	}
 	
+	/**
+	 * Retourne une liste de tous les artefacts à la Datatable
+	 *
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle prend en paramètre les conditions renvoyées par le widget Datatable et précisés
+	 * au moment de l'instanciation du widget. Ces paramètres sont ensuite envoyé à la classe
+	 * Datatable qui se charge de renvoyer les données récupérées en base de donnée. Ces données
+	 * sont ensuite passées à la Datatable qui se chargera de les afficher.
+	 *
+	 */
 	public function getAllArtefactAction() 
 	{
-		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-        $escapeHtml = $viewHelperManager->get('escapeHtml');
 		$params = null;
 	
 		if ($this->getRequest()->isXmlHttpRequest()) {
-			$params = $this->params()->fromPost();
+			
+			$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+			$escapeHtml        = $viewHelperManager->get('escapeHtml');
+			
+			$params            = $this->params()->fromPost();
 	
 			 
 			if(!isset($params["iSortCol_0"])){
@@ -414,9 +451,9 @@ class ArtefactController extends AbstractActionController
 			}
 	
 			$entityManager = $this->getEntityManager()
-			->getRepository('Collection\Entity\Element');
+			                      ->getRepository('Collection\Entity\Element');
 			 
-			$dataTable = new \Collection\Model\ElementDataTable($params);
+			$dataTable     = new \Collection\Model\ElementDataTable($params);
 			$dataTable->setEntityManager($entityManager);
 			 
 			$dataTable->setConfiguration(array(
@@ -430,14 +467,14 @@ class ArtefactController extends AbstractActionController
 	
 			if(isset($params["conditions"])){
 				$conditions = json_decode($params["conditions"], true);
-				$paginator = $dataTable->getPaginator($conditions);
+				$paginator  = $dataTable->getPaginator($conditions);
 			} else {
-				$paginator = $dataTable->getPaginator();
+				$paginator  = $dataTable->getPaginator();
 			}
 			 
 			foreach ($paginator as $element) {
 	
-				$titre = '';
+				$titre     = '';
 				if($element->type_element->type == 'artefact'){
 					$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 				} elseif($element->type_element->type == 'media'){
@@ -446,9 +483,9 @@ class ArtefactController extends AbstractActionController
 					$titre = $escapeHtml($element->titre);
 				}
 	
-				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
+				$bouton    = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('artefact/addRelationArtefactSemantique', array('idDestination' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
 	
-				$aaData[] = array(
+				$aaData[]  = array(
 						$titre,
 						$element->type_element->nom,
 						$bouton
@@ -464,6 +501,17 @@ class ArtefactController extends AbstractActionController
 		}
 	}
 	
+	/**
+	 * Crée la relation entre un artefact et un media
+	 * 
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle récupère l'id du media présent dans les paramètres de la route puis l'id 
+	 * de l'artefact depuis les variables POST. On vérifie ensuite que tous les ids 
+	 * sont bien présents et on vérifie que les ids correspondent à un élément en 
+	 * base de donnée. Et enfin on ajoute la relation. 
+	 * 
+	 * @return void|\Zend\Stdlib\mixed
+	 */
 	public function addRelationArtefactMediaAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -517,6 +565,16 @@ class ArtefactController extends AbstractActionController
 		}
 	}
 	
+	/**
+	 * Retourne une liste de tous les medias à la Datatable
+	 *
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle prend en paramètre les conditions renvoyées par le widget Datatable et précisés
+	 * au moment de l'instanciation du widget. Ces paramètres sont ensuite envoyé à la classe
+	 * Datatable qui se charge de renvoyer les données récupérées en base de donnée. Ces données
+	 * sont ensuite passées à la Datatable qui se chargera de les afficher.
+	 *
+	 */
 	public function getAllMediaAction()
 	{
 		$params = null;

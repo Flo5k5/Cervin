@@ -9,7 +9,14 @@ use Zend\ServiceManager\ServiceManager;
 use Zend\Http\Request;
 use Zend\View\Helper\AbstractHelper;
 
- 
+ /**
+  * Retourne la liste des rôles auxquelles un utilisateur peut postuler.
+  * 
+  * récupère la liste des rôles et crée un dropdown avec.
+  * Quand un utilisateur choisi un rôle un appel Ajax sera fait a la route : admin/demandeRole/:id ( id = id du rôle choisi)
+  * 
+  * @return string
+  */
 class demandeRole extends AbstractHelper
 {
 
