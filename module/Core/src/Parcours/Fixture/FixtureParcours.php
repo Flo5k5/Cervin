@@ -409,41 +409,34 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		$manager->persist($jean_kuntzmann);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$gamma_3 = new Collection\Entity\Artefact('Gamma 3', $type_artefact_materiel);
+		$gamma_3 = new Collection\Entity\Artefact('La Pascaline', $type_artefact_materiel);
 		$gamma_3->description = "
-				<br>
-				Le calculateur Bull Gamma 3A symbolise la transition entre mécanographie et informatique. Cette machine est composée d’une tabulatrice dont l’organe de calcul est un calculateur électronique, qui est donc “esclave” de la tabulatrice. Ce calculateur est programmable au moyen d’un tableau de connexion, ce qui lui permet d’enchaîner plusieurs opérations en vue de calculs complexes.
-				<br>
-				<br>
-				Cette machine, produite en 1 200 exemplaires à partir de 1952-53, connut un grand succès pour les applications de gestion dans l’industrie, les banques et les assurances, car elle permettait de réutiliser le matériel mécanographique existant. Une version Gamma 3M, munie d’un opérateur en virgule flottante, fut introduite pour le calcul scientifique. Le successeur du Gamma 3, le Bull Gamma ET (“Extension Tambour”), livré à partir de 1957, était muni d’une mémoire à tambour magnétique contenant le programme et les données. Dans le Gamma ET, les rôles de la tabulatrice et du calculateur étaient inversés : l’organe maître était le calculateur, la tabulatrice servant de périphérique d’entrée-sortie. La transition entre mécanographie et informatique était accomplie.
-				<br>
+				La pascaline est une machine à calculer mécanique inventée en 1642 par Blaise Pascal (1623-1662). Cette machine, qui pouvait faire les additions et les soustractions, fut construite en une vingtaine d’exemplaires, dont neuf ont survécu jusqu’à nos jours (quatre d’entre eux sont exposés au Musée des Arts et Métiers, à Paris).
+<br>
+Blaise Pascal inventa sa machine pour aider son père, surintendant et percepteur de taxes, à faire ses calculs. La machine ne connut pas de succès commercial en raison de son prix élevé. Pascal avait l’intention de développer une machine plus simple et plus accessible, mais ce projet fut abandonné quand il cessa son activité scientifique en 1654 à la suite d’un accident.
+<br>
+La pascaline est considérée comme la première machine à calculer mécanique numérique. Wilhelm Schickard avait conçu en 1623 un calculateur fondé sur un principe différent, mais cette machine n’a jamais fonctionné. La pascaline inspira divers travaux ultérieurs, dont la machine de Leibniz (1671), qui pouvait faire des multiplications et des divisions, et qui est l’ancêtre des calculatrices construites jusqu’à la fin du 20ème siècle.
 		";
 		$manager->persist($gamma_3);
 		
-		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Personne'));
-		$rene_perret = new Collection\Entity\Artefact('René Perret', $type_artefact_personne);
+		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
+		$rene_perret = new Collection\Entity\Artefact('La machine de Leibniz', $type_artefact_personne);
 		$rene_perret->description = "
-				<br>
-				René Perret (1924-2003) a été l’un des pionniers de l'enseignement et de la recherche universitaire en automatique en France. En 1957, il a fondé le Laboratoire de Servomécanismes qui deviendra le Laboratoire d'Automatique de Grenoble (LAG), puis le Gipsa-Lab. Il a été le directeur de ce laboratoire de 1957 à 1982, puis directeur honoraire de 1983 à 1994. Il a été à l'origine du premier calculateur industriel issu d'une université française (MAT 01) ; un des premiers calculateurs au monde utilisant la technologie des circuits intégrés. Ce calculateur, construit par la société Mors, était la version industrielle d'un calculateur conçu par deux thésards du LAG dirigés par R. Perret. Ce calculateur a permis au LAG d'entreprendre des recherches sur les méthodes de contrôle/commande de procédés par calculateur et à la société Mors de réaliser les premières installations industrielles de contrôle/commande.
-				<br>
+				En 1672, lors d’un voyage à Paris, Leibniz découvre la pascaline, calculateur mécanique pouvant faire les additions et soustractions. Il conçoit alors l’idée d’une machine pouvant également réaliser les multiplications et divisions. On pense que deux machines seulement ont été construites à l’époque de Leibniz, l’une entre 1686 et 1694, l’autre entre 1690 et 1720. Cette dernière a survécu et se trouve à la Niedersächsische Landesbibliothek à Hanovre. Des répliques fonctionnelles en ont été réalisées (ci contre, copie conservée au Technische Sammlungen Museum à Dresde). La complexité du mécanisme était à la limite des capacités de réalisation mécanique de l’époque.
+<br>
+La machine de Leibniz, et en particulier le mécanisme du cylindre, est la source principale d’inspiration pour les calculatrices numériques ultérieures. On pense néanmoins que le principe du cylindre a pu être redécouvert indépendamment par certains inventeurs.
 		";
 		$manager->persist($rene_perret);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$MAT_01 = new Collection\Entity\Artefact('Calculateur MAT 01', $type_artefact_materiel);
+		$MAT_01 = new Collection\Entity\Artefact('Arithmomètres et calculatrices', $type_artefact_materiel);
+		$MAT_01->description = "Au cours du 18ème siècle, plusieurs inventeurs (Poleni, Hahn, Stanhope et d’autres) développèrent des calculateurs mécaniques, en utilisant le cylindre de Leibniz ou des mécanismes équivalents. Mais ces expériences eurent peu de retombées. Il fallut attendre 1820 pour une avancée décisive, l’arithmomètre de Thomas de Colmar. On peut noter qu’à la même époque Charles Babbage travaillait sur sa machine à différences, qui, trop en avance sur son époque, ne put être réalisée.
+<br>
+Charles-Xavier Thomas, connu sous le nom de Thomas de Colmar, après un bref passage dans l’armée comme officier d’administration, créa et dirigea plusieurs compagnies d'assurances. Parallèlement, il développa plusieurs versions de l’arithmomètre et lança sa fabrication en série en 1851.
+<br>
+L’arithmomètre s'inspire de la machine de Leibniz, mais introduit diverses améliorations : utilisation de curseurs au lieu de roues pour l’inscription des opérandes, mécanisme correct et automatique pour le report de la retenue, inversion des parties fixe et mobile par rapport à la machine de Leibniz (le bloc des inscripteurs devenant fixe et celui des totalisateurs, plus léger, devenant mobile). Cette machine est fabriquée en série et commercialisée, jusqu’en 1914. L’exemplaire représenté ci-contre (source) date de 1887.";
 		$manager->persist($MAT_01);
 		
-		$type_artefact_document = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Document'));
-		$cours = new Collection\Entity\Artefact('Cours "Calculateurs Electroniques" de René Perret', $type_artefact_document);
-		$cours->description = "
-				<br>
-				En 1961-62, René Perret inaugure un cours sur les calculateurs électroniques, en 3-ème année de l'EIEG (École d'Ingénieurs Électroniciens de Grenoble). C'est l'un des tout premiers enseignements délivrés en France sur ce sujet. Il est notamment alimenté par les recherches menées au LAG (Laboratoire d'Automatique de Grenoble).
-				<br>
-				<br>
-				L'EIEG, créée par Jean Benoît, devait devenir l'ENSERG (École Nationale Supérieure d'Électronique et de Radioélectricité de Grenoble, appartenant à l'Institut National Polytechnique de Grenoble).
-				<br>
-		";
-		$manager->persist($cours);
 		
 		$semantique_chronologie = new Parcours\Entity\SemantiqueTransition();
 		$semantique_chronologie->semantique = "Chronologique";
@@ -506,13 +499,18 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 * Parcours, Sous-parcours
 		 */
 		$parcours = new Parcours\Entity\Parcours();
-		$parcours->titre = "L'histoire de l'informatique à Grenoble";
-		$parcours->description = "Grenoble est l'un des principaux centres d'activité informatique en France, caractérisé par une synergie entre formation, recherche et industrie. Ce parcours retrace les principales étapes du développement de l'informatique à Grenoble et dans sa région.";
+		$parcours->titre = "Préhistoire (avant 1935)";
+		$parcours->description = "Les machines, du supercalculateur à la tablette ou au  smartphone, sont la manifestation la plus visible de l’informatique. Nous proposons ci-dessous plusieurs parcours, à la fois chronologiques et thématiques, pour illustrer leur histoire. Mais celle-ci est indissociable d’autres thèmes, eux aussi objet de parcours spécialisés : Technologie, Systèmes d'exploitation, Réseaux, entre autres. 
+<br>
+Les dates indiquées ne sont qu’approximatives. Elles permettent de situer en gros l’époque des développements présentés.
+		";
 		$parcours->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$sous_parcours_debut = new Parcours\Entity\SousParcours();
-		$sous_parcours_debut->titre = "Les débuts (1950-1965)";
-		$sous_parcours_debut->description = "Dans les années 1950, la France souffre d'un important retard en informatique. Néanmoins, grâce à leur clairvoyance et à leur ténacité, quelques précurseurs sauront créer les formations, les infrastructures de recherche et les collaborations industrielles qui permettront le développement de cette nouvelle discipline et de ses applications.";
+		$sous_parcours_debut->titre = "Du boulier à la tabulatrice";
+		$sous_parcours_debut->description = "
+Les machines mécaniques, du boulier à la tabulatrice.
+";
 		$sous_parcours_debut->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		$sous_parcours_debut->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		
@@ -525,26 +523,19 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 * Première scène
 		 */
 		$scene1 = new Parcours\Entity\SceneRecommandee();
-		$scene1->titre = "Tout commence par le calcul";
+		$scene1->titre = "Du boulier à la tabulatrice";
 		$scene1->narration = "
-				<br>
-				L'histoire de l'informatique à Grenoble commence avec l'arrivée du professeur Jean Kuntzmann en 1945. Sollicité par Félix Esclangon, directeur de l'Institut Polytechnique de Grenoble (École d'ingénieurs rattachée à l'université), il met en place un enseignement de mathématiques à l'usage des ingénieurs. Sensibilisé aux besoins en calcul numérique par ses contacts industriels (Neyrpic, Merlin Gerin), il crée en 1951 un Laboratoire de calcul qui tirera une grande partie de ses ressources de contrats avec l'industrie (son intitulé précise : \"Laboratoire d'essai ouvert aux applications industrielles\"). Ce laboratoire est implanté dans les combles de l'Institut Polytechnique, avenue Félix Viallet, au centre de Grenoble.
-				<br>
-				<br>
-				Initialement équipé de calculatrices mécaniques et électromécaniques, le Laboratoire de calcul acquiert en 1952 un calculateur analogique, l'OME 12 de la SEA (Société d'Électronique appliquée à l'Automatisme), grâce à ses contacts avec le ministère de l'Air.
-				<br>
-				<br>
-				À partir de 1956, le Laboratoire de calcul, qui a recruté un ingénieur, Louis Bolliet, se tourne vers l'informatique, en utilisant initialement les ordinateurs de ses partenaires industriels (Gamma 3 de Normacem à Lyon, puis IBM 650 de la Sogreah à Grenoble). En 1957, le Laboratoire obtient une dotation pour l'achat d'un ordinateur : ce sera le Bull Gamma ET (extension tambour).
-				<br>
-				<br>
-				Parallèlement, les automaticiens, sous la conduite du professeur René Perret, développent une activité, également soutenue par des contacts industriels, qui conduira à la construction des premiers ordinateurs de commande de procédés. Mais la collaboration entre informatique et automatique ne s'établira pas, malgré un intérêt mutuel et des contacts suivis en 1959-1960. Cette scission initiale marquera durablement le paysage scientifique et industriel grenoblois.
-				<br>
-				<br>
-				Au début des années 1960, le Laboratoire de calcul entame une activité de recherche en informatique. Les premiers doctorants sont issus des premières promotions de la nouvelle école d'ingénieurs créée par Kuntzmann, et qui deviendra l'ENSIMAG.
-				<br>
-				<br>
-				Les années 1963-64 marquent une étape importante : premières thèses d'informatique, installation sur le nouveau campus (dont l'informatique sera le premier occupant), acquisition d'un puissant ordinateur, l'IBM 7044. Le Laboratoire de calcul devient un institut de recherche, l'IMAG (Institut de Mathématiques Appliquées de Grenoble), qui sera en 1966 l'un des premiers laboratoires associés au CNRS. L'exploitation des ressources informatiques est dévolue à un prestataire de services, le centre de calcul, futur CICG (Centre interuniversitaire de calcul de Grenoble). Cette organisation restera en place jusqu'aux années 1980.
-				<br>
+				<p>Le boulier est l’ancêtre des machines ”numériques” (en anglais <em>digital</em>), dans lesquelles l’information est représentée sous forme discrète, c’est à dire modifiable par sauts discontinus (une boule du boulier, un bit dans la mémoire d’un ordinateur), par opposition aux machines “analogiques”, dans lesquelles l’information varie de manière continue (comme une longueur, un angle, une tension électrique). Voir plus de détails sur les <span style=\"color: #0000ff; font-size: small; font-family: trebuchet ms,geneva;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/histoire-machines/machines-analogiques\" target=\"_blank\"><span style=\"color: #0000ff;\">machines analogiques</span></a></span>, avec quelques <span style=\"color: #0000ff;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/collections-aconit/machines-analogiques\" title=\"Machines analogiques\" target=\"_blank\"><span style=\"color: #0000ff;\">exemples</span></a></span>.</p>
+
+<p></p>
+<p></p>
+<p>Voici quelques étapes marquantes de l’évolution des machines mécaniques numériques.</p>
+<ul>
+<li>Les <span style=\"color: #0000ff;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/histoire-machines/prehistoire/les-premiers-calculateurs-m--c\" title=\"Calculateurs mécaniques\" target=\"_blank\"><span style=\"color: #0000ff; font-size: small;\">machines mécaniques</span></a></span> du 17ème siècle, capables d’effectuer des additions et soustractions (Schickard, Pascal), puis des multiplications et divisions (Leibniz).</li>
+<li>Les <span style=\"color: #0000ff;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/histoire-machines/prehistoire/arithmometres\" title=\"L’arithmomètre\" target=\"_blank\"><span style=\"color: #0000ff; font-size: small;\">arithmomètres</span></a></span>, machines dérivées de celle de Leibniz et progressivement perfectionnées. Ces machines mécaniques sont les ancêtres des calculatrices électromécaniques qui seront utilisées jusqu'au 20ème siècle.</li>
+<li>Les machines mécaniques inventées par <span style=\"color: #0000ff; font-family: trebuchet ms,geneva; font-size: small;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/figures-de-l-informatique/precurseurs/charles-babbage\" title=\"Charles Babbage\" target=\"_blank\"><span style=\"color: #0000ff;\"><span style=\"color: #0000ff; font-size: small;\">Charles Babbage</span></span></a></span> au 19ème siècle : un calculateur spécialisé (la <span style=\"color: #0000ff;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/histoire-machines/prehistoire/machine-differences\" title=\"Machine à différences\" target=\"_blank\"><span style=\"color: #0000ff; font-size: small;\">machine à différences</span></a></span>) et un calculateur universel, préfigurant les ordinateurs (la <span style=\"color: #0000ff;\"><a href=\"conit.inria.fr/omeka/exhibits/show/histoire-machines/prehistoire/machine-analytique\" title=\"Machine analytique\" target=\"_blank\"><span style=\"color: #0000ff; font-size: small;\">machine analytique</span></a></span>). Ces machines restèrent à l'état de plan. Un exemplaire de la machine à différences a été construit à la fin du 20ème siècle.</li>
+<li>Les machines mécanographiques, inventées par <span style=\"color: #0000ff; font-size: 11px; font-family: arial,helvetica,sans-serif;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/figures-de-l-informatique/precurseurs/herman-hollerith\" title=\"Herman Hollerith\" target=\"_blank\"><span style=\"color: #0000ff;\">Herman Hollerith</span></a> </span>à la fin du 19ème siècle. Outre les calculs, ces machines réalisaient des opérations telles que le tri de données. Cette invention fut à la base du développement d'une industrie, qui réalisa au début des années 1950 sa <span style=\"color: #0000ff; font-family: arial,helvetica,sans-serif; font-size: 11px;\"><a href=\"http://aconit.inria.fr/omeka/exhibits/show/collections-aconit/mecanographie/mecanographie-informatique\" title=\"Transition vers l’informatique\" target=\"_blank\"><span style=\"color: #0000ff;\">transition vers l’informatique</span></a></span>.</li>
+</ul>
 		";
 		$scene1->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		$scene1->elements->add($jean_kuntzmann);
@@ -558,23 +549,17 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 * Deuxième scène
 		*/
 		$scene2 = new Parcours\Entity\SceneRecommandee();
-		$scene2->titre = "L'automatique, moteur de l'industrie";
+		$scene2->titre = "Les calculateurs mécaniques";
 		$scene2->narration = "
-				<br>
-				En 1957, René Perret, qui vient de soutenir une thèse à l'université de Grenoble et revient d'un séjour aux États-Unis, crée un Laboratoire de Servomécanismes, rattaché à la faculté des sciences et à l'Institut polytechnique, qui deviendra en 1961 le Laboratoire d'Automatique de Grenoble (LAG). Devenu rapidement professeur, il établit dès le départ de nombreux contacts avec le monde industriel. Les contacts avec le Laboratoire de calcul (futur IMAG) de Jean Kuntzmann, créé quelques années auparavant et dans un esprit analogue, n'aboutiront pas à une collaboration, et les deux laboratoires évolueront indépendamment.
-				<br>
-				<br>
-				À partir de 1960, le laboratoire s'intéresse à l'utilisation des circuits à transistors pour la logique booléenne. En 1961, ces travaux trouvent une application chez la société Mors, constructeur d'automatismes à relais, pour remplacer les relais électromagnétiques par des relais statiques. En 1962, un département \"automatisme et électronique\" est créé au sein de la société Mors, dans les locaux de l'IPG, sous l'impulsion de Guy Jardin, ingénieur venu suivre une formation dans la section spéciale \"automatique\" de l'IPG, et de Michel Deguerry, qui quitte le LAG pour une carrière industrielle.
-				<br>
-				<br>
-				Son activité étant en forte croissance, ce département s'installe dans de nouveaux locaux, tout en renforçant sa collaboration avec le LAG. Les clients viennent de nombreux secteurs d'activité : pétrole, chimie, marine, énergie atomique, houillères et sidérurgie. La société conçoit une gamme de produits, dont un calculateur industriel, le MAT 01 (photo ci-contre), issu d'un travail de thèse au LAG, qui sera construit à une vingtaine d'exemplaires. C'est l'un des premiers calculateurs industriels au monde utilisant des circuits intégrés.
-				<br>
-				<br>
-				Est alors créée au sein de Mors, en 1965, une division \"automatismes, transmission, matériel\" (ATM) qui s'installera dans une nouvelle usine à Crolles, près de Grenoble.
-				<br>
-				<br>
-				Le cas de Mors dans les années 1960 est un exemple de collaboration fructueuse entre recherche et industrie. De nombreuses recherches du LAG sont effectuées en coopération avec Mors et une partie des thèses est réalisée sur des sites industriels. Des actions concertées tripartites associent le LAG, Mors et un client \"automatisé\", comme Naphtachimie.
-				<br>
+				Les débuts du calcul mécanique numérique sont lents : entre le boulier (apparu dans l’antiquité, dans divers pays), et les bâtons de Napier, ou Neper (1617), on n’enregistre pas de progrès décisif. Mais le 17ème siècle voit la naissance des calculateurs mécaniques : Schickard (1623) et Pascal (1642) conçoivent des machines pouvant  réaliser les additions et les soustractions. La machine de Leibniz (1694), qui étend celle de Pascal, est en outre capable de faire les multiplications et les divisions. À la même époque, le calcul analogique progresse avec l’invention de la règle à calcul.
+<br>
+La machine de Leibniz est à l’origine de l’industrie des calculatrices mécaniques, puis électromécaniques, qui sera active jusqu’à la fin du 20ème siècle. 
+<br>
+Dans le courant du 18ème siècle, plusieurs calculateurs mécaniques sont construits, inspirés de ceux de Pascal et de Leibniz, mais ils ne dépassent pas le stade de prototypes. En 1820, Thomas de Colmar construit l’arithmomètre, qui marque le début du développement de l’industrie des calculatrices mécaniques. En 1873, Odhner remplace le cylindre de Leibniz par un mécanisme équivalent, plus léger, et ce principe est utilisé par de nombreuses réalisations industrielles. Au début du 20ème siècle, la manivelle qui actionne la machine est remplacée par un moteur électrique et l’interface s’améliore avec le clavier à touches. Puis apparaissent les imprimantes intégrées. Les calculatrices mécaniques sont produites à des millions d’exemplaires dans le courant du 20ème siècle.
+<br>
+L’apparition, dans les années 1950, des premiers ordinateurs, marque le début du déclin des  calculatrices mécaniques et électromécaniques, qui ont pratiquement disparu dans les années 1970. Les calculettes (calculatrices miniaturisées électroniques, à base de microprocesseurs) prendront ensuite la relève. Il existe encore un marché pour des calculatrices électroniques de bureau, en particulier pour celles spécialisées dans un domaine particulier (par exemple calculatrices financières).
+<br>
+En marge de ces développements, Charles Babbage conçoit entre 1820 et 1850 des machines mécaniques révolutionnaires, la machine à différences et la machine analytique. Cette dernière, capable en théorie d’exécuter tout algorithme, préfigure l’ordinateur. Mais ces machines, très en avance sur leur époque, resteront à l’état de plans et ne connaîtront que des réalisations très partielles.
 		";
 		$scene2->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		$scene2->elements->add($rene_perret);
@@ -588,7 +573,7 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 */
 		
 		$transition1 = new Parcours\Entity\TransitionRecommandee();
-		$transition1->narration = "Vers l'automatique.";
+		$transition1->narration = "Vers Les calculateurs mécaniques";
 		$transition1->semantique = $semantique_chronologie;
 		$transition1->scene_origine = $scene1;
 		$transition1->scene_destination = $scene2;
@@ -600,42 +585,9 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 * Troisième scène
 		*/
 		$scene3 = new Parcours\Entity\SceneRecommandee();
-		$scene3->titre = "Inventer la formation";
+		$scene3->titre = "Les machines de Babbage";
 		$scene3->narration = "
-				<br>
-				Dans les années 1950, pour la formation à la discipline naissante de l'informatique, tout est à inventer, à commencer par la formation des formateurs. À Grenoble, les cours de mathématiques appliquées de Jean Kuntzmann sont complétés par des travaux pratiques, initialement effectués à l'aide de calculatrices de bureau, sous la direction de Jean Laborde. À partir de 1952, un calculateur analogique SEA OME 12 permet de traiter l'intégration d'équations différentielles et d'équations aux dérivées partielles. Mais la transition vers l'informatique reste à accomplir.
-				<br>
-				<br>
-				Le Laboratoire de calcul n'avait pas initialement d'ordinateur et utilisait ceux de ses partenaires industriels. C'est ainsi que le premier cours de programmation fut donné en 1956 par M. Sollaud, ingénieur à la société Normacem de Lyon, sur le calculateur  Bull Gamma 3 muni d'une extension permettant d'introduire un programme sur cartes, au lieu d'utiliser le tableau de connexion. Les cours avaient lieu à Lyon le samedi matin. Louis Bolliet rappelle qu'il y avait 4 auditeurs : Jean Kuntzmann, Jean Laborde, Henri Rohrbach (élève ingénieur à l'IPG) et lui-même. L'année suivante, Sogreah s'équipa d'un IBM 650 et des cours de programmation eurent encore lieu sur cette machine.
-				<br>
-				<br>
-				Enfin, à partir de 1958, le Laboratoire de calcul possède son propre ordinateur, un Bull Gamma ET, qui sert aussi de support à l'enseignement de la programmation. Outre le code machine, les premiers langages utilisés sont Fortran et Cobol, Algol ne devant apparaître qu'un peu plus tard. Ci-contre (collection Aconit), des cartes utilisées pour le premier cours de programmation donné dès 1956-57 par Louis Bolliet sur Bull Gamma 3 et Gamma ET (cliquer sur l'image pour plus de détails).
-				<br>
-				<br>
-				Parmi les autres cours marquants, il faut citer :
-				<ol>
-			   		<li> le cours \"Calculateurs électroniques\" donné par René Perret à partir de 1961-62 à l'EIEG (École des Ingénieurs Électroniciens de Grenoble, école de l'institut Polytechnique de Grenoble, ou IPG) ; </li>
-    				<li> le cours \"Logique et programmation\" donné par Bernard Vauquois à partir de 1959. </li>
-				</ol>
-				<br>
-				<br>
-				Jean Kuntzmann crée en 1956 une section spéciale \"Mathématiques Appliquées\" à l'institut Polytechnique de Grenoble. La première année, cette section n'a qu'un élève, Henri Rohrbach, qui obtient son diplôme avec la promotion suivante (5 étudiants) ; puis la croissance s'accélère. En 1960 est créée une section \"normale\" de Mathématiques appliquées, constituant une École d'ingénieurs à part entière, qui deviendra l'ENSIMAG. La première promotion, sortie en 1963, compte 13 élèves (photo ci-contre).
-				<br>
-				<br>
-				La section spéciale de Mathématiques appliquées (qui accueille des ingénieurs déjà diplômés dans un autre domaine), bientôt étendue à l'informatique,  continuera de fonctionner jusqu'en 2012.
-				<br>
-				<br>
-				La formation continue avait démarré dès 1951 avec la Promotion Supérieure du Travail (PST). À partir de 1959, elle s'étend au calcul numérique, puis à l'informatique et devient un institut rattaché à l'université. Plus tard, celui-ci sera associé au Conservatoire National des Arts et Métiers (CNAM) et formera des ingénieurs en informatique.
-				<br>
-				<br>
-				Au début des années 1960 sont créées de nouvelles formations.
-				<ol>
-			   		<li> DEST (diplôme d'études supérieures techniques) de programmation, </li>
-    				<li> licence de sciences appliquées comprenant un certificat de Techniques de la programmation, </li>
-    				<li> 3ème cycle de mathématiques appliquées et d'informatique. </li>
-				</ol>
-				Les enseignants, souvent issus de ces mêmes filières, ont alors peu d'avance sur leurs étudiants.
-				<br>
+				
 		";
 		$scene3->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		$scene3->elements->add($cours);
@@ -647,7 +599,7 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		 * Transition scene2->scene3
 		*/		
 		$transition2 = new Parcours\Entity\TransitionRecommandee();
-		$transition2->narration = "Vers la formation";
+		$transition2->narration = "Les machines de Babbage";
 		$transition2->semantique = $semantique_chronologie;
 		$transition2->scene_origine = $scene2;
 		$transition2->scene_destination = $scene3;
@@ -655,102 +607,7 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		$sous_parcours_debut->addTransition($transition2);
 		$manager->flush();
 		
-		/*
-		 * Quatrième scène
-		*/
-		$scene4 = new Parcours\Entity\SceneRecommandee();
-		$scene4->titre = "Les débuts de la recherche en informatique";
-		$scene4->narration = "
-				<br>
-				La recherche commence dès la création du Laboratoire de calcul. En effet, les nombreuses applications traitées par le laboratoire nécessitent de perfectionner les méthodes et les outils de ce qui deviendra plus tard l'analyse numérique. Les avancées réalisées font l'objet, en 1955, des Journées alpines de calcul numérique, organisées par le Laboratoire de calcul, IBM et la Sogreah.
-				<br>
-				<br>
-				En 1956 commence l'activité proprement informatique, avec l'arrivée de Louis Bolliet, initialement ingénieur au Laboratoire de calcul. En 1957, Jean Kuntzmann crée l'AFCAL (Association Française de Calcul), qui deviendra plus tard l'AFCALTI, puis l'AFCET. En 1958, il crée la revue Chiffres, dont il sera le premier rédacteur en chef. Cette association et cette revue seront les premiers lieux d'échange d'information en France sur les domaines émergents de l'analyse numérique et de la programmation des ordinateurs. Le premier congrès de l'AFCAL, qui réunit 270 participants, se tiendra à Grenoble en 1960. Il attire divers spécialistes étrangers, dont Friedrich L. Bauer et  Maurice Wilkes.
-				<br>
-				<br>
-				En 1957, arrive Noël Gastinel, mathématicien qui va diriger l'équipe de recherche en analyse numérique. S'intéressant de près aux techniques de l'informatique, il sera également plus tard le premier directeur du centre de calcul. En 1958 arrive Bernard Vauquois, qui s'est orienté vers l'informatique après un début de carrière dans l'astronomie. Il lance une activité autour de la traduction automatique, qui aboutira en 1959 à la création du CETA (Centre d'Études pour la Traduction Automatique) par le CNRS et la DRME (Direction des Recherches et Moyens d'Essai du ministère des Armées). Vauquois fait par ailleurs partie du comité scientifique qui définit le langage Algol 60 entre 1958 et 1961.				
-				<br>
-				<br>
-				En 1961 démarrent des recherches dans deux domaines de l'informatique : l'algèbre de Boole, avec Kuntzmann, et la compilation des langages de programmation, avec Bolliet. Les premières thèses sont lancées, les doctorants venant des formations locales, et notamment de la section spéciale \"mathématiques appliquées\" de l'IPG. Suivant la pratique inaugurée par le Laboratoire de calcul, ces recherches font l'objet de nombreuses collaborations avec l'industrie.
-				<br>
-				<br>
-				Les années 1963-64 voient l'installation du laboratoire (devenu IMAG, Institut de Mathématiques Appliquées de Grenoble) sur le campus créé à Saint-Martin d'Hères et Gières, l'acquisition d'un ordinateur puissant, l'IBM 7044, et l'aboutissement des premières thèses en informatique :
-				<ol>
-				    <li>Jean-Loup Baer, thèse de 3-ème cycle : \"Principes de compilation de COBOL\", 1963.</li>
-				    <li>Jean Le Palmec, thèse de docteur-ingénieur : Étude d'un langage intermédiaire pour la compilation d'Algol 60, 1964</li>
-				    <li>Jean-Claude Boussard, thèse d'État : Étude et réalisation d'un compilateur Algol 60 pour ordinateur 7040-44, 1964.</li>
-				<br>
-				<br>
-				À noter que cette thèse d'État est en \"sciences appliquées\", la discipline Informatique n'étant pas encore officiellement reconnue (il faudra attendre 1969). Au total, cinq thèses de \"sciences appliquées\" seront soutenues dont, en 1967, celle de Louis Bolliet qui prendra alors un poste de professeur.
-				<br>
-				<br>
-				Deux colloques, tenus en 1965, sur l'enseignement de la programmation et sur l'algèbre de Boole, témoignent de la vitalité scientifique du laboratoire. Le groupe Algol WG2.1 de l'IFIP (<i>International Federation for Information Processing</i>) tient cette même année une réunion de travail à Saint-Pierre de Chartreuse. Algol 60 est alors à l'IMAG un thème de travail et un outil privilégié (en témoigne le livre de L. Bolliet, N. Gastinel et P.-J. Laurent, <i>Un nouveau langage scientifique : Algol</i>, Hermann 1964).
-				<br>
-				<br>
-				La recherche en informatique est maintenant lancée; elle va connaître un grand développement et une extension de son domaine dans les années qui suivent.
-				<br>
-		";
-		$scene4->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		
-		$sous_parcours_debut->addScene($scene4);
-		$manager->flush();
-		
-		/*
-		 * Transition scene3->scene4
-		*/
-		$transition3 = new Parcours\Entity\TransitionRecommandee();
-		$transition3->narration = "Vers les débuts de la recherche en informatique";
-		$transition3->semantique = $semantique_chronologie;
-		$transition3->scene_origine = $scene3;
-		$transition3->scene_destination = $scene4;
-		
-		$sous_parcours_debut->addTransition($transition3);
-		$manager->flush();
-		
-		/*
-		 * Cinquième scène
-		*/
-		$scene5 = new Parcours\Entity\SceneRecommandee();
-		$scene5->titre = "Technologie et composants";
-		$scene5->narration = "
-				<br>
-				L'industrie électronique à Grenoble connaît un démarrage lent dans les années 1950. Nous replaçons ici ses débuts dans le contexte plus large de l'histoire des composants électroniques modernes.
-				<br>
-				<blockquote><br>
-				Cette histoire commence avec l'invention du transistor en 1947. Ce dispositif semi-conducteur va rapidement remplacer les tubes électroniques, avec une fiabilité bien plus élevée, un faible encombrement et une consommation d'énergie réduite. Dès 1950, le transistor est intégré dans des produits de grande consommation. Le premier ordinateur transistorisé est construit par les Bell Labs en 1954. Dès lors, l'emploi du transistor dans les circuits des ordinateurs va se généraliser.
-				<br></blockquote>
-				<br>
-				En 1955, la Compagnie Générale de Télégraphie sans fil (CSF) transforme son usine de Saint-Égrève (banlieue ouest de Grenoble), dédiée à la fabrication de tubes à vide, en une usine de production de transistors (ci-contre, vue d'un atelier). Après des déboires initiaux dus à un changement mal maîtrisé des méthodes de production, cette activité sera filialisée en 1960 sous le nom de COSEM (Compagnie générale des semi-conducteurs). En 1961-62, la COSEM détenait près de 45% du marché des semi-conducteurs en France et réalisait 30% de son chiffre d'affaires à l'exportation.
-				<br>
-				<br>
-				En 1956, le Commissariat à l'Énergie Atomique (CEA) crée le Centre d'Études Nucléaires de Grenoble (CENG), également implanté à l'ouest de Grenoble. En 1957 est créé au CENG, sous la direction de Michel Cordelle, un service électronique dont la mission initiale est la conception, la réalisation et la maintenance de l'appareillage de commande et de mesure du réacteur nucléaire Mélusine.
-				<br>
-				<blockquote><br>
-				En 1958, Jack Kilby invente le premier circuit intégré à base de germanium : les transistors ne sont plus des composants discrets (séparés), mais fondus dans la masse même du semi-conducteur. Quelques mois plus tard, en 1959, Robert Noyce invente le circuit intégré à base de silicium, qui deviendra la technique dominante. En France, dans les années 1960, la plus grande partie des circuits intégrés est produite dans des usines d'entreprises américaines (Texas Instruments, Motorola, IBM).
-				<br></blockquote>
-				<br>
-				En 1962, le CEA décide de créer sa propre technologie des transistors et circuits intégrés afin de maîtriser l'environnement électronique des réacteurs. La mission du service électronique du CENG (futur LETI) s'élargit en conséquence. En 1963 sortent les premiers transistors et au début de 1965 le premier circuit intégré, comportant 10 transistors (photo ci-contre).
-				<br>
-				<blockquote>
-				En 1965, Gordon Moore énonce sa \"loi\" : le nombre de transistors dans les circuits intégrés doublera environ tous les 18 mois. Plus de 40 ans après, cette loi s'applique toujours, mais on en perçoit les limites.
-				</blockquote>
-				";
-		$scene5->elements = new \Doctrine\Common\Collections\ArrayCollection();
-		
-		$sous_parcours_debut->addScene($scene5);
-		$manager->flush();
-		
-		/*
-		 * Transition scene4->scene5
-		*/
-		$transition4 = new Parcours\Entity\TransitionRecommandee();
-		$transition4->narration = "Vers les technos et composants";
-		$transition4->semantique = $semantique_chronologie;
-		$transition4->scene_origine = $scene4;
-		$transition4->scene_destination = $scene5;
-		
-		$sous_parcours_debut->addTransition($transition4);
-		$manager->flush();
 
 
 
