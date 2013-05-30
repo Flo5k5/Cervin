@@ -24,8 +24,6 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $inputFilter;
 
     /**
-     * Id de la relation
-     * 
     * @ORM\Id
     * @ORM\Column(type="integer");
     * @ORM\GeneratedValue(strategy="AUTO")
@@ -33,24 +31,18 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $id;
     
     /**
-	 * Artefact d'origine de la sémantique
-	 *  
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relation_origine")
      * @ORM\JoinColumn(name="origine_id", referencedColumnName="id", nullable=false)
      **/
     protected $origine;
     
     /**
-     * Artefact de destination de la sémantique
-     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Artefact", inversedBy="relation_destination")
      * @ORM\JoinColumn(name="destination_id", referencedColumnName="id", nullable=false)
      **/
     protected $destination;
     
     /**
-     * Sémantique liée aux artefacts
-     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\SemantiqueArtefact", inversedBy="relations")
      * @ORM\JoinColumn(name="semantique_id", referencedColumnName="id", nullable=false)
      **/

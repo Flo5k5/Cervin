@@ -17,10 +17,11 @@ use \Doctrine\ORM\Query;
 * @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
 * @ORM\Table(name="mbo_semantiqueartefact")
 * 
-* @property int $id
-* @property string $type_origine
-* @property string $type_destination
-* @property string $semantique
+* @property int $id Identifiant unique de la sémantique
+* @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à l'origine des relations marquées par cette sémantique
+* @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
+* @property string $semantique La sémantique elle même
+* @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
 */
 class SemantiqueArtefact implements InputFilterAwareInterface
 {
@@ -33,10 +34,6 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
-     * 
-     * $type_origine contient la chaîne décrivant le type du premier artefact
-     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      **/
     protected $type_origine;

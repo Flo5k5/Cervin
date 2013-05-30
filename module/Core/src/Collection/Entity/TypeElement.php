@@ -11,22 +11,23 @@ use InvalidArgumentException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use \Doctrine\ORM\Query;
+
 /**
 * Entité d'un type d'élément de la collection (personne, image, matériel, logiciel, ...)
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
 * @ORM\Table(name="mbo_typeelement")
-* @property int $id
-* @property string $nom
-* @property string $type
+* @property int $id Identifiant unique de type d'élément
+* @property string $nom Le nom du type d'élément
+* @property string $type Le type d'u type d'élément : 'média' ou 'artefact'
+* @property \Collection\Entity\Champ $champs Les champs qui décrivent tout élément de ce type d'élémént
+* @property \Collection\Entity\Element $elements Les éléments de ce type d'élément
 */
 class TypeElement implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-     * Id du type élément
-     * 
     * @ORM\Id
     * @ORM\Column(type="integer");
     * @ORM\GeneratedValue(strategy="AUTO")
@@ -34,15 +35,11 @@ class TypeElement implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * Nom du type élément
-     * 
     * @ORM\Column(type="string", length=200)
     */
     protected $nom;
     
     /**
-     * Type : 'artefact' ou 'media'
-     * 
      * @ORM\Column(type="string", length=200)
      */
     protected $type;
@@ -53,7 +50,6 @@ class TypeElement implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element", cascade={"remove"})
      **/
     protected $champs;
-    
 
     /**
      * L'ensemble des champs décrivant ce type élément
@@ -61,20 +57,6 @@ class TypeElement implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
      **/
     protected $elements;
-
-    /**
-     * Type de l'élément
-     * 
-     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_origine", cascade={"remove"})
-     **/
-    protected $relation_origine;
-    
-    /**
-     * Type de l'élément
-     * 
-     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_destination", cascade={"remove"})
-     **/
-    protected $relation_destination;
 
     /**
      * Booléen qui décrit si le type d'élément est validé ou brouillon

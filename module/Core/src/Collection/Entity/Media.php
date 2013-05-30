@@ -15,8 +15,9 @@ use Collection\Entity\Element;
 /**
  * Entité d'un média
  *
- * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="mbo_media")
+ * @property \Collection\Entity\Artefact $artefacts Les artefacts liés à ce média
  */
 class Media extends Element
 {
@@ -58,7 +59,7 @@ class Media extends Element
 	 * 
 	 * @param string $titre
 	 * @param Collection\Entity\TypeElement $type_element
-	 * @throws InvalidArgumentException
+	 * @throws InvalidArgumentException Si $type_elemnt n'est pas de type média
 	 */
 	public function __construct($titre, $type_element) {
 		if ($type_element->__get('type') != 'media') {
@@ -70,10 +71,3 @@ class Media extends Element
 	
 }
 
-/**
- * Repository d'un media
- */
-class MediaRepository extends EntityRepository
-{
-
-}
