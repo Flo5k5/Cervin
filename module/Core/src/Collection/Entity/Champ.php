@@ -106,7 +106,7 @@ class Champ implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
+    * Retourne l'objet sous la forme d'un tableau
     *
     * @return array
     */
@@ -178,6 +178,11 @@ class Champ implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 
+    /**
+     * Supprime le fichier associé à un champ
+     *
+     * @return boolean
+     */
     public function deleteFiles(){
     	if($this->format === 'fichier'){
     		$dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
@@ -197,7 +202,13 @@ class Champ implements InputFilterAwareInterface
     }
     
     /**
+     * Supprime un dossier et son contenu
+     * 
+     * Supprime le dossier et tout ce qu'il contient récursivement. 
      * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
+     * 
+     * @param string
+     * @return boolean
      */
     private function delTree($dir) {
     	if(is_dir($dir)){

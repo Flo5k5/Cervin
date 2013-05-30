@@ -24,6 +24,8 @@ class Artefact extends Element
 	protected $inputFilter;
 
 	/**
+	 * Id de l'artefact
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
 	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,13 +34,15 @@ class Artefact extends Element
 
 	/**
 	 * Médias liés à l'artefact
+	 * 
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
 	protected $medias;
 
 	/**
-	 * Lien vers les artefacts li�s
+	 * Lien vers les artefacts liés
+	 * 
 	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine")
 	 **/
 	protected $relations_artefacts;
@@ -70,7 +74,7 @@ class Artefact extends Element
 	 **/
 	public function __construct($titre = null, $type_element) {
 		if ($type_element->__get('type') != 'artefact') {
-			throw new InvalidArgumentException('Tentative de cr�ation d\'un artefact avec un type �l�ment caract�risant un m�dia => INTERDIT');
+			throw new InvalidArgumentException('Tentative de création d\'un artefact avec un type élément caractérisant un média => INTERDIT');
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
