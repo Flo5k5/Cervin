@@ -15,7 +15,7 @@ use Collection\Entity\Element;
 /**
  * Entité d'un artefact
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_artefact")
  * @property \Collection\Entity\Media $medias L'ensemble des médias qui sont liés à l'artefact
  * @property \Collection\Entity\RelationArtefacts $relations_artefacts L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
@@ -77,3 +77,10 @@ class Artefact extends Element
 
 }
 
+/**
+ * Repository d'un artefact
+ */
+class ArtefactRepository extends EntityRepository
+{
+
+}

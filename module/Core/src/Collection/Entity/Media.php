@@ -15,7 +15,7 @@ use Collection\Entity\Element;
 /**
  * Entité d'un média
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_media")
  * @property \Collection\Entity\Artefact $artefacts Les artefacts liés à ce média
  */
@@ -69,5 +69,13 @@ class Media extends Element
 		$this->type_element = $type_element;
 	}
 	
+}
+
+/**
+ * Repository d'un media
+ */
+class MediaRepository extends EntityRepository
+{
+
 }
 
