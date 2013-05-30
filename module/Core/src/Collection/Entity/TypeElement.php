@@ -25,6 +25,8 @@ class TypeElement implements InputFilterAwareInterface
     protected $inputFilter;
 
     /**
+     * Id du type élément
+     * 
     * @ORM\Id
     * @ORM\Column(type="integer");
     * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,43 +34,51 @@ class TypeElement implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * Nom du type élément
+     * 
     * @ORM\Column(type="string", length=200)
     */
     protected $nom;
     
     /**
      * Type : 'artefact' ou 'media'
+     * 
      * @ORM\Column(type="string", length=200)
      */
     protected $type;
     
     /**
-     * L'ensemble des champs décrivant cet artefact
+     * L'ensemble des champs décrivant ce type élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element", cascade={"remove"})
      **/
     protected $champs;
     
 
     /**
-     * L'ensemble des champs décrivant cet artefact
+     * L'ensemble des champs décrivant ce type élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
      **/
     protected $elements;
 
     /**
      * Type de l'élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_origine", cascade={"remove"})
      **/
     protected $relation_origine;
     
     /**
      * Type de l'élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_destination", cascade={"remove"})
      **/
     protected $relation_destination;
 
     /**
      * Booléen qui décrit si le type d'élément est validé ou brouillon
+     * 
      * @ORM\Column(type="boolean")
      **/
     protected $valide = false;
@@ -108,7 +118,7 @@ class TypeElement implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
+    * Retourne l'objet sous forme de tableau
     *
     * @return array
     */
@@ -169,15 +179,24 @@ class TypeElement implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 }
+
+
+/**
+ * Repository d'un type élément
+ */
 class TypeElementRepository extends EntityRepository
 {
-
+	/**
+	 * Retourne un tableau contenant le nom et l'id des types élement pour les artefacts
+	 *
+	 * @return array
+	 */
     public function getIdNameArray()
     {
-        $query = $this->getEntityManager()->
-        createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
+        $query  = $this->getEntityManager()
+        		       ->createQuery('SELECT e.id, e.nom FROM Collection\Entity\TypeElement e INDEX BY e.id WHERE e.type = \'artefact\'');
 
-        $array = $query->getResult(Query::HYDRATE_ARRAY); 
+        $array  = $query->getResult(Query::HYDRATE_ARRAY); 
         $return = current($array);
     //    $return = array_combine($array['id'],['nom']);
 

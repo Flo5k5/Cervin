@@ -34,90 +34,103 @@ class Element implements InputFilterAwareInterface
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * Id de l'élément
+     * 
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
-    */
+     * Titre de l'élément
+     * 
+     * @ORM\Column(type="string", length=200)
+     */
     protected $titre;
 
     /**
-    * @ORM\Column(type="text", nullable=true)
-    */
+     * Descritpion de l'élément
+     * 
+     * @ORM\Column(type="text", nullable=true)
+     */
     protected $description;
 
     /**
-    * @ORM\Column(type="boolean", nullable=true)
-    */
+     * Etat de en ligne ou brouillon de l'élément
+     * 
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     protected $onLine;
     
     /**
      * Type de l'élément
+     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="elements")
-     **/
+     */
     protected $type_element;
     
     /**
      * Valeurs des champs decrivant l'élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove", "persist"}))
-     **/
+     */
     protected $datas;
 
     /**
      * Type de l'élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine", cascade={"remove"})
-     **/
+     */
     protected $relation_origine;
     
     /**
      * Type de l'élément
+     * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
-     **/
+     */
     protected $relation_destination;
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Convert the object to an array.
-    *
-    * @return array
-    */
+     * Convert the object to an array.
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    * Cette fonction est liée au formulaire ChampTypeElementForm
-    * Elle prend en entrée les datas postés depuis ce formulaire
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     * 
+     * Cette fonction est liée au formulaire ChampTypeElementForm
+     * Elle prend en entrée les datas postés depuis ce formulaire
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
         $this->titre = $data['titre'];
@@ -172,6 +185,8 @@ class Element implements InputFilterAwareInterface
     }
     
     /**
+     * Ajout le fichier uploadé à un DataFichier
+     * 
      * Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
      * et ajoute le chemin vers ce fichier aux datas de l'élément
      */
@@ -196,6 +211,9 @@ class Element implements InputFilterAwareInterface
     	$this->datas->add($data);
     }
     
+    /**
+     * Met à jour le fichier attaché à un DataFichier
+     */
     public function updateFile($data, $tmpname ,$name, $format) {
     	$this->deleteFile($data);
     	$this->addFile($data, $tmpname ,$name, $format);
@@ -203,6 +221,8 @@ class Element implements InputFilterAwareInterface
 
 	/**
 	 * Supprime le fichier attaché à un DataFichier
+	 * 
+	 * @return boolean
 	 */
     public function deleteFile($data){
     	if($data->fichier !== null){
@@ -213,7 +233,15 @@ class Element implements InputFilterAwareInterface
     	return false;
     }
     
-    /* Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661 */
+    /**
+     * Supprime un dossier et son contenu
+     * 
+     * Supprime le dossier et tout ce qu'il contient récursivement. 
+     * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
+     * 
+     * @param string
+     * @return boolean
+     */
     private function delTree($dir) {
     	if(is_dir($dir)){
     		$files = glob( $dir . '*', GLOB_MARK );

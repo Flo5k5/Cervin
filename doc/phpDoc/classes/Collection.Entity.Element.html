@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">530</span></a></li>
+                <span class="label label-info">510</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -68,9 +68,7 @@
                     <ul>
 <li class="method public "><a href="#method___get" title="__get :: Magic getter to expose protected properties."><span class="description">Magic getter to expose protected properties.</span><pre>__get()</pre></a></li>
 <li class="method public "><a href="#method___set" title="__set :: Magic setter to save protected properties."><span class="description">Magic setter to save protected properties.</span><pre>__set()</pre></a></li>
-<li class="method public "><a href="#method_addFile" title="addFile :: Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
-et ajoute le chemin vers ce fichier aux datas de l'élément"><span class="description">Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
-et ajoute le chemin vers ce fichier aux datas de l'élément</span><pre>addFile()</pre></a></li>
+<li class="method public "><a href="#method_addFile" title="addFile :: Ajout le fichier uploadé à un DataFichier"><span class="description">Ajout le fichier uploadé à un DataFichier</span><pre>addFile()</pre></a></li>
 <li class="method public "><a href="#method_deleteFile" title="deleteFile :: Supprime le fichier attaché à un DataFichier"><span class="description">Supprime le fichier attaché à un DataFichier</span><pre>deleteFile()</pre></a></li>
 <li class="method public "><a href="#method_getArrayCopy" title="getArrayCopy :: Convert the object to an array."><span class="description">Convert the object to an array.</span><pre>getArrayCopy()</pre></a></li>
 <li class="method public "><a href="#method_getInputFilter" title="getInputFilter :: "><span class="description">getInputFilter()
@@ -78,13 +76,11 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</span><pre>addFile(
 <li class="method public "><a href="#method_populate" title="populate :: Populate from an array."><span class="description">Populate from an array.</span><pre>populate()</pre></a></li>
 <li class="method public "><a href="#method_setInputFilter" title="setInputFilter :: "><span class="description">setInputFilter()
         </span><pre>setInputFilter()</pre></a></li>
-<li class="method public "><a href="#method_updateFile" title="updateFile :: "><span class="description">updateFile()
-        </span><pre>updateFile()</pre></a></li>
+<li class="method public "><a href="#method_updateFile" title="updateFile :: Met à jour le fichier attaché à un DataFichier"><span class="description">Met à jour le fichier attaché à un DataFichier</span><pre>updateFile()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_delTree" title="delTree :: "><span class="description">delTree()
-        </span><pre>delTree()</pre></a></li></ul>
+                    <ul><li class="method private "><a href="#method_delTree" title="delTree :: Supprime un dossier et son contenu"><span class="description">Supprime un dossier et son contenu</span><pre>delTree()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
@@ -98,13 +94,13 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</span><pre>addFile(
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected "><a href="#property_datas" title="$datas :: Valeurs des champs decrivant l'élément"><span class="description"></span><pre>$datas</pre></a></li>
-<li class="property protected "><a href="#property_description" title="$description :: "><span class="description"></span><pre>$description</pre></a></li>
-<li class="property protected "><a href="#property_id" title="$id :: "><span class="description"></span><pre>$id</pre></a></li>
+<li class="property protected "><a href="#property_description" title="$description :: Descritpion de l'élément"><span class="description"></span><pre>$description</pre></a></li>
+<li class="property protected "><a href="#property_id" title="$id :: Id de l'élément"><span class="description"></span><pre>$id</pre></a></li>
 <li class="property protected "><a href="#property_inputFilter" title="$inputFilter :: "><span class="description"></span><pre>$inputFilter</pre></a></li>
-<li class="property protected "><a href="#property_onLine" title="$onLine :: "><span class="description"></span><pre>$onLine</pre></a></li>
+<li class="property protected "><a href="#property_onLine" title="$onLine :: Etat de en ligne ou brouillon de l'élément"><span class="description"></span><pre>$onLine</pre></a></li>
 <li class="property protected "><a href="#property_relation_destination" title="$relation_destination :: Type de l'élément"><span class="description"></span><pre>$relation_destination</pre></a></li>
 <li class="property protected "><a href="#property_relation_origine" title="$relation_origine :: Type de l'élément"><span class="description"></span><pre>$relation_origine</pre></a></li>
-<li class="property protected "><a href="#property_titre" title="$titre :: "><span class="description"></span><pre>$titre</pre></a></li>
+<li class="property protected "><a href="#property_titre" title="$titre :: Titre de l'élément"><span class="description"></span><pre>$titre</pre></a></li>
 <li class="property protected "><a href="#property_type_element" title="$type_element :: Type de l'élément"><span class="description"></span><pre>$type_element</pre></a></li>
 </ul>
 </li>
@@ -185,12 +181,12 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</span><pre>addFile(
 </div></div>
 </div>
 <a id="method_addFile"></a><div class="element clickable method public method_addFile" data-toggle="collapse" data-target=".method_addFile .collapse">
-<h2>Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
-et ajoute le chemin vers ce fichier aux datas de l'élément</h2>
+<h2>Ajout le fichier uploadé à un DataFichier</h2>
 <pre>addFile($data, $tmpname, $name, $format) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Récupère le fichier uploadé pour l'insérer dans l'arborescence public/uploads
+et ajoute le chemin vers ce fichier aux datas de l'élément</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument"><h4>$data</h4></div>
 <div class="subelement argument"><h4>$tmpname</h4></div>
@@ -200,12 +196,14 @@ et ajoute le chemin vers ce fichier aux datas de l'élément</h2>
 </div>
 <a id="method_deleteFile"></a><div class="element clickable method public method_deleteFile" data-toggle="collapse" data-target=".method_deleteFile .collapse">
 <h2>Supprime le fichier attaché à un DataFichier</h2>
-<pre>deleteFile($data) </pre>
+<pre>deleteFile($data) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument"><h4>$data</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
 <a id="method_getArrayCopy"></a><div class="element clickable method public method_getArrayCopy" data-toggle="collapse" data-target=".method_getArrayCopy .collapse">
@@ -251,8 +249,7 @@ Elle prend en entrée les datas postés depuis ce formulaire</p></div>
 </div></div>
 </div>
 <a id="method_updateFile"></a><div class="element clickable method public method_updateFile" data-toggle="collapse" data-target=".method_updateFile .collapse">
-<h2>updateFile()
-        </h2>
+<h2>Met à jour le fichier attaché à un DataFichier</h2>
 <pre>updateFile($data, $tmpname, $name, $format) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -265,14 +262,19 @@ Elle prend en entrée les datas postés depuis ce formulaire</p></div>
 </div></div>
 </div>
 <a id="method_delTree"></a><div class="element clickable method private method_delTree" data-toggle="collapse" data-target=".method_delTree .collapse">
-<h2>delTree()
-        </h2>
-<pre>delTree($dir) </pre>
+<h2>Supprime un dossier et son contenu</h2>
+<pre>delTree(string $dir) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Supprime le dossier et tout ce qu'il contient récursivement.
+Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$dir</h4></div>
+<div class="subelement argument">
+<h4>$dir</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
 <h3>
@@ -468,7 +470,7 @@ Elle prend en entrée les datas postés depuis ce formulaire</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T16:40:27+02:00.<br></footer></div>
+            generated on 2013-05-30T10:37:49+02:00.<br></footer></div>
 </div>
 </body>
 </html>

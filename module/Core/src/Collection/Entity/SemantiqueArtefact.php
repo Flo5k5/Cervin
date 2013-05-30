@@ -33,13 +33,16 @@ class SemantiqueArtefact implements InputFilterAwareInterface
 
     /**
      * La sémantique d'une relation entre deux artefacts dépend du type de ces artefacts
-     * $type_origine contient la chaéne décrivant le type du premier artefact
+     * 
+     * $type_origine contient la chaîne décrivant le type du premier artefact
+     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      **/
     protected $type_origine;
     
     /**
      * $type_destination contient la chaîne décrivant le type du deuxième artefact
+     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", cascade={"persist"})
      */
     protected $type_destination;
@@ -56,6 +59,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
 
     /**
      * Booléen qui décrit si la sémantique est validée ou brouillon
+     * 
      * @ORM\Column(type="boolean")
      **/
     protected $valide = false;
@@ -83,7 +87,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
+    * Retourne l'objet sous la forme d'un tableau
     *
     * @return array
     */
@@ -171,6 +175,8 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 }
+
+
 class SemantiqueArtefactRepository extends EntityRepository
 {
 

@@ -35,12 +35,14 @@ class Data implements InputFilterAwareInterface
     
     /**
      * L'élément auquel la donnée se rapporte
+     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Element", inversedBy="datas")
      **/
     protected $element;
     
     /**
-     * Le champ auquel la donn�e se rapporte
+     * Le champ auquel la donnée se rapporte
+     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Champ", inversedBy="datas")
      **/
     protected $champ;
@@ -76,7 +78,7 @@ class Data implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
+    * Retourne l'objet sous la forme d'un tableau
     *
     * @return array
     */

@@ -41,7 +41,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">530</span></a></li>
+                <span class="label label-info">510</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -69,9 +69,8 @@
 <li class="method public "><a href="#method___construct" title="__construct :: Constructeur"><span class="description">Constructeur</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method___get" title="__get :: Magic getter to expose protected properties."><span class="description">Magic getter to expose protected properties.</span><pre>__get()</pre></a></li>
 <li class="method public "><a href="#method___set" title="__set :: Magic setter to save protected properties."><span class="description">Magic setter to save protected properties.</span><pre>__set()</pre></a></li>
-<li class="method public "><a href="#method_deleteFiles" title="deleteFiles :: "><span class="description">deleteFiles()
-        </span><pre>deleteFiles()</pre></a></li>
-<li class="method public "><a href="#method_getArrayCopy" title="getArrayCopy :: Convert the object to an array."><span class="description">Convert the object to an array.</span><pre>getArrayCopy()</pre></a></li>
+<li class="method public "><a href="#method_deleteFiles" title="deleteFiles :: Supprime le fichier associé à un champ"><span class="description">Supprime le fichier associé à un champ</span><pre>deleteFiles()</pre></a></li>
+<li class="method public "><a href="#method_getArrayCopy" title="getArrayCopy :: Retourne l'objet sous la forme d'un tableau"><span class="description">Retourne l'objet sous la forme d'un tableau</span><pre>getArrayCopy()</pre></a></li>
 <li class="method public "><a href="#method_getInputFilter" title="getInputFilter :: "><span class="description">getInputFilter()
         </span><pre>getInputFilter()</pre></a></li>
 <li class="method public "><a href="#method_populate" title="populate :: Populate from an array."><span class="description">Populate from an array.</span><pre>populate()</pre></a></li>
@@ -80,8 +79,7 @@
 </ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_delTree" title="delTree :: "><span class="description">delTree()
-        </span><pre>delTree()</pre></a></li></ul>
+                    <ul><li class="method private "><a href="#method_delTree" title="delTree :: Supprime un dossier et son contenu"><span class="description">Supprime un dossier et son contenu</span><pre>delTree()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
@@ -179,14 +177,17 @@
 </div></div>
 </div>
 <a id="method_deleteFiles"></a><div class="element clickable method public method_deleteFiles" data-toggle="collapse" data-target=".method_deleteFiles .collapse">
-<h2>deleteFiles()
-        </h2>
-<pre>deleteFiles() </pre>
+<h2>Supprime le fichier associé à un champ</h2>
+<pre>deleteFiles() : boolean</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
 </div>
 <a id="method_getArrayCopy"></a><div class="element clickable method public method_getArrayCopy" data-toggle="collapse" data-target=".method_getArrayCopy .collapse">
-<h2>Convert the object to an array.</h2>
+<h2>Retourne l'objet sous la forme d'un tableau</h2>
 <pre>getArrayCopy() : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -227,14 +228,19 @@
 </div></div>
 </div>
 <a id="method_delTree"></a><div class="element clickable method private method_delTree" data-toggle="collapse" data-target=".method_delTree .collapse">
-<h2>delTree()
-        </h2>
-<pre>delTree($dir) </pre>
+<h2>Supprime un dossier et son contenu</h2>
+<pre>delTree(string $dir) : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>Supprime le dossier et tout ce qu'il contient récursivement.
+Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$dir</h4></div>
+<div class="subelement argument">
+<h4>$dir</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
 </div></div>
 </div>
 <h3>
@@ -400,7 +406,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-05-29T16:40:27+02:00.<br></footer></div>
+            generated on 2013-05-30T10:37:49+02:00.<br></footer></div>
 </div>
 </body>
 </html>

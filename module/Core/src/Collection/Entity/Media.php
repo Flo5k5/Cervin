@@ -24,6 +24,8 @@ class Media extends Element
 	protected $inputFilter;
 
 	/**
+	 * Id du media
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
 	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -31,6 +33,8 @@ class Media extends Element
 	protected $id;
 
 	/**
+	 * Artefact(s) lié(s) au media
+	 * 
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Artefact", mappedBy="medias")
 	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
@@ -59,9 +63,16 @@ class Media extends Element
 		$this->$property = $value;
 	}
 
+	/**
+	 * Constructeur
+	 * 
+	 * @param string $titre
+	 * @param Collection\Entity\TypeElement $type_element
+	 * @throws InvalidArgumentException
+	 */
 	public function __construct($titre, $type_element) {
 		if ($type_element->__get('type') != 'media') {
-			throw new InvalidArgumentException('Tentative de cr�ation d\'un m�dia avec un type �l�ment caract�risant un artefact => INTERDIT');
+			throw new InvalidArgumentException('Tentative de création d\'un média avec un type élément caractérisant un artefact => INTERDIT');
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
@@ -70,7 +81,7 @@ class Media extends Element
 }
 
 /**
- * Repository d'un média
+ * Repository d'un media
  */
 class MediaRepository extends EntityRepository
 {
