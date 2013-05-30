@@ -16,6 +16,13 @@ use Collection\Entity\Data;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Json\Json;
 
+/**
+ * Controleur des medias
+ *
+ * Permet la création, lecture, modification et suppression des médias
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class MediaController extends AbstractActionController
 {
 	/**
@@ -47,12 +54,17 @@ class MediaController extends AbstractActionController
 
 		return $this->em;
 	}
-	
-	public function indexAction()
-    {
-    	return $this->redirect()->toRoute('collection/consulter');
-    }
 
+	/**
+	 * Redirige sur la page de consultation de la collection numérique
+	 *
+	 * @return void
+	 */
+	public function indexAction()
+	{
+		return $this->redirect()->toRoute('collection/consulter');
+	}
+	
     /**
      * Création d'un média
      * 
@@ -286,6 +298,17 @@ class MediaController extends AbstractActionController
     	return $this->getResponse()->setContent(Json::encode(true));
     }
     
+    /**
+     * Crée la relation entre un média et un artefact
+     *
+     * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+     * Elle récupère l'id du artefact présent dans les paramètres de la route puis l'id
+     * du média depuis les variables POST. On vérifie ensuite que tous les ids
+     * sont bien présents et on vérifie que les ids correspondent à un élément en
+     * base de donnée. Et enfin on ajoute la relation.
+     *
+     * @return void|\Zend\Stdlib\mixed
+     */
     public function addRelationMediaArtefactAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
@@ -339,7 +362,17 @@ class MediaController extends AbstractActionController
 			return;
 		}
 	}
-    
+	
+	/**
+	 * Retourne une liste de tous les artefacts à la Datatable
+	 *
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle prend en paramètre les conditions renvoyées par le widget Datatable et précisés
+	 * au moment de l'instanciation du widget. Ces paramètres sont ensuite envoyé à la classe
+	 * Datatable qui se charge de renvoyer les données récupérées en base de donnée. Ces données
+	 * sont ensuite passées à la Datatable qui se chargera de les afficher.
+	 *
+	 */
     public function getAllArtefactAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');

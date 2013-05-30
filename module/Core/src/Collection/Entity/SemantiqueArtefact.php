@@ -16,6 +16,7 @@ use \Doctrine\ORM\Query;
 *
 * @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
 * @ORM\Table(name="mbo_semantiqueartefact")
+* 
 * @property int $id
 * @property string $type_origine
 * @property string $type_destination
