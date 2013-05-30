@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format url
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_dataurl")
+ * 
+ * @property string $url La valeur de la donnée de format url
+ * 
  */
 class DataUrl extends Data
 {

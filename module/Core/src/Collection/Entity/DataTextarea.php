@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format textarea
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_datatextarea")
+ * 
+ * @property string $textarea La valeur de la donnée de format textarea
+ * 
  */
 class DataTextarea extends Data
 {

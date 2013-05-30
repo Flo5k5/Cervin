@@ -17,18 +17,10 @@ use Collection\Entity\Element;
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_media")
- * @property int $id
  */
 class Media extends Element
 {
 	protected $inputFilter;
-
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer");
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Artefact", mappedBy="medias")

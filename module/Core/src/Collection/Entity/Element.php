@@ -24,10 +24,12 @@ use Collection\Entity\Media;
 * @ORM\DiscriminatorColumn(name="discr", type="string")
 * @ORM\DiscriminatorMap({"Artefact" = "Artefact", 
 *                        "Media" = "Media"})
-* @property int $id
-* @property string $titre
-* @property string $description
-* @property string $droits
+* @property int $id Identifiant unique de l'élément
+* @property string $titre Titre de l'élément
+* @property string $description Description de l'élément
+* @property \Collection\Entity\TypeElement $type_element Le type de l'élément
+* @property \Collection\Entity\Data $datas Les datas qui décrivent l'élément
+* @property \Collection\Entity\RelationArtefacts $relation_origine L'ensemble des relations entre artefacts
 */
 class Element implements InputFilterAwareInterface
 {
@@ -56,29 +58,15 @@ class Element implements InputFilterAwareInterface
     protected $onLine;
     
     /**
-     * Type de l'élément
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="elements")
      **/
     protected $type_element;
     
     /**
-     * Valeurs des champs decrivant l'élément
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="element", cascade={"remove", "persist"}))
      **/
     protected $datas;
 
-    /**
-     * Type de l'élément
-     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine", cascade={"remove"})
-     **/
-    protected $relation_origine;
-    
-    /**
-     * Type de l'élément
-     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
-     **/
-    protected $relation_destination;
-    
     /**
     * Magic getter to expose protected properties.
     *

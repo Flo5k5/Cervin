@@ -83,10 +83,10 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'inputFilter', 'id', 'medias', 'relations_artefacts', 'titre', 'description', 'onLine', 'type_element', 'datas', 'relation_origine', 'relation_destination');
+            return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'onLine', 'type_element', 'datas');
         }
 
-        return array('__isInitialized__', 'inputFilter', 'id', 'medias', 'relations_artefacts', 'titre', 'description', 'onLine', 'type_element', 'datas', 'relation_origine', 'relation_destination');
+        return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'onLine', 'type_element', 'datas');
     }
 
     /**
