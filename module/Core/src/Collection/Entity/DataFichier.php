@@ -12,8 +12,13 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format fichier
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_datafichier")
+ * 
+ * @property string $fichier La valeur de la donnée de format fichier (chemin vers le fichier uploadé)
+ * @property string $format_fichier Le format du fichier
  */
 class DataFichier extends Data
 {

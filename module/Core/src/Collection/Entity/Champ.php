@@ -15,9 +15,13 @@ use Doctrine\ORM\EntityRepository;
 *
 * @ORM\Entity
 * @ORM\Table(name="mbo_champ")
-* @property int $id
-* @property string $label
-* @property string $description
+* @property int $id Identifiant unique du champ
+* @property string $label Label du champ (nom du champ)
+* @property string $description Description du champ (sert d'aide à la saisie pour l'utilisateur)
+* @property string $format Format du champ, la valeur doit faire appartenir à une liste de valeurs possibles prédéfiniées : 'texte', 'textarea', 'nombre', 'fichier', 'url', 'date'
+* @property \Collection\Entity\Data $datas L'ensemble des datas pour tous les éléments décrits par ce champ
+* @property \Collection\Entity\TypeElement $type_element Le type d'élément qui est décrit par ce champ
+* 
 */
 class Champ implements InputFilterAwareInterface
 {
@@ -31,44 +35,43 @@ class Champ implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * Nom du champ
      * @ORM\Column(type="string", length=200)
      */
     protected $label;
     
     /**
-     * Description du champ
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $description;
     
     /**
-     * Format du champ (texte, date, nombre, ...)
      * @ORM\Column(type="string", length=200)
      */
     protected $format;
     
     /**
-     * Un champ a plusieurs valeurs (une pour chaque instance d'élément qu'il décrit)
      * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}))
      **/
     protected $datas;
     
     /**
-     * Le type d'élément que décrit ce champ
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
 
     /**
-     * Booléen qui décrit si le champ est validé ou brouillon
      * @ORM\Column(type="boolean")
      **/
     protected $valide = false;
-    
+
     /**
      * Constructeur
-     **/
+     * 
+     * @param string $label Valeur par défaut : chaine vide
+     * @param \Collection\Entity\TypeElement $type_element Valeur par défaut : null
+     * @param string $format Valeur par défaut : chaine vide
+     * @throws InvalidArgumentException Si le paramètre format ne fait pas partie des format reconnus
+     */
     public function __construct($label = '', $type_element = null, $format = 'texte') {
     	$this->label = $label;
     	$this->type_element = $type_element;
@@ -179,8 +182,11 @@ class Champ implements InputFilterAwareInterface
     }
 
     /**
-     * Supprime le fichier associé à un champ
-     *
+     * Méthode pour supprimer les fichiers associés à un champ
+     * 
+     * Cette méthode va supprimer le répertoire contenant les fichiers uploadés pour ce champ
+     * Elle est utile lorsqu'un administrateur supprime un champ par exemple
+     * 
      * @return boolean
      */
     public function deleteFiles(){
@@ -207,8 +213,13 @@ class Champ implements InputFilterAwareInterface
      * Supprime le dossier et tout ce qu'il contient récursivement. 
      * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
      * 
+<<<<<<< HEAD
+     * Méthode utilisée par deleteFiles()
+     * 
+=======
      * @param string
      * @return boolean
+>>>>>>> branch 'master' of http://cervin@10.223.150.217:443/cervin.git
      */
     private function delTree($dir) {
     	if(is_dir($dir)){
@@ -225,7 +236,6 @@ class Champ implements InputFilterAwareInterface
     				}
     			}
     		}
-    
     		rmdir( $dir );
     		return true;
     	}

@@ -12,7 +12,6 @@ namespace Collection\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
-
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
@@ -29,6 +28,13 @@ use Collection\Entity\Champ;
 use Collection\Form\ChampForm;
 use Collection\Form\TypeElementForm;
 
+/**
+ * Controleur des types élément
+ *
+ * Permet d'ajouter, modifier et supprimer des types d'éléments qui sont composés de champs
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class TypeElementController extends AbstractActionController
 {
 	/**
@@ -62,7 +68,7 @@ class TypeElementController extends AbstractActionController
 	}
 	
     /**
-     * On renvoi à la vue tous les types d'artefacts et de médias qu'elle doit gérer
+     * Renvoie à la vue tous les types d'artefacts et de médias qu'elle doit gérer
      * 
      * @return multitype:unknown
      */
@@ -118,36 +124,28 @@ class TypeElementController extends AbstractActionController
         }
     }
 
-    /**
-     * Modifie les types d'elements
-     * 
-     * Cette f
-     */
-
-
-
-/**
- * Modifie les types d'elements
- * 
- * Cette fonction est forcément appelée à Ajax. Et elle permet de modifier les attributs
- * des types d’éléments et aussi d'ajouter/modifier et supprimer des champs dans les types
- *   d’éléments.
- * Lors de l'appel Ajax l'URL doit contenir l'id du type l’élément sur lequel on souhaite 
- * intervenir. 
- * L'URL peut aussi avoir un 2e paramètre qui lui contiens l'id du champ sur lequel 
- * on souhaite intervenir. 
- * Un 3e paramètre permet de choisir l'action à effectuer ( $postData['name'; )
- * Il y a donc 2 États différents : 
- * - uniquement avec l'id du type d'élément :
- * si name = nom > on set le nom du type d'élément avec :$postData['value'] 
- * si name = ajchamp > on retourne le formulaire d'ajout d'un champ. Une fois valider les données du formulaire est aussi retournée ici et est enregistrées. Retourne true une fois le champ crée.
- * si name = supprimerTypeElement > on supprime le type d’élément.
- * - Avec l'id du type d'élément et l'id du champ :
- * si name = label > on set le lable du champ 
- * si name = descripetion > on set la description 
- * si name = supprimerChamp > on supprime le champ identifié
- * 
- */
+	/**
+	 * Modifie les types d'éléments
+	 * 
+	 * Cette fonction est forcément appelée à Ajax. Et elle permet de modifier les attributs
+	 * des types d’éléments et aussi d'ajouter/modifier et supprimer des champs dans les types
+	 *   d’éléments.
+	 * Lors de l'appel Ajax l'URL doit contenir l'id du type l’élément sur lequel on souhaite 
+	 * intervenir. 
+	 * L'URL peut aussi avoir un 2e paramètre qui lui contiens l'id du champ sur lequel 
+	 * on souhaite intervenir. 
+	 * Un 3e paramètre permet de choisir l'action à effectuer ( $postData['name'; )
+	 * Il y a donc 2 États différents : 
+	 * - uniquement avec l'id du type d'élément :
+	 * si name = nom > on set le nom du type d'élément avec :$postData['value'] 
+	 * si name = ajchamp > on retourne le formulaire d'ajout d'un champ. Une fois valider les données du formulaire est aussi retournée ici et est enregistrées. Retourne true une fois le champ crée.
+	 * si name = supprimerTypeElement > on supprime le type d’élément.
+	 * - Avec l'id du type d'élément et l'id du champ :
+	 * si name = label > on set le lable du champ 
+	 * si name = descripetion > on set la description 
+	 * si name = supprimerChamp > on supprime le champ identifié
+	 * 
+	 */
     public function editTypeElementAjaxAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');

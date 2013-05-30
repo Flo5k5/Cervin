@@ -5,6 +5,7 @@ set doc=%~dp0doc\phpDoc
 echo.
 echo Code folder : %module%
 echo Destination folder : %doc%
+echo.
 echo Generating documentation ...
 echo.
 call phpdoc -d "%module%" -t "%doc%"

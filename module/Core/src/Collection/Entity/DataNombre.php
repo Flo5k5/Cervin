@@ -12,8 +12,12 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Element;
 
 /**
+ * Spécialisation de la classe Data lorsque la donnée correspondante est au format nombre
+ * 
  * @ORM\Entity
  * @ORM\Table(name="mbo_datanombre")
+ * 
+ * @property int $nombre La valeur de la donnée de format nombre
  */
 class DataNombre extends Data
 {

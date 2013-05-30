@@ -181,6 +181,7 @@ return array(
                 array('route' => 'typeElement/add', 'roles' => array('Admin')),
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
             		
+				array('route' => 'collection', 'roles' => array('Utilisateur')),
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
                 array('route' => 'collection/onLine', 'roles' => array('Collection')),
 

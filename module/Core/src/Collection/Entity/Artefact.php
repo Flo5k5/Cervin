@@ -15,38 +15,33 @@ use Collection\Entity\Element;
 /**
  * Entité d'un artefact
  *
- * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="mbo_artefact")
- * @property int $id
+ * @property \Collection\Entity\Media $medias L'ensemble des médias qui sont liés à l'artefact
+ * @property \Collection\Entity\RelationArtefacts $relations_artefacts L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
  */
 class Artefact extends Element
 {
 	protected $inputFilter;
 
 	/**
-	 * Id de l'artefact
-	 * 
-	 * @ORM\Id
-	 * @ORM\Column(type="integer");
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
-
-	/**
 	 * Médias liés à l'artefact
-	 * 
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
 	protected $medias;
 
 	/**
-	 * Lien vers les artefacts liés
 	 * 
 	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine")
 	 **/
-	protected $relations_artefacts;
-
+	protected $relations_origine;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
+	 **/
+	protected $relations_destination;
+	
 	/**
 	 * Magic getter to expose protected properties.
 	 *
@@ -82,10 +77,3 @@ class Artefact extends Element
 
 }
 
-/**
- * Repository d'un artefact
- */
-class ArtefactRepository extends EntityRepository
-{
-
-}
