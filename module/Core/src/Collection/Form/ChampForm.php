@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
 /**
- * Formulaire utilisé pour la créatio d'un nouveau champ dans un type d'élément
+ * Formulaire utilisé pour la création d'un nouveau champ dans un type d'élément
  *
  */
 class ChampForm extends Form

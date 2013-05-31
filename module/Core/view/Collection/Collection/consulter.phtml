@@ -103,5 +103,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 echo $this->DatatableWidget();
 
 $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
-$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');;
 ?>

@@ -7,6 +7,9 @@ use TestsCervin\Doctrine;
 
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Classe permettant d'effectuer des tests unitaires sur l'entité des éléments
+ */
 class ElementsTest extends Doctrine
 {
 	

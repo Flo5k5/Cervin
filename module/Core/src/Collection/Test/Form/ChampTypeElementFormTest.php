@@ -9,11 +9,14 @@ use Collection\Form\ChampTypeElementForm;
 
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Classe permettant d'effectuer des tests unitaires sur les types élément
+ */
 class ChampTypeElementFormTest extends PHPUnit_Framework_TestCase
 {
 	
 	/**
-	 * @expectedException		InvalidArgumentException
+	 * @expectedException InvalidArgumentException
 	 */
 	public function testChampTypeElementFormError() {
 		$form = new ChampTypeElementForm('Argument Invalide');
