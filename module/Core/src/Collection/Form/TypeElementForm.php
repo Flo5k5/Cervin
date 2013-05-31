@@ -3,6 +3,7 @@
 namespace Collection\Form;
 
 use Zend\Form\Form;
+use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
 
@@ -23,11 +24,14 @@ class TypeElementForm extends Form
 			'attributes' => array('type' => 'hidden')
 		));
 		
-		$this->add(array(
-			'name' => 'nom',
-			'attributes' => array('type' => 'text'),
-			'options' => array('label' => 'Nom du type d\'élément')
-		));
+
+		$nom = new Element\Text();
+		$nom->setName('nom')
+			->setLabel('Nom du type d\'élément')
+			->setAttributes(array(
+				'type' => 'text'
+			));
+		$this->add($nom);
 		
 		$this->add(array(
 			'name' => 'submit',

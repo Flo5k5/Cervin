@@ -448,62 +448,6 @@ L’arithmomètre s'inspire de la machine de Leibniz, mais introduit diverses am
 		$manager->persist($MAT_01);
 		
 		
-		$semantique_chronologie = new Parcours\Entity\SemantiqueTransition();
-		$semantique_chronologie->semantique = "Chronologique";
-		$semantique_chronologie->description = "La scène destination suit chronologiquement la scène origine.";
-		$manager->persist($semantique_chronologie);
-
-		$semantique_logique = new Parcours\Entity\SemantiqueTransition();
-		$semantique_logique->semantique = "Logique";
-		$semantique_logique->description = "La scène destination suit la scène origine dans un raisonnement, une explication, une démonstration.";
-		$manager->persist($semantique_logique);
-		
-		$semantique_analogie = new Parcours\Entity\SemantiqueTransition();
-		$semantique_analogie->semantique = "Analogie";
-		$semantique_analogie->description = "La scène destination est une transposition de la scène origine à un autre domaine";
-		$manager->persist($semantique_analogie);
-		
-		$semantique_illustration = new Parcours\Entity\SemantiqueTransition();
-		$semantique_illustration->semantique = "Illustration";
-		$semantique_illustration->description = "Le scène destination illustre plus concrètement la scène origine, plus abstraite.";
-		$manager->persist($semantique_illustration);
-		
-		$semantique_digression = new Parcours\Entity\SemantiqueTransition();
-		$semantique_digression->semantique = "Digression";
-		$semantique_digression->description = "La scène destination élargit le discours autour de la scène origine, sans y être indispensable.";
-		$manager->persist($semantique_digression);
-		
-		$semantique_precision = new Parcours\Entity\SemantiqueTransition();
-		$semantique_precision->semantique = "Précision";
-		$semantique_precision->description = "La scène destination apporte une information complémentaire précise sur une partie de la scène origine, sans être indispensable à la compréhension de celle-ci.";
-		$manager->persist($semantique_precision);
-		
-		$semantique_experience = new Parcours\Entity\SemantiqueTransition();
-		$semantique_experience->semantique = "Expérience";
-		$semantique_experience->description = "La scène destination propose au visiteur de \"faire l'expérience\" d'une notion présentée dans la scène origine.";
-		$manager->persist($semantique_experience);
-		
-		$semantique_prolepse = new Parcours\Entity\SemantiqueTransition();
-		$semantique_prolepse->semantique = "Prolepse";
-		$semantique_prolepse->description = "La scène destination est une scène qui apparaît plus tard dans le chemin recommandé (il s'agit donc d'un avant goût).";
-		$manager->persist($semantique_prolepse);
-		
-		$semantique_analepse = new Parcours\Entity\SemantiqueTransition();
-		$semantique_analepse->semantique = "Analepse";
-		$semantique_analepse->description = "La scène destination est une scène qui apparaît plus tôt dans le chemin recommandé (il s'agit donc d'un rappel).";
-		$manager->persist($semantique_analepse);
-		
-		$semantique_enallage = new Parcours\Entity\SemantiqueTransition();
-		$semantique_enallage->semantique = "Enallage";
-		$semantique_enallage->description = "La scène destination introduit une rupture (de sujet, de ton, de rythme) par rapport à la scène origine.";
-		$manager->persist($semantique_enallage);
-		
-		$semantique_secret = new Parcours\Entity\SemantiqueTransition();
-		$semantique_secret->semantique = "Passage secret";
-		$semantique_secret->description = "La scène destination appartient à un autre parcours que la scène origine, la transition est proposée.";
-		$manager->persist($semantique_secret);
-		
-		$manager->flush();
 		
 		/*
 		 * Parcours, Sous-parcours
