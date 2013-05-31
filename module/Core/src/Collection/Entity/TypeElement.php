@@ -22,6 +22,7 @@ use \Doctrine\ORM\Query;
 * @property string $type Le type d'u type d'élément : 'média' ou 'artefact'
 * @property \Collection\Entity\Champ $champs Les champs qui décrivent tout élément de ce type d'élémént
 * @property \Collection\Entity\Element $elements Les éléments de ce type d'élément
+* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
 */
 class TypeElement implements InputFilterAwareInterface
 {
@@ -57,6 +58,18 @@ class TypeElement implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
      **/
     protected $elements;
+    
+    /**
+     * Les sémantiques dont le type d'élément est à l'origine
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_origine", cascade={"remove"})
+     **/
+    protected $semantique_origine;
+    
+    /**
+     * Les sémantiques dont le type d'élément est en destination
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_destination", cascade={"remove"})
+     **/
+    protected $semantique_destination;
 
     /**
      * Booléen qui décrit si le type d'élément est validé ou brouillon

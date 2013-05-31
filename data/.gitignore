@@ -1,3 +1,2 @@
 DoctrineORMModule/*
-/cache
-/DoctrineORMModule
+cache/*

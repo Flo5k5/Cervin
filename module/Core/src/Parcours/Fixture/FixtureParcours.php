@@ -411,7 +411,9 @@ class FixtureParcours implements FixtureInterface
 		 */
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Institution'));
-		$jean_kuntzmann = new Collection\Entity\Artefact('La machine de Schickard', $type_artefact_personne);
+		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$jean_kuntzmann->populate(null);
+		$jean_kuntzmann->titre = 'La machine de Schickard';
 		$jean_kuntzmann->description = "Wilhelm Schickard (1592-1635) était un pasteur luthérien allemand, qui devint professeur d'hébreu, puis d’astronomie à l’université de Tübingen. En 1623 et 1624, il décrit, dans des lettres adressées à Kepler, une machine à calculer de son invention, capable de faire des additions et des soustractions sur des nombres jusqu’à 6 chiffres. La multiplication et la division étaient réalisées à l’aide de bâtons de Napier, mais l'opérateur devait gérer lui-même le stockage de résultats intermédiaires.
 <br>
 Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut détruit dans un incendie avant d’avoir été terminé, et ne fut pas reconstruit.
@@ -419,7 +421,9 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		$manager->persist($jean_kuntzmann);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$gamma_3 = new Collection\Entity\Artefact('La Pascaline', $type_artefact_materiel);
+		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$gamma_3->populate(null);
+		$gamma_3->titre = 'La Pascaline';
 		$gamma_3->description = "
 				La pascaline est une machine à calculer mécanique inventée en 1642 par Blaise Pascal (1623-1662). Cette machine, qui pouvait faire les additions et les soustractions, fut construite en une vingtaine d’exemplaires, dont neuf ont survécu jusqu’à nos jours (quatre d’entre eux sont exposés au Musée des Arts et Métiers, à Paris).
 <br>
@@ -430,7 +434,9 @@ La pascaline est considérée comme la première machine à calculer mécanique 
 		$manager->persist($gamma_3);
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$rene_perret = new Collection\Entity\Artefact('La machine de Leibniz', $type_artefact_personne);
+		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$rene_perret->populate(null);
+		$rene_perret->titre = 'La machine de Leibniz';
 		$rene_perret->description = "
 				En 1672, lors d’un voyage à Paris, Leibniz découvre la pascaline, calculateur mécanique pouvant faire les additions et soustractions. Il conçoit alors l’idée d’une machine pouvant également réaliser les multiplications et divisions. On pense que deux machines seulement ont été construites à l’époque de Leibniz, l’une entre 1686 et 1694, l’autre entre 1690 et 1720. Cette dernière a survécu et se trouve à la Niedersächsische Landesbibliothek à Hanovre. Des répliques fonctionnelles en ont été réalisées (ci contre, copie conservée au Technische Sammlungen Museum à Dresde). La complexité du mécanisme était à la limite des capacités de réalisation mécanique de l’époque.
 <br>
@@ -439,7 +445,9 @@ La machine de Leibniz, et en particulier le mécanisme du cylindre, est la sourc
 		$manager->persist($rene_perret);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$MAT_01 = new Collection\Entity\Artefact('Arithmomètres et calculatrices', $type_artefact_materiel);
+		$MAT_01 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$MAT_01->populate(null);
+		$MAT_01->titre = 'Arithmomètres et calculatrices';
 		$MAT_01->description = "Au cours du 18ème siècle, plusieurs inventeurs (Poleni, Hahn, Stanhope et d’autres) développèrent des calculateurs mécaniques, en utilisant le cylindre de Leibniz ou des mécanismes équivalents. Mais ces expériences eurent peu de retombées. Il fallut attendre 1820 pour une avancée décisive, l’arithmomètre de Thomas de Colmar. On peut noter qu’à la même époque Charles Babbage travaillait sur sa machine à différences, qui, trop en avance sur son époque, ne put être réalisée.
 <br>
 Charles-Xavier Thomas, connu sous le nom de Thomas de Colmar, après un bref passage dans l’armée comme officier d’administration, créa et dirigea plusieurs compagnies d'assurances. Parallèlement, il développa plusieurs versions de l’arithmomètre et lança sa fabrication en série en 1851.
@@ -448,62 +456,6 @@ L’arithmomètre s'inspire de la machine de Leibniz, mais introduit diverses am
 		$manager->persist($MAT_01);
 		
 		
-		$semantique_chronologie = new Parcours\Entity\SemantiqueTransition();
-		$semantique_chronologie->semantique = "Chronologique";
-		$semantique_chronologie->description = "La scène destination suit chronologiquement la scène origine.";
-		$manager->persist($semantique_chronologie);
-
-		$semantique_logique = new Parcours\Entity\SemantiqueTransition();
-		$semantique_logique->semantique = "Logique";
-		$semantique_logique->description = "La scène destination suit la scène origine dans un raisonnement, une explication, une démonstration.";
-		$manager->persist($semantique_logique);
-		
-		$semantique_analogie = new Parcours\Entity\SemantiqueTransition();
-		$semantique_analogie->semantique = "Analogie";
-		$semantique_analogie->description = "La scène destination est une transposition de la scène origine à un autre domaine";
-		$manager->persist($semantique_analogie);
-		
-		$semantique_illustration = new Parcours\Entity\SemantiqueTransition();
-		$semantique_illustration->semantique = "Illustration";
-		$semantique_illustration->description = "Le scène destination illustre plus concrètement la scène origine, plus abstraite.";
-		$manager->persist($semantique_illustration);
-		
-		$semantique_digression = new Parcours\Entity\SemantiqueTransition();
-		$semantique_digression->semantique = "Digression";
-		$semantique_digression->description = "La scène destination élargit le discours autour de la scène origine, sans y être indispensable.";
-		$manager->persist($semantique_digression);
-		
-		$semantique_precision = new Parcours\Entity\SemantiqueTransition();
-		$semantique_precision->semantique = "Précision";
-		$semantique_precision->description = "La scène destination apporte une information complémentaire précise sur une partie de la scène origine, sans être indispensable à la compréhension de celle-ci.";
-		$manager->persist($semantique_precision);
-		
-		$semantique_experience = new Parcours\Entity\SemantiqueTransition();
-		$semantique_experience->semantique = "Expérience";
-		$semantique_experience->description = "La scène destination propose au visiteur de \"faire l'expérience\" d'une notion présentée dans la scène origine.";
-		$manager->persist($semantique_experience);
-		
-		$semantique_prolepse = new Parcours\Entity\SemantiqueTransition();
-		$semantique_prolepse->semantique = "Prolepse";
-		$semantique_prolepse->description = "La scène destination est une scène qui apparaît plus tard dans le chemin recommandé (il s'agit donc d'un avant goût).";
-		$manager->persist($semantique_prolepse);
-		
-		$semantique_analepse = new Parcours\Entity\SemantiqueTransition();
-		$semantique_analepse->semantique = "Analepse";
-		$semantique_analepse->description = "La scène destination est une scène qui apparaît plus tôt dans le chemin recommandé (il s'agit donc d'un rappel).";
-		$manager->persist($semantique_analepse);
-		
-		$semantique_enallage = new Parcours\Entity\SemantiqueTransition();
-		$semantique_enallage->semantique = "Enallage";
-		$semantique_enallage->description = "La scène destination introduit une rupture (de sujet, de ton, de rythme) par rapport à la scène origine.";
-		$manager->persist($semantique_enallage);
-		
-		$semantique_secret = new Parcours\Entity\SemantiqueTransition();
-		$semantique_secret->semantique = "Passage secret";
-		$semantique_secret->description = "La scène destination appartient à un autre parcours que la scène origine, la transition est proposée.";
-		$manager->persist($semantique_secret);
-		
-		$manager->flush();
 		
 		/*
 		 * Parcours, Sous-parcours

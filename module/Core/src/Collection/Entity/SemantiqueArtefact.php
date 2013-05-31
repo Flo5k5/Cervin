@@ -22,6 +22,7 @@ use \Doctrine\ORM\Query;
 * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
 * @property string $semantique La sémantique elle même
 * @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
+* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
 */
 class SemantiqueArtefact implements InputFilterAwareInterface
 {
@@ -51,7 +52,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $semantique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique")
+    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
     **/
     protected $relations;
 

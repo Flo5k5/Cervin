@@ -96,14 +96,23 @@
 			}
 		});
 	   	
-	   	$(document).on("click",".modalRelArtSem .ajouterSemantique", function(e){
+	   	$(document).on("click",".modalRelArtSem .ajouterSemantiqueArtefact", function(e){
 	   		e.preventDefault();
 	   		
-		    var URL = $(this).attr('data-url');
+	   		var $form    = $('.modalRelArtSem .form-semantiqueArtefact');
+	   		var inputVal = $form.find( 'input[name="semantiqueArtefact"]:checked' ).val();
+	   		
+		    var URL      = $form.attr( 'action' );
+		    
+		    if(typeof(inputVal) == 'undefined'){
+		    	$('.messageSemantique').showInfos("Pas de sémantique sélectionnée", "error");
+		    	return false;
+		    }
 		    
 			$.ajax({
 				url: URL,
-				type: "GET",
+				type: "POST",
+				data:{ 'idSemantique' : inputVal }
 			}).done(function(e){
 			
 				var resp = jQuery.parseJSON(e);

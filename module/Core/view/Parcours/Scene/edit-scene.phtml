@@ -60,7 +60,7 @@ $this->headTitle($title);
 		<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
 			
 			<div class="tab-pane active" id="tab1">
-				<h4> Eléments déjà liés </h4>
+				<h4> Eléments déjà présents </h4>
 				<?php if ($scene->elements != null) : ?>
 					<table class="table">
 					<?php foreach($scene->elements as $element) : ?>
@@ -98,10 +98,10 @@ $this->headTitle($title);
 					<?php endforeach ;?>
 					</table>
 				<?php else : ?>
-					<p> Aucun élément n'est lié à cette scène. </p>
+					<p> Aucun élément de la collection n'est présent cette scène. </p>
 				<?php endif; ?>
 				
-				<h4>Lier un nouvel élément</h4>
+				<h4>Ajouter des éléments à la scène </h4>
 				<div class="well">
 					<?php echo $this->DatatableWidget( 'scene' ); ?> 
 				</div>
