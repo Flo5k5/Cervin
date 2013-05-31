@@ -57,6 +57,18 @@ class TypeElement implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="type_element", cascade={"remove"})
      **/
     protected $elements;
+    
+    /**
+     * Les sémantiques dont le type d'élément est à l'origine
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_origine", cascade={"remove"})
+     **/
+    protected $semantique_origine;
+    
+    /**
+     * Les sémantiques dont le type d'élément est en destination
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SemantiqueArtefact", mappedBy="type_destination", cascade={"remove"})
+     **/
+    protected $semantique_destination;
 
     /**
      * Booléen qui décrit si le type d'élément est validé ou brouillon

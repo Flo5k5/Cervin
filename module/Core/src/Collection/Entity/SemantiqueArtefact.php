@@ -51,7 +51,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $semantique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique")
+    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
     **/
     protected $relations;
 
