@@ -21,7 +21,7 @@ use Doctrine\ORM\EntityRepository;
 * @property string $format Format du champ, la valeur doit faire appartenir à une liste de valeurs possibles prédéfiniées : 'texte', 'textarea', 'nombre', 'fichier', 'url', 'date'
 * @property \Collection\Entity\Data $datas L'ensemble des datas pour tous les éléments décrits par ce champ
 * @property \Collection\Entity\TypeElement $type_element Le type d'élément qui est décrit par ce champ
-* 
+* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
 */
 class Champ implements InputFilterAwareInterface
 {
