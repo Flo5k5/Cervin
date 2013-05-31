@@ -12,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Entité d'une sémantique possible des transitions entre scènes
 *
 * @ORM\Entity
-* @ORM\Table(name="mbo_semantiqueTransition")
+* @ORM\Table(name="mbo_semantiquetransition")
 * @property int $id
 * @property string $semantique
 */

@@ -614,7 +614,9 @@ return array(
             'collection/semantique/modifier'     => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
                 
             'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
-            'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml'
+            'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml',
+        		
+        	'parcours/semantique-transition/index'	=> __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml'
         ),
         'template_path_stack' => array(
             'Collection' => __DIR__ . '/../view',
