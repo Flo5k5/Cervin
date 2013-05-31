@@ -8,17 +8,26 @@
 		<form class="form-semantiqueArtefact" action="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array( 'idOrigine' => $idOrigine, 'idDestination' => $idDestination ))); ?>">
 			<dl>
 			<?php if( $semantiques != null ) : ?>
+			
+			<h4> <?php echo $this->escapeHtml($titreOrigine); ?> </h4>
+			
+			<table class="table">
 				<?php foreach($semantiques as $semantique) : ?>
-				
-				<label class="radio">
-					<dt><input type="radio" name="semantiqueArtefact" id="semantiqueArtefact<?php echo $this->escapeHtml($semantique->id); ?>" value="<?php echo $this->escapeHtml($semantique->id); ?>"><?php echo $this->escapeHtml($semantique->semantique); ?></dt>
-				</label>
-				
+				<tr>
+					<td><dd>
+					<label class="radio">
+						<input type="radio" name="semantiqueArtefact" id="semantiqueArtefact<?php echo $this->escapeHtml($semantique->id); $titreDestination;  ?>" value="<?php echo $this->escapeHtml($semantique->id); ?> "><?php echo $this->escapeHtml($semantique->semantique); ?></dt>
+					</label>
+					</dd></td>
+				</tr>
 				<?php endforeach; ?>
+			</table>
+			<h4> <?php echo $this->escapeHtml($titreDestination); ?> </h4>
+			
 			<?php else : ?>
 			
 				<label class="radio">
-					<dt> Pas de sémantique correspondante trouvée </dt>
+					<dt> Aucune sémantique n'est proposée pour relier ces deux artefacts </dt>
 				</label>
 				
 			<?php endif; ?>
@@ -30,6 +39,8 @@
 	</div>
 
 	<div class="modal-footer">
-		<a href="#" class="btn btn-primary ajouterSemantiqueArtefact">Confirmer</a>
+		<?php if( $semantiques != null ) : ?>
+			<a href="#" class="btn btn-primary ajouterSemantiqueArtefact">Confirmer</a>
+		<?php endif; ?>
 		<a href="#" class="btn" data-dismiss="modal">Fermer</a>
 	</div>

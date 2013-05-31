@@ -339,7 +339,7 @@ class ArtefactController extends AbstractActionController
 				
 				$elementDestination = $this->getEntityManager()->find('Collection\Entity\Element', $idElementDestination);
 				$elementOrigine     = $this->getEntityManager()->find('Collection\Entity\Element', $idElementOrigine);
-				
+
 				if (null === $elementDestination || null === $elementOrigine ) {
 					$this->flashMessenger()->addErrorMessage(sprintf('Entity not found'));
 					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
@@ -353,7 +353,9 @@ class ArtefactController extends AbstractActionController
 						array(
 								'semantiques'   => $semantiques,
 								'idOrigine'     => $idElementOrigine,
-								'idDestination' => $idElementDestination
+								'idDestination' => $idElementDestination,
+								'titreOrigine' => $elementOrigine->titre,
+								'titreDestination' => $elementDestination->titre
 						)
 				);
 				
