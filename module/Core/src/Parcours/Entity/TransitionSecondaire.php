@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Entité d'une transition secondaire
 *
 * @ORM\Entity
-* @ORM\Table(name="mbo_transitionSecondaire")
+* @ORM\Table(name="mbo_transitionsecondaire")
 */
 class TransitionSecondaire extends Transition
 {

@@ -74,8 +74,8 @@ class TypeElementController extends AbstractActionController
      */
     public function indexAction()
     {
-    	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'));
-    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'));
+    	$TEartefacts = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'artefact'), array('nom' => 'ASC'));
+    	$TEmedias = $this->getEntityManager()->getRepository('Collection\Entity\TypeElement')->findBy(array('type'=>'media'), array('nom' => 'ASC'));
     	return array(
     		'TEartefacts' => $TEartefacts,
     		'TEmedias' => $TEmedias,

@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 * Entité d'une scène recommandée
 *
 * @ORM\Entity
-* @ORM\Table(name="mbo_sceneRecommandee")
+* @ORM\Table(name="mbo_scenerecommandee")
 */
 class SceneRecommandee extends Scene
 {
