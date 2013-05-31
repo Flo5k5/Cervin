@@ -16,7 +16,6 @@ use Collection\Entity\Data;
 use Collection\Entity\RelationArtefacts;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Json\Json;
-
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 
@@ -319,7 +318,7 @@ class ArtefactController extends AbstractActionController
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			
-			$idSemantique = (int) $this->params()->fromRoute('idSemantique', 0);
+			$idSemantique = (int) $this->params()->fromPost('idSemantique', 0);
 
 			//Si il n'y a pas de sémantique, on charge la modal
 			if(!$idSemantique){
@@ -339,7 +338,7 @@ class ArtefactController extends AbstractActionController
 				
 				$elementDestination = $this->getEntityManager()->find('Collection\Entity\Element', $idElementDestination);
 				$elementOrigine     = $this->getEntityManager()->find('Collection\Entity\Element', $idElementOrigine);
-				
+
 				if (null === $elementDestination || null === $elementOrigine ) {
 					$this->flashMessenger()->addErrorMessage(sprintf('Entity not found'));
 					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
@@ -353,7 +352,9 @@ class ArtefactController extends AbstractActionController
 						array(
 								'semantiques'   => $semantiques,
 								'idOrigine'     => $idElementOrigine,
-								'idDestination' => $idElementDestination
+								'idDestination' => $idElementDestination,
+								'titreOrigine' => $elementOrigine->titre,
+								'titreDestination' => $elementDestination->titre
 						)
 				);
 				
