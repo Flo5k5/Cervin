@@ -7,6 +7,9 @@ use Collection\Form\ChampForm;
 
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Classe permettant d'effectuer des tests unitaires sur les champs
+ */
 class ChampFormTest extends PHPUnit_Framework_TestCase
 {
 	
