@@ -163,7 +163,7 @@ class AdminController extends AbstractActionController
             if (!$id) {
                 return $this->redirect()->toRoute('home');
             }
-
+			$user = null;
             try {
                 $user = $this->getEntityManager()->find('SamUser\Entity\User', $id);
             }
