@@ -83,14 +83,15 @@ echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scal
 
 $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp'));
 // echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); 
- $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
+$this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
 echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap.css');
 
 // Le js
- $this->headScript()->prependFile($this->basePath() . '/js/jquery.js');
- echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.js');
+$this->headScript()->prependFile($this->basePath() . '/js/bootstrap.js');
+$this->headScript()->prependFile($this->basePath() . '/js/jquery.js');
 // echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js');
-echo $this->headStyle(); 
+echo $this->headStyle();
+echo $this->headScript(); 
 ?>
    </head>
    <body>
