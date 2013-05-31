@@ -6,7 +6,10 @@ use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Http\Request;
 use Zend\View\Helper\AbstractHelper;
- 
+
+/**
+ * Widget permettant d'appeler facilement une Datatable depuis une vue
+ */
 class DatatableWidget extends AbstractHelper
 {
 	/**
@@ -54,6 +57,15 @@ class DatatableWidget extends AbstractHelper
         return $this->em;
     }
 
+    /**
+     * Fonction appelée lors de l'appel du widget
+     * 
+     * Elle permet d'inclure la bonne Datatable selon le paramètre passé 
+     * et de passer les paramètres pour la requête à la Datatable.
+     * 
+     * @param string $view Vue de la Datatable à appeler
+     * @param string $params Conditions pour la requête de la Datatable
+     */
     public function __invoke($view = null, $params = null)
     {
 

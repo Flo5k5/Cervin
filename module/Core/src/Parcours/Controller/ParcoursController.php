@@ -18,6 +18,13 @@ use Parcours\Form\ParcoursForm;
 use Parcours\Entity\TransitionRecommandee;
 use Zend\Json\Json;
 
+/**
+ * Controleur des parcours
+ *
+ * Permet la création, lecture, modification et suppression d'un parcours
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class ParcoursController extends AbstractActionController
 {
 
@@ -51,6 +58,10 @@ class ParcoursController extends AbstractActionController
 		return $this->em;
 	}
 
+	/**
+	 * Affiche la liste des parcours
+	 * 
+	 */
     public function indexAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
@@ -121,42 +132,54 @@ class ParcoursController extends AbstractActionController
     public function ajouterAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-        $escapeHtml = $viewHelperManager->get('escapeHtml');
-        $form = new ParcoursForm();
-        $Parcours = new Parcours();
+        $escapeHtml        = $viewHelperManager->get('escapeHtml');
+        $form              = new ParcoursForm();
+        $Parcours          = new Parcours();
+        $request           = $this->getRequest();
         $form->bind($Parcours);
-        $request = $this->getRequest();
+
         if ($request->isPost()) {
+        	
             $form->setInputFilter($Parcours->getInputFilter());
             $form->setData($request->getPost());
+            
             if ($form->isValid()) {
                 $this->getEntityManager()->persist($Parcours);
                 $this->getEntityManager()->flush();
                 $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
                 return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
             }
+            
         }
+        
         return new ViewModel(array('form'=>$form));
     }
 
+    /**
+     * Affiche la fiche d'un parcours
+     * 
+     * @return void|\Zend\View\Model\ViewModel
+     */
     public function voirAction()
     {
 
-
         $id = (int) $this->params('id', null);
+        
         if (null === $id) {
             $this->getResponse()->setStatusCode(404);
             return; 
         }
 
         $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+        
         if ($Parcours === null) {
             $this->getResponse()->setStatusCode(404);
             return; 
         }
+        
         $SemantiqueTransitions = $this->getEntityManager()
-                            ->getRepository('Parcours\Entity\SemantiqueTransition')
-                            ->findBy(array(), array('semantique'=>'asc'));
+                                      ->getRepository('Parcours\Entity\SemantiqueTransition')
+                                      ->findBy(array(), array('semantique'=>'asc'));
 
         return new ViewModel(array('Parcours'=>$Parcours,'SemantiqueTransitions'=>$SemantiqueTransitions));
     }
@@ -167,13 +190,16 @@ class ParcoursController extends AbstractActionController
         {
             $id = (int) $this->params('id', null);
             $Parcours = $this->getEntityManager()
-                                        ->getRepository('Parcours\Entity\Parcours')
-                                        ->findOneBy(array('id'=>$id));
+                             ->getRepository('Parcours\Entity\Parcours')
+                             ->findOneBy(array('id'=>$id));
+            
             if ($Parcours === null || $id === null) {
                 $this->getResponse()->setStatusCode(404);
                 return;
             }
+            
             $request = $this->params()->fromPost();
+            
             switch ($request['name']) {
                 case 'titre':
                     $Parcours->titre = $request['value'];
@@ -189,34 +215,37 @@ class ParcoursController extends AbstractActionController
                     $this->getResponse()->setStatusCode(404);
                     break;
             }
+            
             return $this->getResponse()->setContent(Json::encode(true));
         
         } else {
             $this->getResponse()->setStatusCode(404);
         }
     }
+    
     /**  
-    * Modifier la semantique ou la narration d'une transition 
-    *    
-    **/ 
-        public function modifierTransitionAction()
+     * Modifie la sémantique ou la narration d'une transition 
+     */
+    public function modifierTransitionAction()
     {
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $id = (int) $this->params('id', null);
             $TransitionRecommandee = $this->getEntityManager()
-                                        ->getRepository('Parcours\Entity\TransitionRecommandee')
-                                        ->findOneBy(array('id'=>$id));
+                                          ->getRepository('Parcours\Entity\TransitionRecommandee')
+                                          ->findOneBy(array('id'=>$id));
+            
             if ($TransitionRecommandee === null || $id === null) {
                 $this->getResponse()->setStatusCode(404);
                 return;
             }
+            
             $request = $this->params()->fromPost();
             switch ($request['name']) {
                 case 'semantique':
                     $SemantiqueTransition = $this->getEntityManager()
-                                        ->getRepository('Parcours\Entity\SemantiqueTransition')
-                                        ->findOneBy(array('id'=>$request['value']));
+                                                 ->getRepository('Parcours\Entity\SemantiqueTransition')
+                                                 ->findOneBy(array('id'=>$request['value']));
                     $TransitionRecommandee->semantique = $SemantiqueTransition;
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(array('return'=>$TransitionRecommandee->semantique->semantique)));
@@ -237,6 +266,5 @@ class ParcoursController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
         }
     }
-
 
 }

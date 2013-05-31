@@ -3,6 +3,9 @@ namespace Parcours\Model;
 
 use DataTable\Model\DataTable;
 
+/**
+ * Extension de la classe Datatable pour gérer les parcours
+ */
 class ParcoursDataTable extends DataTable
 {
 	/**
