@@ -27,6 +27,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
     <?php endif;?>
 </div>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Aide : Gestion des parcours</h3>
+    </div>
+    <div class="modal-body">
+ Cette page vous permet de gérer la structure d'un parcours ou de voir la structure en fonction de vos droits.     </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
 
 <style type="text/css">
 .well{
