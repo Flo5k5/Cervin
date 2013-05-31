@@ -319,7 +319,7 @@ class ArtefactController extends AbstractActionController
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			
-			$idSemantique = (int) $this->params()->fromRoute('idSemantique', 0);
+			$idSemantique = (int) $this->params()->fromPost('idSemantique', 0);
 
 			//Si il n'y a pas de sémantique, on charge la modal
 			if(!$idSemantique){

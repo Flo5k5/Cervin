@@ -1,36 +1,35 @@
 
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<a class="close" data-dismiss="modal">×</a>
 		<h3>Choisir une sémantique</h3>
 	</div>
-	
+
 	<div class="modal-body">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Sémantique</th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody>
+		<form class="form-semantiqueArtefact" action="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array( 'idOrigine' => $idOrigine, 'idDestination' => $idDestination ))); ?>">
+			<dl>
 			<?php if( $semantiques != null ) : ?>
 				<?php foreach($semantiques as $semantique) : ?>
-				<tr>
-					<td><?php echo $this->escapeHtml($semantique->semantique); ?></td>
-					<td>
-						<a href="#" class="btn btn-primary ajouterSemantique" data-url="<?php echo $this->escapeHtml($this->url('artefact/addRelationArtefactSemantique', array('idSemantique' => $semantique->id, 'idOrigine' => $idOrigine, 'idDestination' => $idDestination))); ?>">
-							<i class="icon-plus"></i> Lier avec cette sémantique
-						</a>
-					</td>
-				</tr>
+				
+				<label class="radio">
+					<dt><input type="radio" name="semantiqueArtefact" id="semantiqueArtefact<?php echo $this->escapeHtml($semantique->id); ?>" value="<?php echo $this->escapeHtml($semantique->id); ?>"><?php echo $this->escapeHtml($semantique->semantique); ?></dt>
+				</label>
+				
 				<?php endforeach; ?>
 			<?php else : ?>
-				<tr>
-					<td colspan="2"> Pas de sémantique correspondante trouvée </td>
-				</tr>
+			
+				<label class="radio">
+					<dt> Pas de sémantique correspondante trouvée </dt>
+				</label>
+				
 			<?php endif; ?>
-	    	</tbody>
-		</table>
+			</dl>
+		</form>
 		
 		<div class="messageSemantique">&nbsp;</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<a href="#" class="btn btn-primary ajouterSemantiqueArtefact">Confirmer</a>
+		<a href="#" class="btn" data-dismiss="modal">Fermer</a>
 	</div>
