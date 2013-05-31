@@ -16,7 +16,6 @@ use Collection\Entity\Data;
 use Collection\Entity\RelationArtefacts;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Json\Json;
-
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 

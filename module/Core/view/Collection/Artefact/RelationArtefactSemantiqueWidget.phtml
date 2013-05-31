@@ -104,6 +104,11 @@
 	   		
 		    var URL      = $form.attr( 'action' );
 		    
+		    if(typeof(inputVal) == 'undefined'){
+		    	$('.messageSemantique').showInfos("Pas de sémantique sélectionnée", "error");
+		    	return false;
+		    }
+		    
 			$.ajax({
 				url: URL,
 				type: "POST",
