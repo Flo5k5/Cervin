@@ -616,7 +616,15 @@ return array(
             'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
             'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml',
         		
-        	'parcours/semantique-transition/index'	=> __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml'
+        	'parcours/semantique-transition/index'	=> __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml',
+        	'parcours/semantique-transition/ajouter'=> __DIR__ . '/../view/Parcours/Semantique-Transition/ajouter.phtml',
+        		
+        	'parcours/parcours/index'		=> __DIR__ . '/../view/Parcours/Parcours/index.phtml',
+        	'parcours/parcours/voir'		=> __DIR__ . '/../view/Parcours/Parcours/voir.phtml',
+        	'parcours/parcours/ajouter'		=> __DIR__ . '/../view/Parcours/Parcours/ajouter.phtml',
+        		
+        	'parcours/scene/voir-scene'		=> __DIR__ . '/../view/Parcours/Scene/voir-scene.phtml',
+        	'parcours/scene/edit-scene'		=> __DIR__ . '/../view/Parcours/Scene/edit-scene.phtml',
         ),
         'template_path_stack' => array(
             'Collection' => __DIR__ . '/../view',
