@@ -411,7 +411,9 @@ class FixtureParcours implements FixtureInterface
 		 */
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Institution'));
-		$jean_kuntzmann = new Collection\Entity\Artefact('La machine de Schickard', $type_artefact_personne);
+		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$jean_kuntzmann->populate(null);
+		$jean_kuntzmann->titre = 'La machine de Schickard';
 		$jean_kuntzmann->description = "Wilhelm Schickard (1592-1635) était un pasteur luthérien allemand, qui devint professeur d'hébreu, puis d’astronomie à l’université de Tübingen. En 1623 et 1624, il décrit, dans des lettres adressées à Kepler, une machine à calculer de son invention, capable de faire des additions et des soustractions sur des nombres jusqu’à 6 chiffres. La multiplication et la division étaient réalisées à l’aide de bâtons de Napier, mais l'opérateur devait gérer lui-même le stockage de résultats intermédiaires.
 <br>
 Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut détruit dans un incendie avant d’avoir été terminé, et ne fut pas reconstruit.
@@ -419,7 +421,9 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		$manager->persist($jean_kuntzmann);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$gamma_3 = new Collection\Entity\Artefact('La Pascaline', $type_artefact_materiel);
+		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$gamma_3->populate(null);
+		$gamma_3->titre = 'La Pascaline';
 		$gamma_3->description = "
 				La pascaline est une machine à calculer mécanique inventée en 1642 par Blaise Pascal (1623-1662). Cette machine, qui pouvait faire les additions et les soustractions, fut construite en une vingtaine d’exemplaires, dont neuf ont survécu jusqu’à nos jours (quatre d’entre eux sont exposés au Musée des Arts et Métiers, à Paris).
 <br>
@@ -430,7 +434,9 @@ La pascaline est considérée comme la première machine à calculer mécanique 
 		$manager->persist($gamma_3);
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$rene_perret = new Collection\Entity\Artefact('La machine de Leibniz', $type_artefact_personne);
+		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
+		$rene_perret->populate(null);
+		$rene_perret->titre = 'La machine de Leibniz';
 		$rene_perret->description = "
 				En 1672, lors d’un voyage à Paris, Leibniz découvre la pascaline, calculateur mécanique pouvant faire les additions et soustractions. Il conçoit alors l’idée d’une machine pouvant également réaliser les multiplications et divisions. On pense que deux machines seulement ont été construites à l’époque de Leibniz, l’une entre 1686 et 1694, l’autre entre 1690 et 1720. Cette dernière a survécu et se trouve à la Niedersächsische Landesbibliothek à Hanovre. Des répliques fonctionnelles en ont été réalisées (ci contre, copie conservée au Technische Sammlungen Museum à Dresde). La complexité du mécanisme était à la limite des capacités de réalisation mécanique de l’époque.
 <br>
@@ -439,7 +445,9 @@ La machine de Leibniz, et en particulier le mécanisme du cylindre, est la sourc
 		$manager->persist($rene_perret);
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
-		$MAT_01 = new Collection\Entity\Artefact('Arithmomètres et calculatrices', $type_artefact_materiel);
+		$MAT_01 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
+		$MAT_01->populate(null);
+		$MAT_01->titre = 'Arithmomètres et calculatrices';
 		$MAT_01->description = "Au cours du 18ème siècle, plusieurs inventeurs (Poleni, Hahn, Stanhope et d’autres) développèrent des calculateurs mécaniques, en utilisant le cylindre de Leibniz ou des mécanismes équivalents. Mais ces expériences eurent peu de retombées. Il fallut attendre 1820 pour une avancée décisive, l’arithmomètre de Thomas de Colmar. On peut noter qu’à la même époque Charles Babbage travaillait sur sa machine à différences, qui, trop en avance sur son époque, ne put être réalisée.
 <br>
 Charles-Xavier Thomas, connu sous le nom de Thomas de Colmar, après un bref passage dans l’armée comme officier d’administration, créa et dirigea plusieurs compagnies d'assurances. Parallèlement, il développa plusieurs versions de l’arithmomètre et lança sa fabrication en série en 1851.
