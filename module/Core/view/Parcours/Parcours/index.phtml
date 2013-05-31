@@ -57,7 +57,9 @@ $this->headTitle($title);
 </div>
 
 <?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
-<?php $this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;?>
+<?php 
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 
 <?php $this->inlineScript()->captureStart(); ?>
 	var tableParcours;

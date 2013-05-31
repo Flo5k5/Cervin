@@ -149,6 +149,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 <?php 
 $this->inlineScript()->captureEnd();
 
-$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js') ;
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js'); 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
 ?>

@@ -15,7 +15,7 @@ return array(
         'ZfcUser',
         'ZfcUserDoctrineORM',
     	'DoctrineDataFixtureModule',
-        'AssetManager',
+        //'AssetManager',
         'Application',
         'Core',
         'DataTable',

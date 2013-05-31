@@ -76,24 +76,22 @@ echo $this->doctype();
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <?php echo $this->headTitle('Cervin')->setSeparator(' - ')->setAutoEscape(false); ?>
-    
-        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0'); ?>
-    
-        <!-- Le styles -->
-        <?php  $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp')); ?>
+<?php 
+echo $this->headTitle('Cervin')->setSeparator(' - ')->setAutoEscape(false); 
+echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+// Le styles 
 
-        <?php // echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); 
-echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
-echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap.css');  ?>
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp'));
+// echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); 
+echo $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
+echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap.css');
 
-        <?php  
-        echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap.js');
-        echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.js');
-       // echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js');
-        ?>
-
-        <?php echo $this->headStyle(); ?>
+// Le js
+echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.js');
+echo $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.js');
+// echo $this->headScript()->prependFile($this->basePath() . '/js/bootstrap-all.js');
+echo $this->headStyle(); 
+?>
    </head>
    <body>
         <div class="navbar navbar-inverse ">

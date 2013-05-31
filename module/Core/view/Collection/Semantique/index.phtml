@@ -102,7 +102,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
-$this->headScript()->appendFile($this->basePath() . '/js/dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');
 //$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 
 $this->inlineScript()->captureStart(); ?>
