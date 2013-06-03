@@ -11,27 +11,27 @@ use InvalidArgumentException;
 use Doctrine\ORM\EntityRepository;
 
 /**
-* Entité d'un champ d'un type d'élément
-*
-* @ORM\Entity
-* @ORM\Table(name="mbo_champ")
-* @property int $id Identifiant unique du champ
-* @property string $label Label du champ (nom du champ)
-* @property string $description Description du champ (sert d'aide à la saisie pour l'utilisateur)
-* @property string $format Format du champ, la valeur doit faire appartenir à une liste de valeurs possibles prédéfiniées : 'texte', 'textarea', 'nombre', 'fichier', 'url', 'date'
-* @property \Collection\Entity\Data $datas L'ensemble des datas pour tous les éléments décrits par ce champ
-* @property \Collection\Entity\TypeElement $type_element Le type d'élément qui est décrit par ce champ
-* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
-*/
+ * Entité d'un champ d'un type d'élément
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="mbo_champ")
+ * @property int $id Identifiant unique du champ
+ * @property string $label Label du champ (nom du champ)
+ * @property string $description Description du champ (sert d'aide à la saisie pour l'utilisateur)
+ * @property string $format Format du champ, la valeur doit faire appartenir à une liste de valeurs possibles prédéfiniées : 'texte', 'textarea', 'nombre', 'fichier', 'url', 'date'
+ * @property \Collection\Entity\Data $datas L'ensemble des datas pour tous les éléments décrits par ce champ
+ * @property \Collection\Entity\TypeElement $type_element Le type d'élément qui est décrit par ce champ
+ * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
+ */
 class Champ implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
@@ -87,42 +87,42 @@ class Champ implements InputFilterAwareInterface
     }
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous la forme d'un tableau
-    *
-    * @return array
-    */
+     * Retourne l'objet sous la forme d'un tableau
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
     	$this->label = $data['label'];
@@ -210,16 +210,12 @@ class Champ implements InputFilterAwareInterface
     /**
      * Supprime un dossier et son contenu
      * 
-     * Supprime le dossier et tout ce qu'il contient récursivement. 
+     * Supprime le dossier et tout ce qu'il contient récursivement.
+     * Méthode utilisée par deleteFiles()
      * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
      * 
-<<<<<<< HEAD
-     * Méthode utilisée par deleteFiles()
-     * 
-=======
      * @param string
      * @return boolean
->>>>>>> branch 'master' of http://cervin@10.223.150.217:443/cervin.git
      */
     private function delTree($dir) {
     	if(is_dir($dir)){

@@ -18,26 +18,31 @@ use Collection\Entity\Element;
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_artefact")
  * @property \Collection\Entity\Media $medias L'ensemble des médias qui sont liés à l'artefact
- * @property \Collection\Entity\RelationArtefacts $relations_artefacts L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
+ * @property \Collection\Entity\RelationArtefacts $relations_origine L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
+ * @property \Collection\Entity\RelationArtefacts $relations_destination L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour destination l'artefact
  */
 class Artefact extends Element
 {
 	protected $inputFilter;
 
 	/**
-	 * Médias liés à l'artefact
+	 * L'ensemble des médias qui sont liés à l'artefact
+	 * 
 	 * @ORM\ManyToMany(targetEntity="Collection\Entity\Media", inversedBy="artefacts")
 	 * @ORM\JoinTable(name="mbo_artefact_media")
 	 **/
 	protected $medias;
 
 	/**
+	 * L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
 	 * 
 	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine")
 	 **/
 	protected $relations_origine;
 	
 	/**
+	 * L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour destination l'artefact
+	 * 
 	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
 	 **/
 	protected $relations_destination;

@@ -21,15 +21,15 @@ class Page implements InputFilterAwareInterface
 	protected $inputFilter;
 
 	/**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, unique=true)
-    */
+     * @ORM\Column(type="string", length=200, unique=true)
+     */
     protected $titre;
 
     /**
@@ -38,8 +38,8 @@ class Page implements InputFilterAwareInterface
     protected $texte;
 
     /**
-    * @ORM\Column(type="string", length=200, unique=true)
-    */
+     * @ORM\Column(type="string", length=200, unique=true)
+     */
     protected $slug;
 
     static public function slugify($text)
@@ -68,22 +68,22 @@ class Page implements InputFilterAwareInterface
 	}
 
 	/**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
@@ -99,20 +99,20 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-    * Convert the object to an array.
-    *
-    * @return array
-    */
+     * Convert the object to an array.
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
     	$this->titre = $data['titre'];

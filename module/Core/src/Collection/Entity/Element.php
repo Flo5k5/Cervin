@@ -16,22 +16,22 @@ use Collection\Entity\Artefact;
 use Collection\Entity\Media;
 
 /**
-* Entité d'un élément de la collection numérique (artefact ou média)
-*
-* @ORM\Entity
-* @ORM\Table(name="mbo_element")
-* @ORM\InheritanceType("SINGLE_TABLE")
-* @ORM\DiscriminatorColumn(name="discr", type="string")
-* @ORM\DiscriminatorMap({"Artefact" = "Artefact", 
-*                        "Media" = "Media"})
-* @property int $id Identifiant unique de l'élément
-* @property string $titre Titre de l'élément
-* @property string $description Description de l'élément
-* @property bool $onLine Etat de en ligne ou brouillon de l'élément
-* @property \Collection\Entity\TypeElement $type_element Le type de l'élément
-* @property \Collection\Entity\Data $datas Les datas qui décrivent l'élément
-* @property \Collection\Entity\RelationArtefacts $relation_origine L'ensemble des relations entre artefacts
-*/
+ * Entité d'un élément de la collection numérique (artefact ou média)
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="mbo_element")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"Artefact" = "Artefact", 
+ *                        "Media" = "Media"})
+ * @property int $id Identifiant unique de l'élément
+ * @property string $titre Titre de l'élément
+ * @property string $description Description de l'élément
+ * @property bool $onLine Etat de en ligne ou brouillon de l'élément
+ * @property \Collection\Entity\TypeElement $type_element Le type de l'élément
+ * @property \Collection\Entity\Data $datas Les datas qui décrivent l'élément
+ * @property \Collection\Entity\RelationArtefacts $relation_origine L'ensemble des relations entre artefacts
+ */
 class Element implements InputFilterAwareInterface
 {
     protected $inputFilter;
@@ -307,23 +307,25 @@ class Element implements InputFilterAwareInterface
     		foreach ($this->type_element->champs as $champ) {
     			switch ($champ->format) {
     				case 'texte':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'filters' => array(
-    					array('name' => 'StripTags'),
-    					array('name' => 'StringTrim'),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'filters' => array(
+		    						array('name' => 'StripTags'),
+		    						array('name' => 'StringTrim'),
+	    					),
     					)));
     					break;
     				case 'textarea':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'filters' => array(
-    					array('name' => 'StripTags'),
-    					array('name' => 'StringTrim'),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'filters' => array(
+			    					array('name' => 'StripTags'),
+			    					array('name' => 'StringTrim'),
+		    				),
     					)));
     					break;
     				case 'fichier':
@@ -339,26 +341,29 @@ class Element implements InputFilterAwareInterface
     					$inputFilter->add($file);
     					break;
     				case 'date':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'validators' => array(
-    					array(
-    					'name' => 'regex',
-    					'options'=>array(
-    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
-    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
-    					),
-    					),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'validators' => array(
+			    					array(
+				    					'name' => 'regex',
+				    					'options'=>array(
+				    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
+				    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
+			    					),
+		    					),
+	    					),
     					)));
     					break;
     				case 'nombre':
     				case 'url':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false
-    					)));
+    					$inputFilter->add($factory->createInput(
+	    					array(
+	    						'name' => 'champ_'.strval($champ->id),
+	    						'required' => false
+	    					)
+    					));
     					break;
     			}
     		}
