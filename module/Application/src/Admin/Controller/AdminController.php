@@ -20,9 +20,9 @@ use Zend\Json\Json;
 class AdminController extends AbstractActionController
 {    
 
-/**
-* @var Doctrine\ORM\EntityManager
-*/
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
     protected $em;
 
     public function setEntityManager(EntityManager $em)
@@ -31,10 +31,10 @@ class AdminController extends AbstractActionController
     }
  
     /**
-* Return a EntityManager
-*
-* @return Doctrine\ORM\EntityManager
-*/
+     * Return a EntityManager
+     *
+     * @return Doctrine\ORM\EntityManager
+     */
     public function getEntityManager()
     {
         if ($this->em === null) {
@@ -50,10 +50,10 @@ class AdminController extends AbstractActionController
         return $this->redirect()->toRoute('home');
     }
     ///////////////////////////////////////////////////////////////////////////
+    
     /**
-    *  Affiche le tableau de gestion des utilisateurs
-    *
-    **/
+     * Affiche le tableau de gestion des utilisateurs
+     **/
     public function editusersAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
@@ -149,9 +149,10 @@ class AdminController extends AbstractActionController
 
         }
     }
+    
     /**
-    *   Permets de modifier les informations des utilisateurs via Ajax
-    **/
+     * Permets de modifier les informations des utilisateurs via Ajax
+     **/
     public function changeUserAjaxAction()
     {
         if ($this->getRequest()->isXmlHttpRequest())
@@ -257,10 +258,11 @@ class AdminController extends AbstractActionController
         }
         
     }
+    
     /**
-    *   Droit : Utilisateur
-    *   Set AttenteRole avec la valeur du role demandee
-    **/
+     * Droit : Utilisateur
+     * Set AttenteRole avec la valeur du role demandee
+     **/
     public function demandeRoleAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -292,9 +294,10 @@ class AdminController extends AbstractActionController
 
 
     }
+    
     /**
-    *   Permet a l'admin de supprimer la demande de role 
-    **/
+     * Permet a l'admin de supprimer la demande de role 
+     **/
     public function refueRoleAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);

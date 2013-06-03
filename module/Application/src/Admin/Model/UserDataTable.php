@@ -57,7 +57,16 @@ class UserDataTable extends DataTable
 		
 		return $this->getJson();
 	}
-	    
+	
+	/**
+	 * Récupère les données pour la Datatable
+	 *
+	 * Récupère les conditions présentes dans l'objet pour construire
+	 * une requête permettant de récupérer les informations pour la
+	 * Datatable.
+	 *
+	 * @return \Doctrine\ORM\Tools\Pagination\Paginator Résultats paginés
+	 */
 	public function getPaginator()
 	{
 		if (! $this->paginator) {
