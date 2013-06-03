@@ -307,23 +307,25 @@ class Element implements InputFilterAwareInterface
     		foreach ($this->type_element->champs as $champ) {
     			switch ($champ->format) {
     				case 'texte':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'filters' => array(
-    					array('name' => 'StripTags'),
-    					array('name' => 'StringTrim'),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'filters' => array(
+		    						array('name' => 'StripTags'),
+		    						array('name' => 'StringTrim'),
+	    					),
     					)));
     					break;
     				case 'textarea':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'filters' => array(
-    					array('name' => 'StripTags'),
-    					array('name' => 'StringTrim'),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'filters' => array(
+			    					array('name' => 'StripTags'),
+			    					array('name' => 'StringTrim'),
+		    				),
     					)));
     					break;
     				case 'fichier':
@@ -339,26 +341,29 @@ class Element implements InputFilterAwareInterface
     					$inputFilter->add($file);
     					break;
     				case 'date':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false,
-    					'validators' => array(
-    					array(
-    					'name' => 'regex',
-    					'options'=>array(
-    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
-    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
-    					),
-    					),
-    					),
+    					$inputFilter->add($factory->createInput(
+	    					array(
+		    					'name' => 'champ_'.strval($champ->id),
+		    					'required' => false,
+		    					'validators' => array(
+			    					array(
+				    					'name' => 'regex',
+				    					'options'=>array(
+				    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
+				    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
+			    					),
+		    					),
+	    					),
     					)));
     					break;
     				case 'nombre':
     				case 'url':
-    					$inputFilter->add($factory->createInput(array(
-    					'name' => 'champ_'.strval($champ->id),
-    					'required' => false
-    					)));
+    					$inputFilter->add($factory->createInput(
+	    					array(
+	    						'name' => 'champ_'.strval($champ->id),
+	    						'required' => false
+	    					)
+    					));
     					break;
     			}
     		}
