@@ -58,6 +58,11 @@ class SousParcours implements InputFilterAwareInterface
     protected $scene_depart;
     
     /**
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours")
+     **/
+    protected $sous_parcours_suivant;
+    
+    /**
      * Ajout d'une transition au sous-parcours
      * @param unknown_type $transition
      */
