@@ -116,6 +116,12 @@ class SceneController extends AbstractActionController
 		}
 		else // elle est au milieu
 		{
+			//si elle est au milieu et que c'est la 1er scene d'un sous parcours
+			if ($tr_before->parcours != null) {
+				$tr_after->parcours = $parcours;
+				$tr_after->sous_parcours = null;
+				$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
+			}
 			// rediriger la transition d'après sur la scène d'avant pour garder la cohérence
 			$tr_after->scene_origine = $tr_before->scene_origine;
 			$this->getEntityManager()->remove($tr_before);
@@ -156,7 +162,6 @@ class SceneController extends AbstractActionController
 		$scene->sous_parcours->addScene($newScene);
 		$newTransitionRecommandee = new TransitionRecommandee();
 		$newTransitionRecommandee->narration = 'Nouvelle Transition';
-		$scene->sous_parcours->addTransition($newTransitionRecommandee);
 		$this->getEntityManager()->persist($newScene);
 		$this->getEntityManager()->persist($newTransitionRecommandee);
         switch ($action) {
@@ -168,11 +173,34 @@ class SceneController extends AbstractActionController
         			// on change la scene de depart qui est alors $newScene
         			// et $newTransitionRecommandee relie $newScene à $scene
         			$scene->sous_parcours->scene_depart = $newScene;
+
+        			// on ajoute la transition au sous_parcours
+					$scene->sous_parcours->addTransition($newTransitionRecommandee);
         			$newTransitionRecommandee->scene_origine = $newScene;
         			$newTransitionRecommandee->scene_destination = $scene;
-        		} else { 
+
+        		} elseif($tr_before->sous_parcours == null) {
+        			// Ce n'est pas la première du parcour mais la première scène du sous parcours: on doit insérer $newScene entre $sceneBefore et $scene
+        			$sceneBefore = $tr_before->scene_origine;
+
+        			// On defini cette nouvelle scène comme sene de depart.
+        			$scene->sous_parcours->scene_depart = $newScene;
+        			// $newTransitionRecommandee relie $sceneBefore et $newScene
+        			$newTransitionRecommandee->scene_origine = $sceneBefore;
+        			$newTransitionRecommandee->scene_destination = $newScene;
+        			// on ajoute la transition au parcours
+					$scene->sous_parcours->parcours->addTransition($newTransitionRecommandee);
+        			// On ajoute la tr_before au sous parcours 
+        			$tr_before->sous_parcours = $scene->sous_parcours;
+        			// Et on la supprime du parcours
+        			$tr_before->parcours = null;
+        			// La transition qui reliait $sceneBefore et $scene ($tr_before) relie maintenant $newScene et $scene
+        			$tr_before->scene_origine = $newScene;
+        		} else{ 
         			// Ce n'est pas la première : on doit insérer $newScene entre $sceneBefore et $scene
         			$sceneBefore = $tr_before->scene_origine;
+        			// on ajoute la transition au sous_parcours
+					$scene->sous_parcours->addTransition($newTransitionRecommandee);
         			// $newTransitionRecommandee relie $sceneBefore et $newScene
         			$newTransitionRecommandee->scene_origine = $sceneBefore;
         			$newTransitionRecommandee->scene_destination = $newScene;
@@ -185,6 +213,8 @@ class SceneController extends AbstractActionController
         	case 'ajApres':
         		// On ajoute une scène après $scene
         		$tr_after = $scene->transition_recommandee;
+        		// on ajoute la transition au sous_parcours
+				$scene->sous_parcours->addTransition($newTransitionRecommandee);
         		if ($tr_after === null) {
         			// c'est la dernière scène du parcours : $newTransitionRecommandee relie $newScene à $scene
         			$newTransitionRecommandee->scene_origine = $scene;
