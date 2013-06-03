@@ -82,17 +82,13 @@
 			    $.ajax({
 			        url: URL,
 			        type: "POST",
-			        data:{ 'idArtefact' : element.id }, 
-			    }).done(function(e){
-			
-					var resp = jQuery.parseJSON(e);
-					
-					if(resp.success === true){
-						location.reload();
-					} else {
-						location.reload();
-					}
-
+			        data:{ 'idArtefact' : element.id },
+			        success:function(response){
+			            $('.messageArtMed').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+			        },
+			        error: function(){
+			            alert('Impossible d\'afficher la popup');
+			        }
 			    });
 			    
 			} else {
@@ -111,6 +107,5 @@
 			});
 			return duplicate;
 		}
-
 	});
 <?php $this->inlineScript()->captureEnd(); ?>
