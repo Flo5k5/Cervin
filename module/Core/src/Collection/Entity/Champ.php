@@ -210,16 +210,12 @@ class Champ implements InputFilterAwareInterface
     /**
      * Supprime un dossier et son contenu
      * 
-     * Supprime le dossier et tout ce qu'il contient récursivement. 
+     * Supprime le dossier et tout ce qu'il contient récursivement.
+     * Méthode utilisée par deleteFiles()
      * Crédit : http://fr2.php.net/manual/fr/function.rmdir.php#92661
      * 
-<<<<<<< HEAD
-     * Méthode utilisée par deleteFiles()
-     * 
-=======
      * @param string
      * @return boolean
->>>>>>> branch 'master' of http://cervin@10.223.150.217:443/cervin.git
      */
     private function delTree($dir) {
     	if(is_dir($dir)){
