@@ -41,47 +41,47 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <style type="text/css">
-.well{
-    margin-bottom: 1px;
+.well {
+	margin-bottom: 1px;
 }
- .icon-black{
-        color:  rgb(51, 51, 51);
-        text-decoration: none;
-      }
 
-      .voirfond {
-        background: #EDEDED;
-      }
-
-      .elements{
-        text-align: center;
-      }
-      .elements .element {
-        width: 208px;/*
-        line-height:100px;*/
-
-        text-align: center;
-        padding: 20px 10px 20px 10px;
-      }/*
-      .shortcuts .shortcut .text {
-        line-height:1.2;
-        display:inline-block;
-        vertical-align: middle;
-        text-align: center;
-      }*/
-      .liaison {
-        margin:2px;
-        width: 208px;
-        background: #FFF;
-        border-width: 0;
-
-      }
-a [class^="icon-"],
-a [class*=" icon-"],
-a [class^="icon-"]:before,
-a [class*=" icon-"]:before {
-  display: inline-block;
+.icon-black {
+	color: rgb(51, 51, 51);
+	text-decoration: none;
 }
+
+.voirfond {
+	background: #EDEDED;
+}
+
+.elements {
+	text-align: center;
+}
+
+.elements .element {
+	width: 208px;
+	text-align: center;
+	padding: 20px 10px 20px 10px;
+} 
+.liaison {
+	margin: 2px;
+	width: 208px;
+	background: #FFF;
+	border-width: 0;
+}
+
+a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" icon-"]:before
+{
+	display: inline-block;
+}
+
+.sous_parcours {
+	border-style:dashed;
+	border-width:3px;
+	border-color:#006699;
+	padding: 5px 5px 5px 5px;
+}
+
 </style>
 
 <div class="elements">
@@ -89,9 +89,12 @@ a [class*=" icon-"]:before {
 <?php
 $sous_parcours = $Parcours->sous_parcours_depart;
 // On affiche les sour parcours un à un
-while ($sous_parcours != null) : 
+while ($sous_parcours != null) : ?>
 
-	echo "<div class='well'>";
+	<div class='sous_parcours span4 offset4'>
+	<h4><?php echo $sous_parcours->titre; ?></h4>
+	<hr></hr>
+	<?php 
 	$scene_depart = $sous_parcours->scene_depart;
 	// On affiche la première scène du sous parcours
 	if ($this->isAllowed('Parcours') === true) :?>
@@ -202,9 +205,10 @@ while ($sous_parcours != null) :
     	// On est arrivé à la fin du sous-parcours
     	if ($transition) : ?>
 			<!-- Il y a un sous-parcours suivant -->
-			<!-- On ferme la div su sous-parcours qu'on vient de finir -->
-			<!-- et on afiche la transition inter-sous-parcours -->
+			<!-- On ferme la div du sous-parcours qu'on vient de finir -->
+			<!-- et on affiche la transition inter-sous-parcours -->
 			</div>
+			<div class='span4 offset4'>
 			<i class="icon-minus icon-rotate-270"></i><br>
 			<button class="btn btn-mini liaison popover-link" data-toggle="popover"
 				data-placement="right" data-html="true"
@@ -230,10 +234,12 @@ while ($sous_parcours != null) :
 				<?php echo $this->escapeHtml($transition->narration);?>
 			</button><br> 
 			<i class="icon-arrow-down"></i><br>
+			</div>
 		<?php endif; 
 		// On passe au sous-parcours suivant
 		$sous_parcours = $sous_parcours->sous_parcours_suivant;
 	endwhile ; ?>
+	</div>
 </div>
 
 <div id="confirmDiv"></div>
