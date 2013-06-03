@@ -9,10 +9,9 @@ class FixtureParcours implements FixtureInterface
 	public function load(ObjectManager $manager)
 	{
 
-
-			/********************************
-			 *	Parcour n°2
-			 ********************************/
+		/********************************
+		 *	Parcour n°1
+		 ********************************/
 		
 		/*
 		 * Quelques artefacts et sémantiques pour remplir les scènes
@@ -156,6 +155,7 @@ class FixtureParcours implements FixtureInterface
 		$parcours->titre = "L'histoire de l'informatique à Grenoble";
 		$parcours->description = "Grenoble est l'un des principaux centres d'activité informatique en France, caractérisé par une synergie entre formation, recherche et industrie. Ce parcours retrace les principales étapes du développement de l'informatique à Grenoble et dans sa région.";
 		$parcours->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
+		$parcours->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$sous_parcours_debut = new Parcours\Entity\SousParcours();
 		$sous_parcours_debut->titre = "Les débuts (1950-1965)";
@@ -164,11 +164,24 @@ class FixtureParcours implements FixtureInterface
 		$sous_parcours_debut->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$parcours->addSousParcours($sous_parcours_debut);
+		$parcours->sous_parcours_depart = $sous_parcours_debut;
+		
+		$sous_parcours_developpement = new Parcours\Entity\SousParcours();
+		$sous_parcours_developpement->titre = "Développement, perturbations (1965-1980)";
+		$sous_parcours_developpement->description = "La période 1965-1980 voit se développer l'industrie informatique à Grenoble (création de Sogeti, implantation de Hewlett-Packard, naissance de la ZIRST). Mais c'est aussi une période de fortes perturbations : restructurations en série dans le domaine des mini-ordinateurs, chemin cahoteux vers la consolidation d'une industrie nationale des semi-conducteurs, fortes restrictions de crédits pour l'enseignement supérieur et la recherche, crise de croissance de l'IMAG.";
+		$sous_parcours_developpement->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+		$sous_parcours_developpement->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$parcours->addSousParcours($sous_parcours_developpement);
+		
+		$sous_parcours_debut->sous_parcours_suivant = $sous_parcours_developpement;
+		$sous_parcours_developpement->sous_parcours_suivant = null;
 		
 		$manager->persist($parcours);
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Première scène
 		 */
 		$scene1 = new Parcours\Entity\SceneRecommandee();
@@ -202,6 +215,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Deuxième scène
 		*/
 		$scene2 = new Parcours\Entity\SceneRecommandee();
@@ -231,6 +245,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Transition scene1->scene2
 		 */
 		
@@ -244,6 +259,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Troisième scène
 		*/
 		$scene3 = new Parcours\Entity\SceneRecommandee();
@@ -291,6 +307,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Transition scene2->scene3
 		*/		
 		$transition2 = new Parcours\Entity\TransitionRecommandee();
@@ -303,6 +320,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Quatrième scène
 		*/
 		$scene4 = new Parcours\Entity\SceneRecommandee();
@@ -343,6 +361,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Transition scene3->scene4
 		*/
 		$transition3 = new Parcours\Entity\TransitionRecommandee();
@@ -355,6 +374,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Cinquième scène
 		*/
 		$scene5 = new Parcours\Entity\SceneRecommandee();
@@ -388,6 +408,7 @@ class FixtureParcours implements FixtureInterface
 		$manager->flush();
 		
 		/*
+		 * Premier sous-parcours
 		 * Transition scene4->scene5
 		*/
 		$transition4 = new Parcours\Entity\TransitionRecommandee();
@@ -399,8 +420,174 @@ class FixtureParcours implements FixtureInterface
 		$sous_parcours_debut->addTransition($transition4);
 		$manager->flush();
 		
+		
+		//
+		// Deuxième sous-parcours
+		// Sixième scène
+		//
+		$scene6 = new Parcours\Entity\SceneRecommandee();
+		$scene6->titre = "Usages de l'informatique";
+		$scene6->narration = "
+				La période 1965-1980 voit le début de la pénétration de l'informatique dans un nombre croissant d'activités. Mais c'est encore souvent une informatique lourde, centralisée ; l'apparition de la micro-informatique au milieu des années 1970 mettra quelques années à produire ses effets dans les usages. L'informatique s'introduit dans le domaine des télécommunications (on parle de téléinfomatique), mais dans la pratique on est encore dans l'ère pré-Internet : à la fin des années 1970, on travaille sur des réseaux point à point et on utilise le modèle rigide du vidéotex. En 1979, une étape importante est franchie avec le lancement du réseau Transpac. La grande révolution des réseaux se fera dans les années 1980.
+				<br><br>
+				Cette période voit aussi le développement des sociétés de service et de conseil en informatique et le début de l'informatisation de l'administration. Si l'informatique de gestion reste le domaine majeur, on doit noter l'essor de l'informatique industrielle qui trouve de multiples champs d'application.
+				<br><br>
+				Si l'usage de l'informatique est encore très largement une affaire de professionnels, son impact sur la société se fait déjà sentir. D'abord par l'évolution des métiers ; ensuite par la prise de conscience des menaces sur la vie privée, qui aboutira en 1978 à la loi \"informatique et libertés\". Cette même année 1978, le rapport Nora-Minc sur l'informatisation de la société sera largement diffusé et commenté.
+				<br><br>
+				En France, cette période est aussi celle du plan calcul, destiné à rattraper le retard en matière d'ordinateurs de moyenne puissance pour la gestion. Mais cette tentative de pilotage par l'État se soldera globalement par un échec. On en retiendra néanmoins la création de l'IRIA, devenu INRIA, aujourd'hui acteur majeur de la recherche en informatique, qui faillit d'ailleurs disparaître à la fin des années 1970.
 
+				<h3>Comment cette période est-elle vécue à Grenoble ?</h3>
 
+				On constate une explosion de la demande de services informatiques, qu'il s'agisse de prestations \"classiques\" en calcul scientifique ou en informatique de gestion, ou de services plus spécialisés comme l'informatique industrielle (commande de procédés, instrumentation). Face à cette demande, on trouve une offre très complète : les SSII, à l'image de SoGETI, multiplient leurs implantations ; les services \"sur mesure\" tels que les réseaux spécialisés pour l'industrie, l'analyse et la synthèse d'images, la robotique, sont fournies par de nouvelles entreprises , notamment celles implantées sur la ZIRST, qui occupent ces marchés de niches.
+				<br><br>
+				Dans les années 1970 arrivent les bases de données, d'abord sur les modèles hiérarchique ou réseau, à l'image de Socrate. L'accès à ces bases de données va se faire par des réseaux point à point, en mode transactionnel, ce qui signera la fin progressive de l'usage des cartes perforées et des ateliers dédiés à ce mode d'exploitation. Ces techniques accompagnent la montée de l'informatisation du tertiaire (assurances, banques, etc.). Les bases de données relationnelles apparaissent à la fin de la période.
+				<br><br>
+				La recherche connaît une croissance rapide, et maintient un contact étroit avec l'industrie. Les contingences politiques et économiques, et la rapidité même de la croissance, causeront néanmoins quelques perturbations.
+				<br><br>
+				L'explosion de la demande se répercute aussi sur la formation : de nouvelles filières sont créées pour répondre aux besoins. Beaucoup de petites entreprises qui s'équipent en matériel informatique doivent trouver les compétences pour l'exploiter ; ce \"service informatique\" se réduit souvent à une personne.
+				";
+		$scene6->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->scene_depart = $scene6;
+		$sous_parcours_developpement->addScene($scene6);
+		$manager->flush();
+		
+		//
+		// Transition entre deux sous-parcours
+		// Transition scene5->scene6
+		//
+		$transition5 = new Parcours\Entity\TransitionRecommandee();
+		$transition5->narration = "Vers les usages de l'informatique";
+		$transition5->semantique = $semantique_chronologie;
+		$transition5->scene_origine = $scene5;
+		$transition5->scene_destination = $scene6;
+		
+		$parcours->addTransition($transition5);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//Septième scène
+		//
+		$scene7 = new Parcours\Entity\SceneRecommandee();
+		$scene7->titre = "Développement de l'industrie";
+		$scene7->narration = "
+				Les années 1965-1980 voient d'importants changements dans l'industrie informatique à Grenoble : développements nombreux, mais aussi fortes perturbations.
+				<br><br>
+				La compétence acquise par la société Mors dans le domaine des calculateurs industriels va être transférée à la Télémécanique, qui développera avec succès une gamme de calculateurs. L'intervention de l'État, dans le cadre  du plan calcul, conduira à une série de fusions et acquisitions, sans bénéfice évident : création de la SEMS, de CII-Honeywell Bull, réintégration de la SEMS dans ce qui deviendra le groupe Bull. À partir de là, aucun ordinateur ne sera plus conçu à Grenoble.
+				<br><br>
+				Ces péripéties engendrent un effet secondaire sans doute imprévu : le départ d'un certain nombre d'ingénieurs, en désaccord avec les nouvelles orientations. Ceux-ci seront à l'origine de la création de nombreuses \"start-ups\", qui seront les premiers occupants de la ZIRST, parc d'activités de haute technologie créé à Meylan (banlieue de Grenoble) avec le concours actif des collectivités locales.
+				<br><br>
+				Un événement important est l'implantation à Eybens (banlieue de Grenoble), en 1971, de la société Hewlett-Packard, qui développera également plus tard des activités à L'Île d'Abeau (Isère).
+				<br><br>
+				Cette période marque également le début des sociétés de service. À Grenoble, la SoGETI, créée en 1967 par des transfuges de la direction commerciale de Bull, va devenir, après croissance interne et acquisitions, un des grands groupes mondiaux du domaine. Une autre création vient d'une entreprise utilisatrice de l'informatique, la Sogreah, dont le département informatique se détachera en 1968 pour créer la société 3I (Institut International d'Informatique). Celle-ci sera rapidement rachetée (en 1971) par la CGE (Compagnie Générale d’Électricité, futur Alcatel) pour former la GSI (Générale de Services Informatiques) spécialisée dans l'infogérance (externalisation de services informatiques) et basée à Paris. La GSI sera elle-même plus tard reprise par le groupe américain ADP.
+				<br><br>
+				Sur le front des semi-conducteurs, le service électronique du CENG, qui a acquis une grande compétence dans la conception de circuits intégrés, devient un département autonome au sein du CEA, le LETI (Laboratoire d'Électronique et de Technologie de l'Information). Le LETI sera désormais un acteur majeur dans l'industrie des semi-conducteurs et plus tard des micro- et nano-technologies. En 1972, il crée une entreprise destinée à valoriser ses résultats, EFCIS (Étude et Fabrication de Circuits Intégrés Spéciaux). Parallèlement, sous l'égide de Thomson, est créée la SESCOSEM (fusion de SESCO et COSEM). Le CNET, enfin, décide de développer sa propre filière de circuits intégrés et crée à cet effet en 1979, sur la ZIRST de Meylan, le centre Norbert Ségard.
+				<br><br>
+				Il faudra attendre la décennie suivante pour que tous ces efforts convergent vers l'émergence d'un grand acteur de l'industrie des semi-conducteurs.
+		";
+		$scene7->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene7);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//Transition scene6->scene7
+		//
+		$transition6 = new Parcours\Entity\TransitionRecommandee();
+		$transition6->narration = "Vers le développement de l'industrie";
+		$transition6->semantique = $semantique_chronologie;
+		$transition6->scene_origine = $scene6;
+		$transition6->scene_destination = $scene7;
+		
+		$sous_parcours_developpement->addTransition($transition6);
+		$manager->flush();
+	
+		//
+		// Deuxième sous-parcours
+		// Huitième scène
+		//
+		$scene8 = new Parcours\Entity\SceneRecommandee();
+		$scene8->titre = "Hauts et bas de la recherche";
+		$scene8->narration = "
+				Les années 1965-1980 sont une période mouvementée pour la recherche en informatique à Grenoble.
+				<br><br>
+				D'un côté, l'IMAG connaît un fort développement au début de la période, avec une extension et un approfondissement de son champ de recherche, ainsi qu'une ouverture vers les collaborations industrielles avec les centres scientifiques (IBM puis CII).
+				<br><br>
+				D'un autre côté, à partir de 1974, la recherche publique est durement touchée par les restrictions budgétaires qui suivent le premier choc pétrolier. S'y ajoutent les limitations sur l'achat de matériel imposées par la politique à courte vue du plan calcul. Enfin, l'arrêt du projet de réseau Cyclades met un terme à une activité qui connaissait des débuts prometteurs.
+				<br><br>
+				Le laboratoire IMAG connaît par ailleurs à la fin des années 1970 une crise de croissance qui conduira ses autorités de tutelle à lui imposer, en 1982, un découpage en plusieurs laboratoires thématiques.
+				<br><br>
+				Malgré ces vicissitudes, la recherche parvient à préserver son potentiel et enregistre quelques avancées significatives.
+				";
+		$scene8->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene8);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//Transition scene7->scene8
+		//
+		$transition7 = new Parcours\Entity\TransitionRecommandee();
+		$transition7->narration = "Vers les hauts et bas de la recherche";
+		$transition7->semantique = $semantique_chronologie;
+		$transition7->scene_origine = $scene7;
+		$transition7->scene_destination = $scene8;
+		
+		$sous_parcours_developpement->addTransition($transition7);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		// Neuvième scène
+		//
+		$scene9 = new Parcours\Entity\SceneRecommandee();
+		$scene9->titre = "La formation";
+		$scene9->narration = "
+				Au milieu des années 1960, l'informatisation des entreprises progresse rapidement. C'est aussi le début de l'industrie des services en informatique. Il y a donc une forte demande de personnel qualifié, alors que la formation est encore peu développée.
+				<br><br>
+				C'est pour répondre à cette demande que sont créées en 1966 deux formations originales à vocation professionnelle : les Instituts de programmation de Paris et de Grenoble. Il s'agit d'un cursus en deux ans, accueillant des étudiants sortis du premier cycle (bac+2), avec sélection des candidatures, et conduisant aux diplômes de Programmeur d'études (première année) et Programmeur expert en systèmes informatiques (deuxième année). Ces diplômes seront rapidement connus et appréciés sur le marché de l'emploi. L'Institut de programmation de Grenoble, initialement dirigé par Noël Gastinel, fonctionnera avec succès jusqu'en 1984, date à laquelle il sera transformé en Maîtrise de sciences et techniques (MST), sans changer de mode de fonctionnement. En 2001, cette MST laissera la place à une formation d'ingénieurs dans le cadre du réseau Polytech.
+				<br><br>
+				Alors que les Instituts de programmation sont orientés vers la technique, un autre cursus, celui-ci associant informatique, économie et gestion, est créé au plan national au début des années 1970 : la maîtrise MIAGE (Méthodes informatiques appliquées à la gestion des entreprises). La MIAGE de Grenoble, initialement dirigée par Claude Delobel, ouvre en 1972 et fonctionne toujours aujourd'hui.
+				<br><br>
+				Les Instituts Universitaires de Technologie, ou IUT (formation professionnelle en deux ans, post-baccalauréat) sont mis en place en 1966. L'IUT de Grenoble comporte un département d'informatique, créé et initialement dirigé par Louis Bolliet. En 1970, lors de la création des nouveaux établissements issus de l'université de Grenoble, l'IUT abritant ce département sera rattaché à l'université de sciences sociales (aujourd'hui université Pierre Mendès France), les autres formations universitaires en informatique étant à l'université scientifique, technologique et médicale (aujourd'hui université Joseph Fourier).
+				<br><br>
+				L'ENSIMAG (créée en 1960) poursuit son développement au sein de l'IPG (devenu en 1969 Institut national polytechnique de Grenoble, aujourd'hui Grenoble INP). Les promotions passent de 40 élèves en 1965 à 60 en 1972, pour atteidre 120 en 1980. Jusque vers 1975, une partie des cours sont encore communs avec ceux de la Maîtrise d'informatique. La croissance des effectifs conduit ensuite à séparer les deux formations.
+				<br>
+				<blockquote>
+				En résumé, en 1975, Grenoble affiche une gamme complète de formations en informatique, tant fondamentales (maîtrise, 3ème cycle) que professionnelles (techniciens et techniciens supérieurs, ingénieurs), répartie sur trois établissements. Mise en place au gré de réformes successives et au prix d'un gros effort de la part d'un personnel encore peu nombreux, cette organisation est complexe et sans doute pas optimale du point de vue de la lisibilité et de l'usage des moyens, mais elle répond globalement aux besoins. Elle s'appuie sur le fonds commun de compétences et de connaissances développé au sein de l'IMAG.
+				</blockquote>
+				";
+		$scene9->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene9);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//Transition scene8->scene9
+		//
+		$transition8 = new Parcours\Entity\TransitionRecommandee();
+		$transition8->narration = "Vers les hauts et bas de la recherche";
+		$transition8->semantique = $semantique_chronologie;
+		$transition8->scene_origine = $scene8;
+		$transition8->scene_destination = $scene9;
+		
+		$sous_parcours_developpement->addTransition($transition8);
+		$manager->flush();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			/********************************
 			 *	Parcour n°2
 			 ********************************/
