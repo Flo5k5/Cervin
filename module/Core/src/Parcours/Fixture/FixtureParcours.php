@@ -290,8 +290,6 @@ class FixtureParcours implements FixtureInterface
 			   		<li> le cours \"Calculateurs électroniques\" donné par René Perret à partir de 1961-62 à l'EIEG (École des Ingénieurs Électroniciens de Grenoble, école de l'institut Polytechnique de Grenoble, ou IPG) ; </li>
     				<li> le cours \"Logique et programmation\" donné par Bernard Vauquois à partir de 1959. </li>
 				</ol>
-				<br>
-				<br>
 				Jean Kuntzmann crée en 1956 une section spéciale \"Mathématiques Appliquées\" à l'institut Polytechnique de Grenoble. La première année, cette section n'a qu'un élève, Henri Rohrbach, qui obtient son diplôme avec la promotion suivante (5 étudiants) ; puis la croissance s'accélère. En 1960 est créée une section \"normale\" de Mathématiques appliquées, constituant une École d'ingénieurs à part entière, qui deviendra l'ENSIMAG. La première promotion, sortie en 1963, compte 13 élèves (photo ci-contre).
 				<br>
 				<br>
@@ -354,8 +352,7 @@ class FixtureParcours implements FixtureInterface
 				    <li>Jean-Loup Baer, thèse de 3-ème cycle : \"Principes de compilation de COBOL\", 1963.</li>
 				    <li>Jean Le Palmec, thèse de docteur-ingénieur : Étude d'un langage intermédiaire pour la compilation d'Algol 60, 1964</li>
 				    <li>Jean-Claude Boussard, thèse d'État : Étude et réalisation d'un compilateur Algol 60 pour ordinateur 7040-44, 1964.</li>
-				<br>
-				<br>
+				</ol>
 				À noter que cette thèse d'État est en \"sciences appliquées\", la discipline Informatique n'étant pas encore officiellement reconnue (il faudra attendre 1969). Au total, cinq thèses de \"sciences appliquées\" seront soutenues dont, en 1967, celle de Louis Bolliet qui prendra alors un poste de professeur.
 				<br>
 				<br>
@@ -393,21 +390,19 @@ class FixtureParcours implements FixtureInterface
 				<br>
 				L'industrie électronique à Grenoble connaît un démarrage lent dans les années 1950. Nous replaçons ici ses débuts dans le contexte plus large de l'histoire des composants électroniques modernes.
 				<br>
-				<blockquote><br>
+				<blockquote>
 				Cette histoire commence avec l'invention du transistor en 1947. Ce dispositif semi-conducteur va rapidement remplacer les tubes électroniques, avec une fiabilité bien plus élevée, un faible encombrement et une consommation d'énergie réduite. Dès 1950, le transistor est intégré dans des produits de grande consommation. Le premier ordinateur transistorisé est construit par les Bell Labs en 1954. Dès lors, l'emploi du transistor dans les circuits des ordinateurs va se généraliser.
-				<br></blockquote>
-				<br>
+				</blockquote>
 				En 1955, la Compagnie Générale de Télégraphie sans fil (CSF) transforme son usine de Saint-Égrève (banlieue ouest de Grenoble), dédiée à la fabrication de tubes à vide, en une usine de production de transistors (ci-contre, vue d'un atelier). Après des déboires initiaux dus à un changement mal maîtrisé des méthodes de production, cette activité sera filialisée en 1960 sous le nom de COSEM (Compagnie générale des semi-conducteurs). En 1961-62, la COSEM détenait près de 45% du marché des semi-conducteurs en France et réalisait 30% de son chiffre d'affaires à l'exportation.
 				<br>
 				<br>
 				En 1956, le Commissariat à l'Énergie Atomique (CEA) crée le Centre d'Études Nucléaires de Grenoble (CENG), également implanté à l'ouest de Grenoble. En 1957 est créé au CENG, sous la direction de Michel Cordelle, un service électronique dont la mission initiale est la conception, la réalisation et la maintenance de l'appareillage de commande et de mesure du réacteur nucléaire Mélusine.
-				<br>
-				<blockquote><br>
+				<br><br>
+				<blockquote>
 				En 1958, Jack Kilby invente le premier circuit intégré à base de germanium : les transistors ne sont plus des composants discrets (séparés), mais fondus dans la masse même du semi-conducteur. Quelques mois plus tard, en 1959, Robert Noyce invente le circuit intégré à base de silicium, qui deviendra la technique dominante. En France, dans les années 1960, la plus grande partie des circuits intégrés est produite dans des usines d'entreprises américaines (Texas Instruments, Motorola, IBM).
-				<br></blockquote>
-				<br>
+				</blockquote>
 				En 1962, le CEA décide de créer sa propre technologie des transistors et circuits intégrés afin de maîtriser l'environnement électronique des réacteurs. La mission du service électronique du CENG (futur LETI) s'élargit en conséquence. En 1963 sortent les premiers transistors et au début de 1965 le premier circuit intégré, comportant 10 transistors (photo ci-contre).
-				<br>
+				<br><br>
 				<blockquote>
 				En 1965, Gordon Moore énonce sa \"loi\" : le nombre de transistors dans les circuits intégrés doublera environ tous les 18 mois. Plus de 40 ans après, cette loi s'applique toujours, mais on en perçoit les limites.
 				</blockquote>
@@ -447,7 +442,7 @@ class FixtureParcours implements FixtureInterface
 				En France, cette période est aussi celle du plan calcul, destiné à rattraper le retard en matière d'ordinateurs de moyenne puissance pour la gestion. Mais cette tentative de pilotage par l'État se soldera globalement par un échec. On en retiendra néanmoins la création de l'IRIA, devenu INRIA, aujourd'hui acteur majeur de la recherche en informatique, qui faillit d'ailleurs disparaître à la fin des années 1970.
 
 				<h3>Comment cette période est-elle vécue à Grenoble ?</h3>
-
+				<blockquote>
 				On constate une explosion de la demande de services informatiques, qu'il s'agisse de prestations \"classiques\" en calcul scientifique ou en informatique de gestion, ou de services plus spécialisés comme l'informatique industrielle (commande de procédés, instrumentation). Face à cette demande, on trouve une offre très complète : les SSII, à l'image de SoGETI, multiplient leurs implantations ; les services \"sur mesure\" tels que les réseaux spécialisés pour l'industrie, l'analyse et la synthèse d'images, la robotique, sont fournies par de nouvelles entreprises , notamment celles implantées sur la ZIRST, qui occupent ces marchés de niches.
 				<br><br>
 				Dans les années 1970 arrivent les bases de données, d'abord sur les modèles hiérarchique ou réseau, à l'image de Socrate. L'accès à ces bases de données va se faire par des réseaux point à point, en mode transactionnel, ce qui signera la fin progressive de l'usage des cartes perforées et des ateliers dédiés à ce mode d'exploitation. Ces techniques accompagnent la montée de l'informatisation du tertiaire (assurances, banques, etc.). Les bases de données relationnelles apparaissent à la fin de la période.
@@ -455,6 +450,7 @@ class FixtureParcours implements FixtureInterface
 				La recherche connaît une croissance rapide, et maintient un contact étroit avec l'industrie. Les contingences politiques et économiques, et la rapidité même de la croissance, causeront néanmoins quelques perturbations.
 				<br><br>
 				L'explosion de la demande se répercute aussi sur la formation : de nouvelles filières sont créées pour répondre aux besoins. Beaucoup de petites entreprises qui s'équipent en matériel informatique doivent trouver les compétences pour l'exploiter ; ce \"service informatique\" se réduit souvent à une personne.
+				</blockquote>
 				";
 		$scene6->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		
@@ -729,7 +725,8 @@ class FixtureParcours implements FixtureInterface
 				Des filières de formation incluant l'informatique sont par ailleurs créées dans d'autres environnements. Ainsi un DESS \"Double compétence en informatique et sciences sociales\" est  créé en 1984 à l'université Pierre Mendès France (université de sciences sociales). Une Maîtrise de sciences et techniques \"Informatique industrielle et instrumentation\" (3I) est créée en 1985 à l'UJF par des physiciens (elle deviendra plus tard une formation d'ingénieur dans le cadre du réseau Polytech).
 				<br><br>
 				Dans le cadre de l'INPG, l'ENSIMAG continue sa croissance (promotions de 130 élèves en 1995) et diversifie ses options.
-				<br><blockquote>
+				<br><br>
+				<blockquote>
 					À la fin de la période (1995), les établissements d'enseignement supérieur de Grenoble comptent au total plus de 1 000 étudiants en informatique et mathématiques appliquées, l'informatique étant largement dominante.
 				</blockquote>
 				";
