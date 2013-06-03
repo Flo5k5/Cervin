@@ -9,25 +9,25 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Entité d'une relation entre deux artefacts
-*
-* @ORM\Entity
-* @ORM\Table(name="mbo_artefact_artefact")
-* 
-* @property int $id Id de la relation
-* @property Collection\Entity\Artefact $origine Artefact d'origine de la sémantique
-* @property Collection\Entity\Artefact $destination Artefact de destination de la sémantique
-* @property Collection\Entity\SemantiqueArtefact $semantique Sémantique liée aux artefacts
-*/
+ * Entité d'une relation entre deux artefacts
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="mbo_artefact_artefact")
+ * 
+ * @property int $id Id de la relation
+ * @property Collection\Entity\Artefact $origine Artefact d'origine de la sémantique
+ * @property Collection\Entity\Artefact $destination Artefact de destination de la sémantique
+ * @property Collection\Entity\SemantiqueArtefact $semantique Sémantique liée aux artefacts
+ */
 class RelationArtefacts implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     
     /**
@@ -58,42 +58,42 @@ class RelationArtefacts implements InputFilterAwareInterface
     }
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous la forme d'un tableau
-    *
-    * @return array
-    */
+     * Retourne l'objet sous la forme d'un tableau
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
         $this->id = $data['id'];

@@ -13,31 +13,31 @@ use Doctrine\ORM\EntityManager;
 use \Doctrine\ORM\Query;
 
 /**
-* Entité d'un type d'élément de la collection (personne, image, matériel, logiciel, ...)
-*
-* @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
-* @ORM\Table(name="mbo_typeelement")
-* @property int $id Identifiant unique de type d'élément
-* @property string $nom Le nom du type d'élément
-* @property string $type Le type d'u type d'élément : 'média' ou 'artefact'
-* @property \Collection\Entity\Champ $champs Les champs qui décrivent tout élément de ce type d'élémént
-* @property \Collection\Entity\Element $elements Les éléments de ce type d'élément
-* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
-*/
+ * Entité d'un type d'élément de la collection (personne, image, matériel, logiciel, ...)
+ *
+ * @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
+ * @ORM\Table(name="mbo_typeelement")
+ * @property int $id Identifiant unique de type d'élément
+ * @property string $nom Le nom du type d'élément
+ * @property string $type Le type d'u type d'élément : 'média' ou 'artefact'
+ * @property \Collection\Entity\Champ $champs Les champs qui décrivent tout élément de ce type d'élémént
+ * @property \Collection\Entity\Element $elements Les éléments de ce type d'élément
+ * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
+ */
 class TypeElement implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
-    */
+     * @ORM\Column(type="string", length=200)
+     */
     protected $nom;
     
     /**
@@ -91,42 +91,42 @@ class TypeElement implements InputFilterAwareInterface
     }
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous forme de tableau
-    *
-    * @return array
-    */
+     * Retourne l'objet sous forme de tableau
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
     	$this->nom = $data['nom'];
@@ -174,7 +174,6 @@ class TypeElement implements InputFilterAwareInterface
     	return $this->inputFilter;
     }
 }
-
 
 /**
  * Repository d'un type élément
