@@ -7,13 +7,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 <div class="page-header">
     <?php if ($this->isAllowed('Parcours') === true) :?>
-    <h1><span class="edit CursorPointer"
+    <h1>
+    <i class="icon-road"></i>
+    <span class="edit CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
                         data-name="titre" 
                         data-type="text" 
                         data-inputclass="span10" 
                         data-pk="1"><?php echo $this->escapeHtml($title); ?></span>
-    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
+    </h1>
     <p class="edit CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
                         data-inputclass="span10" 
@@ -21,8 +24,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                         data-type="textarea" 
                         data-pk="1"><?php echo $this->escapeHtml($Parcours->description);?></p>
     <?php else : ?>
-        <h1><?php echo $this->escapeHtml($title); ?>
-    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+        <h1>
+        <i class="icon-road"></i><?php echo $this->escapeHtml($title); ?>
+    	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
+    	</h1>
     <p><?php echo $this->escapeHtml($Parcours->description);?></p>
     <?php endif;?>
 </div>
@@ -84,20 +89,57 @@ a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" ico
 
 </style>
 
-<div class="elements">
 
+<div class="row-fluid">
+
+<!-- Menu de navigation dasn le parcours -->
+	<div class="span4">
+		<div class="well" data-spy="affix">
+			<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+			<ul class="nav nav-list">
+				<?php 
+				$parcours = $sous_parcours->parcours;
+				$sous_parcours = $parcours->sous_parcours_depart;
+				
+				while ($sous_parcours != null) : 
+					echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
+					$scene_depart = $sous_parcours->scene_depart;
+					$transition = $scene_depart->transition_recommandee;
+					?>
+					<li>
+						<a href="#<?php echo $scene_depart->id; ?> ">
+						<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+						</a>
+					</li>
+					
+					<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+						<li>
+							<a href="#<?php echo $transition->scene_destination->id; ?> ">
+							<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
+							</a>
+						</li>
+						<?php $transition = $transition->scene_destination->transition_recommandee;
+				 	endwhile;
+					$sous_parcours = $sous_parcours->sous_parcours_suivant;
+				endwhile; ?>
+			</ul>
+		</div>
+	</div>
+
+<!-- Affichage du parcours -->
+<div class="span4 elements">
 <?php
 $sous_parcours = $Parcours->sous_parcours_depart;
 // On affiche les sour parcours un à un
 while ($sous_parcours != null) : ?>
-
-	<div class='sous_parcours span4 offset4'>
+	<div class='sous_parcours'>
 	<h4><?php echo $sous_parcours->titre; ?></h4>
 	<hr></hr>
 	<?php 
 	$scene_depart = $sous_parcours->scene_depart;
 	// On affiche la première scène du sous parcours
 	if ($this->isAllowed('Parcours') === true) :?>
+		<a name="<?php echo $scene_depart->id;?>"></a>
 	    <button class="btn btn-large element popover-link" 
 	    data-toggle="popover" 
 	    data-placement="right" 
@@ -168,6 +210,7 @@ while ($sous_parcours != null) : ?>
         <!-- On affiche la scène suivant -->
         <?php 
         if ($this->isAllowed('Parcours') === true) :?>
+       		<a name="<?php echo $transition->scene_destination->id;?>"></a> 
             <button class="btn btn-large element popover-link"
                 data-toggle="popover" 
                 data-placement="right" 
@@ -208,39 +251,43 @@ while ($sous_parcours != null) : ?>
 			<!-- On ferme la div du sous-parcours qu'on vient de finir -->
 			<!-- et on affiche la transition inter-sous-parcours -->
 			</div>
-			<div class='span4 offset4'>
-			<i class="icon-minus icon-rotate-270"></i><br>
-			<button class="btn btn-mini liaison popover-link" data-toggle="popover"
-				data-placement="right" data-html="true"
-				data-title='
-			    	        <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
-			    	            				<?php if ($this->isAllowed('Parcours') === true) :?>
-			    	            				<a 
-				href="#" class="selectSemantiques"
-				data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-				data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-				<i class="icon-pencil"></i> </a>
-				<?php endif;?>
-				' data-content='
-				<?php if ($this->isAllowed('Parcours') === true) :?>
-				<span class="edit2 CursorPointer"
-					data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-					data-name="narration" data-type="textarea" data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-				</span>
-				<?php else : ?>
-				<?php echo $this->escapeHtml($transition->narration); ?>
-				<?php endif;?>
-				' data-trigger="manual" title="" >
-				<?php echo $this->escapeHtml($transition->narration);?>
-			</button><br> 
-			<i class="icon-arrow-down"></i><br>
+			<div class="row-fluid">
+				<div class=''>
+				<i class="icon-minus icon-rotate-270"></i><br>
+				<button class="btn btn-mini liaison popover-link" data-toggle="popover"
+					data-placement="right" data-html="true"
+					data-title='
+				    	        <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
+				    	            				<?php if ($this->isAllowed('Parcours') === true) :?>
+				    	            				<a 
+					href="#" class="selectSemantiques"
+					data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+					data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+					<i class="icon-pencil"></i> </a>
+					<?php endif;?>
+					' data-content='
+					<?php if ($this->isAllowed('Parcours') === true) :?>
+					<span class="edit2 CursorPointer"
+						data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+						data-name="narration" data-type="textarea" data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+					</span>
+					<?php else : ?>
+					<?php echo $this->escapeHtml($transition->narration); ?>
+					<?php endif;?>
+					' data-trigger="manual" title="" >
+					<?php echo $this->escapeHtml($transition->narration);?>
+				</button><br> 
+				<i class="icon-arrow-down"></i><br>
+				</div>
 			</div>
 		<?php endif; 
 		// On passe au sous-parcours suivant
 		$sous_parcours = $sous_parcours->sous_parcours_suivant;
 	endwhile ; ?>
 	</div>
-</div>
+</div> <!-- elements -->
+
+</div> <!-- row-fluid -->
 
 <div id="confirmDiv"></div>
 <div id="modalDiv"></div>

@@ -175,7 +175,17 @@ class FixtureParcours implements FixtureInterface
 		$parcours->addSousParcours($sous_parcours_developpement);
 		
 		$sous_parcours_debut->sous_parcours_suivant = $sous_parcours_developpement;
-		$sous_parcours_developpement->sous_parcours_suivant = null;
+		
+		$sous_parcours_changement = new Parcours\Entity\SousParcours();
+		$sous_parcours_changement->titre = "Changement de visage (1980-1995)";
+		$sous_parcours_changement->description = "L'arrivée de l'Internet et de l'informatique personnelle marque un changement profond dans les techniques et les usages de l'informatique, qui se décentralise et commence à se diffuser largement. Cette mutation touchera aussi bien la recherche que l'industrie. Parallèlement, l'évolution du marché et des technologies des semi-conducteurs impose un changement d'échelle : c'est au niveau européen, puis mondial, que va se construire un nouvel acteur industriel.";
+		$sous_parcours_changement->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+		$sous_parcours_changement->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$parcours->addSousParcours($sous_parcours_changement);
+		
+		$sous_parcours_developpement->sous_parcours_suivant = $sous_parcours_changement;
+		$sous_parcours_changement->sous_parcours_suivant = null;
 		
 		$manager->persist($parcours);
 		$manager->flush();
@@ -555,7 +565,7 @@ class FixtureParcours implements FixtureInterface
 				Les Instituts Universitaires de Technologie, ou IUT (formation professionnelle en deux ans, post-baccalauréat) sont mis en place en 1966. L'IUT de Grenoble comporte un département d'informatique, créé et initialement dirigé par Louis Bolliet. En 1970, lors de la création des nouveaux établissements issus de l'université de Grenoble, l'IUT abritant ce département sera rattaché à l'université de sciences sociales (aujourd'hui université Pierre Mendès France), les autres formations universitaires en informatique étant à l'université scientifique, technologique et médicale (aujourd'hui université Joseph Fourier).
 				<br><br>
 				L'ENSIMAG (créée en 1960) poursuit son développement au sein de l'IPG (devenu en 1969 Institut national polytechnique de Grenoble, aujourd'hui Grenoble INP). Les promotions passent de 40 élèves en 1965 à 60 en 1972, pour atteidre 120 en 1980. Jusque vers 1975, une partie des cours sont encore communs avec ceux de la Maîtrise d'informatique. La croissance des effectifs conduit ensuite à séparer les deux formations.
-				<br>
+				<br><br>
 				<blockquote>
 				En résumé, en 1975, Grenoble affiche une gamme complète de formations en informatique, tant fondamentales (maîtrise, 3ème cycle) que professionnelles (techniciens et techniciens supérieurs, ingénieurs), répartie sur trois établissements. Mise en place au gré de réformes successives et au prix d'un gros effort de la part d'un personnel encore peu nombreux, cette organisation est complexe et sans doute pas optimale du point de vue de la lisibilité et de l'usage des moyens, mais elle répond globalement aux besoins. Elle s'appuie sur le fonds commun de compétences et de connaissances développé au sein de l'IMAG.
 				</blockquote>
@@ -578,15 +588,168 @@ class FixtureParcours implements FixtureInterface
 		$sous_parcours_developpement->addTransition($transition8);
 		$manager->flush();
 		
+		//
+		// Troisième sous-parcours
+		// Dixième scène
+		//
+		$scene10 = new Parcours\Entity\SceneRecommandee();
+		$scene10->titre = "Usages de l'informatique";
+		$scene10->narration = "
+				Le début des années 1980 voit une mutation profonde des usages de l'informatique, sous une double influence.
+				<ol>
+				    <li>L'accès généralisé aux réseaux, et spécialement à l'Internet, qui amorce la fusion entre informatique et télécommunications.
+				    </li>
+					<li>La large diffusion des ordinateurs personnels, qui conduit à l'avènement de la bureautique.
+					</li>
+				</ol>
+				Ces avancées reposent sur des travaux de recherche et développement menés dans les années 1970. Le phénomène nouveau est leur pénétration universelle, qui va transformer les métiers et les conditions de travail. En parallèle, apparaît la notion de système d'information, support des connaissances, de la communication et des processus de travail au sein d'une entreprise, qui oblige à repenser l'organisation même de l'entreprise.
+				<br><br>
+				Le fonctionnement centralisé de l'informatique, sous le contrôle d'un centre de calcul fermé, laisse la place à un schéma beaucoup plus ouvert : le service informatique gère les serveurs, distribue et maintient les logiciels, et assure l'administration des réseaux, mais l'informatique \"cliente\", ordinateurs individuels et stations de travail, est proche des utilisateurs finaux et passe progressivement sous leur contrôle.
+				<br><br>
+				Cette période voit aussi une transformation de la communication : la messagerie électronique s'impose rapidement pour les échanges, et les documents deviennent numériques.
+				<br><br>
+				L'invention du World Wide Web en 1991 et surtout la diffusion des navigateurs et moteurs de recherche à partir de 1993-94 vont réellement faire pénétrer l'Internet dans le grand public et ouvrir l'ère des services.
+				<br><br>
+				<blockquote>
+					Étant donné la large place que tient l'informatique dans le paysage grenoblois, ces évolutions y seront très visibles, tant dans la recherche et la formation que dans l'industrie. La montée en puissance des réseaux sera un aspect important : en témoigne la création en 1994 de Grenoble Network Initiative (devenu Grilog en 2007) club de réflexion et d'échanges pour l'industrie, la recherche et les collectivités locales autour des technologies de l'information et de la communication. Cette même année est créé le World Wide Web Consortium (W3C), organisme de normalisation pour les produits et services liés au Web. Le centre INRIA de Grenoble sera choisi en 1995 pour accueillir le pôle européen du W3C.
+				</blockquote>
+				";
+		$scene10->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		
+		$sous_parcours_changement->scene_depart = $scene10;
+		$sous_parcours_changement->addScene($scene10);
+		$manager->flush();
 		
+		//
+		// Transition entre deux sous-parcours
+		// Transition scene9->scene10
+		//
+		$transition9 = new Parcours\Entity\TransitionRecommandee();
+		$transition9->narration = "Vers les usages de l'informatique";
+		$transition9->semantique = $semantique_chronologie;
+		$transition9->scene_origine = $scene9;
+		$transition9->scene_destination = $scene10;
 		
+		$parcours->addTransition($transition9);
+		$manager->flush();
 		
+		//
+		// Troisième sous-parcours
+		// Onzième scène
+		//
+		$scene11 = new Parcours\Entity\SceneRecommandee();
+		$scene11->titre = "Mutations dans l'industrie";
+		$scene11->narration = "
+				Les années 1980-1995 voient la pénétration de l'informatique dans un nombre croissant d'activités, ce qui a une double conséquence : l'émergence de nouveaux domaines d'application (comme la santé) et la transformation de nombreux métiers. Les sociétés de service se renforcent pour répondre à l'explosion de la demande. Si les plus grandes évoluent vers une fonction de conseil, de nombreuses \"start-up\" se créent sur des créneaux spécialisés.
+				<br><br>
+				La conception et la réalisation de circuits intégrés se concentrent en majorité dans quelques grands groupes, ce qui n'empêche pas des petites sociétés spécialisés de développer des circuits à la demande pour des usages spéciaux.
+				<br><br>
+				Le métier de constructeur d'ordinateur évolue fortement sur cette période. Dans les années 1980, c'est l'apparition des ordinateurs individuels, des stations de travail et des serveurs, ainsi que le recul progressif des \"mainframes\" traditionnels. À la fin des années 1980, le PC (ou plutôt ses clones, assemblés à bas coût) est le standard pour la grande majorité des ordinateurs personnels, tant dans les entreprises que dans le grand public.
+				<br><br>
+				Cette évolution est illustrée, à Grenoble, par l'activité des grands groupes, l'arrivée de nouveaux acteurs, la création de \"start-ups\", et la concentration dans le domaine des circuits intégrés.
+				";
+		$scene11->elements = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$sous_parcours_changement->addScene($scene11);
+		$manager->flush();
 		
+		//
+		// Troisième sous-parcours
+		//Transition scene10->scene11
+		//
+		$transition10 = new Parcours\Entity\TransitionRecommandee();
+		$transition10->narration = "Vers les mutations dans l'industrie";
+		$transition10->semantique = $semantique_chronologie;
+		$transition10->scene_origine = $scene10;
+		$transition10->scene_destination = $scene11;
 		
+		$sous_parcours_changement->addTransition($transition10);
+		$manager->flush();
 		
+		//
+		// Troisième sous-parcours
+		// Douzième scène
+		//
+		$scene12 = new Parcours\Entity\SceneRecommandee();
+		$scene12->titre = "Un nouvel élan pour la recherche";
+		$scene12->narration = "
+				La période 1980-95 est initialement perturbée, mais va ensuite voir un nouvel élan pour la recherche, marqué par des événements significatifs :
+				<ol>
+				    <li>La création à Grenoble en 1992 d'une nouvelle unité de recherche de l'INRIA (Institut national de recherche en informatique et automatique).
+					</li>    
+					<li>L'installation de plusieurs laboratoires d'entreprises ou de consortiums internationaux (Sun Microsystems, Xerox, OSF), qui témoignent de l'attractivité du pôle grenoblois de recherche et de formation en informatique.
+				    </li>
+					<li>La création d'unités mixtes de recherche, outils de collaboration entre recherche publique et industrie.
+					</li>
+				</ol>
+				Les restrictions sur l'achat de matériel, imposées dans le cadre du plan calcul, sont levées en 1981, ce qui permettra aux laboratoires de s'équiper en matériel conforme à l'état de l'art.
+				<br><br>
+				Il faut aussi noter l'instauration, en 1983, du programme européen ESPRIT (European Strategic Program on Research in Information Technology) qui apportera des financements significatifs à de nombreux  projets de recherche grenoblois et contribuera au développement de la coopération internationale.
+				<br><br>
+				Malgré les divers changements institutionnels, consommateurs de temps et d'énergie, cette période va enregistrer de belles avancées dans le domaine de la recherche et de sa valorisation.
+				";
+		$scene12->elements = new \Doctrine\Common\Collections\ArrayCollection();
 		
+		$sous_parcours_changement->addScene($scene12);
+		$manager->flush();
 		
+		//
+		// Troisième sous-parcours
+		//Transition scene11->scene12
+		//
+		$transition11 = new Parcours\Entity\TransitionRecommandee();
+		$transition11->narration = "Vers un nouvel élan pour la recherche";
+		$transition11->semantique = $semantique_chronologie;
+		$transition11->scene_origine = $scene11;
+		$transition11->scene_destination = $scene12;
+		
+		$sous_parcours_changement->addTransition($transition11);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Treizième scène
+		//
+		$scene13 = new Parcours\Entity\SceneRecommandee();
+		$scene13->titre = "La formation";
+		$scene13->narration = "
+				La formation en informatique et dans les domaines connexes continue à évoluer dans la période 1980-1995 pour répondre à une demande toujours croissante, ainsi qu'à l'évolution technique.
+				<br><br>
+				En 1981 est créé le Centre Interuniversitaire de microélectronique (CIME), à l'initiative conjointe de l'Institut National Polytechnique de Grenoble (INPG) et de l'université Joseph Fourier (UJF). Le CIME (photo ci-contre) a pour vocation de fournir les moyens nécessaires à l'enseignement et à la recherche dans le domaine de la microélectronique. Il s'agit de moyens lourds faisant appel à des techniques avancées (conception, caractérisation et test de circuits, salles blanches). À partir de 2002, le CIME sera le pôle principal d'un groupement coordonnant les activités de 12 centres de formation existant alors en France dans le même domaine (qui sera étendu aux nanotechnologies).
+				<br><br>
+				L'Institut de programmation de Grenoble, qui fonctionnait sous un régime spécifique, prend en 1984 le statut de Maîtrise de sciences et techniques, ce qui lui permet de délivrer un diplôme national.
+				<br><br>
+				En 1984 également sont créés à l'UJF deux Diplômes d'études supérieures spécialisées (DESS) en informatique. Il s'agit de formations professionnelles de niveau bac+5 recrutant leurs étudiants par sélection sur dossier, et faisant une place importante aux stages en entreprise. En 2002, avec la réforme des études supérieures, ces formations s'inséreront dans le cursus du Master.
+				<ol>
+				    <li>Le DESS de Génie informatique s'adresse à des étudiants ayant déjà une formation de base en informatique, du niveau de la Maîtrise. Il donne une formation approfondie centrée sur la technique (génie logiciel, systèmes et réseaux, bases de données, communication homme-machine, etc.).
+				    </li>
+					<li>Le DESS \"Double compétence en informatique\" (qui deviendra plus tard \"Compétence complémentaire\") s'adresse à des étudiants ayant acquis une formation du niveau de la Maîtrise dans un domaine autre que l'informatique, et désirant acquérir une formation supplémentaire dans cette discipline. En fait, en raison de la forte demande, la plupart des diplômés de cette formation effectueront une conversion totale vers l'informatique.
+					</li>
+				</ol>
+				Des filières de formation incluant l'informatique sont par ailleurs créées dans d'autres environnements. Ainsi un DESS \"Double compétence en informatique et sciences sociales\" est  créé en 1984 à l'université Pierre Mendès France (université de sciences sociales). Une Maîtrise de sciences et techniques \"Informatique industrielle et instrumentation\" (3I) est créée en 1985 à l'UJF par des physiciens (elle deviendra plus tard une formation d'ingénieur dans le cadre du réseau Polytech).
+				<br><br>
+				Dans le cadre de l'INPG, l'ENSIMAG continue sa croissance (promotions de 130 élèves en 1995) et diversifie ses options.
+				<br><blockquote>
+					À la fin de la période (1995), les établissements d'enseignement supérieur de Grenoble comptent au total plus de 1 000 étudiants en informatique et mathématiques appliquées, l'informatique étant largement dominante.
+				</blockquote>
+				";
+		$scene13->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene13);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//Transition scene12->scene13
+		//
+		$transition12 = new Parcours\Entity\TransitionRecommandee();
+		$transition12->narration = "Vers la formation";
+		$transition12->semantique = $semantique_chronologie;
+		$transition12->scene_origine = $scene12;
+		$transition12->scene_destination = $scene13;
+		
+		$sous_parcours_changement->addTransition($transition12);
+		$manager->flush();
 		
 			/********************************
 			 *	Parcour n°2
