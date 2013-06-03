@@ -11,33 +11,36 @@ use Parcours\Entity\SousParcours;
 use Parcours\Entity\Scene;
 
 /**
-* Entité d'un parcours
-*
-* @ORM\Entity
-* @ORM\Table(name="mbo_parcours")
-* @property int $id
-* @property string $titre
-* @property string $description
-*/
+ * Entité d'un parcours
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="mbo_parcours")
+ * @property int $id Id du parcours
+ * @property string $titre Titre du parcours
+ * @property string $description Description du parcours
+ * @property Parcours\Entity\SousParcours $sous_parcours Collection de sous-parcours associés au parcours
+ * @property Parcours\Entity\SousParcours $sous_parcours_depart Sous-parcours de départ du parcours
+ * @property Parcours\Entity\Transition $transitions Collection de transitions associées au parcours
+ */
 class Parcours implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
-    */
+     * @ORM\Column(type="string", length=200)
+     */
     protected $titre;
 
     /**
-    * @ORM\Column(type="text")
-    */
+     * @ORM\Column(type="text")
+     */
     protected $description;
     
     /**
@@ -106,43 +109,43 @@ class Parcours implements InputFilterAwareInterface
     }
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous forme de tableau
-    *
-    * @return array Objet au format tableau
-    */
+     * Retourne l'objet sous forme de tableau
+     *
+     * @return array Objet au format tableau
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    * @return void
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     * @return void
+     */
     public function populate($data = array())
     {
         $this->id = $data['id'];

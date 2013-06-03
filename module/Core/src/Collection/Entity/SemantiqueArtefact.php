@@ -12,26 +12,26 @@ use Doctrine\ORM\EntityManager;
 use \Doctrine\ORM\Query;
 
 /**
-* Entité d'une sémantique possible des relations entre deux artefacts
-*
-* @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
-* @ORM\Table(name="mbo_semantiqueartefact")
-* 
-* @property int $id Identifiant unique de la sémantique
-* @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à l'origine des relations marquées par cette sémantique
-* @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
-* @property string $semantique La sémantique elle même
-* @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
-* @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
-*/
+ * Entité d'une sémantique possible des relations entre deux artefacts
+ *
+ * @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
+ * @ORM\Table(name="mbo_semantiqueartefact")
+ * 
+ * @property int $id Identifiant unique de la sémantique
+ * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à l'origine des relations marquées par cette sémantique
+ * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
+ * @property string $semantique La sémantique elle même
+ * @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
+ * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
+ */
 class SemantiqueArtefact implements InputFilterAwareInterface
 {
     protected $inputFilter;
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
     /**
@@ -47,13 +47,13 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $type_destination;
     
     /**
-    * @ORM\Column(type="string", length=200)
-    */
+     * @ORM\Column(type="string", length=200)
+     */
     protected $semantique;
 
     /**
-    * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
-    **/
+     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
+     **/
     protected $relations;
 
     /**
@@ -64,42 +64,42 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $valide = false;
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous la forme d'un tableau
-    *
-    * @return array
-    */
+     * Retourne l'objet sous la forme d'un tableau
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     { 
         $this->id = $data['id'];
@@ -175,7 +175,9 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     }
 }
 
-
+/**
+ * Repository d'une sémantique possible des relations entre deux artefacts
+ */
 class SemantiqueArtefactRepository extends EntityRepository
 {
 

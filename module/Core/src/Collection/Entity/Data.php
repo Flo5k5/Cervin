@@ -9,34 +9,34 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
-* Entité de la valeur d'un champ d'un élément (data)
-* 
-* Un objet data se spécialise en DataTexte, DataUrl, DataDate, Datafichier, DataTextarea, ou DataNombre
-* selon le format de la donnée qu'il contient défini par le champ auquel il est associé
-*
-* @ORM\Entity
-* @ORM\Table(name="mbo_data")
-* @ORM\InheritanceType("JOINED")
-* @ORM\DiscriminatorColumn(name="discr", type="string")
-* @ORM\DiscriminatorMap({"DataDate" = "DataDate", 
-*                        "DataFichier" = "DataFichier", 
-*                        "DataNombre" = "DataNombre", 
-*                        "DataTexte" = "DataTexte", 
-*                        "DataUrl" = "DataUrl", 
-*                        "DataTextarea" = "DataTextarea"})
-* @property int $id Identifiant unique du data
-* @property \Collection\Entity\Element $element L'élément de la collection auquel se rapporte le data
-* @property \Collection\Entity\Champ $champ Le data contient la valeur du champ $champ de l'élément $element
-*/
+ * Entité de la valeur d'un champ d'un élément (data)
+ * 
+ * Un objet data se spécialise en DataTexte, DataUrl, DataDate, Datafichier, DataTextarea, ou DataNombre
+ * selon le format de la donnée qu'il contient défini par le champ auquel il est associé
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="mbo_data")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"DataDate" = "DataDate", 
+ *                        "DataFichier" = "DataFichier", 
+ *                        "DataNombre" = "DataNombre", 
+ *                        "DataTexte" = "DataTexte", 
+ *                        "DataUrl" = "DataUrl", 
+ *                        "DataTextarea" = "DataTextarea"})
+ * @property int $id Identifiant unique du data
+ * @property \Collection\Entity\Element $element L'élément de la collection auquel se rapporte le data
+ * @property \Collection\Entity\Champ $champ Le data contient la valeur du champ $champ de l'élément $element
+ */
 class Data implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
     /**
-    * @ORM\Id
-    * @ORM\Column(type="integer");
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
     
     /**
@@ -60,42 +60,42 @@ class Data implements InputFilterAwareInterface
     }
     
     /**
-    * Magic getter to expose protected properties.
-    *
-    * @param string $property
-    * @return mixed
-    */
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
     public function __get($property)
     {
         return $this->$property;
     }
 
     /**
-    * Magic setter to save protected properties.
-    *
-    * @param string $property
-    * @param mixed $value
-    */
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
     public function __set($property, $value)
     {
         $this->$property = $value;
     }
 
     /**
-    * Retourne l'objet sous la forme d'un tableau
-    *
-    * @return array
-    */
+     * Retourne l'objet sous la forme d'un tableau
+     *
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
     /**
-    * Populate from an array.
-    *
-    * @param array $data
-    */
+     * Populate from an array.
+     *
+     * @param array $data
+     */
     public function populate($data = array())
     {
 
