@@ -12,6 +12,8 @@ use Zend\InputFilter\InputFilterInterface;
  *
  * @ORM\Entity
  * @ORM\Table(name="mbo_transitionrecommandee")
+ * @property Parcours\Entity\SceneRecommandee $scene_origine Scène d'origine de la transition recommandée
+ * @property Parcours\Entity\SceneRecommandee $scene_destination Scène de destination de la transition recommandée
  */
 class TransitionRecommandee extends Transition
 {
@@ -49,9 +51,9 @@ class TransitionRecommandee extends Transition
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {

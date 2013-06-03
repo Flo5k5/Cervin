@@ -15,6 +15,12 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="mbo_sousparcours")
  * @property int $id
  * @property string $titre
+ * @property string $description
+ * @property Parcours\Entity\Parcours $parcours
+ * @property Parcours\Entity\Transition $transitions
+ * @property Parcours\Entity\Scene $scenes
+ * @property Parcours\Entity\SceneRecommandee $scene_depart
+ * @property Parcours\Entity\SousParcours $sous_parcours_suivant
  */
 class SousParcours implements InputFilterAwareInterface
 {
@@ -107,9 +113,9 @@ class SousParcours implements InputFilterAwareInterface
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {

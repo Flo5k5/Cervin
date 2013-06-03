@@ -8,7 +8,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
- * Entité d'uUne scène secondaire
+ * Entité d'une scène secondaire
  *
  * @ORM\Entity
  * @ORM\Table(name="mbo_scenesecondaire")
@@ -39,9 +39,9 @@ class SceneSecondaire extends Scene
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {

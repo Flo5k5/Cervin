@@ -45,9 +45,9 @@ class SceneRecommandee extends Scene
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {
