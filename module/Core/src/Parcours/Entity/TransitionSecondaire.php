@@ -12,6 +12,8 @@ use Zend\InputFilter\InputFilterInterface;
  *
  * @ORM\Entity
  * @ORM\Table(name="mbo_transitionsecondaire")
+ * @property Parcours\Entity\Scene $scene_origine Scène d'origine de la transition secondaire
+ * @property Parcours\Entity\Scene $scene_destination Scène de destination de la transition secondaire
  */
 class TransitionSecondaire extends Transition
 {
@@ -49,9 +51,9 @@ class TransitionSecondaire extends Transition
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {
