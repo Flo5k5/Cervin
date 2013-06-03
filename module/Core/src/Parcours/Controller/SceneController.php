@@ -17,6 +17,13 @@ use Parcours\Entity\SceneRecommandee;
 use Parcours\Entity\TransitionRecommandee;
 use Zend\Json\Json;
 
+/**
+ * Controleur des scènes
+ *
+ * Permet la création, lecture, modification et suppression d'une scène
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class SceneController extends AbstractActionController
 {
 
@@ -291,6 +298,16 @@ class SceneController extends AbstractActionController
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 	
+	/**
+	 * Retourne une liste de toutes les scènes à la Datatable
+	 *
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle prend en paramètre les conditions renvoyées par le widget Datatable et précisés
+	 * au moment de l'instanciation du widget. Ces paramètres sont ensuite envoyé à la classe
+	 * Datatable qui se charge de renvoyer les données récupérées en base de donnée. Ces données
+	 * sont ensuite passées à la Datatable qui se chargera de les afficher.
+	 *
+	 */
 	public function getAllElementAction()
 	{
 		$params = null;
@@ -358,6 +375,17 @@ class SceneController extends AbstractActionController
 		}
 	}
 	
+	/**
+	 * Crée la relation entre un élément et une scène
+	 * 
+	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
+	 * Elle récupère l'id de l'élément présent dans les paramètres de la route puis l'id 
+	 * de la scène depuis les variables POST. On vérifie ensuite que tous les ids 
+	 * sont bien présents et on vérifie que les ids correspondent à un élément en 
+	 * base de donnée. Et enfin on ajoute la relation. 
+	 * 
+	 * @return void|\Zend\Stdlib\mixed
+	 */
 	public function addRelationSceneElementAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {

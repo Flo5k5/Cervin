@@ -64,6 +64,7 @@ class SousParcours implements InputFilterAwareInterface
     
     /**
      * Ajout d'une transition au sous-parcours
+     * 
      * @param unknown_type $transition
      */
     public function addTransition($transition) {
