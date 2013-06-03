@@ -84,7 +84,7 @@ a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" ico
 	border-style:dashed;
 	border-width:3px;
 	border-color:#006699;
-	padding: 5px 5px 5px 5px;
+	padding: 5px 5px 20px 5px;
 }
 
 </style>
@@ -93,39 +93,37 @@ a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" ico
 <div class="row-fluid">
 
 <!-- Menu de navigation dasn le parcours -->
-	<div class="span4">
-		<div class="well" data-spy="affix">
-			<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
-			<ul class="nav nav-list">
-				<?php 
-				$parcours = $sous_parcours->parcours;
-				$sous_parcours = $parcours->sous_parcours_depart;
+	<div class="span4 well">
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<ul class="nav nav-list">
+			<?php 
+			$parcours = $sous_parcours->parcours;
+			$sous_parcours = $parcours->sous_parcours_depart;
+			
+			while ($sous_parcours != null) : 
+				echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
+				$scene_depart = $sous_parcours->scene_depart;
+				$transition = $scene_depart->transition_recommandee;
+				?>
+				<li>
+					<a href="#<?php echo $scene_depart->id; ?> ">
+					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+					</a>
+				</li>
 				
-				while ($sous_parcours != null) : 
-					echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
-					$scene_depart = $sous_parcours->scene_depart;
-					$transition = $scene_depart->transition_recommandee;
-					?>
+				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
 					<li>
-						<a href="#<?php echo $scene_depart->id; ?> ">
-						<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+						<a href="#<?php echo $transition->scene_destination->id; ?> ">
+						<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
 						</a>
 					</li>
-					
-					<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-						<li>
-							<a href="#<?php echo $transition->scene_destination->id; ?> ">
-							<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
-							</a>
-						</li>
-						<?php $transition = $transition->scene_destination->transition_recommandee;
-				 	endwhile;
-					$sous_parcours = $sous_parcours->sous_parcours_suivant;
-				endwhile; ?>
-			</ul>
-		</div>
+					<?php $transition = $transition->scene_destination->transition_recommandee;
+			 	endwhile;
+				$sous_parcours = $sous_parcours->sous_parcours_suivant;
+			endwhile; ?>
+		</ul>
 	</div>
-
+	
 <!-- Affichage du parcours -->
 <div class="span4 elements">
 <?php

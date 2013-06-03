@@ -5,55 +5,53 @@ $this->headTitle($title); ?>
 <div class="row-fluid">
 
 	<!-- Menu de navigation dans le parcours -->
-	<div class="span4">
-		<div class="well" data-spy="affix">
-			<h4> <i class="icon-road"></i> <?php echo $this->escapeHtml($scene->sous_parcours->parcours->titre); ?> </h4>
-			<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
-				class="btn btn-link"> 
-				<i class="icon-reply"></i> Retour au parcours 
-			</a>
+	<div class="span4 well">
+		<h4> <i class="icon-road"></i> <?php echo $this->escapeHtml($scene->sous_parcours->parcours->titre); ?> </h4>
+		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
+			class="btn btn-link"> 
+			<i class="icon-reply"></i> Retour au parcours 
+		</a>
+		
+		<ul class="nav nav-list">
+			<li class="divider"></li>
+			<?php 
+			$parcours = $scene->sous_parcours->parcours;
+			$sous_parcours = $parcours->sous_parcours_depart;
 			
-			<ul class="nav nav-list">
-				<li class="divider"></li>
-				<?php 
-				$parcours = $scene->sous_parcours->parcours;
-				$sous_parcours = $parcours->sous_parcours_depart;
+			while ($sous_parcours != null) : 
 				
-				while ($sous_parcours != null) : 
+				echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
+				$scene_depart = $sous_parcours->scene_depart;
+				$transition = $scene_depart->transition_recommandee;
+				$class = "";
+				if ($scene_depart == $scene) {
+					$class = "active";
+				}
+				?>
 					
-					echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
-					$scene_depart = $sous_parcours->scene_depart;
-					$transition = $scene_depart->transition_recommandee;
-					$class = "";
-					if ($scene_depart == $scene) {
+				<li class="<?php echo $class; ?>">
+					<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
+					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+					</a>
+				</li>
+				
+				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+					<?php 
+					if ($transition->scene_destination == $scene) {
 						$class = "active";
-					}
-					?>
-						
+					} else {
+						$class = "";
+					} ?>
 					<li class="<?php echo $class; ?>">
-						<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
-						<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+						<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
+						<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
 						</a>
 					</li>
-					
-					<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-						<?php 
-						if ($transition->scene_destination == $scene) {
-							$class = "active";
-						} else {
-							$class = "";
-						} ?>
-						<li class="<?php echo $class; ?>">
-							<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
-							<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
-							</a>
-						</li>
-						<?php $transition = $transition->scene_destination->transition_recommandee;
-				 	endwhile;
-					$sous_parcours = $sous_parcours->sous_parcours_suivant;
-				endwhile; ?>
-			</ul>
-		</div>
+					<?php $transition = $transition->scene_destination->transition_recommandee;
+			 	endwhile;
+				$sous_parcours = $sous_parcours->sous_parcours_suivant;
+			endwhile; ?>
+		</ul>
 	</div>
 
 	<!-- Fiche de la scène -->
