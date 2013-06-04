@@ -4,6 +4,9 @@ namespace Core;
 use Collection\View\Helper\formatForm;
 use Collection\View\Helper\DatatableWidget;
 use Parcours\View\Helper\BoutonSceneWidget;
+use Parcours\View\Helper\TransitionWidget;
+use Parcours\View\Helper\TitreSousParcoursWidget;
+use Parcours\View\Helper\TransitionsSecondairesWidget;
 
 
 class Module
@@ -29,6 +32,18 @@ class Module
                 },
                 'BoutonSceneWidget' => function ($helperPluginManager) {
                 	$viewHelper = new BoutonSceneWidget();
+                	return $viewHelper;
+                },
+                'TransitionWidget' => function ($helperPluginManager) {
+                	$viewHelper = new TransitionWidget();
+                	return $viewHelper;
+                },
+                'TitreSousParcoursWidget' => function ($helperPluginManager) {
+                	$viewHelper = new TitreSousParcoursWidget();
+                	return $viewHelper;
+                },
+                'TransitionsSecondairesWidget' => function ($helperPluginManager) {
+                	$viewHelper = new TransitionsSecondairesWidget();
                 	return $viewHelper;
                 },
             ),
