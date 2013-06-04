@@ -437,6 +437,20 @@ return array(
                             ),
                         ),
                     ),
+                    'ajouterSousParcours' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/ajouterSousParcours/:type/:idsp',
+                            'constraints' => array(
+                                'type'     => 'ajAvant|ajApres',
+                                'idsp'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Parcours',
+                                'action'     => 'ajouterSousParcours',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 
