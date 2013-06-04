@@ -229,6 +229,7 @@ return array(
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifierTransition', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifier', 'roles' => array('Parcours')),
+                array('route' => 'parcours/ajouterSousParcours', 'roles' => array('Parcours')),
 
             	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),

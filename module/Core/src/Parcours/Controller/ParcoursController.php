@@ -14,8 +14,10 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\Parcours;
+use Parcours\Entity\SousParcours;
 use Parcours\Form\ParcoursForm;
 use Parcours\Entity\TransitionRecommandee;
+use Parcours\Entity\SceneRecommandee;
 use Zend\Json\Json;
 
 /**
@@ -267,4 +269,86 @@ class ParcoursController extends AbstractActionController
         }
     }
 
+    public function ajouterSousParcoursAction()
+    {
+        $idsp = (int) $this->params('idsp', null);
+        $action = $this->params('type', null);
+        if (null === $idsp or null === $action) {
+            $this->getResponse()->setStatusCode(404);
+            return; 
+        }
+        $sousparcours = $this->getEntityManager()
+                ->getRepository('Parcours\Entity\SousParcours')
+                ->findOneBy(array('id'=>$idsp));
+
+        $newsp = new SousParcours();
+        $newsp->titre = 'Nouveau sous-parcours';
+        $newsp->description = 'Description à écrire';
+        $sousparcours->parcours->addSousParcours($newsp);
+        $newScene = new SceneRecommandee();
+        $newScene->titre = 'Nouvelle scène';
+        $newScene->narration = 'Narration à écrire';
+        $newsp->addScene($newScene);
+        $newsp->scene_depart = $newScene;
+        $newTransitionRecommandee = new TransitionRecommandee();
+        $newTransitionRecommandee->narration = 'Nouvelle Transition';
+        $newsp->parcours->addTransition($newTransitionRecommandee);
+        $this->getEntityManager()->persist($newsp);
+        $this->getEntityManager()->persist($newScene);
+        $this->getEntityManager()->persist($newTransitionRecommandee);
+        switch ($action)
+        {
+            case 'ajAvant': // On ajoute un sous-parcours avant $sousparcours
+                $newsp->sous_parcours_suivant = $sousparcours;
+                if($sousparcours->parcours->sous_parcours_depart === $sousparcours)
+                {
+                    $sousparcours->parcours->sous_parcours_depart = $newsp;
+                    $newTransitionRecommandee->scene_origine = $newScene;
+                    $newTransitionRecommandee->scene_destination = $sousparcours->scene_depart;
+                }
+                else
+                {
+                    $tr_before = $this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_destination'=>$sousparcours->scene_depart));
+                    $newTransitionRecommandee->scene_origine = $tr_before->scene_origine;
+                    $newTransitionRecommandee->scene_destination = $newScene;
+                    $sp_before = $tr_before->scene_origine->sous_parcours;
+                    $sp_before->sous_parcours_suivant = $newsp;
+                    $tr_before->scene_origine = $newScene;
+                }
+            break;
+            case 'ajApres': // On ajoute un sous-parcours après $sousparcours
+                $newsp->sous_parcours_suivant = $sousparcours->sous_parcours_suivant;
+                $sousparcours->sous_parcours_suivant = $newsp;
+                $newTransitionRecommandee->scene_destination = $newScene;
+                if($newsp->sous_parcours_suivant === null)
+                {
+                    foreach ($sousparcours->scenes as $scene)
+                    {
+                        if($this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_origine'=>$scene))
+                            === null)
+                        {
+                            $last_scene = $scene;
+                            break;
+                        }
+                    }
+                    $newTransitionRecommandee->scene_origine = $last_scene;
+                }
+                else
+                {
+                    $tr_after = $this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_destination'=>$newsp->sous_parcours_suivant->scene_depart));
+                    $newTransitionRecommandee->scene_origine = $tr_after->scene_origine;
+                    $tr_after->scene_origine = $newScene;
+                }
+            break;
+        }
+        $this->getEntityManager()->flush();
+        $this->flashMessenger()->addSuccessMessage(sprintf('Le sous-parcours a bien été ajouté'));
+        return $this->redirect()->toRoute('parcours/voir', array('id' => $sousparcours->parcours->id));
+    }
 }
