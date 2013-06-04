@@ -307,6 +307,7 @@ class ParcoursController extends AbstractActionController
                     $sousparcours->parcours->sous_parcours_depart = $newsp;
                     $newTransitionRecommandee->scene_origine = $newScene;
                     $newTransitionRecommandee->scene_destination = $sousparcours->scene_depart;
+                    $newsp->sous_parcours_suivant = $sousparcours;
                 }
                 else
                 {
@@ -315,13 +316,14 @@ class ParcoursController extends AbstractActionController
                             ->findOneBy(array('scene_destination'=>$sousparcours->scene_depart));
                     $pass = $tr_before->scene_origine;
                     $tr_before->scene_origine = $newScene;
-                    $newTransitionRecommandee->scene_origine = $pass;
-                    $newTransitionRecommandee->scene_destination = $newScene;
-                    $sp_before = $pass->sous_parcours;
                     $this->getEntityManager()->flush();
+                    $newTransitionRecommandee->scene_origine = $pass;
+                    $sp_before = $pass->sous_parcours;
                     $sp_before->sous_parcours_suivant = $newsp;
+                    $this->getEntityManager()->flush();
+                    $newsp->sous_parcours_suivant = $sousparcours;
+                    $newTransitionRecommandee->scene_destination = $newScene;
                 }
-                $newsp->sous_parcours_suivant = $sousparcours;
             break;
             case 'ajApres': // On ajoute un sous-parcours après $sousparcours
                 if($sousparcours->sous_parcours_suivant === null)
