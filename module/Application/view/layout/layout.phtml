@@ -211,14 +211,16 @@ echo $this->headScript();
        	<div class="container-fluid">
 	        <footer>
 				<hr/>
-				<div class="row-fluid">
-					<div class="span6">
-						<p><?php echo date("Y"); ?> - Cervin</p>
-					</div>
-					<div class="span6">
-						<p class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></p>
-					</div>
-				</div>
+				<table class="table"">
+					<tr>
+						<td style="border-top:none;">
+							<p class="text-left"><?php echo date("Y"); ?> - Cervin</p>
+						</td>
+						<td style="border-top:none;">
+							<p class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></p>
+						</td>
+					</tr>
+				</table>
 	        </footer>
 	    </div>
 
