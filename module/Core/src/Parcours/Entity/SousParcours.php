@@ -59,7 +59,7 @@ class SousParcours implements InputFilterAwareInterface
     protected $scenes;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee", cascade={"persist", "remove"})
      **/
     protected $scene_depart;
     

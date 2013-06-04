@@ -3,6 +3,8 @@ namespace Core;
 
 use Collection\View\Helper\formatForm;
 use Collection\View\Helper\DatatableWidget;
+use Parcours\View\Helper\BoutonSceneWidget;
+
 
 class Module
 {
@@ -24,6 +26,10 @@ class Module
                     $viewHelper = new DatatableWidget();
                     $viewHelper->setServiceLocator($serviceLocator);
                     return $viewHelper;
+                },
+                'BoutonSceneWidget' => function ($helperPluginManager) {
+                	$viewHelper = new BoutonSceneWidget();
+                	return $viewHelper;
                 },
             ),
         );

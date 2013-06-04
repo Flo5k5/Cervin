@@ -157,14 +157,11 @@ class FixtureParcours implements FixtureInterface
 		$parcours->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
 		$parcours->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		
-		$sous_parcours_debut = new Parcours\Entity\SousParcours();
+		$sous_parcours_debut = $parcours->sous_parcours_depart;
 		$sous_parcours_debut->titre = "Les débuts (1950-1965)";
 		$sous_parcours_debut->description = "Dans les années 1950, la France souffre d'un important retard en informatique. Néanmoins, grâce à leur clairvoyance et à leur ténacité, quelques précurseurs sauront créer les formations, les infrastructures de recherche et les collaborations industrielles qui permettront le développement de cette nouvelle discipline et de ses applications.";
 		$sous_parcours_debut->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		$sous_parcours_debut->transitions = new \Doctrine\Common\Collections\ArrayCollection();
-		
-		$parcours->addSousParcours($sous_parcours_debut);
-		$parcours->sous_parcours_depart = $sous_parcours_debut;
 		
 		$sous_parcours_developpement = new Parcours\Entity\SousParcours();
 		$sous_parcours_developpement->titre = "Développement, perturbations (1965-1980)";

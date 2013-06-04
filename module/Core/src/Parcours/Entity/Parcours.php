@@ -49,7 +49,7 @@ class Parcours implements InputFilterAwareInterface
     protected $sous_parcours;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours")
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours", cascade={"persist", "remove"})
      **/
     protected $sous_parcours_depart;
     
@@ -94,7 +94,7 @@ class Parcours implements InputFilterAwareInterface
      */
     public function __construct() {
         $SousParcours = new SousParcours();
-        $SousParcours->titre = 'Titre sous Parcours';
+        $SousParcours->titre = 'Nouveau sous-parcours';
         $SousParcours->description = 'Description du sous Parcours';
         $SousParcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 
@@ -106,6 +106,7 @@ class Parcours implements InputFilterAwareInterface
 
         $this->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
         $this->addSousParcours($SousParcours);
+        $this->sous_parcours_depart = $SousParcours;
     }
     
     /**
