@@ -301,7 +301,6 @@ class ParcoursController extends AbstractActionController
         switch ($action)
         {
             case 'ajAvant': // On ajoute un sous-parcours avant $sousparcours
-                $newsp->sous_parcours_suivant = $sousparcours;
                 if($sousparcours->parcours->sous_parcours_depart === $sousparcours)
                 {
                     $sousparcours->parcours->sous_parcours_depart = $newsp;
@@ -313,18 +312,17 @@ class ParcoursController extends AbstractActionController
                     $tr_before = $this->getEntityManager()
                             ->getRepository('Parcours\Entity\TransitionRecommandee')
                             ->findOneBy(array('scene_destination'=>$sousparcours->scene_depart));
-                    $newTransitionRecommandee->scene_origine = $tr_before->scene_origine;
-                    $newTransitionRecommandee->scene_destination = $newScene;
-                    $sp_before = $tr_before->scene_origine->sous_parcours;
-                    $sp_before->sous_parcours_suivant = $newsp;
+                    $pass = $tr_before->scene_origine;
                     $tr_before->scene_origine = $newScene;
+                    $newTransitionRecommandee->scene_origine = $pass;
+                    $newTransitionRecommandee->scene_destination = $newScene;
+                    $sp_before = $newTransitionRecommandee->scene_origine->sous_parcours;
+                    $sp_before->sous_parcours_suivant = $newsp;
                 }
+                $newsp->sous_parcours_suivant = $sousparcours;
             break;
             case 'ajApres': // On ajoute un sous-parcours après $sousparcours
-                $newsp->sous_parcours_suivant = $sousparcours->sous_parcours_suivant;
-                $sousparcours->sous_parcours_suivant = $newsp;
-                $newTransitionRecommandee->scene_destination = $newScene;
-                if($newsp->sous_parcours_suivant === null)
+                if($sousparcours->sous_parcours_suivant === null)
                 {
                     foreach ($sousparcours->scenes as $scene)
                     {
@@ -343,10 +341,15 @@ class ParcoursController extends AbstractActionController
                 {
                     $tr_after = $this->getEntityManager()
                             ->getRepository('Parcours\Entity\TransitionRecommandee')
-                            ->findOneBy(array('scene_destination'=>$newsp->sous_parcours_suivant->scene_depart));
-                    $newTransitionRecommandee->scene_origine = $tr_after->scene_origine;
-                    $tr_after->scene_origine = $newScene;
+                            ->findOneBy(array('scene_destination'=>$sousparcours->sous_parcours_suivant->scene_depart));
+                    $pass = $tr_after->scene_origine;
+                    $tr_after->scene_origine= $newScene;
+                    $newTransitionRecommandee->scene_origine = $pass;
                 }
+                $pass = $sousparcours->sous_parcours_suivant;
+                $sousparcours->sous_parcours_suivant = $newsp;
+                $newsp->sous_parcours_suivant = $pass;
+                $newTransitionRecommandee->scene_destination = $newScene;
             break;
         }
         $this->getEntityManager()->flush();
