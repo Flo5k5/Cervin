@@ -295,6 +295,10 @@ class ParcoursController extends AbstractActionController
         $newTransitionRecommandee->narration = 'Nouvelle Transition';
         $sousparcours->parcours->addSousParcours($newsp);
         $newsp->parcours->addTransition($newTransitionRecommandee);
+        $this->getEntityManager()->persist($newTransitionRecommandee);
+        $this->getEntityManager()->persist($newScene);
+        $this->getEntityManager()->persist($newsp);
+        $this->getEntityManager()->flush();
         switch ($action)
         {
             case 'ajAvant': // On ajoute un sous-parcours avant $sousparcours
@@ -314,6 +318,7 @@ class ParcoursController extends AbstractActionController
                     $newTransitionRecommandee->scene_origine = $pass;
                     $newTransitionRecommandee->scene_destination = $newScene;
                     $sp_before = $pass->sous_parcours;
+                    $this->getEntityManager()->flush();
                     $sp_before->sous_parcours_suivant = $newsp;
                 }
                 $newsp->sous_parcours_suivant = $sousparcours;
@@ -345,13 +350,11 @@ class ParcoursController extends AbstractActionController
                 }
                 $pass = $sousparcours->sous_parcours_suivant;
                 $sousparcours->sous_parcours_suivant = $newsp;
+                $this->getEntityManager()->flush();
                 $newsp->sous_parcours_suivant = $pass;
                 $newTransitionRecommandee->scene_destination = $newScene;
             break;
         }
-        $this->getEntityManager()->persist($newTransitionRecommandee);
-        $this->getEntityManager()->persist($newScene);
-        $this->getEntityManager()->persist($newsp);
         $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage(sprintf('Le sous-parcours a bien été ajouté'));
         return $this->redirect()->toRoute('parcours/voir', array('id' => $sousparcours->parcours->id));
