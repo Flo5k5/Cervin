@@ -97,6 +97,7 @@ class Parcours implements InputFilterAwareInterface
         $SousParcours->titre = 'Nouveau sous-parcours';
         $SousParcours->description = 'Description du sous Parcours';
         $SousParcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+        $SousParcours->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 
         $Scene = new SceneRecommandee();
         $Scene->titre = 'Nouvelle scène';
