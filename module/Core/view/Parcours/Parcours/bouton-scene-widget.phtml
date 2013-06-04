@@ -1,6 +1,16 @@
+<style type="text/css">
+
+	.element {
+		width: 208px;
+		text-align: center;
+		padding: 20px 10px 20px 10px;
+	} 
+
+</style>
+
 <?php if ($this->isAllowed('Parcours') === true) :?>
 	<a name="<?php echo $scene->id;?>"></a>
-	<button class="btn btn-large element popover-link" data-toggle="popover"
+	<button class="btn btn-large btn-info element popover-link" data-toggle="popover"
 		data-placement="right" data-html="true"
 		data-content='
 		    <ul class="nav nav-list">
