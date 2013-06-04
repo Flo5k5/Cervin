@@ -46,72 +46,70 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <style type="text/css">
-.well {
-	margin-bottom: 1px;
-}
-
-.icon-black {
-	color: rgb(51, 51, 51);
-	text-decoration: none;
-}
-
-.voirfond {
-	background: #EDEDED;
-}
-
-.elements {
-	text-align: center;
-}
-
-.elements .element {
-	width: 208px;
-	text-align: center;
-	padding: 20px 10px 20px 10px;
-} 
-.liaison {
-	margin: 2px;
-	width: 208px;
-	background: #FFF;
-	border-width: 0;
-}
-
-.secondaires {
-	background: #FFF;
-	border-width: 0;
-}
-
-a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" icon-"]:before
-{
-	display: inline-block;
-}
-
-.sous_parcours {
-	border-style: dashed;
-	border-width: 3px;
-	border-color: #006699;
-	padding: 5px 5px 20px 5px;
-}
-
-.titresp {
-    width: 80%;
-    height: 100%;
-    background: #FFF;
-	border-width: 0;
-}
-
+	.well {
+		margin-bottom: 1px;
+	}
+	
+	.icon-black {
+		color: rgb(51, 51, 51);
+		text-decoration: none;
+	}
+	
+	.voirfond {
+		background: #EDEDED;
+	}
+	
+	.elements {
+		text-align: center;
+	}
+	
+	.elements .element {
+		width: 208px;
+		text-align: center;
+		padding: 20px 10px 20px 10px;
+	} 
+	.liaison {
+		margin: 2px;
+		width: 208px;
+		background: #FFF;
+		border-width: 0;
+	}
+	
+	.secondaires {
+		background: #FFF;
+		border-width: 0;
+	}
+	
+	a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" icon-"]:before
+	{
+		display: inline-block;
+	}
+	
+	.sous_parcours {
+		border-style: dashed;
+		border-width: 3px;
+		border-color: #006699;
+		padding: 5px 5px 20px 5px;
+	}
+	
+	.titresp {
+	    width: 80%;
+	    height: 100%;
+	    background: #FFF;
+		border-width: 0;
+	}
 </style>
 
 <div class="row-fluid">
 
-<!-- Menu de navigation dans le parcours -->
+	<!-- Menu de navigation dans le parcours -->
 	<div class="span4 well">
 		<h4> Chemin recommandé </h4>
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<ul class="nav nav-list">
-			<?php 
-			
-			while ($sous_parcours != null) : 
-				echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
+			<?php while ($sous_parcours != null) : ?>
+				<li class="nav-header strong"> <?php echo $sous_parcours->titre; ?> </li>
+				<?php 
 				$scene_depart = $sous_parcours->scene_depart;
 				$transition = $scene_depart->transition_recommandee;
 				?>
@@ -120,7 +118,6 @@ a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" ico
 					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
 					</a>
 				</li>
-				
 				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
 					<li>
 						<a href="#<?php echo $transition->scene_destination->id; ?> ">
@@ -136,233 +133,67 @@ a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" ico
 	
 	<!-- Affichage du parcours -->
 	<div class="span8">
-
-	<?php
-	$sous_parcours = $Parcours->sous_parcours_depart;
-	// On affiche les sour parcours un à un
-	while ($sous_parcours != null) : ?>
-		<div class="row-fluid">
-			<div class="span6 elements sous_parcours">
-	
-	    	<?php if ($this->isAllowed('Parcours') === true) :?>
-	        <button class="popover-link btn titresp"
-	            data-toggle="popover"
-	            data-placement="right"
-	            data-html="true"
-	            data-content='
-	                <ul class="nav nav-list">
-	                    <li><a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajAvant", "idsp" => $sous_parcours->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter un sous-parcours avant</a></li>
-	                    <li><a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajApres", "idsp" => $sous_parcours->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter un sous-parcours après</a></li>
-	                </ul>
-	            ' 
-	            data-trigger="manual"
-	            title="" >
-	            <h4><?php echo $sous_parcours->titre; ?></h4>
-	        </button>
-	    <?php else: ?>
-		   <h4><?php echo $sous_parcours->titre; ?></h4>
-	    <?php endif; ?>
-	
-		<hr/>
-		<?php 
-		
-		// On affiche la première scène du sous parcours
-		$scene_depart = $sous_parcours->scene_depart;
-		echo $this->BoutonSceneWidget($scene_depart); ?>
-		
-		<!-- Transitions secondaires depuis cette scène -->
-		<button class="btn secondaires popover-link" 
-	            data-toggle="popover" 
-	            data-placement="right" 
-	            data-html="true"
-	            data-title="<h5>Transitions secondaires</h5>"
-	            data-content='
-	                <ul class="nav nav-list">
-	                	<li class="nav-header strong">Vers scènes recommandées</li>
-			        	<li>
-			        		<span class="edit2 CursorPointer"
-	                        	data-url="#"
-	                        	data-name="narration" 
-	                        	data-type="textarea" 
-	                        	data-pk="1"> Texte de la transition
-	                        </span>
-	                        <span href="#" 
-	                       		class="edit2 CursorPointer selectSemantiques" 
-	                       		data-value=""
-	                       		data-url="">
-	                        		[Sémantique] 
-	                    	</span>
-	                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-	                    </li>
-			        	<li class="nav-header strong">Vers scènes secondaires</li>
-			        	<li>
-			        		<span class="edit2 CursorPointer"
-	                        	data-url="#"
-	                        	data-name="narration" 
-	                        	data-type="textarea" 
-	                        	data-pk="1"> Texte de la transition
-	                        </span>
-	                        <span href="#" 
-	                       		class="edit2 CursorPointer selectSemantiques" 
-	                       		data-value=""
-	                       		data-url="">
-	                        		[Sémantique] 
-	                    	</span>
-	                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-	                    </li>
-	                    <li class="divider"></li>
-			        	<li>
-			        		<span class="edit2 CursorPointer"
-	                        	data-url="#"
-	                        	data-name="narration" 
-	                        	data-type="textarea" 
-	                        	data-pk="1"> Texte de la transition
-	                        </span>
-	                        <span href="#" 
-	                       		class="edit2 CursorPointer selectSemantiques" 
-	                       		data-value=""
-	                       		data-url="">
-	                        		[Sémantique] 
-	                    	</span>
-	                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-	                    </li>
-	                    <li class="divider"></li>
-			        	<li>
-			        		<span class="edit2 CursorPointer"
-	                        	data-url="#"
-	                        	data-name="narration" 
-	                        	data-type="textarea" 
-	                        	data-pk="1"> Texte de la transition
-	                        </span>
-	                        <span href="#" 
-	                       		class="edit2 CursorPointer selectSemantiques" 
-	                       		data-value=""
-	                       		data-url="">
-	                        		[Sémantique] 
-	                    	</span>
-	                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-	                    </li>
-	                </ul>' 
-	            data-trigger="manual"
-	            title="" >
-	            <i class="icon-arrow-right"></i>
-	    </button>
-		
-		<br>
-		
-	   	<?php  $transition = $scene_depart->transition_recommandee;
-	    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-	    	<!-- Tant qu'on est toujours dans le sous parcours -->
-	    	<!--  On affiche la transition -->
-	        <i class="icon-minus icon-rotate-270 icon-large"></i><br>
-	        <button class="btn btn-mini liaison popover-link" 
-	            data-toggle="popover" 
-	            data-placement="right" 
-	            data-html="true"
-	            data-title='
-	                    <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
-	                    <?php if ($this->isAllowed('Parcours') === true) :?>
-	                    <a href="#" 
-	                       class="selectSemantiques" 
-	                       data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-	                       data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-	                        <i class="icon-pencil"></i>
-	                    </a>
-	                    <?php endif;?>
-	            ' 
-	            data-content='
-	                    <?php if ($this->isAllowed('Parcours') === true) :?>
-	                        <span class="edit2 CursorPointer"
-	                        data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-	                        data-name="narration" 
-	                        data-type="textarea" 
-	                        data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?></span>
-	                    <?php else : ?>
-	                        <?php echo $this->escapeHtml($transition->narration); ?>
-	                    <?php endif;?>
-	            ' 
-	            data-trigger="manual"
-	            title="" >
-	            <?php echo $this->escapeHtml($transition->narration);?>
-	        </button><br>
-	        <i class="icon-arrow-down icon-large"></i><br>
-	        
-	        <!-- On affiche la scène suivant -->
-	        <?php echo $this->BoutonSceneWidget($transition->scene_destination); ?>
-			
-			<!-- Transitions secondaires depuis cette scène -->
-			<button class="btn secondaires popover-link"
-	            data-toggle="popover"
-	            data-placement="right"
-	            data-html="true"
-	            data-title="<h5>Transitions secondaires</h5>"
-	            data-content='
-	                <ul class="nav nav-list">
-	                	<li class="nav-header strong">Vers scènes recommandées</li>
-			        	<li><a href="#"> Titre de la transition [Sémantique] <i class="icon-arrow-right"></i> <strong>Titre de la scène destination </strong></a></li>
-			        	<li class="nav-header strong">Vers scènes secondaires</li>
-			        	<li><a href="#">Titre de la transition [Sémantique] <i class="icon-arrow-right"></i> <strong>Titre de la scène destination</strong></a></li>
-			        	<li><a href="#">Titre de la transition [Sémantique] <i class="icon-arrow-right"></i> <strong>Titre de la scène destination</strong></a></li>
-			        	<li><a href="#">Titre de la transition [Sémantique] <i class="icon-arrow-right"></i> <strong>Titre de la scène destination</strong></a></li>
-			       	</ul>' 
-	            data-trigger="manual"
-	            title="" >
-			            <i class="icon-arrow-right"></i>
-			</button>
-			<br>
-			
-			<?php // On avance dans le sous-parcours
-	    	$transition = $transition->scene_destination->transition_recommandee;
-	    	
-	    	endwhile;
-	    	
-	    	// On est arrivé à la fin du sous-parcours
-	    	if ($transition) : ?>
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<!-- On affiche les sous-parcours un à un -->
+		<?php while ($sous_parcours != null) : ?>
+			<div class="row-fluid">
+				
+				<div class="span6 elements sous_parcours">
+			    	<!-- Titre du sous-parcours -->
+			    	<?php echo $this->TitreSousParcoursWidget($sous_parcours); ?>
+					<hr/>
+					
+					<!-- Première scène du sous parcours  -->
+					<?php 
+					$scene_depart = $sous_parcours->scene_depart;
+					echo $this->BoutonSceneWidget($scene_depart); ?>
+					<br>
+					<!-- Transitions secondaires depuis cette scène -->
+					<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
+				
+				   	<?php  $transition = $scene_depart->transition_recommandee;
+				    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+				    	<!-- Tant qu'on est toujours dans le sous parcours -->
+				    	<!--  On affiche la transition -->
+				        <?php echo $this->TransitionWidget($transition); ?>
+				        <!-- On affiche la scène suivant -->
+				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); ?>
+				        <br>
+						<!-- Transitions secondaires depuis cette scène -->
+						<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
+						<!-- On avance dans le sous-parcours -->
+						<?php $transition = $transition->scene_destination->transition_recommandee;
+			    	endwhile; ?>
+		    	</div>
+		    	
+		    	<div class="span6 well"> 
+		    		Div a droite du sous-parcours <em><?php echo $sous_parcours->titre; ?></em> dans laquelle on peut écrire des trucs pour les transitions secondaires
+		    	</div>
+		    </div>
+		    
+	    	<!-- On est arrivé à la fin du sous-parcours -->
+	    	<?php if ($transition) : ?>
 				<!-- Il y a un sous-parcours suivant -->
-				<!-- On ferme la div du sous-parcours qu'on vient de finir -->
 				<!-- et on affiche la transition inter-sous-parcours -->
-				</div>
-				<div class="span6 well aRemplir"></div>
-				</div>
 				<div class="row-fluid">
 					<div class='span6 elements'>
-					<i class="icon-minus icon-rotate-270 icon-large"></i><br>
-					<button class="btn btn-mini liaison popover-link" data-toggle="popover"
-						data-placement="left" data-html="true"
-						data-title='
-					    	        <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
-					    	            				<?php if ($this->isAllowed('Parcours') === true) :?>
-					    	            				<a 
-						href="#" class="selectSemantiques"
-						data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-						data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-						<i class="icon-pencil"></i> </a>
-						<?php endif;?>
-						' data-content='
-						<?php if ($this->isAllowed('Parcours') === true) :?>
-						<span class="edit2 CursorPointer"
-							data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-							data-name="narration" data-type="textarea" data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-						</span>
-						<?php else : ?>
-						<?php echo $this->escapeHtml($transition->narration); ?>
-						<?php endif;?>
-						' data-trigger="manual" title="" >
-						<?php echo $this->escapeHtml($transition->narration);?>
-					</button><br> 
-					<i class="icon-arrow-down icon-large"></i><br>
+						<?php echo $this->TransitionWidget($transition); ?>
 					</div>
 				</div>
-			<?php endif; 
-			// On passe au sous-parcours suivant
-			$sous_parcours = $sous_parcours->sous_parcours_suivant;
+			<?php endif; ?>
+			
+			<!-- On passe au sous-parcours suivant -->
+			<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
 		endwhile ; ?>
-		</div> <!-- elements -->
-	</div>
-</div> <!-- row-fluid -->
+		
+	</div> <!-- /span8 -->
+	
+</div> <!-- /row-fluid -->
+
 
 <div id="confirmDiv"></div>
 <div id="modalDiv"></div>
+
 
 <?php
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
