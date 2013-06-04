@@ -285,6 +285,8 @@ class ParcoursController extends AbstractActionController
         $newsp->titre = 'Nouveau sous-parcours';
         $newsp->description = 'Description à écrire';
         $sousparcours->parcours->addSousParcours($newsp);
+        $newsp->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+        $newsp->scenes = new \Doctrine\Common\Collections\ArrayCollection();
         $newScene = new SceneRecommandee();
         $newScene->titre = 'Nouvelle scène';
         $newScene->narration = 'Narration à écrire';
