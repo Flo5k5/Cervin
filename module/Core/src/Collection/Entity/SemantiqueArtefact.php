@@ -21,6 +21,7 @@ use \Doctrine\ORM\Query;
  * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à l'origine des relations marquées par cette sémantique
  * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
  * @property string $semantique La sémantique elle même
+ * @property string $description Une description expliquant le sens de la sémantique
  * @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
  * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
  */
