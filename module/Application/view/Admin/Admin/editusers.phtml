@@ -39,6 +39,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div class="page-header">
     <h1><?php echo $this->escapeHtml($title); ?> 
     <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    <div class="messageEditUsers"></div>
 </div>
 
 <div class="container-fluid">
@@ -97,37 +98,91 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								]
 					});
 	
-	                $('.text').editable({ });
+	                $('.text').editable({ 
+		                success: function(e) {
+						    var resp = jQuery.parseJSON(e);
+															
+							if(resp.success === true){
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.message, "success");
+							} else {
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.error, "error");
+							}
+						}
+	                 });
 	                $('td').on('click', '.refueRole', function(event) {
 	                    var dateURL = $(this).attr('data-url');
 						$.post( 
-	                                dateURL,
-	                                '',
-	                                function() {
-	                                $('.status').popover('hide').attr('data-original-title',"Demande refusée");
-	                                table.fnDraw();
-	                                });
-
+							dateURL,
+							'',
+							function() {
+								$('.status').popover('hide').attr('data-original-title',"Demande refusée");
+								table.fnDraw();
+							}
+						);
 	                }); 
-	                $(".SupprimerUser").click(function(event){
-	                    var dateURL = $(this).attr('data-url');
-	                    var dateValue = $(this).attr('data-value');
-	                    $('#confirmDiv').confirmModal({
-	                        heading:'Confirmation',
-	                        body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
-	                        callback: function() {
-	                            $.post( 
-	                                dateURL,
-	                                { name: "supprimer" },
-	                                function() {
-	                                   table.fnDraw();
-	                                });
-	                        }
-	                    });   
-	                });
+
 				}
 			}
 		);
+		
+		$(document).on( 'click', '.SupprimerUser', function(e){
+			var dateURL = $(this).attr('data-url');
+			var dateValue = $(this).attr('data-value');
+			$('#confirmDiv').confirmModal({
+				heading:'Confirmation',
+				body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
+				callback: function() {
+					$.post(
+						dateURL,
+						{ name: "supprimer" },
+						function(e) {
+							table.fnDraw();
+							                                   
+							var resp = jQuery.parseJSON(e);
+															
+							if(resp.success === true){
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.message, "success");
+							} else {
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.error, "error");
+							}
+						}
+					);
+				}
+			});   
+		});
+
+		$(document).on( 'click', '.ResetPassword', function(e){
+			var dateURL = $(this).attr('data-url');
+			var dateValue = $(this).attr('data-value');
+			$('#confirmDiv').confirmModal({
+				heading:'Confirmation',
+				body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
+				callback: function() {
+					$.post(
+						dateURL,
+						{ name: "password" },
+						function(e) {
+							table.fnDraw();
+							                                   
+							var resp = jQuery.parseJSON(e);
+															
+							if(resp.success === true){
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.message, "success");
+							} else {
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.error, "error");
+							}
+						}
+					);
+				}
+			});   
+		});
+
 	});
 <?php
 $this->inlineScript()->captureEnd();
