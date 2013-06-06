@@ -112,8 +112,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 					
 					<!-- Première scène du sous parcours  -->
 					<?php 
-					$scene_depart = $sous_parcours->scene_depart;
-					echo $this->BoutonSceneWidget($scene_depart); ?>
+					$scene_depart = $sous_parcours->scene_depart;?>
+					<?php echo $this->BoutonSceneWidget($scene_depart);?>
+					<?php echo $this->TransitionsSecondairesWidget($scene_depart); ?>
 					<br>
 					<!-- Transitions secondaires depuis cette scène -->
 					<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
@@ -123,8 +124,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				    	<!-- Tant qu'on est toujours dans le sous parcours -->
 				    	<!--  On affiche la transition -->
 				        <?php echo $this->TransitionWidget($transition); ?>
-				        <!-- On affiche la scène suivant -->
-				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); ?>
+				        <!-- On affiche la scène suivante -->
+				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); 
+				        echo $this->TransitionsSecondairesWidget($transition->scene_destination); ?>
+				        
 				        <br>
 						<!-- Transitions secondaires depuis cette scène -->
 						<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
@@ -132,10 +135,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 						<?php $transition = $transition->scene_destination->transition_recommandee;
 			    	endwhile; ?>
 		    	</div>
-		    	
-		    	<div class="span6 well"> 
-		    		Div a droite du sous-parcours <em><?php echo $sous_parcours->titre; ?></em> dans laquelle on peut écrire des trucs pour les transitions secondaires
-		    	</div>
+
 		    </div>
 		    
 	    	<!-- On est arrivé à la fin du sous-parcours -->
@@ -170,19 +170,24 @@ $this->inlineScript()->captureStart();
 ?>
     $(function() {
         // on active editable
-        $(".edit").editable({ mode: 'inline', });
+        $(".edit").editable({ mode: 'inline', emptytext: 'Vide'});
         
-        // popover vers les scènes secondaires
-        $(".secondaires").popover({placement:'top', trigger:'click'}); 
+        /*$(".btnTransitionsSecondaires").click(function () {
+        	$(this).parent().parent().find('div.transitionsSecondaires').html('COUCOU');
+        });*/
         
         // afficher les popover et activer les champs editable
         $('.popover-link').click(function () {
             var t = $(this)
             $(this).popover('show');
-            $(".edit2").editable().on('save', function(e, params) {
+            $(".edit2").editable({emptytext: 'Vide'}).on('save', function(e, params) {
                 t.text(params.newValue);
             });
         });
+        
+        $(".popover-secondaires").click(function () {
+        	 $(this).popover('show');
+        }); 
         
         // fermer les popover ouverte si on en ouvre une autre
         $('body').on('click', function (e) {
@@ -196,7 +201,7 @@ $this->inlineScript()->captureStart();
         }); 
         <?php if ($this->isAllowed('Parcours') === true) :?>
 
-        // on affiche le modal avec les semmantiques
+        // on affiche le modal avec les semantiques
         $(".elements").on("click",".selectSemantiques", function(e){
             var dataURL = $(this).attr('data-url');
             var dataValue = $(this).attr('data-value');

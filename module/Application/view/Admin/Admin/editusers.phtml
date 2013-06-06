@@ -99,6 +99,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					});
 	
 	                $('.text').editable({ 
+	                	emptytext: "Vide",
 		                success: function(e) {
 						    var resp = jQuery.parseJSON(e);
 															
