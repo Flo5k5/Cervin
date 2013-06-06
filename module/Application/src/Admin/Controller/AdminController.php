@@ -102,10 +102,30 @@ class AdminController extends AbstractActionController
 
                 }
 
-
+				$editable_role = "";
 	            $btn_supprimer = "";
+				
 	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
+	            	
+	            	$editable_role = '<span
+                        id="role"
+                        class="status CursorPointer"
+                        data-type="select"
+                        data-pk="'. $user->id.'"
+                        '.$attenteRoleDataOriginalTitle.'
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+                        data-value="'.$roleId.'">
+                            '.$role.' '.$attenteRole.'
+                    </span>
+	            	
+                    ';
+	            	
 	            	$btn_supprimer = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>';
+	            
+	            } else {
+	            	
+	            	$editable_role = ' <span id="role" > '.$role.' </span> ';
+
 	            }
 	            
                 $aaData[] = array(
@@ -124,18 +144,7 @@ class AdminController extends AbstractActionController
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
                         data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1">'.$escapeHtml($user->email).'
                     </span>',
-                    '<span 
-                        id="role" 
-                        class="status CursorPointer" 
-                        data-type="select" 
-                        data-pk="'. $user->id.'" 
-                        '.$attenteRoleDataOriginalTitle.' 
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$roleId.'">
-                            '.$role.' '.$attenteRole.'
-                    </span>
-
-                    ',
+                    $editable_role,
                     $btn_supprimer
                 );
             }
