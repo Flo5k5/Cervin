@@ -261,13 +261,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			viewformat: 'dd-mm-yyyy',
 			 datepicker: {
 				language:'fr',
-			}
+			},
+			emptytext: 'Vide'
 		
 		});
 		
 		// Gestion de X-Editable
 		$('.edit').editable({
-			mode: 'inline'
+			mode: 'inline',
+			emptytext: 'Vide'
 		});
 		
 		// Modale de confirmation pour la suppression d'une relation avec un artefact

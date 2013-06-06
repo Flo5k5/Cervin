@@ -54,13 +54,18 @@ $this->headTitle($title); ?>
 		</ul>
 	</div>
 
+	<?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
 	<!-- Fiche de la scène -->
 	<div class="span8">
 	
 		<!-- Titre de la scène -->
 		<div class="page-header row-fluid">
 			<div class="span8">
-			<h1><i class="icon-file-alt"></i> Scène recommandée </h1>
+			<?php if ($estRecommandee) :?>
+				<h1><i class="icon-file-alt"></i> Scène recommandée </h1>
+			<?php else : ?>
+				<h1><i class="icon-file-alt"></i> Scène secondaire </h1>
+			<?php endif;?>
 			<h2> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h2>
 			</div>
 			<?php if ($this->isAllowed('Parcours') === true) :?>
@@ -107,16 +112,25 @@ $this->headTitle($title); ?>
 				</div>
 				
 				<div class="well">
-					<h4> Transitions secondaires </h4>
+					<h4> Transitions secondaires depuis cette scène </h4>
 					<ul class="nav nav-list">
-	                	<li class="nav-header strong">Vers scènes recommandées</li>
-			        	<li><a href="#"><strong>Scene 1</strong></a></li>
-			        	<li class="nav-header strong">Vers scènes secondaires</li>
-			        	<li><a href="#">Scene 2</a></li>
-			        	<li><a href="#">Scene 3</a></li>
-			        	<li><a href="#">Scene 4</a></li>
+						<?php if ($scene->transitions_secondaires == null 
+								|| $scene->transitions_secondaires->count() == 0) :?>
+							Aucune tansition secondaire ne part de cette scène.
+						<?php else: ?>
+							<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+								<li>
+									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+									"<?php echo $this->escapeHtml($transition->narration); ?>"
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> <i class="icon-arrow-right"></i> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?>
+									</a>
+								</li>
+								<li class="divider"></li>
+							<?php endforeach; ?>
+						<?php endif;?>
 			       	</ul>
 				</div>
+				
 			</div>
 			
 		</div>

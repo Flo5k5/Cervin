@@ -97,7 +97,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								]
 					});
 	
-	                $('.text').editable({ });
+	                $('.text').editable({ emptytext: "Vide" });
 	                $('td').on('click', '.refueRole', function(event) {
 	                    var dateURL = $(this).attr('data-url');
 						$.post( 

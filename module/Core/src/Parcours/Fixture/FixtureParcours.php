@@ -509,6 +509,95 @@ class FixtureParcours implements FixtureInterface
 	
 		//
 		// Deuxième sous-parcours
+		//	Scène secondaire 1
+		//
+		$scene_sec1 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec1->titre = "Sogeti et la naissance de l'industrie des services";
+		$scene_sec1->narration = "
+				Les premières sociétés de service et de conseil en informatique (SSCI) naissent au début des années 1960, pour combler le vide entre les constructeurs informatiques, concentrés sur le matériel et le logiciel de base, et leurs clients, qui ne souhaitent pas toujours s'investir dans la gestion d'un parc informatique et dans le développement d'applications avancées. Les créateurs de ces entreprises viennent souvent des constructeurs informatique ou du milieu du conseil.
+				<br><br>
+				En 1967, Serge Kampf, qui vient de la direction commerciale régionale de Bull, crée à Grenoble avec deux collègues la SoGETI (Société pour la Gestion des Entreprises et le Traitement de l'Information). Les services proposés sont une assistance technique pour la mise en place et le démarrage d'ordinateurs, et pour la mise en œuvre de programmes de gestion.
+				<br><br>
+				En 1968, après une tentative manquée de prise de contrôle de la part d'un groupe d'actionnaires, Serge Kampf détient l'essentiel (84%) du capital. La société remporte d'importants contrats, entre autres auprès du CEA, et va croître rapidement, notamment par le biais d'acquisitions. Elle élargira dès 1971 son activité au conseil aux entreprises et comptera quatorze agences régionales dès 1972, dont trois en Suisse.
+				<br><br>
+				<blockquote>
+				SoGETI absorbera en 1974 deux entreprises importantes de son secteur : la société française CAP (Centre d'Analyse et de Programmation), puis CAP Europe, devenant Cap Sogeti ; ensuite, Gemini Computer Systems, devenant au 1-er janvier 1975 Cap Gemini Sogeti, première société de services en Europe, avec un effectif de 1700 personnes.
+				<br><br>
+				Le groupe est alors présent dans vingt pays, en Europe, Afrique et Moyen-Orient. En 1978, il prend pied aux États-Unis, où il multipliera les acquisitions dans les années 1980.
+				</blockquote>
+		";
+		$scene_sec1->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec1);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene7->scene_sec1
+		//
+		$transition_sec1 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec1->narration = "Vers Sogeti et l'industrie de services";
+		$transition_sec1->semantique = $semantique_chronologie;
+		$transition_sec1->scene_origine = $scene7;
+		$transition_sec1->scene_destination = $scene_sec1;
+		
+		$sous_parcours_developpement->addTransition($transition_sec1);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 2
+		//
+		$scene_sec2 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec2->titre = "Avatars des ordinateurs industriels ";
+		$scene_sec2->narration = "
+				Les années 1965-1980 vont marquer un fort développement des calculateurs industriels à Grenoble, dans un paysage très mouvant.
+				<br><br>
+				En 1965,  la division ATM de la société Mors, qui a construit le calculateur MAT 01 en collaboration avec le LAG, s'installe dans une nouvelle usine à Crolles. Elle compte 170 personnes en 1967, année où elle sera cédée à la société Télémécanique Électrique. Cette entreprise, spécialiste du contrôle industriel et de l'automatisation, crée à Grenoble une division d'informatique industrielle (DII) qui va développer une  gamme de calculateurs :
+				<ul>
+					<li>
+				    En 1968, le T2000, dont il se vendra de 700 à 800 exemplaires.
+				    </li>
+					<li>
+					En 1969, le T1000, version réduite et compatible du T2000.
+					</li>
+					<li>
+					En 1972, le T1600, produit à quelques milliers d'exemplaires. Outre son usage principal pour la commande de procédés, cette machine sera utilisée pour l'enseignement de l'informatique dans les lycées.
+					</li>
+					<li>  
+					En 1973 commence la conception de la gamme Solar 16, sous la direction d'une équipe franco-américaine dirigée par Jesse T. Quatse. Elle aboutira en 1975. Le Solar aura un succès considérable, se vendant à 16 000 exemplaires et occupant le deuxième rang mondial dans les ventes de calculateurs industriels.
+					</li>
+				</ul>
+				Entre temps, en 1971, la division DII de Télémécanique s'est installée dans une nouvelle usine à Échirolles, dans la banlieue de Grenoble, tout en gardant le site de Crolles, qui abrite l'assemblage de sous-composants. Son effectif est alors d'environ 700 personnes, dont 400 ingénieurs et cadres.
+				<br><br>
+				<blockquote>
+				En 1976, dans le cadre du plan calcul, l'État pousse Télémécanique à se séparer de sa division Informatique, qui fusionne avec le département \"Petits ordinateurs et systèmes\" de la Compagnie Internationale pour l'Informatique (qui devient CII-Honeywell Bull), pour former la Société Européenne de Mini-Informatique et de Systèmes (SEMS), filiale du groupe Thomson. La CII produisait déjà depuis 1971 la gamme Mitra de mini-ordinateurs, concurrente du Solar. Les deux lignes de produits coexisteront à la SEMS, la fabrication des Mitra étant transférée à Grenoble. Cette fusion modifie les orientations stratégiques de Télémécanique et provoque le départ d'un certain nombre de ses ingénieurs, qui seront à l'origine de créations d'entreprises contribuant au démarrage de la ZIRST.
+				<br><br>
+				En 1982, après la nationalisation de CII-Honeywell Bull, la SEMS sera fusionnée avec CII-HB et Transac pour former le groupe Bull. Cette opération entraînera une nouvelle vague de départs.
+				<br><br>
+				La Télémécanique, recentrée sur ses activités dans l'automatique, sera finalement reprise en 1988 par Schneider (qui deviendra alors Schneider Electric).
+				</blockquote>
+		";
+		$scene_sec2->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec2);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec1->scene_sec2
+		//
+		$transition_sec2 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec2->narration = "Vers les avatars des ordinateurs industriels";
+		$transition_sec2->semantique = $semantique_chronologie;
+		$transition_sec2->scene_origine = $scene_sec1;
+		$transition_sec2->scene_destination = $scene_sec2;
+		
+		$sous_parcours_developpement->addTransition($transition_sec2);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
 		// Huitième scène
 		//
 		$scene8 = new Parcours\Entity\SceneRecommandee();
@@ -744,6 +833,8 @@ class FixtureParcours implements FixtureInterface
 		
 		$sous_parcours_changement->addTransition($transition12);
 		$manager->flush();
+
+		
 		
 			/********************************
 			 *	Parcour n°2

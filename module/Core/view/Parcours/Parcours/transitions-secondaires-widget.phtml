@@ -7,79 +7,39 @@
 	
 </style>
 
-<button class="btn secondaires popover-link" 
-            data-toggle="popover" 
-            data-placement="right" 
-            data-html="true"
-            data-title="<h5>Transitions secondaires</h5>"
-            data-content='
-                <ul class="nav nav-list">
-                	<li class="nav-header strong">Vers scènes recommandées</li>
-		        	<li>
-		        		<span class="edit2 CursorPointer"
-                        	data-url="#"
-                        	data-name="narration" 
-                        	data-type="textarea" 
-                        	data-pk="1"> Texte de la transition
-                        </span>
-                        <span href="#" 
-                       		class="edit2 CursorPointer selectSemantiques" 
-                       		data-value=""
-                       		data-url="">
-                        		[Sémantique] 
-                    	</span>
-                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-                    </li>
-		        	<li class="nav-header strong">Vers scènes secondaires</li>
-		        	<li>
-		        		<span class="edit2 CursorPointer"
-                        	data-url="#"
-                        	data-name="narration" 
-                        	data-type="textarea" 
-                        	data-pk="1"> Texte de la transition
-                        </span>
-                        <span href="#" 
-                       		class="edit2 CursorPointer selectSemantiques" 
-                       		data-value=""
-                       		data-url="">
-                        		[Sémantique] 
-                    	</span>
-                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-                    </li>
-                    <li class="divider"></li>
-		        	<li>
-		        		<span class="edit2 CursorPointer"
-                        	data-url="#"
-                        	data-name="narration" 
-                        	data-type="textarea" 
-                        	data-pk="1"> Texte de la transition
-                        </span>
-                        <span href="#" 
-                       		class="edit2 CursorPointer selectSemantiques" 
-                       		data-value=""
-                       		data-url="">
-                        		[Sémantique] 
-                    	</span>
-                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-                    </li>
-                    <li class="divider"></li>
-		        	<li>
-		        		<span class="edit2 CursorPointer"
-                        	data-url="#"
-                        	data-name="narration" 
-                        	data-type="textarea" 
-                        	data-pk="1"> Texte de la transition
-                        </span>
-                        <span href="#" 
-                       		class="edit2 CursorPointer selectSemantiques" 
-                       		data-value=""
-                       		data-url="">
-                        		[Sémantique] 
-                    	</span>
-                        <a href="#"> <i class="icon-arrow-right"></i> Titre de la scène destination</a>
-                    </li>
-                </ul>' 
-            data-trigger="manual"
-            title="" >
-            <i class="icon-arrow-right"></i>
-    </button>
+<?php $vide = $scene->transitions_secondaires == null || $scene->transitions_secondaires->count() == 0; ?>
+
+<button class="btn secondaires popover-link popover-secondaires" 
+	data-toggle="popover"
+	data-placement="right" 
+	data-html="true" 
+	data-title="Transitions secondaires" 
+	data-content='
+		<?php if (!$vide) : ?>
+			<ul class="nav nav-list">
+				<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+				<li>
+					[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+					"<?php echo $this->escapeHtml($transition->narration); ?>"
+					<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> <i class="icon-arrow-right"></i> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?>
+					</a>
+				</li>
+				<li class="divider"></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php else :?>
+			Aucune transition secondaire ne part de cette scène.
+		<?php endif;?>' 
+	
+	data-trigger="manual" 
+	title="" > 
+	<?php if (!$vide) : ?>
+		<i class="icon-arrow-right"></i><br>
+		<i class="icon-arrow-right"></i><br>
+		<i class="icon-arrow-right"></i>
+	<?php else :?>
+		<i class="icon-arrow-right icon-muted"></i><br>
+		<i class="icon-arrow-right icon-muted"></i><br>
+		<i class="icon-arrow-right icon-muted"></i>
+	<?php endif;?>
+</button>
