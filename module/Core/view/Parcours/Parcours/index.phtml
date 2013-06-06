@@ -44,11 +44,12 @@ $this->headTitle($title);
                     <tr>
                         <th>Titre</th>
                         <th>Description</th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2">En cours de téléchargement</td>
+                        <td colspan="3">En cours de téléchargement</td>
                     </tr>
                 </tbody>
             </table>
@@ -56,9 +57,14 @@ $this->headTitle($title);
     </div>
 </div>
 
-<?php $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;?>
+<!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
+<div id="confirmDiv" >
+</div>
+
 <?php 
+$this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 
 <?php $this->inlineScript()->captureStart(); ?>
@@ -75,9 +81,10 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 			{
 	           	"aoColumns": [
 		           	           	null,
+		           	           	{ "bSortable": false  },
 		           	           	{ "bSortable": false  }
 	           	           	 ],
-	           	"iColumns": 2,
+	           	"iColumns": 3,
 	           	//"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
@@ -123,6 +130,23 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 						window.open($(this).attr("href"), "_blank");
 						e.preventDefault();
 					});
+					$(".SupprimerParcours").click(function(event){
+                        var dataURL = $(this).attr('data-url');
+                        $('#confirmDiv').confirmModal({
+                            heading:'Confirmation',
+                            body:"Êtes-vous sûr de vouloir supprimer définitivement ce parcours ?",
+                            callback: function() {
+                                $.post(
+                                    dataURL,
+                                    { name: "supprimer" },
+                                    function(response) {
+                                    	document.location.reload();
+                                        /*$("#data").dataTable().fnDraw();*/
+                                    }
+                                );
+                            }
+                        });   
+                    });
 	     		}
 			}
 		);

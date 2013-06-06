@@ -49,7 +49,7 @@ class Parcours implements InputFilterAwareInterface
     protected $sous_parcours;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours", cascade={"persist"})
      **/
     protected $sous_parcours_depart;
     

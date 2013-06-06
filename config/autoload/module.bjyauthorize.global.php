@@ -227,6 +227,7 @@ return array(
                 array('route' => 'parcours', 'roles' => array('Utilisateur')),
                 array('route' => 'parcours/voir', 'roles' => array('Utilisateur')),
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
+                array('route' => 'parcours/supprimer', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifierTransition', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifier', 'roles' => array('Parcours')),
                 array('route' => 'parcours/ajouterSousParcours', 'roles' => array('Parcours')),

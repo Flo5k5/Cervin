@@ -22,6 +22,7 @@ class SemantiqueDataTable extends DataTable
 	        $configuration = array(
 	            'Type origine',
 	            'Sémantique',
+	            'Description',
 	            'Type destination'
 	        );
 	        $this->setConfiguration($configuration);
@@ -32,6 +33,7 @@ class SemantiqueDataTable extends DataTable
 			    $data = array(
                     $semantique->type_origine,
                     $semantique->semantique,
+                    $semantique->description,
                     $semantique->type_destination
 			    );
 			    $aaData[] = $data;

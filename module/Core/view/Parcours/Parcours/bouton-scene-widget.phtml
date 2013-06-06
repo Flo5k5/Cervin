@@ -12,6 +12,19 @@
 	<a name="<?php echo $scene->id;?>"></a>
 	<button class="btn btn-large btn-info element popover-link" data-toggle="popover"
 		data-placement="right" data-html="true"
+		data-title='
+			<?php if ($this->isAllowed('Parcours') === true) :?>
+		        <span class="edit2 CursorPointer"
+		        	data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"
+		            data-name="titre" 
+		            data-type="text"
+		            data-pk="1">
+		            <?php echo $this->escapeHtml($scene->titre); ?>
+		        </span>
+	        <?php else :
+	              echo $this->escapeHtml($scene->titre);
+	       	endif; ?>
+		'
 		data-content='
 		    <ul class="nav nav-list">
 				<li>

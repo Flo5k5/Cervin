@@ -4,8 +4,6 @@ $this->headTitle($title);
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
-//$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css'); 
-
 ?>
 
 <!-- Help Modal -->
@@ -64,6 +62,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							        </div>
 	                            </th>
 	                            <th>Sémantique</th>
+	                            <th>Description</th>
 	                            <th>
 	                            	<div class="span4">
 							            <div class="input-prepend input-append">
@@ -85,7 +84,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	                    </thead>
 	                    <tbody>
 	                        <tr>
-	                            <td colspan="5">En cours de téléchargement</td>
+	                            <td colspan="6">En cours de téléchargement</td>
 	                        </tr>
 	                    </tbody>
 	                </table>
@@ -117,6 +116,7 @@ $this->inlineScript()->captureStart(); ?>
                 "aoColumns": [
                                 { "bSortable": false  },
                                 null, 
+                                null,
                                 { "bSortable": false  },
                                 { "bSortable": false  }
                              ],

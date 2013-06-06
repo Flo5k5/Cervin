@@ -106,19 +106,21 @@ class ParcoursController extends AbstractActionController
     		
     	foreach ($paginator as $parcours) {
     		
-    		$titre = '';
-    		
 			$titre = '<a class="href-type-element" href="'
 							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
 							.$escapeHtml($parcours->titre).'
 						</a>';
     		
-			//$titre = $parcours->titre;
-    		
+			$btn_supprimer = '<a href="#" 
+					data-url="'.$this->url()->fromRoute('parcours/supprimer', array('id' => $parcours->id)).'" 
+		    		class="btn btn-danger SupprimerParcours">
+						<i class="icon-trash"></i> Supprimer
+					</a>';
     		
     		$aaData[] = array(
     				$titre,
-    				$dataTable->truncate($parcours->description, 250, ' ...', false, true)
+    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+    				$btn_supprimer
     		);
     	}
     	
@@ -157,6 +159,31 @@ class ParcoursController extends AbstractActionController
         return new ViewModel(array('form'=>$form));
     }
 
+    public function supprimerAction() {
+    	$id = (int) $this->params()->fromRoute('id', 0);
+    	$parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+    	if ($parcours === null || $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	try {
+    		$parcours->sous_parcours_depart = null;
+    		foreach ($parcours->sous_parcours as $sous_parcours) {
+    			$sous_parcours->sous_parcours_suivant = null;
+    			$sous_parcours->scene_depart = null;
+    			$sous_parcours->parcours = null;
+    			//$this->getEntityManager()->remove($sous_parcours);
+    		}
+    		$this->getEntityManager()->remove($parcours);
+    		$this->getEntityManager()->flush();
+    	} catch (\Exception $e) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la suppression du parcours.'));
+    		return $this->getResponse()->setContent(Json::encode(true));
+    	}
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Le parcours a bien été supprimé.'));
+    	return $this->getResponse()->setContent(Json::encode(true));
+    }
+    
     /**
      * Affiche la fiche d'un parcours
      * 

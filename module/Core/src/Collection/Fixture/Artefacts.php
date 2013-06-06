@@ -219,7 +219,7 @@ class Artefacts implements FixtureInterface
 		
 		$types = $manager->getRepository("Collection\Entity\TypeElement")->findBy(array("type"=>"artefact"));
 		
-		foreach ($types as $type) {
+		/*foreach ($types as $type) {
 			$types_destination = $manager->getRepository("Collection\Entity\TypeElement")->findBy(array("type"=>"artefact"));
 			foreach ($types_destination as $type_destination) {
 				$semantique = new Collection\Entity\SemantiqueArtefact();
@@ -251,7 +251,7 @@ class Artefacts implements FixtureInterface
 			$semantique->__set('type_destination', $type_artefact_site);
 			$semantique->__set('semantique', 'Est décrit dans');
 			$manager->persist($semantique);
-		}
+		}*/
 		
 		$semantique = new Collection\Entity\SemantiqueArtefact();
 		$semantique->__set('type_origine', $type_artefact_materiel);

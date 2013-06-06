@@ -50,6 +50,11 @@ class SemantiqueArtefact implements InputFilterAwareInterface
      * @ORM\Column(type="string", length=200)
      */
     protected $semantique;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
 
     /**
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
@@ -104,6 +109,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     { 
         $this->id = $data['id'];
         $this->semantique = $data['semantique'];
+        $this->description = $data['description'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -167,6 +173,15 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                         ),
                     ),
                 ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+            		'name' => 'description',
+            		'required' => false,
+            		'filters' => array(
+            				array('name' => 'StripTags'),
+            				array('name' => 'StringTrim'),
+            		),
             )));
             
             $this->inputFilter = $inputFilter;
