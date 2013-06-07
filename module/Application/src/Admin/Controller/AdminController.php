@@ -182,7 +182,7 @@ class AdminController extends AbstractActionController
             
             if (!$id) {
                 //return $this->redirect()->toRoute('home');
-                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "No id specified in parameter")));
+                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Pas d'id spécifié en paramètre")));
             }
             
 			$user = null;
@@ -192,7 +192,7 @@ class AdminController extends AbstractActionController
             }
             catch (\Exception $ex) {
                 //return $this->redirect()->toRoute('home');
-                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Can't find user")));
+                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver l'utilisateur")));
             }
 
             if ($postData['name'] == 'username')
@@ -204,7 +204,7 @@ class AdminController extends AbstractActionController
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => $ex)));
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
 
                 return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le login a été mis à jour")));
@@ -219,7 +219,7 @@ class AdminController extends AbstractActionController
             		$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => $ex)));
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
 
                 return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le nom d'utilisateur a été mis à jour")));
@@ -233,7 +233,7 @@ class AdminController extends AbstractActionController
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => $ex)));
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
                 
                 return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'email a été mis à jour")));
@@ -269,7 +269,7 @@ class AdminController extends AbstractActionController
 	                $transport->send($message);
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => $ex)));
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
 
                 return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le mot de passe a été réinitialisé")));
@@ -283,7 +283,7 @@ class AdminController extends AbstractActionController
                 }
                 catch (\Exception $ex) {
                     //return $this->redirect()->toRoute('home');
-                	return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Can't find role")));
+                	return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver le role")));
                 }
                 
                 if($user->attenteRole != null ){
@@ -311,7 +311,7 @@ class AdminController extends AbstractActionController
             	}
             	catch (\Exception $ex) {
             		//return $this->redirect()->toRoute('home');
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => $ex)));
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
                 
                 return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'utilisateur a été supprimé")));
