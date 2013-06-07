@@ -598,6 +598,143 @@ class FixtureParcours implements FixtureInterface
 		
 		//
 		// Deuxième sous-parcours
+		//	Scène secondaire 3
+		//
+		$scene_sec3 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec3->titre = "HP à Grenoble";
+		$scene_sec3->narration = "
+					La société américaine Hewlett-Packard (ou HP), créée en 1939 à Palo Alto, était initialement spécialisée dans l'électronique et l'instrumentation. Elle se lança en 1960 dans le développement de semi-conducteurs et en 1966 dans la construction d'ordinateurs. Elle devait devenir par la suite un des acteurs majeurs de l'industrie informatique.
+					<br><br>
+					La premier établissement de production de HP hors de son siège de Palo Alto fut implanté en Allemagne en 1959, suivi d'un deuxième en Écosse. Pour développer ses activités en Europe, HP décida en 1970 d'ouvrir un établissement en France, en vue notamment de renforcer sa présence (déjà importante) sur le marché français. Le choix de Grenoble fut motivé par l'existence d'un environnement universitaire assurant une bonne formation en électronique et informatique, par l'attractivité du cadre de vie et la présence d'une main d'œuvre qualifiée, par la proximité du bureau commercial de HP à Genève, et enfin par l'aide apportée par les autorités locales et notamment par le maire de Grenoble de l'époque, Hubert Dubedout. HP put ainsi acquérir un terrain à Eybens, dans la proche banlieue de Grenoble.
+					<br><br>
+					HP s'installa en 1971 dans des locaux provisoires, sous la direction de Karl Schwarz, en attendant la construction du site d'Eybens. Celui-ci fut inauguré en septembre 1975, en présence des fondateurs de HP,  Bill Hewlett et Dave Packard.
+					<br><br>
+					Cet événement fut également marqué par une conférence de presse à Paris.
+					<br><br>
+					<blockquote>
+					L'usine HP de Grenoble commença par fabriquer des ordinateurs 2100 destinés au marché européen. À partir de 1976, elle diversifia son activité vers les périphériques (lecteurs de cartes, unités de disques et terminaux). En 1979, la fabrication des disques fut concentrée aux États-Unis et Grenoble développa la production de terminaux d'acquisition de données.
+					</blockquote>
+		";
+		$scene_sec3->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec3);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec2->scene_sec3
+		//
+		$transition_sec3 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec3->narration = "Vers HP à Grenoble";
+		$transition_sec3->semantique = $semantique_chronologie;
+		$transition_sec3->scene_origine = $scene_sec2;
+		$transition_sec3->scene_destination = $scene_sec3;
+		
+		$sous_parcours_developpement->addTransition($transition_sec3);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 4
+		//
+		$scene_sec4 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec4->titre = "La ZIRST et les \"start-ups\"";
+		$scene_sec4->narration = "
+					Dès 1969, dans le cadre de la préparation du 6ème plan, se dégage à Grenoble l'idée d'un parc d'activité spécialisé dans les domaines scientifique et technique. Les universités et centres de recherche (notamment le CEA), la Chambre de Commerce et d'Industrie, l'Agence d'urbanisme et les collectivités locales créent alors une association pour promouvoir ce projet. Celle-ci en élabore les principes directeurs :
+					<br>
+					<ul>
+						<li>
+					    un comité d'agrément sélectionne les entreprises voulant s'implanter sur le site,
+					    </li>
+						<li>
+						des bâtiments locatifs accueillent des entreprises en création,
+					    </li>
+						<li>
+						des services communs (comme la restauration ou les transports) sont mis en place,
+					    </li>
+						<li>
+						le paysage préexistant est préservé et la zone s'intègre dans la vie des environs.
+						</li>
+					</ul>
+					La sélection des entreprises vise à préserver la fonction du parc comme pépinière d'innovation, en liaison avec l'environnement scientifique et universitaire. Les sociétés retenues doivent avoir un caractère hautement technologique, ou (dans la limite de 30%) fournir des services aux entreprises (comptabilité, logistique, etc.).
+					<br><br>
+					Le rôle des collectivités locales est déterminant dans la création de ce parc, initialement appelé ZIRST (Zone pour l'Innovation et les Réalisations Scientifiques et Techniques). Le département a notamment pris en charge l'acquisition des terrains. Initialement localisée à Meylan, la ZIRST s'est étendue à Montbonnot au début des années 1990 et a pris en 2005 le nom d'Inovallée.
+					<br><br>
+					<blockquote>
+					La ZIRST est créée en 1972 et commence dès lors à accueillir ses premières entreprises, antennes de groupes existants (Merlin Gerin) ou entreprises nouvelles. Une étape importante est franchie en 1979 avec l'implantation d'un laboratoire du CNET (Centre National d'Études des Télécommunications), le centre Norbert Ségard, dont la vocation initiale est le développement d'une filière de circuits intégrés. En 1980, la ZIRST compte 58 entreprises totalisant plus de 2 000 personnes.
+					<br><br>
+					Mais l'image de la ZIRST est avant tout celle des \"start-up\", petites entreprises innovantes souvent issues du milieu de la recherche (comme ITMI en 1982, Getris Images en 1985, etc.). Les restructurations dans l'industrie des ordinateurs (la création de la SEMS en 1976 et sa réabsorption dans Bull en 1982) provoquent le départ d'ingénieurs qui vont alimenter la ZIRST, par la création d'entreprises nouvelles  ou de départements dans des sociétés existantes (SEMA, CERCI). C'est ainsi que seront créées Option puis X-Com, Influx, IF, CEFTI, et plus tard Aptor/Apsis, Télématique, Cybersys,  etc. Mais aucune de ces entreprises ne donnera lieu à un développement industriel propre de grande ampleur, certaines étant absorbées par de grands groupes, d'autres se spécialisant dans la réalisation de modèles ou de prototypes qui seront industrialisés ailleurs.
+					<br><br>
+					La ZIRST n'est toutefois pas le lieu unique de la création de nouvelles entreprises et centres de recherche. Les autres pôles principaux sont d'une part la zone du domaine universitaire, et d'autre part la \"presqu'île\", lieu d'implantation du CEA et, depuis 2006, de Minatec, centre dédié aux micro- et nano-technologies.
+					</blockquote>
+				";
+		$scene_sec4->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec4);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec3->scene_sec4
+		//
+		$transition_sec4 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec4->narration = "Vers la ZIRST";
+		$transition_sec4->semantique = $semantique_chronologie;
+		$transition_sec4->scene_origine = $scene_sec3;
+		$transition_sec4->scene_destination = $scene_sec4;
+		
+		$sous_parcours_developpement->addTransition($transition_sec4);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 5
+		//
+		$scene_sec5 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec5->titre = "L'industrie des semi-conducteurs";
+		$scene_sec5->narration = "
+					Les années 1965-1980 sont une période agitée en France, et spécialement à Grenoble, pour l'industrie naissante des semi-conducteurs. Plusieurs entreprises de taille sous-critique tentent de trouver leur place sur un marché difficile dominé par les sociétés américaines, dans un domaine technique en rapide évolution. Au fil des années, des interventions de l'État et des programmes européens, et des fusions et absorptions, des alliances se créent avec les entreprises américaines. La situation ne se clarifiera qu'à la fin des années 1980, avec l'émergence d'une entreprise initialement européenne, SGS Thomson, qui deviendra dans les années 1990, sous le nom de STMicroelectronics, un des acteurs mondiaux du domaine.
+					<br><br>
+					<blockquote>
+					En 1965, deux pôles de développement de circuits intégrés existent à Grenoble : COSEM, filiale de CSF, et le laboratoire d'électronique du CENG, qui deviendra en 1967 le LETI (Laboratoire d'électronique et de technologie de l'information). Parallèlement, Thomson-Brandt a créé en 1962 une filiale, la SESCO (Société européenne de semi-conducteurs) dont l'usine de production est à Aix-en-Provence.
+					<br><br>
+					En 1967, le groupe électronique de Thomson-Brandt fusionne avec CSF. La nouvelle société devient Thomson CSF en 1968. En 1969, ses activités en semi-conducteurs (SESCO et COSEM) sont regroupées dans une filiale, la SESCOSEM, dont les usines sont à Aix-en-Provence et Saint-Égrève (photo ci-contre).
+					<br><br>
+					En 1972, le LETI crée une filiale industrielle pour valoriser ses recherches en semi-conducteurs, EFCIS (Études et fabrication de circuits intégrés spéciaux), dont le capital initial provient du CEA. Thomson entre en 1976 dans le capital d’EFCIS (il y deviendra majoritaire en 1982).
+					<br><br>
+					Malgré des accords de licence avec des sociétés américaines (EFCIS avec Motorola, SESCOSEM avec Texas Instruments), ces entreprises n'ont pas la taille et la capacité d'investissement suffisantes pour s'imposer sur le marché, et le retard de la France dans un domaine devenu stratégique ne fait que s'accentuer. Le \"plan composants\", lancé en 1977, vise à y remédier. Il aura deux effets notables :
+					<br><br>
+					<ul>
+						<li>
+					    l'arrivée d'un nouvel acteur, le CNET (Centre National d'Études des Télécommunications) qui essaiera de développer son propre programme dans son centre Norbert Ségard créé en 1979 dans la ZIRST de Meylan, près de Grenoble. Il faudra alors créer des structures de concertation pour unifier les efforts. La première de ces structures, le GCIS (Groupement Circuits Intégrés au Silicium) associe le CEA, le CNRS et le CNET pour harmoniser les politiques de recherche.
+					    </li>
+						<li>
+						la création de nouvelles unités franco-américaines. Ainsi, Saint-Gobain s'associe à National Semiconductors sur le site de Rousset, près d’Aix-en-Provence, (qui reviendra à Thomson après le retrait de Saint-Gobain en 1982), et Matra avec Harris à Nantes.
+						</li>
+					</ul>
+					La formation aux techniques des circuits intégrés commence à se développer, mais elle nécessite des moyens lourds. L'étape significative (création à Grenoble du Centre interuniversitaire de microélectronique, le CIME) n'adviendra qu’en 1981.
+				</blockquote>
+				";
+		$scene_sec5->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec5);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec4->scene_sec5
+		//
+		$transition_sec5 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec5->narration = "Vers l'industrie des semi-sonducteurs";
+		$transition_sec5->semantique = $semantique_chronologie;
+		$transition_sec5->scene_origine = $scene_sec4;
+		$transition_sec5->scene_destination = $scene_sec5;
+		
+		$sous_parcours_developpement->addTransition($transition_sec5);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
 		// Huitième scène
 		//
 		$scene8 = new Parcours\Entity\SceneRecommandee();
@@ -629,6 +766,292 @@ class FixtureParcours implements FixtureInterface
 		$transition7->scene_destination = $scene8;
 		
 		$sous_parcours_developpement->addTransition($transition7);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec5->scene8
+		//
+		$transition_sec5 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec5->narration = "Vers les hautes et les bas de la recherche";
+		$transition_sec5->semantique = $semantique_chronologie;
+		$transition_sec5->scene_origine = $scene_sec5;
+		$transition_sec5->scene_destination = $scene8;
+		
+		$sous_parcours_developpement->addTransition($transition_sec5);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 6
+		//
+		$scene_sec6 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec6->titre = "L'IMAG";
+		$scene_sec6->narration = "
+					L'IMAG (Institut de Mathématiques Appliquées de Grenoble) est le nom que prend en 1964 le Laboratoire de Calcul créé en 1951 par Jean Kuntzmann. Il devient en 1966 l'un des tout premiers laboratoires associés au Centre National de la Recherche Scientifique (CNRS). Sa spécificité, qui fait aussi sa force, est d'associer mathématiques appliquées et informatique.
+					<br><br>
+					Organigramme de l'IMAG '1967) En informatique, les thèmes initiaux de l'IMAG sont les langages de programmation et leur compilation, ainsi que l'algèbre de Boole. Le champ d'activité va rapidement s'étendre à la conception de circuits, à l'architecture des machines, aux systèmes d'exploitation, aux réseaux informatiques, aux bases de données, à l'informatique de gestion, au génie logiciel. D'autres thèmes seront abordés plus tard et seront la source d'avancées majeures : les systèmes de transition (initialement, les réseaux de Petri), et l'analyse statique des programmes. Ci-contre, l'organigramme de l'IMAG, vers 1968 (cliquer dessus pour une image plus grande). On notera que l'IMAG inclut des services d'exploitation (le centre interuniversitaire de calcul ne sera créé qu'en 1972).
+					<br><br>
+					En mathématiques appliquées se développent des recherches en analyse numérique, particulièrement dans les domaines des systèmes linéaires et de l'approximation. Viendront ensuite le calcul des probabilités et les statistiques, l'optimisation combinatoire et les graphes, et la recherche opérationnelle. Enfin, sous l'impulsion de Jean Kuntzmann, va démarrer plus tard une activité autour de la didactique des mathématiques et de l'informatique.
+					<br><br>
+					Notons qu'à cette époque les activités liées à la traduction automatique ne sont pas formellement sous l'égide de l'IMAG, mais relèvent d'un autre laboratoire, initialement le CETA (Centre d'Études pour la Traduction Automatique, laboratoire propre du CNRS), puis, à partir de 1971, le GETA (Groupe d'Études pour la Traduction Automatique, laboratoire associé).
+					<br><br>
+					Outre l'association entre mathématiques appliquées et informatique, une autre spécificité de l'IMAG, héritée du Laboratoire de Calcul, est son ouverture aux collaborations industrielles. C'est ainsi que seront successivement créés deux \"centres scientifiques\", le premier avec IBM, le second avec la CII.
+					<br><br>
+					L'IMAG constitue enfin la base de connaissances et de compétences sur laquelle s'appuie une gamme complète de formations en informatique créées au cours de cette période.
+					<br><br>
+					À la fin des années 1970, l'IMAG traverse des années difficiles. Le bilan de cette période comporte néanmoins de belles avancées scientifiques et industrielles.
+				";
+		$scene_sec6->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec6);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene8->scene_sec6
+		//
+		$transition_sec6 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec6->narration = "Vers l'IMAG";
+		$transition_sec6->semantique = $semantique_chronologie;
+		$transition_sec6->scene_origine = $scene8;
+		$transition_sec6->scene_destination = $scene_sec6;
+		
+		$sous_parcours_developpement->addTransition($transition_sec6);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 7
+		//
+		$scene_sec7 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec7->titre = "Les centres scientifiques";
+		$scene_sec7->narration = "
+					Les industries ont depuis longtemps cherché à exploiter les résultats de la recherche pour rester compétitives. Si les grands groupes ont souvent créé leur propre centre de recherche, ils ont également cherché à mettre en place des formes de collaboration avec les universités et les centres de recherche publics.
+					<br><br>
+					Les laboratoires communs sont l'un de ces instruments de collaboration. Ils ont l'avantage de faire travailler ensemble des chercheurs et des ingénieurs de l'industrie sur des projets communs et de favoriser le transfert des connaissances par la mobilité des hommes. Bien que déjà mise en œuvre dans les industries chimiques et pharmaceutiques, cette forme de collaboration était neuve en France pour une industrie informatique naissante.
+					<br><br>
+					<blockquote>
+					La compagnie IBM, acteur majeur de l'industrie informatique, avait créé aux États-Unis, dans les années 1960, cinq \"centres scientifiques\" visant à établir des recherches communes avec des universités américaines. À la suite de contacts de Jean Kuntzmann et Louis Bolliet avec des responsables de la direction scientifique d'IBM France (Jacques Maisonrouge et René Moreau), il fut décidé en 1966 de créer un tel centre auprès de l'IMAG à Grenoble. Le thème de travail choisi fut l'utilisation conversationnelle des ordinateurs, sujet alors très actuel (en témoigne le projet Multics mené par le MIT en collaboration avec Bell Labs et General Electric), et qui était déjà exploré à l'IMAG.
+					<br><br>
+					Le centre scientifique IBM fut mis en place en 1967 et remplit sa mission, sous la direction de Jean-Jacques Duby, puis de Max Peltier et Alain Auroux. Néanmoins, au début des années 1970, l'existence du centre fut remise en question, en raison d'une part d'un changement de politique d'IBM vis-à-vis des centres scientifiques, d'autre part de la création à Grenoble d'un centre scientifique CII. Le centre IBM fut fermé en 1974.
+					<br><br>
+					Le centre scientifique CII (Compagnie Internationale pour l'Informatique) fut créé à Grenoble en 1970, dans les mêmes conditions que le centre IBM. Ses directeurs successifs furent Louis Bolliet, Jean-Pierre Verjus, Jean-Claude Chupin et Roland Balter. Il fonctionna jusqu'en 1990, date à laquelle la collaboration entre l'IMAG et le constructeur informatique national (devenu entre temps le groupe Bull), prit la forme d'une unité mixte de recherche, Bull-IMAG.
+					</blockquote>
+		";
+		$scene_sec7->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec7);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec6->scene_sec7
+		//
+		$transition_sec7 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec7->narration = "Vers les centres scientifiques";
+		$transition_sec7->semantique = $semantique_chronologie;
+		$transition_sec7->scene_origine = $scene_sec6;
+		$transition_sec7->scene_destination = $scene_sec7;
+		
+		$sous_parcours_developpement->addTransition($transition_sec7);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 8
+		//
+		$scene_sec8 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec8->titre = "Centre IBM";
+		$scene_sec8->narration = "
+					Le centre scientifique IBM de Grenoble fut créé en 1967 pour mener des travaux en collaboration avec l'IMAG sur le thème de l'exploitation conversationnelle des ordinateurs. Il fut dirigé jusqu'en 1969 par Jean-Jacques Duby et ensuite par Max Peltier et Alain Auroux. Il fut fermé en 1974.
+					<br><br>
+					Au début des années 1960, l'exploitation des ordinateurs en temps partagé faisait l'objet de nombreux travaux tant dans l'industrie que dans le monde de la recherche, notamment à l'IMAG sous l'impulsion de Louis Bolliet.
+					<br><br>
+					IBM avait lancé en 1964 sa famille d'ordinateurs IBM/360. Ces machines s'imposèrent sur le marché, mais leur architecture et leur système d'exploitation étaient conçus pour le traitement par lots (batch).
+					<br><br>
+					En 1966, pour aborder le domaine du temps partagé, IBM annonça le 360/67, qui disposait d'une mémoire virtuelle paginée et de mécanismes de protection, deux traits architecturaux adaptés au temps partagé. Néanmoins, son système d'exploitation, TSS (Time-Sharing System), échoua à fournir les performances requises. La solution vint du centre scientifique IBM de Cambridge (USA), qui réalisa un générateur de machines virtuelles appelé CP (Control Program). Initialement implanté sur le 360/40, CP fut porté sur le 360/67. Il fournissait à ses utilisateurs un ensemble extensible de machines virtuelles indépendantes, copies conformes de la machine physique. En équipant chacune de ces machines d'un système conversationnel mono-usager, le CMS (Cambridge Monitor System), on réalisait un système en temps partagé commode et efficace, CP/CMS.
+					<br><br>
+					<blockquote>
+					Une part importante des travaux du centre IBM de Grenoble concernait CP/CMS. L'IMAG venait d'acquérir une machine IBM 360/67 (photo ci-dessus, ©IMAG), qui servit de support à ces travaux. Claude Hans, affecté au centre IBM de Grenoble, avait auparavant participé à Cambridge à la conception de CP, et c'est lui qui dirigea, avec Alain Auroux, l'équipe travaillant sur CP à Grenoble. Dans le domaine des langages, on peut citer la compilation incrémentale, la production de compilateurs, les langages extensibles, l'assistance (notamment graphique) au développement d'applications.
+					<br><br>
+					D'autres travaux sur CP concernent l'évaluation de performances et les mesures, ainsi que l'observation (une machine virtuelle spécialisée pouvant \"espionner\", voire dépanner les autres).
+					<br><br>
+					</blockquote>
+					L'ensemble CP/CMS, auquel ont contribué les travaux réalisés à Grenoble, eut un grand succès et inspira directement la génération suivante de machines IBM, la série 370 et son système VM/370. Pendant son existence, le centre IBM de Grenoble accueillit de nombreux doctorants et prit ainsi sa part à la formation de chercheurs et d'ingénieurs. Après la fermeture du centre, son personnel IBM fut réaffecté aux centres de recherche de Paris et de La Gaude.
+		";
+		$scene_sec8->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec8);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec7->scene_sec8
+		//
+		$transition_sec8 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec8->narration = "Vers le centre IBM";
+		$transition_sec8->semantique = $semantique_chronologie;
+		$transition_sec8->scene_origine = $scene_sec7;
+		$transition_sec8->scene_destination = $scene_sec8;
+		
+		$sous_parcours_developpement->addTransition($transition_sec8);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 9
+		//
+		$scene_sec9 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec9->titre = "Centre CII";
+		$scene_sec9->narration = "
+					Le centre scientifique CII fut créé en 1970, pour développer la collaboration entre les équipes de recherche de la Compagnie Internationale pour l'Informatique et celles de l'IMAG. Les thèmes initiaux touchaient l'architecture de systèmes. Les propositions de transfert de personnel CII depuis le centre de recherche situé en région parisienne eurent peu de succès, et le personnel fut en majeure partie recruté localement.
+					<br><br>
+					Les projets furent menés dans les axes suivants :
+					<br>
+					<ul>
+						<li>
+					    Systèmes d'exploitation et machines virtuelles. Le projet Gemau , mené sur l'ordinateur CII IRIS 80 (photo ci-contre), visa à réaliser un générateur de machines virtuelles. Il servit aussi de support à des travaux sur l'adressage et la protection dans les systèmes d'exploitation. Il fut prolongé par un projet d'outils pour la construction de systèmes mené par une équipe de l'IMAG.
+					    </li>
+						<li>
+						Réseaux. Après l'arrêt du projet Cyclades en 1978, une partie des personnes travaillant sur ce projet rejoignirent le centre CII où elles continuèrent des travaux sur les protocoles de communication et sur l'architecture de systèmes répartis.
+						</li>
+						<li>
+						Bases de données. Les années 1970 virent la naissance du modèle relationnel de bases de données, les premiers systèmes commerciaux apparaissant vers 1978-1980. Le centre CII participa à cet effort et travailla également sur les systèmes transactionnels répartis, en relation avec le thème précédent.
+					    </li>
+						<li>
+						Calcul parallèle. Un projet d'architecture multi-microprocesseur fut mené dans les années 1970, mais ne fut pas exploité faute de support logiciel adapté.
+					    </li>
+						<li>
+						Simulation et évaluation de performances. Un travail sur les modèles à réseaux de files d'attente aboutit à la création d'un outil, QNAP, développé en collaboration avec l'INRIA et l'IRISA. QNAP fut par la suite exploité commercialement par la société Simulog, issue de l'INRIA.
+					    </li>
+						<li>
+						Interfaces homme-machine. Ces recherches furent menées dans les années 1980 et contribuèrent au développement de Motif, une boîte à outils pour la réalisation d'interfaces graphiques dans le système de fenêtrage X-Window utilisé par les systèmes Unix.
+						</li>
+					</ul>
+					Il était prévu que le consortium européen Unidata (CII, Philips, Siemens), formé en 1973, implante à Grenoble son centre de recherche à partir de la base constituée par le centre scientifique CII. L'arrêt d'Unidata en 1975 mit fin à ce projet.
+					<br><br>
+					<blockquote>
+					En 1990 (la CII ayant entre temps fusionné avec Bull), le personnel du centre scientifique rejoignit une unité mixte, Bull-IMAG, qui poursuivit la collaboration entre le groupe Bull et l'IMAG dans le domaine des systèmes et bases de données répartis et de l'édition de documents numériques. 
+					</blockquote>
+				";
+		$scene_sec9->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec9);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec7->scene_sec9
+		//
+		$transition_sec9 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec9->narration = "Vers le centre CII";
+		$transition_sec9->semantique = $semantique_chronologie;
+		$transition_sec9->scene_origine = $scene_sec7;
+		$transition_sec9->scene_destination = $scene_sec9;
+		
+		$sous_parcours_developpement->addTransition($transition_sec9);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec8->scene_sec9
+		//
+		$transition_sec10 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec10->narration = "Vers le centre CII";
+		$transition_sec10->semantique = $semantique_chronologie;
+		$transition_sec10->scene_origine = $scene_sec8;
+		$transition_sec10->scene_destination = $scene_sec9;
+		
+		$sous_parcours_developpement->addTransition($transition_sec10);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec9->scene_sec8
+		//
+		$transition_sec11 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec11->narration = "Vers le centre CII";
+		$transition_sec11->semantique = $semantique_chronologie;
+		$transition_sec11->scene_origine = $scene_sec9;
+		$transition_sec11->scene_destination = $scene_sec8;
+		
+		$sous_parcours_developpement->addTransition($transition_sec11);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Scène secondaire 10
+		//
+		$scene_sec10 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec10->titre = "Difficultés et avancées";
+		$scene_sec10->narration = "
+					Après 1974, l'IMAG, comme l'ensemble de la recherche informatique en France, traverse une période difficile.
+					<br><br>
+					L'IMAG subit d'abord les restrictions budgétaires sévères qui suivent le premier choc pétrolier : les créations de postes sont bloquées ; les bourses de thèse elles-mêmes se raréfient, ce qui pèsera longtemps sur les recrutements ultérieurs. L'informatique, discipline très jeune et cherchant à s'affirmer, est particulièrement touchée.
+					<br><br>
+					L'IMAG souffre également de la politique à courte vue mise en place dans le cadre du plan calcul. Il devient impossible d'acheter une machine non française (ainsi, la communauté de recherche en informatique sera privée de tout accès au système d'exploitation Unix, initialement disponible uniquement sur du matériel américain DEC). Le projet de réseau Cyclades, dont Grenoble était un pôle important, est arrêté en 1978, alors que ses concepts étaient en avance sur ceux de l'Internet naissant.
+					<br><br>
+					Enfin, l'IMAG connaît à la fin des années 1970 une crise de croissance. Son organisation légère et peu formalisée, qui était bien adaptée à la taille initiale du laboratoire, ne fonctionne plus pour un ensemble comptant alors plus de 400 personnes (un exemple de dysfonctionnement est l'échec des négociations menées avec l'INRIA, à l'initiative de ce dernier, pour une implantation à Grenoble ; il faudra attendre 1992 pour que ce projet se réalise). Cette crise aboutira en 1983 à la scission de l'IMAG en plusieurs laboratoires.
+					<br><br>
+					<blockquote>
+					Que peut-on retenir de l'histoire de l'IMAG dans ces années 1965-1980 ? D'abord, en dépit des difficultés évoquées, son affirmation comme un acteur majeur de la recherche française en informatique et mathématiques appliquées, et son enracinement dans le paysage scientifique et industriel local. Ensuite, son rôle de point d'appui à un éventail unique de formations dans son domaine, tant fondamentales que professionnelles. Enfin, les bases de quelques avancées scientifiques majeures. Citons, sans être exhaustifs :
+					<br>
+					<ul>
+						<li>
+					    Le système de gestion de bases de données Socrate, conçu et réalisé à l'IMAG en 1969-72 sous la direction de Jean-Raymond Abrial, et qui sera commercialisé par la société ECA-Automation.
+					    </li><li>
+						La création du concept d'interprétation abstraite, développé en 1977 par Patrick Cousot dans sa thèse, base d'une puissante méthode de vérification de programmes.
+					    </li><li>
+						Le développement, sous la conduite de Jean-Pierre Uhry et Christophe Lacôte, d'algorithmes et de logiciels pour le placement optimal de pièces pour la découpe, qui trouvera des applications dans des domaines très divers (industrie textile, construction mécanique). La société (SCOP) Alma sera créée en 1979 pour valoriser ces travaux.
+					    </li><li>
+						Le travail de Joseph Sifakis sur les systèmes de transition, présenté dans sa thèse en 1979, qui devait conduire quelques années plus tard à l'invention du model checking, autre méthode de vérification de systèmes matériels et logiciels.
+						</li>
+					</ul>
+				</blockquote>			
+				";
+		$scene_sec10->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_developpement->addScene($scene_sec10);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec7->scene_sec10
+		//
+		$transition_sec12 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec12->narration = "Vers les difficultés et avancées";
+		$transition_sec12->semantique = $semantique_chronologie;
+		$transition_sec12->scene_origine = $scene_sec7;
+		$transition_sec12->scene_destination = $scene_sec10;
+		
+		$sous_parcours_developpement->addTransition($transition_sec12);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		//	Transition scene_sec8->scene_sec10
+		//
+		$transition_sec13 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec13->narration = "Vers es difficultées et avancées";
+		$transition_sec13->semantique = $semantique_chronologie;
+		$transition_sec13->scene_origine = $scene_sec8;
+		$transition_sec13->scene_destination = $scene_sec10;
+		
+		$sous_parcours_developpement->addTransition($transition_sec13);
+		$manager->flush();
+		
+		//
+		// Deuxième sous-parcours
+		// Transition scene_sec9->scene_sec10
+		//
+		$transition_sec14 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec14->narration = "Vers les difficultées et avancées";
+		$transition_sec14->semantique = $semantique_chronologie;
+		$transition_sec14->scene_origine = $scene_sec9;
+		$transition_sec14->scene_destination = $scene_sec10;
+		
+		$sous_parcours_developpement->addTransition($transition_sec14);
 		$manager->flush();
 		
 		//
@@ -750,6 +1173,169 @@ class FixtureParcours implements FixtureInterface
 		
 		//
 		// Troisième sous-parcours
+		//	Scène secondaire 11
+		//
+		$scene_sec11 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec11->titre = "Les \"start-ups\"";
+		$scene_sec11->narration = "
+					Les années 1980 voient de nombreuses créations de \"start-ups\" en informatique, qui se placent sur des marchés de niche en exploitant les percées technologiques. Leurs créateurs sont souvent des ingénieurs ayant acquis une première expérience, ou des scientifiques issus de laboratoires de recherche. Nombre de ces entreprises voient le jour à Grenoble, notamment sur la ZIRST. Parmi les principales :
+					<br>
+					<ul>
+						<li>
+					    Apsis (ingénierie informatique, systèmes temps réel fiables) / Aptor (réseaux locaux d'entreprise, dont le réseau industriel FACTOR), créée en 1980. Aujourd'hui, après son absorption par ITMI en 1991, filiale de CapGemini.
+					    </li><br><li>
+						ITMI (robotique, vision, intelligence artificielle), créée en 1982. Depuis 1997,  filiale de CapGemini.
+					    </li><br><li>
+						Silicomp, (réseaux, sécurité informatique, informatique embarquée), créée en 1983. Rachetée par Orange en 2006. Elle comptait alors 1200 personnes.
+					    </li><br><li>
+						Groupe Hardis (éditeur de logiciel pour la gestion, conseil, prestataire en infogérance, créée en 1984, 600 personnes aujourd'hui.
+					    </li><br><li>
+						Dolphin Integration, (conception de circuits intégrés à la demande, développement de composants virtuels, éditeur de progiciels dans le domaine de la conception de circuits), créée en 1984, 200 personnes aujourd'hui.
+					    </li><br><li>
+						Oros (matériel et logiciel pour le traitement du signal et spécialement  l'analyse et la mesure de bruit et vibrations), créée en 1985.
+					    </li><br><li>
+						Digigram (équipements et logiciel pour les services audio et vidéo sur réseaux), créée en 1985.
+					    </li><br><li>
+						Winsoft (internationalistion de logiciel), créée en 1985. Le groupe Winsoft rassemble aujourd'hui 5 sociétés.
+					    </li><br><li>
+						Getris Images (systèmes vidéographiques, infographie, affichage dynamique), créée en 1985. Rachetée en 2000 par la société israelienne Orad
+					    </li><br><li>
+						Teamlog (prestations d'ingénierie, infrastructures et conseil informatique), créée en 1991. A atteint 2000 personnes. Rachetée en 2008 par Groupe Open.
+						</li>
+					</ul>
+					Beaucoup de ces entreprises sont très présentes à l'international, par le biais d'agences ou de filiales.
+				";
+		$scene_sec11->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec11);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene11->scene_sec11
+		//
+		$transition_sec15 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec15->narration = "Vers les start-ups";
+		$transition_sec15->semantique = $semantique_chronologie;
+		$transition_sec15->scene_origine = $scene11;
+		$transition_sec15->scene_destination = $scene_sec11;
+		
+		$sous_parcours_changement->addTransition($transition_sec15);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 12
+		//
+		$scene_sec12 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec12->titre = "Les grands groupes";
+		$scene_sec12->narration = "
+					L'évolution des grands groupes industriels à Grenoble reflète les tendances générales de l'informatique dans la période 1980-1995 : montée en puissance des réseaux, croissance de la demande de services, pénétration de l'informatique dans de nouveaux domaines d'activité.
+					<br>
+					<ul>
+						<li>
+						Cap Gemini Sogeti poursuit sa croissance dans les années 1980. En 1982, le groupe réalise la moitié de son chiffre d'affaires à l'international. Il développe sa politique de rachat en France et à l'étranger (il acquiert notamment SESA en 1988). Après un passage difficile au début des années 1990, il se rétablit et change de structure, intensifiant ses activités de conseil, et devenant Cap Gemini en 1996. Son effectif dépasse alors 18 000 personnes
+						</li><br><li>
+						Au delà de sa fonction d'assemblage des micro-ordinateurs, l'unité Hewlett-Packard de Grenoble prend une place stratégique dans les activités de l'entreprise : en 1990, elle accueille la direction mondiale de la division ordinateurs de HP, et en 1991 le centre de compétences mondial pour les télécommunications. En 1995, HP ouvre à Grenoble un centre de recherche-développement sur les microprocesseurs.
+						</li><br><li>
+						L'activité du centre Bull d'Échirolles se partage maintenant entre deux grands domaines :
+						le développement de logiciel pour les services aux entreprises, et la réalisation de serveurs Unix multiprocesseurs. Cette dernière activité est menée en collaboration avec IBM, dont le système AIX (créé en 1986) est choisi comme version d'Unix.
+						</li><br><li>
+						On note enfin sur cette période le début de la pénétration de l'informatique chez un acteur majeur de la construction de matériel électrique : Merlin Gerin. Cette société sera reprise en 1992 par Schneider Electric, qui a racheté Télémécanique en 1988. L'informatique prendra une part de plus en plus importante dans la conception et le fonctionnement de l'appareillage électrique et plus généralement dans la distribution et la gestion de l'énergie.
+					</ul>
+				";
+		$scene_sec12->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec12);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene11->scene_sec12
+		//
+		$transition_sec16 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec16->narration = "Vers les grands groupes";
+		$transition_sec16->semantique = $semantique_chronologie;
+		$transition_sec16->scene_origine = $scene11;
+		$transition_sec16->scene_destination = $scene_sec12;
+		
+		$sous_parcours_changement->addTransition($transition_sec16);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 13
+		//
+		$scene_sec13 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec13->titre = "Les nouveaux arrivants";
+		$scene_sec13->narration = "
+					Les années 1990 voient l'implantation à Grenoble de trois centres de recherche et de développement de groupes internationaux.
+					<br><ul>
+						<li>
+						En 1990, Sun Microsystems, constructeur innovant d'ordinateurs et de systèmes logiciels, implante sur la ZIRST de Meylan son centre de développement sur les réseaux, Sun ICNC (International Center for Network Computing). Dix ans plus tard, Sun crée sur la ZIRST de Montbonnot une antenne de son centre de recherche SunLabs. Le centre de développement et le laboratoire poursuivront leur activité après le rachat de Sun par Oracle en 2010.
+						</li><br><li>
+						En 1990 également, l'OSF (Open Software Foundation) installe un centre de recherche à Grenoble. L'OSF est un consortium de sociétés d'informatique fondé en 1988, dont l'objectif est de définir une norme universelle pour le système Unix. Cet objectif ne sera pas atteint, mais l'OSF développera un environnement pour le calcul distribué, DCE. En 1996, l'OSF fusionnera avec un autre consortium, X-Open pour former l'Open Group, toujours actif dans la certification de logiciels. En 1999, les locaux et le personnel du centre OSF de Grenoble seront repris par la société Silicomp (réseaux, informatique embarquée), qui sera elle-même plus tard rachetée par Orange.
+						</li><br><li>
+						En 1993, la société Xerox ouvre à Meylan un centre de recherche, qui deviendra XRCE (Xerox Research Centre Europe). L'objectif de ce centre est de développer des méthodes et outils pour la gestion de données et de documents numériques. Ses travaux sont notamment fondés sur des techniques d'apprentissage et sur le traitement du langage naturel. L'activité du centre se partage entre la recherche appliquée et le transfert de technologie vers les produits et les services de Xerox.
+						</li>
+					</ul>
+					Ces centres ont recruté des professionnels formés dans les établissements grenoblois et noué des collaborations avec la communauté de recherche grenobloise.
+				";
+		$scene_sec13->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec13);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene11->scene_sec13
+		//
+		$transition_sec17 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec17->narration = "Vers les nouveaux arrivants";
+		$transition_sec17->semantique = $semantique_chronologie;
+		$transition_sec17->scene_origine = $scene11;
+		$transition_sec17->scene_destination = $scene_sec13;
+		
+		$sous_parcours_changement->addTransition($transition_sec17);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 14
+		//
+		$scene_sec14 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec14->titre = "La micro-électronique";
+		$scene_sec14->narration = "
+					En 1980, l'industrie française des circuits intégrés est dispersée entre plusieurs entreprises de taille sous-critique : EFCIS (filière industrielle du LETI), Sescosem (Thomson Semiconducteurs) à Aix-en-Provence et à Grenoble, où le CNET vient de lancer son propre centre de recherches, Matra-Harris à Nantes, Eurotechnique (Saint Gobain-National Semiconductors) à Rousset. La période qui s'ouvre est celle de la recomposition et de l’intégration.
+					<br><br>
+					En 1985, Thomson Semiconducteurs rachète Eurotechnique, et s'allie avec EFCIS. Mais la taille de cet ensemble reste insuffisante. En 1987, il fusionne avec le constructeur italien SGS Microelettronica, créant SGS Thomson. À partir de 1989, cette entreprise participe au programme européen Eurêka de soutien technologique JESSI (Joint European Submicron Silicon Initiative) et lance la construction d'une unité de production à Crolles (à l'est de Grenoble), qui sera inaugurée en 1993 (ci-contre, circuits sur gaufres fabriqués à Crolles).
+					<br><br>
+					SGS Thomson élargit sa dimension européenne avec le rachat du britannique Inmos (créateur du transputer) en 1989 et la signature d'un accord de partenariat avec Philips Semiconductors en 1991.
+					<br><br>
+					Du côté de la recherche amont, le CNET signe un accord avec le LETI en décembre 1990 pour coordonner les recherches dans le cadre d'un groupement d'intérêt économique, le GRESSI (Grenoble Submicronique Silicium). Les résultats de ces recherches vont alimenter SGS Thomson. Le CNET se retirera du domaine des composants à partir de 1997, pour se concentrer sur les logiciels et les services.
+					<br><br>
+					En 1994, SGS Thomson s'étend hors de l'Europe en rachetant des activités de la société canadienne Nortel Networks. Il sera dès lors un des grands acteurs mondiaux du domaine, devenant STMicroelectronics en 1998 et poursuivant sa croissance dans les années 2 000.
+				";
+		$scene_sec14->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec14);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene11->scene_sec13
+		//
+		$transition_sec18 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec18->narration = "Vers la micro-électronique";
+		$transition_sec18->semantique = $semantique_chronologie;
+		$transition_sec18->scene_origine = $scene11;
+		$transition_sec18->scene_destination = $scene_sec14;
+		
+		$sous_parcours_changement->addTransition($transition_sec18);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
 		// Douzième scène
 		//
 		$scene12 = new Parcours\Entity\SceneRecommandee();
@@ -786,6 +1372,179 @@ class FixtureParcours implements FixtureInterface
 		$transition11->scene_destination = $scene12;
 		
 		$sous_parcours_changement->addTransition($transition11);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 15
+		//
+		$scene_sec15 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec15->titre = "Avatars de l'IMAG";
+		$scene_sec15->narration = "
+					Au début des années 1980, l'IMAG traverse une crise de croissance. Son organisation légère et informelle, bien adaptée à sa taille initiale, ne fonctionne plus pour un ensemble comportant plus de 400 personnes. En 1983, sous la pression du CNRS dont il est laboratoire associé, l'IMAG se réorganise en six laboratoires thématiques.
+					<ul>
+						<li>
+					    Artemis : modélisation, conception assistée par ordinateur (CAO) de circuits, graphique, recherche opérationnelle.
+					    </li><li>
+						GETA : traitement automatique des langues naturelles, traduction assistée par ordinateur.
+					    </li><li>
+						LGI (Laboratoire de génie informatique) : architecture de machines et de systèmes, réseaux, systèmes embarqués, communication homme-machine, génie logiciel, bases de données et recherche d'information, systèmes d'information.
+					    </li><li>
+						LIFIA (Laboratoire d'informatique fondamentale et d'intelligence artificielle) : intelligence artificielle, robotique et vision, spécification et preuves de programmes, aide à la création artistique.
+					    </li><li>
+						LSD (Laboratoire de structures discrètes et didactique) : graphes et combinatoire, complexité algorithmique ; didactique des mathématiques et de l'informatique.
+					    </li><li>
+						TIM3 : conception de circuits, architecture de machines, algorithmique parallèle et calcul formel, analyse numérique, modélisation stochastique, images, microscopie quantitative, informatique biomédicale.
+						</li>
+					</ul>
+					Chacun de ces laboratoires est individuellement associé au CNRS. S'y ajoute une petite équipe indépendante rattachée à l'INPG, CSI (Conception de systèmes intégrés).
+					<br><br>
+					Imposé de l'extérieur, sans réflexion approfondie, ce découpage n'est pas toujours logique : ainsi la recherche opérationnelle est séparée des graphes, la conception de circuits, comme le traitement d'images, est à cheval sur trois laboratoires, TIM3 manque de cohérence thématique...
+					<br><br>
+					Le logo IMAG, conçu à cette époque, symbolise les six laboratoires (il subsistera tel quel quand ce nombre changera). Chacun des laboratoires en fera la base de son logo propre. Mais de fait, le sigle IMAG ne recouvre plus que les services communs : bibliothèque, support informatique, reprographie.
+					<br><br>
+					<blockquote>
+					À partir de 1985, sous l'impulsion de Jean-Pierre Verjus, une action volontariste est entreprise pour redonner un sens et un contenu scientifique au nom \"IMAG\", dont l'image historique reste forte. Ainsi, les \"projets IMAG\" visent à identifier des actions thématiques à forte visibilité, qui bénéficient de moyens issus du budget de la communauté. Cette action aboutira, en 1988-89, à une nouvelle réorganisation.
+					<br><br>
+					<ul>
+						<li>
+					    D'une part, les contours des laboratoires sont redéfinis : deux nouveaux laboratoires se détachent de TIM3 : le LMC (Laboratoire de modélisation et de calcul, regroupant analyse numérique et statistiques) et TIMC (informatique médicale, application à la biologie). Restent dans TIM3 les activités de conception de circuits et d'architecture de machines. En 1994, TIM3 prendra le nom de TIMA, et intégrera une activité de service créée en 1981, CMP (Circuits multi-projets : réalisation à la demande de circuits intégrés prototypes).
+					    </li><br><li>
+						D'autre part et surtout, l'IMAG retrouve un contenu scientifique, sous la forme d'une fédération de recherche (organisation définie par le CNRS) regroupant la nouvelle configuration de laboratoires. Dotée de moyens incitatifs, cette structure fédérale peut définir et appliquer une politique de recherche commune et assurer une bonne visibilité et un point d'entrée unique pour l'ensemble de la communauté d'informatique et mathématiques appliquées.
+						</li>
+					</ul>
+					La période 1990-92 sera marquée par la création de deux unités mixtes de recherche, Bull-IMAG et Verimag, et par l'implantation à Grenoble d'une nouvelle unité de recherche de l'INRIA. Ces événements influeront sur la réorganisation suivante de la fédération IMAG, qui aura lieu en 1995.
+					</blockquote>
+		";
+		$scene_sec15->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec15);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene12->scene_sec15
+		//
+		$transition_sec17 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec17->narration = "Vers les avatars de l'IMAG";
+		$transition_sec17->semantique = $semantique_chronologie;
+		$transition_sec17->scene_origine = $scene12;
+		$transition_sec17->scene_destination = $scene_sec15;
+		
+		$sous_parcours_changement->addTransition($transition_sec17);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 16
+		//
+		$scene_sec16 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec16->titre = "Arrivée de l'INRIA";
+		$scene_sec16->narration = "
+					L'INRIA (Institut national de recherche en informatique et automatique) avait souhaité s'implanter à Grenoble à la fin des années 1970, mais les contacts pris à cette époque avec l'IMAG n'avaient pas abouti.
+					<br><br>
+					Suite à la restructuration de l'IMAG, ce projet fut relancé au début des années 1990 et aboutit en 1992 à la création à Grenoble d'une nouvelle unité de recherche de l'INRIA. Cette unité, dirigée par Jean-Pierre Verjus, comptait initialement 4 projets de recherche, menés en commun avec des équipes de l'IMAG et hébergés dans des locaux de l'IMAG.
+					<br><br>
+					Dans le cadre d'une importante opération d'extension des locaux de l'INPG et de l'UJF dédiés à l'informatique, il fut initialement envisagé d'installer l'INRIA sur le campus universitaire. Néanmoins, pour accompagner la création à Montbonnot Saint-Martin, à l'est de Grenoble, d'une extension de la ZIRST de Meylan, il fut décidé d'y implanter le bâtiment de l'INRIA (en même temps qu'une antenne de l'ENSIMAG). Ce bâtiment fut livré en mars 1996. L'INRIA comptait alors 7 projets de recherche, la plupart communs avec l'IMAG. Dès cette époque, le centre INRIA incluait également un projet de recherche commun avec l'École normale supérieure de Lyon.
+					<br><br>
+					Ce nouveau centre de recherche de l'INRIA (qui prit plus tard le nom d'Inria Grenoble Rhône-Alpes) se développa rapidement à Montbonnot et à Lyon, sous les mandats  successifs de Jean-Pierre Verjus, Bernard Espiau et François Sillion. Ses locaux connurent plusieurs extensions. En 2012 (vingt ans après sa création), le centre comptait 35 équipes-projets, plus de 600 personnes, et avait contribué à la création de 23 entreprises.
+					<br><br>
+					Les grands thèmes de recherche d'Inria Grenoble Rhône-Alpes sont le calcul et la simulation, le logiciel (notamment embarqué), les réseaux et le calcul distribué, l'axe perception, cognition, interaction, et les applications aux sciences de la vie et de l'environnement.
+		";
+		$scene_sec16->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec16);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec15->scene_sec16
+		//
+		$transition_sec18 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec18->narration = "Vers l'arrivée de l'INRIA";
+		$transition_sec18->semantique = $semantique_chronologie;
+		$transition_sec18->scene_origine = $scene_sec15;
+		$transition_sec18->scene_destination = $scene_sec16;
+		
+		$sous_parcours_changement->addTransition($transition_sec18);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 17
+		//
+		$scene_sec17 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec17->titre = "Les unités mixtes";
+		$scene_sec17->narration = "
+					Dans les années 1990, l'IMAG expérimente une nouvelle forme de collaboration avec l'industrie : les unités mixtes de recherche, laboratoire communs associant des chercheurs de l'université ou du CNRS à des ingénieurs d'une entreprise, avec  l'objectif de créer et d'expérimenter des systèmes innovants, en vue d'un éventuel transfert.
+					<br><br>
+					En 1990 est créée la première unité mixte, Bull-IMAG. Le personnel Bull est celui du centre scientifique Bull, et les chercheurs viennent du Laboratoire de génie informatique de l'IMAG. Cette unité mixte, dirigée par  Roland Balter, mène des recherches en systèmes et bases données répartis. Elle développera notamment un environnement de programmation réparti, Guide, ainsi que des outils avancés de gestion de documents numériques. Elle contribuera à la diffusion des connaissances dans le domaine des systèmes répartis par l'organisation de plusieurs écoles nationales et internationales.
+					<br><br>
+					En 1993 est créée l'unité mixte Verimag, qui associe des chercheurs issus d'une équipe du Laboratoire de génie informatique de l'IMAG et des ingénieurs de la société Verilog, spécialisée dans l'ingénierie des systèmes en temps réel. Ses thèmes de recherche couvrent la spécification et la vérification de logiciel, les systèmes réactifs, les systèmes hybrides. Dirigée par Joseph Sifakis, cette unité mixte contribuera à des avancées importantes en modélisation et vérification des systèmes embarqués, qui donneront lieu à des outils industriels largement utilisés.
+					<br><br>
+					En 1995 est créé un laboratoire commun associant une équipe du laboratoire IMAG-LSR (Logiciel, systèmes, réseaux) et des ingénieurs de la société Dassault Systèmes (DS). L'objectif est de transférer vers le logiciel de CAO Catia de DS les résultats et le savoir-faire acquis sur Adèle, système de gestion de versions de logiciel développé à l'IMAG sous la direction de Jacky Estublier et dont Dassault Systèmes a acquis la licence. Ce laboratoire, qui fonctionnera jusqu'en 2001, n' a pas le statut d'unité mixte.
+					<br><br>
+					<blockquote>
+					Au terme de leur mandat initial de quatre ans, le CNRS ne souhaitera pas renouveler l'expérience des deux unités mixtes, malgré les résultats encourageants obtenus. Verimag poursuivra son existence comme laboratoire autonome sous la tutelle du CNRS et des universités (INPG et UJF). Les projets lancés dans Bull-IMAG se poursuivront dans un consortium Bull-INRIA appelé Dyade, et aboutiront plus tard à la création de deux entreprises : Kelkoo (qui sera rachetée par Yahoo!) et Scalagent Technologies.
+					</blockquote>
+				";
+		$scene_sec17->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec17);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec16->scene_sec17
+		//
+		$transition_sec19 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec19->narration = "Vers les unités mixtes";
+		$transition_sec19->semantique = $semantique_chronologie;
+		$transition_sec19->scene_origine = $scene_sec16;
+		$transition_sec19->scene_destination = $scene_sec17;
+		
+		$sous_parcours_changement->addTransition($transition_sec19);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		//	Scène secondaire 18
+		//
+		$scene_sec18 = new Parcours\Entity\SceneSecondaire();
+		$scene_sec18->titre = "Avancées de la recherche";
+		$scene_sec18->narration = "
+					Malgré les divers changements institutionnels, la recherche en informatique se développe pendant cette période et enregistre des avancées significatives. On peut noter, sans être exhaustifs :
+					<ul>
+						<li>
+						Les progrès en modélisation et vérification des systèmes réactifs, qui conduiront à l'invention du model checking, technique de vérification des systèmes matériels et logiciels. Ce travail vaudra en 2007 le prix Turing à Joseph Sifakis.
+					    </li><br><li>
+						Les travaux sur le langage synchrone Lustre, menés par Paul Caspi et Nicolas Halbwachs, qui aboutiront au système de modélisation et de développement des systèmes réactifs SCADE, commercialisé à partir de 1993 par la société Esterel Technologies.
+					    </li><br><li>
+						La réalisation du système de gestion de versions et de configurations logicielles Adèle, par Jacky Estublier et son équipe. Adèle sera diffusé à plusieurs milliers d'exemplaires, et sa licence sera acquise par Dassault Systèmes.
+					    </li><br><li>
+						Le logiciel d'apprentissage de la géométrie Cabri Géomètre, qui sera largement diffusé, notamment sur les calculatrices Texas Instruments, puis commercialisé à partir de 2000 par la société Cabrilog créée par Jean-Marie Laborde et son équipe.
+					    </li><br><li>
+						Les avancées réalisées en imagerie médicale et chirurgie assistée par ordinateur, sous la direction de Philippe Cinquin et Jacques Demongeot. Ces techniques seront mises en œuvre dans les hôpitaux et seront valorisées grâce à la création de plusieurs entreprises.
+						</li>
+					</ul>
+					Grâce aux nombreuses collaborations établies avec le monde économique et à la création d'entreprises, toutes ces recherches auront des retombées industrielles.
+				";
+		$scene_sec18->elements = new \Doctrine\Common\Collections\ArrayCollection();
+		
+		$sous_parcours_changement->addScene($scene_sec18);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec17->scene_sec18
+		//
+		$transition_sec20 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec20->narration = "Vers les avancées de la recherche";
+		$transition_sec20->semantique = $semantique_chronologie;
+		$transition_sec20->scene_origine = $scene_sec17;
+		$transition_sec20->scene_destination = $scene_sec18;
+		
+		$sous_parcours_changement->addTransition($transition_sec20);
 		$manager->flush();
 		
 		//
@@ -834,6 +1593,62 @@ class FixtureParcours implements FixtureInterface
 		$sous_parcours_changement->addTransition($transition12);
 		$manager->flush();
 
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec15->scene13
+		//
+		$transition_sec21 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec21->narration = "Vers la formation";
+		$transition_sec21->semantique = $semantique_chronologie;
+		$transition_sec21->scene_origine = $scene_sec15;
+		$transition_sec21->scene_destination = $scene13;
+		
+		$sous_parcours_changement->addTransition($transition_sec21);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec16->scene13
+		//
+		$transition_sec22 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec22->narration = "Vers la formation";
+		$transition_sec22->semantique = $semantique_chronologie;
+		$transition_sec22->scene_origine = $scene_sec16;
+		$transition_sec22->scene_destination = $scene13;
+		
+		$sous_parcours_changement->addTransition($transition_sec22);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec17->scene13
+		//
+		$transition_sec23 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec23->narration = "Vers la formation";
+		$transition_sec23->semantique = $semantique_chronologie;
+		$transition_sec23->scene_origine = $scene_sec17;
+		$transition_sec23->scene_destination = $scene13;
+		
+		$sous_parcours_changement->addTransition($transition_sec23);
+		$manager->flush();
+		
+		//
+		// Troisième sous-parcours
+		// Transition scene_sec18->scene13
+		//
+		$transition_sec24 = new Parcours\Entity\TransitionSecondaire();
+		$transition_sec24->narration = "Vers la formation";
+		$transition_sec24->semantique = $semantique_chronologie;
+		$transition_sec24->scene_origine = $scene_sec18;
+		$transition_sec24->scene_destination = $scene13;
+		
+		$sous_parcours_changement->addTransition($transition_sec24);
+		$manager->flush();
+		
+		
+		
+		
+		
 		
 		
 			/********************************

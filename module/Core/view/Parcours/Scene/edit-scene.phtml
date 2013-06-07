@@ -10,8 +10,6 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
-
-
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1>
@@ -43,6 +41,64 @@ $this->headTitle($title);
     </div>
 </div>
 
+<!-- Transitions autour de cette scène -->
+<div class="row-fluid">
+
+	<div class="span6">
+		<h5>Transitions secondaires entrantes</h5>
+		<table class="table">
+			<?php if ($transitions_secondaires == null) :?>
+				Aucune tansition secondaire ne mène à cette scène.
+			<?php else: ?>
+				<?php foreach ($transitions_secondaires as $transition) : ?>
+					<tr><td>
+						<ul class="nav nav-list">
+						<li>
+							<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_origine->id)) ?>"> 
+								<i class="icon-file-alt"></i>  
+								<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
+								<i class="icon-arrow-right"></i> 
+							</a>
+							[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+							"<?php echo $this->escapeHtml($transition->narration); ?>"
+						</li>
+						</ul>
+					</td></tr>
+				<?php endforeach; ?>
+			<?php endif;?>
+		</table>
+	</div>
+	
+	<div class="span6">
+		<h5>Transitions secondaires sortantes</h5>
+		<table class="table">
+			<?php if ($scene->transitions_secondaires == null 
+					|| $scene->transitions_secondaires->count() == 0) :?>
+				Aucune tansition secondaire ne part de cette scène.
+			<?php else: ?>
+				<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+					<tr><td>
+						<ul class="nav nav-list">
+						<li>
+							[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+							"<?php echo $this->escapeHtml($transition->narration); ?>"
+							<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
+								<i class="icon-arrow-right"></i> 
+								<i class="icon-file-alt"></i> 
+								<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+							</a>
+						</li>
+						</ul>
+					</td></tr>
+				<?php endforeach; ?>
+			<?php endif;?>
+       	</table>
+	</div>
+	
+</div>
+
+<hr>
+
 <div class="row-fluid">
 
 	<div class="span6 well">
@@ -56,59 +112,57 @@ $this->headTitle($title);
 	<div class="span6 well">
 		<h2>À voir dans cette scène</h2>
 		<hr/>
-		
-		<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-			
-			<div class="tab-pane active" id="tab1">
-				<h4> Eléments déjà présents </h4>
-				<?php if ($scene->elements != null) : ?>
-					<table class="table">
-					<?php foreach($scene->elements as $element) : ?>
-						<?php if($element instanceof Collection\Entity\Artefact) : ?>
-							<tr>
-							<td>
-								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id))?>"> 
-								<i class="icon-tag"></i> <?php echo $this->escapeHtml($element->titre); ?>
-							 	</a>
-							</td>
-							<td>
-								<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
-									class="deleteElement"
-									data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
-								<i class="icon-trash"></i>
-								</a>
-							</td>
-							<tr>
-						<?php elseif($element instanceof Collection\Entity\Media) : ?>
-							<tr>
-							<td>
-								<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id))?>"> 
-								<i class="icon-picture"></i> <?php echo $this->escapeHtml($element->titre); ?>
-							 	</a>
-							</td>
-							<td>
-								<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
-									class="deleteElement"
-									data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
-								<i class="icon-trash"></i>
-								</a>
-							</td>
-							<tr>
-						<?php endif; ?>
-					<?php endforeach ;?>
-					</table>
-				<?php else : ?>
-					<p> Aucun élément de la collection n'est présent cette scène. </p>
+		<h4> Eléments déjà présents </h4>
+		<?php if ($scene->elements->count() == 0): ?>
+				Aucun élément de la collection n'est lié à cette scène.
+		<?php endif; ?>
+		<?php if ($scene->elements != null) : ?>
+			<table class="table">
+			<?php foreach($scene->elements as $element) : ?>
+				<?php if($element instanceof Collection\Entity\Artefact) : ?>
+					<tr>
+					<td>
+						<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id))?>"> 
+						<i class="icon-tag"></i> <?php echo $this->escapeHtml($element->titre); ?>
+					 	</a>
+					</td>
+					<td>
+						<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
+							class="deleteElement"
+							data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
+						<i class="icon-trash"></i>
+						</a>
+					</td>
+					<tr>
+				<?php elseif($element instanceof Collection\Entity\Media) : ?>
+					<tr>
+					<td>
+						<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id))?>"> 
+						<i class="icon-picture"></i> <?php echo $this->escapeHtml($element->titre); ?>
+					 	</a>
+					</td>
+					<td>
+						<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
+							class="deleteElement"
+							data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
+						<i class="icon-trash"></i>
+						</a>
+					</td>
+					<tr>
 				<?php endif; ?>
-				
-				<h4>Ajouter des éléments à la scène </h4>
-				<div class="well">
-					<?php echo $this->DatatableWidget( 'scene' ); ?> 
-				</div>
-			</div>
+			<?php endforeach ;?>
+			</table>
+		<?php else : ?>
+			<p> Aucun élément de la collection n'est présent cette scène. </p>
+		<?php endif; ?>
+		
+		<h4>Ajouter des éléments à la scène </h4>
+		<div class="well">
+			<?php echo $this->DatatableWidget( 'scene' ); ?> 
 		</div>
 	</div>
 </div>
+
 
 <div id="confirmDiv" >
 </div>

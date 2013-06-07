@@ -77,10 +77,20 @@ class SceneController extends AbstractActionController
 		}
 		if ($Scene==null) {
 			$this->getResponse()->setStatusCode(404);
-            return;
+			return;
 		}
+		try {
+			$transitions_secondaires = $this->getEntityManager()
+				->getRepository('Parcours\Entity\TransitionSecondaire')
+				->findBy(array('scene_destination'=>$Scene));
+		} catch (\Exception $ex) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
 		return new ViewModel(array(
-			'scene' => $Scene
+			'scene' => $Scene,
+			'transitions_secondaires' => $transitions_secondaires
 		));
     }
 
@@ -279,7 +289,19 @@ class SceneController extends AbstractActionController
 			return $this->getResponse()->setContent(Json::encode(true));
 			
 		}
-		return new ViewModel(array('scene' => $scene));
+		try {
+			$transitions_secondaires = $this->getEntityManager()
+			->getRepository('Parcours\Entity\TransitionSecondaire')
+			->findBy(array('scene_destination'=>$scene));
+		} catch (\Exception $ex) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
+		return new ViewModel(array(
+				'scene' => $scene,
+				'transitions_secondaires' => $transitions_secondaires
+		));
 	}
 
 	public function deleteElementAction()

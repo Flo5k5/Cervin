@@ -2,6 +2,15 @@
 $title = $scene->titre;
 $this->headTitle($title); ?>
 
+<style type="text/css">
+	.sous_parcours {
+		border-style: dashed;
+		border-width: 3px;
+		border-color: #006699;
+	}
+	
+</style>
+
 <div class="row-fluid">
 
 	<!-- Menu de navigation dans le parcours -->
@@ -19,14 +28,19 @@ $this->headTitle($title); ?>
 			$sous_parcours = $parcours->sous_parcours_depart;
 			
 			while ($sous_parcours != null) : 
-				
-				echo '<li class="nav-header strong">'. $sous_parcours->titre .'</li>';
+				if ($sous_parcours == $scene->sous_parcours) :
+					echo '<div class="sous_parcours">';
+				endif;
+				echo '<li class="nav-header">'. $sous_parcours->titre .'</li>';
 				$scene_depart = $sous_parcours->scene_depart;
 				$transition = $scene_depart->transition_recommandee;
 				$class = "";
 				if ($scene_depart == $scene) {
 					$class = "active";
 				}
+				if ($sous_parcours == $scene->sous_parcours) :
+					echo '</div>';
+				endif;
 				?>
 					
 				<li class="<?php echo $class; ?>">
@@ -55,7 +69,7 @@ $this->headTitle($title); ?>
 	</div>
 
 	<?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
-	<!-- Fiche de la scène -->
+	
 	<div class="span8">
 	
 		<!-- Titre de la scène -->
@@ -78,6 +92,65 @@ $this->headTitle($title); ?>
 		    <?php endif; ?>
 		</div>
 		
+		<!-- Transitions autour de cette scène -->
+		<div class="row-fluid">
+		
+			<div class="span6">
+				<h5>Transitions secondaires entrantes</h5>
+				<table class="table">
+					<?php if ($transitions_secondaires == null) :?>
+						Aucune tansition secondaire ne mène à cette scène.
+					<?php else: ?>
+						<?php foreach ($transitions_secondaires as $transition) : ?>
+							<tr><td>
+								<ul class="nav nav-list">
+								<li>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_origine->id)) ?>"> 
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
+										<i class="icon-arrow-right"></i> 
+									</a>
+									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+									"<?php echo $this->escapeHtml($transition->narration); ?>"
+								</li>
+								</ul>
+							</td></tr>
+						<?php endforeach; ?>
+					<?php endif;?>
+				</table>
+			</div>
+			 
+			<div class="span6">
+				<h5>Transitions secondaires sortantes</h5>
+				<table class="table">
+					<?php if ($scene->transitions_secondaires == null 
+							|| $scene->transitions_secondaires->count() == 0) :?>
+						Aucune tansition secondaire ne part de cette scène.
+					<?php else: ?>
+						<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+							<tr><td>
+								<ul class="nav nav-list">
+								<li>
+									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+									"<?php echo $this->escapeHtml($transition->narration); ?>"
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
+										<i class="icon-arrow-right"></i> 
+										<i class="icon-file-alt"></i> 
+										<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+									</a>
+								</li>
+								</ul>
+							</td></tr>
+						<?php endforeach; ?>
+					<?php endif;?>
+		       	</table>
+			</div>
+			
+		</div>
+		
+		<hr>
+		
+		<!-- Fiche de la scène -->
 		<div class="row-fluid">
 		
 			<!-- Narration de la scène -->
@@ -87,7 +160,7 @@ $this->headTitle($title); ?>
 			
 			<!-- Eléments de la collection liés à la scène -->
 			<div class="span4">
-					<div class="well">
+				<div class="well">
 					<h4> A voir dans cette scène </h4>
 					<?php if ($scene->elements->count() == 0): ?>
 						Aucun élément de la collection n'est lié à cette scène.
@@ -109,26 +182,6 @@ $this->headTitle($title); ?>
 						<?php endif;  ?>
 					<?php endforeach; ?>
 					</ul>
-				</div>
-				
-				<div class="well">
-					<h4> Transitions secondaires depuis cette scène </h4>
-					<ul class="nav nav-list">
-						<?php if ($scene->transitions_secondaires == null 
-								|| $scene->transitions_secondaires->count() == 0) :?>
-							Aucune tansition secondaire ne part de cette scène.
-						<?php else: ?>
-							<?php foreach ($scene->transitions_secondaires as $transition) : ?>
-								<li>
-									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
-									"<?php echo $this->escapeHtml($transition->narration); ?>"
-									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> <i class="icon-arrow-right"></i> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?>
-									</a>
-								</li>
-								<li class="divider"></li>
-							<?php endforeach; ?>
-						<?php endif;?>
-			       	</ul>
 				</div>
 				
 			</div>
