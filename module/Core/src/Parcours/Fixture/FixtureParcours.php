@@ -971,7 +971,7 @@ class FixtureParcours implements FixtureInterface
 		//	Transition scene_sec9->scene_sec8
 		//
 		$transition_sec11 = new Parcours\Entity\TransitionSecondaire();
-		$transition_sec11->narration = "Vers le centre CII";
+		$transition_sec11->narration = "Vers le centre IBM";
 		$transition_sec11->semantique = $semantique_chronologie;
 		$transition_sec11->scene_origine = $scene_sec9;
 		$transition_sec11->scene_destination = $scene_sec8;
