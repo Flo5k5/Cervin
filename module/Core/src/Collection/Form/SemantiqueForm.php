@@ -38,6 +38,11 @@ class SemantiqueForm extends Form
 			'options' => array('label' => 'Sémantique')
 			));
 		
+		$this->add(array(
+				'name' => 'description',
+				'attributes' => array('type' => 'textarea'),
+				'options' => array('label' => 'Description')
+		));
 
 		$this->add(array(
 			'type' => 'Zend\Form\Element\Select',

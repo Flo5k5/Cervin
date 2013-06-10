@@ -13,8 +13,8 @@ $form = $this->form;
 $form->setAttribute('action', $this->url('semantique/ajouter'));
 $form->prepare();
 
-$form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span12'));
-
+$form->get('semantique')->setAttributes(array('placeholder'=>'Semantique','class'=>'span8'));
+$form->get('description')->setAttributes(array('placeholder'=>'Description','class'=>'span12'));
 $form->get('type_origine')->setAttributes(array('class'=>'span12'));
 $form->get('type_destination')->setAttributes(array('class'=>'span12'));
 
@@ -27,18 +27,25 @@ echo $this->formHidden($form->get('id'));
 ?>
 <div class="row-fluid">
 	<div class="span3">
-<?php echo $this->formLabel($form->get('type_origine')) ?>
-<?php echo $this->formSelect($form->get('type_origine')) ?>
-<?php echo $this->formElementErrors($form->get('type_origine')) ?></div>
+		<?php echo $this->formLabel($form->get('type_origine')) ?>
+		<?php echo $this->formSelect($form->get('type_origine')) ?>
+		<?php echo $this->formElementErrors($form->get('type_origine')) ?>
+	</div>
 	<div class="span6">
-<?php echo $this->formLabel($form->get('semantique')) ?>
-<?php echo $this->formInput($form->get('semantique')) ?>
-<?php echo $this->formElementErrors($form->get('semantique')) ?></div>
+		<?php echo $this->formLabel($form->get('semantique')) ?>
+		<?php echo $this->formInput($form->get('semantique')) ?>
+		<?php echo $this->formElementErrors($form->get('semantique')) ?>
+		
+		<?php echo $this->formLabel($form->get('description')) ?>
+		<?php echo $this->formTextarea($form->get('description')) ?>
+		<?php echo $this->formElementErrors($form->get('description')) ?>
+	</div>
 	<div class="span3">
-<?php echo $this->formLabel($form->get('type_destination')) ?>
-<?php echo $this->formSelect($form->get('type_destination')) ?>
-<?php echo $this->formElementErrors($form->get('type_destination')) ?></div>
-</div>
+		<?php echo $this->formLabel($form->get('type_destination')) ?>
+		<?php echo $this->formSelect($form->get('type_destination')) ?>
+		<?php echo $this->formElementErrors($form->get('type_destination')) ?>
+	</div>
+	</div>
 
 <div class="form-actions">
 	<?php echo $this->formSubmit($form->get('submit')); ?>

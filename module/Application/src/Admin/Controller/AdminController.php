@@ -16,6 +16,9 @@ use SamUser\Entity\User;
 use SamUser\Entity\Role;
 use Zend\Mvc\Controller\Plugin\Url;
 use Zend\Json\Json;
+use Zend\Crypt\Password\Bcrypt;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Sendmail as SendmailTransport;
 
 class AdminController extends AbstractActionController
 {    
@@ -75,8 +78,7 @@ class AdminController extends AbstractActionController
             ));
 
             $aaData = array();
-            
-            
+
             foreach ($dataTable->getPaginator() as $user) {
 				
 	            if(!isset( $user->roles['0']) )
@@ -101,12 +103,39 @@ class AdminController extends AbstractActionController
  <a href=\'#\' class=\'refueRole btn btn-mini btn-danger\' data-url=\''.$this->url()->fromRoute("admin/refueRole", array("id" => $user->id)).'\'><i class=\'icon-remove\'></i> Refuser</a>"';
 
                 }
-
-
-	            $btn_supprimer = "";
+				
+                $btn_group          = "";
+                		
+				$editable_role      = "";
+	            $btn_reset_password = "";
+	            $btn_supprimer      = "";
+				
 	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
+	            	
+	            	$editable_role = '<span
+                        id="role"
+                        class="status CursorPointer"
+                        data-type="select"
+                        data-pk="'. $user->id.'"
+                        '.$attenteRoleDataOriginalTitle.'
+                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+                        data-value="'.$roleId.'">
+                            '.$role.' '.$attenteRole.'
+                    </span>
+	            	
+                    ';
+	            	
 	            	$btn_supprimer = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>';
+	            	
+	            	$btn_reset_password = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-warning ResetPassword"><i class="icon-refresh"></i> Réinitialiser mot de passe</a>';
+	            
+	            } else {
+	            	
+	            	$editable_role = ' <span id="role" > '.$role.' </span> ';
+
 	            }
+	            
+	            $btn_group = "<div class='btn-group'>" . $btn_reset_password . "&nbsp;" .  $btn_supprimer . "</div>";
 	            
                 $aaData[] = array(
                     '<span id="username" 
@@ -124,19 +153,8 @@ class AdminController extends AbstractActionController
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
                         data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1">'.$escapeHtml($user->email).'
                     </span>',
-                    '<span 
-                        id="role" 
-                        class="status CursorPointer" 
-                        data-type="select" 
-                        data-pk="'. $user->id.'" 
-                        '.$attenteRoleDataOriginalTitle.' 
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$roleId.'">
-                            '.$role.' '.$attenteRole.'
-                    </span>
-
-                    ',
-                    $btn_supprimer
+                    $editable_role,
+                    $btn_group
                 );
             }
             $dataTable->setAaData($aaData);
@@ -161,42 +179,100 @@ class AdminController extends AbstractActionController
             $postData = $this->params()->fromPost();
 
             $id = (int) $this->params()->fromRoute('id', 0);
+            
             if (!$id) {
-                return $this->redirect()->toRoute('home');
+                //return $this->redirect()->toRoute('home');
+                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Pas d'id spécifié en paramètre")));
             }
+            
 			$user = null;
+			
             try {
                 $user = $this->getEntityManager()->find('SamUser\Entity\User', $id);
             }
             catch (\Exception $ex) {
-                return $this->redirect()->toRoute('home');
+                //return $this->redirect()->toRoute('home');
+                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver l'utilisateur")));
             }
 
             if ($postData['name'] == 'username')
             {
 
-                $user->setUsername($postData['value']);
-                $this->getEntityManager()->persist($user);
-                $this->getEntityManager()->flush();
-                return true;
+            	try {
+            		$user->setUsername($postData['value']);
+               		$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            	}
+
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le login a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'displayName')
             {
 
-                $user->setDisplayName($postData['value']);
-                $this->getEntityManager()->persist($user);
-                $this->getEntityManager()->flush();
-                return true;
+            	try {
+            		$user->setDisplayName($postData['value']);
+            		$this->getEntityManager()->persist($user);
+            		$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            	}
+
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le nom d'utilisateur a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'email')
             {
+            	try {
+            		$user->setEmail($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'email a été mis à jour")));
 
-                $user->setEmail($postData['value']);
-                $this->getEntityManager()->persist($user);
-                $this->getEntityManager()->flush();
-                return true;
+            } 
+            elseif ($postData['name'] == 'password')
+            {
+            	try {
+            		$bcrypt = new Bcrypt;
+	            	$bcrypt->setCost(14);
+	            	
+	            	//On génère un mot de passe aléatoire
+	            	$password = $this->getEntityManager()->getRepository('SamUser\Entity\User')->generateRandomPassword();
+	            	
+	            	//On hash le mot de passe avec bcrypt puis on l'enregistre
+	            	$user->setPassword( $bcrypt->create( $password ) );
+	
+	            	//On persiste les données en base de donnée
+	                $this->getEntityManager()->persist($user);
+	                $this->getEntityManager()->flush();
+	                
+	                //var_dump($password);
+	                //var_dump($user->getPassword());
+	
+	                //On envoie un mail contenant le nouveau mot de passe
+	                $message = new Message();
+	                $message->addTo( $user->getEmail() )
+			                ->addFrom('no-reply@cervin.org')
+			                ->setSubject('Mot de passe réinitialisé')
+			                ->setBody("Bonjour,\r\n\r\n votre mot de passe a été réinitialisé. \r\n Votre nouveau mot de passe est ".$password." . \r\n\r\n Bonne journée! ");
+	                
+	                $transport = new SendmailTransport();
+	                $transport->send($message);
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            	}
+
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le mot de passe a été réinitialisé")));
 
             } 
             elseif ($postData['name'] == 'role')
@@ -206,11 +282,14 @@ class AdminController extends AbstractActionController
                     $role = $this->getEntityManager()->find('SamUser\Entity\Role', $postData['value']);
                 }
                 catch (\Exception $ex) {
-                    return $this->redirect()->toRoute('home');
+                    //return $this->redirect()->toRoute('home');
+                	return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver le role")));
                 }
+                
                 if($user->attenteRole != null ){
                     $user->setAttenteRole(null);
                 }
+                
                 $user->removeRoles($user->getRoles());
                 $user->addRole($role);
 
@@ -221,20 +300,27 @@ class AdminController extends AbstractActionController
                 $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
                 $this->getRequest()->getPost('value');
                 
-                return true;
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le role a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'supprimer')
             {
-
-                $this->getEntityManager()->remove($user);
-                $this->getEntityManager()->flush();
-                return true;
+            	try {
+            		$this->getEntityManager()->remove($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		//return $this->redirect()->toRoute('home');
+            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'utilisateur a été supprimé")));
 
             }
            
         } else {
-            return $this->redirect()->toRoute('home');
+            $this->getResponse()->setStatusCode(404);
+			return;
         }
     }
 

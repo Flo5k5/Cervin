@@ -1,0 +1,29 @@
+<style type="text/css">
+
+	.titresp {
+	    width: 80%;
+	    height: 100%;
+	    background: #FFF;
+		border-width: 0;
+	}
+	
+</style>
+
+<?php if ($this->isAllowed('Parcours') === true) :?>
+	<button class="popover-link btn titresp"
+            data-toggle="popover"
+            data-placement="right"
+            data-html="true"
+            data-content='
+                <ul class="nav nav-list">
+                    <li><a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajAvant", "idsp" => $sous_parcours->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter un sous-parcours avant</a></li>
+                    <li><a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajApres", "idsp" => $sous_parcours->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter un sous-parcours après</a></li>
+                </ul>
+            ' 
+            data-trigger="manual"
+            title="" >
+        <h4><?php echo $sous_parcours->titre; ?></h4>
+    </button>
+<?php else: ?>
+   <h4><?php echo $sous_parcours->titre; ?></h4>
+<?php endif; ?>

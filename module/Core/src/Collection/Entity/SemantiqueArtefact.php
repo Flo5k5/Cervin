@@ -21,6 +21,7 @@ use \Doctrine\ORM\Query;
  * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à l'origine des relations marquées par cette sémantique
  * @property \Collection\Entity\TypeElement $type_origine Le type d'artefact à la destination des relations marquées par cette sémantique
  * @property string $semantique La sémantique elle même
+ * @property string $description Une description expliquant le sens de la sémantique
  * @property \Collection\Entity\RelationArtefacts $ relations Les relations qui utilisent cette sémantique
  * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon
  */
@@ -50,6 +51,11 @@ class SemantiqueArtefact implements InputFilterAwareInterface
      * @ORM\Column(type="string", length=200)
      */
     protected $semantique;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
 
     /**
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
@@ -104,6 +110,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     { 
         $this->id = $data['id'];
         $this->semantique = $data['semantique'];
+        $this->description = $data['description'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -167,6 +174,15 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                         ),
                     ),
                 ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+            		'name' => 'description',
+            		'required' => false,
+            		'filters' => array(
+            				array('name' => 'StripTags'),
+            				array('name' => 'StringTrim'),
+            		),
             )));
             
             $this->inputFilter = $inputFilter;

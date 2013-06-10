@@ -1,0 +1,44 @@
+<style type="text/css">
+
+	.liaison {
+		margin: 2px;
+		background: #FFF;
+		border-width: 0;
+	}
+
+</style>
+
+<i class="icon-minus icon-rotate-270 icon-large"></i><br>
+<button class="btn btn-mini liaison popover-link" 
+	data-toggle="popover" 
+	data-placement="right" 
+	data-html="true"
+	data-title='
+		<?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
+		<?php if ($this->isAllowed('Parcours') === true) :?>
+        	<a href="#" 
+            	class="selectSemantiques" 
+            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+                <i class="icon-pencil"></i>
+            </a>
+        <?php endif;?>
+    ' 
+    data-content='
+    	<?php if ($this->isAllowed('Parcours') === true) :?>
+	        <span class="edit2 CursorPointer"
+	        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+	            data-name="narration" 
+	            data-type="textarea" 
+	            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+	        </span>
+        <?php else :
+              echo $this->escapeHtml($transition->narration);
+       	endif; ?>
+    ' 
+    data-trigger="manual"
+    title="" >
+<?php echo $this->escapeHtml($transition->narration);?>
+</button>
+<br>
+<i class="icon-arrow-down icon-large"></i><br>

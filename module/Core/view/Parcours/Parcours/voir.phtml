@@ -7,13 +7,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 <div class="page-header">
     <?php if ($this->isAllowed('Parcours') === true) :?>
-    <h1><span class="edit CursorPointer"
+    <h1>
+    <i class="icon-road"></i> 
+    <span class="edit CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
                         data-name="titre" 
                         data-type="text" 
                         data-inputclass="span10" 
                         data-pk="1"><?php echo $this->escapeHtml($title); ?></span>
-    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
+    </h1>
     <p class="edit CursorPointer"
                         data-url="<?php echo $this->url("parcours/modifier", array("id" => $Parcours->id)); ?>"
                         data-inputclass="span10" 
@@ -21,8 +24,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                         data-type="textarea" 
                         data-pk="1"><?php echo $this->escapeHtml($Parcours->description);?></p>
     <?php else : ?>
-        <h1><?php echo $this->escapeHtml($title); ?>
-    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+        <h1>
+        <i class="icon-road"></i><?php echo $this->escapeHtml($title); ?>
+    	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
+    	</h1>
     <p><?php echo $this->escapeHtml($Parcours->description);?></p>
     <?php endif;?>
 </div>
@@ -41,209 +46,121 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <style type="text/css">
-.well {
-	margin-bottom: 1px;
-}
 
-.icon-black {
-	color: rgb(51, 51, 51);
-	text-decoration: none;
-}
-
-.voirfond {
-	background: #EDEDED;
-}
-
-.elements {
-	text-align: center;
-}
-
-.elements .element {
-	width: 208px;
-	text-align: center;
-	padding: 20px 10px 20px 10px;
-} 
-.liaison {
-	margin: 2px;
-	width: 208px;
-	background: #FFF;
-	border-width: 0;
-}
-
-a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" icon-"]:before
-{
-	display: inline-block;
-}
-
-.sous_parcours {
-	border-style:dashed;
-	border-width:3px;
-	border-color:#006699;
-	padding: 5px 5px 5px 5px;
-}
+	.elements {
+		width: 208px;
+		text-align: center;
+		padding: 20px 10px 20px 10px;
+	} 
+	
+	a [class^="icon-"],a [class*=" icon-"],a [class^="icon-"]:before,a [class*=" icon-"]:before
+	{
+		display: inline-block;
+	}
+	
+	.sous_parcours {
+		border-style: dashed;
+		border-width: 3px;
+		border-color: #006699;
+		padding: 5px 5px 20px 5px;
+	}
 
 </style>
 
-<div class="elements">
+<div class="row-fluid">
 
-<?php
-$sous_parcours = $Parcours->sous_parcours_depart;
-// On affiche les sour parcours un à un
-while ($sous_parcours != null) : ?>
-
-	<div class='sous_parcours span4 offset4'>
-	<h4><?php echo $sous_parcours->titre; ?></h4>
-	<hr></hr>
-	<?php 
-	$scene_depart = $sous_parcours->scene_depart;
-	// On affiche la première scène du sous parcours
-	if ($this->isAllowed('Parcours') === true) :?>
-	    <button class="btn btn-large element popover-link" 
-	    data-toggle="popover" 
-	    data-placement="right" 
-	    data-html="true" 
-	    data-content='
-	    <ul class="nav nav-list">
-	        <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
-	        <li><a href="<?php echo $this->url('scene/editScene', array('id' => $scene_depart->id)) ?>"><i class="icon-pencil"></i> Modifier la scene</a></li>
-	        <li><a 
-	                    href="#" 
-	                    data-value="<?php echo $this->escapeHtml($scene_depart->titre); ?>" 
-	                    data-url="<?php echo $this->url('scene/removeScene', array('id' => $scene_depart->id)) ?>"
-	                    class="text-error SupprimerScene" >
-	                        <i class="icon-trash"></i> Supprimer la scene
-	            </a>
-	        </li>
-	        <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $scene_depart->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
-	        <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $scene_depart->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
-	    </ul>
-	    '
-	    data-trigger="manual"
-	     title="" ><?php echo $this->escapeHtml($scene_depart->titre) ; ?></button><br>
-	<?php else : ?>
-		<a class="btn btn-large element popover-link" 
-	       href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>" >
-	       <?php echo $this->escapeHtml($scene_depart->titre) ; ?>
-	     </a><br>
-	<?php endif;
-	
-	// On boucle sur les scènes suivantes du sous-parcours
-    $transition = $scene_depart->transition_recommandee;
-    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-    	<!-- Tant qu'on est toujours dans le sous parcours -->
-    	<!--  On affiche la transition -->
-        <i class="icon-minus icon-rotate-270"></i><br>
-        <button class="btn btn-mini liaison popover-link" 
-            data-toggle="popover" 
-            data-placement="right" 
-            data-html="true"
-            data-title='
-                    <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
-                    <?php if ($this->isAllowed('Parcours') === true) :?>
-                    <a href="#" 
-                       class="selectSemantiques" 
-                       data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-                       data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-                        <i class="icon-pencil"></i>
-                    </a>
-                    <?php endif;?>
-            ' 
-            data-content='
-                    <?php if ($this->isAllowed('Parcours') === true) :?>
-                        <span class="edit2 CursorPointer"
-                        data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-                        data-name="narration" 
-                        data-type="textarea" 
-                        data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?></span>
-                    <?php else : ?>
-                        <?php echo $this->escapeHtml($transition->narration); ?>
-                    <?php endif;?>
-            ' 
-            data-trigger="manual"
-            title="" >
-            <?php echo $this->escapeHtml($transition->narration);?>
-        </button><br>
-        <i class="icon-arrow-down"></i><br>
-        
-        <!-- On affiche la scène suivant -->
-        <?php 
-        if ($this->isAllowed('Parcours') === true) :?>
-            <button class="btn btn-large element popover-link"
-                data-toggle="popover" 
-                data-placement="right" 
-                data-html="true"
-                data-content='
-                <ul class="nav nav-list">
-                    <li><a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"><i class="icon-eye-open"></i> Voir la scene</a></li>
-                    <li><a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_destination->id)) ?>"><i class="icon-pencil"></i> Modifier la scene</a></li>
-                    <li><a 
-                            href="#" 
-                            data-value="<?php echo $this->escapeHtml($transition->scene_destination->titre) ; ?>" 
-                            data-url="<?php echo $this->url('scene/removeScene', array('id' => $transition->scene_destination->id)) ?>"
-                            class="text-error SupprimerScene" >
-                                <i class="icon-trash"></i> Supprimer la scène
-                        </a>
-                    </li>
-                    <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $transition->scene_destination->id)) ?>"><i class="icon-mail-reply"></i></i> Ajouter une scène avant</a></li>
-                    <li><a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $transition->scene_destination->id)) ?>"><i class="icon-mail-forward icon-rotate-180"></i> Ajouter une scène après</a></li>
-                </ul>'
-                data-trigger="manual"
-                title="" ><?php echo $this->escapeHtml($transition->scene_destination->titre) ; ?>
-            </button><br>
-        <?php else : ?> 
-	        <a class="btn btn-large element popover-link" 
-	            href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>" >
-	            <?php echo $this->escapeHtml($transition->scene_destination->titre) ; ?>
-	        </a><br>
-		<?php endif; 
-		
-		// On avance dans le sous-parcours
-    	$transition = $transition->scene_destination->transition_recommandee;
-    	
-    	endwhile;
-    	
-    	// On est arrivé à la fin du sous-parcours
-    	if ($transition) : ?>
-			<!-- Il y a un sous-parcours suivant -->
-			<!-- On ferme la div du sous-parcours qu'on vient de finir -->
-			<!-- et on affiche la transition inter-sous-parcours -->
-			</div>
-			<div class='span4 offset4'>
-			<i class="icon-minus icon-rotate-270"></i><br>
-			<button class="btn btn-mini liaison popover-link" data-toggle="popover"
-				data-placement="right" data-html="true"
-				data-title='
-			    	        <?php echo ($transition->semantique) ? $this->escapeHtml($transition->semantique->semantique) : 'Semantique inconnue' ;?>
-			    	            				<?php if ($this->isAllowed('Parcours') === true) :?>
-			    	            				<a 
-				href="#" class="selectSemantiques"
-				data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-				data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-				<i class="icon-pencil"></i> </a>
-				<?php endif;?>
-				' data-content='
-				<?php if ($this->isAllowed('Parcours') === true) :?>
-				<span class="edit2 CursorPointer"
-					data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-					data-name="narration" data-type="textarea" data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-				</span>
-				<?php else : ?>
-				<?php echo $this->escapeHtml($transition->narration); ?>
-				<?php endif;?>
-				' data-trigger="manual" title="" >
-				<?php echo $this->escapeHtml($transition->narration);?>
-			</button><br> 
-			<i class="icon-arrow-down"></i><br>
-			</div>
-		<?php endif; 
-		// On passe au sous-parcours suivant
-		$sous_parcours = $sous_parcours->sous_parcours_suivant;
-	endwhile ; ?>
+	<!-- Menu de navigation dans le parcours -->
+	<div class="span4 well">
+		<h4> Chemin recommandé </h4>
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<ul class="nav nav-list">
+			<?php while ($sous_parcours != null) : ?>
+				<li class="nav-header strong"> <?php echo $sous_parcours->titre; ?> </li>
+				<?php 
+				$scene_depart = $sous_parcours->scene_depart;
+				$transition = $scene_depart->transition_recommandee;
+				?>
+				<li>
+					<a href="#<?php echo $scene_depart->id; ?> ">
+					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
+					</a>
+				</li>
+				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+					<li>
+						<a href="#<?php echo $transition->scene_destination->id; ?> ">
+						<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
+						</a>
+					</li>
+					<?php $transition = $transition->scene_destination->transition_recommandee;
+			 	endwhile;
+				$sous_parcours = $sous_parcours->sous_parcours_suivant;
+			endwhile; ?>
+		</ul>
 	</div>
-</div>
+	
+	<!-- Affichage du parcours -->
+	<div class="span8">
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<!-- On affiche les sous-parcours un à un -->
+		<?php while ($sous_parcours != null) : ?>
+			<div class="row-fluid">
+				
+				<div class="span6 elements sous_parcours">
+			    	<!-- Titre du sous-parcours -->
+			    	<?php echo $this->TitreSousParcoursWidget($sous_parcours); ?>
+					<hr/>
+					
+					<!-- Première scène du sous parcours  -->
+					<?php 
+					$scene_depart = $sous_parcours->scene_depart;?>
+					<?php echo $this->BoutonSceneWidget($scene_depart);?>
+					<?php echo $this->TransitionsSecondairesWidget($scene_depart); ?>
+					<br>
+					<!-- Transitions secondaires depuis cette scène -->
+					<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
+				
+				   	<?php  $transition = $scene_depart->transition_recommandee;
+				    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+				    	<!-- Tant qu'on est toujours dans le sous parcours -->
+				    	<!--  On affiche la transition -->
+				        <?php echo $this->TransitionWidget($transition); ?>
+				        <!-- On affiche la scène suivante -->
+				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); 
+				        echo $this->TransitionsSecondairesWidget($transition->scene_destination); ?>
+				        
+				        <br>
+						<!-- Transitions secondaires depuis cette scène -->
+						<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
+						<!-- On avance dans le sous-parcours -->
+						<?php $transition = $transition->scene_destination->transition_recommandee;
+			    	endwhile; ?>
+		    	</div>
+
+		    </div>
+		    
+	    	<!-- On est arrivé à la fin du sous-parcours -->
+	    	<?php if ($transition) : ?>
+				<!-- Il y a un sous-parcours suivant -->
+				<!-- et on affiche la transition inter-sous-parcours -->
+				<div class="row-fluid">
+					<div class='span6 elements'>
+						<?php echo $this->TransitionWidget($transition); ?>
+					</div>
+				</div>
+			<?php endif; ?>
+			
+			<!-- On passe au sous-parcours suivant -->
+			<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
+		endwhile ; ?>
+		
+	</div> <!-- /span8 -->
+	
+</div> <!-- /row-fluid -->
+
 
 <div id="confirmDiv"></div>
 <div id="modalDiv"></div>
+
 
 <?php
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
@@ -253,16 +170,25 @@ $this->inlineScript()->captureStart();
 ?>
     $(function() {
         // on active editable
-        $(".edit").editable({ mode: 'inline', });
+        $(".edit").editable({ mode: 'inline', emptytext: 'Vide'});
+        
+        /*$(".btnTransitionsSecondaires").click(function () {
+        	$(this).parent().parent().find('div.transitionsSecondaires').html('COUCOU');
+        });*/
         
         // afficher les popover et activer les champs editable
         $('.popover-link').click(function () {
             var t = $(this)
             $(this).popover('show');
-            $(".edit2").editable().on('save', function(e, params) {
+            $(".edit2").editable({emptytext: 'Vide'}).on('save', function(e, params) {
                 t.text(params.newValue);
             });
         });
+        
+        $(".popover-secondaires").click(function () {
+        	 $(this).popover('show');
+        }); 
+        
         // fermer les popover ouverte si on en ouvre une autre
         $('body').on('click', function (e) {
             $('.popover-link').each(function () {
@@ -275,7 +201,7 @@ $this->inlineScript()->captureStart();
         }); 
         <?php if ($this->isAllowed('Parcours') === true) :?>
 
-        // on affiche le modal avec les semmantiques
+        // on affiche le modal avec les semantiques
         $(".elements").on("click",".selectSemantiques", function(e){
             var dataURL = $(this).attr('data-url');
             var dataValue = $(this).attr('data-value');
@@ -320,24 +246,6 @@ $this->inlineScript()->captureStart();
                             document.location.reload();
                         }
                     );
-                }
-            });
-        });
-        // ajouter une scene avant ou apres
-        $(".ajScene").on("click", function(e){
-            var URL = $(this).attr('data-url');
-            $.ajax({
-                url: URL,
-                type: "POST",
-                data:{ name:'ajChamp', submit:'false' }, 
-                success:function(response){
-                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
-        
-                    $('form.ajChampForm').attr('action', URL);
-        
-                },
-                error: function(){
-                    alert('Impossible d\'ajouter des champ');
                 }
             });
         });

@@ -290,5 +290,28 @@ class UserRepository extends EntityRepository
 
         return $query->getQuery()->getSingleScalarResult();
     }
+    
+    /**
+     * Génère un mot de passe aléatoire
+     * 
+     * Génère un mot de passe aléatoire composé de caractères alphanumériques
+     * avec une longueur par défaut de 8 caractères.
+     * Crédit : http://stackoverflow.com/questions/6101956/generating-a-random-password-in-php/6101976#6101976
+     * 
+     * @param int $length Longueur du mot de passe (défaut : 8)
+     *  
+     * @return string 
+     */
+    public function generateRandomPassword( $length = 8 ){
+		$chars =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		
+		$str   = '';
+		$max   = strlen($chars) - 1;
+		
+		for ($i=0; $i < $length; $i++)
+			$str .= $chars[rand(0, $max)];
+		
+		return $str;
+    }
 
 }

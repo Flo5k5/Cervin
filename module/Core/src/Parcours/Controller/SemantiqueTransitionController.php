@@ -18,6 +18,13 @@ use Parcours\Entity\SemantiqueTransition;
 use Zend\Json\Json;
 use Exception;
 
+/**
+ * Controleur des sémantiques des transitions
+ *
+ * Permet la création, lecture, modification et suppression de la sémantique des transitions
+ *
+ * @property Doctrine\ORM\EntityManager $em Entity Manager
+ */
 class SemantiqueTransitionController extends AbstractActionController
 {
 

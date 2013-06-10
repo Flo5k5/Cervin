@@ -2,9 +2,18 @@
 $title = $scene->titre;
 $this->headTitle($title); ?>
 
+<style type="text/css">
+	.sous_parcours {
+		border-style: dashed;
+		border-width: 3px;
+		border-color: #006699;
+	}
+	
+</style>
+
 <div class="row-fluid">
 
-	<!-- Menu de navigation dasn le parcours -->
+	<!-- Menu de navigation dans le parcours -->
 	<div class="span4 well">
 		<h4> <i class="icon-road"></i> <?php echo $this->escapeHtml($scene->sous_parcours->parcours->titre); ?> </h4>
 		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
@@ -13,51 +22,65 @@ $this->headTitle($title); ?>
 		</a>
 		
 		<ul class="nav nav-list">
+			<li class="divider"></li>
 			<?php 
-			$scene_depart = $scene->sous_parcours->scene_depart;
-			$transition = $scene_depart->transition_recommandee;
-			$class = "";
-			if ($scene_depart == $scene) {
-				$class = "active";
-			}
-			?>
-			<li class="divider"></li>	
-			<li class="<?php echo $class; ?>">
-				<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
-				<?php echo $this->escapeHtml($scene_depart->titre); ?> 
-				</a>
-			</li>
+			$parcours = $scene->sous_parcours->parcours;
+			$sous_parcours = $parcours->sous_parcours_depart;
 			
-			<?php while ($transition != null) : ?>
-				<?php 
-				if ($transition->scene_destination == $scene) {
+			while ($sous_parcours != null) : 
+				if ($sous_parcours == $scene->sous_parcours) :
+					echo '<div class="sous_parcours">';
+				endif;
+				echo '<li class="nav-header">'. $sous_parcours->titre .'</li>';
+				$scene_depart = $sous_parcours->scene_depart;
+				$transition = $scene_depart->transition_recommandee;
+				$class = "";
+				if ($scene_depart == $scene) {
 					$class = "active";
-				} else {
-					$class = "";
-				} ?>
+				}
+				if ($sous_parcours == $scene->sous_parcours) :
+					echo '</div>';
+				endif;
+				?>
+					
 				<li class="<?php echo $class; ?>">
-					<table class="muted" border="0">
-					<tr>
-						<td> <small> <i class="icon-arrow-down"></i> </small> </td>
-						<td> <small> <?php echo $this->escapeHtml($transition->narration); ?> </small> </td>
-					</tr>
-					</table> 
-					<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
-					<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
+					<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene_depart->id)) ?>">
+					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
 					</a>
 				</li>
-				<?php $transition = $transition->scene_destination->transition_recommandee; ?>
-			<?php endwhile; ?>
+				
+				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
+					<?php 
+					if ($transition->scene_destination == $scene) {
+						$class = "active";
+					} else {
+						$class = "";
+					} ?>
+					<li class="<?php echo $class; ?>">
+						<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>">
+						<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
+						</a>
+					</li>
+					<?php $transition = $transition->scene_destination->transition_recommandee;
+			 	endwhile;
+				$sous_parcours = $sous_parcours->sous_parcours_suivant;
+			endwhile; ?>
 		</ul>
 	</div>
 
-	<!-- Fiche de la scène -->
+	<?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
+	
 	<div class="span8">
 	
 		<!-- Titre de la scène -->
 		<div class="page-header row-fluid">
 			<div class="span8">
-			<h1><i class="icon-file-alt"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+			<?php if ($estRecommandee) :?>
+				<h1><i class="icon-file-alt"></i> Scène recommandée </h1>
+			<?php else : ?>
+				<h1><i class="icon-file-alt"></i> Scène secondaire </h1>
+			<?php endif;?>
+			<h2> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h2>
 			</div>
 			<?php if ($this->isAllowed('Parcours') === true) :?>
 				<span class="btn-group span4 row-fluid">
@@ -69,6 +92,65 @@ $this->headTitle($title); ?>
 		    <?php endif; ?>
 		</div>
 		
+		<!-- Transitions autour de cette scène -->
+		<div class="row-fluid">
+		
+			<div class="span6">
+				<h5>Transitions secondaires entrantes</h5>
+				<table class="table">
+					<?php if ($transitions_secondaires == null) :?>
+						Aucune tansition secondaire ne mène à cette scène.
+					<?php else: ?>
+						<?php foreach ($transitions_secondaires as $transition) : ?>
+							<tr><td>
+								<ul class="nav nav-list">
+								<li>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_origine->id)) ?>"> 
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
+										<i class="icon-arrow-right"></i> 
+									</a>
+									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+									"<?php echo $this->escapeHtml($transition->narration); ?>"
+								</li>
+								</ul>
+							</td></tr>
+						<?php endforeach; ?>
+					<?php endif;?>
+				</table>
+			</div>
+			 
+			<div class="span6">
+				<h5>Transitions secondaires sortantes</h5>
+				<table class="table">
+					<?php if ($scene->transitions_secondaires == null 
+							|| $scene->transitions_secondaires->count() == 0) :?>
+						Aucune tansition secondaire ne part de cette scène.
+					<?php else: ?>
+						<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+							<tr><td>
+								<ul class="nav nav-list">
+								<li>
+									[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
+									"<?php echo $this->escapeHtml($transition->narration); ?>"
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
+										<i class="icon-arrow-right"></i> 
+										<i class="icon-file-alt"></i> 
+										<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+									</a>
+								</li>
+								</ul>
+							</td></tr>
+						<?php endforeach; ?>
+					<?php endif;?>
+		       	</table>
+			</div>
+			
+		</div>
+		
+		<hr>
+		
+		<!-- Fiche de la scène -->
 		<div class="row-fluid">
 		
 			<!-- Narration de la scène -->
@@ -77,28 +159,31 @@ $this->headTitle($title); ?>
 			</div>
 			
 			<!-- Eléments de la collection liés à la scène -->
-			<div class="span4 well">
-				<h4> A voir dans cette scène </h4>
-				<?php if ($scene->elements->count() == 0): ?>
-					Aucun élément de la collection n'est lié à cette scène.
-				<?php endif; ?>
-				<ul class="nav nav-list">
-				<?php foreach( ($scene->elements) as $element) : ?>
-					<?php if($element instanceof Collection\Entity\Artefact): ?>
-						<li>
-							<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id)); ?>">
-							<i class="icon-tag"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
-							</a>
-						</li>
-					<?php else : ?>
-						<li class="">
-							<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id)); ?>">
-							<i class="icon-picture"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
-							</a>
-						</li>
-					<?php endif;  ?>
-				<?php endforeach; ?>
-				</ul>
+			<div class="span4">
+				<div class="well">
+					<h4> A voir dans cette scène </h4>
+					<?php if ($scene->elements->count() == 0): ?>
+						Aucun élément de la collection n'est lié à cette scène.
+					<?php endif; ?>
+					<ul class="nav nav-list">
+					<?php foreach( ($scene->elements) as $element) : ?>
+						<?php if($element instanceof Collection\Entity\Artefact): ?>
+							<li>
+								<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id)); ?>">
+								<i class="icon-tag"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
+								</a>
+							</li>
+						<?php else : ?>
+							<li class="">
+								<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id)); ?>">
+								<i class="icon-picture"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
+								</a>
+							</li>
+						<?php endif;  ?>
+					<?php endforeach; ?>
+					</ul>
+				</div>
+				
 			</div>
 			
 		</div>

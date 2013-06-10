@@ -14,8 +14,10 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\Parcours;
+use Parcours\Entity\SousParcours;
 use Parcours\Form\ParcoursForm;
 use Parcours\Entity\TransitionRecommandee;
+use Parcours\Entity\SceneRecommandee;
 use Zend\Json\Json;
 
 /**
@@ -66,52 +68,71 @@ class ParcoursController extends AbstractActionController
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $escapeHtml = $viewHelperManager->get('escapeHtml');
-        $params = null;
 
-        if ($this->getRequest()->isXmlHttpRequest()) {
-          $params = $this->params()->fromPost();
-      }
+    	$params = null;
 
-      if(!isset($params["iSortCol_0"])){
-          $params["iSortCol_0"] = '0';
-      }
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    		$params = $this->params()->fromPost();
+    	}
+    	
+    	if(!isset($params["iSortCol_0"])){
+    		$params["iSortCol_0"] = '0';
+    	}
 
-      if(!isset($params["sSortDir_0"])){
-          $params["sSortDir_0"] = 'ASC';
-      }
-
-      $entityManager = $this->getEntityManager()
-      ->getRepository('Parcours\Entity\Parcours');
-
-      $dataTable = new \Parcours\Model\ParcoursDataTable($params);
-      $dataTable->setEntityManager($entityManager);
-
-      $dataTable->setConfiguration(array(
-          'titre',
-          'description'
-          ));
-
-      $aaData = array();
-
-      $paginator = null;
-
-      if(isset($params["conditions"])){
-          $conditions = json_decode($params["conditions"], true);
-          $paginator = $dataTable->getPaginator($conditions);
-      } else {
-          $paginator = $dataTable->getPaginator();
-      }
-
-      foreach ($paginator as $parcours) {
-
-          $titre = '';
-
-          $titre = '<a class="href-type-element" href="'
-          .$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
-          .$escapeHtml($parcours->titre).'
-          </a>';
-
-			//$titre = $parcours->titre;
+    	if(!isset($params["sSortDir_0"])){
+    		$params["sSortDir_0"] = 'ASC';
+    	}
+    	
+    	$entityManager = $this->getEntityManager()
+    					      ->getRepository('Parcours\Entity\Parcours');
+ 
+    	$dataTable = new \Parcours\Model\ParcoursDataTable($params);
+    	$dataTable->setEntityManager($entityManager);
+    
+    	$dataTable->setConfiguration(array(
+    		'titre',
+	        'description'
+    	));
+    
+    	$aaData = array();
+    	
+    	$paginator = null;
+    	
+    	if(isset($params["conditions"])){
+    		$conditions = json_decode($params["conditions"], true);
+    		$paginator = $dataTable->getPaginator($conditions);
+    	} else {
+    		$paginator = $dataTable->getPaginator();
+    	}
+    		
+    	foreach ($paginator as $parcours) {
+    		
+			$titre = '<a class="href-type-element" href="'
+							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
+							.$escapeHtml($parcours->titre).'
+						</a>';
+    		
+			$btn_supprimer = '<a href="#" 
+					data-url="'.$this->url()->fromRoute('parcours/supprimer', array('id' => $parcours->id)).'" 
+		    		class="btn btn-danger SupprimerParcours">
+						<i class="icon-trash"></i> Supprimer
+					</a>';
+    		
+    		$aaData[] = array(
+    				$titre,
+    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+    				$btn_supprimer
+    		);
+    	}
+    	
+    	$dataTable->setAaData($aaData);
+    
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    		return $this->getResponse()->setContent($dataTable->findAll());
+    	} else {
+    		return new ViewModel();
+    	}
+    }
 
 
           $aaData[] = array(
@@ -152,9 +173,37 @@ class ParcoursController extends AbstractActionController
 
     }
 
+<<<<<<< HEAD
     return new ViewModel(array('form'=>$form));
 }
 
+=======
+    public function supprimerAction() {
+    	$id = (int) $this->params()->fromRoute('id', 0);
+    	$parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+    	if ($parcours === null || $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	try {
+    		$parcours->sous_parcours_depart = null;
+    		foreach ($parcours->sous_parcours as $sous_parcours) {
+    			$sous_parcours->sous_parcours_suivant = null;
+    			$sous_parcours->scene_depart = null;
+    			$sous_parcours->parcours = null;
+    			//$this->getEntityManager()->remove($sous_parcours);
+    		}
+    		$this->getEntityManager()->remove($parcours);
+    		$this->getEntityManager()->flush();
+    	} catch (\Exception $e) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la suppression du parcours.'));
+    		return $this->getResponse()->setContent(Json::encode(true));
+    	}
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Le parcours a bien été supprimé.'));
+    	return $this->getResponse()->setContent(Json::encode(true));
+    }
+    
+>>>>>>> 3ba77991f3b3dbf50b25c68e7182b89610b05525
     /**
      * Affiche la fiche d'un parcours
      * 
@@ -354,4 +403,96 @@ echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
 
     }
 
+    public function ajouterSousParcoursAction()
+    {
+        $idsp = (int) $this->params('idsp', null);
+        $action = $this->params('type', null);
+        if (null === $idsp or null === $action) {
+            $this->getResponse()->setStatusCode(404);
+            return; 
+        }
+        $sousparcours = $this->getEntityManager()
+                ->getRepository('Parcours\Entity\SousParcours')
+                ->findOneBy(array('id'=>$idsp));
+
+        $newsp = new SousParcours();
+        $newsp->titre = 'Nouveau sous-parcours';
+        $newsp->description = 'Description à écrire';
+        $newsp->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+        $newsp->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+        $newScene = new SceneRecommandee();
+        $newScene->titre = 'Nouvelle scène';
+        $newScene->narration = 'Narration à écrire';
+        $newsp->addScene($newScene);
+        $newsp->scene_depart = $newScene;
+        $newTransitionRecommandee = new TransitionRecommandee();
+        $newTransitionRecommandee->narration = 'Nouvelle Transition';
+        $sousparcours->parcours->addSousParcours($newsp);
+        $newsp->parcours->addTransition($newTransitionRecommandee);
+        $this->getEntityManager()->persist($newTransitionRecommandee);
+        $this->getEntityManager()->persist($newScene);
+        $this->getEntityManager()->persist($newsp);
+        $this->getEntityManager()->flush();
+        switch ($action)
+        {
+            case 'ajAvant': // On ajoute un sous-parcours avant $sousparcours
+                if($sousparcours->parcours->sous_parcours_depart === $sousparcours)
+                {
+                    $sousparcours->parcours->sous_parcours_depart = $newsp;
+                    $newTransitionRecommandee->scene_origine = $newScene;
+                    $newTransitionRecommandee->scene_destination = $sousparcours->scene_depart;
+                    $newsp->sous_parcours_suivant = $sousparcours;
+                }
+                else
+                {
+                    $tr_before = $this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_destination'=>$sousparcours->scene_depart));
+                    $pass = $tr_before->scene_origine;
+                    $tr_before->scene_origine = $newScene;
+                    $this->getEntityManager()->flush();
+                    $newTransitionRecommandee->scene_origine = $pass;
+                    $sp_before = $pass->sous_parcours;
+                    $sp_before->sous_parcours_suivant = $newsp;
+                    $this->getEntityManager()->flush();
+                    $newsp->sous_parcours_suivant = $sousparcours;
+                    $newTransitionRecommandee->scene_destination = $newScene;
+                }
+            break;
+            case 'ajApres': // On ajoute un sous-parcours après $sousparcours
+                if($sousparcours->sous_parcours_suivant === null)
+                {
+                    foreach ($sousparcours->scenes as $scene)
+                    {
+                        if($this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_origine'=>$scene))
+                            === null)
+                        {
+                            $last_scene = $scene;
+                            break;
+                        }
+                    }
+                    $newTransitionRecommandee->scene_origine = $last_scene;
+                }
+                else
+                {
+                    $tr_after = $this->getEntityManager()
+                            ->getRepository('Parcours\Entity\TransitionRecommandee')
+                            ->findOneBy(array('scene_destination'=>$sousparcours->sous_parcours_suivant->scene_depart));
+                    $pass = $tr_after->scene_origine;
+                    $tr_after->scene_origine= $newScene;
+                    $newTransitionRecommandee->scene_origine = $pass;
+                }
+                $pass = $sousparcours->sous_parcours_suivant;
+                $sousparcours->sous_parcours_suivant = $newsp;
+                $this->getEntityManager()->flush();
+                $newsp->sous_parcours_suivant = $pass;
+                $newTransitionRecommandee->scene_destination = $newScene;
+            break;
+        }
+        $this->getEntityManager()->flush();
+        $this->flashMessenger()->addSuccessMessage(sprintf('Le sous-parcours a bien été ajouté'));
+        return $this->redirect()->toRoute('parcours/voir', array('id' => $sousparcours->parcours->id));
+    }
 }

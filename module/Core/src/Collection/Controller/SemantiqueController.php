@@ -98,6 +98,7 @@ class SemantiqueController extends AbstractActionController
 		    $dataTable->setConfiguration(array(
 		    	'type_origine',
 		    	'semantique',
+		    	'description',
 		    	'type_destination'
 		    	));
 	
@@ -128,6 +129,11 @@ class SemantiqueController extends AbstractActionController
 	                	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
 	                	data-name="semantique" data-type="text" data-pk="1"> '.
 	        			$escapeHtml($semantique->semantique) .
+	            	'</span>',
+	            	'<span class="edit CursorPointer"
+	                	data-url="'.$this->url()->fromRoute("semantique/modifier", array("id" => $semantique->id)).'"
+	                	data-name="description" data-type="textarea" data-pk="1"> '.
+	        			$escapeHtml($semantique->description) .
 	            	'</span>',
 	                '<span> '. $semantique->type_destination->nom .' </span>',
 	                $btn_supprimer
@@ -213,8 +219,14 @@ class SemantiqueController extends AbstractActionController
 				return; 
 			}
 			$request = $this->params()->fromPost();
-			$SemantiqueArtefact->semantique = $request['value'];
-			$this->getEntityManager()->persist($SemantiqueArtefact);
+			switch ($request['name']) {
+				case 'semantique':
+					$SemantiqueArtefact->semantique = $request['value'];
+					break;
+				case 'description':
+					$SemantiqueArtefact->description = $request['value'];
+					break;
+        	}
 	    	$this->getEntityManager()->flush();
 			return $this->getResponse()->setContent(Json::encode(true));
 		} else {

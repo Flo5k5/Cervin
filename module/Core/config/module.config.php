@@ -411,6 +411,19 @@ return array(
                             ),
                         ),
                     ),
+                	'supprimer' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/supprimer/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'supprimer',
+                			),
+                		),
+                	),
                     'modifierTransition' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -447,6 +460,21 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Parcours',
                                 'action'     => 'voirParcourHalviz',
+                            ),
+                        ),
+                    ),
+                    'ajouterSousParcours' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/ajouterSousParcours/:type/:idsp',
+                            'constraints' => array(
+                                'type'     => 'ajAvant|ajApres',
+                                'idsp'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Parcours',
+                                'action'     => 'ajouterSousParcours',
+
                             ),
                         ),
                     ),

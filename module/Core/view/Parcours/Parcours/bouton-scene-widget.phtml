@@ -1,0 +1,70 @@
+<style type="text/css">
+
+	.element {
+		width: 208px;
+		text-align: center;
+		padding: 20px 10px 20px 10px;
+	} 
+
+</style>
+
+<?php if ($this->isAllowed('Parcours') === true) :?>
+	<a name="<?php echo $scene->id;?>"></a>
+	<button class="btn btn-large btn-info element popover-link" data-toggle="popover"
+		data-placement="right" data-html="true"
+		data-title='
+			<?php if ($this->isAllowed('Parcours') === true) :?>
+		        <span class="edit2 CursorPointer"
+		        	data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"
+		            data-name="titre" 
+		            data-type="text"
+		            data-pk="1">
+		            <?php echo $this->escapeHtml($scene->titre); ?>
+		        </span>
+	        <?php else :
+	              echo $this->escapeHtml($scene->titre);
+	       	endif; ?>
+		'
+		data-content='
+		    <ul class="nav nav-list">
+				<li>
+					<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene->id)) ?>">
+						<i class="icon-eye-open"></i> Voir la scene
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('scene/editScene', array('id' => $scene->id)) ?>">
+						<i class="icon-pencil"></i> Modifier la scene
+					</a>
+				</li>
+				<li>
+					<a href="#"
+					data-value="<?php echo $this->escapeHtml($scene->titre) ; ?>"
+					data-url="<?php echo $this->url('scene/removeScene', array('id' => $scene->id)) ?>"
+					class="text-error SupprimerScene"> 
+						<i class="icon-trash"></i>
+						Supprimer la scène
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajAvant','id' => $scene->id)) ?>">
+						<i class="icon-mail-reply"></i>Ajouter une scène avant
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('scene/ajouterScene', array('type' => 'ajApres','id' => $scene->id)) ?>">
+						<i class="icon-rotate-180 icon-mail-forward "></i> Ajouter une scène après
+					</a>
+				</li>
+			</ul>' 
+		data-trigger="manual" 
+		title="" 
+	>
+		<?php echo $this->escapeHtml($scene->titre) ; ?>
+	</button>
+<?php else : ?>
+	<a class="btn btn-large element popover-link"
+		href="<?php echo $this->url('scene/voirScene', array('id' => $scene->id)) ?>">
+		<?php echo $this->escapeHtml($scene->titre) ; ?>
+	</a>
+<?php endif; ?>

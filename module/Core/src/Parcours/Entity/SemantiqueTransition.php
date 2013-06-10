@@ -15,6 +15,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Table(name="mbo_semantiquetransition")
  * @property int $id 
  * @property string $semantique
+ * @property string $description
  */
 class SemantiqueTransition implements InputFilterAwareInterface
 {
@@ -61,9 +62,9 @@ class SemantiqueTransition implements InputFilterAwareInterface
     }
 
     /**
-     * Convert the object to an array.
+     * Retourne l'objet sous forme de tableau
      *
-     * @return array
+     * @return array Objet au format tableau
      */
     public function getArrayCopy()
     {
