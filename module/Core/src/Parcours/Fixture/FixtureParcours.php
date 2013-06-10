@@ -154,20 +154,19 @@ class FixtureParcours implements FixtureInterface
 		$parcours = new Parcours\Entity\Parcours();
 		$parcours->titre = "L'histoire de l'informatique à Grenoble";
 		$parcours->description = "Grenoble est l'un des principaux centres d'activité informatique en France, caractérisé par une synergie entre formation, recherche et industrie. Ce parcours retrace les principales étapes du développement de l'informatique à Grenoble et dans sa région.";
-		$parcours->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
 		$parcours->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+		$parcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$sous_parcours_debut = $parcours->sous_parcours_depart;
 		$sous_parcours_debut->titre = "Les débuts (1950-1965)";
 		$sous_parcours_debut->description = "Dans les années 1950, la France souffre d'un important retard en informatique. Néanmoins, grâce à leur clairvoyance et à leur ténacité, quelques précurseurs sauront créer les formations, les infrastructures de recherche et les collaborations industrielles qui permettront le développement de cette nouvelle discipline et de ses applications.";
-		$sous_parcours_debut->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		$sous_parcours_debut->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$sous_parcours_developpement = new Parcours\Entity\SousParcours();
 		$sous_parcours_developpement->titre = "Développement, perturbations (1965-1980)";
 		$sous_parcours_developpement->description = "La période 1965-1980 voit se développer l'industrie informatique à Grenoble (création de Sogeti, implantation de Hewlett-Packard, naissance de la ZIRST). Mais c'est aussi une période de fortes perturbations : restructurations en série dans le domaine des mini-ordinateurs, chemin cahoteux vers la consolidation d'une industrie nationale des semi-conducteurs, fortes restrictions de crédits pour l'enseignement supérieur et la recherche, crise de croissance de l'IMAG.";
-		$sous_parcours_developpement->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		$sous_parcours_developpement->transitions = new \Doctrine\Common\Collections\ArrayCollection();
+		$sous_parcours_developpement->scenes = new \Doctrine\Common\Collections\ArrayCollection();
 		
 		$parcours->addSousParcours($sous_parcours_developpement);
 		
@@ -191,7 +190,7 @@ class FixtureParcours implements FixtureInterface
 		 * Premier sous-parcours
 		 * Première scène
 		 */
-		$scene1 = new Parcours\Entity\SceneRecommandee();
+		$scene1 = $sous_parcours_debut->scene_depart;
 		$scene1->titre = "Tout commence par le calcul";
 		$scene1->narration = "
 				<br>
@@ -217,8 +216,6 @@ class FixtureParcours implements FixtureInterface
 		$scene1->elements->add($jean_kuntzmann);
 		$scene1->elements->add($gamma_3);
 		
-		$sous_parcours_debut->addScene($scene1);
-		$sous_parcours_debut->scene_depart = $scene1;
 		$manager->flush();
 		
 		/*
