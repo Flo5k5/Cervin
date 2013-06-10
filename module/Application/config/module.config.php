@@ -141,6 +141,20 @@ return array(
         ),
     ),
     'doctrine' => array(
+		'eventmanager' => array(
+            'orm_default' => array(
+                'subscribers' => array(
+					
+					// https://github.com/l3pp4rd/DoctrineExtensions/blob/master/doc/zendframework2.md
+                    // pick any listeners you need
+                    //'Gedmo\Tree\TreeListener',
+                    //'Gedmo\Timestampable\TimestampableListener',
+                    //'Gedmo\Sluggable\SluggableListener',
+                    'Gedmo\Loggable\LoggableListener'
+                    //'Gedmo\Sortable\SortableListener'
+                ),
+            ),
+        ),
         'driver' => array(
             // overriding zfc-user-doctrine-orm's config
             'zfcuser_entity' => array(
