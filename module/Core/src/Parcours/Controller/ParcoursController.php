@@ -68,7 +68,6 @@ class ParcoursController extends AbstractActionController
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $escapeHtml = $viewHelperManager->get('escapeHtml');
-
     	$params = null;
 
     	if ($this->getRequest()->isXmlHttpRequest()) {
@@ -134,22 +133,6 @@ class ParcoursController extends AbstractActionController
     	}
     }
 
-
-          $aaData[] = array(
-            $titre,
-            $dataTable->truncate($parcours->description, 250, ' ...', false, true)
-            );
-      }
-
-      $dataTable->setAaData($aaData);
-
-      if ($this->getRequest()->isXmlHttpRequest()) {
-          return $this->getResponse()->setContent($dataTable->findAll());
-      } else {
-          return new ViewModel();
-      }
-  }
-
   public function ajouterAction()
   {
     $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
@@ -172,12 +155,9 @@ class ParcoursController extends AbstractActionController
         }
 
     }
-
-<<<<<<< HEAD
     return new ViewModel(array('form'=>$form));
 }
 
-=======
     public function supprimerAction() {
     	$id = (int) $this->params()->fromRoute('id', 0);
     	$parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
@@ -203,7 +183,6 @@ class ParcoursController extends AbstractActionController
     	return $this->getResponse()->setContent(Json::encode(true));
     }
     
->>>>>>> 3ba77991f3b3dbf50b25c68e7182b89610b05525
     /**
      * Affiche la fiche d'un parcours
      * 
