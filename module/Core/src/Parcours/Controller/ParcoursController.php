@@ -299,6 +299,8 @@ class ParcoursController extends AbstractActionController
      */
     public function voirParcourHalvizAction()
     {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
        // $id = (int) $this->params('id', null);
         $id = 1;
         $Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
@@ -314,14 +316,15 @@ class ParcoursController extends AbstractActionController
 $chl = '';
 
 foreach ($Parcour->sous_parcours as $sous_parcour) {
-  $chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$sous_parcour->titre.'";';
+  $chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$escapeHtml($sous_parcour->titre).'";';
   foreach ( $sous_parcour->scenes as $scene) {
-    $chl .= 's'.$scene->id.'[label="'.$scene->titre.'", color=orange] ';
+    $chl .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box] ';
 
 
   }
   foreach ( $sous_parcour->transitions as $transition) {
-    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$transition->semantique->semantique.'"]';
+    $color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
+    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.']';
 
   }
   $chl .= '}';
@@ -329,7 +332,7 @@ foreach ($Parcour->sous_parcours as $sous_parcour) {
 }
   foreach ( $Parcour->transitions as $transition) {
 
-    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$transition->semantique->semantique.'", color=red] ';
+    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color=red] ';
   }
 
 

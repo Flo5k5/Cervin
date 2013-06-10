@@ -1,109 +1,35 @@
+
 <html>
 <head>
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<?php
+
+
+$this->headScript()->appendFile($this->basePath() . '/js/canviz/prototype.js');
+$this->headScript()->appendFile($this->basePath() . '/js/canviz/path.js');
+echo $this->headScript()->appendFile($this->basePath() . '/js/canviz/canviz.js');
+
+?>
+<script type="text/javascript">
+
+function click_node(node) {
+	$('click_output').update('You clicked "' + node + '"');
+}
+
+document.observe('dom:loaded', function() {
+	new Canviz('canviz', "digraph hello_world {	node [href='javascript:void(click_node('\N'))']	hello:e->world:w}");
+});
+
+</script>
 </head>
 <body>
 
+<div class="graph">
+	<div id="canviz"></div>
+</div>
 
+<p id="click_output"></p>
 
-
-
-
-<?php
-
-
-foreach ($Parcour->sous_parcours as $sous_parcour) {
-	foreach ( $sous_parcour->scenes as $scene) {
-		echo 's'.$scene->id.' {label:'.$scene->titre.', color:orange}\n';
-
-
-	}
-	foreach ( $sous_parcour->transitions as $transition) {
-		echo 's'.$transition->scene_origine->id.'--'.'t'.$transition->id.'\n';
-		echo 't'.$transition->id.' {label:'.$transition->narration.', color:grey}\n';
-		echo 't'.$transition->id.'->'.'s'.$transition->scene_destination->id.'\n';
-
-	}
-	foreach ( $Parcour->transitions as $transition) {
-
-		echo 's'.$transition->scene_origine->id.'--'.'t'.$transition->id.' {color:black, weight:2}\n';
-		echo 't'.$transition->id.' {label:'.$transition->narration.', color:grey}\n';
-		echo 't'.$transition->id.'->'.'s'.$transition->scene_destination->id.' {color:black, weight:2}\n';
-	}
-}
-
-echo '<br>';
-echo '<br>';
-echo '<br>';
-echo '<br>';
-
-
-foreach ($Parcour->sous_parcours as $sous_parcour) {
-	foreach ( $sous_parcour->scenes as $scene) {
-		echo 's'.$scene->id.'+[label="'.$scene->titre.'",+color=orange]+';
-
-
-	}
-	foreach ( $sous_parcour->transitions as $transition) {
-		echo 's'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$transition->semantique->semantique.'"]';
-
-	}
-
-}
-	foreach ( $Parcour->transitions as $transition) {
-
-		echo 's'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$transition->semantique->semantique.'",color=red]+';
-	}
-
-?>
+<div id="debug_output"></div>
 
 </body>
-</html
-
-<?php
-
-/*
-echo 'nodes:{';
-foreach ($Parcour->sous_parcours as $sous_parcour) {
-	foreach ( $sous_parcour->scenes as $scene) {
-		echo 's'.$scene->id." {'label':'".$scene->titre."', 'color':orange}<br>";
-	}
-	foreach ( $sous_parcour->transitions as $transition) {
-		echo 't'.$transition->id." {'label':'".$transition->narration."', 'color':'grey'}<br>";
-
-	}
-	foreach ( $Parcour->transitions as $transition) {
-
-		echo 't'.$transition->id." {'label':'".$transition->narration."', 'color':'grey'}<br>";
-	}
-}
-echo '}';
-
-echo 'edges:{';
-foreach ($Parcour->sous_parcours as $sous_parcour) {
-	foreach ( $sous_parcour->transitions as $transition) {
-		echo 's'.$transition->scene_origine->id.'--'.'t'.$transition->id.'<br>';
-		echo 't'.$transition->id.'->'.'s'.$transition->scene_destination->id.'<br>';
-		echo "s:{ dog:{}, cat:{} }"
-	}
-	foreach ( $Parcour->transitions as $transition) {
-
-		echo 's'.$transition->scene_origine->id.'--'.'t'.$transition->id.' {color:black, weight:2}<br>';
-		echo 't'.$transition->id.'->'.'s'.$transition->scene_destination->id.' {color:black, weight:2}<br>';
-	}
-}
-echo '}';
-
-?>
-
-nodes:{
-animals:{'color':'red','shape':'dot','label':'Animals'},
-dog:{'color':'green','shape':'dot','label':'dog'},
-cat:{'color':'blue','shape':'dot','label':'cat'}
-},
-edges:{
-animals:{ dog:{}, cat:{} }
-}
-*/
-?>
+</html>
