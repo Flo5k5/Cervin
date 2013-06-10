@@ -450,6 +450,19 @@ return array(
                             ),
                         ),
                     ),
+                    'voirParcourHalviz' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/voirParcourHalviz[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Parcours',
+                                'action'     => 'voirParcourHalviz',
+                            ),
+                        ),
+                    ),
                     'ajouterSousParcours' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -461,6 +474,7 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Parcours',
                                 'action'     => 'ajouterSousParcours',
+
                             ),
                         ),
                     ),
