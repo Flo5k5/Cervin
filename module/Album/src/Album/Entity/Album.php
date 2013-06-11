@@ -6,11 +6,14 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
- 
+use Gedmo\Mapping\Annotation as Gedmo; // this will be like an alias for Gedmo extensions annotations
+
 /**
 * A music album.
 *
 * @ORM\Entity
+* @Gedmo\TranslationEntity(class="something")
+* @Gedmo\Loggable
 * @ORM\Table(name="album")
 * @property string $artist
 * @property string $title
@@ -24,10 +27,13 @@ class Album implements InputFilterAwareInterface
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Gedmo\Slug(fields={"title"}, updatable=false, separator="_")
 	 */
 	protected $id;
 	 
 	/**
+	 * @Gedmo\Translatable
+	 * @Gedmo\Versioned
 	 * @ORM\Column(type="string")
 	 */
 	protected $artist;
@@ -36,7 +42,19 @@ class Album implements InputFilterAwareInterface
 	 * @ORM\Column(type="string")
 	 */
 	protected $title;
-	 
+
+	/**
+	 * @Gedmo\Timestampable(on="create")
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	private $created;
+
+	/**
+	 * @Gedmo\Timestampable(on="update")
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	private $updated;
+
 	/**
 	 * Magic getter to expose protected properties.
 	 *
