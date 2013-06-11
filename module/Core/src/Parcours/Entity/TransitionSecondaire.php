@@ -10,8 +10,10 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une transition secondaire
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_transitionsecondaire")
+ * 
  * @property Parcours\Entity\Scene $scene_origine Scène d'origine de la transition secondaire
  * @property Parcours\Entity\Scene $scene_destination Scène de destination de la transition secondaire
  */

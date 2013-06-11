@@ -11,6 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une relation entre deux artefacts
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_artefact_artefact")
  * 

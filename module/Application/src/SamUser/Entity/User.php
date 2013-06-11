@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * An example of how to implement a role aware user entity.
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity(repositoryClass="SamUser\Entity\UserRepository")
  * @ORM\Table(name="mbo_users")
  * 
