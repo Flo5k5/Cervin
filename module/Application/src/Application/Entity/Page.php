@@ -12,8 +12,10 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Une page
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_page")
+ * 
  * @property int $id
  */
 class Page implements InputFilterAwareInterface

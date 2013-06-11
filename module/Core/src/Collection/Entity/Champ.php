@@ -13,8 +13,10 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Entité d'un champ d'un type d'élément
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_champ")
+ * 
  * @property int $id Identifiant unique du champ
  * @property string $label Label du champ (nom du champ)
  * @property string $description Description du champ (sert d'aide à la saisie pour l'utilisateur)

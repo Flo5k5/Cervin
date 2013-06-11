@@ -13,8 +13,10 @@ use Parcours\Entity\Scene;
 /**
  * Entité d'un parcours
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_parcours")
+ * 
  * @property int $id Id du parcours
  * @property string $titre Titre du parcours
  * @property string $description Description du parcours

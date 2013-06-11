@@ -10,8 +10,10 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une transition recommandée
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_transitionrecommandee")
+ * 
  * @property Parcours\Entity\SceneRecommandee $scene_origine Scène d'origine de la transition recommandée
  * @property Parcours\Entity\SceneRecommandee $scene_destination Scène de destination de la transition recommandée
  */

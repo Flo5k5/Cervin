@@ -17,6 +17,7 @@ use Collection\Entity\Element;
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_media")
+ * 
  * @property \Collection\Entity\Artefact $artefacts Les artefacts liés à ce média
  */
 class Media extends Element

@@ -14,6 +14,7 @@ use Zend\InputFilter\InputFilterInterface;
  * Un objet data se spécialise en DataTexte, DataUrl, DataDate, Datafichier, DataTextarea, ou DataNombre
  * selon le format de la donnée qu'il contient défini par le champ auquel il est associé
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_data")
  * @ORM\InheritanceType("JOINED")
@@ -24,6 +25,7 @@ use Zend\InputFilter\InputFilterInterface;
  *                        "DataTexte" = "DataTexte", 
  *                        "DataUrl" = "DataUrl", 
  *                        "DataTextarea" = "DataTextarea"})
+ * 
  * @property int $id Identifiant unique du data
  * @property \Collection\Entity\Element $element L'élément de la collection auquel se rapporte le data
  * @property \Collection\Entity\Champ $champ Le data contient la valeur du champ $champ de l'élément $element

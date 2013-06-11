@@ -17,6 +17,7 @@ use Collection\Entity\Element;
  *
  * @ORM\Entity(repositoryClass="Collection\Entity\ArtefactRepository")
  * @ORM\Table(name="mbo_artefact")
+ * 
  * @property \Collection\Entity\Media $medias L'ensemble des médias qui sont liés à l'artefact
  * @property \Collection\Entity\RelationArtefacts $relations_origine L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
  * @property \Collection\Entity\RelationArtefacts $relations_destination L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour destination l'artefact

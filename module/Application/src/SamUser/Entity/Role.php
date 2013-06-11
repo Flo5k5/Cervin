@@ -14,9 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * An example entity that represents a role.
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_role")
- *
+ * 
  * @author Tom Oram <tom@scl.co.uk>
  */
 class Role implements HierarchicalRoleInterface

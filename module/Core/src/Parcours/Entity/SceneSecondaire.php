@@ -10,6 +10,7 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une scène secondaire
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_scenesecondaire")
  */

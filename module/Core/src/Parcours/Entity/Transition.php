@@ -11,6 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une transition
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_transition")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -18,6 +19,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\DiscriminatorMap({"TransitionRecommandee"   = "TransitionRecommandee",
  *                        "TransitionSecondaire"    = "TransitionSecondaire",
  *                        "TransitionInterParcours" = "TransitionInterParcours"})
+ * 
  * @property int $id Id d'une transition
  * @property string $narration
  * @property Parcours\Entity\SemantiqueTransition $semantique
