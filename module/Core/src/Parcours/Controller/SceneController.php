@@ -298,9 +298,14 @@ class SceneController extends AbstractActionController
 			return;
 		}
 		
+		$SemantiqueTransitions = $this->getEntityManager()
+			->getRepository('Parcours\Entity\SemantiqueTransition')
+			->findBy(array(), array('semantique'=>'asc'));
+		
 		return new ViewModel(array(
 				'scene' => $scene,
-				'transitions_secondaires' => $transitions_secondaires
+				'transitions_secondaires' => $transitions_secondaires,
+				'SemantiqueTransitions'=>$SemantiqueTransitions
 		));
 	}
 

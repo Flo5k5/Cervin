@@ -133,29 +133,29 @@ class ParcoursController extends AbstractActionController
     	}
     }
 
-  public function ajouterAction()
-  {
-    $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-    $escapeHtml        = $viewHelperManager->get('escapeHtml');
-    $form              = new ParcoursForm();
-    $Parcours          = new Parcours();
-    $request           = $this->getRequest();
-    $form->bind($Parcours);
-
-    if ($request->isPost()) {
-
-        $form->setInputFilter($Parcours->getInputFilter());
-        $form->setData($request->getPost());
-
-        if ($form->isValid()) {
-            $this->getEntityManager()->persist($Parcours);
-            $this->getEntityManager()->flush();
-            $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
-            return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
-        }
-
-    }
-    return new ViewModel(array('form'=>$form));
+  	public function ajouterAction()
+  	{
+	    $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+	    $escapeHtml        = $viewHelperManager->get('escapeHtml');
+	    $form              = new ParcoursForm();
+	    $Parcours          = new Parcours();
+	    $request           = $this->getRequest();
+	    $form->bind($Parcours);
+	
+	    if ($request->isPost()) {
+	
+	        $form->setInputFilter($Parcours->getInputFilter());
+	        $form->setData($request->getPost());
+	
+	        if ($form->isValid()) {
+	            $this->getEntityManager()->persist($Parcours);
+	            $this->getEntityManager()->flush();
+	            $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
+	            return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
+	        }
+	
+	    }
+	    return new ViewModel(array('form'=>$form));
 	}
 
     public function supprimerAction() {
@@ -259,11 +259,11 @@ class ParcoursController extends AbstractActionController
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $id = (int) $this->params('id', null);
-            $TransitionRecommandee = $this->getEntityManager()
-            ->getRepository('Parcours\Entity\TransitionRecommandee')
-            ->findOneBy(array('id'=>$id));
-            
-            if ($TransitionRecommandee === null || $id === null) {
+            $Transition = $this->getEntityManager()
+	            ->getRepository('Parcours\Entity\Transition')
+	            ->findOneBy(array('id'=>$id));
+	            
+            if ($Transition === null || $id === null) {
                 $this->getResponse()->setStatusCode(404);
                 return;
             }
@@ -274,13 +274,13 @@ class ParcoursController extends AbstractActionController
                 $SemantiqueTransition = $this->getEntityManager()
                 ->getRepository('Parcours\Entity\SemantiqueTransition')
                 ->findOneBy(array('id'=>$request['value']));
-                $TransitionRecommandee->semantique = $SemantiqueTransition;
+                $Transition->semantique = $SemantiqueTransition;
                 $this->getEntityManager()->flush();
-                return $this->getResponse()->setContent(Json::encode(array('return'=>$TransitionRecommandee->semantique->semantique)));
+                return $this->getResponse()->setContent(Json::encode(array('return'=>$Transition->semantique->semantique)));
                 break;
 
                 case 'narration':
-                $TransitionRecommandee->narration = $request['value'];
+                $Transition->narration = $request['value'];
                 $this->getEntityManager()->flush();
                 return $this->getResponse()->setContent(Json::encode(true));
                 break;
@@ -289,7 +289,6 @@ class ParcoursController extends AbstractActionController
                 	$this->getResponse()->setStatusCode(404);
                 	break;
             }
-
         } else {
         	$this->getResponse()->setStatusCode(404);
         }

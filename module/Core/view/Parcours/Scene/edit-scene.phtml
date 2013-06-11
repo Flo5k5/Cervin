@@ -52,17 +52,26 @@ $this->headTitle($title);
 			<?php else: ?>
 				<?php foreach ($transitions_secondaires as $transition) : ?>
 					<tr><td>
-						<ul class="nav nav-list">
-						<li>
-							<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_origine->id)) ?>"> 
-								<i class="icon-file-alt"></i>  
-								<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
-								<i class="icon-arrow-right"></i> 
-							</a>
-							[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
-							"<?php echo $this->escapeHtml($transition->narration); ?>"
-						</li>
-						</ul>
+						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_origine->id)) ?>"> 
+							<i class="icon-file-alt"></i> 
+							<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
+							<i class="icon-arrow-right"></i> 
+						</a>
+						<br>
+						[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>
+						<a href="#" 
+			            	class="selectSemantiques" 
+			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+			                <i class="icon-pencil"></i>
+			            </a>]
+			            
+			            <span class="edit CursorPointer"
+				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+				            data-name="narration" 
+				            data-type="text" 
+				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+				        </span>
 					</td></tr>
 				<?php endforeach; ?>
 			<?php endif;?>
@@ -78,17 +87,27 @@ $this->headTitle($title);
 			<?php else: ?>
 				<?php foreach ($scene->transitions_secondaires as $transition) : ?>
 					<tr><td>
-						<ul class="nav nav-list">
-						<li>
-							[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>]
-							"<?php echo $this->escapeHtml($transition->narration); ?>"
-							<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
-								<i class="icon-arrow-right"></i> 
-								<i class="icon-file-alt"></i> 
-								<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
-							</a>
-						</li>
-						</ul>
+						[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>
+						<a href="#" 
+			            	class="selectSemantiques" 
+			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+			                <i class="icon-pencil"></i>
+			            </a>]
+			            
+			            <span class="edit CursorPointer"
+				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+				            data-name="narration" 
+				            data-type="text" 
+				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+				        </span>
+			            
+						<br>
+						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_destination->id)) ?>"> 
+							<i class="icon-arrow-right"></i> 
+							<i class="icon-file-alt"></i> 
+							<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+						</a>
 					</td></tr>
 				<?php endforeach; ?>
 			<?php endif;?>
@@ -235,6 +254,32 @@ $this->headTitle($title);
 			mode: 'inline',
 			emptytext: 'Vide'
 		});
+		
+		// on affiche le modal avec les semantiques
+        $(".selectSemantiques").on("click", function(e){
+            var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+
+            var body = new String('<form id="semantiqueTransitions" action="'+dataURL+'"><dl><?php foreach ($SemantiqueTransitions as $semantique) { ?><label class="radio"><dt><input type="radio" name="SemantiqueTransitions" id="SemantiqueTransitions<?php echo $this->escapeHtml($semantique->id) ;?>" value="<?php echo $this->escapeHtml($semantique->id) ;?>" ><?php echo $this->escapeHtml($semantique->semantique) ;?></dt><dd><?php echo $this->escapeHtml($semantique->description) ;?></dd></label><?php } ?></dl></form>');
+            body = body.replace('id="SemantiqueTransitions'+dataValue+'"', 'id="SemantiqueTransitions'+dataValue+'" checked="checked"' );
+            $('#confirmDiv').confirmModal({
+                heading:"Sélectionner le type de Semantique",
+                body:body,
+                callback: function() {
+                    var $form = $('#semantiqueTransitions');
+                    var inputVal = $form.find( 'input[name="SemantiqueTransitions"]:checked' ).val();
+                    var URL = $form.attr( 'action' );
+                     $.post(
+                        dataURL,
+                        { name: "semantique",value:inputVal },
+                        function() {
+                        	document.location.reload();
+                        }
+                    );
+                }
+            });
+            $('#SemantiqueTransitions'+dataValue).prop('checked');
+        });
 		
     });
     
