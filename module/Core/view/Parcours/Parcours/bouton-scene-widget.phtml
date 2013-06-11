@@ -10,8 +10,10 @@
 
 <?php if ($this->isAllowed('Parcours') === true) :?>
 	<a name="<?php echo $scene->id;?>"></a>
-	<button class="btn btn-large btn-info element popover-link" data-toggle="popover"
-		data-placement="right" data-html="true"
+	<button class="btn btn-large btn-info element popover-link" 
+		data-toggle="popover"
+		data-placement="right" 
+		data-html="true"
 		data-title='
 			<?php if ($this->isAllowed('Parcours') === true) :?>
 		        <span class="edit2 CursorPointer"
