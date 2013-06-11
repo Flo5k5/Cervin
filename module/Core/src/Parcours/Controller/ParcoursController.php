@@ -298,22 +298,48 @@ class ParcoursController extends AbstractActionController
      */
     public function voirParcourHalvizAction()
     {
-    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-    	$escapeHtml = $viewHelperManager->get('escapeHtml');
-    	// $id = (int) $this->params('id', null);
-    	$id = 1;
-    	$Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-    	if ($Parcour === null || $id === null) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
+      $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+      $escapeHtml = $viewHelperManager->get('escapeHtml');
+      // $id = (int) $this->params('id', null);
+      $id = 1;
+      $Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+      if ($Parcour === null || $id === null) {
+          $this->getResponse()->setStatusCode(404);
+          return;
+      }
+
+      // création du dot 
+      $dot = '';
+      foreach ( $Parcour->transitions as $transition) {
+        $dot .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color="red"];';
+      }
+      foreach ($Parcour->sous_parcours as $sous_parcour) {
+        $dot .= ' subgraph cluster_'.$sous_parcour->id.' { color=blue; label = "'.$escapeHtml($sous_parcour->titre).'";';
+        foreach ( $sous_parcour->scenes as $scene) {
+          $dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box];';
+        }
+        foreach ( $sous_parcour->transitions as $transition) {
+          $color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
+          $dot .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.'];';
+        }
+        $dot .= '}';
+      }
+/*$file = 'public/cache/canviz.gv';
+
+$current = file_get_contents($file);
+$current .= $dot;
+file_put_contents($file, $current); 
+$file = 'cache/canviz.gv';
+
+
 
     	$chl = '';
 
-    	foreach ($Parcour->sous_parcours as $sous_parcour) {
-    		$chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$escapeHtml($sous_parcour->titre).'";';
-    		foreach ( $sous_parcour->scenes as $scene) {
-    			$chl .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box] ';
+  // Add data, chart type, chart size, and scale to params.
+  $chart = array(
+    'cht' => 'gv',
+    'dot' => 'digraph unix {'.$dot.'}');
+
 
 
     		}
@@ -327,39 +353,11 @@ class ParcoursController extends AbstractActionController
     	}
     	foreach ( $Parcour->transitions as $transition) {
 
-    		$chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color=red] ';
-    	}
+*/
 
-    	$url = 'https://chart.googleapis.com/chart';
-    	$chd = 't:';
-    	for ($i = 0; $i < 150; ++$i) {
-    		$data = rand(0, 100000);
-    		$chd .= $data . ',';
-    	}
-    	$chd = substr($chd, 0, -1);
-
-    	// Add data, chart type, chart size, and scale to params.
-    	$chart = array(
-    			'cht' => 'gv',/*
-    			'chs' => '600x200',
-    	'chds' => '0,100000',*/
-    			'chl' => 'digraph unix {'.$chl.'}');
-
-    	// Send the request, and print out the returned bytes.
-    	$context = stream_context_create(
-    			array('http' => array(
-    					'method' => 'POST',
-    					'header'=>"Content-type: application/x-www-form-urlencoded\r\n".
-    					"Accept-language: en\r\n" .
-    					"Cookie: foo=bar\r\n",
-    					'content' => http_build_query($chart))));
-  		$img = file_get_contents($url, false, $context);
-
-		echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
-
-        $viewModel = new ViewModel(array('Parcour' => $Parcour,'img'=>$img));
-        $viewModel->setTerminal(true);
-        return $viewModel;
+      $viewModel = new ViewModel(array('Parcour' => $Parcour,'dot'=>$dot));
+      //$viewModel->setTerminal(true);
+      return $viewModel;
     }
 
     public function ajouterSousParcoursAction()
