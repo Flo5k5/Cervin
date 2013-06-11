@@ -299,7 +299,6 @@ class ParcoursController extends AbstractActionController
      */
     public function voirParcourHalvizAction()
     {
-<<<<<<< HEAD
       $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
       $escapeHtml = $viewHelperManager->get('escapeHtml');
       // $id = (int) $this->params('id', null);
@@ -333,31 +332,15 @@ $current .= $dot;
 file_put_contents($file, $current); 
 $file = 'cache/canviz.gv';
 
-=======
-    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-    	$escapeHtml = $viewHelperManager->get('escapeHtml');
-    	// $id = (int) $this->params('id', null);
-    	$id = 1;
-    	$Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-    	if ($Parcour === null || $id === null) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
->>>>>>> 30517a57e71f61b625776b57be786b48cd59edd7
+
 
     	$chl = '';
 
-<<<<<<< HEAD
   // Add data, chart type, chart size, and scale to params.
   $chart = array(
     'cht' => 'gv',
     'dot' => 'digraph unix {'.$dot.'}');
-=======
-    	foreach ($Parcour->sous_parcours as $sous_parcour) {
-    		$chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$escapeHtml($sous_parcour->titre).'";';
-    		foreach ( $sous_parcour->scenes as $scene) {
-    			$chl .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box] ';
->>>>>>> 30517a57e71f61b625776b57be786b48cd59edd7
+
 
 
     		}
@@ -371,47 +354,11 @@ $file = 'cache/canviz.gv';
     	}
     	foreach ( $Parcour->transitions as $transition) {
 
-<<<<<<< HEAD
 */
 
       $viewModel = new ViewModel(array('Parcour' => $Parcour,'dot'=>$dot));
       //$viewModel->setTerminal(true);
       return $viewModel;
-=======
-    		$chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color=red] ';
-    	}
-
-    	$url = 'https://chart.googleapis.com/chart';
-    	$chd = 't:';
-    	for ($i = 0; $i < 150; ++$i) {
-    		$data = rand(0, 100000);
-    		$chd .= $data . ',';
-    	}
-    	$chd = substr($chd, 0, -1);
-
-    	// Add data, chart type, chart size, and scale to params.
-    	$chart = array(
-    			'cht' => 'gv',/*
-    			'chs' => '600x200',
-    	'chds' => '0,100000',*/
-    			'chl' => 'digraph unix {'.$chl.'}');
-
-    	// Send the request, and print out the returned bytes.
-    	$context = stream_context_create(
-    			array('http' => array(
-    					'method' => 'POST',
-    					'header'=>"Content-type: application/x-www-form-urlencoded\r\n".
-    					"Accept-language: en\r\n" .
-    					"Cookie: foo=bar\r\n",
-    					'content' => http_build_query($chart))));
-  		$img = file_get_contents($url, false, $context);
-
-		echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
-
-        $viewModel = new ViewModel(array('Parcour' => $Parcour,'img'=>$img));
-        $viewModel->setTerminal(true);
-        return $viewModel;
->>>>>>> 30517a57e71f61b625776b57be786b48cd59edd7
     }
 
     public function ajouterSousParcoursAction()
