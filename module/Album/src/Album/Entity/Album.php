@@ -12,7 +12,6 @@ use Gedmo\Mapping\Annotation as Gedmo; // this will be like an alias for Gedmo e
 * A music album.
 *
 * @ORM\Entity
-* @Gedmo\TranslationEntity(class="something")
 * @Gedmo\Loggable
 * @ORM\Table(name="album")
 * @property string $artist
@@ -26,8 +25,7 @@ class Album implements InputFilterAwareInterface
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @Gedmo\Slug(fields={"title"}, updatable=false, separator="_")
+	 * @ORM\GeneratedValue(strategy="AUTO"))
 	 */
 	protected $id;
 	 
@@ -38,21 +36,12 @@ class Album implements InputFilterAwareInterface
 	protected $artist;
 	 
 	/**
+	 * @Gedmo\Versioned
 	 * @ORM\Column(type="string")
 	 */
 	protected $title;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime",nullable=true)
-	 */
-	private $created;
 
-	/**
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="datetime",nullable=true)
-	 */
-	private $updated;
 
 	/**
 	 * Magic getter to expose protected properties.
