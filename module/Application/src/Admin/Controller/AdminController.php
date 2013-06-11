@@ -104,38 +104,39 @@ class AdminController extends AbstractActionController
 
                 }
 				
-                $btn_group          = "";
-                		
 				$editable_role      = "";
 	            $btn_reset_password = "";
 	            $btn_supprimer      = "";
 				
 	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
-	            	
 	            	$editable_role = '<span
-                        id="role"
-                        class="status CursorPointer"
-                        data-type="select"
-                        data-pk="'. $user->id.'"
-                        '.$attenteRoleDataOriginalTitle.'
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
-                        data-value="'.$roleId.'">
-                            '.$role.' '.$attenteRole.'
-                    </span>
-	            	
-                    ';
-	            	
-	            	$btn_supprimer = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-danger SupprimerUser"><i class="icon-trash"></i> Supprimer</a>';
-	            	
-	            	$btn_reset_password = '<a href="#" data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" data-value="'.$user->username.'" class="btn btn-warning ResetPassword"><i class="icon-refresh"></i> Réinitialiser mot de passe</a>';
-	            
+	                        id="role"
+	                        class="status CursorPointer"
+	                        data-type="select"
+	                        data-pk="'. $user->id.'"
+	                        '.$attenteRoleDataOriginalTitle.'
+	                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+	                        data-value="'.$roleId.'">
+	                            '.$role.' '.$attenteRole.'
+	                    	</span>';
+	            	$btn_supprimer = '<a href="#" 
+	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	            			data-value="'.$user->username.'" 
+	            			class="btn btn-danger SupprimerUser">
+	            				<i class="icon-trash"></i> Supprimer
+	            			</a>';
+	            	$btn_reset_password = '<a href="#" 
+	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	            			data-value="'.$user->username.'" 
+	            			class="btn btn-primary ResetPassword"
+	            			data-toggle="popover"
+	            			data-content="Un nouveau mot de passe sera généré et envoyé par mail"
+	            			data-title="Réinitialiser le mot de passe de l\'utilisateur">
+	            				<i class="icon-unlock"></i>
+	            			</a>';
 	            } else {
-	            	
 	            	$editable_role = ' <span id="role" > '.$role.' </span> ';
-
 	            }
-	            
-	            $btn_group = "<div class='btn-group'>" . $btn_reset_password . "&nbsp;" .  $btn_supprimer . "</div>";
 	            
                 $aaData[] = array(
                     '<span id="username" 
@@ -154,7 +155,7 @@ class AdminController extends AbstractActionController
                         data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1">'.$escapeHtml($user->email).'
                     </span>',
                     $editable_role,
-                    $btn_group
+                	$btn_reset_password.$btn_supprimer
                 );
             }
             $dataTable->setAaData($aaData);

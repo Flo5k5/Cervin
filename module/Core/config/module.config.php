@@ -478,6 +478,32 @@ return array(
                             ),
                         ),
                     ),
+                	'supprimerSousParcours' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/supprimerSousParcours/:idsp',
+                			'constraints' => array(
+                				'idsp'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'supprimerSousParcours',
+                			),
+                		),
+                	),
+                	'editSousParcours' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/editSousParcours/:idsp',
+                			'constraints' => array(
+                				'idsp'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'editSousParcours',
+                			),
+                		),
+                	),
                 ),
             ),
 

@@ -156,7 +156,7 @@ class ParcoursController extends AbstractActionController
 
     }
     return new ViewModel(array('form'=>$form));
-}
+	}
 
     public function supprimerAction() {
     	$id = (int) $this->params()->fromRoute('id', 0);
@@ -165,7 +165,7 @@ class ParcoursController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	try {
+    	/*try {
     		$parcours->sous_parcours_depart = null;
     		foreach ($parcours->sous_parcours as $sous_parcours) {
     			$sous_parcours->sous_parcours_suivant = null;
@@ -178,8 +178,8 @@ class ParcoursController extends AbstractActionController
     	} catch (\Exception $e) {
     		$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la suppression du parcours.'));
     		return $this->getResponse()->setContent(Json::encode(true));
-    	}
-    	$this->flashMessenger()->addSuccessMessage(sprintf('Le parcours a bien été supprimé.'));
+    	}*/
+    	$this->flashMessenger()->addErrorMessage(sprintf('La suppression d\'un parcours n\'est pas encore implémentée.'));
     	return $this->getResponse()->setContent(Json::encode(true));
     }
     
@@ -286,103 +286,81 @@ class ParcoursController extends AbstractActionController
                 break;
 
                 default:
-                $this->getResponse()->setStatusCode(404);
-                break;
+                	$this->getResponse()->setStatusCode(404);
+                	break;
             }
 
         } else {
-            $this->getResponse()->setStatusCode(404);
+        	$this->getResponse()->setStatusCode(404);
         }
     }
-    /**  
+    /**
      * Affichage du parcour avec halviz
      */
     public function voirParcourHalvizAction()
     {
-        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-        $escapeHtml = $viewHelperManager->get('escapeHtml');
-       // $id = (int) $this->params('id', null);
-        $id = 1;
-        $Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-        if ($Parcour === null || $id === null) {
-            $this->getResponse()->setStatusCode(404);
-            return;
-        }
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
+    	// $id = (int) $this->params('id', null);
+    	$id = 1;
+    	$Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+    	if ($Parcour === null || $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+
+    	$chl = '';
+
+    	foreach ($Parcour->sous_parcours as $sous_parcour) {
+    		$chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$escapeHtml($sous_parcour->titre).'";';
+    		foreach ( $sous_parcour->scenes as $scene) {
+    			$chl .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box] ';
 
 
+    		}
+    		foreach ( $sous_parcour->transitions as $transition) {
+    			$color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
+    			$chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.']';
 
+    		}
+    		$chl .= '}';
 
+    	}
+    	foreach ( $Parcour->transitions as $transition) {
 
-$chl = '';
+    		$chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color=red] ';
+    	}
 
-foreach ($Parcour->sous_parcours as $sous_parcour) {
-  $chl .= 'subgraph cluster_'.$sous_parcour->id.' { color=blue;label = "'.$escapeHtml($sous_parcour->titre).'";';
-  foreach ( $sous_parcour->scenes as $scene) {
-    $chl .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box] ';
+    	$url = 'https://chart.googleapis.com/chart';
+    	$chd = 't:';
+    	for ($i = 0; $i < 150; ++$i) {
+    		$data = rand(0, 100000);
+    		$chd .= $data . ',';
+    	}
+    	$chd = substr($chd, 0, -1);
 
+    	// Add data, chart type, chart size, and scale to params.
+    	$chart = array(
+    			'cht' => 'gv',/*
+    			'chs' => '600x200',
+    	'chds' => '0,100000',*/
+    			'chl' => 'digraph unix {'.$chl.'}');
 
-  }
-  foreach ( $sous_parcour->transitions as $transition) {
-    $color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
-    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.']';
+    	// Send the request, and print out the returned bytes.
+    	$context = stream_context_create(
+    			array('http' => array(
+    					'method' => 'POST',
+    					'header'=>"Content-type: application/x-www-form-urlencoded\r\n".
+    					"Accept-language: en\r\n" .
+    					"Cookie: foo=bar\r\n",
+    					'content' => http_build_query($chart))));
+  		$img = file_get_contents($url, false, $context);
 
-  }
-  $chl .= '}';
-
-}
-  foreach ( $Parcour->transitions as $transition) {
-
-    $chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color=red] ';
-  }
-
-
-
-
-  $url = 'https://chart.googleapis.com/chart';
-  $chd = 't:';
-  for ($i = 0; $i < 150; ++$i) {
-    $data = rand(0, 100000);
-    $chd .= $data . ',';
-  }
-  $chd = substr($chd, 0, -1);
-
-  // Add data, chart type, chart size, and scale to params.
-  $chart = array(
-    'cht' => 'gv',/*
-    'chs' => '600x200',
-    'chds' => '0,100000',*/
-    'chl' => 'digraph unix {'.$chl.'}');
-
-  // Send the request, and print out the returned bytes.
-  $context = stream_context_create(
-    array('http' => array(
-      'method' => 'POST',
-      'header'=>"Content-type: application/x-www-form-urlencoded\r\n".
-                "Accept-language: en\r\n" .
-                "Cookie: foo=bar\r\n",
-      'content' => http_build_query($chart))));
-  $img = file_get_contents($url, false, $context);
-
-
-
-echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
-
-
+		echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
 
         $viewModel = new ViewModel(array('Parcour' => $Parcour,'img'=>$img));
         $viewModel->setTerminal(true);
         return $viewModel;
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public function ajouterSousParcoursAction()
@@ -477,4 +455,53 @@ echo '<img src="data:image/gif;base64,' . base64_encode($img) . '" />';
         $this->flashMessenger()->addSuccessMessage(sprintf('Le sous-parcours a bien été ajouté'));
         return $this->redirect()->toRoute('parcours/voir', array('id' => $sousparcours->parcours->id));
     }
+    
+    public function supprimerSousParcoursAction()
+    {
+    	$id = (int) $this->params()->fromRoute('idsp', 0);
+    	$sous_parcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$id));
+    	if ($sous_parcours === null or $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$parcours = $sous_parcours->parcours;
+    	
+    	//$this->getEntityManager()->remove($scene);
+    	//$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addErrorMessage(sprintf('La suppression d\'un sous-parcours n\'est pas encore implémentée.'));
+    	return $this->getResponse()->setContent(Json::encode(true));
+    }
+    
+    public function editSousParcoursAction()
+    {
+    	$id = (int) $this->params()->fromRoute('idsp', 0);
+    	$sous_parcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$id));
+    	if (!$id or $sous_parcours === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	
+    	if ($this->getRequest()->isXmlHttpRequest())
+    	{
+    		$request = $this->params()->fromPost();
+    		$sous_parcours->titre = $request['value'];
+    		$this->getEntityManager()->flush();
+    		return $this->getResponse()->setContent(Json::encode(true));		
+    	}
+    	
+    	/*try {
+    		$transitions_secondaires = $this->getEntityManager()
+    		->getRepository('Parcours\Entity\TransitionSecondaire')
+    		->findBy(array('scene_destination'=>$scene));
+    	} catch (\Exception $ex) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	
+    	return new ViewModel(array(
+    			'scene' => $scene,
+    			'transitions_secondaires' => $transitions_secondaires
+    	));*/
+    }
+    
 }

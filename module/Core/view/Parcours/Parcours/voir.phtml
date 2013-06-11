@@ -249,6 +249,25 @@ $this->inlineScript()->captureStart();
                 }
             });
         });
+        
+        // modal de confirmation : suppression de sous parcours
+        $(".elements").on("click",".SupprimerSousParcours", function(e){
+            var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+            $('#confirmDiv').confirmModal({
+                heading:"Confirmation : suppression d'un sous-parcours",
+                body:"Êtes-vous sûr de vouloir supprimer définitivement le sous-parcours <i>" + dataValue + " </i>?",
+                callback: function() {
+                     $.post(
+                        dataURL,
+                        { name: "supprimer" },
+                        function() {
+                            document.location.reload();
+                        }
+                    );
+                }
+            });
+        });
         <?php endif;?>
     });
 

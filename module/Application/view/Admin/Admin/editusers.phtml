@@ -73,6 +73,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <?php $this->inlineScript()->captureStart(); ?>
 	var table;
 	$(function() {
+	
 	    table = ResultSet.paginate(
 	    	$('.data'),
 			{
@@ -97,6 +98,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	                    <?php endforeach; ?>
 								]
 					});
+	
+					$(".ResetPassword").popover({placement:'top', trigger:'hover'}); 
 	
 	                $('.text').editable({ 
 	                	emptytext: "Vide",
@@ -155,7 +158,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				}
 			});   
 		});
-
+		
 		$(document).on( 'click', '.ResetPassword', function(e){
 			var dateURL = $(this).attr('data-url');
 			var dateValue = $(this).attr('data-value');
