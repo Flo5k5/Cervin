@@ -32,7 +32,6 @@ class Album implements InputFilterAwareInterface
 	protected $id;
 	 
 	/**
-	 * @Gedmo\Translatable
 	 * @Gedmo\Versioned
 	 * @ORM\Column(type="string")
 	 */
