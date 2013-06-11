@@ -22,6 +22,7 @@ use Application\View\Helper\redirectUserIndexIfTrue;
 use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
 
+use Gedmo\Loggable\LoggableListener as LoggableListener;
 
 class Module implements AutoloaderProviderInterface,
     ConfigProviderInterface,
@@ -29,6 +30,20 @@ class Module implements AutoloaderProviderInterface,
 {
     public function onBootstrap(MvcEvent $e)
     {
+        $cache = new \Doctrine\Common\Cache\ArrayCache;
+        // standard annotation reader
+        $annotationReader = new \Doctrine\Common\Annotations\AnnotationReader;
+
+        $sm = $e->getApplication()->getServiceManager();
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $evm = $em->getEventManager();
+
+      //  $evm = new \Doctrine\Common\EventManager();
+        $auth = $sm->get('zfcuser_auth_service');
+        $loggableListener = new LoggableListener;
+        $loggableListener->setUsername($auth->getIdentity());
+        $evm->addEventSubscriber($loggableListener);
+
         /*$translator = new Translator();
         $translator->addTranslationFile(
          'phpArray',
