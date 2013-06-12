@@ -18,9 +18,14 @@ $this->headTitle($title);
 </div>
 
 <script type="text/vnd.graphviz" id="cluster">
+
+//<!--
 digraph "<?php echo $Parcours->titre; ?>" { 
-	graph [bgcolor="#f5f5f5"]
-	<?php echo $dot ; ?> }
+	graph [bgcolor="#f5f5f5"];
+	<?php echo $dot ; ?> 
+};
+//-->
+
 </script>
 
 <?php
@@ -30,7 +35,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 <style type="text/css">
 #panzoom{
   width: 400px;
-  height: 1200px;
+  height: 1000px;
 }
 </style>
 <section class="buttons">
@@ -39,13 +44,14 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
       <!-- <input type="range" class="zoom-range"> -->
       <button class="reset btn btn-primary"><i class="icon-refresh"></i></button>
 </section>
-<div style="overflow: hidden; position: relative;"> 
+<br>
+<div style="overflow: hidden; position: relative; border:3px solid black;"> 
 <div id="panzoom" style="text-align: center">
 </div>
 </div>
 
 <script>
-    // 
+    // https://github.com/timmywil/jquery.panzoom
       $("#panzoom").panzoom({
         $zoomIn: $(".zoom-in"),
         $zoomOut: $(".zoom-out"),
