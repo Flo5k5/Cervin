@@ -377,9 +377,7 @@ class ParcoursController extends AbstractActionController
         	$dot .='s'.$transition->scene_origine->id.'
         			->
         		'.'s'.$transition->scene_destination->id.
-        		'[label="(i)"
-        			edgetooltip="'.$escapeHtml($semantique).'",
-        			labeltooltip="'.$escapeHtml($semantique).'"
+        		'[edgetooltip="'.$escapeHtml($semantique).'",
         			color=darkblue, 
         			penwidth=3,
         			fontcolor=darkblue];';
@@ -395,12 +393,12 @@ class ParcoursController extends AbstractActionController
 	        
 	        foreach ( $sous_parcours->scenes as $scene) {
 	        	// Scene
-	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color=blue,style=bold' : 'color=grey,fontcolor=grey' ;
+	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color=blue,style=bold,fontcolor="darkblue"' : 'color=grey,fontcolor=grey' ;
 	        	$dot .= 's'.$scene->id.'
 	        		[label="'.$escapeHtml($scene->titre).'",'
-	        		.$style.',
-	        		shape=box,
-	        		URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];';
+	        			.$style.',
+	        			shape=box,
+	        			URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];';
 	        }
 	        foreach ( $sous_parcours->transitions as $transition) {
 	        	// Transition
@@ -409,13 +407,13 @@ class ParcoursController extends AbstractActionController
 	          	$dot .='s'.$transition->scene_origine->id.'
 	          			->
 	          			'.'s'.$transition->scene_destination->id.'
-	          			[label="(i)"
-	          			'.$style.',
-	          			labeltooltip="'.$escapeHtml($semantique).'",
+	          			['.$style.',
 	          			edgetooltip="'.$escapeHtml($semantique).'"];';
 	        }
 	        $dot .= '}';
       }
+      // Départ
+      //$dot .= 'Départ->s' . $Parcours->sous_parcours_depart->scene_depart->id;
 
       return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
     }
