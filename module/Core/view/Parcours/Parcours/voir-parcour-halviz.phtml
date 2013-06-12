@@ -22,10 +22,34 @@ digraph "G" { <?php echo $dot ; ?> }
 </script>
 
 <?php
- echo $this->headScript()->appendFile($this->basePath() . '/js/canviz/viz.js');
+$this->headScript()->appendFile($this->basePath() . '/js/viz.js');
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 ?>
+<style type="text/css">
+#panzoom{
+  width: 400px;
+  height: 800px;
+}
+</style>
+<section class="buttons">
+      <button class="zoom-in">Zoom In</button>
+      <button class="zoom-out">Zoom Out</button>
+      <input type="range" class="zoom-range">
+      <button class="reset">Reset</button>
+</section>
+<div style="overflow: hidden; position: relative;"> 
+<div id="panzoom" style="text-align: center" class="span12">
+</div>
+</div>
 
 <script>
+    // 
+      $("#panzoom").panzoom({
+        $zoomIn: $(".zoom-in"),
+        $zoomOut: $(".zoom-out"),
+        $zoomRange: $(".zoom-range"),
+        $reset: $(".reset")
+      });
       
       function inspect(s) {
         return "<pre>" + s.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;") + "</pre>"
@@ -47,8 +71,8 @@ digraph "G" { <?php echo $dot ; ?> }
           return inspect(e.toString());
         }
       }
-
-      document.body.innerHTML += example("cluster", "svg");
+      $('#panzoom').html(example("cluster", "svg"));
+      //document.body.innerHTML += example("cluster", "svg");
 
  </script>
 
