@@ -10,6 +10,7 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
+<!-- En tête -->
 <div class="page-header">
 	<div class="row-fluid">
 		<div class="span9">
@@ -37,29 +38,14 @@ $this->headTitle($title);
 	</a>
 </div>
 
-<!--Confirm Modal -->
-<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Confirmation : suppression d'une scène</h3>
-    </div>
-    <div class="modal-body">
-    	Êtes-vous sur de vouloir supprimer la scène "<?php echo $this->escapeHtml($scene->titre); ?>" ?
-    </div>
-    <div class="modal-footer">
-	    <a href="<?php echo $this->url('scene/removeScene',
-            array('id' => $scene->id)) ?>" class="btn btn-primary">Supprimer</a>
-	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
-    </div>
-</div>
-
 <!-- Transitions autour de cette scène -->
 <div class="row-fluid">
 
+	<!-- Transitions entrantes -->
 	<div class="span6">
 		<h3>Transitions secondaires entrantes</h3>
 		<table class="table">
-			<?php if ($transitions_secondaires == null) :?>
+			<?php if ($transitions_secondaires_entrantes == null) :?>
 				Aucune tansition secondaire ne mène à cette scène.
 			<?php else: ?>
 				<tr>
@@ -67,7 +53,7 @@ $this->headTitle($title);
 					<th>Transition</th>
 					<th></th>
 				</tr>
-				<?php foreach ($transitions_secondaires as $transition) : ?>
+				<?php foreach ($transitions_secondaires_entrantes as $transition) : ?>
 					<tr>
 					<td>
 						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_origine->id)) ?>"> 
@@ -102,9 +88,27 @@ $this->headTitle($title);
 					</tr>
 				<?php endforeach; ?>
 			<?php endif;?>
+			<td>
+       			<div class="input-append">
+			       	<select id="selectSceneOrigine">
+			       		<?php foreach ($scenes_parcours as $scene_parcours) :?>
+						<option value="<?php echo $scene_parcours->id; ?>">
+							<?php  echo $scene_parcours->titre; ?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+					<button class="btn btn-primary ajouterTransitionSecEntrante" type="submit">
+						<i class="icon-plus"></i>
+					</button>
+			 	</div>
+			</td>
+			<td>
+				... Ajouter une transition secondaire entrante depuis
+			</td>
 		</table>
 	</div>
 	
+	<!-- Tranitions sortantes -->
 	<div class="span6">
 		<h3>Transitions secondaires sortantes</h3>
 		<table class="table">
@@ -152,18 +156,29 @@ $this->headTitle($title);
 					</tr>
 				<?php endforeach; ?>
 			<?php endif;?>
+			<tr>
+				<td>
+					Ajouter une transition sortante vers...
+				</td>
+				<td>
+       			    <div class="input-append">
+			       		<select id="selectSceneDestination">
+			       			<option value="0">
+								-- Créer une nouvelle scène comme destination --
+							</option>
+			       			<?php foreach ($scenes_parcours as $scene_parcours) :?>
+							<option value="<?php echo $scene_parcours->id; ?>">
+								<?php  echo $scene_parcours->titre; ?>
+							</option>
+							<?php endforeach; ?>
+						</select>
+						<button class="btn btn-primary ajouterTransitionSecSortante" type="submit">
+							<i class="icon-plus"></i>
+						</button>
+				 	</div>
+				</td>
+			</tr>
        	</table>
-       	<div class="row-fluid">
-       		<div class="span6">
-				<a href="#" class="btn btn-primary"><i class="icon-plus"></i> Ajouter une transition vers une scène existante du parcours</a>
-			</div>
-       		<div class="span6">
-       			<a href="<?php echo $this->url('parcours/ajouterTransitionSec', array('idSceneOrigine'=>$scene->id, 'idSceneDestination'=>0)); ?>" 
-       				class="btn btn-primary">
-       				<i class="icon-plus"></i> Ajouter une transition vers une nouvelle scène secondaire
-       			</a>
-			</div>
-		</div>
 	</div>
 	
 </div>
@@ -281,7 +296,37 @@ $this->headTitle($title);
                 }
           	});
       	});
+      	
+      	$(".ajouterTransitionSecSortante").click(function(e){
+      		selectElmt = document.getElementById('selectSceneDestination');
+      		idSceneDest = selectElmt.options[selectElmt.selectedIndex].value;
+            $.ajax({
+				url: "<?php echo $this->url('parcours/ajouterTransitionSec'); ?>",
+				type: "POST",
+				data:{
+					idSceneOrigine: <?php echo $scene->id;?>,
+					idSceneDestination: idSceneDest
+					}
+			}).done(function(){
+				document.location.reload()
+			});
+      	});
 
+      	$(".ajouterTransitionSecEntrante").click(function(e){
+      		selectElmt = document.getElementById('selectSceneOrigine');
+      		idSceneOrigine = selectElmt.options[selectElmt.selectedIndex].value;
+            $.ajax({
+				url: "<?php echo $this->url('parcours/ajouterTransitionSec'); ?>",
+				type: "POST",
+				data:{
+					idSceneOrigine: idSceneOrigine,
+					idSceneDestination: <?php echo $scene->id;?>
+					}
+			}).done(function(){
+				document.location.reload()
+			});
+      	});
+      	
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",
 			image: false,

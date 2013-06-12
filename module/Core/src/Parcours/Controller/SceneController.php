@@ -289,23 +289,21 @@ class SceneController extends AbstractActionController
 			return $this->getResponse()->setContent(Json::encode(true));
 			
 		}
-		try {
-			$transitions_secondaires = $this->getEntityManager()
+		$transitions_secondaires_entrantes = $this->getEntityManager()
 			->getRepository('Parcours\Entity\TransitionSecondaire')
 			->findBy(array('scene_destination'=>$scene));
-		} catch (\Exception $ex) {
-			$this->getResponse()->setStatusCode(404);
-			return;
-		}
-		
+
 		$SemantiqueTransitions = $this->getEntityManager()
 			->getRepository('Parcours\Entity\SemantiqueTransition')
 			->findBy(array(), array('semantique'=>'asc'));
+
+		$scenes_parcours = $scene->sous_parcours->scenes;
 		
 		return new ViewModel(array(
 				'scene' => $scene,
-				'transitions_secondaires' => $transitions_secondaires,
-				'SemantiqueTransitions'=>$SemantiqueTransitions
+				'transitions_secondaires_entrantes' => $transitions_secondaires_entrantes,
+				'SemantiqueTransitions' => $SemantiqueTransitions,
+				'scenes_parcours' => $scenes_parcours
 		));
 	}
 
