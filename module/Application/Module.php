@@ -41,7 +41,10 @@ class Module implements AutoloaderProviderInterface,
       //  $evm = new \Doctrine\Common\EventManager();
         $auth = $sm->get('zfcuser_auth_service');
         $loggableListener = new LoggableListener;
-        $loggableListener->setUsername($auth->getIdentity());
+
+        $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'DEV' ;
+
+        $loggableListener->setUsername($user);
         $evm->addEventSubscriber($loggableListener);
 
         /*$translator = new Translator();
