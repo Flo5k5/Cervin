@@ -408,7 +408,8 @@ class ParcoursController extends AbstractActionController
 	          			[label="'.$escapeHtml($semantique).'",'
 	          			.$style.'];';
 	        }
-	        $dot .= '}';
+	        $dot .= '}
+            ';
       }
 
       return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
