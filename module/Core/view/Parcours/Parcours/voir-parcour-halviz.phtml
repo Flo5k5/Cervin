@@ -21,7 +21,7 @@ $this->headTitle($title);
 
 //<!--
 digraph "<?php echo $Parcours->titre; ?>" { 
-  graph [bgcolor="#f5f5f5"]
+  graph [bgcolor="#f3f3f3"]
   <?php echo $dot ; ?> 
 };
 //-->
@@ -39,10 +39,10 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 }
 </style>
 <section class="buttons">
-      <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
       <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
+      <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
       <!-- <input type="range" class="zoom-range"> -->
-      <button class="reset btn btn-primary"><i class="icon-refresh"></i></button>
+      <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
 </section>
 <br>
 <div style="overflow: hidden; position: relative; border:3px solid black;"> 
