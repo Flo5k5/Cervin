@@ -152,6 +152,9 @@ return array(
                     //'Gedmo\Sluggable\SluggableListener',
                     'Gedmo\Loggable\LoggableListener',
                     //'Gedmo\Sortable\SortableListener'
+
+                    // Listener pour le préfixe des tables ( constante dans la configuration globale )
+    				//'Application\Library\TablePrefix',
                 ),
             ),
         ),

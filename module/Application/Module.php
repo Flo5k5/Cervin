@@ -24,6 +24,8 @@ use Zend\Validator\AbstractValidator;
 
 use Gedmo\Loggable\LoggableListener as LoggableListener;
 
+//require_once('TablePrefix.php');
+
 class Module implements AutoloaderProviderInterface,
     ConfigProviderInterface,
     ServiceProviderInterface
@@ -38,13 +40,19 @@ class Module implements AutoloaderProviderInterface,
         $em = $sm->get('doctrine.entitymanager.orm_default');
         $evm = $em->getEventManager();
 
-      //  $evm = new \Doctrine\Common\EventManager();
+        
+        //$tablePrefix = new \DoctrineExtensions\TablePrefix('mbo_');
+        //$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
+      	
+      	//  $evm = new \Doctrine\Common\EventManager();
         $auth = $sm->get('zfcuser_auth_service');
-        $loggableListener = new LoggableListener;
 
         $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'DEV' ;
-
+        
+        /*$loggableListener = new LoggableListener;
+        //$loggableListener->setAnnotationReader($cachedAnnotationReader);
         $loggableListener->setUsername($user);
+        
         $evm->addEventSubscriber($loggableListener);
 
         /*$translator = new Translator();
