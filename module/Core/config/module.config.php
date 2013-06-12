@@ -466,10 +466,8 @@ return array(
                 	'ajouterTransitionSec' => array(
                 		'type' => 'segment',
                 		'options' => array(
-                			'route' => '/ajouterTransitionSec/:idSceneOrigine[/:idSceneDestination]',
+                			'route' => '/ajouterTransitionSec',
                 			'constraints' => array(
-                				'idSceneOrigine'     => '[0-9]+',
-                				'idSceneDestination' => '[0-9]+',
                 				),
                 			'defaults' => array(
                 				'controller' => 'Parcours',

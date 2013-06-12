@@ -106,7 +106,7 @@ class ParcoursController extends AbstractActionController
     		
     	foreach ($paginator as $parcours) {
     		
-			$titre = '<a class="href-type-element" href="'
+			$titre = '<a href="'
 							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
 							.$escapeHtml($parcours->titre).'
 						</a>';
@@ -190,25 +190,19 @@ class ParcoursController extends AbstractActionController
      */
     public function voirAction()
     {
-
         $id = (int) $this->params('id', null);
-        
         if (null === $id) {
             $this->getResponse()->setStatusCode(404);
             return; 
         }
-
         $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-        
         if ($Parcours === null) {
             $this->getResponse()->setStatusCode(404);
             return; 
         }
-        
         $SemantiqueTransitions = $this->getEntityManager()
-        ->getRepository('Parcours\Entity\SemantiqueTransition')
-        ->findBy(array(), array('semantique'=>'asc'));
-
+       	 	->getRepository('Parcours\Entity\SemantiqueTransition')
+        	->findBy(array(), array('semantique'=>'asc'));
         return new ViewModel(array('Parcours'=>$Parcours,'SemantiqueTransitions'=>$SemantiqueTransitions));
     }
 
@@ -312,47 +306,53 @@ class ParcoursController extends AbstractActionController
 
     public function ajouterTransitionSecAction()
     {
-    	$idSceneOrigine = (int) $this->params('idSceneOrigine', null);
-    	$sceneOrigine = $this->getEntityManager()
-	    	->getRepository('Parcours\Entity\Scene')
-	    	->findOneBy(array('id'=>$idSceneOrigine));
-    	if ($sceneOrigine === null || $idSceneOrigine === null ) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
-    	
-    	$idSceneDestination = (int) $this->params('idSceneDestination', null);
-    	if ($idSceneDestination == 0) {
-    		// Pas de scène destination précisée pour la nouvelle transition secondaire
-    		// On doit en créer une
-    		$sceneDestination = new \Parcours\Entity\SceneSecondaire();
-    		$sceneDestination->titre = "Nouvelle scène secondaire";
-    		$sceneDestination->narration = "";
-    		$sceneDestination->elements = new \Doctrine\Common\Collections\ArrayCollection();
-    		$sceneOrigine->sous_parcours->addScene($sceneDestination);
-    		$this->getEntityManager()->persist($sceneDestination);
-    		//$manager->flush();
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    		$request = $this->params()->fromPost();
+    		
+	    	$idSceneOrigine = $request['idSceneOrigine'];
+	    	$sceneOrigine = $this->getEntityManager()
+		    	->getRepository('Parcours\Entity\Scene')
+		    	->findOneBy(array('id'=>$idSceneOrigine));
+	    	if ($sceneOrigine === null || $idSceneOrigine === null ) {
+	    		$this->getResponse()->setStatusCode(404);
+	    		return;
+	    	}
+	    	
+	    	$idSceneDestination = $request['idSceneDestination'];
+	    	if ($idSceneDestination == 0) {
+	    		// Pas de scène destination précisée pour la nouvelle transition secondaire
+	    		// On doit en créer une
+	    		$sceneDestination = new \Parcours\Entity\SceneSecondaire();
+	    		$sceneDestination->titre = "Nouvelle scène secondaire";
+	    		$sceneDestination->narration = "";
+	    		$sceneDestination->elements = new \Doctrine\Common\Collections\ArrayCollection();
+	    		$sceneOrigine->sous_parcours->addScene($sceneDestination);
+	    		$this->getEntityManager()->persist($sceneDestination);
+	    		//$manager->flush();
+	    	} else {
+	    		$sceneDestination = $this->getEntityManager()
+	    			->getRepository('Parcours\Entity\Scene')
+	    			->findOneBy(array('id'=>$idSceneDestination));
+	    	}
+	    	if ($sceneDestination === null || $idSceneDestination === null ) {
+	    		$this->getResponse()->setStatusCode(404);
+	    		return;
+	    	}
+	    	
+	    	$transition = new \Parcours\Entity\TransitionSecondaire();
+	    	$transition->narration = "Nouvelle transition";
+	    	$transition->scene_origine = $sceneOrigine;
+	    	$transition->scene_destination = $sceneDestination;
+	    	
+	    	$sceneOrigine->sous_parcours->addTransition($transition);
+	    	$this->getEntityManager()->persist($transition);
+	    	$this->getEntityManager()->flush();
+	    	
+	    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été ajoutée.'));
+	    	return $this->redirect()->toRoute('scene/editScene', array('id' => $idSceneOrigine));
     	} else {
-    		$sceneDestination = $this->getEntityManager()
-    			->getRepository('Parcours\Entity\Scene')
-    			->findOneBy(array('id'=>$idSceneDestination));
-    	}
-    	if ($sceneDestination === null || $idSceneDestination === null ) {
     		$this->getResponse()->setStatusCode(404);
-    		return;
     	}
-    	
-    	$transition = new \Parcours\Entity\TransitionSecondaire();
-    	$transition->narration = "Nouvelle transition";
-    	$transition->scene_origine = $sceneOrigine;
-    	$transition->scene_destination = $sceneDestination;
-    	
-    	$sceneOrigine->sous_parcours->addTransition($transition);
-    	$this->getEntityManager()->persist($transition);
-    	$this->getEntityManager()->flush();
-    	
-    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été ajoutée.'));
-    	return $this->redirect()->toRoute('scene/editScene', array('id' => $idSceneOrigine));
     }
     
     /**
@@ -368,50 +368,38 @@ class ParcoursController extends AbstractActionController
           $this->getResponse()->setStatusCode(404);
           return;
       }
-
-      // création du dot 
-      $dot = '';
+      // création du dot
+      $dot = '  Départ [shape="plaintext"];' . "\n";
+      $dot .= '  Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style=dashed];' . "\n";
       foreach ( $Parcours->transitions as $transition) {
       		// Transitions inter-sous-parcours
-        	$dot .='s'.$transition->scene_origine->id.'
-        			->
-        		'.'s'.$transition->scene_destination->id.
-        		'[label="'.$escapeHtml($transition->semantique->semantique).'", 
-        				color=darkblue, 
-        				style=bold];';
+      		$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
+        	$dot .='  s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
+        	$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue"];' . "\n";
       }
       foreach ($Parcours->sous_parcours as $sous_parcours) {
       		// Sous-parcours
-	        $dot .= ' subgraph cluster_'.$sous_parcours->id.'{
-	        	color=darkgreen; 
-	        	label = "'.$escapeHtml($sous_parcours->titre).'";
-	        	fontcolor="darkgreen";
-	        	fontsize="20";
-	        	style="dashed";';
+	        $dot .= '  subgraph cluster_'.$sous_parcours->id.'{';
+	        $dot .= 'color="darkgreen";';
+	        $dot .= 'label = "'.$escapeHtml($sous_parcours->titre).'";';
+	        $dot .= 'tooltip = "'.$escapeHtml($sous_parcours->titre).'";';
+	        $dot .= 'fontcolor="darkgreen";';
+	        $dot .= 'fontsize="20";';
+	        $dot .= 'style="dashed";' . "\n";
 	        
 	        foreach ( $sous_parcours->scenes as $scene) {
 	        	// Scene
-	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color=blue,style=bold' : 'color=grey,fontcolor=grey' ;
-	        	$dot .= 's'.$scene->id.'
-	        		[label="'.$escapeHtml($scene->titre).'",'
-	        		.$style.',
-	        		shape=box,
-	        		URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];';
+	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style=bold, fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
+	        	$dot .= '    s'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
 	        }
 	        foreach ( $sous_parcours->transitions as $transition) {
 	        	// Transition
 	        	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
-	          	$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color=blue,style=bold' : 'color=grey,fontcolor=grey' ;
-	          	$dot .='s'.$transition->scene_origine->id.'
-	          			->
-	          			'.'s'.$transition->scene_destination->id.'
-	          			[label="'.$escapeHtml($semantique).'",'
-	          			.$style.'];';
+	          	$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="3", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="2"' ;
+	          	$dot .='    s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . "\n";
 	        }
-	        $dot .= '}
-            ';
+	        $dot .= '};' . "\n";
       }
-
       return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
     }
 
@@ -532,28 +520,10 @@ class ParcoursController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	
-    	if ($this->getRequest()->isXmlHttpRequest())
-    	{
-    		$request = $this->params()->fromPost();
-    		$sous_parcours->titre = $request['value'];
-    		$this->getEntityManager()->flush();
-    		return $this->getResponse()->setContent(Json::encode(true));		
-    	}
-    	
-    	/*try {
-    		$transitions_secondaires = $this->getEntityManager()
-    		->getRepository('Parcours\Entity\TransitionSecondaire')
-    		->findBy(array('scene_destination'=>$scene));
-    	} catch (\Exception $ex) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
-    	
-    	return new ViewModel(array(
-    			'scene' => $scene,
-    			'transitions_secondaires' => $transitions_secondaires
-    	));*/
+    	$request = $this->params()->fromPost();
+    	$sous_parcours->titre = $request['value'];
+    	$this->getEntityManager()->flush();
+    	return $this->getResponse()->setContent(Json::encode(true));
     }
     
 }

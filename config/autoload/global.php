@@ -11,6 +11,9 @@
  * file.
  */
 
+// Used for table prefix with Doctrine
+//define('PREFIX', (string) 'mbo_');
+
 return array(
     // ...
 );
