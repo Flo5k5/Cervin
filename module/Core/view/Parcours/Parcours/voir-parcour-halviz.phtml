@@ -18,7 +18,9 @@ $this->headTitle($title);
 </div>
 
 <script type="text/vnd.graphviz" id="cluster">
-digraph "G" { <?php echo $dot ; ?> }
+//<!--
+digraph "G" { <?php echo $dot ; ?> };
+//-->
 </script>
 
 <?php
@@ -43,7 +45,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 </div>
 
 <script>
-    // 
+    // https://github.com/timmywil/jquery.panzoom
       $("#panzoom").panzoom({
         $zoomIn: $(".zoom-in"),
         $zoomOut: $(".zoom-out"),
