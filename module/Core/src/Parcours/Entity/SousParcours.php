@@ -11,8 +11,10 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'un sous-parcours
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_sousparcours")
+ * 
  * @property int $id
  * @property string $titre
  * @property string $description

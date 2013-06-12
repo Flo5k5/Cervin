@@ -18,12 +18,14 @@ use Collection\Entity\Media;
 /**
  * Entité d'un élément de la collection numérique (artefact ou média)
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_element")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"Artefact" = "Artefact", 
  *                        "Media" = "Media"})
+ * 
  * @property int $id Identifiant unique de l'élément
  * @property string $titre Titre de l'élément
  * @property string $description Description de l'élément
@@ -48,6 +50,7 @@ class Element implements InputFilterAwareInterface
     /**
      * Titre de l'élément
      * 
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $titre;
@@ -55,6 +58,7 @@ class Element implements InputFilterAwareInterface
     /**
      * Descritpion de l'élément
      * 
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;

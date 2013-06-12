@@ -15,8 +15,10 @@ use \Doctrine\ORM\Query;
 /**
  * Entité d'un type d'élément de la collection (personne, image, matériel, logiciel, ...)
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity(repositoryClass="Collection\Entity\TypeElementRepository")
  * @ORM\Table(name="mbo_typeelement")
+ * 
  * @property int $id Identifiant unique de type d'élément
  * @property string $nom Le nom du type d'élément
  * @property string $type Le type d'u type d'élément : 'média' ou 'artefact'

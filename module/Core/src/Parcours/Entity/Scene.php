@@ -11,12 +11,14 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une scène
  * 
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_scene")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"SceneRecommandee" = "SceneRecommandee",
  *                        "SceneSecondaire"  = "SceneSecondaire"})
+ * 
  * @property int $id Id d'une scène
  * @property string $titre Titre d'une scène
  * @property string $narration Narration

@@ -14,6 +14,7 @@ use \Doctrine\ORM\Query;
 /**
  * Entité d'une sémantique possible des relations entre deux artefacts
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity(repositoryClass="Collection\Entity\SemantiqueArtefactRepository")
  * @ORM\Table(name="mbo_semantiqueartefact")
  * 

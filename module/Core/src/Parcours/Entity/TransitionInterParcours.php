@@ -10,6 +10,7 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'une transition inter-parcours
  *
+ * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_transitioninterparcours")
  */

@@ -141,16 +141,16 @@ return array(
         ),
     ),
     'doctrine' => array(
-		'eventmanager' => array(
+        'eventmanager' => array(
             'orm_default' => array(
                 'subscribers' => array(
-					
-					// https://github.com/l3pp4rd/DoctrineExtensions/blob/master/doc/zendframework2.md
+
+                	// https://github.com/l3pp4rd/DoctrineExtensions/blob/master/doc/zendframework2.md
                     // pick any listeners you need
                     //'Gedmo\Tree\TreeListener',
-                    //'Gedmo\Timestampable\TimestampableListener',
+                    'Gedmo\Timestampable\TimestampableListener',
                     //'Gedmo\Sluggable\SluggableListener',
-                    'Gedmo\Loggable\LoggableListener'
+                    'Gedmo\Loggable\LoggableListener',
                     //'Gedmo\Sortable\SortableListener'
                 ),
             ),
@@ -172,10 +172,18 @@ return array(
                         __DIR__ . '/../src/Application/Entity',
                 )
             ),
+            'Loggable_driver' => array(
+            		'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+            		'cache' => 'array',
+            		'paths' => array(
+            				'vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity',
+            		),
+            ),
             'orm_default' => array(
                 'drivers' => array(
                     'SamUser\Entity' => 'zfcuser_entity',
                     'Application\Entity' => 'Application_driver',
+                    'Gedmo\Loggable\Entity' => 'Loggable_driver',
                 ),
             ),
         ),
