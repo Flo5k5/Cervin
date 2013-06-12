@@ -154,7 +154,7 @@ return array(
                     //'Gedmo\Sortable\SortableListener'
 
                     // Listener pour le préfixe des tables ( constante dans la configuration globale )
-    				//'Application\Library\TablePrefix',
+    				'Application\Library\TablePrefix',
                 ),
             ),
         ),

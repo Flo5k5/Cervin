@@ -24,8 +24,6 @@ use Zend\Validator\AbstractValidator;
 
 use Gedmo\Loggable\LoggableListener as LoggableListener;
 
-//require_once('TablePrefix.php');
-
 class Module implements AutoloaderProviderInterface,
     ConfigProviderInterface,
     ServiceProviderInterface

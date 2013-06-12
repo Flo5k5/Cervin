@@ -12,10 +12,12 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
 
     public function __construct($prefix = null)
     {
-        if($prefix === null){
+        if( isset($prefix) ){
+            $this->prefix = (string) $prefix;
+        } elseif( defined(PREFIX) ){
             $this->prefix = (string) PREFIX;
         } else {
-            $this->prefix = (string) $prefix;
+            $this->prefix = '';
         }
     }
 
