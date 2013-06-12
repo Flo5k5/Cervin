@@ -401,6 +401,19 @@ return array(
                             ),
                         ),
                     ),
+                	'voirParcourHalviz' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/voirParcourHalviz/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'voirParcourHalviz',
+                			),
+                		),
+                	),
                     'ajouter' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -437,6 +450,33 @@ return array(
                             ),
                         ),
                     ),
+                	'supprimerTransitionSec' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/supprimerTransitionSec/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'supprimerTransitionSec',
+                			),
+                		),
+                	),
+                	'ajouterTransitionSec' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/ajouterTransitionSec/:idSceneOrigine[/:idSceneDestination]',
+                			'constraints' => array(
+                				'idSceneOrigine'     => '[0-9]+',
+                				'idSceneDestination' => '[0-9]+',
+                				),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'ajouterTransitionSec',
+                			),
+                		),
+                	),
                     'modifier' => array(
                         'type' => 'segment',
                         'options' => array(

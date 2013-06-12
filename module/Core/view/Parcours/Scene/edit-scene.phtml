@@ -10,19 +10,31 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
-<div class="page-header row-fluid">
-	<div class="span9">
-		<h1>
-		Modification d'une scène : <br/>
-		<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
-		</h1>
-	</div>
-	
-	<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" class="btn btn-primary span3">
-		<i class="icon-reply"> </i>
-        Retour à la fiche de cette scène
-    </a>
-	
+<div class="page-header">
+	<div class="row-fluid">
+		<div class="span9">
+			<h1>
+			Modification d'une scène : <br/>
+			<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
+			</h1>
+		</div>
+		<div class="span3">
+		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
+			class="btn btn-primary btn-block"> 
+			<i class="icon-reply"></i> Retour au parcours <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
+		</a>
+		<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" 
+			class="btn btn-primary btn-block">
+			<i class="icon-reply"> </i>
+	        Retour à la fiche de la scène
+	    </a>
+	    </div>
+    </div>
+    <a href="<?php echo $this->url('parcours/voirParcourHalviz',array('id' => $scene->sous_parcours->parcours->id)) ?>"
+    	target="_blank"
+    	class="btn btn-warning">
+    	<i class="icon-code-fork"></i> Graphe du parcours
+	</a>
 </div>
 
 <!--Confirm Modal -->
@@ -45,73 +57,113 @@ $this->headTitle($title);
 <div class="row-fluid">
 
 	<div class="span6">
-		<h5>Transitions secondaires entrantes</h5>
+		<h3>Transitions secondaires entrantes</h3>
 		<table class="table">
 			<?php if ($transitions_secondaires == null) :?>
 				Aucune tansition secondaire ne mène à cette scène.
 			<?php else: ?>
+				<tr>
+					<th>Scène précédente</th>
+					<th>Transition</th>
+					<th></th>
+				</tr>
 				<?php foreach ($transitions_secondaires as $transition) : ?>
-					<tr><td>
+					<tr>
+					<td>
 						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_origine->id)) ?>"> 
-							<i class="icon-file-alt"></i> 
+							<i class="icon-file-alt"></i>  
 							<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
-							<i class="icon-arrow-right"></i> 
+							<i class="icon-arrow-right"></i>  
 						</a>
-						<br>
-						[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>
+					</td>
+					<td>
+						[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
 						<a href="#" 
 			            	class="selectSemantiques" 
 			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
 			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-			                <i class="icon-pencil"></i>
+			                <i class="icon-pencil"></i>  
 			            </a>]
-			            
 			            <span class="edit CursorPointer"
 				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
 				            data-name="narration" 
 				            data-type="text" 
 				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
 				        </span>
-					</td></tr>
+					</td>
+					<td>
+						<a href="#" 
+							data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
+							class="deleteTransition"
+							data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+						<i class="icon-trash"></i>
+						</a>
+					</td>
+					</tr>
 				<?php endforeach; ?>
 			<?php endif;?>
 		</table>
 	</div>
 	
 	<div class="span6">
-		<h5>Transitions secondaires sortantes</h5>
+		<h3>Transitions secondaires sortantes</h3>
 		<table class="table">
 			<?php if ($scene->transitions_secondaires == null 
 					|| $scene->transitions_secondaires->count() == 0) :?>
 				Aucune tansition secondaire ne part de cette scène.
 			<?php else: ?>
+				<tr>
+					<th>Transition</th>
+					<th>Scène suivante</th>
+					<th></th>
+				</tr>
 				<?php foreach ($scene->transitions_secondaires as $transition) : ?>
-					<tr><td>
-						[<?php echo $this->escapeHtml($transition->semantique->semantique); ?>
+					<tr>
+					<td>
+						[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
 						<a href="#" 
 			            	class="selectSemantiques" 
 			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
 			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-			                <i class="icon-pencil"></i>
+			                <i class="icon-pencil"></i> 
 			            </a>]
-			            
 			            <span class="edit CursorPointer"
 				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
 				            data-name="narration" 
 				            data-type="text" 
 				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
 				        </span>
-			            
-						<br>
+					</td>
+			        <td>
 						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_destination->id)) ?>"> 
-							<i class="icon-arrow-right"></i> 
-							<i class="icon-file-alt"></i> 
+							<i class="icon-arrow-right"></i>  
+							<i class="icon-file-alt"></i>  
 							<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
 						</a>
-					</td></tr>
+					</td>
+					<td>
+						<a href="#" 
+							data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
+							class="deleteTransition"
+							data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+						<i class="icon-trash"></i>
+						</a>
+					</td>
+					</tr>
 				<?php endforeach; ?>
 			<?php endif;?>
        	</table>
+       	<div class="row-fluid">
+       		<div class="span6">
+				<a href="#" class="btn btn-primary"><i class="icon-plus"></i> Ajouter une transition vers une scène existante du parcours</a>
+			</div>
+       		<div class="span6">
+       			<a href="<?php echo $this->url('parcours/ajouterTransitionSec', array('idSceneOrigine'=>$scene->id, 'idSceneDestination'=>0)); ?>" 
+       				class="btn btn-primary">
+       				<i class="icon-plus"></i> Ajouter une transition vers une nouvelle scène secondaire
+       			</a>
+			</div>
+		</div>
 	</div>
 	
 </div>
@@ -121,6 +173,8 @@ $this->headTitle($title);
 <div class="row-fluid">
 
 	<div class="span6 well">
+		<h3>Narration</h3>
+		<hr>
 		<form id="textarea">
 			<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $scene->narration;?></textarea>
 			<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
@@ -129,7 +183,7 @@ $this->headTitle($title);
 	</div>
 	
 	<div class="span6 well">
-		<h2>À voir dans cette scène</h2>
+		<h3>À voir dans cette scène</h3>
 		<hr/>
 		<h4> Eléments déjà présents </h4>
 		<?php if ($scene->elements->count() == 0): ?>
@@ -198,6 +252,24 @@ $this->headTitle($title);
             $('#confirmDiv').confirmModal({
                 heading:'Confirmation',
                 body:"Êtes-vous sûr de vouloir supprimer définitivement la liaison entre cette scène et <i>" + dataValue + " </i>?",
+                callback: function() {
+                     $.post(
+                     	dataURL,
+                        { name: "supprimer" },
+                        function(response) {
+		                	document.location.reload();
+		            	}
+                    );
+                }
+          	});
+      	});
+      	
+      	$(".deleteTransition").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+            var dataValue = $(this).attr('data-value');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer définitivement la transition <i>" + dataValue + " </i>?",
                 callback: function() {
                      $.post(
                      	dataURL,

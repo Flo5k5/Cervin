@@ -293,6 +293,68 @@ class ParcoursController extends AbstractActionController
         	$this->getResponse()->setStatusCode(404);
         }
     }
+    
+    public function supprimerTransitionSecAction()
+    {
+    	$id = (int) $this->params('id', null);
+    	$transition = $this->getEntityManager()
+    		->getRepository('Parcours\Entity\Transition')
+    		->findOneBy(array('id'=>$id));
+    	if ($transition === null || $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$this->getEntityManager()->remove($transition);
+    	$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été supprimée.'));
+    	return $this->getResponse()->setContent(Json::encode(true));
+    }
+
+    public function ajouterTransitionSecAction()
+    {
+    	$idSceneOrigine = (int) $this->params('idSceneOrigine', null);
+    	$sceneOrigine = $this->getEntityManager()
+	    	->getRepository('Parcours\Entity\Scene')
+	    	->findOneBy(array('id'=>$idSceneOrigine));
+    	if ($sceneOrigine === null || $idSceneOrigine === null ) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	
+    	$idSceneDestination = (int) $this->params('idSceneDestination', null);
+    	if ($idSceneDestination == 0) {
+    		// Pas de scène destination précisée pour la nouvelle transition secondaire
+    		// On doit en créer une
+    		$sceneDestination = new \Parcours\Entity\SceneSecondaire();
+    		$sceneDestination->titre = "Nouvelle scène secondaire";
+    		$sceneDestination->narration = "";
+    		$sceneDestination->elements = new \Doctrine\Common\Collections\ArrayCollection();
+    		$sceneOrigine->sous_parcours->addScene($sceneDestination);
+    		$this->getEntityManager()->persist($sceneDestination);
+    		//$manager->flush();
+    	} else {
+    		$sceneDestination = $this->getEntityManager()
+    			->getRepository('Parcours\Entity\Scene')
+    			->findOneBy(array('id'=>$idSceneDestination));
+    	}
+    	if ($sceneDestination === null || $idSceneDestination === null ) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	
+    	$transition = new \Parcours\Entity\TransitionSecondaire();
+    	$transition->narration = "Nouvelle transition";
+    	$transition->scene_origine = $sceneOrigine;
+    	$transition->scene_destination = $sceneDestination;
+    	
+    	$sceneOrigine->sous_parcours->addTransition($transition);
+    	$this->getEntityManager()->persist($transition);
+    	$this->getEntityManager()->flush();
+    	
+    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été ajoutée.'));
+    	return $this->redirect()->toRoute('scene/editScene', array('id' => $idSceneOrigine));
+    }
+    
     /**
      * Affichage du parcour avec halviz
      */
@@ -300,64 +362,56 @@ class ParcoursController extends AbstractActionController
     {
       $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
       $escapeHtml = $viewHelperManager->get('escapeHtml');
-      // $id = (int) $this->params('id', null);
-      $id = 1;
-      $Parcour = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-      if ($Parcour === null || $id === null) {
+      $id = (int) $this->params('id', null);
+      $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+      if ($Parcours === null || $id === null) {
           $this->getResponse()->setStatusCode(404);
           return;
       }
 
       // création du dot 
       $dot = '';
-      foreach ( $Parcour->transitions as $transition) {
-        $dot .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'", color="red"];';
+      foreach ( $Parcours->transitions as $transition) {
+      		// Transitions inter-sous-parcours
+        	$dot .='s'.$transition->scene_origine->id.'
+        			->
+        		'.'s'.$transition->scene_destination->id.
+        		'[label="'.$escapeHtml($transition->semantique->semantique).'", 
+        				color=darkblue, 
+        				style=bold];';
       }
-      foreach ($Parcour->sous_parcours as $sous_parcour) {
-        $dot .= ' subgraph cluster_'.$sous_parcour->id.' { color=blue; label = "'.$escapeHtml($sous_parcour->titre).'";';
-        foreach ( $sous_parcour->scenes as $scene) {
-          $dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", color=orange,shape=box];';
-        }
-        foreach ( $sous_parcour->transitions as $transition) {
-          $color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
-          $dot .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.'];';
-        }
-        $dot .= '}';
+      foreach ($Parcours->sous_parcours as $sous_parcours) {
+      		// Sous-parcours
+	        $dot .= ' subgraph cluster_'.$sous_parcours->id.'{
+	        	color=darkgreen; 
+	        	label = "'.$escapeHtml($sous_parcours->titre).'";
+	        	fontcolor="darkgreen";
+	        	fontsize="20";
+	        	style="dashed";';
+	        
+	        foreach ( $sous_parcours->scenes as $scene) {
+	        	// Scene
+	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color=blue,style=bold' : 'color=grey,fontcolor=grey' ;
+	        	$dot .= 's'.$scene->id.'
+	        		[label="'.$escapeHtml($scene->titre).'",'
+	        		.$style.',
+	        		shape=box,
+	        		URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];';
+	        }
+	        foreach ( $sous_parcours->transitions as $transition) {
+	        	// Transition
+	        	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
+	          	$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color=blue,style=bold' : 'color=grey,fontcolor=grey' ;
+	          	$dot .='s'.$transition->scene_origine->id.'
+	          			->
+	          			'.'s'.$transition->scene_destination->id.'
+	          			[label="'.$escapeHtml($semantique).'",'
+	          			.$style.'];';
+	        }
+	        $dot .= '}';
       }
-/*$file = 'public/cache/canviz.gv';
 
-$current = file_get_contents($file);
-$current .= $dot;
-file_put_contents($file, $current); 
-$file = 'cache/canviz.gv';
-
-
-
-    	$chl = '';
-
-  // Add data, chart type, chart size, and scale to params.
-  $chart = array(
-    'cht' => 'gv',
-    'dot' => 'digraph unix {'.$dot.'}');
-
-
-
-    		}
-    		foreach ( $sous_parcour->transitions as $transition) {
-    			$color = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? ', color=black' : ', color=grey' ;
-    			$chl .='s'.$transition->scene_origine->id.'->'.'s'.$transition->scene_destination->id.'[label="'.$escapeHtml($transition->semantique->semantique).'"'.$color.']';
-
-    		}
-    		$chl .= '}';
-
-    	}
-    	foreach ( $Parcour->transitions as $transition) {
-
-*/
-
-      $viewModel = new ViewModel(array('Parcour' => $Parcour,'dot'=>$dot));
-      //$viewModel->setTerminal(true);
-      return $viewModel;
+      return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
     }
 
     public function ajouterSousParcoursAction()

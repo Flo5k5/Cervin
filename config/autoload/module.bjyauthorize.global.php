@@ -229,6 +229,8 @@ return array(
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
                 array('route' => 'parcours/supprimer', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifierTransition', 'roles' => array('Parcours')),
+                array('route' => 'parcours/supprimerTransitionSec', 'roles' => array('Parcours')),
+                array('route' => 'parcours/ajouterTransitionSec', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifier', 'roles' => array('Parcours')),
 
                 array('route' => 'parcours/voirParcourHalviz', 'roles' => array('Parcours')),

@@ -1,30 +1,31 @@
+<?php
+$title = $Parcours->titre;
+$this->headTitle($title);
+?>
 
-<script type="text/javascript">
-
-
-
-/*document.observe('dom:loaded', function() {
-	new Canviz('canviz', "<?php echo ROOT_DIR.$this->basePath() .'/'. $file;?>");
-});
-
-*/
-
-</script>
+<div class="page-header">
+	<div class="row-fluid">
+		<div class="span9">
+			<h1> <?php echo $this->escapeHtml($title); ?></h1>
+		</div>
+		<div class="span3">
+			<a href="<?php echo $this->url('parcours/voir', array('id' => $Parcours->id)) ?>" 
+				class="btn btn-primary btn-block"> 
+				<i class="icon-reply"></i> Retour au parcours
+			</a>
+		</div>
+    </div>
+</div>
 
 <script type="text/vnd.graphviz" id="cluster">
 digraph "G" { <?php echo $dot ; ?> }
 </script>
 
 <?php
-
-/*
-$this->headScript()->appendFile($this->basePath() . '/js/canviz/prototype.js');
-$this->headScript()->appendFile($this->basePath() . '/js/canviz/canviz.js');
- echo $this->headScript()->appendFile($this->basePath() . '/js/canviz/path.js');*/
  echo $this->headScript()->appendFile($this->basePath() . '/js/canviz/viz.js');
-
 ?>
-   <script>
+
+<script>
       
       function inspect(s) {
         return "<pre>" + s.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;") + "</pre>"
@@ -46,14 +47,10 @@ $this->headScript()->appendFile($this->basePath() . '/js/canviz/canviz.js');
           return inspect(e.toString());
         }
       }
-      
-      
-      document.body.innerHTML += "<h1>Cluster (svg output)</h1>";
-      document.body.innerHTML += example("cluster", "svg");
-      
 
-      
-    </script>
-    
+      document.body.innerHTML += example("cluster", "svg");
+
+ </script>
+
 
 

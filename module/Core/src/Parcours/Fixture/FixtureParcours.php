@@ -770,7 +770,7 @@ class FixtureParcours implements FixtureInterface
 		//	Transition scene_sec5->scene8
 		//
 		$transition_sec5 = new Parcours\Entity\TransitionSecondaire();
-		$transition_sec5->narration = "Vers les hautes et les bas de la recherche";
+		$transition_sec5->narration = "Vers les hauts et les bas de la recherche";
 		$transition_sec5->semantique = $semantique_chronologie;
 		$transition_sec5->scene_origine = $scene_sec5;
 		$transition_sec5->scene_destination = $scene8;
