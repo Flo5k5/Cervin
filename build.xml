@@ -23,7 +23,18 @@
 
 	<target name="qa" description="Lance les outils d'analyse.">
 		<phingcall target="phpcs" />
+		<phingcall target="phploc" />
 	</target>
+	
+	
+	<target name="phploc" description="Permet d'appeler l'outil PHP LOC pour lancer des outils de statistiques sur le projet.">
+        <exec executable="phploc">
+            <arg value="--log-csv" />
+            <arg value="${basedir}/build/logs/phploc.csv" />
+            <arg path="${basedir}/module" />
+            <arg path="${basedir}/config" />
+        </exec>
+     </target>
 
 	<target name="phpcs" description="Permet d'appeler l'outil PHP CS pour la vérification de style syntaxique.">
 		<phpcodesniffer standard="PEAR">
