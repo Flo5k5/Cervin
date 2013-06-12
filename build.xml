@@ -27,7 +27,7 @@
 	</target>
 
 	<target name="phpcs" description="Permet d'appeler l'outil PHP CS pour la vérification de style syntaxique.">
-		<phpcodesniffer standard="Cervin">
+		<phpcodesniffer standard="PEAR">
 			<fileset dir="${project.basedir}/${src}">
 				<include name="module/**/*.php" />
 				<include name="config/**/*.php" />
