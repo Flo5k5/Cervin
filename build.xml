@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Cervin" default="ci" basedir="..">
+	<property name="build" value="build" />
+	<property name="src" value="src" />
+
+	<target name="ci" description="Tâche principale d'intégration continue."
+		depends="clean,qa">
+	</target>
+
+	<!-- Permet de cleaner les répertoires. -->
+	<target name="clean" description="Vide les répertoires d'artefacts.">
+		<delete dir="${project.basedir}/${build}/api" />
+		<delete dir="${project.basedir}/${build}/code-browser" />
+		<delete dir="${project.basedir}/${build}/coverage" />
+		<delete dir="${project.basedir}/${build}/logs" />
+		<delete dir="${project.basedir}/${build}/pdepend" />
+
+		<mkdir dir="${project.basedir}/${build}/api" />
+		<mkdir dir="${project.basedir}/${build}/code-browser" />
+		<mkdir dir="${project.basedir}/${build}/coverage" />
+		<mkdir dir="${project.basedir}/${build}/logs" />
+		<mkdir dir="${project.basedir}/${build}/pdepend" />
+	</target>
+
+	<target name="qa" description="Lance les outils d'analyse.">
+		<phingcall target="phpcs" />
+	</target>
+
+	<target name="phpcs" description="Permet d'appeler l'outil PHP CS pour la vérification de style syntaxique.">
+		<phpcodesniffer standard="Cervin">
+			<fileset dir="${project.basedir}/${src}">
+				<include name="module/**/*.php" />
+				<include name="config/**/*.php" />
+			</fileset>
+			<formatter type="checkstyle"
+				outfile="${project.basedir}/${build}/logs/checkstyle.xml" />
+		</phpcodesniffer>
+	</target>
+</project>
