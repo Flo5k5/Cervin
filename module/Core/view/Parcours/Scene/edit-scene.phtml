@@ -4,7 +4,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
-//$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $scene->titre;
 $this->headTitle($title);
@@ -39,17 +38,19 @@ $this->headTitle($title);
     </div>
 </div>
 
-<div class="tabbable"> <!-- Only required for left/right tabs -->
+<div class="tabbable">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#tab1" data-toggle="tab">Contenu de la scène</a></li>
 		<li><a href="#tab2" data-toggle="tab">Scènes voisines</a></li>
 	</ul>
 
 	<div class="tab-content">
+		<!-- Contenu de la scène -->
 		<div class="tab-pane active" id="tab1">
 		
 			<div class="row-fluid">
 
+				<!-- Narration -->
 				<div class="span6 well">
 					<h3>Narration</h3>
 					<hr>
@@ -60,6 +61,7 @@ $this->headTitle($title);
 					<div id="textarea-return"></div>
 				</div>
 				
+				<!-- A voir dans la scsène -->
 				<div class="span6 well">
 					<h3>À voir dans cette scène</h3>
 					<hr/>
@@ -114,15 +116,16 @@ $this->headTitle($title);
 				</div> <!-- /span6 -->
 			</div> <!-- /row-fluid -->
 			
-		</div> <!-- /tab1 -->
+		</div> <!-- /tab1 contenu de la scène -->
 		
+		<!-- Scènes voisines -->
 		<div class="tab-pane" id="tab2">
 		
 			<!-- Transitions recommandées autour de cette scène -->
 			<?php if ($estRecommandee) :?>
 			<div class="row-fluid">
 			
-				<!-- Transitions entrantes -->
+				<!-- Transition recommandée entrante -->
 				<div class="span6">
 					<h4><p class="text-info">Transition recommandée entrante</p></h4>
 						<table class="table">
@@ -161,7 +164,7 @@ $this->headTitle($title);
 					</table>
 				</div> <!-- /span6 transition recommandée entrante -->
 				
-				<!-- Tranitions sortantes -->
+				<!-- Tranition recommandée sortante -->
 				<div class="span6">
 					<h4><p class="text-info">Transition recommandée sortante</p></h4>
 					<table class="table">
@@ -200,14 +203,14 @@ $this->headTitle($title);
 						<?php endif;?>
 			       	</table>
 				</div> <!-- /span6 transition recommandée sortante -->
-			</div> <!-- /row-fluid transitions recommandée -->
+			</div> <!-- /row-fluid transitions recommandées -->
 			<hr>
 			<?php endif;?>
 		
 			<!-- Transitions secondaires autour de cette scène -->
 			<div class="row-fluid">
 			
-				<!-- Transitions entrantes -->
+				<!-- Transitions secondaires entrantes -->
 				<div class="span6">
 					<h4><p class="muted">Transitions secondaires entrantes</p></h4>
 					<table class="table">
@@ -280,7 +283,7 @@ $this->headTitle($title);
 					</table>
 				</div> <!-- /span 6 transitions secondaires entrantes -->
 				
-				<!-- Tranitions sortantes -->
+				<!-- Tranitions secondaires sortantes -->
 				<div class="span6">
 					<h4><p class="muted">Transitions secondaires sortantes</p></h4>
 					<table class="table">
@@ -359,7 +362,7 @@ $this->headTitle($title);
 				</div> <!-- /span6 transitions secondaires sortantes -->
 			</div> <!-- /row-fluid transitions secondaires -->
 			
-		</div> <!-- /tab2 -->
+		</div> <!-- /tab2 scènes voisines -->
 	</div> <!-- / tab-conttent -->
 </div> <!-- / tabbable -->
 
