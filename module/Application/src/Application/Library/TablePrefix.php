@@ -4,7 +4,7 @@ namespace Application\Library;
 
 use \Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
-error_reporting(E_ALL ^ E_NOTICE);
+//error_reporting(E_ALL ^ E_NOTICE);
 
 class TablePrefix implements \Doctrine\Common\EventSubscriber
 {
@@ -12,7 +12,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
 
     public function __construct($prefix = null)
     {
-        if( isset($prefix) ){
+        if( isset($prefix) && !empty($prefix) ){
             $this->prefix = (string) $prefix;
         } elseif( defined(PREFIX) ){
             $this->prefix = (string) PREFIX;
@@ -36,7 +36,7 @@ class TablePrefix implements \Doctrine\Common\EventSubscriber
         $classMetadata = $eventArgs->getClassMetadata();
         $classMetadata->setTableName($this->prefix . $classMetadata->getTableName());
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-            if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY) {
+            if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY && isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])) {
                 $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
                 $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
             }

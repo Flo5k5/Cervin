@@ -18,13 +18,10 @@ $this->headTitle($title);
 </div>
 
 <script type="text/vnd.graphviz" id="cluster">
-
 //<!--
-digraph "<?php echo $Parcours->titre; ?>" { 
-graph [bgcolor="#f3f3f3"]
-<?php echo $dot ; ?>}
-//-->
 
+
+//-->
 </script>
 
 <?php
@@ -51,6 +48,9 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 
 <script>
     // https://github.com/timmywil/jquery.panzoom
+    
+    var graph = 'digraph "<?php echo $this->escapeHtml($Parcours->titre); ?>" { graph [bgcolor="#f3f3f3"]; <?php echo $dot; ?> }';
+    
       $("#panzoom").panzoom({
         $zoomIn: $(".zoom-in"),
         $zoomOut: $(".zoom-out"),
@@ -78,7 +78,8 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
           return inspect(e.toString());
         }
       }
-      $('#panzoom').html(example("cluster", "svg"));
+      
+      $('#panzoom').html(Viz( graph, "svg"));
       //document.body.innerHTML += example("cluster", "svg");
 
  </script>

@@ -150,7 +150,7 @@ return array(
                     //'Gedmo\Tree\TreeListener',
                     'Gedmo\Timestampable\TimestampableListener',
                     //'Gedmo\Sluggable\SluggableListener',
-                    'Gedmo\Loggable\LoggableListener',
+                    //'Gedmo\Loggable\LoggableListener',
                     //'Gedmo\Sortable\SortableListener'
 
                     // Listener pour le préfixe des tables ( constante dans la configuration globale )

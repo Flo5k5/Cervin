@@ -369,13 +369,13 @@ class ParcoursController extends AbstractActionController
           return;
       }
       // création du dot
-      $dot = 'Départ [shape="plaintext"];' . "\n";
-      $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style=dashed];' . "\n";
+      $dot = 'Départ [shape="plaintext"];' . ' ';
+      $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style="dashed"];' . ' ';
       foreach ( $Parcours->transitions as $transition) {
       		// Transitions inter-sous-parcours
       		$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
         	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
-        	$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue"];' . "\n";
+        	$dot .= '[ edgetooltip="'.$escapeHtml($semantique).'", color="darkblue", penwidth="3", fontcolor="darkblue"];' . ' ';
       }
       foreach ($Parcours->sous_parcours as $sous_parcours) {
       		// Sous-parcours
@@ -385,20 +385,20 @@ class ParcoursController extends AbstractActionController
 	        $dot .= 'tooltip = "'.$escapeHtml($sous_parcours->titre).'";';
 	        $dot .= 'fontcolor="darkgreen";';
 	        $dot .= 'fontsize="20";';
-	        $dot .= 'style="dashed";' . "\n";
+	        $dot .= 'style="dashed";' . ' ';
 	        foreach ( $sous_parcours->transitions as $transition) {
 	        	// Transition
 	        	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
 	        	$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="3", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="2"' ;
-	        	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . "\n";
+	        	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . ' ';
 	        }
 	        foreach ( $sous_parcours->scenes as $scene) {
 	        	// Scene
-	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style=bold, fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
-	        	$dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
+	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style="bold", fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
+	        	$dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . ' ';
 	        }
 	        
-	        $dot .= '}' . "\n";
+	        $dot .= '}' . ' ';
       }
       return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
     }
