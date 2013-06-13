@@ -18,13 +18,11 @@ $this->headTitle($title);
 </div>
 
 <script type="text/vnd.graphviz" id="cluster">
-
 //<!--
-digraph "<?php echo $Parcours->titre; ?>" { 
-graph [bgcolor="#f3f3f3"]
-<?php echo $dot ; ?>}
-//-->
 
+digraph "<?php echo $this->escapeHtml($Parcours->titre); ?>" { graph [bgcolor="#f3f3f3"]; <?php echo $dot; ?> }
+
+//-->
 </script>
 
 <?php

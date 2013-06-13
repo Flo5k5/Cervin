@@ -23,6 +23,7 @@ use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
 
 use Gedmo\Loggable\LoggableListener as LoggableListener;
+//use Application\Library\TablePrefix;
 
 class Module implements AutoloaderProviderInterface,
     ConfigProviderInterface,
@@ -39,7 +40,7 @@ class Module implements AutoloaderProviderInterface,
         $evm = $em->getEventManager();
 
         
-        //$tablePrefix = new \DoctrineExtensions\TablePrefix('mbo_');
+        //$tablePrefix = new TablePrefix('mbo_');
         //$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
       	
       	//  $evm = new \Doctrine\Common\EventManager();
@@ -47,7 +48,7 @@ class Module implements AutoloaderProviderInterface,
 
         $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'DEV' ;
         
-        /*$loggableListener = new LoggableListener;
+        $loggableListener = new LoggableListener;
         //$loggableListener->setAnnotationReader($cachedAnnotationReader);
         $loggableListener->setUsername($user);
         
