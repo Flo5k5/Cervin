@@ -28,13 +28,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
         <i class="icon-road"></i><?php echo $this->escapeHtml($title); ?>
     	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> 
     	</h1>
-    <p><?php echo $this->escapeHtml($Parcours->description);?></p>
+    	<p><?php echo $this->escapeHtml($Parcours->description);?></p>
     <?php endif;?>
-    <a href="<?php echo $this->url('parcours/voirParcourHalviz',array('id' => $Parcours->id)) ?>"
-    	target="_blank"
-    	class="btn btn-warning">
-    	<i class="icon-code-fork"></i>   Graphe du parcours
-	</a>
 </div>
 
 <!-- Help Modal -->
@@ -72,9 +67,39 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 </style>
 
+<script type="text/vnd.graphviz" id="cluster">
+
+//<!--
+digraph "<?php echo $Parcours->titre; ?>" { 
+graph [bgcolor="#f3f3f3"]
+<?php echo $dot ; ?>}
+//-->
+
+</script>
+
+<?php
+$this->headScript()->appendFile($this->basePath() . '/js/viz.js');
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
+?>
+
+<div class="row-fluid">
+	<div class="span8 offset4">
+		<section class="buttons">
+	    	<button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
+	        <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
+	        <!-- <input type="range" class="zoom-range"> -->
+	        <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
+	        <button class="btn btn-primary"><i class="icon-refresh"></i></button>
+		</section>
+	</div>
+</div>
+
+<br>
+
 <div class="row-fluid">
 
 	<!-- Menu de navigation dans le parcours -->
+	<!--
 	<div class="span4 well">
 		<h4> Chemin recommandé </h4>
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
@@ -102,15 +127,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 			endwhile; ?>
 		</ul>
 	</div>
+	-->
 	
-	<!-- Affichage du parcours -->
-	<div class="span8">
+	<!-- Chemin recommandé -->
+	<div class="span4" style="border:3px solid black; height:1000px; overflow:auto; padding:10px 10px 10px 10px;">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<!-- On affiche les sous-parcours un à un -->
 		<?php while ($sous_parcours != null) : ?>
 			<div class="row-fluid">
 				
-				<div class="span6 elements sous_parcours">
+				<div class="span12 elements sous_parcours">
 			    	<!-- Titre du sous-parcours -->
 			    	<?php echo $this->TitreSousParcoursWidget($sous_parcours); ?>
 					<hr/>
@@ -119,10 +145,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 					<?php 
 					$scene_depart = $sous_parcours->scene_depart;?>
 					<?php echo $this->BoutonSceneWidget($scene_depart);?>
-					<?php echo $this->TransitionsSecondairesWidget($scene_depart); ?>
 					<br>
-					<!-- Transitions secondaires depuis cette scène -->
-					<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
 				
 				   	<?php  $transition = $scene_depart->transition_recommandee;
 				    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
@@ -131,11 +154,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				        <?php echo $this->TransitionWidget($transition); ?>
 				        <!-- On affiche la scène suivante -->
 				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); 
-				        echo $this->TransitionsSecondairesWidget($transition->scene_destination); ?>
+				        //echo $this->TransitionsSecondairesWidget($transition->scene_destination); ?>
 				        
 				        <br>
-						<!-- Transitions secondaires depuis cette scène -->
-						<?php //echo $this->TransitionsSecondairesWidget($scene_depart); ?>
 						<!-- On avance dans le sous-parcours -->
 						<?php $transition = $transition->scene_destination->transition_recommandee;
 			    	endwhile; ?>
@@ -148,7 +169,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				<!-- Il y a un sous-parcours suivant -->
 				<!-- et on affiche la transition inter-sous-parcours -->
 				<div class="row-fluid">
-					<div class='span6 elements'>
+					<div class='span12 elements'>
 						<?php echo $this->TransitionWidget($transition); ?>
 					</div>
 				</div>
@@ -158,7 +179,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 			<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
 		endwhile ; ?>
 		
-	</div> <!-- /span8 -->
+	</div> <!-- /span4 -->
+	
+	<!-- Graphe -->
+	<div class="span8">
+		<div style="overflow: hidden; position: relative; border:3px solid black;"> 
+			<div id="panzoom" style="text-align: center; height: 1000px">
+			</div>
+		</div>
+	</div>
 	
 </div> <!-- /row-fluid -->
 
@@ -166,6 +195,39 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 <div id="confirmDiv"></div>
 <div id="modalDiv"></div>
 
+<script>
+    // https://github.com/timmywil/jquery.panzoom
+      $("#panzoom").panzoom({
+        $zoomIn: $(".zoom-in"),
+        $zoomOut: $(".zoom-out"),
+        $zoomRange: $(".zoom-range"),
+        $reset: $(".reset")
+      });
+      
+      function inspect(s) {
+        return "<pre>" + s.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;") + "</pre>"
+      }
+      
+      function src(id) {
+        return document.getElementById(id).innerHTML;
+      }
+      
+      function example(id, format) {
+        var result;
+        try {
+          result = Viz(src(id), format);
+          if (format === "svg")
+            return result;
+          else
+            return inspect(result);
+        } catch(e) {
+          return inspect(e.toString());
+        }
+      }
+      $('#panzoom').html(example("cluster", "svg"));
+      //document.body.innerHTML += example("cluster", "svg");
+
+ </script>
 
 <?php
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');

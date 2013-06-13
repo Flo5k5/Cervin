@@ -70,6 +70,11 @@ class Scene implements InputFilterAwareInterface
     protected $transitions_secondaires;
     
     /**
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\TransitionSecondaire", mappedBy="scene_destination")
+     **/
+    protected $transitions_secondaires_entrantes;
+    
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property

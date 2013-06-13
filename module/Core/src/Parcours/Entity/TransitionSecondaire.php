@@ -26,7 +26,7 @@ class TransitionSecondaire extends Transition
     protected $scene_origine;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene")
+     * @ORM\ManyToOne(targetEntity="Parcours\Entity\Scene", inversedBy="transitions_secondaires_entrantes")
      **/
     protected $scene_destination;    
     
