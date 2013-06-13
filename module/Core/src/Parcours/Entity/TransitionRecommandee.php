@@ -26,7 +26,7 @@ class TransitionRecommandee extends Transition
     protected $scene_origine;
     
     /**
-     * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee")
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\SceneRecommandee", inversedBy="transition_recommandee_entrante")
      **/
     protected $scene_destination;
 

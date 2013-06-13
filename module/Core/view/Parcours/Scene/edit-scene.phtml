@@ -4,20 +4,25 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
-//$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 
 $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
+<?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
+
 <!-- En tête -->
 <div class="page-header">
 	<div class="row-fluid">
 		<div class="span9">
-			<h1>
-			Modification d'une scène : <br/>
+			<?php if ($estRecommandee) :?>
+					<h1><p class="text-info">
+			<?php else : ?>
+					<h1><p class="muted">
+			<?php endif;?>
+			<i class="icon-pencil"></i>
 			<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
-			</h1>
+			</p></h1>
 		</div>
 		<div class="span3">
 		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
@@ -31,226 +36,335 @@ $this->headTitle($title);
 	    </a>
 	    </div>
     </div>
-    <a href="<?php echo $this->url('parcours/voirParcourHalviz',array('id' => $scene->sous_parcours->parcours->id)) ?>"
-    	target="_blank"
-    	class="btn btn-warning">
-    	<i class="icon-code-fork"></i> Graphe du parcours
-	</a>
 </div>
 
-<!-- Transitions autour de cette scène -->
-<div class="row-fluid">
+<div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#tab1" data-toggle="tab">Contenu de la scène</a></li>
+		<li><a href="#tab2" data-toggle="tab">Scènes voisines</a></li>
+	</ul>
 
-	<!-- Transitions entrantes -->
-	<div class="span6">
-		<h3>Transitions secondaires entrantes</h3>
-		<table class="table">
-			<?php if ($transitions_secondaires_entrantes == null) :?>
-				Aucune tansition secondaire ne mène à cette scène.
-			<?php else: ?>
-				<tr>
-					<th>Scène précédente</th>
-					<th>Transition</th>
-					<th></th>
-				</tr>
-				<?php foreach ($transitions_secondaires_entrantes as $transition) : ?>
-					<tr>
-					<td>
-						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_origine->id)) ?>"> 
-							<i class="icon-file-alt"></i>  
-							<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
-							<i class="icon-arrow-right"></i>  
-						</a>
-					</td>
-					<td>
-						[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
-						<a href="#" 
-			            	class="selectSemantiques" 
-			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-			                <i class="icon-pencil"></i>  
-			            </a>]
-			            <span class="edit CursorPointer"
-				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-				            data-name="narration" 
-				            data-type="text" 
-				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-				        </span>
-					</td>
-					<td>
-						<a href="#" 
-							data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
-							class="deleteTransition"
-							data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
-						<i class="icon-trash"></i>
-						</a>
-					</td>
-					</tr>
-				<?php endforeach; ?>
-			<?php endif;?>
-			<td>
-       			<div class="input-append">
-			       	<select id="selectSceneOrigine">
-			       		<?php foreach ($scenes_parcours as $scene_parcours) :?>
-						<option value="<?php echo $scene_parcours->id; ?>">
-							<?php  echo $scene_parcours->titre; ?>
-						</option>
-						<?php endforeach; ?>
-					</select>
-					<button class="btn btn-primary ajouterTransitionSecEntrante" type="submit">
-						<i class="icon-plus"></i>
-					</button>
-			 	</div>
-			</td>
-			<td>
-				... Ajouter une transition secondaire entrante depuis
-			</td>
-		</table>
-	</div>
-	
-	<!-- Tranitions sortantes -->
-	<div class="span6">
-		<h3>Transitions secondaires sortantes</h3>
-		<table class="table">
-			<?php if ($scene->transitions_secondaires == null 
-					|| $scene->transitions_secondaires->count() == 0) :?>
-				Aucune tansition secondaire ne part de cette scène.
-			<?php else: ?>
-				<tr>
-					<th>Transition</th>
-					<th>Scène suivante</th>
-					<th></th>
-				</tr>
-				<?php foreach ($scene->transitions_secondaires as $transition) : ?>
-					<tr>
-					<td>
-						[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
-						<a href="#" 
-			            	class="selectSemantiques" 
-			            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-			                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
-			                <i class="icon-pencil"></i> 
-			            </a>]
-			            <span class="edit CursorPointer"
-				        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-				            data-name="narration" 
-				            data-type="text" 
-				            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-				        </span>
-					</td>
-			        <td>
-						<a href="<?php echo $this->url('scene/editScene', array('id' => $transition->scene_destination->id)) ?>"> 
-							<i class="icon-arrow-right"></i>  
-							<i class="icon-file-alt"></i>  
-							<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
-						</a>
-					</td>
-					<td>
-						<a href="#" 
-							data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
-							class="deleteTransition"
-							data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
-						<i class="icon-trash"></i>
-						</a>
-					</td>
-					</tr>
-				<?php endforeach; ?>
-			<?php endif;?>
-			<tr>
-				<td>
-					Ajouter une transition sortante vers...
-				</td>
-				<td>
-       			    <div class="input-append">
-			       		<select id="selectSceneDestination">
-			       			<option value="0">
-								-- Créer une nouvelle scène comme destination --
-							</option>
-			       			<?php foreach ($scenes_parcours as $scene_parcours) :?>
-							<option value="<?php echo $scene_parcours->id; ?>">
-								<?php  echo $scene_parcours->titre; ?>
-							</option>
-							<?php endforeach; ?>
-						</select>
-						<button class="btn btn-primary ajouterTransitionSecSortante" type="submit">
-							<i class="icon-plus"></i>
-						</button>
-				 	</div>
-				</td>
-			</tr>
-       	</table>
-	</div>
-	
-</div>
-
-<hr>
-
-<div class="row-fluid">
-
-	<div class="span6 well">
-		<h3>Narration</h3>
-		<hr>
-		<form id="textarea">
-			<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $scene->narration;?></textarea>
-			<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
-		</form>
-		<div id="textarea-return"></div>
-	</div>
-	
-	<div class="span6 well">
-		<h3>À voir dans cette scène</h3>
-		<hr/>
-		<h4> Eléments déjà présents </h4>
-		<?php if ($scene->elements->count() == 0): ?>
-				Aucun élément de la collection n'est lié à cette scène.
-		<?php endif; ?>
-		<?php if ($scene->elements != null) : ?>
-			<table class="table">
-			<?php foreach($scene->elements as $element) : ?>
-				<?php if($element instanceof Collection\Entity\Artefact) : ?>
-					<tr>
-					<td>
-						<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id))?>"> 
-						<i class="icon-tag"></i> <?php echo $this->escapeHtml($element->titre); ?>
-					 	</a>
-					</td>
-					<td>
-						<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
-							class="deleteElement"
-							data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
-						<i class="icon-trash"></i>
-						</a>
-					</td>
-					<tr>
-				<?php elseif($element instanceof Collection\Entity\Media) : ?>
-					<tr>
-					<td>
-						<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id))?>"> 
-						<i class="icon-picture"></i> <?php echo $this->escapeHtml($element->titre); ?>
-					 	</a>
-					</td>
-					<td>
-						<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
-							class="deleteElement"
-							data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
-						<i class="icon-trash"></i>
-						</a>
-					</td>
-					<tr>
-				<?php endif; ?>
-			<?php endforeach ;?>
-			</table>
-		<?php else : ?>
-			<p> Aucun élément de la collection n'est présent cette scène. </p>
-		<?php endif; ?>
+	<div class="tab-content">
+		<!-- Contenu de la scène -->
+		<div class="tab-pane active" id="tab1">
 		
-		<h4>Ajouter des éléments à la scène </h4>
-		<div class="well">
-			<?php echo $this->DatatableWidget( 'scene' ); ?> 
-		</div>
-	</div>
-</div>
+			<div class="row-fluid">
 
+				<!-- Narration -->
+				<div class="span6 well">
+					<h3>Narration</h3>
+					<hr>
+					<form id="textarea">
+						<textarea class="textarea-wysihtml5 input-block-level" data-name="description" rows="10" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $scene->narration;?></textarea>
+						<button type="button" class="textarea-submit btn btn-primary editable-submit"><i class="icon-ok icon-white"></i> Enregistrer</button>
+					</form>
+					<div id="textarea-return"></div>
+				</div>
+				
+				<!-- A voir dans la scsène -->
+				<div class="span6 well">
+					<h3>À voir dans cette scène</h3>
+					<hr/>
+					<h4> Eléments déjà présents </h4>
+					<?php if ($scene->elements->count() == 0): ?>
+							Aucun élément de la collection n'est lié à cette scène.
+					<?php endif; ?>
+					<?php if ($scene->elements != null) : ?>
+						<table class="table">
+						<?php foreach($scene->elements as $element) : ?>
+							<?php if($element instanceof Collection\Entity\Artefact) : ?>
+								<tr>
+								<td>
+									<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id))?>"> 
+									<i class="icon-tag"></i> <?php echo $this->escapeHtml($element->titre); ?>
+								 	</a>
+								</td>
+								<td>
+									<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
+										class="deleteElement"
+										data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
+									<i class="icon-trash"></i>
+									</a>
+								</td>
+								<tr>
+							<?php elseif($element instanceof Collection\Entity\Media) : ?>
+								<tr>
+								<td>
+									<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id))?>"> 
+									<i class="icon-picture"></i> <?php echo $this->escapeHtml($element->titre); ?>
+								 	</a>
+								</td>
+								<td>
+									<a href="#" data-value=" <?php echo $this->escapeHtml($element->titre); ?>" 
+										class="deleteElement"
+										data-url="<?php echo $this->url('scene/deleteElement', array('idScene' => $scene->id, 'idElement' => $element->id)); ?>">
+									<i class="icon-trash"></i>
+									</a>
+								</td>
+								<tr>
+							<?php endif; ?>
+						<?php endforeach ;?>
+						</table>
+					<?php else : ?>
+						<p> Aucun élément de la collection n'est présent cette scène. </p>
+					<?php endif; ?>
+					
+					<h4>Ajouter des éléments à la scène </h4>
+					<div class="well">
+						<?php echo $this->DatatableWidget( 'scene' ); ?> 
+					</div>
+				</div> <!-- /span6 -->
+			</div> <!-- /row-fluid -->
+			
+		</div> <!-- /tab1 contenu de la scène -->
+		
+		<!-- Scènes voisines -->
+		<div class="tab-pane" id="tab2">
+		
+			<!-- Transitions recommandées autour de cette scène -->
+			<?php if ($estRecommandee) :?>
+			<div class="row-fluid">
+			
+				<!-- Transition recommandée entrante -->
+				<div class="span6">
+					<h4><p class="text-info">Transition recommandée entrante</p></h4>
+						<table class="table">
+						<?php if ($scene->transition_recommandee_entrante == null) :?>
+							<p class="text-info">Première scène recommandée du parcours</p>
+						<?php else: ?>
+							<tr>
+								<td>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $scene->transition_recommandee_entrante->scene_origine->id)) ?>"> 
+										<p class="text-info">
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($scene->transition_recommandee_entrante->scene_origine->titre); ?> </em>
+										<i class="icon-arrow-right"></i>  
+										</p>
+									</a>
+								</td>
+								<td>
+									<p class="text-info">
+									[<?php echo ($scene->transition_recommandee_entrante->semantique) ? $scene->transition_recommandee_entrante->semantique->semantique : 'Sémantique inconnue' ; ?>
+									<a href="#" 
+						            	class="selectSemantiques" 
+						            	data-value="<?php echo ($scene->transition_recommandee_entrante->semantique) ? $scene->transition_recommandee_entrante->semantique->id : 'null' ; ?>"
+						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $scene->transition_recommandee_entrante->id)) ?>">
+						                <i class="icon-pencil"></i>  
+						            </a>]
+						            <span class="edit CursorPointer"
+							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $scene->transition_recommandee_entrante->id)); ?>"
+							            data-name="narration" 
+							            data-type="text" 
+							            data-pk="1"><?php echo $this->escapeHtml($scene->transition_recommandee_entrante->narration); ?>
+							        </span>
+							        </p>
+								</td>
+							</tr>
+						<?php endif;?>
+					</table>
+				</div> <!-- /span6 transition recommandée entrante -->
+				
+				<!-- Tranition recommandée sortante -->
+				<div class="span6">
+					<h4><p class="text-info">Transition recommandée sortante</p></h4>
+					<table class="table">
+						<?php if ($scene->transition_recommandee == null ) :?>
+							<p class="text-info">Dernière scène recommandée du parcours</p>
+						<?php else: ?>
+							<?php $transition = $scene->transition_recommandee; ?>
+							<tr>
+								<td>
+									<p class="text-info">
+									[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+									<a href="#" 
+						            	class="selectSemantiques" 
+						            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+						                <i class="icon-pencil"></i> 
+						            </a>]
+						            <span class="edit CursorPointer"
+							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+							            data-name="narration" 
+							            data-type="text" 
+							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+							        </span>
+							        </p>
+								</td>
+						        <td>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
+										<p class="text-info">
+										<i class="icon-arrow-right"></i>  
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+										</p>
+									</a>
+								</td>
+							</tr>
+						<?php endif;?>
+			       	</table>
+				</div> <!-- /span6 transition recommandée sortante -->
+			</div> <!-- /row-fluid transitions recommandées -->
+			<hr>
+			<?php endif;?>
+		
+			<!-- Transitions secondaires autour de cette scène -->
+			<div class="row-fluid">
+			
+				<!-- Transitions secondaires entrantes -->
+				<div class="span6">
+					<h4><p class="muted">Transitions secondaires entrantes</p></h4>
+					<table class="table">
+						<?php if ($scene->transitions_secondaires_entrantes == null
+								|| $scene->transitions_secondaires_entrantes->count() == 0) :?>
+							<p class="muted">Aucune tansition secondaire ne mène à cette scène.</p>
+						<?php else: ?>
+							<?php foreach ($scene->transitions_secondaires_entrantes as $transition) : ?>
+								<tr>
+								<td>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_origine->id)) ?>"> 
+										<?php if ($transition->scene_origine instanceof \Parcours\Entity\SceneRecommandee) : ?>
+											<p class="text-info">
+										<?php else : ?>
+											<p class="muted">
+										<?php endif;?>
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($transition->scene_origine->titre); ?> </em>
+										<i class="icon-arrow-right"></i>  
+										</p>
+									</a>
+								</td>
+								<td>
+									<p class="muted">
+									[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+									<a href="#" 
+						            	class="selectSemantiques" 
+						            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+						                <i class="icon-pencil"></i>  
+						            </a>]
+						            <span class="edit CursorPointer"
+							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+							            data-name="narration" 
+							            data-type="text" 
+							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+							        </span>
+							        </p>
+								</td>
+								<td>
+									<a href="#" 
+										data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
+										class="deleteTransition"
+										data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+									<p class="text-error"><i class="icon-trash"></i></p>
+									</a>
+								</td>
+								</tr>
+							<?php endforeach; ?>
+						<?php endif;?>
+						<td>
+			       			<div class="input-append">
+						       	<select id="selectSceneOrigine">
+						       		<?php foreach ($scenes_parcours as $scene_parcours) :?>
+									<option value="<?php echo $scene_parcours->id; ?>">
+										<?php  echo $scene_parcours->titre; ?>
+									</option>
+									<?php endforeach; ?>
+								</select>
+								<button class="btn ajouterTransitionSecEntrante" type="submit">
+									<i class="icon-plus"></i>
+								</button>
+						 	</div>
+						</td>
+						<td>
+							<p class="muted">... Ajouter une transition secondaire entrante depuis</p>
+						</td>
+						<td>
+						</td>
+					</table>
+				</div> <!-- /span 6 transitions secondaires entrantes -->
+				
+				<!-- Tranitions secondaires sortantes -->
+				<div class="span6">
+					<h4><p class="muted">Transitions secondaires sortantes</p></h4>
+					<table class="table">
+						<?php if ($scene->transitions_secondaires == null 
+								|| $scene->transitions_secondaires->count() == 0) :?>
+							Aucune tansition secondaire ne part de cette scène.
+						<?php else: ?>
+							<?php foreach ($scene->transitions_secondaires as $transition) : ?>
+								<tr>
+								<td>
+									<p class="muted">
+									[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+									<a href="#" 
+						            	class="selectSemantiques" 
+						            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
+						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+						                <i class="icon-pencil"></i> 
+						            </a>]
+						            <span class="edit CursorPointer"
+							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
+							            data-name="narration" 
+							            data-type="text" 
+							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
+							        </span>
+							        </p>
+								</td>
+						        <td>
+									<a href="<?php echo $this->url('scene/voirScene', array('id' => $transition->scene_destination->id)) ?>"> 
+										<?php if ($transition->scene_destination instanceof \Parcours\Entity\SceneRecommandee) : ?>
+											<p class="text-info">
+										<?php else : ?>
+											<p class="muted">
+										<?php endif;?>
+										<i class="icon-arrow-right"></i>  
+										<i class="icon-file-alt"></i>  
+										<em> <?php echo $this->escapeHtml($transition->scene_destination->titre); ?> </em>
+										</p>
+									</a>
+								</td>
+								<td>
+									<a href="#" 
+										data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
+										class="deleteTransition"
+										data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+									<p class="text-error"><i class="icon-trash"></i></p>
+									</a>
+								</td>
+								</tr>
+							<?php endforeach; ?>
+						<?php endif;?>
+						<tr>
+							<td>
+								<p class="muted">Ajouter une transition sortante vers...</p>
+							</td>
+							<td>
+			       			    <div class="input-append">
+						       		<select id="selectSceneDestination">
+						       			<option value="0">
+											-- Créer une nouvelle scène comme destination --
+										</option>
+						       			<?php foreach ($scenes_parcours as $scene_parcours) :?>
+										<option value="<?php echo $scene_parcours->id; ?>">
+											<?php  echo $scene_parcours->titre; ?>
+										</option>
+										<?php endforeach; ?>
+									</select>
+									<button class="btn ajouterTransitionSecSortante" type="submit">
+										<i class="icon-plus"></i>
+									</button>
+							 	</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+			       	</table>
+				</div> <!-- /span6 transitions secondaires sortantes -->
+			</div> <!-- /row-fluid transitions secondaires -->
+			
+		</div> <!-- /tab2 scènes voisines -->
+	</div> <!-- / tab-conttent -->
+</div> <!-- / tabbable -->
 
 <div id="confirmDiv" >
 </div>

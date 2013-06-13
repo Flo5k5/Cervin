@@ -23,6 +23,11 @@ class SceneRecommandee extends Scene
      * @ORM\OneToOne(targetEntity="Parcours\Entity\TransitionRecommandee", mappedBy="scene_origine")
      **/
     protected $transition_recommandee;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Parcours\Entity\TransitionRecommandee", mappedBy="scene_destination")
+     **/
+    protected $transition_recommandee_entrante;
 
     /**
      * Magic getter to expose protected properties.
