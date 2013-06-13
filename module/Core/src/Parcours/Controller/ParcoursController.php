@@ -235,11 +235,9 @@ class ParcoursController extends AbstractActionController
         		// Scene
         		if ($scene instanceOf \Parcours\Entity\SceneRecommandee) {
         			$style = 'color="blue", style=bold, fontcolor="darkblue"';
-        		} elseif ( ($scene->transitions_secondaires_entrantes == null 
-        				|| $scene->transitions_secondaires_entrantes->count() == 0)
-        				&& ($scene->transitions_secondaires == null 
-        				|| $scene->transitions_secondaires->count() == 0) ) {
-        			$style = 'color="red", fontcolor="darkred"';
+        		} elseif ($scene->transitions_secondaires_entrantes == null 
+        				|| $scene->transitions_secondaires_entrantes->count() == 0) {
+        			$style = 'color="grey", fontcolor="darkred"';
         		} else {
         			$style = 'color="grey", fontcolor="grey"';
         		}

@@ -127,7 +127,7 @@ $this->headTitle($title);
 			
 				<!-- Transition recommandée entrante -->
 				<div class="span6">
-					<h4><p class="text-info">Transition recommandée entrante</p></h4>
+					<h3><p class="text-info">Transition recommandée entrante</p></h3>
 						<table class="table">
 						<?php if ($scene->transition_recommandee_entrante == null) :?>
 							<p class="text-info">Première scène recommandée du parcours</p>
@@ -166,7 +166,7 @@ $this->headTitle($title);
 				
 				<!-- Tranition recommandée sortante -->
 				<div class="span6">
-					<h4><p class="text-info">Transition recommandée sortante</p></h4>
+					<h3><p class="text-info">Transition recommandée sortante</p></h3>
 					<table class="table">
 						<?php if ($scene->transition_recommandee == null ) :?>
 							<p class="text-info">Dernière scène recommandée du parcours</p>
@@ -212,7 +212,7 @@ $this->headTitle($title);
 			
 				<!-- Transitions secondaires entrantes -->
 				<div class="span6">
-					<h4><p class="muted">Transitions secondaires entrantes</p></h4>
+					<h3><p class="muted">Transitions secondaires entrantes</p></h3>
 					<table class="table">
 						<?php if ($scene->transitions_secondaires_entrantes == null
 								|| $scene->transitions_secondaires_entrantes->count() == 0) :?>
@@ -285,7 +285,7 @@ $this->headTitle($title);
 				
 				<!-- Tranitions secondaires sortantes -->
 				<div class="span6">
-					<h4><p class="muted">Transitions secondaires sortantes</p></h4>
+					<h3><p class="muted">Transitions secondaires sortantes</p></h3>
 					<table class="table">
 						<?php if ($scene->transitions_secondaires == null 
 								|| $scene->transitions_secondaires->count() == 0) :?>
