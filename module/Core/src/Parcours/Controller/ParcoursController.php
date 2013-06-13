@@ -361,24 +361,82 @@ class ParcoursController extends AbstractActionController
     public function voirParcourHalvizAction()
     {
       $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-      $escapeHtml = $viewHelperManager->get('escapeHtml');
+      $escapeHtml = $viewHelperManager->get('escapeHtmlAttr');
+      
       $id = (int) $this->params('id', null);
       $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
       if ($Parcours === null || $id === null) {
           $this->getResponse()->setStatusCode(404);
           return;
       }
+
+/*
+
+
+$graph
+    ->subgraph('cluster_1')
+        ->attr('node', array('style' => 'filled', 'fillcolor' => 'blue'))
+        ->node('A')
+        ->node('B')
+    ->end()
+    ->edge(array('A', 'B', 'C'))
+;
+$graph
+    ->subgraph('cluster_0')
+        ->set('style', 'filled')
+        ->set('color', 'lightgrey')
+        ->attr('node', array('style' => 'filled', 'color' => 'white'))
+        ->edge(array('a0', 'a1', 'a2', 'a3'))
+        ->set('label', 'process #1')
+    ->end()
+    ->subgraph('cluster_1')
+        ->attr('node', array('style' => 'filled'))
+        ->edge(array('b0', 'b1', 'b2', 'b3'))
+        ->set('label', 'process #2')
+        ->set('color', 'blue')
+    ->end()
+    ->edge(array('start', 'a0'))
+    ->edge(array('start', 'b0'))
+    ->edge(array('a1', 'b3'))
+    ->edge(array('b2', 'a3'))
+    ->edge(array('a3', 'a0'))
+    ->edge(array('a3', 'end'))
+    ->edge(array('b3', 'end'))
+;
+*/
+
+
+
+
+
+
+    $graph ='$graph';
       // création du dot
       $dot = 'Départ [shape="plaintext"];' . ' ';
       $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style="dashed"];' . ' ';
       foreach ( $Parcours->transitions as $transition) {
       		// Transitions inter-sous-parcours
       		$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
-        	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
+        	
+            $graph .= "->edge(array('".$transition->scene_origine->id."', '".$transition->scene_destination->id."'), array('edgetooltip' => '".$escapeHtml($semantique)."'))";
+
+
+            $dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
         	$dot .= '[ edgetooltip="'.$escapeHtml($semantique).'", color="darkblue", penwidth="3", fontcolor="darkblue"];' . ' ';
       }
       foreach ($Parcours->sous_parcours as $sous_parcours) {
       		// Sous-parcours
+
+            $graph .= '->subgraph(\'cluster_'.$sous_parcours->id.'\')';
+            $graph .= "->set('color', 'darkgreen')";
+            $graph .= "->set('label', '".$escapeHtml($sous_parcours->titre)."')";
+            $graph .= "->set('tooltip', '".$escapeHtml($sous_parcours->titre)."')";
+            $graph .= "->set('fontcolor', 'darkgreen')";
+            $graph .= "->set('fontsize', '20')";
+            $graph .= "->set('style', 'dashed')";
+
+
+
 	        $dot .= 'subgraph cluster_'.$sous_parcours->id.'{';
 	        $dot .= 'color="darkgreen";';
 	        $dot .= 'label = "'.$escapeHtml($sous_parcours->titre).'";';
@@ -388,19 +446,27 @@ class ParcoursController extends AbstractActionController
 	        $dot .= 'style="dashed";' . ' ';
 	        foreach ( $sous_parcours->transitions as $transition) {
 	        	// Transition
+
+
 	        	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
+
+                $graph .= "->edge(array('".$transition->scene_origine->id."', '".$transition->scene_destination->id."'), array('edgetooltip' => '".$escapeHtml($semantique)."'))";
+
+
 	        	$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="3", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="2"' ;
-	        	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . ' ';
+                $dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . ' ';
 	        }
 	        foreach ( $sous_parcours->scenes as $scene) {
 	        	// Scene
+                $graph .= "->node(".$scene->id.", array('label' => '".$escapeHtml($scene->titre)."', 'shape' => 'box'))";
+
 	        	$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style="bold", fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
 	        	$dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . ' ';
 	        }
-	        
+	        $graph .= "->end()";
 	        $dot .= '}' . ' ';
       }
-      return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot));
+      return new ViewModel(array('Parcours' => $Parcours,'dot'=>$dot, 'graph'=>$graph));
     }
 
     public function ajouterSousParcoursAction()
