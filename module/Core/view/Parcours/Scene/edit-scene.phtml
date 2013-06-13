@@ -161,6 +161,28 @@ $this->headTitle($title);
 								</td>
 							</tr>
 						<?php endif;?>
+						<td>
+			       			<div class="input-append">
+						       	<select id="selectSceneOrigine">
+						       		<option value="0">
+										-- Créer une nouvelle scène recommandée --
+									</option>
+						       		<?php foreach ($scenes_parcours as $scene_parcours) :?>
+							       		<?php if ($scene_parcours instanceof \Parcours\Entity\SceneSecondaire) : ?>
+										<option value="<?php echo $scene_parcours->id; ?>">
+											<?php  echo $scene_parcours->titre; ?>
+										</option>
+										<?php endif;?>
+									<?php endforeach; ?>
+								</select>
+								<button class="btn btn-primary" type="submit">
+									<i class="icon-plus"></i>
+								</button>
+						 	</div>
+						</td>
+						<td>
+							<p class="text-info">... Insérer une scène avant dans le chemin recommandé</p>
+						</td>
 					</table>
 				</div> <!-- /span6 transition recommandée entrante -->
 				
@@ -201,6 +223,28 @@ $this->headTitle($title);
 								</td>
 							</tr>
 						<?php endif;?>
+						<td>
+							<p class="text-info">Insérer une scène après dans le chemin recommandé... </p>
+						</td>
+						<td>
+			       			<div class="input-append">
+						       	<select id="selectSceneOrigine">
+						       		<option value="0">
+										-- Créer une nouvelle scène recommandée --
+									</option>
+						       		<?php foreach ($scenes_parcours as $scene_parcours) :?>
+						       			<?php if ($scene_parcours instanceof \Parcours\Entity\SceneSecondaire) : ?>
+										<option value="<?php echo $scene_parcours->id; ?>">
+											<?php  echo $scene_parcours->titre; ?>
+										</option>
+										<?php endif;?>
+									<?php endforeach; ?>
+								</select>
+								<button class="btn btn-primary" type="submit">
+									<i class="icon-plus"></i>
+								</button>
+						 	</div>
+						</td>
 			       	</table>
 				</div> <!-- /span6 transition recommandée sortante -->
 			</div> <!-- /row-fluid transitions recommandées -->
