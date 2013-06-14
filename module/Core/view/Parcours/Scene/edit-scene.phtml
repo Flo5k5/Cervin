@@ -457,6 +457,7 @@ $this->headTitle($title);
       	
       	// Insertion d'une scene recommandée avant
       	$(".ajouterSceneRecommandeeAvant").click(function(e){
+      		$('body').css('cursor', 'wait');
       		selectElmt = document.getElementById('selectSceneRecommandeeAvant');
       		idNouvelleScene = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
@@ -474,6 +475,7 @@ $this->headTitle($title);
       	
       	// Insertion d'une scene recommandée après
       	$(".ajouterSceneRecommandeeApres").click(function(e){
+      		$('body').css('cursor', 'wait');
       		selectElmt = document.getElementById('selectSceneRecommandeeApres');
       		idNouvelleScene = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
@@ -491,6 +493,7 @@ $this->headTitle($title);
       	
       	// Création d'une transition secondaire entrantre
       	$(".ajouterTransitionSecSortante").click(function(e){
+      		$('body').css('cursor', 'wait');
       		selectElmt = document.getElementById('selectSceneDestination');
       		idSceneDest = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
@@ -507,6 +510,7 @@ $this->headTitle($title);
       	
 		// Création d'une transition secondaire sortante
       	$(".ajouterTransitionSecEntrante").click(function(e){
+      		$('body').css('cursor', 'wait');
       		selectElmt = document.getElementById('selectSceneOrigine');
       		idSceneOrigine = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
