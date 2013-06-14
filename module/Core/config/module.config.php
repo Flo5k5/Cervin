@@ -609,12 +609,7 @@ return array(
                     'insererSceneRecommandee' => array(
                             'type' => 'segment',
                             'options' => array(
-                                'route' => '/ajouter/:type/:idScene/:idNouvelleScene',
-                                'constraints' => array(
-                                    'type'    			=> 'ajAvant|ajApres',
-                                    'idScene'     		=> '[0-9]+',
-                                	'idNouvelleScene'   => '[0-9]+'
-                                ),
+                                'route' => '/insererSceneRecommandee',
                                 'defaults' => array(
                                     'controller' => 'Scene',
                                     'action'     => 'insererSceneRecommandee',

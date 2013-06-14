@@ -228,7 +228,7 @@ $this->headTitle($title);
 						</td>
 						<td>
 			       			<div class="input-append">
-						       	<select id="selectSceneOrigine">
+						       	<select id="selectSceneRecommandeeApres">
 						       		<option value="0">
 										-- Créer une nouvelle scène recommandée --
 									</option>
@@ -240,7 +240,7 @@ $this->headTitle($title);
 										<?php endif;?>
 									<?php endforeach; ?>
 								</select>
-								<button class="btn btn-primary" type="submit">
+								<button class="btn btn-primary ajouterSceneRecommandeeApres" type="submit">
 									<i class="icon-plus"></i>
 								</button>
 						 	</div>
@@ -460,10 +460,27 @@ $this->headTitle($title);
       		selectElmt = document.getElementById('selectSceneRecommandeeAvant');
       		idNouvelleScene = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
-				url: "<?php echo $this->url('parcours/insereSceneRecommandee'); ?>",
+				url: "<?php echo $this->url('scene/insererSceneRecommandee'); ?>",
 				type: "POST",
 				data:{
 					type: "ajAvant",
+					idScene: <?php echo $scene->id;?>,
+					idNouvelleScene: idNouvelleScene
+					}
+			}).done(function(){
+				document.location.reload()
+			});
+      	});
+      	
+      	// Insertion d'une scene recommandée après
+      	$(".ajouterSceneRecommandeeApres").click(function(e){
+      		selectElmt = document.getElementById('selectSceneRecommandeeApres');
+      		idNouvelleScene = selectElmt.options[selectElmt.selectedIndex].value;
+            $.ajax({
+				url: "<?php echo $this->url('scene/insererSceneRecommandee'); ?>",
+				type: "POST",
+				data:{
+					type: "ajApres",
 					idScene: <?php echo $scene->id;?>,
 					idNouvelleScene: idNouvelleScene
 					}

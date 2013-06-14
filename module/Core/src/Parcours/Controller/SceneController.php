@@ -147,16 +147,21 @@ class SceneController extends AbstractActionController
 	 * Deux types de requêtes sont traitées ici, 
 	 * selon si on veut ajouter une scène avant ou après une scène existante
 	 * On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête
+	 * Si l'attribut idNouvelleScene vaut 0, c'est qu'on créé une nouvelle scène
+	 * sinon il désigne la scène existante que l'on insère dans le chemin recommandé
 	 */
 	public function insererSceneRecommandeeAction()
 	{
-		$id = (int) $this->params('id', null);
-        $action = $this->params('type', null);
-        if (null === $id or null === $action) {
+
+		$request = $this->params()->fromPost();
+		$idScene = (int) $request['idScene'];
+		$idNouvelleScene = (int) $request['idNouvelleScene'];
+        $type = $request['type'];
+        if (null === $idScene or null === $type) {
             $this->getResponse()->setStatusCode(404);
             return; 
         }
-        $scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$id));
+        $scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$idScene));
 		if ($scene === null) {
 			$this->getResponse()->setStatusCode(404);
 			return;
@@ -171,7 +176,7 @@ class SceneController extends AbstractActionController
 		$newTransitionRecommandee->narration = 'Nouvelle Transition';
 		$this->getEntityManager()->persist($newScene);
 		$this->getEntityManager()->persist($newTransitionRecommandee);
-        switch ($action) {
+        switch ($type) {
         	
         	case 'ajAvant': // On ajoute une scène avant $scene
         		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$scene));
@@ -214,7 +219,6 @@ class SceneController extends AbstractActionController
         			// La transition qui reliait $sceneBefore et $scene ($tr_before) relie maintenant $newScene et $scene
         			$tr_before->scene_origine = $newScene;
         		}
-        		$this->getEntityManager()->flush();
         		break;
         		
         	case 'ajApres':
@@ -235,7 +239,6 @@ class SceneController extends AbstractActionController
         			// La transition qui reliait $scene et $sceneAfter ($tr_after) relie maintenant $newScene et $sceneAfter
         			$tr_after->scene_origine = $newScene;
         		}
-        		$this->getEntityManager()->flush();
         		break;
         		
         	default:
@@ -243,7 +246,29 @@ class SceneController extends AbstractActionController
         		return;
         		break;
         }
-
+        
+        if ($idNouvelleScene != 0) {
+        	// On veut en fait insérer une scène existante dans le chemin recommandé
+        	$sceneAInserer = $this->getEntityManager()->getRepository('Parcours\Entity\SceneSecondaire')->findOneBy(array('id'=>$idNouvelleScene));
+        	if ($scene === null) {
+        		$this->getResponse()->setStatusCode(404);
+        		return;
+        	}
+        	// On remplit la nouvelle scène avec les données de $sceneAInserer
+        	$newScene->titre = $sceneAInserer->titre;
+        	$newScene->narration = $sceneAInserer->narration;
+        	$newScene->elements = $sceneAInserer->elements;
+        	// On relie les transitions
+        	foreach ($sceneAInserer->transitions_secondaires as $tr) {
+        		$tr->scene_origine = $newScene;
+        	}
+        	foreach ($sceneAInserer->transitions_secondaires_entrantes as $tr) {
+        		$tr->scene_destination = $newScene;
+        	}
+        	// On supprime la scène $sceneAInserer
+        	$this->getEntityManager()->remove($sceneAInserer);
+        }
+        $this->getEntityManager()->flush();
         $this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
 	}
