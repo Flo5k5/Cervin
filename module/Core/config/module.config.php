@@ -606,17 +606,18 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'ajouterScene' => array(
+                    'insererSceneRecommandee' => array(
                             'type' => 'segment',
                             'options' => array(
-                                'route' => '/ajouter/:type/:id',
+                                'route' => '/ajouter/:type/:idScene/:idNouvelleScene',
                                 'constraints' => array(
-                                    'type'     => 'ajAvant|ajApres',
-                                    'id'     => '[0-9]+',
+                                    'type'    			=> 'ajAvant|ajApres',
+                                    'idScene'     		=> '[0-9]+',
+                                	'idNouvelleScene'   => '[0-9]+'
                                 ),
                                 'defaults' => array(
                                     'controller' => 'Scene',
-                                    'action'     => 'ajouterScene',
+                                    'action'     => 'insererSceneRecommandee',
                                 ),
                             ),
                         ),

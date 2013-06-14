@@ -144,12 +144,11 @@ class SceneController extends AbstractActionController
 	/**
 	 * Ajout d'une scène à un parcours
 	 * 
-	 * Cette action est déclenchée par un appel AJAX
 	 * Deux types de requêtes sont traitées ici, 
 	 * selon si on veut ajouter une scène avant ou après une scène existante
 	 * On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête
 	 */
-	public function ajouterSceneAction()
+	public function insererSceneRecommandeeAction()
 	{
 		$id = (int) $this->params('id', null);
         $action = $this->params('type', null);
@@ -246,7 +245,6 @@ class SceneController extends AbstractActionController
         }
 
         $this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
-
         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
 	}
 

@@ -32,19 +32,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
     <?php endif;?>
 </div>
 
-<!-- Help Modal -->
-<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Aide : Gestion des parcours</h3>
-    </div>
-    <div class="modal-body">
- Cette page vous permet de gérer la structure d'un parcours ou de voir la structure en fonction de vos droits.     </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
-    </div>
-</div>
-
 <style type="text/css">
 
 	.elements {
@@ -82,118 +69,23 @@ $this->headScript()->appendFile($this->basePath() . '/js/viz.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 ?>
 
-<div class="row-fluid">
-	<div class="span8 offset4">
-		<section class="buttons">
-	    	<button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
-	        <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
-	        <!-- <input type="range" class="zoom-range"> -->
-	        <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
-	        <button class="btn btn-primary"><i class="icon-refresh"></i></button>
-		</section>
-	</div>
-</div>
+
+<section class="buttons">
+    <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
+    <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
+    <!-- <input type="range" class="zoom-range"> -->
+    <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
+    <button class="btn btn-primary"><i class="icon-refresh"></i></button>
+</section>
 
 <br>
 
-<div class="row-fluid">
-
-	<!-- Menu de navigation dans le parcours -->
-	<!--
-	<div class="span4 well">
-		<h4> Chemin recommandé </h4>
-		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
-		<ul class="nav nav-list">
-			<?php while ($sous_parcours != null) : ?>
-				<li class="nav-header strong"> <?php echo $sous_parcours->titre; ?> </li>
-				<?php 
-				$scene_depart = $sous_parcours->scene_depart;
-				$transition = $scene_depart->transition_recommandee;
-				?>
-				<li>
-					<a href="#<?php echo $scene_depart->id; ?> ">
-					<?php echo $this->escapeHtml($scene_depart->titre); ?> 
-					</a>
-				</li>
-				<?php while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-					<li>
-						<a href="#<?php echo $transition->scene_destination->id; ?> ">
-						<?php echo $this->escapeHtml($transition->scene_destination->titre); ?> 
-						</a>
-					</li>
-					<?php $transition = $transition->scene_destination->transition_recommandee;
-			 	endwhile;
-				$sous_parcours = $sous_parcours->sous_parcours_suivant;
-			endwhile; ?>
-		</ul>
+<!-- Graphe -->
+<div style="overflow: hidden; position: relative; border:3px solid black;"> 
+	<div id="panzoom" style="text-align: center; height: 1000px">
 	</div>
-	-->
-	
-	<!-- Chemin recommandé -->
-	<div class="span4" style="border:3px solid black; height:1000px; overflow:auto; padding:10px 10px 10px 10px;">
-		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
-		<!-- On affiche les sous-parcours un à un -->
-		<?php while ($sous_parcours != null) : ?>
-			<div class="row-fluid">
-				
-				<div class="span12 elements sous_parcours">
-			    	<!-- Titre du sous-parcours -->
-			    	<?php echo $this->TitreSousParcoursWidget($sous_parcours); ?>
-					<hr/>
-					
-					<!-- Première scène du sous parcours  -->
-					<?php 
-					$scene_depart = $sous_parcours->scene_depart;?>
-					<?php echo $this->BoutonSceneWidget($scene_depart);?>
-					<br>
-				
-				   	<?php  $transition = $scene_depart->transition_recommandee;
-				    while ($transition != null && $transition->sous_parcours == $sous_parcours) : ?>
-				    	<!-- Tant qu'on est toujours dans le sous parcours -->
-				    	<!--  On affiche la transition -->
-				        <?php echo $this->TransitionWidget($transition); ?>
-				        <!-- On affiche la scène suivante -->
-				        <?php echo $this->BoutonSceneWidget($transition->scene_destination); 
-				        //echo $this->TransitionsSecondairesWidget($transition->scene_destination); ?>
-				        
-				        <br>
-						<!-- On avance dans le sous-parcours -->
-						<?php $transition = $transition->scene_destination->transition_recommandee;
-			    	endwhile; ?>
-		    	</div>
+</div>
 
-		    </div>
-		    
-	    	<!-- On est arrivé à la fin du sous-parcours -->
-	    	<?php if ($transition) : ?>
-				<!-- Il y a un sous-parcours suivant -->
-				<!-- et on affiche la transition inter-sous-parcours -->
-				<div class="row-fluid">
-					<div class='span12 elements'>
-						<?php echo $this->TransitionWidget($transition); ?>
-					</div>
-				</div>
-			<?php endif; ?>
-			
-			<!-- On passe au sous-parcours suivant -->
-			<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
-		endwhile ; ?>
-		
-	</div> <!-- /span4 -->
-	
-	<!-- Graphe -->
-	<div class="span8">
-		<div style="overflow: hidden; position: relative; border:3px solid black;"> 
-			<div id="panzoom" style="text-align: center; height: 1000px">
-			</div>
-		</div>
-	</div>
-	
-</div> <!-- /row-fluid -->
-
-
-<div id="confirmDiv"></div>
-<div id="modalDiv"></div>
 
 <script>
     // https://github.com/timmywil/jquery.panzoom
@@ -232,110 +124,11 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 <?php
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
-
-$this->inlineScript()->captureStart();
 ?>
-    $(function() {
-        // on active editable
-        $(".edit").editable({ mode: 'inline', emptytext: 'Vide'});
-        
-        /*$(".btnTransitionsSecondaires").click(function () {
-        	$(this).parent().parent().find('div.transitionsSecondaires').html('COUCOU');
-        });*/
-        
-        // afficher les popover et activer les champs editable
-        $('.popover-link').click(function () {
-            var t = $(this)
-            $(this).popover('show');
-            $(".edit2").editable({emptytext: 'Vide'}).on('save', function(e, params) {
-                t.text(params.newValue);
-            });
-        });
-        
-        $(".popover-secondaires").click(function () {
-        	 $(this).popover('show');
-        });
-        
-        // fermer les popover ouverte si on en ouvre une autre
-        $('body').on('click', function (e) {
-            $('.popover-link').each(function () {
-                //the 'is' for buttons that triggers popups
-                //the 'has' for icons within a button that triggers a popup
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
-                }
-            });
-        }); 
-        <?php if ($this->isAllowed('Parcours') === true) :?>
 
-        // on affiche le modal avec les semantiques
-        $(".elements").on("click",".selectSemantiques", function(e){
-            var dataURL = $(this).attr('data-url');
-            var dataValue = $(this).attr('data-value');
-
-            var body = new String('<form id="semantiqueTransitions" action="'+dataURL+'"><dl><?php foreach ($SemantiqueTransitions as $semantique) { ?><label class="radio"><dt><input type="radio" name="SemantiqueTransitions" id="SemantiqueTransitions<?php echo $this->escapeHtml($semantique->id) ;?>" value="<?php echo $this->escapeHtml($semantique->id) ;?>" ><?php echo $this->escapeHtml($semantique->semantique) ;?></dt><dd><?php echo $this->escapeHtml($semantique->description) ;?></dd></label><?php } ?></dl></form>');
-
-            body = body.replace('id="SemantiqueTransitions'+dataValue+'"', 'id="SemantiqueTransitions'+dataValue+'" checked="checked"' );
-
-            $('#confirmDiv').confirmModal({
-                heading:"Sélectionner le type de Semantique",
-                body:body,
-                callback: function() {
-                    var $form = $('#semantiqueTransitions');
-                    var inputVal = $form.find( 'input[name="SemantiqueTransitions"]:checked' ).val();
-                    var URL = $form.attr( 'action' );
-
-                     $.post(
-                        dataURL,
-                        { name: "semantique",value:inputVal },
-                        function() {
-
-                          //  document.location.reload();
-                        }
-                    );
-                }
-            });
-            $('#SemantiqueTransitions'+dataValue).prop('checked');
-        });
-
-        // modal de confirmation : suppression de scene
-        $(".elements").on("click",".SupprimerScene", function(e){
-            var dataURL = $(this).attr('data-url');
-            var dataValue = $(this).attr('data-value');
-            $('#confirmDiv').confirmModal({
-                heading:"Confirmation : suppression d'une scène",
-                body:"Êtes-vous sûr de vouloir supprimer définitivement la scène <i>" + dataValue + " </i>?",
-                callback: function() {
-                     $.post(
-                        dataURL,
-                        { name: "supprimer" },
-                        function() {
-                            document.location.reload();
-                        }
-                    );
-                }
-            });
-        });
-        
-        // modal de confirmation : suppression de sous parcours
-        $(".elements").on("click",".SupprimerSousParcours", function(e){
-            var dataURL = $(this).attr('data-url');
-            var dataValue = $(this).attr('data-value');
-            $('#confirmDiv').confirmModal({
-                heading:"Confirmation : suppression d'un sous-parcours",
-                body:"Êtes-vous sûr de vouloir supprimer définitivement le sous-parcours <i>" + dataValue + " </i>?",
-                callback: function() {
-                     $.post(
-                        dataURL,
-                        { name: "supprimer" },
-                        function() {
-                            document.location.reload();
-                        }
-                    );
-                }
-            });
-        });
-        <?php endif;?>
-    });
-
-<?php $this->inlineScript()->captureEnd(); ?>
+<?php $this->inlineScript()->captureStart(); ?>
+$('.edit').editable({
+	mode: 'inline',
+	emptytext: 'Vide'
+});
+<?php $this->inlineScript()->captureEnd();?>
