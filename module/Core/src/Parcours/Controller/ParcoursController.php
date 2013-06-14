@@ -207,7 +207,7 @@ class ParcoursController extends AbstractActionController
         /* Génération du graphe du parcours au format dot */
         
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-        $escapeHtml = $viewHelperManager->get('escapeHtml');
+        $escapeHtml = $viewHelperManager->get('escapeHtmlAttr');
         $dot = 'Départ [shape="plaintext"];' . "\n";
         $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style=dashed];' . "\n";
         foreach ( $Parcours->transitions as $transition) {
