@@ -169,6 +169,7 @@ return array(
                 array('route' => 'admin/editAccueil', 'roles' => array('Admin')),
                 array('route' => 'admin/demandeRole', 'roles' => array('Utilisateur')),
                 array('route' => 'admin/refueRole', 'roles' => array('Admin')),
+                array('route' => 'admin/logs', 'roles' => array('Admin')),
 
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),

@@ -408,4 +408,82 @@ class AdminController extends AbstractActionController
          return $this->getResponse()->setContent(Json::encode(false));
 
     }
+
+    /**
+     * Permet a l'admin de voir un journal des modifications apportées au backoffice
+     **/
+    public function showLogsAction()
+    {
+    	$params = null;
+    	
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+    			
+    		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    		$escapeHtml        = $viewHelperManager->get('escapeHtml');
+    			
+    		$params            = $this->params()->fromPost();
+    	
+    	
+    		if(!isset($params["iSortCol_0"])){
+    			$params["iSortCol_0"] = '0';
+    		}
+    	
+    		if(!isset($params["sSortDir_0"])){
+    			$params["sSortDir_0"] = 'ASC';
+    		}
+    	
+    		$entityManager = $this->getEntityManager()
+    							  ->getRepository('Gedmo\Loggable\Entity\LogEntry');
+    	
+    		$dataTable     = new \Admin\Model\LogsDataTable($params);
+    		$dataTable->setEntityManager($entityManager);
+    	
+    		$dataTable->setConfiguration(array(
+    				'action',
+    				'loggedAt',
+    				'objectClass',
+    				'username'
+    		));
+    	
+    		$aaData = array();
+    	
+    		$paginator = null;
+    	
+    		if(isset($params["conditions"])){
+    			$conditions = json_decode($params["conditions"], true);
+    			$paginator  = $dataTable->getPaginator($conditions);
+    		} else {
+    			$paginator  = $dataTable->getPaginator();
+    		}
+    	
+    		foreach ($paginator as $log) {
+    	
+    			/*$titre     = '';
+    			if($log->type_element->type == 'artefact'){
+    				$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+    			} elseif($log->type_element->type == 'media'){
+    				$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+    			} else {
+    				$titre = $escapeHtml($log->titre);
+    			}*/
+    	
+    			$bouton    = '<a href="#" class="btn btn-primary ajouter" data-url="'. $log->getId() .'"><i class="icon-plus"></i> Lier </a>';
+
+    			$aaData[]  = array(
+    					$log->getAction(),
+    					$log->getLoggedAt()->format('Y-m-d H:i:s'),
+    					$log->getObjectClass(),
+    					$log->getUsername(),
+    					$bouton
+    			);
+    		}
+    	
+    		$dataTable->setAaData($aaData);
+    	
+    		return $this->getResponse()->setContent($dataTable->findAll());
+    	} else {
+    		return;
+    	}
+    }
+
 }

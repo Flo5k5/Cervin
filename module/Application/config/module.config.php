@@ -104,6 +104,16 @@ return array(
                         ),
                         
                     ),
+                    'logs' => array(
+                    		'type' => 'Zend\Mvc\Router\Http\Literal',
+                    		'options' => array(
+                    				'route' => '/logs',
+                    				'defaults' => array(
+                    						'controller' => 'Admin',
+                    						'action'     => 'showLogs',
+                    				),
+                    		),
+                    ),
                     /*
                     'authenticate' => array(
                         'type' => 'Literal',
