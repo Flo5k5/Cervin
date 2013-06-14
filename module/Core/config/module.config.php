@@ -607,8 +607,8 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'insererSceneRecommandee' => array(
-                            'type' => 'segment',
-                            'options' => array(
+                           	'type' => 'segment',
+                           	'options' => array(
                                 'route' => '/insererSceneRecommandee',
                                 'defaults' => array(
                                     'controller' => 'Scene',
@@ -616,6 +616,19 @@ return array(
                                 ),
                             ),
                         ),
+                	'retirerSceneRecommandee' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/retirerSceneRecommandee/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Scene',
+                				'action'     => 'retirerSceneRecommandee',
+                			),
+                		),
+                	),
                     'voirScene' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -629,6 +642,16 @@ return array(
                             ),
                         ),
                     ),
+                	'creerSceneSecondaire' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/creerSceneSecondaire',
+                			'defaults' => array(
+                				'controller' => 'Scene',
+                				'action'     => 'creerSceneSecondaire',
+                			),
+                		),
+                	),
                     'removeScene' => array(
                         'type' => 'segment',
                         'options' => array(

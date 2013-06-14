@@ -16,7 +16,7 @@ $this->headTitle($title); ?>
 	<!-- Titre -->
 	<div class="page-header">
 		<div class="row-fluid">
-			<div class="span8">
+			<div class="span9">
 			<?php if ($estRecommandee) :?>
 				<h1><p class="text-info">
 			<?php else : ?>
@@ -25,10 +25,10 @@ $this->headTitle($title); ?>
 			<i class="icon-file-alt"></i>
 			<?php echo $this->escapeHtml($title); ?> </p></h1>
 			</div>
-			<div class="span4">
+			<div class="span3">
 			<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
 				class="btn btn-primary btn-block"> 
-				<i class="icon-reply"></i> Retour au parcours <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
+				<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
 			</a>
 			<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
 				class="btn btn-primary btn-block">

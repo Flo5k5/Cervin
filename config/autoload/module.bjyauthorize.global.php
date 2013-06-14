@@ -247,6 +247,7 @@ return array(
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/insererSceneRecommandee', 'roles' => array('Parcours')),
+                array('route' => 'scene/retirerSceneRecommandee', 'roles' => array('Parcours')),
                 array('route' => 'scene/editScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/deleteElement', 'roles' => array('Parcours')),
                 array('route' => 'scene/getAllElement', 'roles' => array('Parcours')),

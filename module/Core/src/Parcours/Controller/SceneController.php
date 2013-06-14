@@ -65,34 +65,35 @@ class SceneController extends AbstractActionController
     public function voirSceneAction()
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
-		if (!$id) {
-			$this->getResponse()->setStatusCode(404);
-            return;
-		}
 		try {
 			$Scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
 		} catch (\Exception $ex) {
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-		if ($Scene==null) {
+		if ($Scene==null || !$id) {
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-		
-		return new ViewModel(array(
-			'scene' => $Scene
-		));
+		return new ViewModel(array('scene' => $Scene));
     }
 
     /**
-	 * Suppression d'une scène à l'intérieur d'un parcours
+     * Création d'une scène secondaire dans le vide
+     * (transition entrante ou sortante)
+     * au sein d'un sous-parcours
+     */
+    public function creerSceneSecondaireAction()
+    {
+    	$this->flashMessenger()->addErrorMessage(sprintf('Création d\'une scène secondaire : pas encore implémenté'));
+    	return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
+    }
+    
+    /**
+	 * Suppression d'une scène
 	 * 
-	 * Cette action est déclenchée par un appel AJAX
-	 * Il faut traiter les différentes possibilités de placement de la scène
-	 * afin de garder la cohérence du parcours et des transitions
-	 * A noter : cette version marche tant qu'on n'a que des scènes recommandées
-	 * mais il faudra la modifier pour gérer les autres types de scènes et de transitions
+	 * On ne peut supprimer une scène d'un parcours que si elle est isolée
+	 * (aucune transition entrante ou sortante)
 	 */
     public function removeSceneAction()
 	{
@@ -103,49 +104,16 @@ class SceneController extends AbstractActionController
 			return;
 		}
 		
-		$parcours = $scene->sous_parcours->parcours;
-		$tr_before = $this->getEntityManager()->getRepository('Parcours\Entity\TransitionRecommandee')->findOneBy(array('scene_destination'=>$id));
-		$tr_after = $scene->transition_recommandee;
-
-		if($tr_before === null && $tr_after === null) // c'est la seule
-		{
-			$this->flashMessenger()->addErrorMessage(sprintf('Impossible de supprimer la seule scène de ce parcours.'));
-			return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
-		}
-		elseif($tr_before === null) // c'est la première
-		{
-			// la nouvelle première est la suivante
-			$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
-			$this->getEntityManager()->remove($tr_after);
-		}
-		elseif($tr_after === null)// c'est la dernière
-		{
-			$this->getEntityManager()->remove($tr_before);
-		}
-		else // elle est au milieu
-		{
-			//si elle est au milieu et que c'est la 1er scene d'un sous parcours
-			if ($tr_before->parcours != null) {
-				$tr_after->parcours = $parcours;
-				$tr_after->sous_parcours = null;
-				$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
-			}
-			// rediriger la transition d'après sur la scène d'avant pour garder la cohérence
-			$tr_after->scene_origine = $tr_before->scene_origine;
-			$this->getEntityManager()->remove($tr_before);
-		}
-
-		$this->getEntityManager()->remove($scene);
-		$this->getEntityManager()->flush();
-		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
+		$this->flashMessenger()->addErrorMessage(sprintf('Suppression d\'une scène : pas encore implémenté'));
 		return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
 	}
 
 	/**
-	 * Ajout d'une scène à un parcours
+	 * Insertion d'une scène dans le chemin recommandé
 	 * 
 	 * Deux types de requêtes sont traitées ici, 
 	 * selon si on veut ajouter une scène avant ou après une scène existante
+	 * dans le chemin recommandé
 	 * On sait de quel type de requête il s'agit grâce à l'attribut 'name' envoyé dans la requête
 	 * Si l'attribut idNouvelleScene vaut 0, c'est qu'on créé une nouvelle scène
 	 * sinon il désigne la scène existante que l'on insère dans le chemin recommandé
@@ -272,6 +240,79 @@ class SceneController extends AbstractActionController
         $this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
         return $this->redirect()->toRoute('parcours/voir', array ('id' => $scene->sous_parcours->parcours->id));
 	}
+	
+	/**
+	 * Retirer une scène du chemin recommandé
+	 * 
+	 * La scène est remplacée par une scène secondaire 
+	 * et garde toutes ses transitions secondaires environnantes
+	 */
+	public function retirerSceneRecommandeeAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$id));
+		if (null === $id || $scene === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		$parcours = $scene->sous_parcours->parcours;
+		$tr_before = $scene->transition_recommandee_entrante;
+		$tr_after = $scene->transition_recommandee;
+		if ( ($tr_before === null || $tr_before->scene_origine->sous_parcours != $scene->sous_parcours)
+				&& ($tr_after === null || $tr_after->scene_destination->sous_parcours != $scene->sous_parcours))
+			// La scène que est la seule recommandée du sous-parcours
+			// On ne peut pas l'enlever
+		{
+			$this->flashMessenger()->addErrorMessage(sprintf('Impossible de retirer cette scène du chemin recommandé car c\'est la seule dans ce sous-parcours'));
+			return $this->getResponse()->setContent(Json::encode(true));
+		}
+		// On créé une scène secondaire dans le même sous-parcours
+		// qui va remplacer la scène recommandée qu'on retire
+		$newScene = new SceneSecondaire();
+		$newScene->titre = $scene->titre;
+		$newScene->narration = $scene->narration;
+		$newScene->elements = $scene->elements;
+		$scene->sous_parcours->addScene($newScene);
+		foreach ($scene->transitions_secondaires as $tr) {
+			$tr->scene_origine = $newScene;
+		}
+		foreach ($scene->transitions_secondaires_entrantes as $tr) {
+			$tr->scene_destination = $newScene;
+		}
+		$this->getEntityManager()->persist($newScene);
+		
+		// On retire la scène du chemin recommandé
+		if($tr_before === null) 
+		// c'est la première scène recommandée du parcours
+		{
+			// la nouvelle première est la suivante
+			$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
+			$this->getEntityManager()->remove($tr_after);
+		}
+		elseif($tr_after === null)
+		// c'est la dernière scène recommandée du parcours
+		{
+			$this->getEntityManager()->remove($tr_before);
+		}
+		else 
+		// elle est au milieu
+		{
+			// C'est la première scène recommandée du sous_parcours
+			if ($scene->sous_parcours->scene_depart == $scene) {
+				$tr_after->parcours = $parcours;
+				$tr_after->sous_parcours = null;
+				$scene->sous_parcours->scene_depart = $tr_after->scene_destination;
+			}
+			// rediriger la transition d'après sur la scène d'avant pour garder la cohérence
+			$tr_after->scene_origine = $tr_before->scene_origine;
+			$this->getEntityManager()->remove($tr_before);
+		}
+		// On supprime la scène qu'on vient de retirer du chemin recomandée
+		$this->getEntityManager()->remove($scene);
+		$this->getEntityManager()->flush();
+		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été retirée du chemin recommandé.'));
+		$this->getResponse()->setContent(Json::encode(true));
+	}
 
 	public function editSceneAction()
 	{
@@ -281,12 +322,10 @@ class SceneController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			$request = $this->params()->fromPost();
 			switch ($request['name']) {
-				
 				case 'titre':
 					$scene->titre = $request['value'];
 		            $this->getEntityManager()->flush();
@@ -298,17 +337,13 @@ class SceneController extends AbstractActionController
 		            $this->getEntityManager()->flush();
 		            return $this->getResponse()->setContent(Json::encode(true));
 				break;
-
 			}
 			return $this->getResponse()->setContent(Json::encode(true));
-			
 		}
 		$SemantiqueTransitions = $this->getEntityManager()
 			->getRepository('Parcours\Entity\SemantiqueTransition')
 			->findBy(array(), array('semantique'=>'asc'));
-
 		$scenes_parcours = $scene->sous_parcours->scenes;
-		
 		return new ViewModel(array(
 				'scene' => $scene,
 				'SemantiqueTransitions' => $SemantiqueTransitions,
@@ -320,20 +355,17 @@ class SceneController extends AbstractActionController
 	{
 		$idScene = (int) $this->params('idScene', null);
 		$idElement = (int) $this->params('idElement', null);
-		
 		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$idScene));
 		$element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$idElement));
 
 		$scene->elements->removeElement($element);
-
 		$this->getEntityManager()->flush();
-
 		$this->flashMessenger()->addSuccessMessage(sprintf('La liaison a bien été supprimée'));
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 	
 	/**
-	 * Retourne une liste de toutes les scènes à la Datatable
+	 * Retourne une liste de tous les éléments de la scène à la Datatable
 	 *
 	 * Cette action est déclenchée par un appel AJAX sinon elle renvoie une erreur 404.
 	 * Elle prend en paramètre les conditions renvoyées par le widget Datatable et précisés
@@ -345,34 +377,27 @@ class SceneController extends AbstractActionController
 	public function getAllElementAction()
 	{
 		$params = null;
-		
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$params = $this->params()->fromPost();
-		
 		
 			if(!isset($params["iSortCol_0"])){
 				$params["iSortCol_0"] = '0';
 			}
-		
 			if(!isset($params["sSortDir_0"])){
 				$params["sSortDir_0"] = 'ASC';
 			}
-		
 			$entityManager = $this->getEntityManager()
-			->getRepository('Collection\Entity\Element');
+				->getRepository('Collection\Entity\Element');
 		
 			$dataTable = new \Collection\Model\ElementDataTable($params);
 			$dataTable->setEntityManager($entityManager);
-		
 			$dataTable->setConfiguration(array(
 					'titre',
 					'type'
 			));
 		
 			$aaData = array();
-		
 			$paginator = null;
-		
 			if(isset($params["conditions"])){
 				$conditions = json_decode($params["conditions"], true);
 				$paginator = $dataTable->getPaginator($conditions);
@@ -390,18 +415,14 @@ class SceneController extends AbstractActionController
 				} else {
 					$titre = $element->titre;
 				}
-		
 				$bouton = '<a href="#" class="btn btn-primary ajouter" data-url="'.$this->url()->fromRoute('scene/addRelationSceneElement', array('idElement' => $element->id)).'"><i class="icon-plus"></i> Lier </a>';
-		
 				$aaData[] = array(
 						$titre,
 						$element->type_element->nom,
 						$bouton
 				);
 			}
-		
 			$dataTable->setAaData($aaData);
-		
 			return $this->getResponse()->setContent($dataTable->findAll());
 		} else {
 			$this->getResponse()->setStatusCode(404);
