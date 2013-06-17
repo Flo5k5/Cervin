@@ -107,7 +107,7 @@ class SceneController extends AbstractActionController
 
     	//$this->flashMessenger()->addErrorMessage(sprintf('Une nouvelle scène secondaire a été ajoutée au Sous Parcours.'));
     	//return $this->redirect()->toRoute('parcours/voir', array('id' => $SousParcours->parcours->id));
-    	$this->getResponse()->setContent(Json::encode(true));
+    	return $this->getResponse()->setContent(Json::encode(true));
     }
     
     /**
