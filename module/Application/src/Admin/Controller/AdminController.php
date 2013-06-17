@@ -470,10 +470,10 @@ class AdminController extends AbstractActionController
     			$bouton    = '<a href="#" class="btn btn-primary ajouter" data-url="'. $log->getId() .'"><i class="icon-plus"></i> Lier </a>';
 
     			$aaData[]  = array(
-    					$log->getAction(),
-    					$log->getLoggedAt()->format('Y-m-d H:i:s'),
-    					$log->getObjectClass(),
-    					$log->getUsername(),
+    					$escapeHtml($log->getAction()),
+    					$escapeHtml($log->getLoggedAt()->format('Y-m-d H:i:s')),
+    					$escapeHtml($log->getObjectClass()),
+    					$escapeHtml($log->getUsername()),
     					$bouton
     			);
     		}

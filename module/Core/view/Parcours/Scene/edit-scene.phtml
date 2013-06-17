@@ -23,6 +23,7 @@ $this->headTitle($title);
 			<i class="icon-pencil"></i>
 			<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("scene/editScene",array('id'=>$scene->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
 			</p></h1>
+			<div class="messageInfos">&nbsp;</div>
 		</div>
 		<div class="span3">
 		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
@@ -34,6 +35,12 @@ $this->headTitle($title);
 			<i class="icon-reply"> </i>
 	        Retour à la fiche de la scène
 	    </a>
+		<?php if (!$estRecommandee) :?>
+		<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)); ?>" 
+			class="btn btn-danger btn-block supprSceneSec">
+			<i class="icon-trash"> </i> Supprimer cette scène
+		</a>
+		<?php endif;?>
 	    </div>
     </div>
     <a href="#" 
@@ -418,6 +425,8 @@ $this->headTitle($title);
 <div id="confirmDiv" >
 </div>
 
+<div id="modalDiv"></div>
+
 <?php $this->inlineScript()->captureStart(); ?>
 	
 	var element = {'id' : <?php echo $scene->id; ?>, 'titre' : '<?php echo $this->escapeHtml($scene->titre); ?>' };
@@ -624,6 +633,24 @@ $this->headTitle($title);
             });
             $('#SemantiqueTransitions'+dataValue).prop('checked');
         });
+
+		//Affiche la modal de confirmation pour la suprression d'une scène
+		$(document).on( 'click', '.supprSceneSec', function(e){
+	   		e.preventDefault();
+		    var URL = $(this).attr('data-url');
+
+			$.ajax({
+				url: URL,
+				type: "POST",
+				data:{ 'action' : 'delete' }, 
+				success:function(response){
+					$('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+				},
+				error: function(){
+					$('.messageInfos').showInfos("Impossible d'afficher la popup", "error");
+				}
+			});
+		});
 		
     });
     

@@ -652,6 +652,19 @@ return array(
                 			),
                 		),
                 	),
+                    'retirerSceneSecondaire' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/retirerSceneSecondaire/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'retirerSceneSecondaire',
+                            ),
+                        ),
+                    ),
                     'removeScene' => array(
                         'type' => 'segment',
                         'options' => array(
