@@ -20,10 +20,10 @@ class LogsDataTable extends DataTable
 	{
 	    if (! $this->getConfiguration()) {
 	        $configuration = array(
-	            'Action',
-	            'Date',
-	            'Objet',
-	            'Utilisateur'
+    				'action',
+    				'loggedAt',
+    				'objectClass',
+    				'username'
 	        );
 	        $this->setConfiguration($configuration);
         }	        
@@ -148,7 +148,7 @@ class LogsDataTable extends DataTable
 
 			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
 
-			$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			//$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
 
 
 			if ($this->getSSearch() != null) {

@@ -221,7 +221,7 @@ class ParcoursController extends AbstractActionController
         	$dot .= 'subgraph cluster_'.$sous_parcours->id.'{';
         	$dot .= 'color="darkgreen";';
         	$dot .= 'label = "'.$escapeHtml($sous_parcours->titre).'";';
-        	$dot .= 'tooltip = "'.$escapeHtml($sous_parcours->titre).'";';
+        	//$dot .= 'tooltip = "'.$escapeHtml($sous_parcours->titre).'";';
         	$dot .= 'fontcolor="darkgreen";';
         	$dot .= 'fontsize="20";';
         	$dot .= 'style="dashed";' . "\n";
@@ -242,7 +242,7 @@ class ParcoursController extends AbstractActionController
         			$style = 'color="grey", fontcolor="grey"';
         		}
         		//$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style=bold, fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
-        		$dot .= 's'.$scene->id.'[label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
+        		$dot .= 's'.$scene->id.'[id="s'.$scene->id.'", label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
         	}
         	 
         	$dot .= '}' . "\n";
