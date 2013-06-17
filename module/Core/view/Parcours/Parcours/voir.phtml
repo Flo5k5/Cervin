@@ -79,7 +79,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
     id="ajNewSceneDansSousParcours" 
     data-type="select" 
     data-pk="1" 
-    data-url="/post" 
+    data-url="<?php echo $this->url('scene/creerSceneSecondaire');?>" 
     data-original-title="Ajouter un scéne secondaire dans le sous parcour">
     <i class="icon-refresh"></i> 
     Ajouter un scéne secondaire dans le sous parcour
@@ -152,6 +152,9 @@ $('#ajNewSceneDansSousParcours').editable({
               <?php foreach ($Parcours->sous_parcours as $sousParcours) {
                 echo "{value: ".$sousParcours->id.", text: '".$sousParcours->titre."'},";
               } ?>
-           ]
+           ],
+        success: function() {
+          document.location.reload();
+      }
     });
 <?php $this->inlineScript()->captureEnd();?>
