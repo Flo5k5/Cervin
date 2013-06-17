@@ -145,17 +145,23 @@ class SceneController extends AbstractActionController
 			return $viewModel->setTemplate('Parcours/Scene/modal-suppression.phtml');
 			
 		} else {
-
-			try{
-				$this->getEntityManager()->remove($sceneSecondaire);
-				$this->getEntityManager()->flush();
-			} catch (Zend_Exception $e) {
-				echo "Caught exception: " . get_class($e) . "\n";
-				echo "Message: " . $e->getMessage() . "\n";
+			if(!$presenceTransition){
+				try{
+					$this->getEntityManager()->remove($sceneSecondaire);
+					$this->getEntityManager()->flush();
+				} catch (Zend_Exception $e) {
+					//echo "Caught exception: " . get_class($e) . "\n";
+					//echo "Message: " . $e->getMessage() . "\n";
+					$this->flashMessenger()->addErrorMessage(sprintf('Une erreur est survenue.'));
+					return $this->redirect()->toRoute('scene/retirerSceneSecondaire',array('id' => $scene->id));
+				}
+				$this->flashMessenger()->addErrorMessage(sprintf('La scène a été supprimée.'));
+				return $this->redirect()->toRoute('parcours');
+			} else {
+				$this->flashMessenger()->addErrorMessage(sprintf('Vous ne pouvez pas supprimer cette scène car elle est rattachée à une ou plusieurs transitions.'));
+				return $this->redirect()->toRoute('scene/retirerSceneSecondaire',array('id' => $scene->id));
 			}
-			
 			//return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
-			return $this->redirect()->toRoute('parcours');
 		}
 
 	}
