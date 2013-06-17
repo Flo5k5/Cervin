@@ -324,27 +324,6 @@ class AdminController extends AbstractActionController
 			return;
         }
     }
-
-    public function editAccueilAction()
-    {
-        $request = $this->getRequest();
-        $page_accueil = $this->getEntityManager()->getRepository('Application\Entity\Page')->findOneBy(array('titre'=>'Accueil'));
-        if ($request->isPost())
-        {
-            //save new text
-            $data = $this->getRequest()->getPost()->toArray();
-            $text = $data["wysiwyg"];
-            $page_accueil->texte = $text;
-            $this->getEntityManager()->persist($page_accueil);
-            $this->getEntityManager()->flush();
-            return $this->redirect()->toRoute('home');
-        }
-        else
-        {
-            return new ViewModel(array('page' => $page_accueil));
-        }
-        
-    }
     
     /**
      * Droit : Utilisateur

@@ -8,11 +8,12 @@ use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Une page
- *
- * @Gedmo\Mapping\Annotation\Loggable
+ * 
+ * @Gedmo\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_page")
  * 
@@ -40,6 +41,7 @@ class Page implements InputFilterAwareInterface
     protected $texte;
 
     /**
+     * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(type="string", length=200, unique=true)
      */
     protected $slug;

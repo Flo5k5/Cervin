@@ -104,11 +104,11 @@ echo $this->headScript();
                        <span class="icon-bar"></span>
                        <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="<?php echo $this->url('home'); ?>">Cervin</a>
+                    <a class="brand" href="<?php echo $this->url('page'); ?>">Cervin</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="divider-vertical"></li>
-                            <li><a href="<?php echo $this->url('home'); ?>"><i class="icon-home"></i>  Accueil</a></li>
+                            <li><a href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i>  Accueil</a></li>
                             <li class="divider-vertical"></li>
                         <?php if ($this->isAllowed('Utilisateur') === true) :?>
                             <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
@@ -120,6 +120,7 @@ echo $this->headScript();
                         <?php endif; ?>
                         </ul>
                         <ul class="nav pull-right">
+                        <li><a href="<?php echo $this->url('page/voir',array('slug'=>'contact')); ?>">Contact</a></li>
                         
                         	<?php if ($this->isAllowed('Admin') === true) :?>
                                  		<li class="divider-vertical"></li>
@@ -144,8 +145,9 @@ echo $this->headScript();
                                                     <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
                                                 </a></li>
                                                 
-                                                <li><a href="<?php echo $this->url('admin/editAccueil'); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
-                                                
+                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
+                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>"><i class="icon-edit"></i>  Page Contact</a></li>
+                                                <li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Afficher les logs</a></li>
                                                 <li class="dropdown-submenu">
 												<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
 													<ul class="dropdown-menu">
