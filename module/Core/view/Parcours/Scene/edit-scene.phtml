@@ -430,6 +430,7 @@ $this->headTitle($title);
                 heading:'Confirmation',
                 body:"Êtes-vous sûr de vouloir retirer cette scène du chemin recommandé ? Celle-ci deviendra une scène secondaire",
                 callback: function() {
+      				$('body').css('cursor', 'wait');
                     $.post(
                      	dataURL,
                         function(response) {

@@ -86,9 +86,7 @@ class SceneController extends AbstractActionController
      */
     public function creerSceneSecondaireAction()
     {
-
-		$request = $this->params()->fromPost();
-    	$id = (int) $request['value'];
+		$id = (int) $this->params()->fromRoute('idsp', 0);
 		try {
 			$SousParcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$id));
 		} catch (\Exception $ex) {
@@ -100,14 +98,13 @@ class SceneController extends AbstractActionController
 			return;
 		}
 		$newScene = new SceneSecondaire();
-		$newScene->titre = "Nouvelle scène secondaire";
-		$newScene->narration = "";
+		$newScene->titre = "Nouvelle scène";
+		$newScene->narration = "Narration à écrire...";
 		$SousParcours->addScene($newScene);
 		$this->getEntityManager()->flush();
 
-    	//$this->flashMessenger()->addErrorMessage(sprintf('Une nouvelle scène secondaire a été ajoutée au Sous Parcours.'));
-    	//return $this->redirect()->toRoute('parcours/voir', array('id' => $SousParcours->parcours->id));
-    	return $this->getResponse()->setContent(Json::encode(true));
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
+    	return $this->redirect()->toRoute('parcours/voir', array('id' => $SousParcours->parcours->id));
     }
     
     /**

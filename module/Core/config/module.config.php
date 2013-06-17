@@ -645,7 +645,10 @@ return array(
                 	'creerSceneSecondaire' => array(
                 		'type' => 'segment',
                 		'options' => array(
-                			'route' => '/creerSceneSecondaire',
+                			'route' => '/creerSceneSecondaire/:idsp',
+                			'constraints' => array(
+                				'idsp'     => '[0-9]+',
+                			),
                 			'defaults' => array(
                 				'controller' => 'Scene',
                 				'action'     => 'creerSceneSecondaire',
