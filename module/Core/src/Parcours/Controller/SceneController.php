@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\SceneRecommandee;
+use Parcours\Entity\SceneSecondaire;
 use Parcours\Entity\TransitionRecommandee;
 use Zend\Json\Json;
 
@@ -279,7 +280,6 @@ class SceneController extends AbstractActionController
 		foreach ($scene->transitions_secondaires_entrantes as $tr) {
 			$tr->scene_destination = $newScene;
 		}
-		$this->getEntityManager()->persist($newScene);
 		
 		// On retire la scène du chemin recommandé
 		if($tr_before === null) 
@@ -311,7 +311,7 @@ class SceneController extends AbstractActionController
 		$this->getEntityManager()->remove($scene);
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été retirée du chemin recommandé.'));
-		$this->getResponse()->setContent(Json::encode(true));
+		return $this->getResponse()->setContent(Json::encode(true));
 	}
 
 	public function editSceneAction()
