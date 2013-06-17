@@ -11,19 +11,50 @@ namespace Application;
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Page' => 'Application\Controller\PageController',
             'Admin' => 'Admin\Controller\AdminController',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'home' => array(
+            'page' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
+                // 'priority' => 1000,
                 'options' => array(
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
+                        'controller' => 'Page',
+                        'action'     => 'voir',
+                        'slug'       => 'accueil',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'voir' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => ':slug',
+                            'constraints' => array(
+                                'slug'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Page',
+                                'action'     => 'voir',
+                            ),
+                        ),
+                    ),
+                    'modifier' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'modifier/:slug',
+                            'constraints' => array(
+                                'slug'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Page',
+                                'action'     => 'modifier',
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -61,18 +92,6 @@ return array(
                                 'action'     => 'changeUserAjax',
                             ),
                         ),
-                    ),
-                    'editAccueil' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route' => '/editAccueil',
-                            'defaults' => array(
-                                'controller' => 'Admin',
-                                'action'     => 'editAccueil',
-                            ),
-                            
-                        ),
-                        
                     ),
                     'demandeRole' => array(
                         'type' => 'segment',
@@ -159,7 +178,7 @@ return array(
                     // pick any listeners you need
                     //'Gedmo\Tree\TreeListener',
                     'Gedmo\Timestampable\TimestampableListener',
-                    //'Gedmo\Sluggable\SluggableListener',
+                    'Gedmo\Sluggable\SluggableListener',
                     //'Gedmo\Loggable\LoggableListener',
                     //'Gedmo\Sortable\SortableListener'
 

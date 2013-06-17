@@ -43,13 +43,8 @@ $this->headTitle($title);
 		<?php endif;?>
 	    </div>
     </div>
-    <a href="#" 
-		class="btn btn-primary retirerCheminRecommande"
-		data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
-		Retirer cette scène du chemin recommandé
-    </a>
 </div>
-
+    
 <div class="tabbable">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#tab1" data-toggle="tab">Contenu de la scène</a></li>
@@ -135,8 +130,12 @@ $this->headTitle($title);
 		
 			<!-- Transitions recommandées autour de cette scène -->
 			<?php if ($estRecommandee) :?>
+			<a href="#" 
+				class="btn btn-danger retirerCheminRecommande"
+				data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
+				Retirer cette scène du chemin recommandé
+			</a>
 			<div class="row-fluid">
-			
 				<!-- Transition recommandée entrante -->
 				<div class="span6">
 					<h3><p class="text-info">Transition recommandée entrante</p></h3>
@@ -440,11 +439,11 @@ $this->headTitle($title);
                 heading:'Confirmation',
                 body:"Êtes-vous sûr de vouloir retirer cette scène du chemin recommandé ? Celle-ci deviendra une scène secondaire",
                 callback: function() {
+      				$('body').css('cursor', 'wait');
                     $.post(
                      	dataURL,
                         function(response) {
-                        	
-      						//$(location).attr('href',"<?php echo $this->url('parcours/voir', array('id'=>$scene->sous_parcours->parcours->id));?>");
+      						$(location).attr('href',"<?php echo $this->url('parcours/voir', array('id'=>$scene->sous_parcours->parcours->id));?>");
 		                }
                     );
                 }

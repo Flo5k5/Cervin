@@ -14,6 +14,7 @@ use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Parcours\Entity\SceneRecommandee;
+use Parcours\Entity\SceneSecondaire;
 use Parcours\Entity\TransitionRecommandee;
 use Zend\Json\Json;
 
@@ -85,8 +86,25 @@ class SceneController extends AbstractActionController
      */
     public function creerSceneSecondaireAction()
     {
-    	$this->flashMessenger()->addErrorMessage(sprintf('Création d\'une scène secondaire : pas encore implémenté'));
-    	return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
+		$id = (int) $this->params()->fromRoute('idsp', 0);
+		try {
+			$SousParcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$id));
+		} catch (\Exception $ex) {
+			$this->getResponse()->setStatusCode(404);
+            return;
+		}
+		if ($SousParcours==null || !$id) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		$newScene = new SceneSecondaire();
+		$newScene->titre = "Nouvelle scène";
+		$newScene->narration = "Narration à écrire...";
+		$SousParcours->addScene($newScene);
+		$this->getEntityManager()->flush();
+
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Une nouvelle scène a été ajoutée.'));
+    	return $this->redirect()->toRoute('parcours/voir', array('id' => $SousParcours->parcours->id));
     }
     
     /**
@@ -332,7 +350,6 @@ class SceneController extends AbstractActionController
 		foreach ($scene->transitions_secondaires_entrantes as $tr) {
 			$tr->scene_destination = $newScene;
 		}
-		$this->getEntityManager()->persist($newScene);
 		
 		// On retire la scène du chemin recommandé
 		if($tr_before === null) 
@@ -364,7 +381,7 @@ class SceneController extends AbstractActionController
 		$this->getEntityManager()->remove($scene);
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été retirée du chemin recommandé.'));
-		$this->getResponse()->setContent(Json::encode(true));
+		return $this->getResponse()->setContent(Json::encode(true));
 	}
 
 	public function editSceneAction()

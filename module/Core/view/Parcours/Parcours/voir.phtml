@@ -51,6 +51,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 		border-color: #5B7244;
 		padding: 5px 5px 20px 5px;
 	}
+  a {
+    cursor: pointer;
+  }
+
 
 </style>
 
@@ -58,7 +62,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 //<!--
 digraph "<?php echo $Parcours->titre; ?>" { 
-graph [bgcolor="#f3f3f3"]
+graph [bgcolor="#f3f3f3"];
 <?php echo $dot ; ?>}
 //-->
 
@@ -68,22 +72,68 @@ graph [bgcolor="#f3f3f3"]
 $this->headScript()->appendFile($this->basePath() . '/js/viz.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 ?>
+<div class="row-fluid">
 
-
-<section class="buttons">
-    <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
-    <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
-    <!-- <input type="range" class="zoom-range"> -->
-    <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
-    <button class="btn btn-primary"><i class="icon-refresh"></i></button>
-</section>
-
-<br>
-
-<!-- Graphe -->
-<div style="overflow: hidden; position: relative; border:3px solid black;"> 
-	<div id="panzoom" style="text-align: center; height: 1000px">
+	<!-- Sous-parcours -->
+	<div class="span4">
+		<div class="accordion" id="accordion2">
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<?php while ($sous_parcours != null) : ?>
+			<div class="accordion-group">
+				<div class="accordion-heading" >
+					<a class="accordion-toggle" id="heading<?php echo $sous_parcours->id;?>" data-toggle="collapse" data-parent="#accordion2" href="#<?php echo $sous_parcours->id; ?>">
+			            <h4><?php echo $this->escapeHtml($sous_parcours->titre); ?></h4>
+					</a>
+				</div>
+				<div id="<?php echo $sous_parcours->id; ?>" class="accordion-body collapse">
+					<div class="accordion-inner">
+						<p class="edit CursorPointer"
+				        	data-url="<?php echo $this->url("parcours/editSousParcours",array('idsp'=>$sous_parcours->id)) ?>"
+				            data-name="titre" 
+				            data-type="text"
+				            data-pk="heading<?php echo $sous_parcours->id; ?>">
+				            <?php echo $this->escapeHtml($sous_parcours->titre); ?>
+				        </p>
+						<a href="<?php echo $this->url('scene/creerSceneSecondaire', array("idsp" => $sous_parcours->id)) ?>"
+		                	class="btn btn-primary btn-block">
+		                    	<i class="icon-plus"></i> Ajouter une scène
+		                </a>
+						<a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajAvant", "idsp" => $sous_parcours->id)) ?>"
+							class="btn btn-primary btn-block">
+		                    	<i class="icon-mail-reply"></i> Ajouter un sous-parcours avant
+		                </a>
+		                <a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajApres", "idsp" => $sous_parcours->id)) ?>"
+		                	class="btn btn-primary btn-block">
+		                    	<i class="icon-mail-forward icon-rotate-180"></i> Ajouter un sous-parcours après
+		                </a>
+		                <a href="#"
+		                	class="btn btn-danger btn-block">
+		                    	<i class="icon-trash"></i> Supprimer le sous-parcours
+		                </a>
+					</div>
+				</div>
+			</div>
+		<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
+		endwhile; ?>
+		</div>
 	</div>
+	
+	<div class="span8">
+		<div class="btn-group">
+		  <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
+		  <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
+		  <!-- <input type="range" class="zoom-range"> -->
+		  <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
+		  <button class="btn btn-primary refresh"><i class="icon-refresh"></i></button>
+		</div>
+		<!-- Graphe -->
+		<div style="overflow: hidden; position: relative; border:3px solid black;"> 
+		
+			<div id="panzoom" style="text-align: center; height: 1000px">
+			</div>
+		</div>
+	</div>
+
 </div>
 
 <script>
@@ -126,8 +176,16 @@ $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 ?>
 
 <?php $this->inlineScript()->captureStart(); ?>
+
 $('.edit').editable({
-	mode: 'inline',
-	emptytext: 'Vide'
+	emptytext: 'Vide', mode: 'inline'
 });
+
+$('.edit').on('save', function(e, params) {
+	$('#'+$(this).attr('data-pk')).html('<h4>'+params.newValue+'</h4>');
+	//$(this).parent().prevAll('.accordion-heading').html('hehe');
+    //$('[pk="'+$(this).attr('data-name')+$(this).attr('data-pk')+'"]').html(params.newValue);
+});
+
+
 <?php $this->inlineScript()->captureEnd();?>

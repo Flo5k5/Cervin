@@ -103,7 +103,7 @@ class Parcours implements InputFilterAwareInterface
 
         $Scene = new SceneRecommandee();
         $Scene->titre = 'Nouvelle scène';
-        $Scene->narration = 'Narration à écrire';
+        $Scene->narration = 'Narration à écrire...';
         $SousParcours->addScene($Scene);
         $SousParcours->scene_depart = $Scene;
 

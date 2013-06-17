@@ -61,6 +61,18 @@ class Pages implements FixtureInterface
 			"
 		);
 		$manager->persist($page_accueil);
+		/* ************** *
+		 * PAGE D'ACCUEIL *
+		 * ************** */
+
+		$page_contact = new Application\Entity\Page(
+			'Contact',
+			"
+				<h1>Contact</h1>
+				<a href=\"https://tuleap.cervin.org/\" title=\"Link: https://tuleap.cervin.org/\">https://tuleap.cervin.org/</a>
+			"
+		);
+		$manager->persist($page_contact);
 		$manager->flush();
 	}
 }

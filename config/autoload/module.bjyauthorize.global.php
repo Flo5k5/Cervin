@@ -61,9 +61,20 @@ return array(
                 ),
 
                 array(
-                    'controller' => 'Application\Controller\Index',
+                    'controller' => 'Page',
                     'action' => 'index',
-                    'roles' => array()
+                    'roles' => array('Visiteur')
+                ),
+
+                array(
+                    'controller' => 'Page',
+                    'action' => 'voir',
+                    'roles' => array('Visiteur')
+                ),
+
+                array(
+                    'controller' => 'Page',
+                    'roles' => array('Admin')
                 ),
 
                 array(
@@ -166,10 +177,13 @@ return array(
                 array('route' => 'admin', 'roles' => array('Admin')),
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
                 array('route' => 'admin/changeUserAjax', 'roles' => array('Admin')),
-                array('route' => 'admin/editAccueil', 'roles' => array('Admin')),
                 array('route' => 'admin/demandeRole', 'roles' => array('Utilisateur')),
                 array('route' => 'admin/refueRole', 'roles' => array('Admin')),
                 array('route' => 'admin/logs', 'roles' => array('Admin')),
+
+                array('route' => 'page', 'roles' => array('Visiteur')),
+                array('route' => 'page/voir', 'roles' => array('Visiteur')),
+                array('route' => 'page/modifier', 'roles' => array('Admin')),
 
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),
@@ -248,6 +262,7 @@ return array(
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/retirerSceneSecondaire', 'roles' => array('Parcours')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
+                array('route' => 'scene/creerSceneSecondaire', 'roles' => array('Parcours')),
                 array('route' => 'scene/insererSceneRecommandee', 'roles' => array('Parcours')),
                 array('route' => 'scene/retirerSceneRecommandee', 'roles' => array('Parcours')),
                 array('route' => 'scene/editScene', 'roles' => array('Parcours')),
