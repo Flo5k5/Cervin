@@ -75,7 +75,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 <div class="row-fluid">
 
 	<!-- Sous-parcours -->
-	<div class="span3">
+	<div class="span4">
 		<div class="accordion" id="accordion2">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<?php while ($sous_parcours != null) : ?>
@@ -118,13 +118,13 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		</div>
 	</div>
 	
-	<div class="span9">
+	<div class="span8">
 		<div class="btn-group">
 		  <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
 		  <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
 		  <!-- <input type="range" class="zoom-range"> -->
 		  <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
-		  <button class="btn btn-primary"><i class="icon-refresh"></i></button>
+		  <button class="btn btn-primary refresh"><i class="icon-refresh"></i></button>
 		</div>
 		<!-- Graphe -->
 		<div style="overflow: hidden; position: relative; border:3px solid black;"> 
@@ -186,5 +186,6 @@ $('.edit').on('save', function(e, params) {
 	//$(this).parent().prevAll('.accordion-heading').html('hehe');
     //$('[pk="'+$(this).attr('data-name')+$(this).attr('data-pk')+'"]').html(params.newValue);
 });
+
 
 <?php $this->inlineScript()->captureEnd();?>
