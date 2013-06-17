@@ -153,13 +153,13 @@ class SceneController extends AbstractActionController
 					//echo "Caught exception: " . get_class($e) . "\n";
 					//echo "Message: " . $e->getMessage() . "\n";
 					$this->flashMessenger()->addErrorMessage(sprintf('Une erreur est survenue.'));
-					return $this->redirect()->toRoute('scene/retirerSceneSecondaire',array('id' => $scene->id));
+					return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
 				}
 				$this->flashMessenger()->addErrorMessage(sprintf('La scène a été supprimée.'));
 				return $this->redirect()->toRoute('parcours');
 			} else {
 				$this->flashMessenger()->addErrorMessage(sprintf('Vous ne pouvez pas supprimer cette scène car elle est rattachée à une ou plusieurs transitions.'));
-				return $this->redirect()->toRoute('scene/retirerSceneSecondaire',array('id' => $scene->id));
+				return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
 			}
 			//return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
 		}
