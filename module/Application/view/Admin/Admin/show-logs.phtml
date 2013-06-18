@@ -1,5 +1,5 @@
 <?php
-$title = 'Gestion des logs';
+$title = 'Consultation des logs';
 $this->headTitle($title);
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
@@ -20,7 +20,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                             <th>Date</th>
                             <th>Objet</th>
                             <th>Utilisateur</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,8 +47,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		           	           	null,
 		           	           	null, 
 		           	        	null,
-		                     	null,
-		                     	{ "bSortable": false  }
+		                     	null
 	           	           	 ],
 	           	"iColumns": 5,
 	           	"bAutoWidth": false,

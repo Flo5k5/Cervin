@@ -416,13 +416,11 @@ class AdminController extends AbstractActionController
 
             foreach ($dataTable->getPaginator() as $log) {
                 
-                $bouton    = '<a href="#" class="btn btn-primary ajouter" data-url="'. $log->getId() .'"><i class="icon-plus"></i> Lier </a>';
                 $aaData[] = array(
                         $escapeHtml($log->getAction()),
                         $escapeHtml($log->getLoggedAt()->format('Y-m-d H:i:s')),
                         $escapeHtml($log->getObjectClass()),
                         $escapeHtml($log->getUsername()),
-                        $bouton
                 );
             }
             $dataTable->setAaData($aaData);

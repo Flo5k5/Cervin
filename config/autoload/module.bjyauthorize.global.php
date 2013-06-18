@@ -260,6 +260,7 @@ return array(
 
                 array('route' => 'scene', 'roles' => array('Utilisateur')),
                 array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene/retirerSceneSecondaire', 'roles' => array('Parcours')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/creerSceneSecondaire', 'roles' => array('Parcours')),
                 array('route' => 'scene/insererSceneRecommandee', 'roles' => array('Parcours')),

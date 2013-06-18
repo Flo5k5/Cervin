@@ -108,6 +108,65 @@ class SceneController extends AbstractActionController
     }
     
     /**
+	 * Suppression d'une scène secondaire
+	 * 
+	 * On ne peut supprimer une scène secondaire d'un parcours que si elle est isolée
+	 * (aucune transition entrante ou sortante)
+	 */
+    public function retirerSceneSecondaireAction()
+	{
+		$id = (int) $this->params()->fromRoute('id', 0);
+		
+		if ($id === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+		
+		$sceneSecondaire = $this->getEntityManager()->getRepository('Parcours\Entity\SceneSecondaire')->findOneBy(array('id'=>$id));
+		
+		if ($sceneSecondaire === null) {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
+
+		$presenceTransition = null;
+		
+		if( ( $sceneSecondaire->transitions_secondaires !== null && $sceneSecondaire->transitions_secondaires->count() > 0 )
+		&& ( $sceneSecondaire->transitions_secondaires_entrantes !== null && $sceneSecondaire->transitions_secondaires_entrantes->count() > 0 ) ){
+			$presenceTransition = true;
+		} else {
+			$presenceTransition = false;
+		}
+
+		if ($this->getRequest()->isXmlHttpRequest()){
+			
+			$viewModel = new ViewModel( array( 'sceneSecondaire' => $sceneSecondaire, 'presenceTransition' => $presenceTransition ));
+			$viewModel->setTerminal(true);
+			return $viewModel->setTemplate('Parcours/Scene/modal-suppression.phtml');
+			
+		} else {
+			if(!$presenceTransition){
+				try{
+					$this->getEntityManager()->remove($sceneSecondaire);
+					$this->getEntityManager()->flush();
+				} catch (Zend_Exception $e) {
+					//echo "Caught exception: " . get_class($e) . "\n";
+					//echo "Message: " . $e->getMessage() . "\n";
+					$this->flashMessenger()->addErrorMessage(sprintf('Une erreur est survenue.'));
+					return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
+				}
+				$this->flashMessenger()->addErrorMessage(sprintf('La scène a été supprimée.'));
+				return $this->redirect()->toRoute('parcours');
+			} else {
+				$this->flashMessenger()->addErrorMessage(sprintf('Vous ne pouvez pas supprimer cette scène car elle est rattachée à une ou plusieurs transitions.'));
+				return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
+			}
+			//return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
+		}
+
+	}
+    
+    /**
 	 * Suppression d'une scène
 	 * 
 	 * On ne peut supprimer une scène d'un parcours que si elle est isolée
