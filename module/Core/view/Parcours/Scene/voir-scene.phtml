@@ -22,11 +22,13 @@ $this->headTitle($title); ?>
 			<?php else : ?>
 					<h1><p class="muted">
 			<?php endif;?>
-			<i class="icon-file-alt"></i>
+				<i class="icon-file-alt"></i>
 			<?php echo $this->escapeHtml($title); ?> </p></h1>
+				<div class="messageInfos">&nbsp;</div>
 			</div>
+			
 			<div class="span3">
-			<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
+			<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)); ?>" 
 				class="btn btn-primary btn-block"> 
 				<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
 			</a>
@@ -34,6 +36,12 @@ $this->headTitle($title); ?>
 				class="btn btn-primary btn-block">
 				<i class="icon-pencil"> </i> Modifier cette scène
 		    </a>
+		    <?php if (!$estRecommandee) :?>
+			<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
+				class="btn btn-danger btn-block supprSceneSec">
+				<i class="icon-trash"> </i> Supprimer cette scène
+		    </a>
+		    <?php endif;?>
 		    </div>
 	    </div>
 	</div>
@@ -235,3 +243,31 @@ $this->headTitle($title); ?>
 		</div> <!-- / tab-conttent -->
 	</div> <!-- / tabbable -->
 </div> <!-- / row-fluid -->
+
+<div id="modalDiv"></div>
+
+<?php 
+$this->inlineScript()->captureStart();
+ ?>
+	$(function() {
+
+		//Affiche la modal de confirmation pour la suprression d'une scène
+		$(document).on( 'click', '.supprSceneSec', function(e){
+	   		e.preventDefault();
+		    var URL = $(this).attr('data-url');
+
+			$.ajax({
+				url: URL,
+				type: "POST",
+				data:{ 'action' : 'delete' }, 
+				success:function(response){
+					$('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+				},
+				error: function(){
+					$('.messageInfos').showInfos("Impossible d'afficher la popup", "error");
+				}
+			});
+		});
+		
+	});
+<?php $this->inlineScript()->captureEnd(); ?>

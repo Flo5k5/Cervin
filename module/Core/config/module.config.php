@@ -655,6 +655,19 @@ return array(
                 			),
                 		),
                 	),
+                    'retirerSceneSecondaire' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/retirerSceneSecondaire/:id',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Scene',
+                                'action'     => 'retirerSceneSecondaire',
+                            ),
+                        ),
+                    ),
                     'removeScene' => array(
                         'type' => 'segment',
                         'options' => array(
@@ -722,7 +735,26 @@ return array(
             ),
         ),
     ),
-        
+    'navigation' => array(
+        // The DefaultNavigationFactory we configured in (1) uses 'default' as the sitemap key
+        'default' => array(
+            // And finally, here is where we define our page hierarchy
+            'parcours' => array(
+                'label' => 'Parcours',
+                'route' => 'page',
+                'pages' => array(
+                    'index' => array(
+                        'label' => 'Liste',
+                        'route' => 'parcours',
+                    ),
+                    'voir' => array(
+                        'label' => 'Voir',
+                        'route' => 'parcours/voir',
+                    ),
+                ),
+            ),
+        ),
+    ),
     'view_manager' => array(
         'template_map' => array(
             

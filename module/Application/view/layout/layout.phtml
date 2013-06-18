@@ -206,10 +206,10 @@ echo $this->headScript();
             <?php endforeach; ?>
         <?php endif; ?>
     <?php endforeach; ?>
+        <?php echo $this->navigation('Navigation')->breadcrumbs(); ?>
 
             <?php echo $this->content; ?>
         </div>
-        
        	<div class="container-fluid">
 	        <footer>
 				<hr/>
