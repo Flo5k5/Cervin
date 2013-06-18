@@ -165,26 +165,7 @@ class SceneController extends AbstractActionController
 		}
 
 	}
-    
-    /**
-	 * Suppression d'une scène
-	 * 
-	 * On ne peut supprimer une scène d'un parcours que si elle est isolée
-	 * (aucune transition entrante ou sortante)
-	 */
-    public function removeSceneAction()
-	{
-		$id = (int) $this->params()->fromRoute('id', 0);
-		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\SceneRecommandee')->findOneBy(array('id'=>$id));
-		if ($scene === null or $id === null) {
-			$this->getResponse()->setStatusCode(404);
-			return;
-		}
-		
-		$this->flashMessenger()->addErrorMessage(sprintf('Suppression d\'une scène : pas encore implémenté'));
-		return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
-	}
-
+	
 	/**
 	 * Insertion d'une scène dans le chemin recommandé
 	 * 

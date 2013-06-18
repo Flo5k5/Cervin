@@ -668,19 +668,6 @@ return array(
                             ),
                         ),
                     ),
-                    'removeScene' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/remove/:id',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Scene',
-                                'action'     => 'removeScene',
-                            ),
-                        ),
-                    ),
                     'editScene' => array(
                         'type' => 'segment',
                         'options' => array(
