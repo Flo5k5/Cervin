@@ -83,7 +83,9 @@ echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scal
 
 $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp'));
 // echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); 
+
 $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
+$this->headLink()->appendStylesheet($this->basePath() . '/css/style.css');
 echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap.css');
 
 // Le js
@@ -93,137 +95,144 @@ $this->headScript()->prependFile($this->basePath() . '/js/jquery.js');
 echo $this->headStyle();
 echo $this->headScript(); 
 ?>
+
    </head>
    <body>
-   		<a name="top"></a>
-        <div class="navbar navbar-inverse ">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="<?php echo $this->url('page'); ?>">Cervin</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="divider-vertical"></li>
-                            <li><a href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i>  Accueil</a></li>
-                            <li class="divider-vertical"></li>
-                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
-                            <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
-                           <!--  <li class="divider-vertical"></li> -->
-                        <?php endif; ?>
-                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
-                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
-                            <li class="divider-vertical"></li>
-                        <?php endif; ?>
-                        </ul>
-                        <ul class="nav pull-right">
-                        <li><a href="<?php echo $this->url('page/voir',array('slug'=>'contact')); ?>">Contact</a></li>
-                        
-                        	<?php if ($this->isAllowed('Admin') === true) :?>
-                                 		<li class="divider-vertical"></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            	<i class="icon-tasks"></i>  Administration 
-                                                    <?php 
-                                                    // On récupère toutes les notifications
-                                                    $notifUser = $this->Notification('user');
-                                                    // On additionne toutes les notifications
-                                                    $notifAll = $notifUser;
-
-                                                    echo ($notifAll > 0) ? '<span class="badge badge-important small">'.$this->escapeHtml($notifAll).'</span>' : '' ;
-                                                    
-                                                    ?>
-
-                                                
-                                            	<b class="caret"></b>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
-                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
-                                                </a></li>
-                                                
-                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
-                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>"><i class="icon-edit"></i>  Page Contact</a></li>
-                                                <li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Afficher les logs</a></li>
-                                                <li class="dropdown-submenu">
-												<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
-													<ul class="dropdown-menu">
-														<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'éléments
-                                                		</a></li>
-                                                		<li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques des relations</a></li>
-													</ul>
-												</li>
-												
-												<li class="dropdown-submenu">
-												<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
-													<ul class="dropdown-menu">
-                                                		<li><a href="<?php echo $this->url('semantiquetransition'); ?>"><i class="icon-bookmark"></i>  Sémantiques des transitions</a></li>
-													</ul>
-												</li>
-												
-                                            </ul>
-                                        </li>
-                            <?php endif; ?>
-                            
-                            <?php
-                                $zfcUserIdentity = $this->zfcUserIdentity();
-                             if(!$zfcUserIdentity): ?>
-                            	<li class="divider-vertical"></li>
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
-                                    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                                        <?php echo $this->zfcUserLoginWidget(); ?>
-                                    </div>
-                                </li>
-                            <?php else: ?>
-                            	<li class="divider-vertical"></li>
-                                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-user"></i>  <?php echo $this->escapeHtml($zfcUserIdentity->getDisplayName()); ?> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
-                                        <li><a href="/user/logout"><i class="icon-off"></i> Déconnexion</a></li>
-                                    </ul>
-                                </li>
-                            <?php endif?>
-                        </ul>
-
-                    </div><!--/.nav-collapse -->
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-    <?php foreach ($this->flashMessages() as $namespace => $messages) : ?>
-        <?php if (count($messages)) : ?>
-            <?php foreach ($messages as $message) : ?>
-            <div class="message alert alert-<?php echo $namespace; ?>">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <?php echo $message; ?>
-            </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    <?php endforeach; ?>
-        <?php echo $this->navigation('Navigation')->breadcrumbs(); ?>
-
-            <?php echo $this->content; ?>
-        </div>
-       	<div class="container-fluid">
-	        <footer>
-				<hr/>
-				<table class="table">
-					<tr>
-						<td style="border-top:none;">
-							<p class="text-left"><?php echo date("Y"); ?> - Cervin</p>
-						</td>
-						<td style="border-top:none;">
-							<p class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></p>
-						</td>
-					</tr>
-				</table>
-	        </footer>
+   
+   		<div id="wrap">
+   		
+	   		<a name="top"></a>
+	        <div class="navbar navbar-inverse ">
+	            <div class="navbar-inner">
+	                <div class="container">
+	                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	                       <span class="icon-bar"></span>
+	                       <span class="icon-bar"></span>
+	                       <span class="icon-bar"></span>
+	                    </a>
+	                    <a class="brand" href="<?php echo $this->url('page'); ?>">Cervin</a>
+	                    <div class="nav-collapse collapse">
+	                        <ul class="nav">
+	                            <li class="divider-vertical"></li>
+	                            <li><a href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i>  Accueil</a></li>
+	                            <li class="divider-vertical"></li>
+	                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
+	                            <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
+	                           <!--  <li class="divider-vertical"></li> -->
+	                        <?php endif; ?>
+	                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
+	                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
+	                            <li class="divider-vertical"></li>
+	                        <?php endif; ?>
+	                        </ul>
+	                        <ul class="nav pull-right">
+	                        <li><a href="<?php echo $this->url('page/voir',array('slug'=>'contact')); ?>">Contact</a></li>
+	                        
+	                        	<?php if ($this->isAllowed('Admin') === true) :?>
+	                                 		<li class="divider-vertical"></li>
+	                                        <li class="dropdown">
+	                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                                            	<i class="icon-tasks"></i>  Administration 
+	                                                    <?php 
+	                                                    // On récupère toutes les notifications
+	                                                    $notifUser = $this->Notification('user');
+	                                                    // On additionne toutes les notifications
+	                                                    $notifAll = $notifUser;
+	
+	                                                    echo ($notifAll > 0) ? '<span class="badge badge-important small">'.$this->escapeHtml($notifAll).'</span>' : '' ;
+	                                                    
+	                                                    ?>
+	
+	                                                
+	                                            	<b class="caret"></b>
+	                                            </a>
+	                                            <ul class="dropdown-menu">
+	                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
+	                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
+	                                                </a></li>
+	                                                
+	                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
+	                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>"><i class="icon-edit"></i>  Page Contact</a></li>
+	                                                <li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Afficher les logs</a></li>
+	                                                <li class="dropdown-submenu">
+													<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
+														<ul class="dropdown-menu">
+															<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'éléments
+	                                                		</a></li>
+	                                                		<li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques des relations</a></li>
+														</ul>
+													</li>
+													
+													<li class="dropdown-submenu">
+													<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
+														<ul class="dropdown-menu">
+	                                                		<li><a href="<?php echo $this->url('semantiquetransition'); ?>"><i class="icon-bookmark"></i>  Sémantiques des transitions</a></li>
+														</ul>
+													</li>
+													
+	                                            </ul>
+	                                        </li>
+	                            <?php endif; ?>
+	                            
+	                            <?php
+	                                $zfcUserIdentity = $this->zfcUserIdentity();
+	                             if(!$zfcUserIdentity): ?>
+	                            	<li class="divider-vertical"></li>
+	                                <li class="dropdown">
+	                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Connexion<strong class="caret"></strong></a>
+	                                    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+	                                        <?php echo $this->zfcUserLoginWidget(); ?>
+	                                    </div>
+	                                </li>
+	                            <?php else: ?>
+	                            	<li class="divider-vertical"></li>
+	                                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                                    <i class="icon-user"></i>  <?php echo $this->escapeHtml($zfcUserIdentity->getDisplayName()); ?> <b class="caret"></b></a>
+	                                    <ul class="dropdown-menu">
+	                                        <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
+	                                        <li><a href="/user/logout"><i class="icon-off"></i> Déconnexion</a></li>
+	                                    </ul>
+	                                </li>
+	                            <?php endif?>
+	                        </ul>
+	
+	                    </div><!--/.nav-collapse -->
+	                </div>
+	            </div>
+	        </div>
+	
+	        <div class="container-fluid">
+	    <?php foreach ($this->flashMessages() as $namespace => $messages) : ?>
+	        <?php if (count($messages)) : ?>
+	            <?php foreach ($messages as $message) : ?>
+	            <div class="message alert alert-<?php echo $namespace; ?>">
+	                <button type="button" class="close" data-dismiss="alert">&times;</button>
+	                <?php echo $message; ?>
+	            </div>
+	            <?php endforeach; ?>
+	        <?php endif; ?>
+	    <?php endforeach; ?>
+	        <?php echo $this->navigation('Navigation')->breadcrumbs(); ?>
+	
+	            <?php echo $this->content; ?>
+	        </div>
+	   
+	   		<div id="push"></div>
+	   		
+	   	</div>     
+        
+       	<div id="footer" class="container-fluid">
+			<hr/>
+			<table class="table">
+				<tr>
+					<td style="border-top:none;">
+						<p class="text-left"><?php echo date("Y"); ?> - Cervin</p>
+					</td>
+					<td style="border-top:none;">
+						<p class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></p>
+					</td>
+				</tr>
+			</table>
 	    </div>
 
     	<?php echo $this->inlineScript(); ?>
