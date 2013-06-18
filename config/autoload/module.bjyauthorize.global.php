@@ -172,8 +172,6 @@ return array(
             'BjyAuthorize\Guard\Route' => array(
                 array('route' => 'album', 'roles' => array('Visiteur')),
 
-                array('route' => 'home', 'roles' => array('Visiteur')),
-
                 array('route' => 'admin', 'roles' => array('Admin')),
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
                 array('route' => 'admin/changeUserAjax', 'roles' => array('Admin')),

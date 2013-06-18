@@ -534,11 +534,13 @@ $graph
         $newsp->description = 'Description à écrire';
         $newsp->transitions = new \Doctrine\Common\Collections\ArrayCollection();
         $newsp->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+        
         $newScene = new SceneRecommandee();
         $newScene->titre = 'Nouvelle scène';
         $newScene->narration = 'Narration à écrire';
         $newsp->addScene($newScene);
         $newsp->scene_depart = $newScene;
+        
         $newTransitionRecommandee = new TransitionRecommandee();
         $newTransitionRecommandee->narration = 'Nouvelle Transition';
         $sousparcours->parcours->addSousParcours($newsp);
@@ -575,13 +577,14 @@ $graph
             break;
             case 'ajApres': // On ajoute un sous-parcours après $sousparcours
                 if($sousparcours->sous_parcours_suivant === null)
+                // C'est le dernier sous-parcours
+                // On cherche la dernière scène après laquelle 
+                // on doit relier le nouveau sous-parcours
                 {
                     foreach ($sousparcours->scenes as $scene)
                     {
-                        if($this->getEntityManager()
-                            ->getRepository('Parcours\Entity\TransitionRecommandee')
-                            ->findOneBy(array('scene_origine'=>$scene))
-                            === null)
+                        if($scene instanceOf \Parcours\Entity\SceneRecommandee 
+                        	&& $scene->transition_recommandee === null)
                         {
                             $last_scene = $scene;
                             break;
@@ -615,14 +618,68 @@ $graph
     	$id = (int) $this->params()->fromRoute('idsp', 0);
     	$sous_parcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$id));
     	if ($sous_parcours === null or $id === null) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
+    		$this->flashMessenger()->addErrorMessage(sprintf('Erreur : le sous-parcours à supprimer n\'a pas été trouvé'));
+    		return $this->getResponse()->setContent(Json::encode(true));
     	}
     	$parcours = $sous_parcours->parcours;
+    	if ($parcours->sous_parcours->count() == 1) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Ce sous-parcours ne peut pas être supprimé car c\'est le seul dans le parcours'));
+    		return $this->getResponse()->setContent(Json::encode(true));
+    	}
+    	if ($sous_parcours->scenes->count() != 1) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Un sous-parcours ne peut être supprimé que lorsqu\'il ne contient qu\'une seule scène.'));
+    		return $this->getResponse()->setContent(Json::encode(true));
+    	}
     	
-    	//$this->getEntityManager()->remove($scene);
-    	//$this->getEntityManager()->flush();
-    	$this->flashMessenger()->addErrorMessage(sprintf('La suppression d\'un sous-parcours n\'est pas encore implémentée.'));
+    	$scene = $sous_parcours->scene_depart;
+    	$tr_entrante = $scene->transition_recommandee_entrante;
+    	$tr_sortante = $scene->transition_recommandee;
+    	$em = $this->getEntityManager();
+    	if ($tr_entrante === null) {
+    		// C'est le premier sous-parcours du parcours
+    		$parcours->sous_parcours_depart = $sous_parcours->sous_parcours_suivant;
+    		$tr_sortante->scene_origine = null;
+    		$tr_sortante->scene_destination = null;
+    		$parcours->transitions->removeElement($tr_sortante);
+    		$em->remove($tr_sortante);
+    	} elseif ($tr_sortante === null) {
+    		// C'est le dernier sous-parcours du parcours
+    		$sous_parcours_before = $tr_entrante->scene_origine->sous_parcours;
+    		$sous_parcours_before->sous_parcours_suivant = null;
+    		$tr_entrante->scene_origine->transition_recommandee = null;
+    		$tr_entrante->scene_origine = null;
+    		$tr_entrante->scene_destination = null;
+    		$parcours->transitions->removeElement($tr_entrante);
+    		$em->remove($tr_entrante);
+    	} else {
+    		// Il est au milieu
+    		$sous_parcours_before = $tr_entrante->scene_origine->sous_parcours;
+    		$sous_parcours_after = $sous_parcours->sous_parcours_suivant ;
+    		$sous_parcours->sous_parcours_suivant = null;
+    		$sous_parcours_before->sous_parcours_suivant = $sous_parcours_after;
+    		$tr_sortante->scene_origine = $tr_entrante->scene_origine;
+    		$tr_entrante->scene_origine->transition_recommandee = $tr_sortante;
+    		$tr_entrante->scene_origine = null;
+    		$tr_entrante->scene_destination = null;
+    		$parcours->transitions->removeElement($tr_entrante);
+    		$em->remove($tr_entrante);
+    	}
+    	$scene->transition_recommandee_entrante = null;
+    	$scene->transition_recommandee = null;
+    	$scene->sous_parcours = null;
+    	$sous_parcours->scenes = null;
+    	$sous_parcours->scene_depart = null;
+    	$parcours->sous_parcours->removeElement($sous_parcours);
+    	try {
+    		$em->flush();
+    		$em->remove($sous_parcours);
+	    	$em->remove($scene);
+	    	$em->flush();
+    	} catch (\Exception $e) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la suppression du sous-parcours'));
+    		return $this->getResponse()->setContent(Json::encode(true));
+    	}
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous-parcours a bien été supprimé'));
     	return $this->getResponse()->setContent(Json::encode(true));
     }
     

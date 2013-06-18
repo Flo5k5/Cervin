@@ -50,7 +50,7 @@ class AdminController extends AbstractActionController
     ///////////////////////////////////////////////////////////////////////////
     public function indexAction()
     {
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute('page');
     }
     ///////////////////////////////////////////////////////////////////////////
     
@@ -182,7 +182,7 @@ class AdminController extends AbstractActionController
             $id = (int) $this->params()->fromRoute('id', 0);
             
             if (!$id) {
-                //return $this->redirect()->toRoute('home');
+                //return $this->redirect()->toRoute('');
                 return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Pas d'id spécifié en paramètre")));
             }
             
@@ -192,7 +192,7 @@ class AdminController extends AbstractActionController
                 $user = $this->getEntityManager()->find('SamUser\Entity\User', $id);
             }
             catch (\Exception $ex) {
-                //return $this->redirect()->toRoute('home');
+                //return $this->redirect()->toRoute('');
                 return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver l'utilisateur")));
             }
 
@@ -283,7 +283,7 @@ class AdminController extends AbstractActionController
                     $role = $this->getEntityManager()->find('SamUser\Entity\Role', $postData['value']);
                 }
                 catch (\Exception $ex) {
-                    //return $this->redirect()->toRoute('home');
+                    //return $this->redirect()->toRoute('');
                 	return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver le role")));
                 }
                 
@@ -311,7 +311,7 @@ class AdminController extends AbstractActionController
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		//return $this->redirect()->toRoute('home');
+            		//return $this->redirect()->toRoute('page');
             		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
             	}
                 
