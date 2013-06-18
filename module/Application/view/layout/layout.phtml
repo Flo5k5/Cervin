@@ -223,16 +223,15 @@ echo $this->headScript();
         
        	<div id="footer" class="container-fluid">
 			<hr/>
-			<table class="table">
-				<tr>
-					<td style="border-top:none;">
-						<p class="text-left"><?php echo date("Y"); ?> - Cervin</p>
-					</td>
-					<td style="border-top:none;">
-						<p class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></p>
-					</td>
-				</tr>
-			</table>
+			
+			<div class="pull-left" >
+				<span class="text-left"><?php echo date("Y"); ?> - Cervin</span>
+			</div>
+			
+			<div class="pull-right" >
+				<span class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></span>
+			</div>
+
 	    </div>
 
     	<?php echo $this->inlineScript(); ?>
