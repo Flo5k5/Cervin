@@ -150,6 +150,30 @@ return array(
             
         ),
     ),
+    'navigation' => array(
+        // The DefaultNavigationFactory we configured in (1) uses 'default' as the sitemap key
+        'default' => array(
+            // And finally, here is where we define our page hierarchy
+            'admin' => array(
+                'label' => 'Admin',
+                'route' => 'page',
+                'pages' => array(
+                    'home' => array(
+                        'label' => 'Admin',
+                        'route' => 'admin',
+                    ),
+                    'gestion-users' => array(
+                        'label' => 'Gestion des utilisateurs',
+                        'route' => 'admin/gestion-users',
+                    ),
+                    'logs' => array(
+                        'label' => 'Gestion des logs',
+                        'route' => 'admin/logs',
+                    ),
+                ),
+            ),
+        ),
+    ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -158,11 +182,11 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'layout/layout'                 => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index'       => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'                     => __DIR__ . '/../view/error/404.phtml',
             'error/index'                   => __DIR__ . '/../view/error/index.phtml',
             'admin/admin/editusers'         => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
-            'admin/admin/edit-accueil'      => __DIR__ . '/../view/Admin/Admin/edit-accueil.phtml'            
+            'application/page/voir'       => __DIR__ . '/../view/application/page/voir.phtml',
+            'application/page/modifier'       => __DIR__ . '/../view/application/page/modifier.phtml',
         ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',
@@ -242,6 +266,5 @@ return array(
         'Roles_fixture' => __DIR__ . '/../src/SamUser/Fixture',
         'Pages_fixture' => __DIR__ . '/../src/Application/Fixture',
     ),
-
 
 );

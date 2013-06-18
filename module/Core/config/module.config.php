@@ -722,7 +722,26 @@ return array(
             ),
         ),
     ),
-        
+    'navigation' => array(
+        // The DefaultNavigationFactory we configured in (1) uses 'default' as the sitemap key
+        'default' => array(
+            // And finally, here is where we define our page hierarchy
+            'parcours' => array(
+                'label' => 'Parcours',
+                'route' => 'page',
+                'pages' => array(
+                    'index' => array(
+                        'label' => 'Liste',
+                        'route' => 'parcours',
+                    ),
+                    'voir' => array(
+                        'label' => 'Voir',
+                        'route' => 'parcours/voir',
+                    ),
+                ),
+            ),
+        ),
+    ),
     'view_manager' => array(
         'template_map' => array(
             
