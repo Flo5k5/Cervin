@@ -58,16 +58,24 @@ $this->headTitle($title); ?>
 				class="btn btn-primary btn-block"> 
 				<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
 			</a>
-			<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-pencil"> </i> Modifier cette scène
-		    </a>
-		    <?php if (!$estRecommandee) :?>
-			<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
-				class="btn btn-danger btn-block supprSceneSec">
-				<i class="icon-trash"> </i> Supprimer cette scène
-		    </a>
-		    <?php endif;?>
+			<?php if ($this->isAllowed('Parcours') === true) :?>
+				<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
+					class="btn btn-primary btn-block">
+					<i class="icon-pencil"> </i> Modifier cette scène
+			    </a>
+			    <?php if (!$estRecommandee) :?>
+				<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
+					class="btn btn-danger btn-block supprSceneSec">
+					<i class="icon-trash"> </i> Supprimer cette scène
+			    </a>
+			    <?php else :?>
+				<a href="#" 
+					class="btn btn-danger btn-block retirerCheminRecommande"
+					data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
+					Retirer cette scène du chemin recommandé
+				</a>
+				<?php endif;?>
+			<?php endif; ?>
 		    </div>
 	    </div>
 	</div>
