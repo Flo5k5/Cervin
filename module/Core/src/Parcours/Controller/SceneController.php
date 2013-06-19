@@ -417,7 +417,7 @@ class SceneController extends AbstractActionController
 
 		$scene->elements->removeElement($element);
 		$this->getEntityManager()->flush();
-		$this->flashMessenger()->addSuccessMessage(sprintf('La liaison a bien été supprimée'));
+		$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément a bien été retiré de la scène'));
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 	
@@ -543,7 +543,7 @@ class SceneController extends AbstractActionController
 				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
 			}
 			
-			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
+			$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément a bien été ajouté à la scène.'));
 			return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
 	
 		} else {

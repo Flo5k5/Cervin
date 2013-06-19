@@ -280,6 +280,7 @@ class ArtefactController extends AbstractActionController
 		}
 		$this->getEntityManager()->remove($artefact);
 		$this->getEntityManager()->flush();
+        $this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact a bien été supprimé.'));
 		return $this->redirect()->toRoute('collection/consulter');
 	}
 

@@ -149,7 +149,7 @@ class ParcoursController extends AbstractActionController
 	        if ($form->isValid()) {
 	            $this->getEntityManager()->persist($Parcours);
 	            $this->getEntityManager()->flush();
-	            $this->flashMessenger()->addSuccessMessage(sprintf('La Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
+	            $this->flashMessenger()->addSuccessMessage(sprintf('Le Parcours ["%1$s"] a bien été créé.', $escapeHtml($Parcours->titre)));
 	            return $this->redirect()->toRoute('parcours/voir', array ('id' => $Parcours->id));
 	        }
 	
@@ -317,6 +317,7 @@ class ParcoursController extends AbstractActionController
                 ->findOneBy(array('id'=>$request['value']));
                 $Transition->semantique = $SemantiqueTransition;
                 $this->getEntityManager()->flush();
+                $this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été modifiée'));
                 return $this->getResponse()->setContent(Json::encode(array('return'=>$Transition->semantique->semantique)));
                 break;
 
@@ -416,48 +417,7 @@ class ParcoursController extends AbstractActionController
           $this->getResponse()->setStatusCode(404);
           return;
       }
-
-/*
-
-
-$graph
-    ->subgraph('cluster_1')
-        ->attr('node', array('style' => 'filled', 'fillcolor' => 'blue'))
-        ->node('A')
-        ->node('B')
-    ->end()
-    ->edge(array('A', 'B', 'C'))
-;
-$graph
-    ->subgraph('cluster_0')
-        ->set('style', 'filled')
-        ->set('color', 'lightgrey')
-        ->attr('node', array('style' => 'filled', 'color' => 'white'))
-        ->edge(array('a0', 'a1', 'a2', 'a3'))
-        ->set('label', 'process #1')
-    ->end()
-    ->subgraph('cluster_1')
-        ->attr('node', array('style' => 'filled'))
-        ->edge(array('b0', 'b1', 'b2', 'b3'))
-        ->set('label', 'process #2')
-        ->set('color', 'blue')
-    ->end()
-    ->edge(array('start', 'a0'))
-    ->edge(array('start', 'b0'))
-    ->edge(array('a1', 'b3'))
-    ->edge(array('b2', 'a3'))
-    ->edge(array('a3', 'a0'))
-    ->edge(array('a3', 'end'))
-    ->edge(array('b3', 'end'))
-;
-*/
-
-
-
-
-
-
-    $graph ='$graph';
+   	  $graph ='$graph';
       // création du dot
       $dot = 'Départ [shape="plaintext"];' . ' ';
       $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style="dashed"];' . ' ';
