@@ -409,6 +409,7 @@ class AdminController extends AbstractActionController
                 'action',
                 'loggedAt',
                 'objectClass',
+                'objectId',
                 'username'
             ));
 
@@ -420,6 +421,7 @@ class AdminController extends AbstractActionController
                         $escapeHtml($log->getAction()),
                         $escapeHtml($log->getLoggedAt()->format('Y-m-d H:i:s')),
                         $escapeHtml($log->getObjectClass()),
+                        $escapeHtml($log->getObjectId()),
                         $escapeHtml($log->getUsername()),
                 );
             }
