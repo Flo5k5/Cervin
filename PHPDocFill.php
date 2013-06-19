@@ -29,6 +29,8 @@ define("APP_PASSWORD", "toto1234"); //
 define("REQUIRES_PASSWORD", true);
 //////////////////////////////////////
 
+// Prevent some folders to be scanned by the PHPDocFill
+$exluded_dirs = array("vendor", "public", "config", "data", "tests");
 
 
 ///////////////////////
@@ -45,6 +47,7 @@ define("T_SPECIAL_BRACKET",15090134);
  * Handles all the docblock related work
  */
 class DocBlock {
+
 	var $valid = false;
 	var $tags = "";
 	var $shortDescription = "";
@@ -500,7 +503,7 @@ class DocBlock {
 			}
 			
 			$out .= "
-				$analysis<a href='#' data-filename='".rawurlencode($file)."' class='filelink'>$file</a><br />
+				$analysis<a href='#' data-filename='".rawurlencode($file)."' title='$file' class='filelink'>$file</a><br />
 			";
 		}
 		
@@ -1033,10 +1036,11 @@ function highlight_php($string) {
  * Performs a recursive directory scan to find .php files
  */
 function RecursiveScanDir($dir, $prefix = '') {
+	global $exluded_dirs;
 	$dir = rtrim($dir, '\\/');
 	$result = array();
 	foreach (scandir($dir) as $f) {
-		if ($f !== '.' and $f !== '..') {
+		if ($f !== '.' and $f !== '..' and !in_array($f, $exluded_dirs) ) {
 			if (is_dir("$dir/$f")) {
 				$result = array_merge($result, RecursiveScanDir("$dir/$f", "$prefix$f/"));
 			} else {
@@ -1105,6 +1109,7 @@ if (method_exists('DocBlock',$action))
 			padding: 5px;
 			white-space: nowrap;
 			float: left;
+			margin-bottom: 40px;
 		}
 		
 		#generator {
