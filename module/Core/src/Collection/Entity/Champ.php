@@ -246,12 +246,10 @@ class Champ implements InputFilterAwareInterface
  */
 class ChampRepository extends EntityRepository
 {
-    public function getDatasElement($element,$type_element)
+    public function getChampsDatasElement($element,$type_element)
     {
         $em  = $this->getEntityManager();
         $qb  = $em->createQueryBuilder();
-
-
 
         $qb ->select('c.label as label, 
                     c.id as id, 
@@ -261,11 +259,11 @@ class ChampRepository extends EntityRepository
             ->from('Collection\Entity\Champ', 'c')
             ->leftJoin('Collection\Entity\Data', 'd', 'WITH','d.element = :element AND d.champ = c')
 
-
             ->where('c.type_element = :type_element')
 
             ->setParameter('type_element', $type_element)
             ->setParameter('element', $element)
+            ->orderBy('c.label', 'ASC')
             ;
 
         return $qb->getQuery()->getResult();

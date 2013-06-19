@@ -101,11 +101,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 							switch ($champData['format']) :
 	        					case 'texte':
-	        						echo ($champData['data']) ? $this->escapeHtml($champData['data']->texte) : $null ;
+									if ($champData['data']) {
+										echo ($champData['data']->texte) ? $this->escapeHtml($champData['data']->texte) : $null ;
+									} else {
+										echo $null;
+									}
 									echo '</br></br>';
 								break;
 								case 'textarea':
-									echo ($champData['data']) ? $this->escapeHtml($champData['data']->textarea) : $null ;
+									if ($champData['data']) {
+										echo ($champData['data']->textarea) ? $this->escapeHtml($champData['data']->textarea) : $null ;
+									} else {
+										echo $null;
+									}
 									echo '</br></br>';
 								break;
 								case 'date':
@@ -114,19 +122,30 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-
 									echo '</br></br>';
 								break;
 								case 'nombre':
-									echo ($champData['data']) ? $this->escapeHtml($champData['data']->nombre) : $null ;
+									if ($champData['data']) {
+										echo ($champData['data']->nombre) ? $this->escapeHtml($champData['data']->nombre) : $null ;
+									} else {
+										echo $null;
+									}
 									echo '</br></br>';
 								break;
 								case 'fichier':
-									echo ($champData['data']) ? '<a href="' . ROOT_DIR . $champData['data']->fichier.'">'.$this->escapeHtml(basename($champData['data']->fichier)).'</a>' : $null ;
+									if ($champData['data']) {
+										echo ($champData['data']->fichier) ? '<a href="' . ROOT_DIR . $champData['data']->fichier.'">'.$this->escapeHtml(basename($champData['data']->fichier)).'</a>' : $null ;
+									} else {
+										echo $null;
+									}
 									echo '</br></br>';
 								break;
 								case 'url':
-									echo ($champData['data']) ? '<a href="' . $champData['data']->url.'">'.$this->escapeHtml($champData['data']->url).'</a>' : $null ;
+									if ($champData['data']) {
+										echo ($champData['data']->url) ? '<a href="' . $champData['data']->url.'">'.$this->escapeHtml($champData['data']->url).'</a>' : $null ;
+									} else {
+										echo $null;
+									}
 									echo '</br></br>';
 								break;
 								?>

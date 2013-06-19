@@ -157,7 +157,7 @@ class ArtefactController extends AbstractActionController
 
 		$ChampsDatasElement = $this->getEntityManager()
 				->getRepository('Collection\Entity\Champ')
-				->getDatasElement(1,6);
+				->getChampsDatasElement($Artefact,$Artefact->type_element);
 
 		$relations_out = $this->getEntityManager()
 				->getRepository('Collection\Entity\RelationArtefacts')
@@ -193,9 +193,8 @@ class ArtefactController extends AbstractActionController
 	{
 		$id       = (int) $this->params()->fromRoute('id', 0);
 		$artefact = $this->getEntityManager()->getRepository('Collection\Entity\Artefact')->findOneBy(array('id'=>$id));
-		$datas    = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$artefact));
 		
-		if (!$id or $artefact === null or $datas === null) {
+		if (!$id or $artefact === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
@@ -259,13 +258,20 @@ class ArtefactController extends AbstractActionController
 		        break;
 			} // end switch request name
 		}
+		$ChampsDatasElement = $this->getEntityManager()
+			->getRepository('Collection\Entity\Champ')
+			->getChampsDatasElement($Artefact,$Artefact->type_element);
 		$relations_out = $this->getEntityManager()
 						->getRepository('Collection\Entity\RelationArtefacts')
 						->findBy(array('origine'=>$artefact));
 		$relations_in = $this->getEntityManager()
 						->getRepository('Collection\Entity\RelationArtefacts')
 						->findBy(array('destination'=>$artefact));
-		return new ViewModel(array('artefact' => $artefact, 'datas'=>$datas, 'relations_out'=>$relations_out, 'relations_in'=>$relations_in));
+		return new ViewModel(array(
+				'artefact' => $artefact, 
+				'ChampsDatasElement' => $ChampsDatasElement,
+				'relations_out'=>$relations_out, 
+				'relations_in'=>$relations_in));
 	}
 	
 	/**
