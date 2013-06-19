@@ -11,6 +11,31 @@ $this->headTitle($title); ?>
 	
 </style>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la fiche d'une scène. Cette page permet de consulter les informations relatives à une scène.
+    	</p>
+    	<p>
+    	L'onglet 'Contenu de la scène' contient a description détaillée de la scène ainsi que des liens vers les éléments de la collection à voir dans cette scène.
+    	</p>
+    	<p>
+    	L'onglet 'Scènes voisines' contient toutes les transitions entrantes et sortantes de la scène, détaillant ainsi l'ensemble des scènes voisines dans le parcours.
+    	</p>
+    	<p>
+    	Si vous avez l'autorisation, vous pouvez modifier ces informations grâce au bouton en haut à gauche.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
 
 	<!-- Titre -->
@@ -23,7 +48,8 @@ $this->headTitle($title); ?>
 					<h1><p class="muted">
 			<?php endif;?>
 				<i class="icon-file-alt"></i>
-			<?php echo $this->escapeHtml($title); ?> </p></h1>
+			<?php echo $this->escapeHtml($title); ?> 
+			<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </p></h1>
 				<div class="messageInfos">&nbsp;</div>
 			</div>
 			

@@ -5,6 +5,33 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la page d'accueil d'un parcours. La graphe représente le parcours dans se globalité : 
+    	<ul>
+    	<li> En bleu le chemin recommandé</li>
+    	<li>En gris les chemins secondaires</li>
+    	<li> En rouge les scène sans transition entrante : attention elles ne sont pas accessibles</li>
+    	</ul>
+    	</p>
+    	<p>
+    	Le menu à gauche détaille les sous-parcours. Si vous avez l'autorisation, vous pouvez créer/supprimer des sous-parcours et ajouter de nouvelles scènes dans un sous-parcours.
+    	</p>
+    	<p>
+    	Pour voir le détail d'une scène, cliquez dessus dans le graphe. Toute modification du parcours (modifier le contenu d'une scène, créer/supprimer/modifier une transition, ...) se fait en allant dans le détail de la scène concernée.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1>
@@ -74,8 +101,10 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 ?>
 <div class="row-fluid">
 
+
 	<!-- Sous-parcours -->
 	<div class="span4">
+	<?php if ($this->isAllowed('Parcours') === true) :?>
 		<div class="accordion" id="accordion2">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<?php while ($sous_parcours != null) : ?>
@@ -117,6 +146,14 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
 		endwhile; ?>
 		</div>
+
+	<?php else : ?>
+		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
+		<?php while ($sous_parcours != null) : ?>
+		<h4><?php echo $this->escapeHtml($sous_parcours->titre); ?></h4>
+		<?php $sous_parcours = $sous_parcours->sous_parcours_suivant;
+		endwhile; ?>
+	<?php endif; ?>
 	</div>
 	
 	<div class="span8">

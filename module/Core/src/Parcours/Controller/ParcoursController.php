@@ -119,8 +119,7 @@ class ParcoursController extends AbstractActionController
     		
     		$aaData[] = array(
     				$titre,
-    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
-    				$btn_supprimer
+    				$dataTable->truncate($parcours->description, 250, ' ...', false, true)
     		);
     	}
     	

@@ -147,9 +147,6 @@ echo $this->headScript();
 	                                            	<b class="caret"></b>
 	                                            </a>
 	                                            <ul class="dropdown-menu">
-	                                                <li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
-	                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
-	                                                </a></li>
 	                                                
 	                                               	 <li class="dropdown-submenu">
 													<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
@@ -166,6 +163,11 @@ echo $this->headScript();
 	                                                		<li><a href="<?php echo $this->url('semantiquetransition'); ?>"><i class="icon-bookmark"></i>  Sémantiques des transitions</a></li>
 														</ul>
 													</li>
+													<li class="divider"></li>
+													
+													<li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
+	                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
+	                                                </a></li>
 													
 													<li class="dropdown-submenu">
 													<a tabindex="-1" href="#"><i class="icon-edit"></i>  Pages éditables</a>
