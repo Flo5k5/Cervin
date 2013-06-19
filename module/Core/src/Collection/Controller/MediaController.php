@@ -257,7 +257,7 @@ class MediaController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
-        
+
     	foreach( ($media->datas) as $data){
 			if($data->fichier !== null){
 				$media->deleteFile($data);
@@ -266,6 +266,7 @@ class MediaController extends AbstractActionController
         
         $this->getEntityManager()->remove($media);
         $this->getEntityManager()->flush();
+        $this->flashMessenger()->addSuccessMessage(sprintf('Le média a bien été supprimé.'));
         return $this->redirect()->toRoute('collection/consulter');
     }
 

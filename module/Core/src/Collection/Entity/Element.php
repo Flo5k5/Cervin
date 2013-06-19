@@ -170,7 +170,7 @@ class Element implements InputFilterAwareInterface
         		case 'date':
         			$databd = new DataDate($this, $champ);
         			if ($data[$index] != null) {
-        				$databd->date = new \DateTime($data[$index]);
+        				$databd->date = \DateTime::createFromFormat('Y-d-m', $data[$index]);
         			}
         			$this->datas->add($databd);
         			break;
@@ -353,7 +353,7 @@ class Element implements InputFilterAwareInterface
 			    					array(
 				    					'name' => 'regex',
 				    					'options'=>array(
-				    					'pattern' => '/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/',
+				    					'pattern' => '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/',
 				    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
 			    					),
 		    					),

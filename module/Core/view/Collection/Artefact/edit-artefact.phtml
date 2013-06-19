@@ -13,14 +13,22 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Aide : modification d'un artefact</h3>
+	    <h3 id="myModalLabel">Aide</h3>
     </div>
     <div class="modal-body">
     	<p>
-    	Cette page vous permet de modifier les informations d'un artefact. Tous les champs sont modifiables en cliquant directement dessus.
+    	Cette page vous permet de modifier les informations d'un artefact.
     	</p>
     	<p>
-    	Les onglets 'artefacts liés' et 'médias liés' permettent de gérer les relations mais ne sont pas encore implémentés.
+    	A gauche de lécran, un éditeur permet de modifier la description de l'artefact.
+    	</p>
+    	<p>
+    	A droite de lécran, le menu permet de modifier :
+    		<ul>
+    		<li> La valeur des champs en cliquant directement dessus. </li>
+    		<li> Les liaisons vers d'autres artefacts : supprimer une liaison existante avec la poubelle, ajouter une laison en trouvant l'artefact à lier et en cliquant sur '+Lier'.
+    		<li> Les laisons vers d'autres médias : supprimer une liaison existante avec la poubelle, ajouter une laison en trouvant l'artefact à lier et en cliquant sur '+Lier'.</li>
+    		</ul>
     	</p>
     </div>
     <div class="modal-footer">
@@ -31,9 +39,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div class="page-header row-fluid">
 	<div class="span9">
 		<h1>
-		Modification d'un artefact : 
-		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> <br/>
+		<i class="icon-pencil"></i>
 		<span class="edit CursorPointer" data-inputclass="span12" data-name="titre" data-type="text" data-pk="1" data-url="<?php echo $this->url("artefact/editArtefact",array('id'=>$artefact->id)) ?>"><?php echo $this->escapeHtml($title); ?></span> 
+		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small>
 		</h1>
 	</div>
 	
@@ -127,7 +135,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								if($data->date === null){
 									$date = null;
 								} else {
-									$date = $data->date->format('d-m-Y');
+									$date = $data->date->format('Y-d-m');
 								}
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
@@ -336,7 +344,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			mode: 'popup',
 			placement: 'top',
 			format: 'yyyy-mm-dd',
-			viewformat: 'dd-mm-yyyy',
+			viewformat: 'yyyy-dd-mm',
 			 datepicker: {
 				language:'fr',
 			},

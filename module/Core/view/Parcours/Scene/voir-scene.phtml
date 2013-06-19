@@ -11,6 +11,31 @@ $this->headTitle($title); ?>
 	
 </style>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la fiche d'une scène. Cette page permet de consulter les informations relatives à une scène.
+    	</p>
+    	<p>
+    	L'onglet 'Contenu de la scène' contient a description détaillée de la scène ainsi que des liens vers les éléments de la collection à voir dans cette scène.
+    	</p>
+    	<p>
+    	L'onglet 'Scènes voisines' contient toutes les transitions entrantes et sortantes de la scène, détaillant ainsi l'ensemble des scènes voisines dans le parcours.
+    	</p>
+    	<p>
+    	Si vous avez l'autorisation, vous pouvez modifier ces informations grâce au bouton en haut à gauche.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <?php $estRecommandee = ($scene instanceof \Parcours\Entity\SceneRecommandee);?>
 
 	<!-- Titre -->
@@ -23,7 +48,8 @@ $this->headTitle($title); ?>
 					<h1><p class="muted">
 			<?php endif;?>
 				<i class="icon-file-alt"></i>
-			<?php echo $this->escapeHtml($title); ?> </p></h1>
+			<?php echo $this->escapeHtml($title); ?> 
+			<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </p></h1>
 				<div class="messageInfos">&nbsp;</div>
 			</div>
 			
@@ -32,16 +58,24 @@ $this->headTitle($title); ?>
 				class="btn btn-primary btn-block"> 
 				<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
 			</a>
-			<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-pencil"> </i> Modifier cette scène
-		    </a>
-		    <?php if (!$estRecommandee) :?>
-			<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
-				class="btn btn-danger btn-block supprSceneSec">
-				<i class="icon-trash"> </i> Supprimer cette scène
-		    </a>
-		    <?php endif;?>
+			<?php if ($this->isAllowed('Parcours') === true) :?>
+				<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
+					class="btn btn-primary btn-block">
+					<i class="icon-pencil"> </i> Modifier cette scène
+			    </a>
+			    <?php if (!$estRecommandee) :?>
+				<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
+					class="btn btn-danger btn-block supprSceneSec">
+					<i class="icon-trash"> </i> Supprimer cette scène
+			    </a>
+			    <?php else :?>
+				<a href="#" 
+					class="btn btn-danger btn-block retirerCheminRecommande"
+					data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
+					Retirer cette scène du chemin recommandé
+				</a>
+				<?php endif;?>
+			<?php endif; ?>
 		    </div>
 	    </div>
 	</div>
@@ -246,12 +280,32 @@ $this->headTitle($title); ?>
 
 <div id="modalDiv"></div>
 
+<div id="confirmDiv" ></div>
+
 <?php 
 $this->inlineScript()->captureStart();
  ?>
 	$(function() {
 
-		//Affiche la modal de confirmation pour la suprression d'une scène
+		// Retirer la scène du chemin recommandé
+		$(".retirerCheminRecommande").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+        	$('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir retirer cette scène du chemin recommandé ? Celle-ci deviendra une scène secondaire",
+                callback: function() {
+                	$('body').css('cursor', 'wait');
+                    $.post(
+                     	dataURL,
+                        function(response) {
+      						$(location).attr('href',"<?php echo $this->url('parcours/voir', array('id'=>$scene->sous_parcours->parcours->id));?>");
+		                }
+                    );
+                }
+          	});
+      	});
+	
+		// Affiche la modal de confirmation pour la suppression d'une scène
 		$(document).on( 'click', '.supprSceneSec', function(e){
 	   		e.preventDefault();
 		    var URL = $(this).attr('data-url');
@@ -270,4 +324,7 @@ $this->inlineScript()->captureStart();
 		});
 		
 	});
-<?php $this->inlineScript()->captureEnd(); ?>
+<?php $this->inlineScript()->captureEnd(); 
+
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
+?>

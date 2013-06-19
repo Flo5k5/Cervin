@@ -63,6 +63,11 @@ class SceneController extends AbstractActionController
     	return $this->redirect()->toRoute('parcours');
     }
 
+    /**
+     * Consultation la fiche d'une scène
+     * 
+     * @return void|\Zend\View\Model\ViewModel
+     */
     public function voirSceneAction()
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
@@ -81,8 +86,7 @@ class SceneController extends AbstractActionController
 
     /**
      * Création d'une scène secondaire dans le vide
-     * (transition entrante ou sortante)
-     * au sein d'un sous-parcours
+     * au sein d'un sous-parcours passé en paramètre
      */
     public function creerSceneSecondaireAction()
     {
@@ -128,11 +132,11 @@ class SceneController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-
+		$parcours = $sceneSecondaire->sous_parcours->parcours;
 		$presenceTransition = null;
 		
 		if( ( $sceneSecondaire->transitions_secondaires !== null && $sceneSecondaire->transitions_secondaires->count() > 0 )
-		&& ( $sceneSecondaire->transitions_secondaires_entrantes !== null && $sceneSecondaire->transitions_secondaires_entrantes->count() > 0 ) ){
+			|| ( $sceneSecondaire->transitions_secondaires_entrantes !== null && $sceneSecondaire->transitions_secondaires_entrantes->count() > 0 ) ){
 			$presenceTransition = true;
 		} else {
 			$presenceTransition = false;
@@ -155,8 +159,8 @@ class SceneController extends AbstractActionController
 					$this->flashMessenger()->addErrorMessage(sprintf('Une erreur est survenue.'));
 					return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
 				}
-				$this->flashMessenger()->addErrorMessage(sprintf('La scène a été supprimée.'));
-				return $this->redirect()->toRoute('parcours');
+				$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
+				return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
 			} else {
 				$this->flashMessenger()->addErrorMessage(sprintf('Vous ne pouvez pas supprimer cette scène car elle est rattachée à une ou plusieurs transitions.'));
 				return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
@@ -303,7 +307,9 @@ class SceneController extends AbstractActionController
 	 * Retirer une scène du chemin recommandé
 	 * 
 	 * La scène est remplacée par une scène secondaire 
-	 * et garde toutes ses transitions secondaires environnantes
+	 * et conserve toutes ses transitions secondaires environnantes
+	 * Les scènes recommandées voisine sont reliées pour garder la
+	 * structure du chemin recommandé
 	 */
 	public function retirerSceneRecommandeeAction()
 	{
@@ -371,6 +377,14 @@ class SceneController extends AbstractActionController
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 
+	/**
+	 * Modification d'une donnée d'une scène
+	 * 
+	 * Selon l'attribut 'name' de la requête, on sait si on
+	 * modifie le titre où la description de la scène
+	 * 
+	 * @return void|\Zend\View\Model\ViewModel
+	 */
 	public function editSceneAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
@@ -408,6 +422,11 @@ class SceneController extends AbstractActionController
 		));
 	}
 
+	/**
+	 * Supprimer un élément du contenu de la scène
+	 * 
+	 * La liaison entre la scène et l'élément est supprimée
+	 */
 	public function deleteElementAction()
 	{
 		$idScene = (int) $this->params('idScene', null);
@@ -417,7 +436,7 @@ class SceneController extends AbstractActionController
 
 		$scene->elements->removeElement($element);
 		$this->getEntityManager()->flush();
-		$this->flashMessenger()->addSuccessMessage(sprintf('La liaison a bien été supprimée'));
+		$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément a bien été retiré de la scène'));
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 	
@@ -543,7 +562,7 @@ class SceneController extends AbstractActionController
 				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
 			}
 			
-			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
+			$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément a bien été ajouté à la scène.'));
 			return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
 	
 		} else {

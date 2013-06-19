@@ -5,8 +5,25 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Cette page vous permet de consulter les actions des utilisateurs.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
     <h1><?php echo $this->escapeHtml($title); ?> 
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 </div>
 
 <div class="container-fluid">
@@ -19,6 +36,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                             <th>Action</th>
                             <th>Date</th>
                             <th>Objet</th>
+                            <th>Id Objet</th>
                             <th>Utilisateur</th>
                         </tr>
                     </thead>
@@ -43,9 +61,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	    table = ResultSet.paginate(
 	    	$('.data'),
 			{
+				"aaSorting": [ [1,'desc'] ],
 				"aoColumns": [
 		           	           	null,
 		           	           	null, 
+		           	        	null,
 		           	        	null,
 		                     	null
 	           	           	 ],

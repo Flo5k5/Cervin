@@ -7,9 +7,32 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la fiche d'un média. Cette page permet de consulter les informations relatives à un média.
+    	</p>
+    	<p>
+    	La description détaillée du média se trouve à gauche. Le menu à droite permet de voir les valeurs des champs pour ce média et les liaisons vers des artefacts.
+    	</p>
+    	<p>
+    	Si vous avez l'autorisation, vous pouvez modifier les informations de ce média grâce au bouton en haut à gauche.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header row-fluid">
 	<div class="span9">
-	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> 
+	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
 	<?php if ($this->isAllowed('Collection') === true) :?>
 		<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>"
@@ -84,7 +107,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 										echo '</br></br>';
 									break;
 									case 'date':
-										echo $data->date->format('d-m-Y');
+										echo $data->date->format('Y-d-m');
 										echo '</br></br>';
 									break;
 									case 'nombre':

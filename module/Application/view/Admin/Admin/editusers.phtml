@@ -10,13 +10,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Aide : gestion des utilisateurs</h3>
+	    <h3 id="myModalLabel">Aide</h3>
     </div>
     <div class="modal-body">
     	<p>Cette page vous permet en tant qu'administrateur de l'application de gérer l'ensemble des utilisateurs. 
     	Vous pouvez effectuer une recherche parmis tous les utilisateurs, puis modifier leur login, nom, email et rôle en cliquant directement dessus.
     	</p>
-    	<p>Les rôles possibles pour un utilisateurs sont :
+    	<p>
+    	Les rôles possibles pour un utilisateur sont :
     	<dl class="dl-horizontal">
     		<dt>Rôle Visiteur</dt>
 		    <dd>L'utilisateur est bloqué</dd>
@@ -29,6 +30,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		    <dt>Rôle Admin</dt>
 		    <dd>Tous les droits</dd>
 		</dl>
+		</p>
+    	<p>
+    	Si un utilisateur a demandé un rôle et est toujours en attente, une bulle rouge apparaît sur la ligne correspondante.
     	</p>
     </div>
     <div class="modal-footer">
