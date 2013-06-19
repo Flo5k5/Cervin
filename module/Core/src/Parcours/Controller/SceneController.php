@@ -63,6 +63,11 @@ class SceneController extends AbstractActionController
     	return $this->redirect()->toRoute('parcours');
     }
 
+    /**
+     * Consultation la fiche d'une scène
+     * 
+     * @return void|\Zend\View\Model\ViewModel
+     */
     public function voirSceneAction()
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
@@ -81,8 +86,7 @@ class SceneController extends AbstractActionController
 
     /**
      * Création d'une scène secondaire dans le vide
-     * (transition entrante ou sortante)
-     * au sein d'un sous-parcours
+     * au sein d'un sous-parcours passé en paramètre
      */
     public function creerSceneSecondaireAction()
     {
@@ -303,7 +307,9 @@ class SceneController extends AbstractActionController
 	 * Retirer une scène du chemin recommandé
 	 * 
 	 * La scène est remplacée par une scène secondaire 
-	 * et garde toutes ses transitions secondaires environnantes
+	 * et conserve toutes ses transitions secondaires environnantes
+	 * Les scènes recommandées voisine sont reliées pour garder la
+	 * structure du chemin recommandé
 	 */
 	public function retirerSceneRecommandeeAction()
 	{
@@ -371,6 +377,14 @@ class SceneController extends AbstractActionController
 		return $this->getResponse()->setContent(Json::encode(true));
 	}
 
+	/**
+	 * Modification d'une donnée d'une scène
+	 * 
+	 * Selon l'attribut 'name' de la requête, on sait si on
+	 * modifie le titre où la description de la scène
+	 * 
+	 * @return void|\Zend\View\Model\ViewModel
+	 */
 	public function editSceneAction()
 	{
 		$id = (int) $this->params()->fromRoute('id', 0);
@@ -408,6 +422,11 @@ class SceneController extends AbstractActionController
 		));
 	}
 
+	/**
+	 * Supprimer un élément du contenu de la scène
+	 * 
+	 * La liaison entre la scène et l'élément est supprimée
+	 */
 	public function deleteElementAction()
 	{
 		$idScene = (int) $this->params('idScene', null);
