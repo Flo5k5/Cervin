@@ -280,12 +280,32 @@ $this->headTitle($title); ?>
 
 <div id="modalDiv"></div>
 
+<div id="confirmDiv" ></div>
+
 <?php 
 $this->inlineScript()->captureStart();
  ?>
 	$(function() {
 
-		//Affiche la modal de confirmation pour la suprression d'une scène
+		// Retirer la scène du chemin recommandé
+		$(".retirerCheminRecommande").click(function(event){
+        	var dataURL = $(this).attr('data-url');
+        	$('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir retirer cette scène du chemin recommandé ? Celle-ci deviendra une scène secondaire",
+                callback: function() {
+                	$('body').css('cursor', 'wait');
+                    $.post(
+                     	dataURL,
+                        function(response) {
+      						$(location).attr('href',"<?php echo $this->url('parcours/voir', array('id'=>$scene->sous_parcours->parcours->id));?>");
+		                }
+                    );
+                }
+          	});
+      	});
+	
+		// Affiche la modal de confirmation pour la suppression d'une scène
 		$(document).on( 'click', '.supprSceneSec', function(e){
 	   		e.preventDefault();
 		    var URL = $(this).attr('data-url');
@@ -304,4 +324,7 @@ $this->inlineScript()->captureStart();
 		});
 		
 	});
-<?php $this->inlineScript()->captureEnd(); ?>
+<?php $this->inlineScript()->captureEnd(); 
+
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
+?>

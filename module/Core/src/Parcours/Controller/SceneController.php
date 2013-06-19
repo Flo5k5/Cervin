@@ -128,11 +128,11 @@ class SceneController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-
+		$parcours = $sceneSecondaire->sous_parcours->parcours;
 		$presenceTransition = null;
 		
 		if( ( $sceneSecondaire->transitions_secondaires !== null && $sceneSecondaire->transitions_secondaires->count() > 0 )
-		&& ( $sceneSecondaire->transitions_secondaires_entrantes !== null && $sceneSecondaire->transitions_secondaires_entrantes->count() > 0 ) ){
+			|| ( $sceneSecondaire->transitions_secondaires_entrantes !== null && $sceneSecondaire->transitions_secondaires_entrantes->count() > 0 ) ){
 			$presenceTransition = true;
 		} else {
 			$presenceTransition = false;
@@ -155,8 +155,8 @@ class SceneController extends AbstractActionController
 					$this->flashMessenger()->addErrorMessage(sprintf('Une erreur est survenue.'));
 					return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
 				}
-				$this->flashMessenger()->addErrorMessage(sprintf('La scène a été supprimée.'));
-				return $this->redirect()->toRoute('parcours');
+				$this->flashMessenger()->addSuccessMessage(sprintf('La scène a bien été supprimée.'));
+				return $this->redirect()->toRoute('parcours/voir', array('id' => $parcours->id));
 			} else {
 				$this->flashMessenger()->addErrorMessage(sprintf('Vous ne pouvez pas supprimer cette scène car elle est rattachée à une ou plusieurs transitions.'));
 				return $this->redirect()->toRoute('scene/voirScene',array('id' => $sceneSecondaire->id));
