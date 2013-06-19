@@ -128,7 +128,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								if($data->date === null){
 									$date = null;
 								} else {
-									$date = $data->date->format('d-m-Y');
+									$date = $data->date->format('Y-d-m');
 								}
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
@@ -265,7 +265,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			mode: 'popup',
 			placement: 'top',
 			format: 'yyyy-mm-dd',
-			viewformat: 'dd-mm-yyyy',
+			viewformat: 'yyyy-dd-mm',
 			 datepicker: {
 				language:'fr',
 			},
