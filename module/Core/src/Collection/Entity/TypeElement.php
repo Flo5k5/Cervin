@@ -51,6 +51,7 @@ class TypeElement implements InputFilterAwareInterface
      * L'ensemble des champs décrivant ce type élément
      * 
      * @ORM\OneToMany(targetEntity="Collection\Entity\Champ", mappedBy="type_element", cascade={"remove"})
+     * @ORM\OrderBy({"label" = "ASC"})
      **/
     protected $champs;
 
