@@ -151,10 +151,7 @@ echo $this->headScript();
 	                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
 	                                                </a></li>
 	                                                
-	                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>"><i class="icon-edit"></i>  Page d'accueil</a></li>
-	                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>"><i class="icon-edit"></i>  Page Contact</a></li>
-	                                                <li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Afficher les logs</a></li>
-	                                                <li class="dropdown-submenu">
+	                                               	 <li class="dropdown-submenu">
 													<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
 														<ul class="dropdown-menu">
 															<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'éléments
@@ -170,6 +167,16 @@ echo $this->headScript();
 														</ul>
 													</li>
 													
+													<li class="dropdown-submenu">
+													<a tabindex="-1" href="#"><i class="icon-edit"></i>  Pages éditables</a>
+														<ul class="dropdown-menu">
+															<li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>">Page d'accueil</a></li>
+	                                                		<li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>">Page Contact</a></li>
+														</ul>
+													</li>
+													
+													<li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Logs</a></li>
+	                                               
 	                                            </ul>
 	                                        </li>
 	                            <?php endif; ?>

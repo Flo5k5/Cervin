@@ -6,9 +6,32 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Vous êtes sur la fiche d'un artefact. Cette page permet de consulter les informations relatives à un artefact.
+    	</p>
+    	<p>
+    	La description détaillée de l'artefact se trouve à gauche. Le menu à droite permet de voir les valeurs des champs pour cet artefacts, les liaisons (avec sémantique) vers d'autres artefact et les liaisons vers des médias.
+    	</p>
+    	<p>
+    	Si vous avez l'autorisation, vous pouvez modifier les informations de cet artefact grâce au bouton en haut à gauche.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header row-fluid">
 	<div class="span9">
-	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> 
+	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
 	<?php if ($this->isAllowed('Collection') === true) :?>
 		<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 

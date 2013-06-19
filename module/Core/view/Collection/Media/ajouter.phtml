@@ -6,8 +6,29 @@ $title = 'Création d\'un média';
 $this->headTitle($title);
 ?>
 
+<!-- Help Modal -->
+<div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Aide</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    	Cette page permet de créer un nouveau média dans la collection numérique
+    	En choisissant le type de média que vous voulez créer, des champs à renseigner vont s'afficher.
+    	</p>
+    	<p>
+    	L'éditeur de texte qui apparait à droite de l'écran permet de renseigner une description détaillée du média qui vous donne la possibilité de rajouter toute donnée pertinent qui n'est pas prévue dans les champs prédéfinis.
+    	</p>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
-    <h1><i class="icon-picture"></i>  <?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
+    <h1><i class="icon-picture"></i>  <?php echo $this->escapeHtml($title); ?> 
+    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 </div>
 
 <form id="selectform" class="form-horizontal">
