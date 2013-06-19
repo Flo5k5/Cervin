@@ -59,50 +59,61 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							echo '</br></br>';
 						?>
 					</dd>
-					
-					<?php foreach( ($artefact->datas) as $data) : ?>
-						<?php if ($data->{$data->champ->format} != null): ?>
-							<dt>
-								<?php echo $this->escapeHtml($data->champ->label); ?> 
-								<?php if ($data->champ->description != null) : ?>
-					        	<a href="#" 
-				        			class="description"
-				        			rel="popover"
-				        			data-content="<?php echo $this->escapeHtml($data->champ->description); ?>"
-				        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-				        		<?php endif; ?>
-							</dt>
-							<dd>
-								<?php switch ($data->champ->format) :
-	        						case 'texte':
-	        							echo $this->escapeHtml($data->{$data->champ->format});
-										echo '</br></br>';
-									break;
-									case 'textarea':
-										echo $this->escapeHtml($data->{$data->champ->format});
-										echo '</br></br>';
-									break;
-									case 'date':
-										echo $data->date->format('d-m-Y');
-										echo '</br></br>';
-									break;
-									case 'nombre':
-										echo $this->escapeHtml($data->{$data->champ->format});
-										echo '</br></br>';
-									break;
-									case 'fichier':
-										echo '<a href="' . ROOT_DIR . $data->{$data->champ->format}.'">'.$this->escapeHtml(basename($data->{$data->champ->format})).'</a>';
-										echo '</br></br>';
-									break;
-									case 'url':
-										echo '<a href="' . $data->{$data->champ->format}.'">'.$this->escapeHtml($data->{$data->champ->format}).'</a>';
-										echo '</br></br>';
-									break;
-									?>
-								<?php endswitch ;?>
-							</dd>
-						<?php endif; ?>
+
+
+					<?php foreach( ($ChampsDatasElement) as $champData) : ?>
+						<dt>
+							<?php echo $this->escapeHtml($champData['label']); ?> 
+							<?php if ($champData['description'] != null) : ?>
+					       	<a href="#" 
+				        		class="description"
+				        		rel="popover"
+				        		data-content="<?php echo $this->escapeHtml($champData['description']); ?>"
+				        		data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+				        	<?php endif; ?>
+						</dt>
+						<dd>
+							<?php 
+							// Valeur si le data n'est pas renseigné
+							$null = 'Non renseigné';
+
+							switch ($champData['format']) :
+	        					case 'texte':
+	        						echo ($champData['data']) ? $this->escapeHtml($champData['data']->texte) : $null ;
+									echo '</br></br>';
+								break;
+								case 'textarea':
+									echo ($champData['data']) ? $this->escapeHtml($champData['data']->textarea) : $null ;
+									echo '</br></br>';
+								break;
+								case 'date':
+									if ($champData['data']) {
+										echo ($champData['data']->date) ? $champData['data']->date->format('d-m-Y') : $null ;
+									} else {
+										echo $null;
+									}
+
+									echo '</br></br>';
+								break;
+								case 'nombre':
+									echo ($champData['data']) ? $this->escapeHtml($champData['data']->nombre) : $null ;
+									echo '</br></br>';
+								break;
+								case 'fichier':
+									echo ($champData['data']) ? '<a href="' . ROOT_DIR . $champData['data']->fichier.'">'.$this->escapeHtml(basename($champData['data']->fichier)).'</a>' : $null ;
+									echo '</br></br>';
+								break;
+								case 'url':
+									echo ($champData['data']) ? '<a href="' . $champData['data']->url.'">'.$this->escapeHtml($champData['data']->url).'</a>' : $null ;
+									echo '</br></br>';
+								break;
+								?>
+							<?php endswitch ;?>
+						</dd>
+
+						
 					<?php endforeach ; ?>
+
 				</dl>
 			</div>
 			

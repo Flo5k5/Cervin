@@ -154,13 +154,23 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
+
+		$ChampsDatasElement = $this->getEntityManager()
+				->getRepository('Collection\Entity\Champ')
+				->getDatasElement(1,6);
+
 		$relations_out = $this->getEntityManager()
 				->getRepository('Collection\Entity\RelationArtefacts')
 				->findBy(array('origine'=>$Artefact));
 		$relations_in = $this->getEntityManager()
 				->getRepository('Collection\Entity\RelationArtefacts')
 				->findBy(array('destination'=>$Artefact));
-		return new ViewModel(array('artefact' => $Artefact, 'relations_out'=>$relations_out, 'relations_in'=>$relations_in));
+		return new ViewModel(array(
+			'artefact' => $Artefact, 
+			'ChampsDatasElement' => $ChampsDatasElement,
+			'relations_out'=>$relations_out, 
+			'relations_in'=>$relations_in
+			));
 	}
 	
 	/**

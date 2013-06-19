@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityRepository;
  * Entité d'un champ d'un type d'élément
  *
  * @Gedmo\Mapping\Annotation\Loggable
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Collection\Entity\ChampRepository")
  * @ORM\Table(name="mbo_champ")
  * 
  * @property int $id Identifiant unique du champ
@@ -52,7 +52,7 @@ class Champ implements InputFilterAwareInterface
     protected $format;
     
     /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}))
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Data", mappedBy="champ", cascade={"remove"}, fetch="EAGER")
      **/
     protected $datas;
     
@@ -240,4 +240,62 @@ class Champ implements InputFilterAwareInterface
     	return false;
     }
     
+}
+/**
+ * Repository d'un Champ
+ */
+class ChampRepository extends EntityRepository
+{
+    public function getDatasElement($element,$type_element)
+    {
+        $em  = $this->getEntityManager();
+        $qb  = $em->createQueryBuilder();
+
+
+
+        $qb ->select('c.label as label, 
+                    c.id as id, 
+                    c.description as description, 
+                    c.format as format,
+                    d as data ')
+            ->from('Collection\Entity\Champ', 'c')
+            ->leftJoin('Collection\Entity\Data', 'd', 'WITH','d.element = :element AND d.champ = c')
+
+
+            ->where('c.type_element = :type_element')
+
+            ->setParameter('type_element', $type_element)
+            ->setParameter('element', $element)
+            ;
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+    public function getDatasElement2($element,$type_element)
+    {
+        $em  = $this->getEntityManager();
+
+        $query = $em->createQuery('
+            SELECT  
+                    c.id as id, 
+                    c.label as label, 
+                    c.description as description, 
+                    c.format as format,
+                    d as data 
+
+            FROM  Collection\Entity\Champ c 
+            LEFT Join Collection\Entity\Data AS d WITH d.element = :element AND d.champ = c
+            where (
+                c.type_element = :type_element 
+                )
+                    
+                ')
+
+        ->setParameter('type_element', $type_element)
+        ->setParameter('element', $element)
+        ;
+
+        return $query->execute();
+    }
 }
