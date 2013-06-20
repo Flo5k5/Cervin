@@ -15,7 +15,7 @@ $this->headTitle($title);
     <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>"> <i class="icon-road"></i> <?php echo $this->escapeHtml($parcours->titre); ?></a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('scene/voirScene', array('id'=>$scene->id)) ?>"> <i class="icon-file-alt"></i> <?php echo $this->escapeHtml($scene->titre); ?></a> <span class="divider">/</span></li>
-    <li class="active">Modification</li>
+    <li class="active">Edition</li>
 </ul>
 
 <!-- Help Modal -->
@@ -58,10 +58,6 @@ $this->headTitle($title);
 			<div class="messageInfos">&nbsp;</div>
 		</div>
 		<div class="span3">
-		<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)) ?>" 
-			class="btn btn-primary btn-block"> 
-			<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
-		</a>
 		<a href="<?php echo $this->url('scene/voirScene',array('id' => $scene->id)) ?>" 
 			class="btn btn-primary btn-block">
 			<i class="icon-reply"> </i>

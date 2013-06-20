@@ -46,12 +46,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 		<h1><?php echo $this->escapeHtml($title); ?> 
 	    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
+	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn btn-primary span3"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un artefact</a>
-		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn btn-primary span3"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un média&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un artefact</a>
+		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un média&nbsp;&nbsp;&nbsp;&nbsp;</a>
 	<?php endif; ?>
+	</div>
 </div>
-	
+
 <div class="well">
 <h3>Recherche</h3>
 <form id="form-multi" name="form-multi" class="">

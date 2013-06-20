@@ -40,17 +40,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 	<h1><i class="icon-picture"></i> <?php echo $this->escapeHtml($title); ?> 
 	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
 	</div>
+	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
 		<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>"
-			class="btn btn-primary span3">
+			class="btn btn-primary btn-block">
 			<i class="icon-pencil"> </i> Modifier ce média
 		</a>
 		<a href="#confirmModal" 
 			data-toggle="modal" 
-			class="btn btn-danger span3">
+			class="btn btn-danger btn-block">
 			<i class="icon-trash"> </i>  Supprimer ce média
 		</a>
     <?php endif; ?>
+    </div>
 </div>
 
 <!--Confirm Modal -->
