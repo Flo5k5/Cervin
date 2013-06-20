@@ -79,10 +79,10 @@ class ChampTypeElementForm extends Form
 						->setAttributes(array(
 							'type'  => 'text',
 							'description' => $champ->description,
-							'class' => 'picker span11'
+							'class' => 'datepicker span11'
 						))
 						->setOptions(array(
-							'format' => 'd-m-Y'
+							'format' => 'Y-m-d'
 						));
 					$this->add($date);
 					break;

@@ -144,6 +144,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 <?php } ?>
 </div>
 
+
+
 <?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () { 
@@ -162,21 +164,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 		});
 
 		// Gestion du date picker
-	    $('#containsform').on('click', 'input.picker', function(event) {
-	        var datepicker = $(this).datepicker({
-	            shown: 'focus',
-	            yearRange: '1900:+0',
-	            changeMonth: true,
-	            changeYear: true,
-	            language:'fr',
-	            format:'yyyy-dd-mm'
-	        })
-	        .focus()
-	        .on('changeDate', function() {
-				datepicker.hide();
-			}).data('datepicker');
+
+	    $('.datepicker').datepicker({
+	        language:'fr-FR',
+	        format:'yyyy-dd-mm',
+	        autoclose:true
 	    });
     	
+
     	// Gestion des popover pour la description des champs
     	$(".description").popover({placement:'top', trigger:'hover'}); 
     	
@@ -198,6 +193,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 $this->inlineScript()->captureEnd();
 
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datepicker.js');
+$this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-datepicker.fr.js');
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
 $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
