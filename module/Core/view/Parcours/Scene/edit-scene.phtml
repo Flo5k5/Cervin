@@ -9,6 +9,15 @@ $title = $scene->titre;
 $this->headTitle($title);
 ?>
 
+<?php $parcours = $scene->sous_parcours->parcours; ?>
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>"> <i class="icon-road"></i> <?php echo $this->escapeHtml($parcours->titre); ?></a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('scene/voirScene', array('id'=>$scene->id)) ?>"> <i class="icon-file-alt"></i> <?php echo $this->escapeHtml($scene->titre); ?></a> <span class="divider">/</span></li>
+    <li class="active">Modification</li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

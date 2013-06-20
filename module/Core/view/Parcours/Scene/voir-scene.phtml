@@ -2,6 +2,14 @@
 $title = $scene->titre;
 $this->headTitle($title); ?>
 
+<?php $parcours = $scene->sous_parcours->parcours; ?>
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>"> <i class="icon-road"></i>  <?php echo $this->escapeHtml($parcours->titre); ?></a> <span class="divider">/</span></li>
+    <li class="active"><i class="icon-file-alt"></i>  <?php echo $this->escapeHtml($scene->titre); ?></li>
+</ul>
+
 <style type="text/css">
 	.sous_parcours {
 		border-style: dashed;

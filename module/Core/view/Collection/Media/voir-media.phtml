@@ -7,6 +7,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 
 ?>
 
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('collection') ?>">Collection Numérique</a> <span class="divider">/</span></li>
+    <li class="active"> <i class="icon-picture"></i>  <?php echo $this->escapeHtml($media->titre); ?> </li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

@@ -9,6 +9,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 //$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 ?>
 
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('collection') ?>">Collection Numérique</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('artefact/voirArtefact',	array('id' => $artefact->id)) ?>"> <i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> </a> <span class="divider">/</span></li>
+    <li class="active">Modification</li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

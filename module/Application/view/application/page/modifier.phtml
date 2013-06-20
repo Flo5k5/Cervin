@@ -5,11 +5,17 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 ?>
 
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>">Accueil</a> <span class="divider">/</span></li>
+    <li class="active"> Administration <span class="divider">/</span></li>
+    <li class="active"> Edition de la page <?php echo $this->escapeHtml($page->titre); ?> </li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Aide : modifier la page <?php echo $page->titre;?></h3>
+	    <h3 id="myModalLabel">Aide</h3>
     </div>
     <div class="modal-body">
     	<p>

@@ -7,6 +7,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 ?>
 
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li class="active">Collection Numérique</li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
