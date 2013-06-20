@@ -246,6 +246,10 @@ class Champ implements InputFilterAwareInterface
  */
 class ChampRepository extends EntityRepository
 {
+    /**
+     * Permet de récupèrer les champs avec sont data d'un element
+     * 
+     */
     public function getChampsDatasElement($element,$type_element)
     {
         $em  = $this->getEntityManager();
@@ -269,12 +273,15 @@ class ChampRepository extends EntityRepository
         return $qb->getQuery()->getResult();
 
     }
-
-    public function getDatasElement2($element,$type_element)
+    /**
+     * 
+     * 
+     */
+    public function getChampData($element,$champ)
     {
         $em  = $this->getEntityManager();
 
-        $query = $em->createQuery('
+/*        $query = $em->createQuery('
             SELECT  
                     c.id as id, 
                     c.label as label, 
@@ -285,15 +292,36 @@ class ChampRepository extends EntityRepository
             FROM  Collection\Entity\Champ c 
             LEFT Join Collection\Entity\Data AS d WITH d.element = :element AND d.champ = c
             where (
-                c.type_element = :type_element 
+                c = :champ 
                 )
                     
                 ')
 
-        ->setParameter('type_element', $type_element)
+        ->setParameter('champ', $champ)
         ->setParameter('element', $element)
         ;
 
-        return $query->execute();
+        return $query->execute();*/
+
+        $qb  = $em->createQueryBuilder();
+
+        $qb ->select('c.label as label, 
+                    c.id as id, 
+                    c.description as description, 
+                    c.format as format,
+                    d as data ')
+            ->from('Collection\Entity\Champ', 'c')
+            ->leftJoin('Collection\Entity\Data', 'd', 'WITH','d.element = :element AND d.champ = c')
+
+            ->where('c = :champ')
+
+            ->setParameter('champ', $champ)
+            ->setParameter('element', $element)
+            ->orderBy('c.label', 'ASC')
+            ;
+
+        return $qb->getQuery()->getSingleResult();
+
+        
     }
 }

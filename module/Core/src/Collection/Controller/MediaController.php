@@ -146,8 +146,11 @@ class MediaController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        $ChampsDatasElement = $this->getEntityManager()
+                ->getRepository('Collection\Entity\Champ')
+                ->getChampsDatasElement($Media,$Media->type_element);
         //$Media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>1));
-        return new ViewModel(array('media' => $Media));
+        return new ViewModel(array('media' => $Media,'ChampsDatasElement'=>$ChampsDatasElement));
     }
 
     /**
@@ -170,8 +173,7 @@ class MediaController extends AbstractActionController
     {
     	$id = (int) $this->params()->fromRoute('id', 0);
     	$media = $this->getEntityManager()->getRepository('Collection\Entity\Media')->findOneBy(array('id'=>$id));
-    	$datas = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findBy(array('element'=>$media));
-    	if (!$id or $media === null or $datas === null) {
+    	if (!$id or $media === null) {
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
@@ -190,41 +192,77 @@ class MediaController extends AbstractActionController
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
                 break;
-
                 case 'data':
-                	$idData = (int) $this->params()->fromRoute('idData', 0);
-					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!idData or $data === null) {
-						$this->getResponse()->setStatusCode(404);
-						return;
-					}
-					switch ($data->champ->format) {
+                    $idData = (int) $this->params()->fromRoute('idData', 0);
+                    $champData = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->getChampData($media,$idData);
+                    if (!$idData or $champData === null) {
+                        $this->getResponse()->setStatusCode(404);
+                        return;
+                    }
+                    if ($champData['data'] != null) {
+                        $data = $champData['data'];
+                    } else {
+                        $champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['id']));
+
+                        $data = 'new';
+
+                                
+                    }
+                    switch ($champData['format']) {
                         case 'texte':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataTexte($media,$champ);
+                                $media->datas->add($data);
+                            }
                             $data->texte = $request['value'];
                             break;
                         case 'textarea':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataTextarea($media,$champ);
+                                $media->datas->add($data);
+                            }
                             $data->textarea = $request['value'];
                             break;
                         case 'date':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataDate($media,$champ);
+                                $media->datas->add($data);
+                                $data->element = $media;
+                            }
                             $data->date = new \DateTime($request['value']);
+
                             break;
                         case 'nombre':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataNombre($media,$champ);
+                                $media->datas->add($data);
+                            }
                             $data->nombre = $request['value'];
                             break;
                         case 'fichier':
-							$files = $this->params()->fromFiles();
-		    	 			$file = $files['file-input'];
-		    	 			if ($file != null) {
-			    	 			$media->deleteFile($data);
-			    	 			$media->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
-		    	 			}
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataFichier($media,$champ);
+                                $media->datas->add($data);
+                            }
+                            $files = $this->params()->fromFiles();
+                            $file = $files['file-input'];
+                            if ($file != null) {
+                                $media->deleteFile($data);
+                                $media->updateFile($data, $file['tmp_name'], $file['name'], $file['type']);
+                            }
+                            break;
                         case 'url':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataUrl($media,$champ);
+                                $media->datas->add($data);
+                            }
                             $data->url = $request['value'];
                             break;
                         default:
                             return $this->getResponse()->setContent(Json::encode(false));
                         break;
                     } // end switch format
+                    $this->getEntityManager()->persist($data);
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
                 break;
@@ -233,7 +271,10 @@ class MediaController extends AbstractActionController
                 break;
             } // end switch request name
         }
-        return new ViewModel(array('media' => $media,'datas'=>$datas));
+        $ChampsDatasElement = $this->getEntityManager()
+            ->getRepository('Collection\Entity\Champ')
+            ->getChampsDatasElement($media,$media->type_element);
+        return new ViewModel(array('media' => $media,'ChampsDatasElement'=>$ChampsDatasElement));
     }
 
     /**

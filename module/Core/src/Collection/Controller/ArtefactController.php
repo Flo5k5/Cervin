@@ -217,25 +217,56 @@ class ArtefactController extends AbstractActionController
 
 				case 'data':
 					$idData = (int) $this->params()->fromRoute('idData', 0);
-					$data = $this->getEntityManager()->getRepository('Collection\Entity\Data')->findOneBy(array('id'=>$idData));
-					if (!$idData or $data === null) {
+					$champData = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->getChampData($artefact,$idData);
+					if (!$idData or $champData === null) {
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
-					switch ($data->champ->format) {
+					if ($champData['data'] != null) {
+						$data = $champData['data'];
+					} else {
+						$champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['id']));
+
+						$data = 'new';
+
+			    	 			
+					}
+					switch ($champData['format']) {
 		    	 		case 'texte':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataTexte($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
 		    	 			$data->texte = $request['value'];
 		    	 			break;
 		    	 		case 'textarea':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataTextarea($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
 		    	 			$data->textarea = $request['value'];
 		    	 			break;
 		    	 		case 'date':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataDate($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 			$data->element = $artefact;
+			    	 		}
 		    	 			$data->date = new \DateTime($request['value']);
+
 		    	 			break;
 		    	 		case 'nombre':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataNombre($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
 		    	 			$data->nombre = $request['value'];
 		    	 			break;
 		    	 		case 'fichier':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataFichier($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
 		    	 			$files = $this->params()->fromFiles();
 		    	 			$file = $files['file-input'];
 		    	 			if ($file != null) {
@@ -244,12 +275,17 @@ class ArtefactController extends AbstractActionController
 		    	 			}
 		    	 			break;
 		    	 		case 'url':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataUrl($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
 		    	 			$data->url = $request['value'];
 			            	break;
 			            default:
 			            	return $this->getResponse()->setContent(Json::encode(false));
 			            break;
 		    	 	} // end switch format
+		    	 	$this->getEntityManager()->persist($data);
 		            $this->getEntityManager()->flush();
 			        return $this->getResponse()->setContent(Json::encode(true));
 				break;
@@ -260,7 +296,7 @@ class ArtefactController extends AbstractActionController
 		}
 		$ChampsDatasElement = $this->getEntityManager()
 			->getRepository('Collection\Entity\Champ')
-			->getChampsDatasElement($Artefact,$Artefact->type_element);
+			->getChampsDatasElement($artefact,$artefact->type_element);
 		$relations_out = $this->getEntityManager()
 						->getRepository('Collection\Entity\RelationArtefacts')
 						->findBy(array('origine'=>$artefact));
