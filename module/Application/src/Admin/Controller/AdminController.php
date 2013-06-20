@@ -16,6 +16,7 @@ use SamUser\Entity\User;
 use SamUser\Entity\Role;
 use Zend\Mvc\Controller\Plugin\Url;
 use Zend\Json\Json;
+use Admin\Form\UserForm;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Sendmail as SendmailTransport;
@@ -434,6 +435,30 @@ class AdminController extends AbstractActionController
             ));
 
         }
+    }
+    
+    public function AjouterUtilisateurAction(){
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml        = $viewHelperManager->get('escapeHtml');
+    	$form              = new UserForm();
+    	$user              = new User();
+    	$request           = $this->getRequest();
+    	$form->bind($user);
+    	
+    	if ($request->isPost()) {
+    	
+    		$form->setInputFilter($user->getInputFilter());
+    		$form->setData($request->getPost());
+    	
+    		if ($form->isValid()) {
+    			$this->getEntityManager()->persist($user);
+    			$this->getEntityManager()->flush();
+    			$this->flashMessenger()->addSuccessMessage(sprintf('L\utilisateur ["%1$s"] a bien été créé.', $escapeHtml($user->login)));
+    			return $this->redirect()->toRoute('admin/gestion-users', array ('id' => $user->id));
+    		}
+    	
+    	}
+    	return new ViewModel(array('form'=>$form));
     }
 
 }

@@ -133,6 +133,16 @@ return array(
                     				),
                     		),
                     ),
+                    'ajouter-utilisateur' => array(
+                    		'type' => 'Zend\Mvc\Router\Http\Literal',
+                    		'options' => array(
+                    				'route' => '/ajouter-utilisateur',
+                    				'defaults' => array(
+                    						'controller' => 'Admin',
+                    						'action'     => 'AjouterUtilisateur',
+                    				),
+                    		),
+                    ),
                     /*
                     'authenticate' => array(
                         'type' => 'Literal',
