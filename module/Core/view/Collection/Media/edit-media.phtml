@@ -9,6 +9,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 ?>
 
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('collection') ?>">Collection Numérique</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('media/voirMedia',	array('id' => $media->id)) ?>"> <i class="icon-picture"></i>  <?php echo $this->escapeHtml($title); ?> </a> <span class="divider">/</span></li>
+    <li class="active">Edition</li>
+</ul>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -43,10 +50,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small>
 		</h1>
 	</div>
-	
+	<div class="span3">
 	<a href="<?php echo $this->url('media/voirMedia',
-        	array('id' => $media->id)) ?>" class="btn btn-primary span3"><i class="icon-reply"> </i> Retour à la fiche de ce média</a>
-	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger span3"><i class="icon-trash"> </i>  Supprimer ce média</a>
+        	array('id' => $media->id)) ?>" class="btn btn-primary btn-block"><i class="icon-reply"> </i> Retour à la fiche de ce média</a>
+	<a href="#confirmModal" data-toggle="modal" class="btn btn-danger btn-block"><i class="icon-trash"> </i>  Supprimer ce média</a>
+	</div>
 </div>
 
 <!--Confirm Modal -->

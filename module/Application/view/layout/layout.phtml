@@ -1,9 +1,38 @@
-<?php $this->inlineScript()->captureStart(); ?>
+<?php 
+
+// On récupère toutes les notifications
+$notifUser = $this->Notification('user');
+// On additionne toutes les notifications
+$notifAll = $notifUser;
+
+$this->inlineScript()->captureStart(); ?>
 
 	var timer = null;
+	
+	var notifications = {
+		value: "<?php echo ($notifAll > 0) ? $this->escapeHtml($notifAll) : '0' ; ?>",
+		decrement: function(){
+			if(this.value > 0){
+				this.value--;
+			}
+			this.print();
+		},
+		print: function(){
+			if(this.value > 0){
+				$('.notifications').html(notifications.value);
+			} else {
+				$('.notifications').html('');
+			}
+			//console.log("Notifications", notifications);
+		}
+	};
 
 	$(function() {
-	
+
+		$(document).ready(function() {
+			notifications.print();
+		});
+		
 		//Empêche la validation du formulaire accidentelle du formulaire lorsque l'on presse la touche entrée sur les input text de la classe .no-submit
 		$(document).on( 'keypress', '.no-submit input[type="text"]', function(event){
 			if( event.which == 13 ){ // Code touche entrée = 13
@@ -133,17 +162,8 @@ echo $this->headScript();
 	                                        <li class="dropdown">
 	                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 	                                            	<i class="icon-tasks"></i>  Administration 
-	                                                    <?php 
-	                                                    // On récupère toutes les notifications
-	                                                    $notifUser = $this->Notification('user');
-	                                                    // On additionne toutes les notifications
-	                                                    $notifAll = $notifUser;
-	
-	                                                    echo ($notifAll > 0) ? '<span class="badge badge-important small">'.$this->escapeHtml($notifAll).'</span>' : '' ;
-	                                                    
-	                                                    ?>
-	
-	                                                
+	                    	                            <span class="notifications badge badge-important small"></span>
+
 	                                            	<b class="caret"></b>
 	                                            </a>
 	                                            <ul class="dropdown-menu">
@@ -166,7 +186,7 @@ echo $this->headScript();
 													<li class="divider"></li>
 													
 													<li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
-	                                                    <?php echo ($notifUser > 0) ? '<span class="badge badge-important small">'.$notifUser.'</span>' : '' ; ?> 
+	                                                    <span class="notifications badge badge-important small"></span> 
 	                                                </a></li>
 													
 													<li class="dropdown-submenu">
@@ -222,7 +242,7 @@ echo $this->headScript();
 		        <?php endif; ?>
 		    <?php endforeach; ?>
 	    
-	        <?php echo $this->navigation('Navigation')->breadcrumbs(); ?>
+	        <?php //echo $this->navigation('Navigation')->breadcrumbs(); ?>
 	
 	            <?php echo $this->content; ?>
 	        </div>

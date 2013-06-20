@@ -2,6 +2,14 @@
 $title = $scene->titre;
 $this->headTitle($title); ?>
 
+<?php $parcours = $scene->sous_parcours->parcours; ?>
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>"> <i class="icon-road"></i>  <?php echo $this->escapeHtml($parcours->titre); ?></a> <span class="divider">/</span></li>
+    <li class="active"><i class="icon-file-alt"></i>  <?php echo $this->escapeHtml($scene->titre); ?></li>
+</ul>
+
 <style type="text/css">
 	.sous_parcours {
 		border-style: dashed;
@@ -54,10 +62,6 @@ $this->headTitle($title); ?>
 			</div>
 			
 			<div class="span3">
-			<a href="<?php echo $this->url('parcours/voir', array('id' => $scene->sous_parcours->parcours->id)); ?>" 
-				class="btn btn-primary btn-block"> 
-				<i class="icon-reply"></i> Retour au parcours <br> <em><?php echo $scene->sous_parcours->parcours->titre; ?></em>
-			</a>
 			<?php if ($this->isAllowed('Parcours') === true) :?>
 				<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
 					class="btn btn-primary btn-block">
