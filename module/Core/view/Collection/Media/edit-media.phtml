@@ -112,23 +112,33 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 						<?php 
 						switch ($champData['format']) :
 							case 'texte':
+								if($champData['data'] == null or $champData['data']->texte == null){
+									$texte = null;
+								} else {
+									$texte = $champData['data']->texte;
+								}
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="text" 
 										data-pk="'.$champData['id'].'" 
 										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
-									'.$this->escapeHtml($champData['data']->texte).'
+									'.$this->escapeHtml($texte).'
 								</span>';
 								echo '</br></br>';
 								break;
 
 							case 'textarea':
+								if($champData['data'] == null or $champData['data']->textarea == null){
+									$textarea = null;
+								} else {
+									$textarea = $champData['data']->textarea;
+								}
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="textarea" 
 										data-pk="'.$champData['id'].'" 
 										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
-	    							'.$this->escapeHtml($champData['data']->textarea).'
+	    							'.$this->escapeHtml($textarea).'
     							</span>';
 								echo '</br></br>';
 								break;
@@ -150,23 +160,33 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								break;
 							
 							case 'nombre':
+								if($champData['data'] == null or $champData['data']->nombre == null){
+									$nombre = null;
+								} else {
+									$nombre = $champData['data']->nombre;
+								}
 								echo '<span class="edit CursorPointer" 
 											data-name="data" 
 											data-type="number" 
 											data-pk="'.$champData['id'].'" 
 											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
-										'.$this->escapeHtml($champData['data']->nombre).'
+										'.$this->escapeHtml($nombre).'
 									</span>';
 								echo '</br></br>';
 								break;
 
 							case 'url':
+								if($champData['data'] == null or $champData['data']->url == null){
+									$url = null;
+								} else {
+									$url = $champData['data']->url;
+								}
 								echo '<span class="edit CursorPointer"
 										data-name="data"
 										data-type="url"
 										data-pk="'.$champData['id'].'"
 	    								data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
-	    							'.$this->escapeHtml($champData['data']->url).'
+	    							'.$this->escapeHtml($url).'
     							</span>';
 								echo '</br></br>';
 								break;
