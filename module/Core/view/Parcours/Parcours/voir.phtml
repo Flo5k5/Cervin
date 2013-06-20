@@ -190,7 +190,10 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
         $zoomIn: $(".zoom-in"),
         $zoomOut: $(".zoom-out"),
         $zoomRange: $(".zoom-range"),
-        $reset: $(".reset")
+        $reset: $(".reset"),
+        minScale: 0.1,
+        maxScale: 3,
+        increment: 0.2,
       });
       
       function inspect(s) {

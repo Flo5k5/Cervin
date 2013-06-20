@@ -140,39 +140,39 @@ class Element implements InputFilterAwareInterface
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
         		case 'texte':
-        			$databd = new DataTexte($this, $champ);
         			if ($data[$index]) {
+        				$databd = new DataTexte($this, $champ);
         				$databd->texte = $data[$index];
+        				$this->datas->add($databd);
         			}
-        			$this->datas->add($databd);
         			break;
         		case 'textarea':
-        			$databd = new DataTextarea($this, $champ);
         			if ($data[$index]) {
+        				$databd = new DataTextarea($this, $champ);
         				$databd->textarea = $data[$index];
+        				$this->datas->add($databd);
         			}
-        			$this->datas->add($databd);
         			break;
         		case 'nombre':
-        			$databd = new DataNombre($this, $champ);
         			if ($data[$index]) {
+        				$databd = new DataNombre($this, $champ);
         				$databd->nombre = $data[$index];
+        				$this->datas->add($databd);
         			}
-        			$this->datas->add($databd);
         			break;
         		case 'url':
-        			$databd = new DataUrl($this, $champ);
         			if ($data[$index]) {
+        				$databd = new DataUrl($this, $champ);
         				$databd->url = $data[$index];
+        				$this->datas->add($databd);
         			}
-        			$this->datas->add($databd);
         			break;
         		case 'date':
-        			$databd = new DataDate($this, $champ);
         			if ($data[$index] != null) {
+        				$databd = new DataDate($this, $champ);
         				$databd->date = \DateTime::createFromFormat('Y-d-m', $data[$index]);
+        				$this->datas->add($databd);
         			}
-        			$this->datas->add($databd);
         			break;
         		case 'fichier':
         			if ($data[$index]['tmp_name'] != null) {
