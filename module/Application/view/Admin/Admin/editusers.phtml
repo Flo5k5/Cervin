@@ -106,7 +106,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	                    <?php foreach ($roles as $role) : ?>
 									{value: <?php echo $role->getId();?>, text: '<?php echo $role->getRoleId();?>'},
 	                    <?php endforeach; ?>
-								]
+								],
+		                success: function(e) {
+						    notifications.decrement();
+						}
 					});
 	
 					$(".ResetPassword").popover({placement:'top', trigger:'hover'}); 
@@ -125,6 +128,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							}
 						}
 	                 });
+					 
 	                $('td').on('click', '.refueRole', function(event) {
 	                    var dateURL = $(this).attr('data-url');
 						$.post( 
@@ -133,6 +137,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							function() {
 								$('.status').popover('hide').attr('data-original-title',"Demande refusée");
 								table.fnDraw();
+								notifications.decrement();
 							}
 						);
 	                }); 
