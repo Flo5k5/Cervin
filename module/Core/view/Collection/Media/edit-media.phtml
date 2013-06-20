@@ -97,52 +97,53 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							echo '</br></br>';
 						?>
 					</dd>
-					<?php foreach($datas as $data) :?>
+					<?php foreach($ChampsDatasElement as $champData) :?>
 					<dt>
-						<?php echo $this->escapeHtml($data->champ->label); ?> 
-						<?php if ($data->champ->description != null) : ?>
+						<?php echo $this->escapeHtml($champData['label']); ?> 
+						<?php if ($champData['description'] != null) : ?>
 				        	<a href="#" 
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $this->escapeHtml($data->champ->description); ?>"
+			        			data-content="<?php echo $champData['description']; ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php endif; ?>
 					</dt>
 					<dd>
 						<?php 
-						switch ($data->champ->format) :
+						switch ($champData['format']) :
 							case 'texte':
 								echo '<span class="edit CursorPointer" 
-											data-name="data" 
-											data-type="text" 
-											data-pk="'.$data->champ->id.'" 
-											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-										'.$this->escapeHtml($data->texte).'
-									</span>';
+										data-name="data" 
+										data-type="text" 
+										data-pk="'.$champData['id'].'" 
+										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
+									'.$this->escapeHtml($champData['data']->texte).'
+								</span>';
 								echo '</br></br>';
 								break;
+
 							case 'textarea':
 								echo '<span class="edit CursorPointer" 
-											data-name="data" 
-											data-type="textarea" 
-											data-pk="'.$data->champ->id.'" 
-											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-	    								'.$this->escapeHtml($data->textarea).'
-    								</span>';
+										data-name="data" 
+										data-type="textarea" 
+										data-pk="'.$champData['id'].'" 
+										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
+	    							'.$this->escapeHtml($champData['data']->textarea).'
+    							</span>';
 								echo '</br></br>';
 								break;
 
 							case 'date':
-								if($data->date === null){
+								if($champData['data'] == null or $champData['data']->date == null){
 									$date = null;
 								} else {
-									$date = $data->date->format('Y-d-m');
+									$date = $champData['data']->date->format('Y-d-m');
 								}
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
     										data-type="date" 
-    										data-pk="'.$data->champ->id.'" 
-	    									data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
+    										data-pk="'.$champData['id'].'" 
+	    									data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
 										'.$date.'
 									</span>';
 								echo '</br></br>';
@@ -150,37 +151,37 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							
 							case 'nombre':
 								echo '<span class="edit CursorPointer" 
-											data-name="data" 	
+											data-name="data" 
 											data-type="number" 
-											data-pk="'.$data->champ->id.'" 
-											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-										'.$this->escapeHtml($data->nombre).'
+											data-pk="'.$champData['id'].'" 
+											data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
+										'.$this->escapeHtml($champData['data']->nombre).'
 									</span>';
 								echo '</br></br>';
 								break;
 
+							case 'url':
+								echo '<span class="edit CursorPointer"
+										data-name="data"
+										data-type="url"
+										data-pk="'.$champData['id'].'"
+	    								data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])).'">
+	    							'.$this->escapeHtml($champData['data']->url).'
+    							</span>';
+								echo '</br></br>';
+								break;
+									
 							case 'fichier':
-								echo 'Fichier actuel : <a href="' . ROOT_DIR . $data->fichier.'">'. $this->escapeHtml(basename($data->fichier)) .'</a></br>';
-								echo '<form class="file-input-form" method="POST" action = "'. $this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)) .'">
-									<input title="Parcourir" name="file-input" id="'.$data->id.'" type="file">
+								echo 'Fichier actuel : <a href="' . ROOT_DIR . $champData['data']->fichier.'">'. $this->escapeHtml(basename($champData['data']->fichier)) .'</a></br>';
+								echo '<form class="file-input-form" method="POST" action = "'. $this->url("media/editMedia",array('id'=> $media->id,'idData'=>$champData['id'])) .'">
+									<input title="Parcourir" name="file-input" id="'.$champData['id'].'" type="file">
 									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>
     							</form>';
 								break;
 
-							case 'url':
-								echo '<span class="edit CursorPointer" 
-	    									data-name="data" 
-	    									data-type="url" 
-	    									data-pk="'.$data->champ->id.'" 
-    										data-url="'.$this->url("media/editMedia",array('id'=> $media->id,'idData'=>$data->id)).'">
-    									'.$this->escapeHtml($data->url).'
-	    							</span>';
-								echo '</br></br>';
-								break;
-
 						endswitch ;?>
 					</dd>
-					<?php endforeach ;?>
+				<?php endforeach ;?>
 				</dl>
 			</div>
 			

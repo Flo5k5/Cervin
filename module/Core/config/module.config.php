@@ -140,7 +140,7 @@ return array(
                             'route' => '/edit/:id[/:idData]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idData' => '[0-9]+',
+                                'idData' => '([0-9]+|new)',
                             ),
                             'defaults' => array(
                                 'controller' => 'Artefact',
