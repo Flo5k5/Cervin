@@ -109,7 +109,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 
 
 	<!-- Sous-parcours -->
-	<div class="span4">
+	<div class="span3">
 	<?php if ($this->isAllowed('Parcours') === true) :?>
 		<div class="accordion" id="accordion2">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
@@ -164,7 +164,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 	<?php endif; ?>
 	</div>
 	
-	<div class="span8">
+	<div class="span9">
 		<div class="btn-group">
 		  <button class="zoom-out btn btn-primary"><i class="icon-minus-sign"></i></button>
 		  <button class="zoom-in btn btn-primary"><i class="icon-plus-sign"></i></button>
