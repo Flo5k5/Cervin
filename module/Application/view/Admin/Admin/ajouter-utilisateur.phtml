@@ -15,43 +15,47 @@ $this->headTitle();
 </div>
 
 <div>
-	<?php
-	$form = $this->form;
-	$form->prepare();
-	$form->setAttribute('action', $this->url('admin/ajouter-utilisateur'));
-	$form->setAttribute('method', 'post');
-	$form->setAttribute('class','form-horizontal no-submit');
-	?>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('admin/ajouter-utilisateur'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class','form-horizontal no-submit');
+$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
+echo $this->form()->openTag($form); ?>
 
-<?php echo $this->form()->openTag($form) ?>
-    <?php foreach ($form as $element): ?>
-    	<?php if (!$element instanceof Zend\Form\Element\Hidden): ?>
-    	
-    		<?php if (!$element instanceof Zend\Form\Element\Button &&
-        		  !$element instanceof Zend\Form\Element\Hidden): ?>
-          		<div class="control-group">
-            	<label class="control-label">	
-                	<?php echo $this->formLabel($element, $element->getLabel()); ?>
-                </label>
-	       	<?php endif ?>
-	            
-	      	<?php if ($element instanceof Zend\Form\Element\Button): ?>
-	            <div class="form-actions">
-	                <?php echo $this->formButton($element) ?>
-	                <a href="<?php echo $this->url('admin/gestion-users') ?>" role="button" class="btn"> Annuler </a>
-	        <?php else: ?>
-	            <div class="controls">
-			    		<?php if ($element instanceof Zend\Form\Element\Textarea) {
-							echo $this->formTextarea($element);
-						} else {
-		        			echo $this->formInput($element); 
-						} ?> 
-	            	<?php echo $this->formElementErrors($element) ?>
-	            </div>
-	        <?php endif ?>
-	        </div>
-	        
-	    <?php endif; ?>
-	<?php endforeach ?>
+    <fieldset>
+        <div class="control-group">
+        	<label class="control-label">
+            <?php echo $this->formLabel($form->get('username')) ?>
+            </label>
+            <div class="controls">
+            <?php echo $this->formInput($form->get('username')) ?>
+            <?php echo $this->formElementErrors($form->get('username')) ?>
+            </div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">
+            <?php echo $this->formLabel($form->get('display_name')) ?>
+            </label>
+            <div class="controls">
+            <?php echo $this->formInput($form->get('display_name')) ?>
+            <?php echo $this->formElementErrors($form->get('display_name')) ?>
+            </div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">
+            <?php echo $this->formLabel($form->get('email')) ?>
+            </label>
+            <div class="controls">
+            <?php echo $this->formInput($form->get('email')) ?>
+            <?php echo $this->formElementErrors($form->get('email')) ?>
+            </div>
+        </div>
+        <div class="form-actions">
+            <?php echo $this->formButton($form->get('submit')) ?>
+            <a href="<?php echo $this->url('admin/gestion-users') ?>" role="button" class="btn"> Annuler </a>
+        </div>
+    </fieldset>
 <?php echo $this->form()->closeTag() ?>
 
