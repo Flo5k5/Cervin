@@ -69,7 +69,8 @@ class Pages implements FixtureInterface
 			'Contact',
 			"
 				<h1>Contact</h1>
-				<a href=\"https://tuleap.cervin.org/\" title=\"Link: https://tuleap.cervin.org/\">https://tuleap.cervin.org/</a>
+				Pour toutes vos remarques (bugs, suggestions, ...), le projet Cervin utilise la forge Tuleap. Vous pouvez créer un ticket ici : 
+				<a href=\"https://tuleap.cervin.org/plugins/tracker/?tracker=27&func=new-artifact\" title=\"Link: https://tuleap.cervin.org/\">Tuleap</a>
 			"
 		);
 		$manager->persist($page_contact);
