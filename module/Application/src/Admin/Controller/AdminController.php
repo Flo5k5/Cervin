@@ -463,7 +463,7 @@ class AdminController extends AbstractActionController
     				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
     			}
 
-    			try {
+    			//try {
     				$bcrypt = new Bcrypt;
     				$bcrypt->setCost(14);
     				
@@ -474,7 +474,7 @@ class AdminController extends AbstractActionController
     				$user->setPassword( $bcrypt->create( $password ) );
     			
     				//On récupère le role 'Utilisateur'
-    				$role = $this->getEntityManager()->find('SamUser\Entity\Role', 'Utilisateur');
+    				$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array(roleId=>'Utilisateur'));
     				
     				//Et on l'ajoute à l'utilisateur
     				$user->addRole($role);
@@ -497,12 +497,12 @@ class AdminController extends AbstractActionController
     				 
     				$transport = new SendmailTransport();
     				$transport->send($message);
-    			}
-    			catch (\Exception $ex) {
+    			//}
+    			/*catch (\Exception $ex) {
     				$this->flashMessenger()->addErrorMessage("Une erreur est survenue");
     				$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
     				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
-    			}
+    			}*/
     			
     			$this->flashMessenger()->addSuccessMessage(sprintf('L\utilisateur ["%1$s"] a bien été créé.', $escapeHtml($user->login)));
     			return $this->redirect()->toRoute('admin/gestion-users');
