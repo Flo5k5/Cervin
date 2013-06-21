@@ -6,6 +6,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 ?>
 
+<div class="messageEditUsers"></div>
+
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>">Accueil</a> <span class="divider">/</span></li>
     <li class="active"> Administration <span class="divider">/</span></li>
@@ -51,8 +53,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     	<h1><?php echo $this->escapeHtml($title); ?> 
     	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
     </div>
-    <a href="<?php echo $this->url('admin/ajouter-utilisateur') ?>" class="btn btn-primary span3"><i class="icon-white icon-plus"></i> Ajouter un nouvel utilisateur </a>
-    <div class="messageEditUsers"></div>
+    <div class="span3">
+    <a href="<?php echo $this->url('admin/ajouter-utilisateur') ?>" class="btn btn-primary btn-block"><i class="icon-white icon-plus"></i> Ajouter un nouvel utilisateur </a>
+    </div>
+    
 </div>
 
 <div class="container-fluid">
@@ -156,6 +160,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				heading:'Confirmation',
 				body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
 				callback: function() {
+      				$('body').css('cursor', 'wait');
 					$.post(
 						dateURL,
 						{ name: "supprimer" },
@@ -167,9 +172,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							if(resp.success === true){
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.message, "success");
+								$('body').css('cursor', 'auto');
 							} else {
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.error, "error");
+								$('body').css('cursor', 'auto');
 							}
 						}
 					);
@@ -184,6 +191,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				heading:'Confirmation',
 				body:"Êtes-vous sûr de vouloir réinitialiser le mot de passe de l'utilisateur : "+dateValue+" ?<br/>Celui-ci obtiendra son nouveau mot de passe à l'adresse mail qu'il a indiqué.",
 				callback: function() {
+      				$('body').css('cursor', 'wait');
 					$.post(
 						dateURL,
 						{ name: "password" },
@@ -195,9 +203,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							if(resp.success === true){
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.message, "success");
+								$('body').css('cursor', 'auto');
 							} else {
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.error, "error");
+								$('body').css('cursor', 'auto');
 							}
 						}
 					);

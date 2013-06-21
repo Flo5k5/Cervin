@@ -42,7 +42,7 @@ $this->inlineScript()->captureStart(); ?>
 		
 		jQuery.fn.extend({
 			showInfos: function(text, type, closable, autoclose){
-				var closable   = ( typeof(closable) == 'undefined' ? false : closable );
+				var closable   = ( typeof(closable) == 'undefined' ? true : closable );
 				var autoclose  = ( typeof(autoclose) == 'undefined' ? true : autoclose );
 				var classAlert = null;
 				
