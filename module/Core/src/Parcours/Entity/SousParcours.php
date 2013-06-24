@@ -71,6 +71,11 @@ class SousParcours implements InputFilterAwareInterface
     protected $sous_parcours_suivant;
     
     /**
+     * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="sous_parcours_chantier")
+     */
+    protected $utilisateur;
+    
+    /**
      * Ajout d'une transition au sous-parcours
      * 
      * @param unknown_type $transition

@@ -24,6 +24,7 @@ return array(
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
                 'Admin' => array(),
+            	'Modeleur' => array(),
                 'Parcours' => array(),
                 'Collection' => array(),
                 'Utilisateur' => array(),
@@ -37,6 +38,7 @@ return array(
                     // the "wear" privilege on the resource "pants"
                     //array(array('guest', 'user'), 'pants', 'wear'),
                     array(array('Admin'), 'Admin'),
+                    array(array('Modeleur'), 'Modeleur'),
                     array(array('Parcours'), 'Parcours'),
                     array(array('Collection'), 'Collection'),
                     array(array('Utilisateur'), 'Utilisateur'),
@@ -104,7 +106,7 @@ return array(
                 ),
                 array(
                     'controller' => 'typeElement',
-                    'roles' => array('Admin')
+                    'roles' => array('Modeleur')
                 ),
 
             	array(
@@ -191,9 +193,9 @@ return array(
                 array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/changeemail', 'roles' => array('Utilisateur')),
                 
-                array('route' => 'typeElement', 'roles' => array('Admin')),
-                array('route' => 'typeElement/add', 'roles' => array('Admin')),
-                array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
+                array('route' => 'typeElement', 'roles' => array('Modeleur')),
+                array('route' => 'typeElement/add', 'roles' => array('Modeleur')),
+                array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Modeleur')),
             		
 				array('route' => 'collection', 'roles' => array('Utilisateur')),
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
@@ -219,10 +221,10 @@ return array(
             	array('route' => 'media/supprimerRelationMediaArtefact', 'roles' => array('Collection')),
             	array('route' => 'media/getAllArtefact', 'roles' => array('Utilisateur')),
 
-                array('route' => 'semantique', 'roles' => array('Admin')),
-                array('route' => 'semantique/ajouter', 'roles' => array('Admin')),
-                array('route' => 'semantique/supprimer', 'roles' => array('Admin')),
-                array('route' => 'semantique/modifier', 'roles' => array('Admin')),
+                array('route' => 'semantique', 'roles' => array('Modeleur')),
+                array('route' => 'semantique/ajouter', 'roles' => array('Modeleur')),
+                array('route' => 'semantique/supprimer', 'roles' => array('Modeleur')),
+                array('route' => 'semantique/modifier', 'roles' => array('Modeleur')),
 
                 array('route' => 'fileupload', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/single', 'roles' => array('Visiteur')),

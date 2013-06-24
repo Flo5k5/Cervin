@@ -88,12 +88,26 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     protected $attenteRole;
 
     /**
+     * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="utilisateur", cascade={"detach"})
+     */
+    protected $elements_chantier;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\Scene", mappedBy="utilisateur", cascade={"detach"})
+     */
+    protected $scenes_chantier;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="utilisateur", cascade={"detach"})
+     */
+    protected $sous_parcours_chantier;
+    
+    /**
      * Initialies the roles variable.
      */
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-
     }
 
     /**

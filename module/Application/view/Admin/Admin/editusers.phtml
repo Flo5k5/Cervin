@@ -28,13 +28,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     	Les rôles possibles pour un utilisateur sont :
     	<dl class="dl-horizontal">
     		<dt>Rôle Visiteur</dt>
-		    <dd>L'utilisateur est bloqué</dd>
+		    <dd>Personne non identifiée : peut consulter la collection et les parcours</dd>
 		    <dt>Rôle Utilisateur</dt>
-		    <dd>Permet de consulter la collection et les parcours</dd>
+		    <dd>Contributeur enregistré sans droits : peut consulter la collection et les parcours</dd>
 		    <dt>Rôle Collection</dt>
 		    <dd>Permet (en plus) d'alimenter la collection</dd>
 		    <dt>Rôle Parcours</dt>
 		    <dd>Permet (en plus) d'éditer des parcours</dd>
+		    <dt>Rôle Modeleur</dt>
+			<dd>Permet (en plus) de modeler la structure de la collection numériques (types d'arefacts et de médias, champs qui les décrivent).</dd>
 		    <dt>Rôle Admin</dt>
 		    <dd>Tous les droits</dd>
 		</dl>

@@ -26,7 +26,6 @@ $this->headTitle($title);
 	$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'));
 	$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'));
 	$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
-
 	echo $this->form()->openTag($form);
 ?>
     <fieldset>
