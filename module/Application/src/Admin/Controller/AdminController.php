@@ -450,44 +450,59 @@ class AdminController extends AbstractActionController
     	
     		if ($form->isValid()) {
     			
+    			$username = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('username'=>$user->getUsername()));
+    			$email    = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
+
+    			if($username !== null || $email !== null){
+    				
+    				if($username !== null){ $this->flashMessenger()->addErrorMessage("Le nom d'utilisateur est déjà utilisé"); }
+    				if($email    !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
+
+    				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
+    			}
+
     			try {
     				$bcrypt = new Bcrypt;
     				$bcrypt->setCost(14);
-    			
+    				
     				//On génère un mot de passe aléatoire
     				$password = $this->getEntityManager()->getRepository('SamUser\Entity\User')->generateRandomPassword();
     			
     				//On hash le mot de passe avec bcrypt puis on l'enregistre
     				$user->setPassword( $bcrypt->create( $password ) );
     			
+    				//On récupère le role 'Utilisateur'
+    				$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array(roleId=>'Utilisateur'));
+    				
+    				//Et on l'ajoute à l'utilisateur
+    				$user->addRole($role);
+    				
     				//On persiste les données en base de donnée
     				$this->getEntityManager()->persist($user);
     				$this->getEntityManager()->flush();
-    				 
-    				//var_dump($password);
-    				//var_dump($user->getPassword());
-    			
+    				
     				//On envoie un mail contenant le nouveau mot de passe
     				$message = new Message();
     				$message->addTo( $user->getEmail() )
     				->addFrom('no-reply@cervin.org')
     				->setSubject('Compte CERVIN créé')
     				->setBody("Bonjour ".$user->getDisplayName().", \r\n\r\n 
-    					Votre compte sur le site http://moving-bo.cervin.org/ a été créé. \r\n
-    					Vos identifiants de connexion sont les suivants : \r\n\r\n 
-    					Login : ".$user->getUsername()." \r\n
-    					Mot de passe : ".$password." \r\n\r\n 
-    					Bonne journée! ");
+    				Votre compte sur le site http://moving-bo.cervin.org/ a été créé. \r\n
+    				Vos identifiants de connexion sont les suivants : \r\n\r\n 
+    				Login : ".$user->getUsername()." \r\n
+    				Mot de passe : ".$password." \r\n\r\n 
+    				Bonne journée! ");
     				 
     				$transport = new SendmailTransport();
     				$transport->send($message);
-    			}
-    			catch (\Exception $ex) {
-    				return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+    			} catch (\Exception $ex) {
+    				$this->flashMessenger()->addErrorMessage("Une erreur est survenue");
+    				//$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
+    				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
     			}
     			
-    			$this->flashMessenger()->addSuccessMessage(sprintf('L\utilisateur ["%1$s"] a bien été créé.', $escapeHtml($user->login)));
-    			return $this->redirect()->toRoute('admin/gestion-users', array ('id' => $user->id));
+    			$this->flashMessenger()->addSuccessMessage(sprintf('L\'utilisateur %1$s a bien été créé.', $escapeHtml($user->getDisplayName())));
+    			return $this->redirect()->toRoute('admin/gestion-users');
     		}
     	
     	}

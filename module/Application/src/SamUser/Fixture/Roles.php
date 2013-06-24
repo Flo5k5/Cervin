@@ -35,15 +35,19 @@ class Roles implements FixtureInterface
 		$role_Parcours->setRoleId('Parcours');
 		$role_Parcours->setParent($role_Collection);
 		
-
+		$role_Modeleur = new SamUser\Entity\Role();
+		$role_Modeleur->setRoleId('Modeleur');
+		$role_Modeleur->setParent($role_Parcours);
+		
 		$role_Admin = new SamUser\Entity\Role();
 		$role_Admin->setRoleId('Admin');
-		$role_Admin->setParent($role_Parcours);
+		$role_Admin->setParent($role_Modeleur);
 
 		$manager->persist($role_Visiteur);
 		$manager->persist($role_Utilisateur);
 		$manager->persist($role_Collection);
 		$manager->persist($role_Parcours);
+		$manager->persist($role_Modeleur);
 		$manager->persist($role_Admin);
 
 		/*
@@ -86,10 +90,20 @@ class Roles implements FixtureInterface
 		$parcours->setPassword($bcrypt->create('toto123'));
 		$parcours->addRole($role_Parcours);
 
+		$modeleur = new SamUser\Entity\User();
+		$modeleur->setUsername('modeleurlogin');
+		$modeleur->setEmail('modeleur@mail.fr');
+		$modeleur->setDisplayName('Modeleur Test');
+		$bcrypt = new Bcrypt;
+		$bcrypt->setCost(14);
+		$modeleur->setPassword($bcrypt->create('toto123'));
+		$modeleur->addRole($role_Modeleur);
+
 		$manager->persist($admin);
 		$manager->persist($utilisateur);
 		$manager->persist($collection);
 		$manager->persist($parcours);
+		$manager->persist($modeleur);
 		$manager->flush();
 		
 	}

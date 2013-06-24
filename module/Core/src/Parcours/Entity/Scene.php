@@ -75,6 +75,11 @@ class Scene implements InputFilterAwareInterface
     protected $transitions_secondaires_entrantes;
     
     /**
+     * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="scenes_chantier")
+     */
+    protected $utilisateur;
+    
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property

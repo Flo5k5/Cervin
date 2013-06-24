@@ -34,10 +34,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
+
 <div class="page-header row-fluid">
 	<div class="span9">
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> 
 	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+	<?php if ($artefact->utilisateur != null) :?>
+		<p class="muted"><i class="icon-warning-sign"></i> <small><em> Chantier en cours par : <?php echo $artefact->utilisateur->displayName; ?></em></small></p>
+	<?php endif; ?>
 	</div>
 	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>

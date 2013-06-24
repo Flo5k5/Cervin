@@ -14,7 +14,6 @@ $this->headTitle();
     <h1><?php echo $this->escapeHtml($title); ?></h1>
 </div>
 
-<div>
 <?php
 $form = $this->form;
 $form->prepare();
@@ -36,11 +35,11 @@ echo $this->form()->openTag($form); ?>
         </div>
         <div class="control-group">
         	<label class="control-label">
-            <?php echo $this->formLabel($form->get('display_name')) ?>
+            <?php echo $this->formLabel($form->get('displayName')) ?>
             </label>
             <div class="controls">
-            <?php echo $this->formInput($form->get('display_name')) ?>
-            <?php echo $this->formElementErrors($form->get('display_name')) ?>
+            <?php echo $this->formInput($form->get('displayName')) ?>
+            <?php echo $this->formElementErrors($form->get('displayName')) ?>
             </div>
         </div>
         <div class="control-group">

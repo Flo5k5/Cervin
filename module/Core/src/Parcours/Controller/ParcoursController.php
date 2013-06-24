@@ -207,7 +207,11 @@ class ParcoursController extends AbstractActionController
         
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $escapeHtml = $viewHelperManager->get('escapeHtmlAttr');
-        $dot = 'Départ [shape="plaintext"];' . "\n";
+        
+        
+        $dot = 'digraph "' . $Parcours->titre . '" {' . "\n";
+        $dot .= 'graph [bgcolor="#f3f3f3"]' . "\n";
+        $dot .= 'Départ [shape="plaintext"];' . "\n";
         $dot .= 'Départ -> s' . $Parcours->sous_parcours_depart->scene_depart->id.'[style=dashed];' . "\n";
         foreach ( $Parcours->transitions as $transition) {
         	// Transitions inter-sous-parcours
@@ -243,9 +247,9 @@ class ParcoursController extends AbstractActionController
         		//$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style=bold, fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
         		$dot .= 's'.$scene->id.'[id="s'.$scene->id.'", label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
         	}
-        	 
         	$dot .= '}' . "\n";
         }
+        $dot .= '}';
         
         return new ViewModel(array(
         		'Parcours'=>$Parcours,

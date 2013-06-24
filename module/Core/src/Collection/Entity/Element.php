@@ -91,6 +91,11 @@ class Element implements InputFilterAwareInterface
     protected $relation_destination;
     
     /**
+     * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="elements_chantier")
+     */
+    protected $utilisateur;
+    
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property

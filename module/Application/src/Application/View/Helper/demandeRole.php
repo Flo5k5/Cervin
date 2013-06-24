@@ -20,16 +20,12 @@ use Zend\View\Helper\AbstractHelper;
 class demandeRole extends AbstractHelper
 {
 
-
-
 	protected $em;
 	protected $serviceLocator;
-
 
     public function setServiceLocator(ServiceManager $serviceLocator) 
     { 
         $this->serviceLocator = $serviceLocator; 
-        
     } 
 
     public function setEntityManager(EntityManager $em)
@@ -42,36 +38,25 @@ class demandeRole extends AbstractHelper
         if ($this->em === null) {
             $this->em = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
         }
-        
         return $this->em;
     }
 
  
     public function __invoke($rolesFils = false)
     {
-        $urlHelper = $this->view->plugin('url');
-
-            $roles = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll();
-
-            $return = '
+    	$urlHelper = $this->view->plugin('url');
+		$roles = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll();
+        $return = '
             <div class="dropdown">
               <a class="dropdown-toggle btn btn-primary" id="roles" role="button" data-toggle="dropdown" href="#"><i class="icon-plus"></i> Demande de droits <span class="caret"></span></a>
-              
               <ul class="dropdown-menu" role="menu" aria-labelledby="roles">';
-            foreach ($roles as $role) :
-
-                if (!in_array($role->getRoleId(),$rolesFils)) {
-
-                    $return .= '<li><a role="menuitem" tabindex="-1" href="'.$urlHelper("admin/demandeRole", array("id" => $role->getId())).'">'.$role->getRoleId().'</a></li>';
-                }
-
-            endforeach;
-
-            $return .= '
-              </ul>
-            </div>';
-
-
+        foreach ($roles as $role) :
+			if (!in_array($role->getRoleId(),$rolesFils)) {
+        		$return .= '<li><a role="menuitem" tabindex="-1" href="'.$urlHelper("admin/demandeRole", array("id" => $role->getId())).'">'.$role->getRoleId().'</a></li>';
+            }
+		endforeach;
+		$return .= '</ul> </div>';
         return $return;
     }
 }
+

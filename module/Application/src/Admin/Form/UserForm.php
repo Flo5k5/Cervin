@@ -23,14 +23,14 @@ class UserForm extends Form
 		));
 
 		$this->add(array(
-			'name' => 'display_name',
+			'name' => 'displayName',
 			'attributes' => array('type' => 'text','placeholder'=>'Nom / Prénom'),
 			'options' => array('label' => 'Nom / prénom')
 		));
 		
 		$this->add(array(
 			'name' => 'email',
-			'attributes' => array('type'  => 'text','placeholder'=>'Email'),
+			'attributes' => array('type'  => 'email','placeholder'=>'Email'),
 			'options' => array('label' => 'Email')
 		));
 		

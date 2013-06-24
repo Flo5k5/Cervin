@@ -38,6 +38,23 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
     </div>
 </div>
 
+<!-- Dot Modal -->
+<div id="dotModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Source du graphe dans le langage dot</h3>
+    </div>
+    <div class="modal-body">
+    	<p>
+    		Dot est un langage de descritpion de graphe. Un logiciel comme <a  target="_blank" href="http://www.graphviz.org">Graphviz</a> permet de générer le graphe dans différents formats (svg, png, jpg, ...) à partir de ces sources.
+    	</p>
+    	<textarea readonly class="input-block-level" rows="15" onClick="this.select()"><?php echo $dot ; ?></textarea>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="page-header">
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1>
@@ -94,9 +111,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 <script type="text/vnd.graphviz" id="cluster">
 
 //<!--
-digraph "<?php echo $Parcours->titre; ?>" { 
-graph [bgcolor="#f3f3f3"];
-<?php echo $dot ; ?>}
+<?php echo $dot ; ?>
 //-->
 
 </script>
@@ -171,6 +186,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		  <!-- <input type="range" class="zoom-range"> -->
 		  <button class="reset btn btn-primary"><i class="icon-fullscreen"></i></button>
 		  <button class="btn btn-primary refresh"><i class="icon-refresh"></i></button>
+		<button class="btn btn-primary afficherDot"><i class="icon-code"> </i></button>
 		</div>
 		<!-- Graphe -->
 		<div style="overflow: hidden; position: relative; border:3px solid black;"> 
@@ -237,23 +253,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.savefile.js');
 
 <?php $this->inlineScript()->captureStart(); ?>
 
-$(function() {
-	//var svg = $('#zz > svg').get(0);
-
-	$('#zz').savefile({
-	  'filename': 'example',
-	  'extension': 'svg'
-	});
-/*
-	var link = document.createElement('a');
-link.href = 'data:text/plain;charset=UTF-8,' + encodeURIComponent(svg);
-link.innerHtml = 'Open the text file';
-
-$(location).attr(link.href);
-*/
-});
-
-
 
 $('.edit').editable({
 	emptytext: 'Vide', mode: 'inline'
@@ -282,6 +281,11 @@ $(".supprimerSousParcours").click(function(e){
 	        );
 	    }
 	});
+});
+
+// Affichage du dot
+$(".afficherDot").click(function(e){
+	$("#dotModal").modal("show");
 });
 
 $(".refresh").click(function(e){

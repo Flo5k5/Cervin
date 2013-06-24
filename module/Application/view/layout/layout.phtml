@@ -42,7 +42,7 @@ $this->inlineScript()->captureStart(); ?>
 		
 		jQuery.fn.extend({
 			showInfos: function(text, type, closable, autoclose){
-				var closable   = ( typeof(closable) == 'undefined' ? false : closable );
+				var closable   = ( typeof(closable) == 'undefined' ? true : closable );
 				var autoclose  = ( typeof(autoclose) == 'undefined' ? true : autoclose );
 				var classAlert = null;
 				
@@ -139,70 +139,93 @@ echo $this->headScript();
 	                       <span class="icon-bar"></span>
 	                       <span class="icon-bar"></span>
 	                    </a>
+	                    
+	                    <!-- ACCUEIL -->
 	                    <a class="brand" href="<?php echo $this->url('page'); ?>">Cervin</a>
 	                    <div class="nav-collapse collapse">
 	                        <ul class="nav">
 	                            <li class="divider-vertical"></li>
 	                            <li><a href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i>  Accueil</a></li>
 	                            <li class="divider-vertical"></li>
-	                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
-	                            <li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
-	                           <!--  <li class="divider-vertical"></li> -->
+	                            
+	                    <!-- COLLECTION NUMERIQUE -->
+                            <?php if ($this->isAllowed('Modeleur') === true) :?>
+                            	<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="icon-save"></i> Collection numérique
+										<b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i> La collection</a></li>
+										
+										<li class="dropdown-submenu">
+											<a tabindex="-1" href="#"><i class="icon-sitemap"></i> La structure</a>
+											<ul class="dropdown-menu">
+												<li><a href="<?php echo $this->url('typeElement'); ?>">Types d'éléments
+                                                </a></li>
+                                                <li><a href="<?php echo $this->url('semantique'); ?>">Sémantiques des relations</a></li>
+											</ul>
+										</li>
+									
+									</ul>
+								</li>
+                            <?php elseif ($this->isAllowed('Utilisateur') === true) :?>
+                            	<li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
+                           		<!--  <li class="divider-vertical"></li> -->
 	                        <?php endif; ?>
+	                        
+	                        <li class="divider-vertical"></li>
+	                        
+	                        <!-- PARCOURS -->
 	                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
 	                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
 	                            <li class="divider-vertical"></li>
 	                        <?php endif; ?>
 	                        </ul>
+	                        
 	                        <ul class="nav pull-right">
+	                        
+	                        <!-- CONTACT -->
 	                        <li><a href="<?php echo $this->url('page/voir',array('slug'=>'contact')); ?>">Contact</a></li>
 	                        
-	                        	<?php if ($this->isAllowed('Admin') === true) :?>
-	                                 		<li class="divider-vertical"></li>
-	                                        <li class="dropdown">
-	                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	                                            	<i class="icon-tasks"></i>  Administration 
-	                    	                            <span class="notifications badge badge-important small"></span>
-
-	                                            	<b class="caret"></b>
-	                                            </a>
-	                                            <ul class="dropdown-menu">
-	                                                
-	                                               	 <li class="dropdown-submenu">
-													<a tabindex="-1" href="#"><i class="icon-save"></i>  Collection Numérique</a>
-														<ul class="dropdown-menu">
-															<li><a href="<?php echo $this->url('typeElement'); ?>"><i class="icon-sitemap"></i>  Types d'éléments
-	                                                		</a></li>
-	                                                		<li><a href="<?php echo $this->url('semantique'); ?>"><i class="icon-bookmark"></i>  Sémantiques des relations</a></li>
-														</ul>
-													</li>
-													
-													<li class="dropdown-submenu">
-													<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
-														<ul class="dropdown-menu">
-	                                                		<li><a href="<?php echo $this->url('semantiquetransition'); ?>"><i class="icon-bookmark"></i>  Sémantiques des transitions</a></li>
-														</ul>
-													</li>
-													<li class="divider"></li>
-													
-													<li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
-	                                                    <span class="notifications badge badge-important small"></span> 
-	                                                </a></li>
-													
-													<li class="dropdown-submenu">
-													<a tabindex="-1" href="#"><i class="icon-edit"></i>  Pages éditables</a>
-														<ul class="dropdown-menu">
-															<li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>">Page d'accueil</a></li>
-	                                                		<li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>">Page Contact</a></li>
-														</ul>
-													</li>
-													
-													<li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Logs</a></li>
-	                                               
-	                                            </ul>
-	                                        </li>
-	                            <?php endif; ?>
+	                        <!-- ADMIN -->
+                        	<?php if ($this->isAllowed('Admin') === true) :?>
+                            	<li class="divider-vertical"></li>
+                                <li class="dropdown">
+                                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    	<i class="icon-tasks"></i>  Administration 
+                    	                <span class="notifications badge badge-important small"></span>
+										<b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                    
+										<li><a href="<?php echo $this->url('admin/gestion-users'); ?>"><i class="icon-group"></i>  Utilisateurs
+                                        	<span class="notifications badge badge-important small"></span> 
+                                        </a></li>
+												
+										<li class="dropdown-submenu">
+											<a tabindex="-1" href="#"><i class="icon-edit"></i>  Pages éditables</a>
+											<ul class="dropdown-menu">
+												<li><a href="<?php echo $this->url('page/modifier',array('slug'=>'accueil')); ?>">Page d'accueil</a></li>
+                                                <li><a href="<?php echo $this->url('page/modifier',array('slug'=>'contact')); ?>">Page Contact</a></li>
+											</ul>
+										</li>
+												
+										<li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Logs</a></li>
+                                               
+                                        <li class="divider"></li>
+                                               
+                                        <li class="dropdown-submenu">
+											<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
+											<ul class="dropdown-menu">
+                                                <li><a href="<?php echo $this->url('semantiquetransition'); ?>"> Sémantiques des transitions</a></li>
+											</ul>
+										</li>
+                                    </ul>
+                            	</li>
+                            <?php endif; ?>
 	                            
+	                            <!-- CONNEXION / COMPTE -->
 	                            <?php
 	                                $zfcUserIdentity = $this->zfcUserIdentity();
 	                             if(!$zfcUserIdentity): ?>
