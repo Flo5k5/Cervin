@@ -24,6 +24,7 @@ use Zend\InputFilter\InputFilterInterface;
  *                        "DataNombre" = "DataNombre", 
  *                        "DataTexte" = "DataTexte", 
  *                        "DataUrl" = "DataUrl", 
+ *                        "DataSelect" = "DataSelect", 
  *                        "DataTextarea" = "DataTextarea"})
  * 
  * @property int $id Identifiant unique du data

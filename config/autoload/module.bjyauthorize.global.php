@@ -107,6 +107,11 @@ return array(
                     'roles' => array('Admin')
                 ),
 
+                array(
+                    'controller' => 'ChampSelect',
+                    'roles' => array('Modeleur')
+                ),
+
             	array(
             		'controller' => 'Collection',
             		'roles' => array('Utilisateur')
@@ -170,7 +175,7 @@ return array(
              * access to all routes unless they are specified here.
              */
             'BjyAuthorize\Guard\Route' => array(
-                array('route' => 'album', 'roles' => array('Visiteur')),
+                array('route' => 'album', 'roles' => array('Visiteur')),Modeleur
 
                 array('route' => 'admin', 'roles' => array('Admin')),
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
@@ -194,6 +199,10 @@ return array(
                 array('route' => 'typeElement', 'roles' => array('Admin')),
                 array('route' => 'typeElement/add', 'roles' => array('Admin')),
                 array('route' => 'typeElement/editTypeElementAjax', 'roles' => array('Admin')),
+
+                array('route' => 'champSelect', 'roles' => array('Modeleur')),
+                array('route' => 'champSelect/ajouter', 'roles' => array('Modeleur')),
+                array('route' => 'champSelect/modifier', 'roles' => array('Modeleur')),
             		
 				array('route' => 'collection', 'roles' => array('Utilisateur')),
 				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),

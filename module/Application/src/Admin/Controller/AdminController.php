@@ -430,9 +430,7 @@ class AdminController extends AbstractActionController
             
             return $this->getResponse()->setContent($dataTable->findAll());
         } else {
-            return new ViewModel(array(
-                'roles' => $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findAll()
-            ));
+            return new ViewModel();
 
         }
     }
