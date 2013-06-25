@@ -34,26 +34,53 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
-
 <div class="page-header row-fluid">
 	<div class="span9">
 	<h1><i class="icon-tag"></i> <?php echo $this->escapeHtml($title); ?> 
 	<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
-	<?php if ($artefact->utilisateur != null) :?>
-		<p class="muted"><i class="icon-warning-sign"></i> <small><em> Chantier en cours par : <?php echo $artefact->utilisateur->displayName; ?></em></small></p>
-	<?php endif; ?>
 	</div>
 	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 
-			class="btn btn-primary btn-block">
-			<i class="icon-pencil"> </i> Modifier cet artefact
-		</a>
-		<a href="#confirmModal" 
-			data-toggle="modal" 
-			class="btn btn-danger btn-block">
-			<i class="icon-trash"> </i>  Supprimer cet artefact
-		</a>
+		<?php if ($artefact->utilisateur === null) :?>
+			<a href="<?php echo $this->url('chantier/demarrerChantierElement',array(
+					'idElement' => $artefact->id,
+					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-cogs"> </i> Commencer un chantier sur cet artefact
+			</a>
+			<a href="#confirmModal" 
+				data-toggle="modal" 
+				class="btn btn-danger btn-block">
+				<i class="icon-trash"> </i>  Supprimer cet artefact
+			</a>
+		<?php elseif ($artefact->utilisateur === $this->zfcUserIdentity()): ?>
+			<p class="text-warning"><i class="icon-cogs"></i> <em> Cet artefact fait partie de vos chantiers en cours </em></p>
+			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+					'idElement' => $artefact->id,
+					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-unlock"> </i> Terminer le chantier
+			</a>
+			<a href="<?php echo $this->url('artefact/editArtefact',array('id' => $artefact->id)) ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-pencil"> </i> Modifier cet artefact
+			</a>
+			<a href="#confirmModal" 
+				data-toggle="modal" 
+				class="btn btn-danger btn-block">
+				<i class="icon-trash"> </i>  Supprimer cet artefact
+			</a>
+		<?php else :?>
+			<p class="text-warning"><i class="icon-cogs"></i> <em> Chantier en cours par : <?php echo $artefact->utilisateur->displayName; ?></em></p>
+			<a href="#" 
+				class="btn btn-primary btn-block disabled">
+					Artefact en chantier - Modification impossible
+			</a>
+			<a href="#" 
+				class="btn btn-danger btn-block disabled">
+					Artefact en chantier - Suppression impossible
+			</a>
+		<?php endif;?>
     <?php endif; ?>
     </div>
 </div>
