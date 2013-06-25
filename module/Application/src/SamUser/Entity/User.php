@@ -62,14 +62,15 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     
     /**
      * @var string
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    protected $tel;
-    /**
-     * @var string
      * @ORM\Column(type="string", length=128)
      */
     protected $password;
+
+    /**
+     * @var string
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $accept;
 
     /**
      * @var int

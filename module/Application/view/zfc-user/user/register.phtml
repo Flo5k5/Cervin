@@ -39,6 +39,9 @@ $this->headTitle($title);
         <?php if ($element instanceof Zend\Form\Element\Button): ?>
             <div class="form-actions">
                 <?php echo $this->formButton($element) ?>
+        <?php elseif ($element instanceof Zend\Form\Element\Checkbox): ?>
+
+            <div class="controls"><?php echo $this->formCheckbox($element).$this->formElementErrors($element);?></div>
 
         <?php elseif ($element instanceof Zend\Form\Element\Captcha): ?>
             <?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></div>

@@ -14,7 +14,7 @@ return array(
             'Parcours' => 'Parcours\Controller\ParcoursController',
             'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
             'Scene' => 'Parcours\Controller\SceneController',
-            'ChampSelect' => 'Collection\Controller\ChampSelect',
+            'ChampSelect' => 'Collection\Controller\ChampSelectController',
         ),
     ),
     'router' => array(
@@ -85,14 +85,27 @@ return array(
                     'modifier' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/modifier/[:id][/:idValue]',
+                            'route' => '/modifier/[:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'ChampSelect',
+                                'action'     => 'modifier',
+                            ),
+                        ),
+                    ),
+                    'modifierValueAjax' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifierValueAjax/[:id][/:idValue]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
                                 'idValue'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'ChampSelect',
-                                'action'     => 'modifier',
+                                'action'     => 'modifierValueAjax',
                             ),
                         ),
                     ),

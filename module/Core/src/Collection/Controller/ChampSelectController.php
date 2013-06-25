@@ -91,11 +91,36 @@ class ChampSelectController extends AbstractActionController
             $aaData = array();
 
             foreach ($dataTable->getPaginator() as $select) {
-                $action = "";
+
+            	$apercu = '<select class="select2">';
+			    foreach ($select->select_values as $select_value) {
+			    	$apercu .= '<option value="'.$select_value->id.'">'.$select_value->text.'</option>';
+			    }
+			    $apercu .= '</select>';
+
+
+                $action = '<a href="#" 
+	            			data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id)).'" 
+	            			class="btn btn-primary modifierValue"
+	            			data-toggle="popover"
+	            			data-content="Ajouter / Modifier une valeur">
+	            				<i class="icon-folder-open-alt"></i>
+	            			</a>';
+
+
                 $aaData[] = array(
-	    				$select->label,
-	    				$select->description,
-	    				$action
+                	'<span id="label" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
+                        data-value="'.$escapeHtml($select->label).'" data-placement="right" data-type="text" data-pk="1">'.$escapeHtml($select->label).'
+                    </span>',
+                    '<span id="description" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
+                        data-value="'.$escapeHtml($select->description).'" data-placement="right" data-type="textarea" data-pk="1">'.$escapeHtml($select->description).'
+                    </span>',
+                    $apercu,
+	    			$action
                 );
             }
             $dataTable->setAaData($aaData);
@@ -131,6 +156,49 @@ class ChampSelectController extends AbstractActionController
     {
 
 
+    }
+
+    /**
+	 * 
+	 *
+	 * 
+	 *
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function modifierValueAjaxAction()
+    {
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $escapeHtml = $viewHelperManager->get('escapeHtml');
+
+    	$id = (int) $this->params('id', null);
+		$select = $this->getEntityManager()->getRepository('Collection\Entity\Select')->findOneBy(array('id'=>$id));
+		if ($select == null or $id == null) {
+			$this->getResponse()->setStatusCode(404);
+			return; 
+		}
+
+        $postData = $this->params()->fromPost();
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			switch ($postData['action']) {
+				case 'voirListe':
+					$viewModel = new ViewModel(array('select' => $select));
+                    $viewModel->setTerminal(true);
+                    return $viewModel->setTemplate('Collection/Champ-Select/modifierValueAjax.phtml');
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+			
+
+
+
+		} else {
+			$this->getResponse()->setStatusCode(404);
+			return;
+		}
     }
 
 

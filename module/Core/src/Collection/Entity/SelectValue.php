@@ -46,6 +46,10 @@ class SelectValue implements InputFilterAwareInterface
     protected $datas;
 
 
+    public function __construct($select = null) {
+    	$this->select = $select;
+    }
+
 	/**
 	 * Magic getter to expose protected properties.
 	 *

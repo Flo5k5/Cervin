@@ -2,7 +2,9 @@
 $title = 'Gestion des champs select';
 $this->headTitle($title);
 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
 <ul class="breadcrumb">
@@ -41,12 +43,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                         <tr>
                             <th>Label</th>
                             <th>Déscription</th>
+                            <th>Apercu</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3">En cours de téléchargement</td>
+                            <td colspan="4">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -57,6 +60,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 <div id="confirmDiv" >
 </div> 
+<div id="modalDiv"></div>
+
 
 <?php $this->inlineScript()->captureStart(); ?>
 	var table;
@@ -69,14 +74,60 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				"aoColumns": [
 		           	           	null,
 		           	           	null, 
+                                { "bSortable": false  },
 		           	        	{ "bSortable": false  },
 	           	           	 ],
-	           	"iColumns": 5,
+	           	"iColumns": 4,
 	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,
-                "sAjaxSource": "<?php echo $this->url("selectChamp"); ?>"
+                "sAjaxSource": "<?php echo $this->url("champSelect"); ?>",
+                "fnDrawCallback": function () {
+    
+                    $('[data-toggle="popover"]').popover({placement:'top', trigger:'hover'}); 
+    
+                    $('.text').editable({ 
+                        mode: 'inline',
+                        emptytext: "Vide",
+                        success: function(e) {
+                            var resp = jQuery.parseJSON(e);
+                                                            
+                            if(resp.success === true){
+                                //location.reload();
+                                $('.messageEditUsers').showInfos(resp.message, "success");
+                            } else {
+                                //location.reload();
+                                $('.messageEditUsers').showInfos(resp.error, "error");
+                            }
+                        }
+                     });
+
+                     $(document).ready(function() { $(".select2").select2(); });
+
+                    $(document).on( 'click', '.modifierValue', function(e){
+                        var dataURL = $(this).attr('data-url');
+                        $.ajax({
+                            url: dataURL,
+                            type: "POST",
+                            data:{ action:'voirListe' }, 
+                            success:function(response){
+                    
+                                if(response == 'true') {
+                                    location.reload();
+                                } else {
+                                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                                }
+                    
+                            },
+                            error: function(response){
+                                alert('Impossible d\'ajouter des champ');
+                            }
+                        });
+                    });
+
+                     
+                }
 			}
 		);
 
@@ -84,6 +135,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <?php
 $this->inlineScript()->captureEnd();
 
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-confirm.js');
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
 $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');
+$this->headScript()->appendFile($this->basePath() . '/js/select2.js');
+$this->headScript()->appendFile($this->basePath() . '/js/locales/select2_locale_fr.js') ;
 ?>
