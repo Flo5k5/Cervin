@@ -1,0 +1,53 @@
+<?php 
+$title = "Mes chantiers en cours";
+$this->headTitle($title);
+?>
+
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li class="active"> <?php echo $this->escapeHtml($title); ?> </li>
+</ul>
+
+<div class="page-header">
+	<h1> <?php echo $this->escapeHtml($title); ?> </h1>
+</div>
+
+<h3>Eléments de la collection numérique</h3>
+
+<?php if ($this->zfcUserIdentity()->elements_chantier != null) :?>
+	<?php if ($this->zfcUserIdentity()->elements_chantier->count() == 0): ?>
+		Aucun élément de la collection numérique ne fait partie de vos chantiers
+	<?php else : ?>
+		<table class="table">
+		<tr>
+			<th>Elément</th>
+			<th></th>
+		</tr>
+		<?php foreach ($this->zfcUserIdentity()->elements_chantier as $element) :?>
+		<tr>
+			<td>
+			<?php if ($element instanceOf \Collection\Entity\Artefact) : ?>
+				<a href="<?php echo $this->url('artefact/voirArtefact', array('id'=>$element->id));?>"
+					class="text-success">
+					<i class="icon-tag"></i> <?php echo $element->titre; ?>	
+				</a>
+		    <?php  else : ?>
+		    	<a href="<?php echo $this->url('media/voirMedia', array('id'=>$element->id));?>"
+					class="text-warning">
+					<i class="icon-picture"></i> <?php echo $element->titre; ?>	
+				</a>
+		    <?php endif; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+						'idElement' => $element->id,
+						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+					class="btn btn-primary">
+					<i class="icon-unlock"> </i> Terminer le chantier
+				</a>
+			</td>
+		</tr>
+		<?php endforeach;?>
+		</table>
+	<?php endif;?>
+<?php endif; ?>
