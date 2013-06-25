@@ -86,4 +86,41 @@ class ChantierController extends AbstractActionController
     	return $this->redirect()->toRoute('chantier');
     }
     
+    public function demarrerChantierSousParcoursAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
+    	$idUser = (int) $this->params()->fromRoute('idUser', 0);
+    	$idSousParcours = (int) $this->params()->fromRoute('idSousParcours', 0);
+    	$user = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$idUser));
+    	$sous_parcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$idSousParcours));
+    	if (!$idUser || !$idSousParcours || $user == null || $sous_parcours == null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$sous_parcours->utilisateur = $user;
+    	$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
+
+    	$idScene = (int) $this->params()->fromRoute('idScene', 0);
+    	$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$idScene));
+    	return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
+    }
+    
+    public function terminerChantierSousParcoursAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
+    	$idUser = (int) $this->params()->fromRoute('idUser', 0);
+    	$idSousParcours = (int) $this->params()->fromRoute('idSousParcours', 0);
+    	$user = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$idUser));
+    	$sous_parcours = $this->getEntityManager()->getRepository('Parcours\Entity\SousParcours')->findOneBy(array('id'=>$idSousParcours));
+    	if (!$idUser || !$idSousParcours || $user == null || $sous_parcours == null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$sous_parcours->utilisateur = null;
+    	$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> ne fait plus partie de vos chantiers en cours.'));
+    	return $this->redirect()->toRoute('chantier');
+    }
+    
 }

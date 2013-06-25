@@ -199,6 +199,8 @@ return array(
             	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/demarrerChantierElement', 'roles' => array('Collection')),
             	array('route' => 'chantier/terminerChantierElement', 'roles' => array('Collection')),
+            	array('route' => 'chantier/demarrerChantierSousParcours', 'roles' => array('Collection')),
+            	array('route' => 'chantier/terminerChantierSousParcours', 'roles' => array('Collection')),
             		
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),

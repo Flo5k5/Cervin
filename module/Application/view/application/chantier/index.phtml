@@ -12,12 +12,12 @@ $this->headTitle($title);
 	<h1> <?php echo $this->escapeHtml($title); ?>
 	<?php $notifs = $this->Notification('chantier', $this->zfcUserIdentity()); 
 	if ($notifs > 0) :?>
-		<span class="notifchantiers badge badge-info">
+		<span class="badge badge-info">
 			<?php echo $notifs; ?>
 		</span>
 	<?php endif;?>
 	</h1>
-	<p class="muted">Les objets (élément de la collection, scène, sous-parcours) en chantier sont éditabkes uniquement par vous. Lorsque vous avez fini vos modifications, pensez à terminer le chantier pour permettre l'édition par d'autres utilisateurs.</p>
+	<p class="muted">Les éléments de la collection et les sous-parcours en chantier sont éditables uniquement par vous. Lorsque vous avez fini vos modifications, pensez à terminer le chantier pour permettre l'édition par d'autres utilisateurs.</p>
 </div>
 
 <h3>Eléments de la collection numérique
@@ -26,13 +26,14 @@ $this->headTitle($title);
 	<?php if ($this->zfcUserIdentity()->elements_chantier->count() == 0): ?>
 		</h3> Aucun élément de la collection numérique ne fait partie de vos chantiers
 	<?php else : ?>
-		<span class="notifchantiers badge badge-info">
+		<span class="badge badge-info">
 			<?php echo $this->zfcUserIdentity()->elements_chantier->count(); ?>
 		</span> </h3>
+		
 		<table class="table table-hover">
 		<tr>
 			<th>Elément</th>
-			<th></th>
+			<th>Type</th>
 			<th></th>
 		</tr>
 		<?php foreach ($this->zfcUserIdentity()->elements_chantier as $element) :?>
@@ -57,6 +58,46 @@ $this->headTitle($title);
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
 						'idElement' => $element->id,
+						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+					class="btn btn-primary">
+					<i class="icon-unlock"> </i> Terminer le chantier
+				</a>
+				</p>
+			</td>
+		</tr>
+		<?php endforeach;?>
+		</table>
+	<?php endif;?>
+<?php endif; ?>
+
+<h3>Sous-parcours
+<?php if ($this->zfcUserIdentity()->sous_parcours_chantier != null) :?>
+	<?php if ($this->zfcUserIdentity()->sous_parcours_chantier->count() == 0): ?>
+		</h3> Aucun sous-parcours ne fait partie de vos chantiers
+	<?php else : ?>
+		<span class="badge badge-info">
+			<?php echo $this->zfcUserIdentity()->sous_parcours_chantier->count(); ?>
+		</span> </h3>
+		
+		<table class="table table-hover">
+		<tr>
+			<th>Sous-parcours</th>
+			<th>Parcours</th>
+			<th></th>
+		</tr>
+		<?php foreach ($this->zfcUserIdentity()->sous_parcours_chantier as $sous_parcours) :?>
+		<tr>
+			<td><?php echo $sous_parcours->titre; ?></td>
+			<td>
+				<a href="<?php echo $this->url('parcours/voir', array('id'=>$sous_parcours->parcours->id)); ?>" >
+				<?php echo $sous_parcours->parcours->titre; ?>
+				</a>
+			</td>
+		   
+			<td>
+				<p class="text-right">
+				<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
+						'idSousParcours' => $sous_parcours->id,
 						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
 					class="btn btn-primary">
 					<i class="icon-unlock"> </i> Terminer le chantier

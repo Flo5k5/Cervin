@@ -387,12 +387,20 @@ class SceneController extends AbstractActionController
 	 */
 	public function editSceneAction()
 	{
+		$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+		$escapeHtml = $viewHelperManager->get('escapeHtml');
 		$id = (int) $this->params()->fromRoute('id', 0);
 		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$id));
 		if (!$id or $scene === null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        
+        if ($scene->sous_parcours->utilisateur != $this->zfcUserAuthentication()->getIdentity()) {
+        	$this->flashMessenger()->addErrorMessage(sprintf('Le sous-parcours <em>'. $escapeHtml($scene->sous_parcours->titre) .'</em> doit faire partie de vos chantiers en cours pour que vous puissiez modifier cette scène.'));
+        	return $this->redirect()->toRoute('scene/voirScene', array('id'=>$scene->id));
+        }
+        
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
 			$request = $this->params()->fromPost();

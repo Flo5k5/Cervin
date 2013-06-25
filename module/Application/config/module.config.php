@@ -78,7 +78,7 @@ return array(
             				'route' => '/demarrerChantierElement/:idElement/:idUser',
             				'constraints' => array(
             					'idElement'     => '[0-9]+',
-            					'idUser'     => '[0-9]+',
+            					'idUser'     	=> '[0-9]+',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',
@@ -92,11 +92,39 @@ return array(
             				'route' => '/terminerChantierElement/:idElement/:idUser',
             				'constraints' => array(
             					'idElement'     => '[0-9]+',
-            					'idUser'     => '[0-9]+',
+            					'idUser'     	=> '[0-9]+',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',
             					'action'     => 'terminerChantierElement',
+            				),
+            			),
+            		),
+            		'demarrerChantierSousParcours' => array(
+            			'type' => 'Segment',
+            			'options' => array(
+            				'route' => '/demarrerChantierSousParcours/:idSousParcours/:idUser',
+            				'constraints' => array(
+            					'idSousParcours'    => '[0-9]+',
+            					'idUser'     		=> '[0-9]+',
+            				),
+            				'defaults' => array(
+            					'controller' => 'Chantier',
+            					'action'     => 'demarrerChantierSousParcours',
+            				),
+            			),
+            		),
+            		'terminerChantierSousParcours' => array(
+            			'type' => 'Segment',
+            			'options' => array(
+            				'route' => '/terminerChantierSousParcours/:idSousParcours/:idUser',
+            				'constraints' => array(
+            					'idSousParcours'    => '[0-9]+',
+            					'idUser'    	 	=> '[0-9]+',
+            				),
+            				'defaults' => array(
+            					'controller' => 'Chantier',
+            					'action'     => 'terminerChantierSousParcours',
             				),
             			),
             		),
