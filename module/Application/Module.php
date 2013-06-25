@@ -62,7 +62,17 @@ class Module implements AutoloaderProviderInterface,
 
         $events->attach('ZfcUser\Form\Register','init', function($e) {
         	$form = $e->getTarget();
-        	
+        	 /*$form->add(array(
+                'type' => 'Zend\Form\Element\Checkbox',
+                'name' => 'terms',
+                'options' => array(
+                     'label' => 'Agree to Terms and Conditions',
+                     'use_hidden_element' => true,
+                     'checked_value' => 1,
+                     'unchecked_value' => 'no'
+                )
+            ));*/
+             
         	$form->add(array(
         			'name' => 'checkboxAgreement',
         			'type' => 'Zend\Form\Element\Checkbox',
@@ -79,8 +89,21 @@ class Module implements AutoloaderProviderInterface,
         
         $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
         	$filter = $e->getTarget();
-        		
-    		/*$filter->add(array(
+            /*$filter->add(array(
+                'name'     => 'terms',
+                'validators' => array(
+                    array(
+                        'name'    => 'InArray',
+                        'options' => array(
+                            'haystack' => array(1),
+                            'messages' => array(
+                                'notInArray' => 'Please select your gender !' 
+                            ),
+                        ),
+                    )
+                )
+            ));
+    		$filter->add(array(
     				'name' => 'checkboxAgreement',
     				'validators' => array(
     						array(
@@ -94,6 +117,7 @@ class Module implements AutoloaderProviderInterface,
     						),
     				),
     		));*/
+
         	
         	$filter->add(array(
         			'name'     => 'checkboxAgreement',
@@ -110,7 +134,7 @@ class Module implements AutoloaderProviderInterface,
         							),
         					),
         			),
-        	));
+        	)); 
     		
         });
         

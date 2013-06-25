@@ -45,6 +45,11 @@ class Select implements InputFilterAwareInterface
      **/
     protected $champs_select;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SelectValue", mappedBy="select")
+     **/
+    protected $select_values;
+
 	/**
 	 * Magic getter to expose protected properties.
 	 *
