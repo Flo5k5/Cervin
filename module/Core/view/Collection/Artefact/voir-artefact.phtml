@@ -54,7 +54,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				<i class="icon-trash"> </i>  Supprimer cet artefact
 			</a>
 		<?php elseif ($artefact->utilisateur === $this->zfcUserIdentity()): ?>
-			<p class="text-warning"><i class="icon-cogs"></i> <em> Cet artefact fait partie de vos chantiers en cours </em></p>
+			<p class="text-warning">
+				<em> <i class="icon-cogs"></i> 
+				Cet artefact fait partie de 
+				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+				</em>
+			</p>
 			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
 					'idElement' => $artefact->id,
 					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
@@ -71,7 +76,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				<i class="icon-trash"> </i>  Supprimer cet artefact
 			</a>
 		<?php else :?>
-			<p class="text-warning"><i class="icon-cogs"></i> <em> Chantier en cours par : <?php echo $artefact->utilisateur->displayName; ?></em></p>
+			<p class="text-warning">
+				<em><i class="icon-cogs"></i>  Chantier en cours par : 
+				<a class="text-warning" href="mailto:<?php echo $artefact->utilisateur->email; ?>"> 
+					<?php echo $artefact->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
+				</a>
+				</em> 
+			</p>
 			<a href="#" 
 				class="btn btn-primary btn-block disabled">
 					Artefact en chantier - Modification impossible

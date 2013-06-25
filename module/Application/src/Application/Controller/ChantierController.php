@@ -54,13 +54,32 @@ class ChantierController extends AbstractActionController
 		}
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
-		if ($element instanceOf \Collection\ Element\Artefact) {
-			$this->flashMessenger()->addEroorMessage(sprintf('L\'artefact fait maintenant partie de vos chantiers en cours.'));
-			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$id));
+		if ($element instanceOf \Collection\Entity\Artefact) {
+			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact fait maintenant partie de vos chantiers en cours.'));
+			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$idElement));
     	} else {
-    		$this->flashMessenger()->addEroorMessage(sprintf('Le média fait maintenant partie de vos chantiers en cours.'));
-    		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$id));
+    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média fait maintenant partie de vos chantiers en cours.'));
+    		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$idElement));
     	}
+    }
+    
+    public function terminerChantierElementAction() {
+    	$idUser = (int) $this->params()->fromRoute('idUser', 0);
+    	$idElement = (int) $this->params()->fromRoute('idElement', 0);
+    	$user = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$idUser));
+    	$element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$idElement));
+    	if (!$idUser || !$idElement || $user == null || $element == null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$element->utilisateur = null;
+    	$this->getEntityManager()->flush();
+    	if ($element instanceOf \Collection\Entity\Artefact) {
+    		$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact ne fait plus partie de vos chantiers en cours.'));
+    	} else {
+    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média ne fait plus partie de vos chantiers en cours.'));
+    	}
+    	return $this->redirect()->toRoute('chantier');
     }
     
 }

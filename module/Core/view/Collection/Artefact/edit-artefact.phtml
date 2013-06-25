@@ -51,11 +51,33 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small>
 		</h1>
 	</div>
+	
 	<div class="span3">
-		<a href="<?php echo $this->url('artefact/voirArtefact',
-	        	array('id' => $artefact->id)) ?>" class="btn btn-primary btn-block"><i class="icon-reply"> </i> Retour à la fiche de cet artefact</a>
-		<a href="#confirmModal" data-toggle="modal" class="btn btn-danger btn-block"><i class="icon-trash"> </i>  Supprimer cet artefact</a>
-	</div>
+		<?php if ($artefact->utilisateur === $this->zfcUserIdentity()): ?>
+			<p class="text-warning">
+				<em> <i class="icon-cogs"></i> 
+				Cet artefact fait partie de 
+				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+				</em>
+			</p>
+			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+					'idElement' => $artefact->id,
+					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-unlock"> </i> Terminer le chantier
+			</a>
+		<?php endif;?>
+			<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $artefact->id)) ?>" 
+	        	class="btn btn-primary btn-block">
+	        	<i class="icon-reply"> </i> Retour à la fiche de cet artefact
+	        </a>
+			<a href="#confirmModal" 
+				data-toggle="modal" 
+				class="btn btn-danger btn-block">
+				<i class="icon-trash"> </i>  Supprimer cet artefact
+			</a>
+    </div>
+    
 </div>
 
 <!--Confirm Modal -->

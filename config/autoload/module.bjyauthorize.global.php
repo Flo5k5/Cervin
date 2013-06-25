@@ -191,6 +191,7 @@ return array(
                 array('route' => 'page/voir', 'roles' => array('Visiteur')),
                 array('route' => 'page/modifier', 'roles' => array('Admin')),
 
+            	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/demarrerChantierElement', 'roles' => array('Collection')),
             	array('route' => 'chantier/terminerChantierElement', 'roles' => array('Collection')),
             		

@@ -200,7 +200,7 @@ class ArtefactController extends AbstractActionController
         }
         
         if ($artefact->utilisateur != $this->zfcUserAuthentication()->getIdentity()) {
-        	$this->flashMessenger()->addEroorMessage(sprintf('L\'artefact doit faire partie de vos chantiers en cours pour que vous puissiez le modifier.'));
+        	$this->flashMessenger()->addErrorMessage(sprintf('L\'artefact doit faire partie de vos chantiers en cours pour que vous puissiez le modifier.'));
         	return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$id));
         }
         
