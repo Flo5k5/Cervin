@@ -265,7 +265,8 @@ class AdminController extends AbstractActionController
 	                $message->addTo( $user->getEmail() )
 			                ->addFrom('no-reply@cervin.org')
 			                ->setSubject('Mot de passe réinitialisé')
-			                ->setBody("Bonjour,\r\n\r\n votre mot de passe a été réinitialisé. \r\n Votre nouveau mot de passe est ".$password." . \r\n\r\n Bonne journée! ");
+			                ->setBody("Bonjour,\r\n\r\n Votre mot de passe a été réinitialisé. \r\n Votre nouveau mot de passe est ".$password." . \r\n\r\n Bonne journée! ")
+			                ->setEncoding("UTF-8");
 	                
 	                $transport = new SendmailTransport();
 	                $transport->send($message);
@@ -487,11 +488,12 @@ class AdminController extends AbstractActionController
     				->addFrom('no-reply@cervin.org')
     				->setSubject('Compte CERVIN créé')
     				->setBody("Bonjour ".$user->getDisplayName().", \r\n\r\n 
-    				Votre compte sur le site http://moving-bo.cervin.org/ a été créé. \r\n
-    				Vos identifiants de connexion sont les suivants : \r\n\r\n 
-    				Login : ".$user->getUsername()." \r\n
-    				Mot de passe : ".$password." \r\n\r\n 
-    				Bonne journée! ");
+Votre compte sur le site http://moving-bo.cervin.org/ a été créé. \r\n
+Vos identifiants de connexion sont les suivants : \r\n\r\n 
+Login : ".$user->getUsername()." \r\n
+Mot de passe : ".$password." \r\n\r\n 
+Bonne journée! ")
+    				->setEncoding("UTF-8");
     				 
     				$transport = new SendmailTransport();
     				$transport->send($message);
