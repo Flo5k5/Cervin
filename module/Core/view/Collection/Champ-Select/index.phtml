@@ -110,7 +110,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
                         $.ajax({
                             url: dataURL,
                             type: "POST",
-                            data:{ action:'voirListe' }, 
+                            data:{ name:'voirListe' }, 
                             success:function(response){
                     
                                 if(response == 'true') {

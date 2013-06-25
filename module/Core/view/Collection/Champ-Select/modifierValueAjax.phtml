@@ -3,7 +3,7 @@
     <h3 id="myModalLabel">Modifier Value</h3>
 </div>
 <div class="modal-body">
-
+<div id="response"></div>
     <table class="table table-hover">
         <tr>
             <th>Liste des valeurs</th>
@@ -11,13 +11,27 @@
         </tr>
         <?php
         foreach ($select->select_values as $select_value) {
-            echo '<tr><td>'.$select_value->text."</td>";
+            echo '<tr><td><span id="label" 
+                        class="text CursorPointer" 
+                        data-url="'.$this->url("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $select_value->id)).'" 
+                        data-value="'.$this->escapeHtml($select_value->text).'" 
+                        data-name="modifierTexte" 
+                        data-placement="right" 
+                        data-type="text" 
+                        data-pk="1">'.$this->escapeHtml($select_value->text).'
+                    </span></td>';
+
+
 
             echo '<td>
-            <a class="btn btn-danger" href="#">
+            <a class="btn btn-danger SupprimerValue" 
+            data-url="'.$this->url("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $select_value->id)).'"
+            href="#">
                 <i class="icon-trash icon-large"></i> 
             </a>
                 </td>';
+
+
 
             echo '</tr>';
         }
@@ -28,3 +42,22 @@
 <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
 </div>
+
+<script type="text/javascript">
+    $('.text').editable({ 
+        mode: 'inline',
+        emptytext: "Vide",
+    });
+    $(document).on( 'click', '.SupprimerValue', function(e){
+        var dataURL = $(this).attr('data-url');
+        $.ajax({
+            url: dataURL,
+            type: "POST",
+            data:{ name:'supprimerValue' }
+        }).done(function(e){
+            var resp = jQuery.parseJSON(e);
+
+            $('#response').html(resp.message)
+        });
+    });
+</script>

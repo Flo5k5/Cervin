@@ -180,19 +180,46 @@ class ChampSelectController extends AbstractActionController
         $postData = $this->params()->fromPost();
 		if ($this->getRequest()->isXmlHttpRequest()) 
 		{
-			switch ($postData['action']) {
+			switch ($postData['name']) {
 				case 'voirListe':
 					$viewModel = new ViewModel(array('select' => $select));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Champ-Select/modifierValueAjax.phtml');
 					break;
+
+				case 'modifierTexte':
+					$idValue = (int) $this->params('idValue', null);
+					$selectValue = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$idValue));
+					if ($selectValue == null or $id == null) {
+						$this->getResponse()->setStatusCode(404);
+						return; 
+					}
+
+					$selectValue->text = $postData['value'];
+                    $this->getEntityManager()->flush();
+                    return $this->getResponse()->setContent(Json::encode(true));
+					break;
+				case 'supprimerValue':
+					$idValue = (int) $this->params('idValue', null);
+					$selectValue = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$idValue));
+					if ($selectValue == null or $id == null) {
+						$this->getResponse()->setStatusCode(404);
+						return; 
+					}
+					// si la value du select n'est pas utilisé dans un element alors on a supprime
+					if ($selectValue->datas == null) {
+	                    $this->getEntityManager()->remove($selectValue);
+	                    $this->getEntityManager()->flush();
+	                    return $this->getResponse()->setContent(Json::encode(array('message'=>'ok')));
+					}
+	                return $this->getResponse()->setContent(Json::encode(array('message'=>$selectValue->datas)));
+					break;
 				
 				default:
-					# code...
+					$this->getResponse()->setStatusCode(404);
+					return; 
 					break;
 			}
-			
-
 
 
 		} else {
