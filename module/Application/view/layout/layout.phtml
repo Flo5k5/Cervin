@@ -26,7 +26,7 @@ $this->inlineScript()->captureStart(); ?>
 			//console.log("Notifications", notifications);
 		}
 	};
-
+	
 	$(function() {
 
 		$(document).ready(function() {
@@ -228,7 +228,7 @@ echo $this->headScript();
 	                            
 	                            <!-- CONNEXION / COMPTE -->
 	                            <?php
-	                                $zfcUserIdentity = $this->zfcUserIdentity();
+	                             $zfcUserIdentity = $this->zfcUserIdentity();
 	                             if(!$zfcUserIdentity): ?>
 	                            	<li class="divider-vertical"></li>
 	                                <li class="dropdown">
@@ -238,11 +238,28 @@ echo $this->headScript();
 	                                    </div>
 	                                </li>
 	                            <?php else: ?>
+	                            	<?php $notifChantiers = $this->Notification('chantier', $this->zfcUserIdentity()); ?>
 	                            	<li class="divider-vertical"></li>
-	                                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-	                                    <i class="icon-user"></i>  <?php echo $this->escapeHtml($zfcUserIdentity->getDisplayName()); ?> <b class="caret"></b></a>
+	                                <li class="dropdown">
+	                                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                                    	<i class="icon-user"></i>  <?php echo $this->escapeHtml($zfcUserIdentity->getDisplayName()); ?> 
+	                                    	<?php if ($notifChantiers > 0) :?>
+	                                    	<span class="notifchantiers badge badge-info small">
+	                                    		<?php echo $this->escapeHtml($notifChantiers); ?>
+	                                    	</span>
+	                                    	<?php endif;?>
+	                                   		<b class="caret"></b>
+	                                   	</a>
 	                                    <ul class="dropdown-menu">
 	                                        <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
+	                                        <li><a href="/chantier"><i class="icon-cogs"></i> 
+	                                        	Mes chantiers en cours
+		                                        <?php if ($notifChantiers > 0) :?>
+		                                    	<span class="notifchantiers badge badge-info small">
+		                                    		<?php echo $this->escapeHtml($notifChantiers); ?>
+		                                    	</span></a>
+	                                        	<?php endif;?>
+	                                        </li>
 	                                        <li><a href="/user/logout"><i class="icon-off"></i> Déconnexion</a></li>
 	                                    </ul>
 	                                </li>

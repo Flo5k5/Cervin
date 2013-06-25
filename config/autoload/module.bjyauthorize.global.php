@@ -78,6 +78,11 @@ return array(
                     'controller' => 'Page',
                     'roles' => array('Admin')
                 ),
+            		
+            	array(
+            		'controller' => 'Chantier',
+            		'roles' => array('Collection')
+            	),
 
                 array(
                     'controller' => 'zfcuser',
@@ -191,6 +196,10 @@ return array(
                 array('route' => 'page/voir', 'roles' => array('Visiteur')),
                 array('route' => 'page/modifier', 'roles' => array('Admin')),
 
+            	array('route' => 'chantier', 'roles' => array('Collection')),
+            	array('route' => 'chantier/demarrerChantierElement', 'roles' => array('Collection')),
+            	array('route' => 'chantier/terminerChantierElement', 'roles' => array('Collection')),
+            		
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/login', 'roles' => array('Visiteur')),

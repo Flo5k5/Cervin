@@ -177,6 +177,12 @@ class MediaController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
+    	
+    	if ($media->utilisateur != $this->zfcUserAuthentication()->getIdentity()) {
+    		$this->flashMessenger()->addErrorMessage(sprintf('Le média doit faire partie de vos chantiers en cours pour que vous puissiez le modifier.'));
+    		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$id));
+    	}
+    	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
             $request = $this->params()->fromPost();

@@ -1,0 +1,70 @@
+<?php 
+$title = "Mes chantiers en cours";
+$this->headTitle($title);
+?>
+
+<ul class="breadcrumb">
+	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
+    <li class="active"> <?php echo $this->escapeHtml($title); ?> </li>
+</ul>
+
+<div class="page-header">
+	<h1> <?php echo $this->escapeHtml($title); ?>
+	<?php $notifs = $this->Notification('chantier', $this->zfcUserIdentity()); 
+	if ($notifs > 0) :?>
+		<span class="notifchantiers badge badge-info">
+			<?php echo $notifs; ?>
+		</span>
+	<?php endif;?>
+	</h1>
+	<p class="muted">Les objets (élément de la collection, scène, sous-parcours) en chantier sont éditabkes uniquement par vous. Lorsque vous avez fini vos modifications, pensez à terminer le chantier pour permettre l'édition par d'autres utilisateurs.</p>
+</div>
+
+<h3>Eléments de la collection numérique
+
+<?php if ($this->zfcUserIdentity()->elements_chantier != null) :?>
+	<?php if ($this->zfcUserIdentity()->elements_chantier->count() == 0): ?>
+		</h3> Aucun élément de la collection numérique ne fait partie de vos chantiers
+	<?php else : ?>
+		<span class="notifchantiers badge badge-info">
+			<?php echo $this->zfcUserIdentity()->elements_chantier->count(); ?>
+		</span> </h3>
+		<table class="table table-hover">
+		<tr>
+			<th>Elément</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<?php foreach ($this->zfcUserIdentity()->elements_chantier as $element) :?>
+		<tr>
+			
+			<?php if ($element instanceOf \Collection\Entity\Artefact) : ?>
+			<td>
+				<a href="<?php echo $this->url('artefact/voirArtefact', array('id'=>$element->id));?>">
+					<i class="icon-tag"></i> <?php echo $element->titre; ?>	
+				</a>
+			</td>
+			<td>Artefact</td>
+		    <?php  else : ?>
+		    <td>
+		    	<a href="<?php echo $this->url('media/voirMedia', array('id'=>$element->id));?>">
+					<i class="icon-picture"></i> <?php echo $element->titre; ?>	
+				</a>
+			</td>
+			<td>Média</td>
+		    <?php endif; ?>
+			<td>
+				<p class="text-right">
+				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+						'idElement' => $element->id,
+						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+					class="btn btn-primary">
+					<i class="icon-unlock"> </i> Terminer le chantier
+				</a>
+				</p>
+			</td>
+		</tr>
+		<?php endforeach;?>
+		</table>
+	<?php endif;?>
+<?php endif; ?>

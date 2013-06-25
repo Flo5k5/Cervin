@@ -13,6 +13,7 @@ return array(
         'invokables' => array(
             'Page' => 'Application\Controller\PageController',
             'Admin' => 'Admin\Controller\AdminController',
+        	'Chantier' => 'Application\Controller\ChantierController',
         ),
     ),
     'router' => array(
@@ -58,6 +59,50 @@ return array(
                     ),
                 ),
             ),
+            
+            'chantier' => array(
+            	'type' => 'Zend\Mvc\Router\Http\Literal',
+            	'options' => array(
+            		'route' => '/chantier',
+            		'defaults' => array(
+            			'controller' => 'Chantier',
+            			'action'     => 'index',
+            			'slug'       => 'chantier',
+            		),
+            	),
+            	'may_terminate' => true,
+            	'child_routes' => array(
+            		'demarrerChantierElement' => array(
+            			'type' => 'Segment',
+            			'options' => array(
+            				'route' => '/demarrerChantierElement/:idElement/:idUser',
+            				'constraints' => array(
+            					'idElement'     => '[0-9]+',
+            					'idUser'     => '[0-9]+',
+            				),
+            				'defaults' => array(
+            					'controller' => 'Chantier',
+            					'action'     => 'demarrerChantierElement',
+            				),
+            			),
+            		),
+            		'terminerChantierElement' => array(
+            			'type' => 'Segment',
+            			'options' => array(
+            				'route' => '/terminerChantierElement/:idElement/:idUser',
+            				'constraints' => array(
+            					'idElement'     => '[0-9]+',
+            					'idUser'     => '[0-9]+',
+            				),
+            				'defaults' => array(
+            					'controller' => 'Chantier',
+            					'action'     => 'terminerChantierElement',
+            				),
+            			),
+            		),
+            	),
+            ),
+            
             'admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 // 'priority' => 1000,
@@ -143,18 +188,6 @@ return array(
                     				),
                     		),
                     ),
-                    /*
-                    'authenticate' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/authenticate',
-                            'defaults' => array(
-                                'controller' => 'zfcuser',
-                                'action'     => 'authenticate',
-                            ),
-                        ),
-                    ),
-                    //*/
                 ),
             ),
             
