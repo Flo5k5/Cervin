@@ -58,7 +58,8 @@ $this->headTitle($title);
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
 						'idElement' => $element->id,
-						'idUser' => $user->getId())); ?>" 
+						'idUser' => $user->getId(),
+						'return'=>'perso')); ?>" 
 					class="btn btn-primary">
 					<i class="icon-unlock"> </i> Terminer le chantier
 				</a>
@@ -98,7 +99,8 @@ $this->headTitle($title);
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
 						'idSousParcours' => $sous_parcours->id,
-						'idUser' => $user->getId())); ?>" 
+						'idUser' => $user->getId(),
+						'return'=>'perso')); ?>" 
 					class="btn btn-primary">
 					<i class="icon-unlock"> </i> Terminer le chantier
 				</a>

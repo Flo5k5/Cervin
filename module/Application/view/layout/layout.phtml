@@ -190,6 +190,7 @@ echo $this->headScript();
 	                        
 	                        <!-- ADMIN -->
                         	<?php if ($this->isAllowed('Admin') === true) :?>
+                        		<?php $notifChantiersAdmin = $this->Notification('chantier_admin'); ?>
                             	<li class="divider-vertical"></li>
                                 <li class="dropdown">
                                 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -223,7 +224,16 @@ echo $this->headScript();
 											</ul>
 										</li>
 										
-										<li><a href="<?php echo $this->url('chantier/admin'); ?>"> <i class="icon-cogs"></i> Chantiers en cours</a></li>
+										<li>
+											<a href="<?php echo $this->url('chantier/admin'); ?>"> 
+												<i class="icon-cogs"></i> Chantiers en cours
+												<?php if ($notifChantiersAdmin > 0) :?>
+			                                    	<span class="notifchantiers badge badge-info small">
+			                                    		<?php echo $this->escapeHtml($notifChantiersAdmin); ?>
+			                                    	</span>
+		                                    	<?php endif;?>
+											</a>
+										</li>
                                     </ul>
                             	</li>
                             <?php endif; ?>
