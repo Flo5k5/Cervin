@@ -44,6 +44,8 @@ class ChantierController extends AbstractActionController
     }
 
     public function demarrerChantierElementAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
     	$idUser = (int) $this->params()->fromRoute('idUser', 0);
     	$idElement = (int) $this->params()->fromRoute('idElement', 0);
     	$user = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$idUser));
@@ -55,15 +57,17 @@ class ChantierController extends AbstractActionController
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
 		if ($element instanceOf \Collection\Entity\Artefact) {
-			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact fait maintenant partie de vos chantiers en cours.'));
+			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em>'. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
 			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$idElement));
     	} else {
-    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média fait maintenant partie de vos chantiers en cours.'));
+    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em>'. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
     		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$idElement));
     	}
     }
     
     public function terminerChantierElementAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
     	$idUser = (int) $this->params()->fromRoute('idUser', 0);
     	$idElement = (int) $this->params()->fromRoute('idElement', 0);
     	$user = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$idUser));
@@ -75,9 +79,9 @@ class ChantierController extends AbstractActionController
     	$element->utilisateur = null;
     	$this->getEntityManager()->flush();
     	if ($element instanceOf \Collection\Entity\Artefact) {
-    		$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact ne fait plus partie de vos chantiers en cours.'));
+    		$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em>'. $escapeHtml($element->titre) .'</em> ne fait plus partie de vos chantiers en cours.'));
     	} else {
-    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média ne fait plus partie de vos chantiers en cours.'));
+    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em>'. $escapeHtml($element->titre) .'</em> ne fait plus partie de vos chantiers en cours.'));
     	}
     	return $this->redirect()->toRoute('chantier');
     }

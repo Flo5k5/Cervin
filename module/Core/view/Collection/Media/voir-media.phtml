@@ -4,7 +4,6 @@ $this->headTitle($title);
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css'); 
-
 ?>
 
 <ul class="breadcrumb">
@@ -42,15 +41,57 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 	</div>
 	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>"
-			class="btn btn-primary btn-block">
-			<i class="icon-pencil"> </i> Modifier ce média
-		</a>
-		<a href="#confirmModal" 
-			data-toggle="modal" 
-			class="btn btn-danger btn-block">
-			<i class="icon-trash"> </i>  Supprimer ce média
-		</a>
+		<?php if ($media->utilisateur === null) :?>
+			<a href="<?php echo $this->url('chantier/demarrerChantierElement',array(
+					'idElement' => $media->id,
+					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-cogs"> </i> Commencer un chantier sur ce média
+			</a>
+			<a href="#confirmModal" 
+				data-toggle="modal" 
+				class="btn btn-danger btn-block">
+				<i class="icon-trash"> </i>  Supprimer ce média
+			</a>
+		<?php elseif ($media->utilisateur === $this->zfcUserIdentity()): ?>
+			<p class="text-warning">
+				<em> <i class="icon-cogs"></i> 
+				Ce média fait partie de 
+				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+				</em>
+			</p>
+			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+					'idElement' => $media->id,
+					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-unlock"> </i> Terminer le chantier
+			</a>
+			<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-pencil"> </i> Modifier ce média
+			</a>
+			<a href="#confirmModal" 
+				data-toggle="modal" 
+				class="btn btn-danger btn-block">
+				<i class="icon-trash"> </i>  Supprimer ce média
+			</a>
+		<?php else :?>
+			<p class="text-warning">
+				<em><i class="icon-cogs"></i>  Chantier en cours par : 
+				<a class="text-warning" href="mailto:<?php echo $media->utilisateur->email; ?>"> 
+					<?php echo $media->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
+				</a>
+				</em> 
+			</p>
+			<a href="#" 
+				class="btn btn-primary btn-block disabled">
+					Média en chantier - Modification impossible
+			</a>
+			<a href="#" 
+				class="btn btn-danger btn-block disabled">
+					Média en chantier - Suppression impossible
+			</a>
+		<?php endif;?>
     <?php endif; ?>
     </div>
 </div>
