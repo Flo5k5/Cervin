@@ -137,17 +137,57 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 				</div>
 				<div id="<?php echo $sous_parcours->id; ?>" class="accordion-body collapse">
 					<div class="accordion-inner">
-						<p class="edit CursorPointer"
-				        	data-url="<?php echo $this->url("parcours/editSousParcours",array('idsp'=>$sous_parcours->id)) ?>"
-				            data-name="titre" 
-				            data-type="text"
-				            data-pk="heading<?php echo $sous_parcours->id; ?>">
-				            <?php echo $this->escapeHtml($sous_parcours->titre); ?>
-				        </p>
-						<a href="<?php echo $this->url('scene/creerSceneSecondaire', array("idsp" => $sous_parcours->id)) ?>"
-		                	class="btn btn-primary btn-block">
-		                    	<i class="icon-plus"></i> Ajouter une scène
-		                </a>
+					
+						<?php if ($sous_parcours->utilisateur === null) :?>
+							<!-- PAS EN CHANTIER -->
+							<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
+									'idSousParcours' => $sous_parcours->id,
+									'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+								class="btn btn-primary btn-block">
+								<i class="icon-cogs"> </i> Commencer un chantier sur ce sous-parcours
+							</a>
+						<?php elseif ($sous_parcours->utilisateur === $this->zfcUserIdentity()): ?>
+							<!-- FAIT PARTIE DES CHANTIERS DE L'UTILISATEUR -->
+							<p class="text-warning">
+								<em> <i class="icon-cogs"></i> 
+								Ce sous-parcours fait partie de 
+								<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+								</em><br>
+							</p>
+							<p class="edit CursorPointer"
+					        	data-url="<?php echo $this->url("parcours/editSousParcours",array('idsp'=>$sous_parcours->id)) ?>"
+					            data-name="titre" 
+					            data-type="text"
+					            data-pk="heading<?php echo $sous_parcours->id; ?>">
+					            <?php echo $this->escapeHtml($sous_parcours->titre); ?>
+					        </p>
+							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
+									'idSousParcours' => $sous_parcours->id,
+									'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+								class="btn btn-primary btn-block">
+								<i class="icon-unlock"> </i> Terminer le chantier
+							</a>
+							<a href="<?php echo $this->url('scene/creerSceneSecondaire', array("idsp" => $sous_parcours->id)) ?>"
+			                	class="btn btn-primary btn-block">
+			                    	<i class="icon-plus"></i> Ajouter une scène
+			                </a>
+			                <a href="#" 
+			                	data-url="<?php echo $this->url('parcours/supprimerSousParcours', array("idsp" => $sous_parcours->id)) ?>"
+			                	class="btn btn-danger btn-block supprimerSousParcours">
+			                    	<i class="icon-trash"></i> Supprimer le sous-parcours
+			                </a>
+			                
+			            <?php else :?>
+							<!-- EN CHANTIER PAR QUELQU'UN D'AUTRE -->
+							<p class="text-warning">
+								<em><i class="icon-cogs"></i>  Chantier en cours par : 
+								<a class="text-warning" href="mailto:<?php echo $sous_parcours->utilisateur->email; ?>"> 
+									<?php echo $sous_parcours->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
+								</a>
+								</em> 
+							</p>
+						<?php endif;?>
+			                
 						<a href="<?php echo $this->url('parcours/ajouterSousParcours', array("type" => "ajAvant", "idsp" => $sous_parcours->id)) ?>"
 							class="btn btn-primary btn-block">
 		                    	<i class="icon-mail-reply"></i> Ajouter un sous-parcours avant
@@ -156,11 +196,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		                	class="btn btn-primary btn-block">
 		                    	<i class="icon-mail-forward icon-rotate-180"></i> Ajouter un sous-parcours après
 		                </a>
-		                <a href="#" 
-		                	data-url="<?php echo $this->url('parcours/supprimerSousParcours', array("idsp" => $sous_parcours->id)) ?>"
-		                	class="btn btn-danger btn-block supprimerSousParcours">
-		                    	<i class="icon-trash"></i> Supprimer le sous-parcours
-		                </a>
+		                
 					</div>
 				</div>
 			</div>

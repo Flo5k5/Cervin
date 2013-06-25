@@ -96,12 +96,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\Element", mappedBy="utilisateur", cascade={"detach"})
      */
     protected $elements_chantier;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Parcours\Entity\Scene", mappedBy="utilisateur", cascade={"detach"})
-     */
-    protected $scenes_chantier;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Parcours\Entity\SousParcours", mappedBy="utilisateur", cascade={"detach"})
      */

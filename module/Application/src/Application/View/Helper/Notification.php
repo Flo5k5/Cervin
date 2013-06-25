@@ -42,10 +42,7 @@ class Notification extends AbstractHelper
             case 'chantier':
             	$Notification = 0;
             	if ($user->elements_chantier != null) {
-            		$Notification = $user->elements_chantier->count();
-            	}
-            	if ($user->scenes_chantier != null) {
-            		$Notification += $user->scenes_chantier->count();
+            		$Notification += $user->elements_chantier->count();
             	}
             	if ($user->sous_parcours_chantier != null) {
             		$Notification += $user->sous_parcours_chantier->count();

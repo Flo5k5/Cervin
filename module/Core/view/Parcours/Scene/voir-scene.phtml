@@ -2,11 +2,13 @@
 $title = $scene->titre;
 $this->headTitle($title); ?>
 
-<?php $parcours = $scene->sous_parcours->parcours; ?>
+<?php $sous_parcours = $scene->sous_parcours; ?>
+<?php $parcours = $sous_parcours->parcours; ?>
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>"> <i class="icon-road"></i>  <?php echo $this->escapeHtml($parcours->titre); ?></a> <span class="divider">/</span></li>
+    <li class="active"> <?php echo $this->escapeHtml($sous_parcours->titre); ?> <span class="divider">/</span></li>
     <li class="active"><i class="icon-file-alt"></i>  <?php echo $this->escapeHtml($scene->titre); ?></li>
 </ul>
 
@@ -50,40 +52,79 @@ $this->headTitle($title); ?>
 	<div class="page-header">
 		<div class="row-fluid">
 			<div class="span9">
+			<h3><?php echo $this->escapeHtml($sous_parcours->titre); ?></h3>
+			<h1>
 			<?php if ($estRecommandee) :?>
-				<h1><p class="text-info">
+				<p class="text-info">
 			<?php else : ?>
-					<h1><p class="muted">
+				<p class="muted">
 			<?php endif;?>
 				<i class="icon-file-alt"></i>
 			<?php echo $this->escapeHtml($title); ?> 
-			<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </p></h1>
+			<small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </p>
+			</h1>
 				<div class="messageInfos">&nbsp;</div>
 			</div>
 			
 			<div class="span3">
 			<?php if ($this->isAllowed('Parcours') === true) :?>
-				<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
-					class="btn btn-primary btn-block">
-					<i class="icon-pencil"> </i> Modifier cette scène
-			    </a>
-			    <?php if (!$estRecommandee) :?>
-				<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
-					class="btn btn-danger btn-block supprSceneSec">
-					<i class="icon-trash"> </i> Supprimer cette scène
-			    </a>
-			    <?php else :?>
-				<a href="#" 
-					class="btn btn-danger btn-block retirerCheminRecommande"
-					data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
-					Retirer cette scène du chemin recommandé
-				</a>
-				<?php endif;?>
-			<?php endif; ?>
+				<?php if ($sous_parcours->utilisateur === null) :?>
+					<!-- PAS EN CHANTIER -->
+					<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
+							'idSousParcours' => $sous_parcours->id,
+							'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+						class="btn btn-primary btn-block">
+						<i class="icon-cogs"> </i> Commencer un chantier sur ce sous-parcours
+					</a>
+				<?php elseif ($sous_parcours->utilisateur === $this->zfcUserIdentity()): ?>
+					<!-- FAIT PARTIE DES CHANTIERS DE L'UTILISATEUR -->
+					<p class="text-warning">
+						<em> <i class="icon-cogs"></i> 
+						Ce sous-parcours fait partie de 
+						<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+						</em>
+					</p>
+					<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
+							'idSousParcours' => $sous_parcours->id,
+							'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+						class="btn btn-primary btn-block">
+						<i class="icon-unlock"> </i> Terminer le chantier
+					</a>
+					<a href="<?php echo $this->url('scene/editScene',array('id' => $scene->id)) ?>" 
+						class="btn btn-primary btn-block">
+						<i class="icon-pencil"> </i> Modifier cette scène
+				    </a>
+					<?php if (!$estRecommandee) :?>
+						<a href="#" data-url="<?php echo $this->url('scene/retirerSceneSecondaire',array('id' => $scene->id)) ?>" 
+							class="btn btn-danger btn-block supprSceneSec">
+							<i class="icon-trash"> </i> Supprimer cette scène
+					    </a>
+					    <?php else :?>
+						<a href="#" 
+							class="btn btn-danger btn-block retirerCheminRecommande"
+							data-url="<?php echo $this->url('scene/retirerSceneRecommandee', array('id'=>$scene->id));?>">
+							Retirer cette scène du chemin recommandé
+						</a>
+						<?php endif;?>
+						
+					<?php else :?>
+						<!-- EN CHANTIER PAR QUELQU'UN D'AUTRE -->
+						<p class="text-warning">
+							<em><i class="icon-cogs"></i>  Chantier en cours par : 
+							<a class="text-warning" href="mailto:<?php echo $sous_parcours->utilisateur->email; ?>"> 
+								<?php echo $sous_parcours->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
+							</a>
+							</em> 
+						</p>
+						<a href="#" 
+							class="btn btn-primary btn-block disabled">
+								Sous-parcours en chantier <br> Modification de la scène impossible
+						</a>
+					<?php endif;?>
+		    	<?php endif; ?>
 		    </div>
 	    </div>
 	</div>
-	
 	
 	<div class="tabbable"> 
 		<ul class="nav nav-tabs">
