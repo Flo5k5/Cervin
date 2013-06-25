@@ -5,8 +5,6 @@ $notifUser = $this->Notification('user');
 // On additionne toutes les notifications
 $notifAll = $notifUser;
 
-$notifChantiers = $this->Notification('chantier', $this->zfcUserIdentity());
-
 $this->inlineScript()->captureStart(); ?>
 
 	var timer = null;
@@ -29,23 +27,6 @@ $this->inlineScript()->captureStart(); ?>
 		}
 	};
 	
-	var notifchantiers = {
-		value: "<?php echo ($notifChantiers > 0) ? $this->escapeHtml($notifChantiers) : '0' ; ?>",
-		decrement: function(){
-			if(this.value > 0){
-				this.value--;
-			}
-			this.print();
-		},
-		print: function(){
-			if(this.value > 0){
-				$('.notifchantiers').html(notifchantiers.value);
-			} else {
-				$('.notifchantiers').html('');
-			}
-		}
-	};
-
 	$(function() {
 
 		$(document).ready(function() {
@@ -247,7 +228,7 @@ echo $this->headScript();
 	                            
 	                            <!-- CONNEXION / COMPTE -->
 	                            <?php
-	                                $zfcUserIdentity = $this->zfcUserIdentity();
+	                             $zfcUserIdentity = $this->zfcUserIdentity();
 	                             if(!$zfcUserIdentity): ?>
 	                            	<li class="divider-vertical"></li>
 	                                <li class="dropdown">
@@ -257,12 +238,13 @@ echo $this->headScript();
 	                                    </div>
 	                                </li>
 	                            <?php else: ?>
+	                            	<?php $notifChantiers = $this->Notification('chantier', $this->zfcUserIdentity()); ?>
 	                            	<li class="divider-vertical"></li>
 	                                <li class="dropdown">
 	                                	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 	                                    	<i class="icon-user"></i>  <?php echo $this->escapeHtml($zfcUserIdentity->getDisplayName()); ?> 
 	                                    	<?php if ($notifChantiers > 0) :?>
-	                                    	<span class="notifchantiers badge badge-important small">
+	                                    	<span class="notifchantiers badge badge-info small">
 	                                    		<?php echo $this->escapeHtml($notifChantiers); ?>
 	                                    	</span>
 	                                    	<?php endif;?>
@@ -273,7 +255,7 @@ echo $this->headScript();
 	                                        <li><a href="/chantier"><i class="icon-cogs"></i> 
 	                                        	Mes chantiers en cours
 		                                        <?php if ($notifChantiers > 0) :?>
-		                                    	<span class="notifchantiers badge badge-important small">
+		                                    	<span class="notifchantiers badge badge-info small">
 		                                    		<?php echo $this->escapeHtml($notifChantiers); ?>
 		                                    	</span></a>
 	                                        	<?php endif;?>
