@@ -21,6 +21,9 @@ use Application\View\Helper\demandeRole;
 use Application\View\Helper\redirectUserIndexIfTrue;
 use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
+use Zend\Form\Form;
+use Zend\Form\Element;
+use Zend\Validator\Digits;
 
 use Gedmo\Loggable\LoggableListener as LoggableListener;
 //use Application\Library\TablePrefix;
@@ -54,6 +57,79 @@ class Module implements AutoloaderProviderInterface,
         
         $evm->addEventSubscriber($loggableListener);
 
+        
+        $events = $e->getApplication()->getEventManager()->getSharedManager();
+
+        $events->attach('ZfcUser\Form\Register','init', function($e) {
+        	$form = $e->getTarget();
+        	
+        	$form->add(array(
+        			'name' => 'checkboxAgreement',
+        			'type' => 'Zend\Form\Element\Checkbox',
+        			'options' => array(
+        					//'label' => "J'accepte les <a href='".$this->url('page/modifier',array('slug'=>'conditions-generales'))."'>conditions générales</a> du projet CERVIN",
+        					'label' => 'J\'accepte les conditions générales du projet CERVIN',
+        					'use_hidden_element' => true,
+        					'checked_value' => 1,
+                     		'unchecked_value' => 'no'
+        			)
+        	));
+        	
+        });
+        
+        $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
+        	$filter = $e->getTarget();
+        		
+    		/*$filter->add(array(
+    				'name' => 'checkboxAgreement',
+    				'validators' => array(
+    						array(
+    								'name' => 'Identical',
+    								'options' => array(
+    										'token' => true,
+    										'messages' => array(
+    												\Zend\Validator\Identical::NOT_SAME => 'Vous devez accepter les conditions générales',
+    										),
+    								),
+    						),
+    				),
+    		));*/
+        	
+        	$filter->add(array(
+        			'name'     => 'checkboxAgreement',
+        			'required'   => true,
+        			'allowEmpty' => false,
+        			'validators' => array(
+        					array(
+        							'name' => 'Digits',
+        							'break_chain_on_failure' => true,
+        							'options' => array(
+        									'messages' => array(
+        											Digits::NOT_DIGITS   => 'You must agree to the terms of use.',
+        									),
+        							),
+        					),
+        			),
+        	));
+    		
+        });
+        
+        $zfcServiceEvents  = $sm->get('zfcuser_user_service')->getEventManager();
+        
+        $zfcServiceEvents->attach('register', function($e) {
+        	$form = $e->getParam('form');
+        	//$user = $e->getParam('user');
+        });
+        
+        // adding action for user login
+        $zfcServiceEvents->attach('authenticate.post', function($e){
+        			$user = $e->getParam('user');  // User account object
+        			$id = $user->getId(); // get user id
+        			\Doctrine\Common\Util\Debug::dump($user);
+					
+        		}
+        );
+        
         /*$translator = new Translator();
         $translator->addTranslationFile(
          'phpArray',

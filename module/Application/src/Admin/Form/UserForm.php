@@ -39,7 +39,7 @@ class UserForm extends Form
 			'attributes' => array('type'  => 'text','placeholder'=>'Login'),
 			'options' => array('label' => 'Login')
 		));
-		
+
 		$this->add(array(
 			'name' => 'submit',
 			'attributes' => array(

@@ -14,6 +14,7 @@ return array(
             'Parcours' => 'Parcours\Controller\ParcoursController',
             'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
             'Scene' => 'Parcours\Controller\SceneController',
+            'ChampSelect' => 'Collection\Controller\ChampSelect',
         ),
     ),
     'router' => array(
@@ -54,6 +55,44 @@ return array(
                             'defaults' => array(
                                 'controller' => 'typeElement',
                                 'action'     => 'editTypeElementAjax',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'champSelect' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/champSelect',
+                    'defaults' => array(
+                        'controller' => 'ChampSelect',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'ajouter' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/ajouter',
+                            'defaults' => array(
+                                'controller' => 'ChampSelect',
+                                'action'     => 'ajouter',
+                            ),
+                        ),
+                    ),
+                    'modifier' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/modifier/[:id][/:idValue]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                                'idValue'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'ChampSelect',
+                                'action'     => 'modifier',
                             ),
                         ),
                     ),

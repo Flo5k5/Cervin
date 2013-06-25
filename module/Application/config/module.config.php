@@ -224,11 +224,13 @@ return array(
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => array(
-            'layout/layout'                 => __DIR__ . '/../view/layout/layout.phtml',
-            'error/404'                     => __DIR__ . '/../view/error/404.phtml',
-            'error/index'                   => __DIR__ . '/../view/error/index.phtml',
-            'admin/admin/editusers'         => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
-            'application/page/voir'       => __DIR__ . '/../view/application/page/voir.phtml',
+            'layout/layout'                   => __DIR__ . '/../view/layout/layout.phtml',
+            'error/404'                       => __DIR__ . '/../view/error/404.phtml',
+            'error/index'                     => __DIR__ . '/../view/error/index.phtml',
+            'admin/admin/editusers'           => __DIR__ . '/../view/Admin/Admin/editusers.phtml',
+            'admin/admin/ajouter-utilisateur' => __DIR__ . '/../view/Admin/Admin/ajouter-utilisateur.phtml',
+            'admin/admin/show-logs'           => __DIR__ . '/../view/Admin/Admin/show-logs.phtml',
+            'application/page/voir'           => __DIR__ . '/../view/application/page/voir.phtml',
             'application/page/modifier'       => __DIR__ . '/../view/application/page/modifier.phtml',
         ),
         'template_path_stack' => array(
