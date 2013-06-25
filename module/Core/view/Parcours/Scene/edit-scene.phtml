@@ -65,13 +65,14 @@ $this->headTitle($title);
 		<?php if ($sous_parcours->utilisateur === $this->zfcUserIdentity()): ?>
 			<p class="text-warning">
 				<em> <i class="icon-cogs"></i> 
-				Cet artefact fait partie de 
+				Ce sous-parcours fait partie de 
 				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
 				</em>
 			</p>
 			<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
 					'idSousParcours' => $sous_parcours->id,
-					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+					'idUser' => $this->zfcUserIdentity()->getId(),
+					'return'=>'perso')); ?>" 
 				class="btn btn-primary btn-block">
 				<i class="icon-unlock"> </i> Terminer le chantier
 			</a>

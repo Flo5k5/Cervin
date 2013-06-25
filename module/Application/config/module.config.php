@@ -89,10 +89,11 @@ return array(
             		'terminerChantierElement' => array(
             			'type' => 'Segment',
             			'options' => array(
-            				'route' => '/terminerChantierElement/:idElement/:idUser',
+            				'route' => '/terminerChantierElement/:idElement/:idUser/:return',
             				'constraints' => array(
             					'idElement'     => '[0-9]+',
             					'idUser'     	=> '[0-9]+',
+            					'return'     	=> 'perso|admin',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',
@@ -117,10 +118,11 @@ return array(
             		'terminerChantierSousParcours' => array(
             			'type' => 'Segment',
             			'options' => array(
-            				'route' => '/terminerChantierSousParcours/:idSousParcours/:idUser',
+            				'route' => '/terminerChantierSousParcours/:idSousParcours/:idUser/:return',
             				'constraints' => array(
             					'idSousParcours'    => '[0-9]+',
             					'idUser'    	 	=> '[0-9]+',
+            					'return'     		=> 'perso|admin',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',

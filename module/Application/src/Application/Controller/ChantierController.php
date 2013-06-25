@@ -83,7 +83,12 @@ class ChantierController extends AbstractActionController
     	} else {
     		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em>'. $escapeHtml($element->titre) .'</em> ne fait plus partie de vos chantiers en cours.'));
     	}
-    	return $this->redirect()->toRoute('chantier');
+    	$return = $this->params()->fromRoute('return', 0);
+    	if ($return == 'admin') {
+    		return $this->redirect()->toRoute('chantier/admin');
+    	} else {
+    		return $this->redirect()->toRoute('chantier');
+    	}
     }
     
     public function demarrerChantierSousParcoursAction() {
@@ -120,7 +125,12 @@ class ChantierController extends AbstractActionController
     	$sous_parcours->utilisateur = null;
     	$this->getEntityManager()->flush();
     	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> ne fait plus partie de vos chantiers en cours.'));
-    	return $this->redirect()->toRoute('chantier');
+    	$return = $this->params()->fromRoute('return');
+    	if ($return == 'admin') {
+    		return $this->redirect()->toRoute('chantier/admin');
+    	} else {
+    		return $this->redirect()->toRoute('chantier');
+    	}
     }
     
     public function adminAction() {

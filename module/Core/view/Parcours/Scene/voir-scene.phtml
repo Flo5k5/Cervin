@@ -86,7 +86,8 @@ $this->headTitle($title); ?>
 					</p>
 					<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
 							'idSousParcours' => $sous_parcours->id,
-							'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+							'idUser' => $this->zfcUserIdentity()->getId(),
+							'return'=>'perso')); ?>" 
 						class="btn btn-primary btn-block">
 						<i class="icon-unlock"> </i> Terminer le chantier
 					</a>
