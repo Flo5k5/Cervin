@@ -197,10 +197,11 @@ return array(
                 array('route' => 'page/modifier', 'roles' => array('Admin')),
 
             	array('route' => 'chantier', 'roles' => array('Collection')),
+            	array('route' => 'chantier/admin', 'roles' => array('Admin')),
             	array('route' => 'chantier/demarrerChantierElement', 'roles' => array('Collection')),
             	array('route' => 'chantier/terminerChantierElement', 'roles' => array('Collection')),
-            	array('route' => 'chantier/demarrerChantierSousParcours', 'roles' => array('Collection')),
-            	array('route' => 'chantier/terminerChantierSousParcours', 'roles' => array('Collection')),
+            	array('route' => 'chantier/demarrerChantierSousParcours', 'roles' => array('Parcours')),
+            	array('route' => 'chantier/terminerChantierSousParcours', 'roles' => array('Parcours')),
             		
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
                 array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),

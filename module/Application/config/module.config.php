@@ -128,6 +128,16 @@ return array(
             				),
             			),
             		),
+            		'admin' => array(
+            			'type' => 'Segment',
+            			'options' => array(
+            				'route' => '/admin',
+            				'defaults' => array(
+            					'controller' => 'Chantier',
+            					'action'     => 'admin',
+            				),
+            			),
+            		),
             	),
             ),
             

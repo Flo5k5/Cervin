@@ -123,4 +123,13 @@ class ChantierController extends AbstractActionController
     	return $this->redirect()->toRoute('chantier');
     }
     
+    public function adminAction() {
+    	$em = $this->getEntityManager();
+    	$query = $em->createQuery('SELECT e FROM Collection\Entity\Element e WHERE e.utilisateur IS NOT NULL');
+		$elements = $query->getResult();
+		$query = $em->createQuery('SELECT s FROM Parcours\Entity\SousParcours s WHERE s.utilisateur IS NOT NULL');
+		$sous_parcours = $query->getResult();
+		return new ViewModel(array('elements'=>$elements, 'sous_parcours'=>$sous_parcours));
+    }
+    
 }
