@@ -110,8 +110,7 @@ class ChampSelectController extends AbstractActionController
 	            			<a href="#ajouterCSVModal" 
 	            			data-toggle="modal"
 	            			data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id)).'" 
-	            			class="btn btn-primary ajouterCSV"
-	            			data-toggle="popover"
+	            			class="btn btn-primary ajouterCSV classPopover"
 	            			data-content="Ajouter une liste CSV">
 	            				<i class="icon-download"></i>
 	            			</a>
@@ -256,7 +255,6 @@ class ChampSelectController extends AbstractActionController
 					break;
 
 				case 'ajouterValueCSV':
-					//echo $postData['delimiteur'].$postData['liste'].'gg';
 					if(!empty($postData['delimiteur']) and !empty($postData['liste']))
 					{
 
