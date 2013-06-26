@@ -26,7 +26,7 @@ $this->headTitle($title);
     	Chaque ligne représente un parcours. Cliquez sur le titre d'un parcours pour accéder à ce parcours.
     	</p>
     	<p>
-    	Si vous avez l'autorisation, vous pouvez créer un nouveau parcours avec le bouton en haut à gauche.
+    	Si vous avez l'autorisation, vous pouvez créer un nouveau parcours avec le bouton en haut à droite.
     	</p>
     </div>
     <div class="modal-footer">
@@ -50,10 +50,19 @@ $this->headTitle($title);
             <table class="table table-striped table-bordered data">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Description</th>
-                        <th>Visibilité</th>
-                        <th>Action</th>
+                    	<?php if (!$this->isAllowed('Utilisateur')) : ?>
+                        	<th>Titre</th>
+                        	<th>Description</th>
+                        <?php elseif ($this->isAllowed('Parcours')) : ?>
+                        	<th>Titre</th>
+                        	<th>Description</th>
+                        	<th>Visibilité</th>
+                        	<th>Action</th>
+                        <?php else : ?>
+                        	<th>Titre</th>
+                        	<th>Description</th>
+                        	<th>Visibilité</th>
+                        <?php endif; ?>
                         <!-- <th> </th>  -->
                     </tr>
                 </thead>
@@ -67,10 +76,6 @@ $this->headTitle($title);
     </div>
 </div>
 
-<!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
-<div id="confirmDiv" >
-</div>
-
 <?php 
 $this->headScript()->appendFile($this->basePath() . '/js/pillbox.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.dataTables.js');
@@ -81,20 +86,28 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 	var tableParcours;
 	$(function() {
 	
-		$("#submit").click( function () {
-			tableParcours.fnDraw();
-			return false;
-		});
-
 	    tableParcours = ResultSet.paginate(
 	    	$('.data'),
 			{
+			<?php if (!$this->isAllowed('Utilisateur')) : ?>
 	           	"aoColumns": [
-		           	           	null,
-		           	           	{ "bSortable": false  },
-		           	           	{ "bSortable": false  },
+		           	            null,
 		           	           	{ "bSortable": false  },
 	           	           	 ],
+	         <?php elseif ($this->isAllowed('Parcours')) : ?>
+	         	"aoColumns": [
+		           	           	null,
+		           	           	{ "bSortable": false  },
+		           	           	null,
+		           	           	{ "bSortable": false  },
+	           	           	 ],
+	         <?php else : ?>
+	         	"aoColumns": [
+		           	           	null,
+		           	           	{ "bSortable": false  },
+		           	           	null,
+	           	           	 ],
+	         <?php endif; ?>
 	           	"iColumns": 4,
 	           	//"bAutoWidth": false,
 				"bSortClasses":false,

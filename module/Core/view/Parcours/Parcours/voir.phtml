@@ -56,6 +56,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <div class="page-header">
+	<?php if ($Parcours->public) :?>
+		<h3>(Parcours public)</h3>
+	<?php else :?>
+		<h3>(Parcours brouillon)</h3>
+	<?php endif;?>
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1>
     <i class="icon-road"></i> 
