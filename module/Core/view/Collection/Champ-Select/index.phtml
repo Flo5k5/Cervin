@@ -97,7 +97,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 </div> 
 <div id="modalDiv"></div>
 
-
 <?php $this->inlineScript()->captureStart(); ?>
 	var table;
 	$(function() {
@@ -138,7 +137,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                         }
                      });
 
-                    $(".select").select2();
+                    $(".select").select2({
+                    });
 
                     $(document).on( 'click', '.modifierValue', function(e){
                         var dataURL = $(this).attr('data-url');
