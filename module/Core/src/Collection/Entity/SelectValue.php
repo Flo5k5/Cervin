@@ -41,7 +41,7 @@ class SelectValue implements InputFilterAwareInterface
     protected $select;
 
 	/**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\DataSelect", mappedBy="value", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Collection\Entity\DataSelect", mappedBy="value")
      **/
     protected $datas;
 
