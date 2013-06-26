@@ -56,11 +56,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <div class="page-header">
-	<?php if ($Parcours->public) :?>
-		<h3>(Parcours public)</h3>
-	<?php else :?>
-		<h3>(Parcours brouillon)</h3>
-	<?php endif;?>
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1>
     <i class="icon-road"></i> 
@@ -128,8 +123,29 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 <div class="row-fluid">
 
 
-	<!-- Sous-parcours -->
+	<!-- Visibilité et Sous-parcours -->
 	<div class="span3">
+	<?php if ($this->isAllowed('Utilisateur')) :?>
+		<?php if (!$Parcours->public) :?>
+			<h5>Ce parcours est un brouillon</h5>
+			<?php if ($this->isAllowed('Parcours')) :?>
+				<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
+					class="btn btn-danger btn-block">
+					<i class="icon-share"></i> Passer en public
+				</a>
+			<?php endif;?>
+		<?php else :?>
+			<h5>Ce parcours est public</h5>
+			<?php if ($this->isAllowed('Parcours')) :?>
+				<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
+					class="btn btn-danger btn-block">
+					<i class="icon-ban-circle"></i> Passer en brouillon
+				</a>
+			<?php endif;?>
+		<?php endif;?>
+	<?php endif;?>
+	
+	<h3>Sous-parcours :</h3>
 	<?php if ($this->isAllowed('Parcours') === true) :?>
 		<div class="accordion" id="accordion2">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
@@ -211,8 +227,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		</div>
 
 	<?php else : ?>
-		<h3>Sous-parcours : </h3>
-		<hr/>
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<?php while ($sous_parcours != null) : ?>
 		<h4><?php echo $this->escapeHtml($sous_parcours->titre); ?></h4>

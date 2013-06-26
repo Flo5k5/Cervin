@@ -492,9 +492,10 @@ return array(
                 	'changerVisibilite' => array(
                 		'type' => 'segment',
                 		'options' => array(
-                			'route' => '/changerVisibilite/:id',
+                			'route' => '/changerVisibilite/:id/:return',
                 			'constraints' => array(
                 				'id'     => '[0-9]+',
+                				'return' => 'index|voir'
                 			),
                 			'defaults' => array(
                 				'controller' => 'Parcours',

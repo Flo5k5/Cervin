@@ -121,7 +121,7 @@ class ParcoursController extends AbstractActionController
     	foreach ($paginator as $parcours) {
     		
 			$titre = '<a href="'
-							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
+							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id, 'return'=>'')).'">'
 							.$escapeHtml($parcours->titre).'
 						</a>';
     		
@@ -130,13 +130,13 @@ class ParcoursController extends AbstractActionController
 			// Si on a les droits parcours, on ajoute un bouton pour changer la visibilité
 			if ($parcours->public) {
 				$etat = 'Public';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'" 
+				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id, 'return'=>'index')) .'" 
 		    		class="btn btn-danger">
 						<i class="icon-ban-circle"></i> Passer en brouillon
 					</a>';
 			} else {
 				$etat = 'Brouillon';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'"
+				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id, 'return'=>'index')) .'"
 					data-url="#"
 		    		class="btn btn-danger">
 						<i class="icon-share"></i> Passer en public
@@ -723,7 +723,12 @@ class ParcoursController extends AbstractActionController
     	$parcours->public = !$parcours->public;
     	$this->getEntityManager()->flush();
     	$this->flashMessenger()->addSuccessMessage(sprintf('La visibilité du parcours <em>'. $escapeHtml($parcours->titre) .'</em> a bien été changée'));
-    	return $this->redirect()->toRoute('parcours');
+    	$return = $this->params()->fromRoute('return', 0);
+    	if ($return == 'voir') {
+    		return $this->redirect()->toRoute('parcours/voir', array('id' => $id));
+    	} else {
+    		return $this->redirect()->toRoute('parcours');
+    	}
     }
     
 }
