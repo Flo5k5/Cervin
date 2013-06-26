@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Collection\Entity\SelectValue;
+use Collection\Entity\Select;
 use Doctrine\DBAL\DriverManager;
 use Zend\Json\Json;
 
@@ -92,7 +93,7 @@ class ChampSelectController extends AbstractActionController
 
             foreach ($dataTable->getPaginator() as $select) {
 
-            	$apercu = '<select id="select2_'.$select->id.'" class="select span5">';
+            	$apercu = '<select id="select2_'.$select->id.'" class="select input-block-level">';
 			    foreach ($select->select_values as $select_value) {
 			    	$apercu .= '<option value="'.$select_value->id.'">'.$escapeHtml($select_value->text).'</option>';
 			    }
@@ -105,6 +106,13 @@ class ChampSelectController extends AbstractActionController
 	            			data-toggle="popover"
 	            			data-content="Ajouter / Modifier une valeur">
 	            				<i class="icon-folder-open-alt"></i>
+	            			</a>
+	            			<a href="#" 
+	            			data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
+	            			class="btn btn-danger supprimerSelect"
+	            			data-toggle="popover"
+	            			data-content="Supprimer le select ainsi que ces valeurs">
+	            				<i class="icon-trash"></i>
 	            			</a>';
 
 
@@ -141,8 +149,26 @@ class ChampSelectController extends AbstractActionController
      */
     public function ajouterAction()
     {
+    	
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			$postData = $this->params()->fromPost();
 
+			$newSelect = new Select();
+			$newSelect->label = $postData['labelSelect'];
+			$newSelect->description = $postData['descriptionSelect'];
+            $this->getEntityManager()->persist($newSelect);
+            $this->getEntityManager()->flush();
+            
+            return $this->getResponse()->setContent(Json::encode(
+	            array(
+		                'message'=>'Le select à bien été créé',
+		                'type'=>'success'
+	                  	)
+            ));
+        }
 
+		$this->getResponse()->setStatusCode(404);
     }
 
     /**
@@ -154,8 +180,42 @@ class ChampSelectController extends AbstractActionController
      */
     public function modifierAction()
     {
+    	$id = (int) $this->params('id', null);
+		$select = $this->getEntityManager()->getRepository('Collection\Entity\Select')->findOneBy(array('id'=>$id));
+		if ($select == null or $id == null) {
+			$this->getResponse()->setStatusCode(404);
+			return; 
+		}
 
-
+        $postData = $this->params()->fromPost();
+		if ($this->getRequest()->isXmlHttpRequest()) 
+		{
+			switch ($postData['name']) {
+				case 'supprimerSelect':
+					if ($select->champs_select->isEmpty()) {
+						$this->getEntityManager()->remove($select);
+						$this->getEntityManager()->flush();
+						return $this->getResponse()->setContent(Json::encode(array('message'=>'Le select "'.$select->label.'" à bien été supprimée','type'=>'success')));
+					}
+					return $this->getResponse()->setContent(Json::encode(array('message'=>'Le select "'.$select->label.'" ne peut être supprimée car il est utilisé par type d\'élément','type'=>'error')));
+					break;
+				case 'modifierLable':
+					$select->label = $postData['value'];
+					$this->getEntityManager()->flush();
+					return $this->getResponse()->setContent(Json::encode(array(true)));
+					break;
+				case 'modifierDescription':
+					$select->description = $postData['value'];
+					$this->getEntityManager()->flush();
+					return $this->getResponse()->setContent(Json::encode(array(true)));
+					break;
+				default:
+					$this->getResponse()->setStatusCode(404);
+					return; 
+					break;
+			}
+			$this->getResponse()->setStatusCode(404);
+		}
     }
 
     /**
@@ -185,6 +245,11 @@ class ChampSelectController extends AbstractActionController
 					$viewModel = new ViewModel(array('select' => $select));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Champ-Select/modifierValueAjax.phtml');
+					break;
+
+				case 'ajouterValueCSV':
+
+
 					break;
 				case 'ajouterValue':
 					$newValue = new SelectValue($select);

@@ -15,6 +15,10 @@ use Doctrine\ORM\EntityRepository;
  * @Gedmo\Mapping\Annotation\Loggable
  * @ORM\Entity(repositoryClass="Collection\Entity\ChampRepository")
  * @ORM\Table(name="mbo_champ")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"ChampSelect" = "ChampSelect",
+ *                        "Champ" = "Champ"})
  * 
  * @property int $id Identifiant unique du champ
  * @property string $label Label du champ (nom du champ)

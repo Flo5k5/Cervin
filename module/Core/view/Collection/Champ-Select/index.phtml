@@ -7,6 +7,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 ?>
 
+<div class="messageEditUsers"></div>
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>">Accueil</a> <span class="divider">/</span></li>
     <li class="active"> Administration <span class="divider">/</span></li>
@@ -29,9 +30,43 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
-<div class="page-header">
-    <h1><?php echo $this->escapeHtml($title); ?> 
-    <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+
+<div class="page-header row-fluid">
+    <div class="span9">
+        <h1><?php echo $this->escapeHtml($title); ?> 
+        <small> <a href="#helpModal" data-toggle="modal"><i class="icon-info-sign"> </i></a></small> </h1>
+    </div>
+    <a class="ajouterSelect btn btn-primary span3" href="#ajouterSelectModal" data-toggle="modal"><i class="icon-plus"></i> Ajouter un select</a>
+    <a class="recharger btn btn-warning span3" href="" ><i class="icon-refresh"></i> Rafraichire le tableau </a>
+</div>
+
+
+<!-- AjouterSelect Modal -->
+<div id="ajouterSelectModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Ajouter un Select</h3>
+    </div>
+    <div class="modal-body">
+    <div class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="nom">Label du select</label>
+            <div class="controls">
+                <input type="text" name="labelSelect" placeholder="Label" value="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="nom">Description</label>
+            <div class="controls">
+                <textarea name="descriptionSelect" placeholder="Description" class=""></textarea>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary ajouterSelectSubmit">Créer</a>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
 </div>
 
 <div class="container-fluid">
@@ -42,7 +77,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                     <thead>
                         <tr>
                             <th>Label</th>
-                            <th>Déscription</th>
+                            <th>Description</th>
                             <th>Apercu</th>
                             <th>Action</th>
                         </tr>
@@ -116,7 +151,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                                 if(response == 'true') {
                                     location.reload();
                                 } else {
-                                    $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                                    $('#modalDiv').html('<div id="SelectValuesModal" class="modal">' + response + '</div>').modal();
                                      $('.text').editable({ 
                                         mode: 'inline',
                                         emptytext: "Vide",
@@ -133,6 +168,40 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 }
 			}
 		);
+        // ajouter un select
+        $(document).on( 'click', '.ajouterSelectSubmit', function(e){
+            var label = $('input[name="labelSelect"]');
+            var description = $('textarea[name="descriptionSelect"]');
+            $.ajax({
+                url: "<?php echo $this->url("champSelect/ajouter");?>",
+                type: "POST",
+                data:{ 
+                name:'ajouterSelect', 
+                labelSelect: label.val(),
+                descriptionSelect: description.val()}
+            }).done(function(e){
+                 table.fnDraw(); 
+                var resp = jQuery.parseJSON(e);
+                $('.messageEditUsers').showInfos(resp.message, resp.type);
+                $('#ajouterSelectModal').modal('hide');
+                label.val('');
+                description.val('');
+                
+            });
+        });
+        $(document).on( 'click', '.supprimerSelect', function(e){
+            var dataURL = $(this).attr('data-url');
+            $.ajax({
+                url: dataURL,
+                type: "POST",
+                data:{ name:'supprimerSelect'}
+            }).done(function(e){
+                table.fnDraw();
+                var resp = jQuery.parseJSON(e);
+                $('.messageEditUsers').showInfos(resp.message, resp.type);
+            });
+        });
+        // supprimer une valeur d'un select 
         $(document).on( 'click', '.SupprimerValue', function(e){
             var dataURL = $(this).attr('data-url');
             var thisTR = $(this).parents('tr');
@@ -148,6 +217,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 }
             });
         });
+                                    // on recharge le tableu quand on ferme la modal SelectValuesModal
+                                    $('#modalDiv').on('hidden', function () {
+                                        table.fnDraw();
+                                    })
+        // ajouter une valeur a un select
         $(document).on( 'click', '.AjouterValue', function(e){
             var dataURL = $(this).attr('data-url');
             var thisTable = $(this).parents('table');
@@ -176,6 +250,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
             });
         });
+        
 
 	});
 <?php
