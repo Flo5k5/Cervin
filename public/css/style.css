@@ -35,3 +35,8 @@ body {
     padding-right: 20px;
   }
 }
+
+.conditionsG {
+	height: 400px;
+	overflow: auto;
+}
