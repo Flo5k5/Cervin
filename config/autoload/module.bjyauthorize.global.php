@@ -275,6 +275,7 @@ return array(
                 array('route' => 'parcours/ajouterSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/supprimerSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/editSousParcours', 'roles' => array('Parcours')),
+                array('route' => 'parcours/changerVisibilite', 'roles' => array('Parcours')),
 
             	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),

@@ -87,11 +87,25 @@ class ParcoursController extends AbstractActionController
  
     	$dataTable = new \Parcours\Model\ParcoursDataTable($params);
     	$dataTable->setEntityManager($entityManager);
-    
-    	$dataTable->setConfiguration(array(
-    		'titre',
-	        'description'
-    	));
+    	if (!$this->isAllowed('Utilisateur')) {
+	    	$dataTable->setConfiguration(array(
+	    		'titre',
+		        'description'
+	    	));
+	    } elseif ($this->isAllowed('Parcours')) {
+    		$dataTable->setConfiguration(array(
+    			'titre',
+    			'description',
+    			'public'
+    		));
+	    } else {
+	    	$dataTable->setConfiguration(array(
+	    		'titre',
+	    		'description',
+	    		'public'
+	    	));
+	    }
+
     
     	$aaData = array();
     	
@@ -111,16 +125,47 @@ class ParcoursController extends AbstractActionController
 							.$escapeHtml($parcours->titre).'
 						</a>';
     		
-			$btn_supprimer = '<a href="#" 
-					data-url="'.$this->url()->fromRoute('parcours/supprimer', array('id' => $parcours->id)).'" 
-		    		class="btn btn-danger SupprimerParcours">
-						<i class="icon-trash"></i> Supprimer
+			$etat = '';
+			$action = '';
+			// Si on a les droits parcours, on ajoute un bouton pour changer la visibilité
+			if ($parcours->public) {
+				$etat = 'Public';
+				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'" 
+		    		class="btn btn-danger">
+						<i class="icon-ban-circle"></i> Passer en brouillon
 					</a>';
-    		
-    		$aaData[] = array(
-    				$titre,
-    				$dataTable->truncate($parcours->description, 250, ' ...', false, true)
-    		);
+			} else {
+				$etat = 'Brouillon';
+				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'"
+					data-url="#"
+		    		class="btn btn-danger">
+						<i class="icon-share"></i> Passer en public
+					</a>';
+			}
+
+			if (!$this->isAllowed('Utilisateur') && $parcours->public) {
+				// Pour un visiteur, on affiche que les parcours publics
+				$aaData[] = array(
+						$titre,
+						$dataTable->truncate($parcours->description, 250, ' ...', false, true)
+				);
+			} elseif ($this->isAllowed('Parcours')) {
+				// Si on a les droits parcours, on affiche un bouton pour changer la visibilité
+	    		$aaData[] = array(
+	    				$titre,
+	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+	    				$etat,
+	    				$action
+	    		);
+			} else {
+				// Contributeur qui n'a pas les droits parcours
+	    		$aaData[] = array(
+	    				$titre,
+	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+	    				$etat
+	    		);
+			}
+	    	
     	}
     	
     	$dataTable->setAaData($aaData);
@@ -658,6 +703,21 @@ class ParcoursController extends AbstractActionController
     	$sous_parcours->titre = $request['value'];
     	$this->getEntityManager()->flush();
     	return $this->getResponse()->setContent(Json::encode(true));
+    }
+    
+    public function changerVisibiliteAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtmlAttr');
+    	$id = (int) $this->params()->fromRoute('id', 0);
+    	$parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+    	if (!$id or $parcours === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$parcours->public = !$parcours->public;
+    	$this->getEntityManager()->flush();
+    	$this->flashMessenger()->addSuccessMessage(sprintf('La visibilité du parcours <em>'. $escapeHtml($parcours->titre) .'</em> a bien été changée'));
+    	return $this->redirect()->toRoute('parcours');
     }
     
 }

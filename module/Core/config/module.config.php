@@ -489,6 +489,19 @@ return array(
                 			),
                 		),
                 	),
+                	'changerVisibilite' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/changerVisibilite/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'changerVisibilite',
+                			),
+                		),
+                	),
                     'modifierTransition' => array(
                         'type' => 'segment',
                         'options' => array(
