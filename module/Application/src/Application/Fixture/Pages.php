@@ -91,8 +91,7 @@ class Pages implements FixtureInterface
 				<div><i>faire connaître, d'obtenir une validation de leur statut de contributeur / contributrice et de</i></div>
 				<div><i>bénéficier des infrastructures de travail collaboratif utilisés dans la création de ces Œuvres.</i></div>
 				<div><br></div><div>Pour les questions relatives à la présente demande d'enregistrement et à son suivi, le représentant</div>
-				<div>de CERVIN (désigné ci-après simplement « CERVIN») est indiqué ci-dessous. Ce document, signé</div>
-				<div>par le CONTRIBUTEUR, doit être adressé pour validation aux coordonnées suivantes :</div>
+				<div>de CERVIN (désigné ci-après simplement « CERVIN») est indiqué ci-dessous.</div>
 				
 				<blockquote>
 					<div>François LETELLIER</div><div>Porteur de projet CERVIN</div>

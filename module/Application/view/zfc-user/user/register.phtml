@@ -16,21 +16,22 @@ $this->headTitle($title);
 	<div class="row-fluid">
 		<div class="span6">
 			<h3>Inscription</h3>
-		<?php
-			$form = $this->registerForm;
-			$form->prepare();
-			$form->setAttribute('action', $this->url('zfcuser/register'));
-			$form->setAttribute('method', 'post');
-			
-			$form->setAttribute('class','form-horizontal');
-			$form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom')->setLabelAttributes(array('class' => 'control-label'));
-			$form->get('email')->setAttribute('placeholder','exemple@exemple.fr')->setLabelAttributes(array('class' => 'control-label'));
-			$form->get('username')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'));
-			$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'));
-			$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'));
-			$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
-			echo $this->form()->openTag($form);
-		?>
+			<?php
+				$form = $this->registerForm;
+				$form->prepare();
+				$form->setAttribute('action', $this->url('zfcuser/register'));
+				$form->setAttribute('method', 'post');
+				
+				$form->setAttribute('class','form-horizontal');
+				$form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
+				$form->get('email')->setAttribute('placeholder','exemple@exemple.fr')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
+				$form->get('username')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
+				$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
+				$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
+				$form->get('checkboxAgreement')->setLabel('J\'accepte les conditions générales du projet CERVIN')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('required', true);
+				$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
+				echo $this->form()->openTag($form);
+			?>
 		    <fieldset>
 		    <?php foreach ($form as $element): ?>
 		    
@@ -60,7 +61,12 @@ $this->headTitle($title);
 		    <?php endif ?>
 		    <?php echo $this->form()->closeTag() ?>
 	    </div>
-	    <?php echo $this->ConditionsGenerales(); ?>
+	    <div class="span6">
+	    	<h3>Conditions générales</h3>
+	    	<div style="height:400px; overflow:auto; border-style:solid; border-width:1px;padding:5px">
+	    		<?php echo $this->ConditionsGenerales(); ?>
+	    	</div>
+	    </div>
 	</div>
 </div>
 

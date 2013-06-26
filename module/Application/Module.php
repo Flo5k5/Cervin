@@ -57,7 +57,6 @@ class Module implements AutoloaderProviderInterface,
         
         $evm->addEventSubscriber($loggableListener);
 
-        
         $events = $e->getApplication()->getEventManager()->getSharedManager();
 
         $events->attach('ZfcUser\Form\Register','init', function($e) {
