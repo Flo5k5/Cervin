@@ -107,6 +107,14 @@ class ChampSelectController extends AbstractActionController
 	            			data-content="Ajouter / Modifier une valeur">
 	            				<i class="icon-folder-open-alt"></i>
 	            			</a>
+	            			<a href="#ajouterCSVModal" 
+	            			data-toggle="modal"
+	            			data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id)).'" 
+	            			class="btn btn-primary ajouterCSV"
+	            			data-toggle="popover"
+	            			data-content="Ajouter une liste CSV">
+	            				<i class="icon-download"></i>
+	            			</a>
 	            			<a href="#" 
 	            			data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
 	            			class="btn btn-danger supprimerSelect"
@@ -117,12 +125,12 @@ class ChampSelectController extends AbstractActionController
 
 
                 $aaData[] = array(
-                	'<span id="label" 
+                	'<span id="modifierLable" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
                         data-value="'.$escapeHtml($select->label).'" data-placement="right" data-type="text" data-pk="1">'.$escapeHtml($select->label).'
                     </span>',
-                    '<span id="description" 
+                    '<span id="modifierDescription" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("champSelect/modifier", array("id" => $select->id)).'" 
                         data-value="'.$escapeHtml($select->description).'" data-placement="right" data-type="textarea" data-pk="1">'.$escapeHtml($select->description).'
@@ -248,8 +256,21 @@ class ChampSelectController extends AbstractActionController
 					break;
 
 				case 'ajouterValueCSV':
+					//echo $postData['delimiteur'].$postData['liste'].'gg';
+					if(!empty($postData['delimiteur']) and !empty($postData['liste']))
+					{
 
-
+						$ListeCSV = str_getcsv($postData['liste'],$postData['delimiteur']);
+						foreach ($ListeCSV as $key => $value) {
+							$newValue = new SelectValue($select);
+							$newValue->text = $value ;
+		                    $this->getEntityManager()->persist($newValue);
+						}
+	                    $this->getEntityManager()->flush();
+	                	return $this->getResponse()->setContent(Json::encode(array('message'=>'La liste CSV a bien été ajoutée','type'=>'success')));
+	                }
+	                return $this->getResponse()->setContent(Json::encode(array('message'=>"Erreur lors de l'importation de la liste CSV",'type'=>'error')));
+	                	
 					break;
 				case 'ajouterValue':
 					$newValue = new SelectValue($select);

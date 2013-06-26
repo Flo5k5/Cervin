@@ -47,6 +47,7 @@ class Select implements InputFilterAwareInterface
 
     /**
      * @ORM\OneToMany(targetEntity="Collection\Entity\SelectValue", mappedBy="select", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"text" = "ASC"})
      **/
     protected $select_values;
 

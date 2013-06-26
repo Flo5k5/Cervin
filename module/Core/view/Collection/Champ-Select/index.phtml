@@ -69,6 +69,34 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
+<!-- AjouterCSV Modal -->
+<div id="ajouterCSVModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Ajouter une liste de value</h3>
+    </div>
+    <div class="modal-body">
+    <div class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="nom">Delimiteur ex:","</label>
+            <div class="controls">
+                <input type="text" name="delimiteurSelect" value=",">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="nom">Liste d'élément</label>
+            <div class="controls">
+                <textarea name="listeSelect" placeholder='ex : "France,Espagne,Italie"' class=""></textarea>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary ajouterCSVSubmit">Ajouter</a>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -124,24 +152,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     
                     $('.text').editable({ 
                         mode: 'inline',
-                        emptytext: "Vide",
-                        success: function(e) {
-                            var resp = jQuery.parseJSON(e);
-                                                            
-                            if(resp.success === true){
-                                //location.reload();
-                                $('.messageEditUsers').showInfos(resp.message, "success");
-                            } else {
-                                //location.reload();
-                                $('.messageEditUsers').showInfos(resp.error, "error");
-                            }
-                        }
+                        emptytext: "Vide"
                      });
 
                     $(".select").select2();
 
                     $(document).on( 'click', '.modifierValue', function(e){
                         var dataURL = $(this).attr('data-url');
+                        $('body').css('cursor', 'wait');
                         $.ajax({
                             url: dataURL,
                             type: "POST",
@@ -157,10 +175,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                                         emptytext: "Vide",
                                     });
                                 }
-                    
+                            $('body').css('cursor', 'auto');
                             },
                             error: function(response){
-                                alert('Impossible d\'ajouter des champ');
+                                alert('Error');
+                                $('body').css('cursor', 'auto');
                             }
                         });
                     });
@@ -172,6 +191,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
         $(document).on( 'click', '.ajouterSelectSubmit', function(e){
             var label = $('input[name="labelSelect"]');
             var description = $('textarea[name="descriptionSelect"]');
+            $('body').css('cursor', 'wait');
             $.ajax({
                 url: "<?php echo $this->url("champSelect/ajouter");?>",
                 type: "POST",
@@ -180,31 +200,70 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 labelSelect: label.val(),
                 descriptionSelect: description.val()}
             }).done(function(e){
-                 table.fnDraw(); 
+                table.fnDraw(); 
                 var resp = jQuery.parseJSON(e);
                 $('.messageEditUsers').showInfos(resp.message, resp.type);
                 $('#ajouterSelectModal').modal('hide');
                 label.val('');
                 description.val('');
-                
+                $('body').css('cursor', 'auto');
             });
         });
+        // supprimer un select
         $(document).on( 'click', '.supprimerSelect', function(e){
             var dataURL = $(this).attr('data-url');
+            $('#confirmDiv').confirmModal({
+                heading:'Confirmation',
+                body:"Êtes-vous sûr de vouloir supprimer définitivement ce select ?",
+                callback: function() {
+                    $('body').css('cursor', 'wait');
+                    $.ajax({
+                        url: dataURL,
+                        type: "POST",
+                        data:{ name:'supprimerSelect'}
+                    }).done(function(e){
+                        $('body').css('cursor', 'auto');
+                        table.fnDraw();
+                        var resp = jQuery.parseJSON(e);
+                        $('.messageEditUsers').showInfos(resp.message, resp.type);
+                    });
+                }
+            });
+            
+        });
+        // on passe l'url du select a la modal 
+        $(document).on( 'click', '.ajouterCSV', function(e){
+            var dataURL = $(this).attr('data-url');
+            $('a.ajouterCSVSubmit').attr('data-url', dataURL);
+        });
+        // ajouter un une liste de value ( CSV )
+        $(document).on( 'click', '.ajouterCSVSubmit', function(e){
+            var dataURL = $(this).attr('data-url');
+            var delimiteur1 = $('input[name="delimiteurSelect"]');
+            var liste1 = $('textarea[name="listeSelect"]');
+            $('body').css('cursor', 'wait');
             $.ajax({
                 url: dataURL,
                 type: "POST",
-                data:{ name:'supprimerSelect'}
+                data:{ 
+                name:'ajouterValueCSV', 
+                delimiteur: delimiteur1.val(),
+                liste: liste1.val()}
             }).done(function(e){
-                table.fnDraw();
+                table.fnDraw(); 
                 var resp = jQuery.parseJSON(e);
                 $('.messageEditUsers').showInfos(resp.message, resp.type);
+                $('#ajouterCSVModal').modal('hide');
+                liste1.val(',');
+                delimiteur1.val('');
+                $('body').css('cursor', 'auto');
             });
         });
         // supprimer une valeur d'un select 
         $(document).on( 'click', '.SupprimerValue', function(e){
             var dataURL = $(this).attr('data-url');
             var thisTR = $(this).parents('tr');
+            $('body').css('cursor', 'wait');
             $.ajax({
                 url: dataURL,
                 type: "POST",
@@ -215,17 +274,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 if(resp.type == 'success'){
                     thisTR.remove();
                 }
+                $('body').css('cursor', 'auto');
             });
         });
-                                    // on recharge le tableu quand on ferme la modal SelectValuesModal
-                                    $('#modalDiv').on('hidden', function () {
-                                        table.fnDraw();
-                                    })
+        // on recharge le tableu quand on ferme la modal SelectValuesModal
+        $('#modalDiv').on('hidden', function () {
+            table.fnDraw();
+        })
         // ajouter une valeur a un select
         $(document).on( 'click', '.AjouterValue', function(e){
             var dataURL = $(this).attr('data-url');
             var thisTable = $(this).parents('table');
             var dataValue = $('#ajouterValueInput');
+            $('body').css('cursor', 'wait');
             $.ajax({
                 url: dataURL,
                 type: "POST",
@@ -235,23 +296,20 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 $('#response').html('<div class="alert alert-'+resp.type+'"><button type="button" class="close" data-dismiss="alert">&times;</button>'+resp.message+'</div>');
                 if(resp.type == 'success'){
                     $('#ListeValue').append('<tr id="eee">'+resp.addTable+'</tr>');
-
                     $('.modal-body').animate({  
                         scrollTop:$('#'+resp.id).offset().top  
                     }, 'slow');  
-
                     dataValue.val('');
-
                     $('.text').editable({ 
                         mode: 'inline',
                         emptytext: "Vide",
                     });
+                    $('body').css('cursor', 'auto');
                 }
 
             });
         });
         
-
 	});
 <?php
 $this->inlineScript()->captureEnd();
