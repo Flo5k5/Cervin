@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
-use Collection\Form\ChampForm;
+use Collection\Entity\SelectValue;
 use Doctrine\DBAL\DriverManager;
 use Zend\Json\Json;
 
@@ -92,9 +92,9 @@ class ChampSelectController extends AbstractActionController
 
             foreach ($dataTable->getPaginator() as $select) {
 
-            	$apercu = '<select class="select2">';
+            	$apercu = '<select id="select2_'.$select->id.'" class="select span5">';
 			    foreach ($select->select_values as $select_value) {
-			    	$apercu .= '<option value="'.$select_value->id.'">'.$select_value->text.'</option>';
+			    	$apercu .= '<option value="'.$select_value->id.'">'.$escapeHtml($select_value->text).'</option>';
 			    }
 			    $apercu .= '</select>';
 
@@ -186,6 +186,33 @@ class ChampSelectController extends AbstractActionController
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Champ-Select/modifierValueAjax.phtml');
 					break;
+				case 'ajouterValue':
+					$newValue = new SelectValue($select);
+					$newValue->text = $postData['value'];
+                    $this->getEntityManager()->persist($newValue);
+                    $this->getEntityManager()->flush();
+                    $addTable = '<td id="'.$newValue->id.'">
+	                    <span id="label" 
+	                        class="text CursorPointer" 
+	                        data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $newValue->id)).'" 
+	                        data-value="'.$escapeHtml($newValue->text).'" 
+	                        data-name="modifierTexte" 
+	                        data-placement="right" 
+	                        data-type="text" 
+	                        data-pk="1">'.$escapeHtml($newValue->text).'
+	                    </span>
+                    </td>
+                    <td>
+			            <a class="btn btn-danger SupprimerValue" 
+			            data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $newValue->id)).'"
+			            href="#">
+			                <i class="icon-trash "></i> 
+			            </a>
+                	</td>
+                    ';
+
+                    return $this->getResponse()->setContent(Json::encode(array('message'=>'La valeur à bien été ajoutée','type'=>'success','addTable'=>$addTable,'id'=>$newValue->id)));
+					break;
 
 				case 'modifierTexte':
 					$idValue = (int) $this->params('idValue', null);
@@ -207,12 +234,12 @@ class ChampSelectController extends AbstractActionController
 						return; 
 					}
 					// si la value du select n'est pas utilisé dans un element alors on a supprime
-					if ($selectValue->datas == null) {
+					if ($selectValue->datas->isEmpty()) {
 	                    $this->getEntityManager()->remove($selectValue);
 	                    $this->getEntityManager()->flush();
-	                    return $this->getResponse()->setContent(Json::encode(array('message'=>'ok')));
+	                    return $this->getResponse()->setContent(Json::encode(array('message'=>'La valeur "'.$selectValue->text.'" à bien été supprimée','type'=>'success')));
 					}
-	                return $this->getResponse()->setContent(Json::encode(array('message'=>$selectValue->datas)));
+	                return $this->getResponse()->setContent(Json::encode(array('message'=> 'La valeur "'.$selectValue->text.'" ne peut étre supprimée car elle est utilisée dans un element.','type'=>'error')));
 					break;
 				
 				default:

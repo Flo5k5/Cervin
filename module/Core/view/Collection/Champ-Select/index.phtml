@@ -2,9 +2,9 @@
 $title = 'Gestion des champs select';
 $this->headTitle($title);
 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
-$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
 <ul class="breadcrumb">
@@ -103,7 +103,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
                         }
                      });
 
-                     $(document).ready(function() { $(".select2").select2(); });
+                    $(".select").select2();
 
                     $(document).on( 'click', '.modifierValue', function(e){
                         var dataURL = $(this).attr('data-url');
@@ -117,6 +117,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
                                     location.reload();
                                 } else {
                                     $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                                     $('.text').editable({ 
+                                        mode: 'inline',
+                                        emptytext: "Vide",
+                                    });
                                 }
                     
                             },
@@ -125,11 +129,53 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
                             }
                         });
                     });
-
                      
                 }
 			}
 		);
+        $(document).on( 'click', '.SupprimerValue', function(e){
+            var dataURL = $(this).attr('data-url');
+            var thisTR = $(this).parents('tr');
+            $.ajax({
+                url: dataURL,
+                type: "POST",
+                data:{ name:'supprimerValue' }
+            }).done(function(e){
+                var resp = jQuery.parseJSON(e);
+                $('#response').html('<div class="alert alert-'+resp.type+'"><button type="button" class="close" data-dismiss="alert">&times;</button>'+resp.message+'</div>');
+                if(resp.type == 'success'){
+                    thisTR.remove();
+                }
+            });
+        });
+        $(document).on( 'click', '.AjouterValue', function(e){
+            var dataURL = $(this).attr('data-url');
+            var thisTable = $(this).parents('table');
+            var dataValue = $('#ajouterValueInput');
+            $.ajax({
+                url: dataURL,
+                type: "POST",
+                data:{ name:'ajouterValue', value:dataValue.val() }
+            }).done(function(e){
+                var resp = jQuery.parseJSON(e);
+                $('#response').html('<div class="alert alert-'+resp.type+'"><button type="button" class="close" data-dismiss="alert">&times;</button>'+resp.message+'</div>');
+                if(resp.type == 'success'){
+                    $('#ListeValue').append('<tr id="eee">'+resp.addTable+'</tr>');
+
+                    $('.modal-body').animate({  
+                        scrollTop:$('#'+resp.id).offset().top  
+                    }, 'slow');  
+
+                    dataValue.val('');
+
+                    $('.text').editable({ 
+                        mode: 'inline',
+                        emptytext: "Vide",
+                    });
+                }
+
+            });
+        });
 
 	});
 <?php

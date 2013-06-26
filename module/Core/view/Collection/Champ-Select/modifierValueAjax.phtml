@@ -4,14 +4,14 @@
 </div>
 <div class="modal-body">
 <div id="response"></div>
-    <table class="table table-hover">
+    <table id="ListeValue" class="table table-hover">
         <tr>
             <th>Liste des valeurs</th>
             <th>Action</th>
         </tr>
         <?php
         foreach ($select->select_values as $select_value) {
-            echo '<tr><td><span id="label" 
+            echo '<tr><td id="'.$select_value->id.'"><span id="label" 
                         class="text CursorPointer" 
                         data-url="'.$this->url("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $select_value->id)).'" 
                         data-value="'.$this->escapeHtml($select_value->text).'" 
@@ -27,37 +27,30 @@
             <a class="btn btn-danger SupprimerValue" 
             data-url="'.$this->url("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $select_value->id)).'"
             href="#">
-                <i class="icon-trash icon-large"></i> 
+                <i class="icon-trash "></i> 
             </a>
                 </td>';
 
 
 
             echo '</tr>';
+
+
         }
+
         ?>
     </table>
 
 </div>
 <div class="modal-footer">
+    <div class="input-append pull-left" >
+        <input id="ajouterValueInput" type="text" name="ajouterValueInput">
+        <button class="btn AjouterValue" 
+            data-url="<?php echo $this->url("champSelect/modifierValueAjax", array("id" => $select->id));?>"
+            href="#">
+                <i class="icon-plus "></i> 
+        </button>
+    </div>
+    
     <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
 </div>
-
-<script type="text/javascript">
-    $('.text').editable({ 
-        mode: 'inline',
-        emptytext: "Vide",
-    });
-    $(document).on( 'click', '.SupprimerValue', function(e){
-        var dataURL = $(this).attr('data-url');
-        $.ajax({
-            url: dataURL,
-            type: "POST",
-            data:{ name:'supprimerValue' }
-        }).done(function(e){
-            var resp = jQuery.parseJSON(e);
-
-            $('#response').html(resp.message)
-        });
-    });
-</script>
