@@ -62,13 +62,6 @@ class Element implements InputFilterAwareInterface
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
-
-    /**
-     * Etat de en ligne ou brouillon de l'élément
-     * 
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $onLine;
     
     /**
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="elements")

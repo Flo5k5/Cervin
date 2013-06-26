@@ -156,6 +156,7 @@ class FixtureParcours implements FixtureInterface
 		$parcours->description = "Grenoble est l'un des principaux centres d'activité informatique en France, caractérisé par une synergie entre formation, recherche et industrie. Ce parcours retrace les principales étapes du développement de l'informatique à Grenoble et dans sa région.";
 		$parcours->transitions = new \Doctrine\Common\Collections\ArrayCollection();
 		$parcours->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+		$parcours->public = false;
 		
 		$sous_parcours_debut = $parcours->sous_parcours_depart;
 		$sous_parcours_debut->titre = "Les débuts (1950-1965)";
@@ -1714,6 +1715,7 @@ L’arithmomètre s'inspire de la machine de Leibniz, mais introduit diverses am
 Les dates indiquées ne sont qu’approximatives. Elles permettent de situer en gros l’époque des développements présentés.
 		";
 		$parcours->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
+		$parcours->public = false;
 		
 		$sous_parcours_debut = new Parcours\Entity\SousParcours();
 		$sous_parcours_debut->titre = "Du boulier à la tabulatrice";

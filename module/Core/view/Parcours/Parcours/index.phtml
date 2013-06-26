@@ -52,12 +52,14 @@ $this->headTitle($title);
                     <tr>
                         <th>Titre</th>
                         <th>Description</th>
+                        <th>Visibilité</th>
+                        <th>Action</th>
                         <!-- <th> </th>  -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3">En cours de téléchargement</td>
+                        <td colspan="4">En cours de téléchargement</td>
                     </tr>
                 </tbody>
             </table>
@@ -89,41 +91,21 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 			{
 	           	"aoColumns": [
 		           	           	null,
-		           	           	{ "bSortable": false  }
+		           	           	{ "bSortable": false  },
+		           	           	{ "bSortable": false  },
+		           	           	{ "bSortable": false  },
 	           	           	 ],
-	           	"iColumns": 3,
+	           	"iColumns": 4,
 	           	//"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?php echo $this->url("parcours"); ?>",
     			"fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
-    				
     				var data = new Array();
-    				
-    				<?php if(isset($js_table)){ echo $js_table; }  ?>
-    				
-    				jQuery.each($('#form-pillbox').pillbox('items'), function() {
-						var item =  new Object();
-						item["type"] = this.type;
-						item["value"] = this.value;
-		
-						data.push(item);
-						
-						if(typeof(this.context) != 'undefined' && this.type != 'type' ){
-							if(!isDuplicate( 'type', this.context, aoData )){
-								var obj =  new Object();
-								obj["type"] = 'type';
-								obj["value"] = this.context;
-								data.push(obj);
-							}
-						}
-					});
-
     				if (data.length > 0) {
 						aoData.push( { "name": "conditions", "value": JSON.stringify(data) } );
 					}
-
       				oSettings.jqXHR = $.ajax( {
 	        			"dataType": 'json',
 	        			"type": "POST",
@@ -137,108 +119,9 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 						window.open($(this).attr("href"), "_blank");
 						e.preventDefault();
 					});
-					$(".SupprimerParcours").click(function(event){
-                        var dataURL = $(this).attr('data-url');
-                        $('#confirmDiv').confirmModal({
-                            heading:'Confirmation',
-                            body:"Êtes-vous sûr de vouloir supprimer définitivement ce parcours ?",
-                            callback: function() {
-                                $.post(
-                                    dataURL,
-                                    { name: "supprimer" },
-                                    function(response) {
-                                    	document.location.reload();
-                                        /*$("#data").dataTable().fnDraw();*/
-                                    }
-                                );
-                            }
-                        });   
-                    });
 	     		}
 			}
 		);
-		
-	    // INITIALIZING PILLBOX
-		$('.form-button').click(function () {
-			var value = $.trim($(this).attr("data-value"));
-			var type = $(this).attr("data-type");
-			if(!isDuplicate( type, value )){
-				$('#form-pillbox ul').append('<li class="status-success" data-type="' + type + '" data-value="' + value + '" >' + $(this).attr("value") + '</li>');
-			}
-		});	
-		
-		$('.form-plus-type').click(function () {
-			var el = $(this).parent().find('.form-type > option:selected')
-			var type = el.attr("data-type");
-			var value = el.attr("data-value");
-			
-			if(!isDuplicate( type, value )){
-				var context = el.parent().children('.type-all').attr("data-value");
-				var icon;
-				var color;
-				if (context == 'artefact') {
-					icon = '<i class="icon-tag"> </i>';
-					color = 'status-success';
-				} else {
-					icon = '<i class="icon-picture"> </i>';
-					color = 'status-warning';
-				}
-				
-				if( el.hasClass('type-all') ){
-					$('#form-pillbox ul > li[data-context="' + context + '"]').remove();
-					$('#form-pillbox ul').append('<li class="' + color + ' type-all" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
-				} else {
-					$('#form-pillbox ul > li[data-context="' + context + '"].type-all ').remove();
-					$('#form-pillbox ul').append('<li class="' + color + '" data-type="' + type + '" data-value="' + value + '" data-context="' + context + '" >' + icon + ' ' + el.val() + '</li>');
-				}
-			}
-
-			$(this).parent().children('.form-type').prop('selectedIndex',0);
-
-		});	
-		
-		$('.form-plus-titre').click(function () {
-			var e = jQuery.Event("keypress");
-			e.which = 13; // Code touche entrée = 13
-			$(this).parent().children('.form-titre').trigger(e);
-		});	
-
-		$('.form-titre').keypress(function(event){
-			var value = $.trim($(this).attr("value"));
-			var type = $(this).attr("data-type");
-			if( event.which == 13 && value != "" ){ // Code touche entrée = 13
-				$(this).attr("data-value", value);
-				if(!isDuplicate( type, value )){
-					$('#form-pillbox ul').append('<li class="status-info" data-type="' + type + '" data-value="' + value + '">' + '"' + value + '"' + '</li>');
-				}
-				$(this).attr("value", "");
-				$(this).attr("data-value", "");
-				event.preventDefault();
-			}
-		});
-
-		$('.form-clear').click(function () {
-			$('.form-titre').attr("value", "").attr("data-value", "");
-			$('.form-type').prop('selectedIndex',0);
-			$('#form-pillbox ul > li').remove();
-			return false;
-		});
-
-		function isDuplicate(type, value, array){
-			var array = ( typeof(array) == 'undefined' ? $('#form-pillbox').pillbox('items') : array );
-			var duplicate = false;
-			jQuery.each(array, function() {
-				if(this.value == value && this.type == type){
-					duplicate = true;
-					return;
-				}
-			});
-			return duplicate;
-		}
-		
-		String.prototype.ucFirst = function() {
-		    return this.charAt(0).toUpperCase() + this.slice(1);
-		}
-
 	});
+	
 <?php $this->inlineScript()->captureEnd(); ?>

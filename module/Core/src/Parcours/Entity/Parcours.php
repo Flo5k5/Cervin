@@ -59,6 +59,13 @@ class Parcours implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Parcours\Entity\Transition", mappedBy="parcours", cascade={"remove", "persist"})
      **/
     protected $transitions;
+
+    /**
+     * Etat du parcours : brouillon ou public
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $public;
     
     /**
      * Ajoute un sous parcours au parcours
@@ -110,6 +117,7 @@ class Parcours implements InputFilterAwareInterface
         $this->sous_parcours = new \Doctrine\Common\Collections\ArrayCollection();
         $this->addSousParcours($SousParcours);
         $this->sous_parcours_depart = $SousParcours;
+        $this->public = false;
     }
     
     /**
