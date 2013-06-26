@@ -60,7 +60,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			</p>
 			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
 					'idElement' => $media->id,
-					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+					'idUser' => $this->zfcUserIdentity()->getId(),
+					'return'=>'perso')); ?>" 
 				class="btn btn-primary btn-block">
 				<i class="icon-unlock"> </i> Terminer le chantier
 			</a>

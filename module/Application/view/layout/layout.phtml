@@ -110,7 +110,7 @@ echo $this->headTitle('Cervin')->setSeparator(' - ')->setAutoEscape(false);
 echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
 // Le styles 
 
-$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/aconit.bmp'));
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/cervin.png'));
 // echo $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-all.css'); 
 
 $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap-responsive.css');
@@ -190,6 +190,7 @@ echo $this->headScript();
 	                        
 	                        <!-- ADMIN -->
                         	<?php if ($this->isAllowed('Admin') === true) :?>
+                        		<?php $notifChantiersAdmin = $this->Notification('chantier_admin'); ?>
                             	<li class="divider-vertical"></li>
                                 <li class="dropdown">
                                 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -222,6 +223,17 @@ echo $this->headScript();
                                                 <li><a href="<?php echo $this->url('semantiquetransition'); ?>"> Sémantiques des transitions</a></li>
 											</ul>
 										</li>
+										
+										<li>
+											<a href="<?php echo $this->url('chantier/admin'); ?>"> 
+												<i class="icon-cogs"></i> Chantiers en cours
+												<?php if ($notifChantiersAdmin > 0) :?>
+			                                    	<span class="notifchantiers badge badge-info small">
+			                                    		<?php echo $this->escapeHtml($notifChantiersAdmin); ?>
+			                                    	</span>
+		                                    	<?php endif;?>
+											</a>
+										</li>
                                     </ul>
                             	</li>
                             <?php endif; ?>
@@ -252,13 +264,13 @@ echo $this->headScript();
 	                                   	</a>
 	                                    <ul class="dropdown-menu">
 	                                        <li><a href="/user"><i class="icon-user"></i> Mon compte</a></li>
-	                                        <li><a href="/chantier"><i class="icon-cogs"></i> 
-	                                        	Mes chantiers en cours
+	                                        <li><a href="/chantier"><i class="icon-cogs"></i> Mes chantiers en cours
 		                                        <?php if ($notifChantiers > 0) :?>
 		                                    	<span class="notifchantiers badge badge-info small">
 		                                    		<?php echo $this->escapeHtml($notifChantiers); ?>
-		                                    	</span></a>
+		                                    	</span>
 	                                        	<?php endif;?>
+	                                        	</a>
 	                                        </li>
 	                                        <li><a href="/user/logout"><i class="icon-off"></i> Déconnexion</a></li>
 	                                    </ul>
@@ -296,7 +308,11 @@ echo $this->headScript();
 			<hr/>
 			
 			<div class="pull-left" >
-				<span class="text-left"><?php echo date("Y"); ?> - Cervin</span>
+				<span class="text-left">
+					<?php echo date("Y"); ?> - Cervin
+					<br>
+					<a href="<?php echo $this->url('page/voir',array('slug'=>'conditions-generales'));?>">Conditions générales</a>
+				</span>
 			</div>
 			
 			<div class="pull-right" >

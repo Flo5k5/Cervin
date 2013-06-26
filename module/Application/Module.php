@@ -18,7 +18,7 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Application\View\Helper\Notification;
 use Application\View\Helper\demandeRole;
-use Application\View\Helper\redirectUserIndexIfTrue;
+use Application\View\Helper\ConditionsGenerales;
 use Zend\I18n\Translator\Translator;
 use Zend\Validator\AbstractValidator;
 use Zend\Form\Form;
@@ -57,7 +57,6 @@ class Module implements AutoloaderProviderInterface,
         
         $evm->addEventSubscriber($loggableListener);
 
-        
         $events = $e->getApplication()->getEventManager()->getSharedManager();
 
         $events->attach('ZfcUser\Form\Register','init', function($e) {
@@ -117,26 +116,24 @@ class Module implements AutoloaderProviderInterface,
     						),
     				),
     		));*/
-
-        	
-        	$filter->add(array(
-        			'name'     => 'checkboxAgreement',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'Digits',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'messages' => array(
-        											Digits::NOT_DIGITS   => 'You must agree to the terms of use.',
-        									),
-        							),
-        					),
-        			),
-        	)); 
-    		
-        });
+	
+			$filter->add(array(
+				'name'     => 'checkboxAgreement',
+				'required'   => true,
+				'allowEmpty' => false,
+				'validators' => array(
+					array(
+						'name' => 'Digits',
+						'break_chain_on_failure' => true,
+						'options' => array(
+							'messages' => array(
+								Digits::NOT_DIGITS   => 'Vous devez accepter les conditions générales.',
+							),
+						),
+					),
+				),
+			)); 
+		});
         
         $zfcServiceEvents  = $sm->get('zfcuser_user_service')->getEventManager();
         
@@ -195,6 +192,12 @@ class Module implements AutoloaderProviderInterface,
                     $messages->setFlashMessenger($flashmessenger);
  
                     return $messages;
+                },
+                'ConditionsGenerales' => function ($helperPluginManager) {
+                	$serviceLocator = $helperPluginManager->getServiceLocator();
+                	$viewHelper = new ConditionsGenerales();
+                	$viewHelper->setServiceLocator($serviceLocator);
+                	return $viewHelper;
                 }
             ),
         );

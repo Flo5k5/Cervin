@@ -48,6 +48,16 @@ class Notification extends AbstractHelper
             		$Notification += $user->sous_parcours_chantier->count();
             	}
             	break;
+            case 'chantier_admin':
+            	$Notification = 0;
+            	$em = $this->getEntityManager();
+		    	$query = $em->createQuery('SELECT e FROM Collection\Entity\Element e WHERE e.utilisateur IS NOT NULL');
+				$elements = $query->getResult();
+				$Notification += count($elements);
+				$query = $em->createQuery('SELECT s FROM Parcours\Entity\SousParcours s WHERE s.utilisateur IS NOT NULL');
+				$sous_parcours = $query->getResult();
+				$Notification += count($sous_parcours);
+            	break;
             default:
                 # code...
                 break;

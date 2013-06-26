@@ -2,7 +2,7 @@
 $title = "Mes chantiers en cours";
 $this->headTitle($title);
 ?>
-
+<?php $user = $this->zfcUserIdentity(); ?>
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
     <li class="active"> <?php echo $this->escapeHtml($title); ?> </li>
@@ -10,7 +10,7 @@ $this->headTitle($title);
 
 <div class="page-header">
 	<h1> <?php echo $this->escapeHtml($title); ?>
-	<?php $notifs = $this->Notification('chantier', $this->zfcUserIdentity()); 
+	<?php $notifs = $this->Notification('chantier', $user); 
 	if ($notifs > 0) :?>
 		<span class="badge badge-info">
 			<?php echo $notifs; ?>
@@ -22,12 +22,12 @@ $this->headTitle($title);
 
 <h3>Eléments de la collection numérique
 
-<?php if ($this->zfcUserIdentity()->elements_chantier != null) :?>
-	<?php if ($this->zfcUserIdentity()->elements_chantier->count() == 0): ?>
+<?php if ($user->elements_chantier != null) :?>
+	<?php if ($user->elements_chantier->count() == 0): ?>
 		</h3> Aucun élément de la collection numérique ne fait partie de vos chantiers
 	<?php else : ?>
 		<span class="badge badge-info">
-			<?php echo $this->zfcUserIdentity()->elements_chantier->count(); ?>
+			<?php echo $user->elements_chantier->count(); ?>
 		</span> </h3>
 		
 		<table class="table table-hover">
@@ -36,7 +36,7 @@ $this->headTitle($title);
 			<th>Type</th>
 			<th></th>
 		</tr>
-		<?php foreach ($this->zfcUserIdentity()->elements_chantier as $element) :?>
+		<?php foreach ($user->elements_chantier as $element) :?>
 		<tr>
 			
 			<?php if ($element instanceOf \Collection\Entity\Artefact) : ?>
@@ -58,7 +58,8 @@ $this->headTitle($title);
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
 						'idElement' => $element->id,
-						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+						'idUser' => $user->getId(),
+						'return'=>'perso')); ?>" 
 					class="btn btn-primary">
 					<i class="icon-unlock"> </i> Terminer le chantier
 				</a>
@@ -71,12 +72,12 @@ $this->headTitle($title);
 <?php endif; ?>
 
 <h3>Sous-parcours
-<?php if ($this->zfcUserIdentity()->sous_parcours_chantier != null) :?>
-	<?php if ($this->zfcUserIdentity()->sous_parcours_chantier->count() == 0): ?>
+<?php if ($user->sous_parcours_chantier != null) :?>
+	<?php if ($user->sous_parcours_chantier->count() == 0): ?>
 		</h3> Aucun sous-parcours ne fait partie de vos chantiers
 	<?php else : ?>
 		<span class="badge badge-info">
-			<?php echo $this->zfcUserIdentity()->sous_parcours_chantier->count(); ?>
+			<?php echo $user->sous_parcours_chantier->count(); ?>
 		</span> </h3>
 		
 		<table class="table table-hover">
@@ -85,7 +86,7 @@ $this->headTitle($title);
 			<th>Parcours</th>
 			<th></th>
 		</tr>
-		<?php foreach ($this->zfcUserIdentity()->sous_parcours_chantier as $sous_parcours) :?>
+		<?php foreach ($user->sous_parcours_chantier as $sous_parcours) :?>
 		<tr>
 			<td><?php echo $sous_parcours->titre; ?></td>
 			<td>
@@ -98,7 +99,8 @@ $this->headTitle($title);
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
 						'idSousParcours' => $sous_parcours->id,
-						'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+						'idUser' => $user->getId(),
+						'return'=>'perso')); ?>" 
 					class="btn btn-primary">
 					<i class="icon-unlock"> </i> Terminer le chantier
 				</a>
