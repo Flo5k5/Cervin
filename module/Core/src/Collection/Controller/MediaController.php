@@ -110,7 +110,7 @@ class MediaController extends AbstractActionController
                     $this->getEntityManager()->persist($media);
                     $this->getEntityManager()->flush();
                     $this->flashMessenger()->addSuccessMessage(sprintf('Le média "%1$s" a bien ete créé.', $escapeHtml($media->titre)));
-                    return $this->redirect()->toRoute('collection/consulter');
+                    return $this->redirect()->toRoute('media/voirMedia', array('id'=>$media->id));
                 } else {
                     return new ViewModel(array('types' => $TEmedias, 'form' => $form, 'type_element_id'=>$type_element_id));
                 }

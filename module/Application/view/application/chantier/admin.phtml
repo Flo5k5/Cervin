@@ -5,7 +5,7 @@ $this->headTitle($title);
 <?php $user = $this->zfcUserIdentity(); ?>
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
-    <li class="active"> Administration </li>
+    <li class="active"> Administration <span class="divider">/</span></li>
     <li class="active"> <?php echo $this->escapeHtml($title); ?> </li>
 </ul>
 
@@ -118,6 +118,7 @@ $this->headTitle($title);
 					<td><?php echo $sous_parcour->titre; ?></td>
 					<td>
 						<a href="<?php echo $this->url('parcours/voir', array('id'=>$sous_parcour->parcours->id)); ?>" >
+						<i class="icon-road"></i>
 						<?php echo $sous_parcour->parcours->titre; ?>
 						</a>
 					</td>
