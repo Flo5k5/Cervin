@@ -244,6 +244,12 @@ class ParcoursController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return; 
         }
+        
+        if (!$Parcours->public && !$this->isAllowed('Utilisateur')) {
+        	$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public'));
+        	return $this->redirect()->toRoute('parcours');
+        }
+        
         $SemantiqueTransitions = $this->getEntityManager()
        	 	->getRepository('Parcours\Entity\SemantiqueTransition')
         	->findBy(array(), array('semantique'=>'asc'));
