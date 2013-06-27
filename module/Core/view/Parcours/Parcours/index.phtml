@@ -53,11 +53,6 @@ $this->headTitle($title);
                     	<?php if (!$this->isAllowed('Utilisateur')) : ?>
                         	<th>Titre</th>
                         	<th>Description</th>
-                        <?php elseif ($this->isAllowed('Parcours')) : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        	<th>Visibilité</th>
-                        	<th>Action</th>
                         <?php else : ?>
                         	<th>Titre</th>
                         	<th>Description</th>
@@ -68,7 +63,7 @@ $this->headTitle($title);
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="4">En cours de téléchargement</td>
+                        <td colspan="3">En cours de téléchargement</td>
                     </tr>
                 </tbody>
             </table>
@@ -94,13 +89,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 		           	            null,
 		           	           	{ "bSortable": false  },
 	           	           	 ],
-	         <?php elseif ($this->isAllowed('Parcours')) : ?>
-	         	"aoColumns": [
-		           	           	null,
-		           	           	{ "bSortable": false  },
-		           	           	null,
-		           	           	{ "bSortable": false  },
-	           	           	 ],
 	         <?php else : ?>
 	         	"aoColumns": [
 		           	           	null,
@@ -108,8 +96,8 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 		           	           	null,
 	           	           	 ],
 	         <?php endif; ?>
-	           	"iColumns": 4,
-	           	//"bAutoWidth": false,
+	           	"iColumns": 3,
+	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,

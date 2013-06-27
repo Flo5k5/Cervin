@@ -9,6 +9,7 @@ return array(
             'Collection' => 'Collection\Controller\CollectionController',
             'Artefact' => 'Collection\Controller\ArtefactController',
             'Media' => 'Collection\Controller\MediaController',
+        	'Element' => 'Collection\Controller\ElementController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
             'Relation' => 'Collection\Controller\RelationController',
             'Parcours' => 'Parcours\Controller\ParcoursController',
@@ -379,6 +380,36 @@ return array(
                 	),
                 ),
             ),
+        		
+        	'element' => array(
+        		'type' => 'Zend\Mvc\Router\Http\Literal',
+        		'options' => array(
+        			'route' => '/artefact',
+        			'defaults' => array(
+        				'controller' => 'Element',
+        				'action'     => 'index',
+        			),
+        		),
+        		'may_terminate' => true,
+        		'child_routes' => array(
+        			'changerVisibilite' => array(
+        				'type' => 'segment',
+        				'options' => array(
+        					'route' => '/changerVisibilite/:id/:return',
+        					'constraints' => array(
+        						'id'     => '[0-9]+',
+        						'return' => 'index|voir'
+        					),
+        					'defaults' => array(
+        						'controller' => 'Element',
+        						'action'     => 'changerVisibilite',
+        					),
+        				),
+        			),
+        					
+        		),
+        	),
+        		
             'semantique' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

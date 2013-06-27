@@ -21,9 +21,7 @@ class FixtureParcours implements FixtureInterface
 		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
 		$jean_kuntzmann->populate(null);
 		$jean_kuntzmann->titre = 'Jean Kutzmann';
-		$jean_kuntzmann->description = "
-				<br>
-				Jean Kuntzmann (1912-1992) fut un mathématicien français qui joua un rôle décisif dans le développement de l'informatique et des mathématiques appliquées dans la recherche et l'enseignement supérieur en France.
+		$jean_kuntzmann->description = "Jean Kuntzmann (1912-1992) fut un mathématicien français qui joua un rôle décisif dans le développement de l'informatique et des mathématiques appliquées dans la recherche et l'enseignement supérieur en France.
 				<br>
 				<br>
 				Après des études de mathématiques à l'École Normale Supérieure, Kuntzmann soutient en 1940 une thèse de doctorat en algèbre. Prisonnier de guerre, il est en captivité jusqu'en 1945, date à laquelle il rejoint Grenoble où il avait été nommé professeur en 1942. Dès son arrivée, il crée un enseignement de mathématiques pour l'ingénieur, initiative novatrice pour l'époque. Il établit une collaboration avec des entreprises industrielles de la région (Neyrpic, Merlin Gerin), qui ont de gros besoins de calcul numérique. Il perçoit très vite le potentiel du calcul automatique et créée en 1951 un Laboratoire de Calcul, auquel les contrats industriels apporteront des ressources substantielles.
@@ -50,9 +48,7 @@ class FixtureParcours implements FixtureInterface
 		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
 		$gamma_3->populate(null);
 		$gamma_3->titre = 'Gamma 3';
-		$gamma_3->description = "
-				<br>
-				Le calculateur Bull Gamma 3A symbolise la transition entre mécanographie et informatique. Cette machine est composée d’une tabulatrice dont l’organe de calcul est un calculateur électronique, qui est donc “esclave” de la tabulatrice. Ce calculateur est programmable au moyen d’un tableau de connexion, ce qui lui permet d’enchaîner plusieurs opérations en vue de calculs complexes.
+		$gamma_3->description = "Le calculateur Bull Gamma 3A symbolise la transition entre mécanographie et informatique. Cette machine est composée d’une tabulatrice dont l’organe de calcul est un calculateur électronique, qui est donc “esclave” de la tabulatrice. Ce calculateur est programmable au moyen d’un tableau de connexion, ce qui lui permet d’enchaîner plusieurs opérations en vue de calculs complexes.
 				<br>
 				<br>
 				Cette machine, produite en 1 200 exemplaires à partir de 1952-53, connut un grand succès pour les applications de gestion dans l’industrie, les banques et les assurances, car elle permettait de réutiliser le matériel mécanographique existant. Une version Gamma 3M, munie d’un opérateur en virgule flottante, fut introduite pour le calcul scientifique. Le successeur du Gamma 3, le Bull Gamma ET (“Extension Tambour”), livré à partir de 1957, était muni d’une mémoire à tambour magnétique contenant le programme et les données. Dans le Gamma ET, les rôles de la tabulatrice et du calculateur étaient inversés : l’organe maître était le calculateur, la tabulatrice servant de périphérique d’entrée-sortie. La transition entre mécanographie et informatique était accomplie.
@@ -64,9 +60,7 @@ class FixtureParcours implements FixtureInterface
 		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
 		$rene_perret->populate(null);
 		$rene_perret->titre = 'René Perret';
-		$rene_perret->description = "
-				<br>
-				René Perret (1924-2003) a été l’un des pionniers de l'enseignement et de la recherche universitaire en automatique en France. En 1957, il a fondé le Laboratoire de Servomécanismes qui deviendra le Laboratoire d'Automatique de Grenoble (LAG), puis le Gipsa-Lab. Il a été le directeur de ce laboratoire de 1957 à 1982, puis directeur honoraire de 1983 à 1994. Il a été à l'origine du premier calculateur industriel issu d'une université française (MAT 01) ; un des premiers calculateurs au monde utilisant la technologie des circuits intégrés. Ce calculateur, construit par la société Mors, était la version industrielle d'un calculateur conçu par deux thésards du LAG dirigés par R. Perret. Ce calculateur a permis au LAG d'entreprendre des recherches sur les méthodes de contrôle/commande de procédés par calculateur et à la société Mors de réaliser les premières installations industrielles de contrôle/commande.
+		$rene_perret->description = "René Perret (1924-2003) a été l’un des pionniers de l'enseignement et de la recherche universitaire en automatique en France. En 1957, il a fondé le Laboratoire de Servomécanismes qui deviendra le Laboratoire d'Automatique de Grenoble (LAG), puis le Gipsa-Lab. Il a été le directeur de ce laboratoire de 1957 à 1982, puis directeur honoraire de 1983 à 1994. Il a été à l'origine du premier calculateur industriel issu d'une université française (MAT 01) ; un des premiers calculateurs au monde utilisant la technologie des circuits intégrés. Ce calculateur, construit par la société Mors, était la version industrielle d'un calculateur conçu par deux thésards du LAG dirigés par R. Perret. Ce calculateur a permis au LAG d'entreprendre des recherches sur les méthodes de contrôle/commande de procédés par calculateur et à la société Mors de réaliser les premières installations industrielles de contrôle/commande.
 				<br>
 		";
 		$manager->persist($rene_perret);
@@ -81,9 +75,7 @@ class FixtureParcours implements FixtureInterface
 		$cours = new Collection\Entity\Artefact(null, $type_artefact_document);
 		$cours->populate(null);
 		$cours->titre = 'Cours "Calculateurs Electroniques" de René Perret';
-		$cours->description = "
-				<br>
-				En 1961-62, René Perret inaugure un cours sur les calculateurs électroniques, en 3-ème année de l'EIEG (École d'Ingénieurs Électroniciens de Grenoble). C'est l'un des tout premiers enseignements délivrés en France sur ce sujet. Il est notamment alimenté par les recherches menées au LAG (Laboratoire d'Automatique de Grenoble).
+		$cours->description = "En 1961-62, René Perret inaugure un cours sur les calculateurs électroniques, en 3-ème année de l'EIEG (École d'Ingénieurs Électroniciens de Grenoble). C'est l'un des tout premiers enseignements délivrés en France sur ce sujet. Il est notamment alimenté par les recherches menées au LAG (Laboratoire d'Automatique de Grenoble).
 				<br>
 				<br>
 				L'EIEG, créée par Jean Benoît, devait devenir l'ENSERG (École Nationale Supérieure d'Électronique et de Radioélectricité de Grenoble, appartenant à l'Institut National Polytechnique de Grenoble).
@@ -193,9 +185,7 @@ class FixtureParcours implements FixtureInterface
 		 */
 		$scene1 = $sous_parcours_debut->scene_depart;
 		$scene1->titre = "Tout commence par le calcul";
-		$scene1->narration = "
-				<br>
-				L'histoire de l'informatique à Grenoble commence avec l'arrivée du professeur Jean Kuntzmann en 1945. Sollicité par Félix Esclangon, directeur de l'Institut Polytechnique de Grenoble (École d'ingénieurs rattachée à l'université), il met en place un enseignement de mathématiques à l'usage des ingénieurs. Sensibilisé aux besoins en calcul numérique par ses contacts industriels (Neyrpic, Merlin Gerin), il crée en 1951 un Laboratoire de calcul qui tirera une grande partie de ses ressources de contrats avec l'industrie (son intitulé précise : \"Laboratoire d'essai ouvert aux applications industrielles\"). Ce laboratoire est implanté dans les combles de l'Institut Polytechnique, avenue Félix Viallet, au centre de Grenoble.
+		$scene1->narration = "L'histoire de l'informatique à Grenoble commence avec l'arrivée du professeur Jean Kuntzmann en 1945. Sollicité par Félix Esclangon, directeur de l'Institut Polytechnique de Grenoble (École d'ingénieurs rattachée à l'université), il met en place un enseignement de mathématiques à l'usage des ingénieurs. Sensibilisé aux besoins en calcul numérique par ses contacts industriels (Neyrpic, Merlin Gerin), il crée en 1951 un Laboratoire de calcul qui tirera une grande partie de ses ressources de contrats avec l'industrie (son intitulé précise : \"Laboratoire d'essai ouvert aux applications industrielles\"). Ce laboratoire est implanté dans les combles de l'Institut Polytechnique, avenue Félix Viallet, au centre de Grenoble.
 				<br>
 				<br>
 				Initialement équipé de calculatrices mécaniques et électromécaniques, le Laboratoire de calcul acquiert en 1952 un calculateur analogique, l'OME 12 de la SEA (Société d'Électronique appliquée à l'Automatisme), grâce à ses contacts avec le ministère de l'Air.
@@ -225,9 +215,7 @@ class FixtureParcours implements FixtureInterface
 		*/
 		$scene2 = new Parcours\Entity\SceneRecommandee();
 		$scene2->titre = "L'automatique, moteur de l'industrie";
-		$scene2->narration = "
-				<br>
-				En 1957, René Perret, qui vient de soutenir une thèse à l'université de Grenoble et revient d'un séjour aux États-Unis, crée un Laboratoire de Servomécanismes, rattaché à la faculté des sciences et à l'Institut polytechnique, qui deviendra en 1961 le Laboratoire d'Automatique de Grenoble (LAG). Devenu rapidement professeur, il établit dès le départ de nombreux contacts avec le monde industriel. Les contacts avec le Laboratoire de calcul (futur IMAG) de Jean Kuntzmann, créé quelques années auparavant et dans un esprit analogue, n'aboutiront pas à une collaboration, et les deux laboratoires évolueront indépendamment.
+		$scene2->narration = "En 1957, René Perret, qui vient de soutenir une thèse à l'université de Grenoble et revient d'un séjour aux États-Unis, crée un Laboratoire de Servomécanismes, rattaché à la faculté des sciences et à l'Institut polytechnique, qui deviendra en 1961 le Laboratoire d'Automatique de Grenoble (LAG). Devenu rapidement professeur, il établit dès le départ de nombreux contacts avec le monde industriel. Les contacts avec le Laboratoire de calcul (futur IMAG) de Jean Kuntzmann, créé quelques années auparavant et dans un esprit analogue, n'aboutiront pas à une collaboration, et les deux laboratoires évolueront indépendamment.
 				<br>
 				<br>
 				À partir de 1960, le laboratoire s'intéresse à l'utilisation des circuits à transistors pour la logique booléenne. En 1961, ces travaux trouvent une application chez la société Mors, constructeur d'automatismes à relais, pour remplacer les relais électromagnétiques par des relais statiques. En 1962, un département \"automatisme et électronique\" est créé au sein de la société Mors, dans les locaux de l'IPG, sous l'impulsion de Guy Jardin, ingénieur venu suivre une formation dans la section spéciale \"automatique\" de l'IPG, et de Michel Deguerry, qui quitte le LAG pour une carrière industrielle.
@@ -269,9 +257,7 @@ class FixtureParcours implements FixtureInterface
 		*/
 		$scene3 = new Parcours\Entity\SceneRecommandee();
 		$scene3->titre = "Inventer la formation";
-		$scene3->narration = "
-				<br>
-				Dans les années 1950, pour la formation à la discipline naissante de l'informatique, tout est à inventer, à commencer par la formation des formateurs. À Grenoble, les cours de mathématiques appliquées de Jean Kuntzmann sont complétés par des travaux pratiques, initialement effectués à l'aide de calculatrices de bureau, sous la direction de Jean Laborde. À partir de 1952, un calculateur analogique SEA OME 12 permet de traiter l'intégration d'équations différentielles et d'équations aux dérivées partielles. Mais la transition vers l'informatique reste à accomplir.
+		$scene3->narration = "Dans les années 1950, pour la formation à la discipline naissante de l'informatique, tout est à inventer, à commencer par la formation des formateurs. À Grenoble, les cours de mathématiques appliquées de Jean Kuntzmann sont complétés par des travaux pratiques, initialement effectués à l'aide de calculatrices de bureau, sous la direction de Jean Laborde. À partir de 1952, un calculateur analogique SEA OME 12 permet de traiter l'intégration d'équations différentielles et d'équations aux dérivées partielles. Mais la transition vers l'informatique reste à accomplir.
 				<br>
 				<br>
 				Le Laboratoire de calcul n'avait pas initialement d'ordinateur et utilisait ceux de ses partenaires industriels. C'est ainsi que le premier cours de programmation fut donné en 1956 par M. Sollaud, ingénieur à la société Normacem de Lyon, sur le calculateur  Bull Gamma 3 muni d'une extension permettant d'introduire un programme sur cartes, au lieu d'utiliser le tableau de connexion. Les cours avaient lieu à Lyon le samedi matin. Louis Bolliet rappelle qu'il y avait 4 auditeurs : Jean Kuntzmann, Jean Laborde, Henri Rohrbach (élève ingénieur à l'IPG) et lui-même. L'année suivante, Sogreah s'équipa d'un IBM 650 et des cours de programmation eurent encore lieu sur cette machine.
@@ -328,9 +314,7 @@ class FixtureParcours implements FixtureInterface
 		*/
 		$scene4 = new Parcours\Entity\SceneRecommandee();
 		$scene4->titre = "Les débuts de la recherche en informatique";
-		$scene4->narration = "
-				<br>
-				La recherche commence dès la création du Laboratoire de calcul. En effet, les nombreuses applications traitées par le laboratoire nécessitent de perfectionner les méthodes et les outils de ce qui deviendra plus tard l'analyse numérique. Les avancées réalisées font l'objet, en 1955, des Journées alpines de calcul numérique, organisées par le Laboratoire de calcul, IBM et la Sogreah.
+		$scene4->narration = "La recherche commence dès la création du Laboratoire de calcul. En effet, les nombreuses applications traitées par le laboratoire nécessitent de perfectionner les méthodes et les outils de ce qui deviendra plus tard l'analyse numérique. Les avancées réalisées font l'objet, en 1955, des Journées alpines de calcul numérique, organisées par le Laboratoire de calcul, IBM et la Sogreah.
 				<br>
 				<br>
 				En 1956 commence l'activité proprement informatique, avec l'arrivée de Louis Bolliet, initialement ingénieur au Laboratoire de calcul. En 1957, Jean Kuntzmann crée l'AFCAL (Association Française de Calcul), qui deviendra plus tard l'AFCALTI, puis l'AFCET. En 1958, il crée la revue Chiffres, dont il sera le premier rédacteur en chef. Cette association et cette revue seront les premiers lieux d'échange d'information en France sur les domaines émergents de l'analyse numérique et de la programmation des ordinateurs. Le premier congrès de l'AFCAL, qui réunit 270 participants, se tiendra à Grenoble en 1960. Il attire divers spécialistes étrangers, dont Friedrich L. Bauer et  Maurice Wilkes.
@@ -381,9 +365,7 @@ class FixtureParcours implements FixtureInterface
 		*/
 		$scene5 = new Parcours\Entity\SceneRecommandee();
 		$scene5->titre = "Technologie et composants";
-		$scene5->narration = "
-				<br>
-				L'industrie électronique à Grenoble connaît un démarrage lent dans les années 1950. Nous replaçons ici ses débuts dans le contexte plus large de l'histoire des composants électroniques modernes.
+		$scene5->narration = "L'industrie électronique à Grenoble connaît un démarrage lent dans les années 1950. Nous replaçons ici ses débuts dans le contexte plus large de l'histoire des composants électroniques modernes.
 				<br>
 				<blockquote>
 				Cette histoire commence avec l'invention du transistor en 1947. Ce dispositif semi-conducteur va rapidement remplacer les tubes électroniques, avec une fiabilité bien plus élevée, un faible encombrement et une consommation d'énergie réduite. Dès 1950, le transistor est intégré dans des produits de grande consommation. Le premier ordinateur transistorisé est construit par les Bell Labs en 1954. Dès lors, l'emploi du transistor dans les circuits des ordinateurs va se généraliser.
@@ -427,8 +409,7 @@ class FixtureParcours implements FixtureInterface
 		//
 		$scene6 = new Parcours\Entity\SceneRecommandee();
 		$scene6->titre = "Usages de l'informatique";
-		$scene6->narration = "
-				La période 1965-1980 voit le début de la pénétration de l'informatique dans un nombre croissant d'activités. Mais c'est encore souvent une informatique lourde, centralisée ; l'apparition de la micro-informatique au milieu des années 1970 mettra quelques années à produire ses effets dans les usages. L'informatique s'introduit dans le domaine des télécommunications (on parle de téléinfomatique), mais dans la pratique on est encore dans l'ère pré-Internet : à la fin des années 1970, on travaille sur des réseaux point à point et on utilise le modèle rigide du vidéotex. En 1979, une étape importante est franchie avec le lancement du réseau Transpac. La grande révolution des réseaux se fera dans les années 1980.
+		$scene6->narration = "La période 1965-1980 voit le début de la pénétration de l'informatique dans un nombre croissant d'activités. Mais c'est encore souvent une informatique lourde, centralisée ; l'apparition de la micro-informatique au milieu des années 1970 mettra quelques années à produire ses effets dans les usages. L'informatique s'introduit dans le domaine des télécommunications (on parle de téléinfomatique), mais dans la pratique on est encore dans l'ère pré-Internet : à la fin des années 1970, on travaille sur des réseaux point à point et on utilise le modèle rigide du vidéotex. En 1979, une étape importante est franchie avec le lancement du réseau Transpac. La grande révolution des réseaux se fera dans les années 1980.
 				<br><br>
 				Cette période voit aussi le développement des sociétés de service et de conseil en informatique et le début de l'informatisation de l'administration. Si l'informatique de gestion reste le domaine majeur, on doit noter l'essor de l'informatique industrielle qui trouve de multiples champs d'application.
 				<br><br>

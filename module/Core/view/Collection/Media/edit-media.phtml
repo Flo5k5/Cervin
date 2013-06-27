@@ -51,31 +51,54 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		</h1>
 	</div>
 	<div class="span3">
-		<?php if ($media->utilisateur === $this->zfcUserIdentity()): ?>
-			<p class="text-warning">
-				<em> <i class="icon-cogs"></i> 
-				Ce média fait partie de 
-				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
-				</em>
-			</p>
-			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
-					'idElement' => $media->id,
-					'idUser' => $this->zfcUserIdentity()->getId(),
-					'return'=>'perso')); ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-unlock"> </i> Terminer le chantier
-			</a>
+	
+		<?php if ($media->public) :?>
+			<p><strong><i class="icon-eye-open"></i> Ce média est public</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-close"></i> Passer en brouillon'; ?>
+		<?php else :?>
+			<p><strong><i class="icon-eye-close"></i> Ce média est un brouillon</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-open"></i> Passer en public'; ?>
 		<?php endif;?>
-		<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)) ?>" 
-        	class="btn btn-primary btn-block">
-        	<i class="icon-reply"> </i> Retour à la fiche de ce média
-        </a>
-		<a href="#confirmModal" 
-			data-toggle="modal" 
-			class="btn btn-danger btn-block">
-			<i class="icon-trash"> </i>  Supprimer ce média
-		</a>
-	</div>
+	
+		<p class="text-warning">
+			<em> <i class="icon-cogs"></i> 
+			Ce média fait partie de 
+			<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+			</em>
+		</p>
+		<div class="btn-group btn-block">
+    		<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    			Actions 
+    			<span class="caret"></span>
+    		</a>
+    		<ul class="dropdown-menu">
+	   			<li>
+					<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+						'idElement' => $media->id,
+						'idUser' => $this->zfcUserIdentity()->getId(),
+						'return'=>'element')); ?>" >
+						<span class="text-warning"><i class="icon-unlock"> </i></span> Terminer le chantier
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $media->id, 'return'=>'voir')); ?>">
+						<?php echo $btn_visibilite; ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('media/voirMedia',array('id' => $media->id)) ?>">
+			        	<i class="icon-reply"> </i> Retour à la fiche de ce média
+			        </a>
+				</li>
+				<li>
+					<a href="#confirmModal" 
+						data-toggle="modal" >
+						<span class="text-error"><i class="icon-trash"> </i></span>  Supprimer ce média
+					</a>
+				</li>
+			</ul>
+    	</div>
+    </div>
 </div>
 
 <!--Confirm Modal -->

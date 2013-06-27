@@ -143,6 +143,11 @@ return array(
                     'controller' => 'Media',
                     'roles' => array('Utilisateur')
                 ),
+            		
+            	array(
+            		'controller' => 'Element',
+            		'roles' => array('Collection')
+            	),
                 
                 array(
                     'controller' => 'Parcours',
@@ -242,6 +247,8 @@ return array(
             	array('route' => 'media/addRelationMediaArtefact', 'roles' => array('Collection')),
             	array('route' => 'media/supprimerRelationMediaArtefact', 'roles' => array('Collection')),
             	array('route' => 'media/getAllArtefact', 'roles' => array('Utilisateur')),
+            		
+				array('route' => 'element/changerVisibilite', 'roles' => array('Collection')),
 
                 array('route' => 'semantique', 'roles' => array('Modeleur')),
                 array('route' => 'semantique/ajouter', 'roles' => array('Modeleur')),

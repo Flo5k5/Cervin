@@ -127,19 +127,19 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 	<div class="span3">
 	<?php if ($this->isAllowed('Utilisateur')) :?>
 		<?php if (!$Parcours->public) :?>
-			<h5>Ce parcours est un brouillon</h5>
+			<h5><i class="icon-eye-close"></i> Ce parcours est un brouillon</h5>
 			<?php if ($this->isAllowed('Parcours')) :?>
 				<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
-					class="btn btn-danger btn-block">
-					<i class="icon-share"></i> Passer en public
+					class="btn btn-primary btn-block">
+					<i class="icon-eye-open"></i> Passer en public
 				</a>
 			<?php endif;?>
 		<?php else :?>
-			<h5>Ce parcours est public</h5>
+			<h5><i class="icon-eye-open"></i> Ce parcours est public</h5>
 			<?php if ($this->isAllowed('Parcours')) :?>
 				<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
-					class="btn btn-danger btn-block">
-					<i class="icon-ban-circle"></i> Passer en brouillon
+					class="btn btn-primary btn-block">
+					<i class="icon-eye-close"></i> Passer en brouillon
 				</a>
 			<?php endif;?>
 		<?php endif;?>
@@ -164,7 +164,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 							<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
 									'idSousParcours' => $sous_parcours->id,
 									'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
-								class="btn btn-primary btn-block">
+								class="btn btn-warning btn-block">
 								<i class="icon-cogs"> </i> Commencer un chantier sur ce sous-parcours
 							</a>
 						<?php elseif ($sous_parcours->utilisateur === $this->zfcUserIdentity()): ?>
@@ -175,6 +175,14 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 								<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
 								</em><br>
 							</p>
+							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
+									'idSousParcours' => $sous_parcours->id,
+									'idUser' => $this->zfcUserIdentity()->getId(),
+									'return'=>'perso')); ?>" 
+								class="btn btn-warning btn-block">
+								<i class="icon-unlock"> </i> Terminer le chantier
+							</a>
+							<br>
 							<p class="edit CursorPointer"
 					        	data-url="<?php echo $this->url("parcours/editSousParcours",array('idsp'=>$sous_parcours->id)) ?>"
 					            data-name="titre" 
@@ -182,13 +190,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 					            data-pk="heading<?php echo $sous_parcours->id; ?>">
 					            <?php echo $this->escapeHtml($sous_parcours->titre); ?>
 					        </p>
-							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
-									'idSousParcours' => $sous_parcours->id,
-									'idUser' => $this->zfcUserIdentity()->getId(),
-									'return'=>'perso')); ?>" 
-								class="btn btn-primary btn-block">
-								<i class="icon-unlock"> </i> Terminer le chantier
-							</a>
 							<a href="<?php echo $this->url('scene/creerSceneSecondaire', array("idsp" => $sous_parcours->id)) ?>"
 			                	class="btn btn-primary btn-block">
 			                    	<i class="icon-plus"></i> Ajouter une scène

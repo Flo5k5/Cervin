@@ -93,7 +93,7 @@ class ChampSelectController extends AbstractActionController
 
             foreach ($dataTable->getPaginator() as $select) {
 
-            	$apercu = '<select id="select2_'.$select->id.'" class="select input-block-level">';
+            	$apercu = '<select id="select2_'.$select->id.'" class="select">';
 			    foreach ($select->select_values as $select_value) {
 			    	$apercu .= '<option value="'.$select_value->id.'">'.$escapeHtml($select_value->text).'</option>';
 			    }

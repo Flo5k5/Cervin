@@ -53,30 +53,53 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	</div>
 	
 	<div class="span3">
-		<?php if ($artefact->utilisateur === $this->zfcUserIdentity()): ?>
-			<p class="text-warning">
-				<em> <i class="icon-cogs"></i> 
-				Cet artefact fait partie de 
-				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
-				</em>
-			</p>
-			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
-					'idElement' => $artefact->id,
-					'idUser' => $this->zfcUserIdentity()->getId(),
-					'return'=>'perso')); ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-unlock"> </i> Terminer le chantier
-			</a>
+	
+		<?php if ($artefact->public) :?>
+			<p><strong><i class="icon-eye-open"></i> Cet artefact est public</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-close"></i> Passer en brouillon'; ?>
+		<?php else :?>
+			<p><strong><i class="icon-eye-close"></i> Cet artefact est un brouillon</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-open"></i> Passer en public'; ?>
 		<?php endif;?>
-		<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $artefact->id)) ?>" 
-        	class="btn btn-primary btn-block">
-        	<i class="icon-reply"> </i> Retour à la fiche de cet artefact
-        </a>
-		<a href="#confirmModal" 
-			data-toggle="modal" 
-			class="btn btn-danger btn-block">
-			<i class="icon-trash"> </i>  Supprimer cet artefact
-		</a>
+		
+		<p class="text-warning">
+			<em> <i class="icon-cogs"></i> 
+			Cet artefact fait partie de 
+			<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
+			</em>
+		</p>
+		<div class="btn-group btn-block">
+    		<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    			Actions 
+    			<span class="caret"></span>
+    		</a>
+    		<ul class="dropdown-menu">
+	   			<li>
+					<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+						'idElement' => $artefact->id,
+						'idUser' => $this->zfcUserIdentity()->getId(),
+						'return'=>'element')); ?>" >
+						<span class="text-warning"><i class="icon-unlock"> </i></span> Terminer le chantier
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $artefact->id, 'return'=>'voir')); ?>">
+						<?php echo $btn_visibilite; ?>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $artefact->id)) ?>">
+			        	<i class="icon-reply"> </i> Retour à la fiche de cet artefact
+			        </a>
+				</li>
+				<li>
+					<a href="#confirmModal" 
+						data-toggle="modal" >
+						<span class="text-error"><i class="icon-trash"> </i></span>  Supprimer cet artefact
+					</a>
+				</li>
+			</ul>
+    	</div>
     </div>
     
 </div>
@@ -336,22 +359,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
 	
 	$(function () {
-		// on checked ou non l'input En ligne 
-		$('input[name=onLine]').attr('checked', <?php echo ($artefact->onLine == 1 ) ? 'true' : 'false' ; ?>);
-
-		// si on click sur l'input En ligne
-		$("#onLine").on("click", function(e){
-			val = $('input[name=onLine]').is(':checked')
-
-			$.ajax({
-			        url: '<?php echo $this->url("collection/onLine",array('id'=>$artefact->id)) ?>',
-			        type: "POST",
-			        data: { onLine: val } , 
-			    }).done(function(){
-			    });
-		});
 		
-
 		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
 			locale: "fr-FR",

@@ -489,4 +489,5 @@ class MediaController extends AbstractActionController
 			return;
 		}
 	}
+
 }

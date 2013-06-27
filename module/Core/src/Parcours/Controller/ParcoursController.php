@@ -92,12 +92,6 @@ class ParcoursController extends AbstractActionController
 	    		'titre',
 		        'description'
 	    	));
-	    } elseif ($this->isAllowed('Parcours')) {
-    		$dataTable->setConfiguration(array(
-    			'titre',
-    			'description',
-    			'public'
-    		));
 	    } else {
 	    	$dataTable->setConfiguration(array(
 	    		'titre',
@@ -106,7 +100,6 @@ class ParcoursController extends AbstractActionController
 	    	));
 	    }
 
-    
     	$aaData = array();
     	
     	$paginator = null;
@@ -125,22 +118,11 @@ class ParcoursController extends AbstractActionController
 							.$escapeHtml($parcours->titre).'
 						</a>';
     		
-			$etat = '';
-			$action = '';
 			// Si on a les droits parcours, on ajoute un bouton pour changer la visibilité
 			if ($parcours->public) {
 				$etat = 'Public';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id, 'return'=>'index')) .'" 
-		    		class="btn btn-danger">
-						<i class="icon-ban-circle"></i> Passer en brouillon
-					</a>';
 			} else {
 				$etat = 'Brouillon';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id, 'return'=>'index')) .'"
-					data-url="#"
-		    		class="btn btn-danger">
-						<i class="icon-share"></i> Passer en public
-					</a>';
 			}
 
 			if (!$this->isAllowed('Utilisateur') && $parcours->public) {
@@ -149,14 +131,6 @@ class ParcoursController extends AbstractActionController
 						$titre,
 						$dataTable->truncate($parcours->description, 250, ' ...', false, true)
 				);
-			} elseif ($this->isAllowed('Parcours')) {
-				// Si on a les droits parcours, on affiche un bouton pour changer la visibilité
-	    		$aaData[] = array(
-	    				$titre,
-	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
-	    				$etat,
-	    				$action
-	    		);
 			} else {
 				// Contributeur qui n'a pas les droits parcours
 	    		$aaData[] = array(

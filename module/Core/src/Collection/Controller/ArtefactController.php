@@ -704,4 +704,5 @@ class ArtefactController extends AbstractActionController
 			return;
 		}
 	}
+	
 }

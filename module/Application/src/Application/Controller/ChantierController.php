@@ -57,10 +57,10 @@ class ChantierController extends AbstractActionController
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
 		if ($element instanceOf \Collection\Entity\Artefact) {
-			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em>'. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
+			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
 			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$idElement));
     	} else {
-    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em>'. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
+    		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
     		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$idElement));
     	}
     }
@@ -86,8 +86,14 @@ class ChantierController extends AbstractActionController
     	$return = $this->params()->fromRoute('return', 0);
     	if ($return == 'admin') {
     		return $this->redirect()->toRoute('chantier/admin');
-    	} else {
+    	} elseif ($return == 'chantier'){
     		return $this->redirect()->toRoute('chantier');
+    	} else {
+    		if ($element instanceOf \Collection\Entity\Artefact) {
+    			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$idElement));
+    		} else {
+    			return $this->redirect()->toRoute('media/voirMedia', array('id'=>$idElement));
+    		}
     	}
     }
     
@@ -128,8 +134,10 @@ class ChantierController extends AbstractActionController
     	$return = $this->params()->fromRoute('return');
     	if ($return == 'admin') {
     		return $this->redirect()->toRoute('chantier/admin');
-    	} else {
+    	} elseif ($return == 'chantier'){
     		return $this->redirect()->toRoute('chantier');
+    	} else {
+    		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
     	}
     }
     

@@ -93,7 +93,7 @@ return array(
             				'constraints' => array(
             					'idElement'     => '[0-9]+',
             					'idUser'     	=> '[0-9]+',
-            					'return'     	=> 'perso|admin',
+            					'return'     	=> 'perso|admin|element',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',
@@ -122,7 +122,7 @@ return array(
             				'constraints' => array(
             					'idSousParcours'    => '[0-9]+',
             					'idUser'    	 	=> '[0-9]+',
-            					'return'     		=> 'perso|admin',
+            					'return'     		=> 'perso|admin|sousparcours',
             				),
             				'defaults' => array(
             					'controller' => 'Chantier',

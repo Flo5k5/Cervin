@@ -105,13 +105,21 @@ class CollectionController extends AbstractActionController
 	    	$dataTable = new \Collection\Model\ElementDataTable($params);
 	    	$dataTable->setEntityManager($entityManager);
 	    
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-		        'description',
-	    	    'nom',
-	    		'type'
-	    	));
-	    
+	    	if (!$this->isAllowed('Utilisateur')) {
+	    		$dataTable->setConfiguration(array(
+	    				'titre',
+	    				'description',
+	    	    		'nom',
+	    		));
+	    	} else {
+	    		$dataTable->setConfiguration(array(
+	    				'titre',
+				        'description',
+			    	    'nom',
+	    				'public'
+	    		));
+	    	}
+	    	
 	    	$aaData = array();
 	    	
 	    	$paginator = null;
@@ -125,6 +133,12 @@ class CollectionController extends AbstractActionController
 	    		
 	    	foreach ($paginator as $element) {
 	    		
+	    		if ($element->public) {
+	    			$visibilite = 'Public';
+	    		} else {
+	    			$visibilite = 'Brouillon';
+	    		}
+	    		
 	    		$titre = '';
 	    		if($element->type_element->type == 'artefact'){
 	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
@@ -134,12 +148,22 @@ class CollectionController extends AbstractActionController
 	    			$titre = $escapeHtml($element->titre);
 	    		}
 	    		
-	    		$aaData[] = array(
-	    				$titre,
-	    				$dataTable->truncate($element->description, 250, ' ...', false, true),
-	    				$element->type_element->nom,
-	    				$element->type_element->type
-	    		);
+	    		if (!$this->isAllowed('Utilisateur') && $parcours->public) {
+	    			// Pour un visiteur, on affiche que les éléments publics
+	    			$aaData[] = array(
+	    					$titre,
+	    					$dataTable->truncate($element->description, 250, ' ...', false, true),
+	    					$element->type_element->nom,
+	    			);
+	    		} else {
+	    			// Contributeur qui n'a pas les droits collection
+	    			$aaData[] = array(
+	    					$titre,
+		    				$dataTable->truncate($element->description, 250, ' ...', false, true),
+		    				$element->type_element->nom,
+	    					$visibilite
+	    			);
+	    		}
 	    	}
 	    	
 	    	$dataTable->setAaData($aaData);

@@ -4,10 +4,16 @@
                 <table class="table table-striped table-bordered data">
                     <thead>
                         <tr>
-                            <th>Titre</th>
-                            <th>Description</th>
-                            <th>Type</th>
-                            <th>A/M</th>
+	                        <?php if (!$this->isAllowed('Utilisateur')) : ?>
+	                        	<th>Titre</th>
+	                            <th>Description</th>
+	                            <th>Type</th>
+	                        <?php else : ?>
+	                        	<th>Titre</th>
+	                            <th>Description</th>
+	                            <th>Type</th>
+	                        	<th>Visibilité</th>
+	                        <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,14 +38,23 @@
 	    tableCollection = ResultSet.paginate(
 	    	$('.data'),
 			{
+			<?php if (!$this->isAllowed('Utilisateur')) : ?>
 	           	"aoColumns": [
-		           	           	null,
+		           	            null,
 		           	           	null, 
-		           	        	null,
 		                     	null
 	           	           	 ],
+	         <?php else : ?>
+	         	"aoColumns": [
+		           	           	null,
+		           	           	null, 
+		                     	null,
+		           	           	null,
+	           	           	 ],
+	         <?php endif; ?>
+			
 	           	"iColumns": 4,
-	           	//"bAutoWidth": false,
+	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,

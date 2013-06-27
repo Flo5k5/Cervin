@@ -68,6 +68,7 @@ class Media extends Element
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
+		$this->public = false;
 	}
 	
 }
