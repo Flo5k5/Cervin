@@ -147,7 +147,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 "sAjaxSource": "<?php echo $this->url("champSelect"); ?>",
                 "fnDrawCallback": function () {
     
-                    $('[data-toggle="popover"]').popover({placement:'top', trigger:'hover'}); 
+                    $('[data-toggle="popover"],.classPopover').popover({placement:'top', trigger:'hover'}); 
+                    
     
                     $('.text').editable({ 
                         mode: 'inline',
@@ -255,8 +256,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 var resp = jQuery.parseJSON(e);
                 $('.messageEditUsers').showInfos(resp.message, resp.type);
                 $('#ajouterCSVModal').modal('hide');
-                liste1.val(',');
-                delimiteur1.val('');
+                liste1.val('');
+                delimiteur1.val(',');
                 $('body').css('cursor', 'auto');
             });
         });
