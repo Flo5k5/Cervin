@@ -25,6 +25,13 @@ class ChampSelectForm extends Form
 		));
 
 		$this->add(array(
+			'name' => 'label',
+			'attributes' => array('type'  => 'text',
+				'placeholder' => 'Label'),
+			'options' => array('label' => 'Label')
+		));
+
+		$this->add(array(
            	'type' => 'select',
             'name' => 'select',
             'options' => array(

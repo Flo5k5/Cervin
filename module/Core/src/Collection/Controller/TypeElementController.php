@@ -238,7 +238,7 @@ class TypeElementController extends AbstractActionController
                                 return $this->getResponse()->setContent(Json::encode(true));
                             } else {
                             	// Form non valide
-                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>' class="active"','ChampSelect'=>''));
+                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'active','ChampSelect'=>''));
                                 $viewModel->setTerminal(true);
                                 return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                             }
@@ -251,7 +251,7 @@ class TypeElementController extends AbstractActionController
                                 $idSelect = (int) $request->getPost('select');
                                 $select = $this->getEntityManager()->getRepository('Collection\Entity\Select')->findOneBy(array('id'=>$idSelect));
 
-                                $champSelect->label = $select->label;
+                                $champSelect->label = $request->getPost('label');
                                 $champSelect->format = 'select';
                                 $champSelect->description = $request->getPost('description');
                                 $champSelect->select = $select;
@@ -263,13 +263,13 @@ class TypeElementController extends AbstractActionController
                                 return $this->getResponse()->setContent(Json::encode(true));
                             } else {
                                 // Form non valide
-                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'','ChampSelect'=>' class="active"'));
+                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'','ChampSelect'=>'active'));
                                 $viewModel->setTerminal(true);
                                 return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                             }
                         }
                     } 
-                    $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>' class="active"','ChampSelect'=>''));
+                    $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'active','ChampSelect'=>''));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                     break; // end case ajChamp

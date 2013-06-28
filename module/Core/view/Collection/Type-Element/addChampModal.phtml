@@ -7,12 +7,12 @@
     
 
   	<ul class="nav nav-tabs" id="myTab">
-  		<li<?php echo $Champ;?>><a href="#Champ" data-toggle="tab">Champ classique</a></li>
-  		<li<?php echo $ChampSelect;?>><a href="#ChampSelect" data-toggle="tab">Champ de type Select</a></li>
+  		<li class="<?php echo $Champ;?>"><a href="#Champ" data-toggle="tab">Champ classique</a></li>
+  		<li class="<?php echo $ChampSelect;?>"><a href="#ChampSelect" data-toggle="tab">Champ de type Select</a></li>
   	</ul>
 
   	<div class="tab-content">
-  		<div class="tab-pane active" id="Champ">
+  		<div class="tab-pane <?php echo $Champ;?>" id="Champ">
 	<?php
 	$form = $this->formChamp;
 
@@ -56,9 +56,10 @@
 	<?php echo $this->form()->closeTag();?>
 
   		</div>
-  		<div class="tab-pane" id="ChampSelect">
+  		<div class="tab-pane <?php echo $ChampSelect;?>" id="ChampSelect">
 	<?php
 	$form = $this->formChampSelect;
+	$form->get('label')->setLabelAttributes(array('class' => 'control-label'));
 	$form->get('select')->setLabelAttributes(array('class' => 'control-label'));
 	$form->get('description')->setLabelAttributes(array('class' => 'control-label'));
 
@@ -66,7 +67,13 @@
 
 	echo $this->form()->openTag($form);
 	echo $this->formHidden($form->get('id')); ?>
-
+	<div class="control-group">
+		<?php echo $this->formLabel($form->get('label')) ?>
+		<div class="controls">
+		<?php echo $this->formInput($form->get('label')) ?>
+		<?php echo $this->formElementErrors($form->get('label')) ?>
+		</div>
+	</div>
 	<div class="control-group">
 		<?php echo $this->formLabel($form->get('select')) ?>
 		<div class="controls">

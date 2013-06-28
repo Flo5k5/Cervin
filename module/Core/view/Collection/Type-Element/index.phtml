@@ -93,17 +93,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                         class="confirmDiv">
                                         <i class="icon-white icon-trash"></i>
                                     </a> 
-                                    <?php 
-                                    if ($champ instanceof \Collection\Entity\ChampSelect)  { ?>
-                                        <?php echo $this->escapeHtml($champ->label); ?>
-                            <?php   } else { ?>
+                                    
                                         <span class="edit CursorPointer" 
                                             data-name="label" 
                                             data-type="text" data-pk="1" 
                                             data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>">
                                             <?php echo $this->escapeHtml($champ->label); ?>
                                         </span> 
-                            <?php   } ?>
+                            
                                     [<?php echo $this->escapeHtml($champ->format); ?>]
                                 </dt>
                                 <dd>
@@ -169,10 +166,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                     class="confirmDiv">
                                     <i class="icon-white icon-trash"></i>
                                 </a> 
-                                    <?php 
-                                    if ($champ instanceof \Collection\Entity\ChampSelect)  { ?>
-                                        <?php echo $this->escapeHtml($champ->label); ?>
-                            <?php   } else { ?>
+                                    
                                         <span class="edit CursorPointer" 
                                             data-name="label" 
                                             data-type="text" 
@@ -180,7 +174,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                             data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>">
                                             <?php echo $this->escapeHtml($champ->label); ?>
                                         </span> 
-                            <?php   } ?>
+                            
                                 [<?php echo $this->escapeHtml($champ->format); ?>]
 
                             </dt>
@@ -289,6 +283,7 @@ $this->inlineScript()->captureStart();
 
         $("#modalDiv").on("click",".ajChampSelectSubmit", function(e){
             var $form = $('.ajChampSelectForm');
+            var labelVal = $form.find( 'input[name="label"]' ).val();
             var selectVal = $form.find( 'select[name="select"]' ).val();
             var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
             var URL = $form.attr( 'action' );
@@ -296,7 +291,7 @@ $this->inlineScript()->captureStart();
             $.ajax({
                 url: URL,
                 type: "POST",
-                data:{ name:'ajChamp',typeChamp:'champSelect', submit:'true', select: selectVal, description: descriptionVal }, 
+                data:{ name:'ajChamp',typeChamp:'champSelect', submit:'true', select: selectVal, description: descriptionVal, label: labelVal  }, 
                 success:function(response){
         
                     if(response == 'true') {
