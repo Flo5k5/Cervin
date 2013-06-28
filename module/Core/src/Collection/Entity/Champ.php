@@ -256,24 +256,69 @@ class ChampRepository extends EntityRepository
     public function getChampsDatasElement($element,$type_element)
     {
         $em  = $this->getEntityManager();
-        $qb  = $em->createQueryBuilder();
+       /* $qb  = $em->createQueryBuilder();
 
         $qb ->select('c.label as label, 
                     c.id as id, 
                     c.description as description, 
                     c.format as format,
-                    d as data ')
+                    $qb ->select('
+                    d as data, c as champ  ')
             ->from('Collection\Entity\Champ', 'c')
             ->leftJoin('Collection\Entity\Data', 'd', 'WITH','d.element = :element AND d.champ = c')
+          //  ->leftJoin('Collection\Entity\ChampSelect', 'cs', 'WITH','c.id = cs.id')
 
             ->where('c.type_element = :type_element')
 
             ->setParameter('type_element', $type_element)
             ->setParameter('element', $element)
             ->orderBy('c.label', 'ASC')
+            ->expr()->exists ('SELECT cs.label as rr
+    FROM Collection\Entity\ChampSelect cs
+    WHERE cs.id = c.id ')
+            //->groupeBy('c.id')
             ;
 
         return $qb->getQuery()->getResult();
+
+*/
+
+
+$query = $em->createQuery('
+            SELECT  
+                    c as champ, 
+                    d as data
+
+            FROM  Collection\Entity\Champ c 
+            LEFT Join Collection\Entity\Data AS d WITH d.element = :element AND d.champ = c 
+            
+            where (
+                c.type_element = :type_element 
+                )
+                    
+                ')
+
+        ->setParameter('type_element', $type_element)
+        ->setParameter('element', $element)
+        ;
+
+        $result = $query->execute();
+        $return = array();
+        $last = array();
+        foreach ($result as $key => $value) {
+
+
+            if ($key%2 and $key != 0) { // impaire
+                $return[] = array('champ'=>$last,'data'=>$value['data']);
+            } else {
+                $last = $value['champ'];
+            }
+
+        }
+
+        return $return;
+        //return $query->execute();
+
 
     }
     /**
@@ -304,7 +349,7 @@ class ChampRepository extends EntityRepository
         ->setParameter('element', $element)
         ;
 
-        return $query->execute();*/
+        return $query->execute();
 
         $qb  = $em->createQueryBuilder();
 
@@ -324,6 +369,41 @@ class ChampRepository extends EntityRepository
             ;
 
         return $qb->getQuery()->getSingleResult();
+*/
+
+        $query = $em->createQuery('
+            SELECT  
+                    c as champ, 
+                    d as data
+
+            FROM  Collection\Entity\Champ c 
+            LEFT Join Collection\Entity\Data AS d WITH d.element = :element AND d.champ = c 
+            
+            where (
+                c = :champ 
+                )
+                    
+                ')
+
+        ->setParameter('champ', $champ)
+        ->setParameter('element', $element)
+        ;
+
+        $result = $query->execute();
+        $return = array();
+        $last = array();
+        foreach ($result as $key => $value) {
+
+
+            if ($key%2 and $key != 0) { // impaire
+                $return = array('champ'=>$last,'data'=>$value['data']);
+            } else {
+                $last = $value['champ'];
+            }
+
+        }
+
+        return $return;
 
         
     }

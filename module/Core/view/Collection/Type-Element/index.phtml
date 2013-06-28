@@ -93,15 +93,27 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                         class="confirmDiv">
                                         <i class="icon-white icon-trash"></i>
                                     </a> 
-                                    <span class="edit CursorPointer" 
-                                        data-name="label" 
-                                        data-type="text" data-pk="1" 
-                                        data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>">
+                                    <?php 
+                                    if ($champ instanceof \Collection\Entity\ChampSelect)  { ?>
                                         <?php echo $this->escapeHtml($champ->label); ?>
-                                    </span> [<?php echo $this->escapeHtml($champ->format); ?>]
-
+                            <?php   } else { ?>
+                                        <span class="edit CursorPointer" 
+                                            data-name="label" 
+                                            data-type="text" data-pk="1" 
+                                            data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>">
+                                            <?php echo $this->escapeHtml($champ->label); ?>
+                                        </span> 
+                            <?php   } ?>
+                                    [<?php echo $this->escapeHtml($champ->format); ?>]
                                 </dt>
-                                <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
+                                <dd>
+                                    <p class="edit CursorPointer" 
+                                       data-name="description" 
+                                       data-inputclass="" 
+                                       data-type="textarea" 
+                                       data-rows="2" 
+                                       data-pk="1" 
+                                       data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
                             </div>    
                             <?php endforeach; ?>
                         </dl>
@@ -157,13 +169,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                     class="confirmDiv">
                                     <i class="icon-white icon-trash"></i>
                                 </a> 
-                                <span class="edit CursorPointer" 
-                                    data-name="label" 
-                                    data-type="text" 
-                                    data-pk="1" 
-                                    data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>">
-                                    <?php echo $this->escapeHtml($champ->label); ?>
-                                </span> [<?php echo $this->escapeHtml($champ->format); ?>]
+                                    <?php 
+                                    if ($champ instanceof \Collection\Entity\ChampSelect)  { ?>
+                                        <?php echo $this->escapeHtml($champ->label); ?>
+                            <?php   } else { ?>
+                                        <span class="edit CursorPointer" 
+                                            data-name="label" 
+                                            data-type="text" 
+                                            data-pk="1" 
+                                            data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>">
+                                            <?php echo $this->escapeHtml($champ->label); ?>
+                                        </span> 
+                            <?php   } ?>
+                                [<?php echo $this->escapeHtml($champ->format); ?>]
 
                             </dt>
                             <dd><p class="edit CursorPointer" data-name="description" data-inputclass="" data-type="textarea" data-rows="2" data-pk="1" data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEmedia->id,'idChamp'=>$champ->id)) ?>"><?php echo $champ->description;?></p></dd>
@@ -232,7 +250,7 @@ $this->inlineScript()->captureStart();
 		            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 		
 		            $('form.ajChampForm').attr('action', URL);
-		
+		            $('form.ajChampSelectForm').attr('action', URL);
 		            //console.info($('form.ajChampForm').attr('action')+'::'+ URL);
 		        },
 		        error: function(){
@@ -251,7 +269,7 @@ $this->inlineScript()->captureStart();
 		    $.ajax({
 		        url: URL,
 		        type: "POST",
-		        data:{ name:'ajChamp', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
+		        data:{ name:'ajChamp',typeChamp:'classique', submit:'true', format: formatVal, description: descriptionVal, label: labelVal }, 
 		        success:function(response){
 		
 		            if(response == 'true') {
@@ -260,6 +278,7 @@ $this->inlineScript()->captureStart();
 		
 		                $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 		                $('form.ajChampForm').attr('action', URL);
+                        $('form.ajChampSelectForm').attr('action', URL);
 		            }
 		        },
 		        error: function(response){
@@ -267,6 +286,33 @@ $this->inlineScript()->captureStart();
 		        }
 		    });
 		});
+
+        $("#modalDiv").on("click",".ajChampSelectSubmit", function(e){
+            var $form = $('.ajChampSelectForm');
+            var selectVal = $form.find( 'select[name="select"]' ).val();
+            var descriptionVal = $form.find( 'textarea[name="description"]' ).val();
+            var URL = $form.attr( 'action' );
+        
+            $.ajax({
+                url: URL,
+                type: "POST",
+                data:{ name:'ajChamp',typeChamp:'champSelect', submit:'true', select: selectVal, description: descriptionVal }, 
+                success:function(response){
+        
+                    if(response == 'true') {
+                        location.reload();
+                    } else {
+        
+                        $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
+                        $('form.ajChampForm').attr('action', URL);
+                        $('form.ajChampSelectForm').attr('action', URL);
+                    }
+                },
+                error: function(response){
+                    alert('Impossible d\'ajouter des champ');
+                }
+            });
+        });
 		
 		$(".ajTypeMedia").on("click", function(e){
 		    var URL = $(this).attr('data-url');

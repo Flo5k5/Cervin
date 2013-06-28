@@ -5,8 +5,7 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
-//$this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
-//$this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
 <ul class="breadcrumb">
@@ -125,18 +124,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					</dd>
 					<?php foreach($ChampsDatasElement as $champData) :?>
 					<dt>
-						<?php echo $this->escapeHtml($champData['label']); ?> 
-						<?php if ($champData['description'] != null) : ?>
+						<?php echo $this->escapeHtml($champData['champ']->label); ?> 
+						<?php if ($champData['champ']->description != null) : ?>
 				        	<a href="#" 
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $champData['description']; ?>"
+			        			data-content="<?php echo $this->escapeHtml($champData['champ']->description); ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php endif; ?>
 					</dt>
 					<dd>
-						<?php 
-						switch ($champData['format']) :
+						<?php
+						switch ($champData['champ']->format) :
 							case 'texte':
 								if($champData['data'] == null or $champData['data']->texte == null){
 									$texte = null;
@@ -146,13 +145,38 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="text" 
-										data-pk="'.$champData['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])).'">
+										data-pk="'.$champData['champ']->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'">
 									'.$this->escapeHtml($texte).'
 								</span>';
 								echo '</br></br>';
 								break;
+							case 'select':
+								if($champData['data'] == null or $champData['data']->value == null){
+				    				$initSelection = '';
+				    				
 
+								} else {
+				    				$initSelection = $champData['data']->value->id;
+								}
+
+								$select_values = $champData['champ']->select->select_values;
+								$source = array();
+								foreach ($select_values as  $key => $select_value) {
+									$source[] = array( "id" => $select_value->id, "text" => $this->escapeHtml($select_value->text) );
+								}
+
+
+								echo '<span class="Xselect2 CursorPointer" 
+										data-name="data" 
+										data-type="select2" 
+										data-pk="'.$champData['champ']->id.'" 
+										data-source=\''.json_encode($source).'\'
+										data-value=\''.$initSelection.'\'
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'"
+										></span>';
+								echo '</br></br>';
+								break;
 							case 'textarea':
 								if($champData['data'] == null or $champData['data']->textarea == null){
 									$textarea = null;
@@ -162,8 +186,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								echo '<span class="edit CursorPointer" 
 										data-name="data" 
 										data-type="textarea" 
-										data-pk="'.$champData['id'].'" 
-										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])).'">
+										data-pk="'.$champData['champ']->id.'" 
+										data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'">
 	    							'.$this->escapeHtml($textarea).'
     							</span>';
 								echo '</br></br>';
@@ -178,8 +202,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								echo '<span class="picker CursorPointer" 
     										data-name="data" 
     										data-type="date" 
-    										data-pk="'.$champData['id'].'" 
-	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])).'">
+    										data-pk="'.$champData['champ']->id.'" 
+	    									data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'">
 										'.$date.'
 									</span>';
 								echo '</br></br>';
@@ -194,8 +218,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								echo '<span class="edit CursorPointer" 
 											data-name="data" 
 											data-type="number" 
-											data-pk="'.$champData['id'].'" 
-											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])).'">
+											data-pk="'.$champData['champ']->id.'" 
+											data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'">
 										'.$this->escapeHtml($nombre).'
 									</span>';
 								echo '</br></br>';
@@ -210,8 +234,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								echo '<span class="edit CursorPointer"
 										data-name="data"
 										data-type="url"
-										data-pk="'.$champData['id'].'"
-	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])).'">
+										data-pk="'.$champData['champ']->id.'"
+	    								data-url="'.$this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)).'">
 	    							'.$this->escapeHtml($url).'
     							</span>';
 								echo '</br></br>';
@@ -219,8 +243,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									
 							case 'fichier':
 								echo 'Fichier actuel : <a href="' . ROOT_DIR . $champData['data']->fichier.'">'. $this->escapeHtml(basename($champData['data']->fichier)) .'</a></br>';
-								echo '<form class="file-input-form" method="POST" action = "'. $this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['id'])) .'">
-									<input title="Parcourir" name="file-input" id="'.$champData['id'].'" type="file">
+								echo '<form class="file-input-form" method="POST" action = "'. $this->url("artefact/editArtefact",array('id'=> $artefact->id,'idData'=>$champData['champ']->id)) .'">
+									<input title="Parcourir" name="file-input" id="'.$champData['champ']->id.'" type="file">
 									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>
     							</form>';
 								break;
@@ -331,26 +355,20 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 <!-- Contiendra la pop-up de confirmation lors d'un clic sur un bouton 'supprimer' -->
 <div id="confirmDiv" > </div>
 
+
+
 <?php $this->inlineScript()->captureStart(); ?>
 
 	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
 	
 	$(function () {
-		// on checked ou non l'input En ligne 
-		$('input[name=onLine]').attr('checked', <?php echo ($artefact->onLine == 1 ) ? 'true' : 'false' ; ?>);
-
-		// si on click sur l'input En ligne
-		$("#onLine").on("click", function(e){
-			val = $('input[name=onLine]').is(':checked')
-
-			$.ajax({
-			        url: '<?php echo $this->url("collection/onLine",array('id'=>$artefact->id)) ?>',
-			        type: "POST",
-			        data: { onLine: val } , 
-			    }).done(function(){
-			    });
-		});
 		
+		// affichage du X-editable : Select2
+		$('.Xselect2').editable({
+			mode: 'inline',
+			emptytext: 'Vide',
+			select2:{allowClear: true,placeholder:"Non renseigné"}
+		});
 
 		// Gestion du wysihtml5
 		$('.textarea-wysihtml5').wysihtml5({
@@ -457,4 +475,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysih
 $this->headScript()->appendFile($this->basePath() . '/js/editable.wysihtml5.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap.file-input.js');
+$this->headScript()->appendFile($this->basePath() . '/js/select2.js');
+$this->headScript()->appendFile($this->basePath() . '/js/locales/select2_locale_fr.js') ;
 ?>

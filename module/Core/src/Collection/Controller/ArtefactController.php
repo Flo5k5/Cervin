@@ -227,16 +227,32 @@ class ArtefactController extends AbstractActionController
 						$this->getResponse()->setStatusCode(404);
 						return;
 					}
-					if ($champData['data'] != null) {
+					if ($champData['data'] != null ) {
 						$data = $champData['data'];
 					} else {
-						$champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['id']));
+						$champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['champ']->id));
 
 						$data = 'new';
 
 			    	 			
 					}
-					switch ($champData['format']) {
+					switch ($champData['champ']->format) {
+						case 'select':
+			    	 		if ($data == 'new') {
+			    	 			$data = new \Collection\Entity\DataSelect($artefact,$champ);
+			    	 			$artefact->datas->add($data);
+			    	 		}
+			    	 		if ($request['value'] != null) {
+				    	 		$select_value = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$request['value']));
+				    	 		if ($select_value === null) {
+									$this->getResponse()->setStatusCode(404);
+									return;
+								}
+							} else {
+								$select_value = null;
+							}
+		    	 			$data->value = $select_value;
+		    	 			break;
 		    	 		case 'texte':
 			    	 		if ($data == 'new') {
 			    	 			$data = new \Collection\Entity\DataTexte($artefact,$champ);
@@ -302,6 +318,7 @@ class ArtefactController extends AbstractActionController
 		$ChampsDatasElement = $this->getEntityManager()
 			->getRepository('Collection\Entity\Champ')
 			->getChampsDatasElement($artefact,$artefact->type_element);
+
 		$relations_out = $this->getEntityManager()
 						->getRepository('Collection\Entity\RelationArtefacts')
 						->findBy(array('origine'=>$artefact));

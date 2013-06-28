@@ -208,13 +208,29 @@ class MediaController extends AbstractActionController
                     if ($champData['data'] != null) {
                         $data = $champData['data'];
                     } else {
-                        $champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['id']));
+                        $champ = $this->getEntityManager()->getRepository('Collection\Entity\Champ')->findOneBy(array('id'=>$champData['champ']->id));
 
                         $data = 'new';
 
                                 
                     }
-                    switch ($champData['format']) {
+                    switch ($champData['champ']->format) {
+                        case 'select':
+                            if ($data == 'new') {
+                                $data = new \Collection\Entity\DataSelect($media,$champ);
+                                $media->datas->add($data);
+                            }
+                            if ($request['value'] != null) {
+                                $select_value = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$request['value']));
+                                if ($select_value === null) {
+                                    $this->getResponse()->setStatusCode(404);
+                                    return;
+                                }
+                            } else {
+                                $select_value = null;
+                            }
+                            $data->value = $select_value;
+                            break;
                         case 'texte':
                             if ($data == 'new') {
                                 $data = new \Collection\Entity\DataTexte($media,$champ);
