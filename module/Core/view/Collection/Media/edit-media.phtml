@@ -148,7 +148,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 				        	<a href="#" 
 			        			class="description"
 			        			rel="popover"
-			        			data-content="<?php echo $champData['champ']->description; ?>"
+			        			data-content="<?php echo $this->escapeHtml($champData['champ']->description); ?>"
 			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 			        	<?php endif; ?>
 					</dt>
@@ -319,6 +319,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 	var element = {'id' : <?php echo $media->id; ?>, 'titre' : '<?php echo $this->escapeHtml($media->titre); ?>', 'description' : '<?php echo $media->description; ?>'};
 
 	$(function () {
+
+	$(".description").popover({placement:'top', trigger:'hover'}); 
 
 		// affichage du X-editable : Select2
 		$('.Xselect2').editable({

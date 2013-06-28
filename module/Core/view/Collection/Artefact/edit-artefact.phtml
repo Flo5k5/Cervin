@@ -385,6 +385,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 	var element = {'id' : <?php echo $artefact->id; ?>, 'titre' : '<?php echo $this->escapeHtml($artefact->titre); ?>' };
 	
 	$(function () {
+
+		$(".description").popover({placement:'top', trigger:'hover'}); 
 	
 		// affichage du X-editable : Select2
 		$('.Xselect2').editable({
