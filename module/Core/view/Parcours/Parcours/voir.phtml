@@ -23,7 +23,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
     	<ul>
     	<li> En bleu le chemin recommandé</li>
     	<li>En gris les chemins secondaires</li>
-    	<li> En rouge les scène sans transition entrante : attention elles ne sont pas accessibles</li>
+    	<li> En rouge les scènes sans transition entrante : attention elles ne sont pas accessibles</li>
     	</ul>
     	</p>
     	<p>
@@ -56,11 +56,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 </div>
 
 <div class="page-header">
-	<?php if ($Parcours->public) :?>
-		<h3>(Parcours public)</h3>
-	<?php else :?>
-		<h3>(Parcours brouillon)</h3>
-	<?php endif;?>
     <?php if ($this->isAllowed('Parcours') === true) :?>
     <h1>
     <i class="icon-road"></i> 
@@ -128,8 +123,25 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 <div class="row-fluid">
 
 
-	<!-- Sous-parcours -->
+	<!-- Visibilité et Sous-parcours -->
 	<div class="span3">
+	<?php if ($this->isAllowed('Parcours')) :?>
+		<?php if (!$Parcours->public) :?>
+			<h5><i class="icon-eye-close"></i> Ce parcours est un brouillon</h5>
+				<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
+					class="btn btn-primary btn-block">
+					<i class="icon-eye-open"></i> Passer en public
+				</a>
+		<?php else :?>
+			<h5><i class="icon-eye-open"></i> Ce parcours est public</h5>
+			<a href="<?php echo $this->url('parcours/changerVisibilite', array('id' => $Parcours->id, 'return'=>'voir')); ?>" 
+				class="btn btn-primary btn-block">
+				<i class="icon-eye-close"></i> Passer en brouillon
+			</a>
+		<?php endif;?>
+	<?php endif;?>
+	
+	<h3>Sous-parcours :</h3>
 	<?php if ($this->isAllowed('Parcours') === true) :?>
 		<div class="accordion" id="accordion2">
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
@@ -148,7 +160,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 							<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
 									'idSousParcours' => $sous_parcours->id,
 									'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
-								class="btn btn-primary btn-block">
+								class="btn btn-warning btn-block">
 								<i class="icon-cogs"> </i> Commencer un chantier sur ce sous-parcours
 							</a>
 						<?php elseif ($sous_parcours->utilisateur === $this->zfcUserIdentity()): ?>
@@ -159,6 +171,14 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 								<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
 								</em><br>
 							</p>
+							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
+									'idSousParcours' => $sous_parcours->id,
+									'idUser' => $this->zfcUserIdentity()->getId(),
+									'return'=>'perso')); ?>" 
+								class="btn btn-warning btn-block">
+								<i class="icon-unlock"> </i> Terminer le chantier
+							</a>
+							<br>
 							<p class="edit CursorPointer"
 					        	data-url="<?php echo $this->url("parcours/editSousParcours",array('idsp'=>$sous_parcours->id)) ?>"
 					            data-name="titre" 
@@ -166,13 +186,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 					            data-pk="heading<?php echo $sous_parcours->id; ?>">
 					            <?php echo $this->escapeHtml($sous_parcours->titre); ?>
 					        </p>
-							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
-									'idSousParcours' => $sous_parcours->id,
-									'idUser' => $this->zfcUserIdentity()->getId(),
-									'return'=>'perso')); ?>" 
-								class="btn btn-primary btn-block">
-								<i class="icon-unlock"> </i> Terminer le chantier
-							</a>
 							<a href="<?php echo $this->url('scene/creerSceneSecondaire', array("idsp" => $sous_parcours->id)) ?>"
 			                	class="btn btn-primary btn-block">
 			                    	<i class="icon-plus"></i> Ajouter une scène
@@ -211,8 +224,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 		</div>
 
 	<?php else : ?>
-		<h3>Sous-parcours : </h3>
-		<hr/>
 		<?php $sous_parcours = $Parcours->sous_parcours_depart; ?>
 		<?php while ($sous_parcours != null) : ?>
 		<h4><?php echo $this->escapeHtml($sous_parcours->titre); ?></h4>

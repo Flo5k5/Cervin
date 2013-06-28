@@ -81,6 +81,12 @@ class SceneController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
+		
+		if (!$Scene->sous_parcours->parcours->public && !$this->isAllowed('Utilisateur')) {
+			$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public, vous devez vous connecter pour pouvoir le consulter.'));
+			return $this->redirect()->toRoute('zfcuser/login');
+		}
+		
 		return new ViewModel(array('scene' => $Scene));
     }
 

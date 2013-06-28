@@ -98,6 +98,36 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     protected $sous_parcours_chantier;
     
     /**
+     * @var string
+     * @ORM\Column(type="string", unique=true, length=12)
+     */
+    protected $telephone;
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $adresse;
+    
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", length=5)
+     */
+    protected $code_postal;
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $ville;
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $pays;
+    
+    /**
      * Initialies the roles variable.
      */
     public function __construct()
@@ -281,7 +311,6 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
         $this->roles[] = $role;
     }
 
-
     /**
      * Get attenteRole.
      *
@@ -303,6 +332,116 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
         $this->attenteRole = $attenteRole;
     }
 
+    /**
+     * Get telephone.
+     *
+     * @return string
+     */
+    public function getTelephone()
+    {
+    	return $this->telephone;
+    }
+    
+    /**
+     * Set telephone.
+     *
+     * @param string $telephone
+     *
+     * @return void
+     */
+    public function setTelephone($telephone)
+    {
+    	$this->telephone = $telephone;
+    }
+    
+    /**
+     * Get code_postal.
+     *
+     * @return string
+     */
+    public function getCodePostal()
+    {
+    	return $this->code_postal;
+    }
+    
+    /**
+     * Set code_postal.
+     *
+     * @param string $code_postal
+     *
+     * @return void
+     */
+    public function setCodePostal($code_postal)
+    {
+    	$this->code_postal = $code_postal;
+    }
+    
+    /**
+     * Get adresse.
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+    	return $this->adresse;
+    }
+    
+    /**
+     * Set adresse.
+     *
+     * @param string $adresse
+     *
+     * @return void
+     */
+    public function setAdresse($adresse)
+    {
+    	$this->adresse = $adresse;
+    }
+    
+    /**
+     * Get ville.
+     *
+     * @return string
+     */
+    public function getVille()
+    {
+    	return $this->ville;
+    }
+    
+    /**
+     * Set ville.
+     *
+     * @param string $ville
+     *
+     * @return void
+     */
+    public function setVille($ville)
+    {
+    	$this->ville = $ville;
+    }
+    
+    /**
+     * Get pays.
+     *
+     * @return string
+     */
+    public function getPays()
+    {
+    	return $this->pays;
+    }
+    
+    /**
+     * Set pays.
+     *
+     * @param string $pays
+     *
+     * @return void
+     */
+    public function setPays($pays)
+    {
+    	$this->pays = $pays;
+    }
+    
     public function removeRoles(Array $elements)
     {
         foreach ($elements as $item) {

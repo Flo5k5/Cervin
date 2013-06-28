@@ -50,25 +50,15 @@ $this->headTitle($title);
             <table class="table table-striped table-bordered data">
                 <thead>
                     <tr>
-                    	<?php if (!$this->isAllowed('Utilisateur')) : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        <?php elseif ($this->isAllowed('Parcours')) : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        	<th>Visibilité</th>
-                        	<th>Action</th>
-                        <?php else : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        	<th>Visibilité</th>
-                        <?php endif; ?>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Visibilité</th>
                         <!-- <th> </th>  -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="4">En cours de téléchargement</td>
+                        <td colspan="3">En cours de téléchargement</td>
                     </tr>
                 </tbody>
             </table>
@@ -89,27 +79,13 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 	    tableParcours = ResultSet.paginate(
 	    	$('.data'),
 			{
-			<?php if (!$this->isAllowed('Utilisateur')) : ?>
-	           	"aoColumns": [
-		           	            null,
-		           	           	{ "bSortable": false  },
-	           	           	 ],
-	         <?php elseif ($this->isAllowed('Parcours')) : ?>
-	         	"aoColumns": [
-		           	           	null,
-		           	           	{ "bSortable": false  },
-		           	           	null,
-		           	           	{ "bSortable": false  },
-	           	           	 ],
-	         <?php else : ?>
 	         	"aoColumns": [
 		           	           	null,
 		           	           	{ "bSortable": false  },
 		           	           	null,
 	           	           	 ],
-	         <?php endif; ?>
-	           	"iColumns": 4,
-	           	//"bAutoWidth": false,
+	           	"iColumns": 3,
+	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
                 "bServerSide": true,

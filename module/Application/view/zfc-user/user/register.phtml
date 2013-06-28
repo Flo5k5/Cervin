@@ -19,17 +19,28 @@ $this->headTitle($title);
 			<?php
 				$form = $this->registerForm;
 				$form->prepare();
+				
 				$form->setAttribute('action', $this->url('zfcuser/register'));
 				$form->setAttribute('method', 'post');
-				
 				$form->setAttribute('class','form-horizontal');
-				$form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
-				$form->get('email')->setAttribute('placeholder','exemple@exemple.fr')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
-				$form->get('username')->setAttribute('placeholder','Login')->setLabel('Login')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
-				$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
-				$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('class', 'span10');
-				$form->get('checkboxAgreement')->setLabel('J\'accepte les conditions générales du projet CERVIN')->setLabelAttributes(array('class' => 'control-label'))->setAttribute('required', true);
+				
+				$form->get('display_name')->setAttribute('placeholder','Nom Prénom')->setLabel('Nom / prénom');
+				$form->get('email')->setAttribute('placeholder','exemple@exemple.fr');
+				$form->get('username')->setAttribute('placeholder','Login')->setLabel('Login');
+				
+				$form->get('password')->setAttribute('placeholder','******')->setLabel('Mot de passe');
+				$form->get('passwordVerify')->setAttribute('placeholder','******')->setLabel('Vérification mot de passe');
+
+				$form->get('telephone')->setAttribute('placeholder','0600000000');
+				$form->get('adresse')->setAttribute('placeholder','12 rue Joseph REY');
+				$form->get('code_postal')->setAttribute('placeholder','38000');
+				$form->get('ville')->setAttribute('placeholder','Grenoble');
+				$form->get('pays')->setAttribute('placeholder','France');
+				
 				$form->get('submit')->setLabel('Valider')->setAttribute('class','btn btn-primary');
+
+				$form->get('checkboxAgreement')->setLabel('J\'accepte les conditions générales du projet CERVIN')->setAttribute('required', true);
+				
 				echo $this->form()->openTag($form);
 			?>
 		    <fieldset>
@@ -37,20 +48,30 @@ $this->headTitle($title);
 		    
 		        <?php if (!$element instanceof Zend\Form\Element\Button): ?>
 		        <div class="control-group">
-		            <?php echo $this->formLabel($element); ?>
+		            <?php echo $this->formLabel($element->setLabelAttributes(array('class' => 'control-label'))); ?>
 		        <?php endif ?>
 		        
 		        <?php if ($element instanceof Zend\Form\Element\Button): ?>
+		        
 		            <div class="form-actions">
 		                <?php echo $this->formButton($element) ?>
+		                
 		        <?php elseif ($element instanceof Zend\Form\Element\Checkbox): ?>
 		
 		            <div class="controls"><?php echo $this->formCheckbox($element).$this->formElementErrors($element);?></div>
 		
 		        <?php elseif ($element instanceof Zend\Form\Element\Captcha): ?>
+		        
 		            <?php echo $this->formCaptcha($element) . $this->formElementErrors($element) ?></div>
+		            
+		        <?php elseif ($element instanceof Zend\Form\Element\Textarea): ?>
+		        
+		            <div class="controls"><?php echo $this->formTextarea($element->setAttribute('class', 'span10')) . $this->formElementErrors($element) ?></div>
+
 		        <?php else: ?>
-		            <div class="controls"><?php echo $this->formInput($element) . $this->formElementErrors($element) ?></div>
+		        
+		            <div class="controls"><?php echo $this->formInput($element->setAttribute('class', 'span10')) . $this->formElementErrors($element) ?></div>
+		            
 		        <?php endif ?>
 		        
 		        </div>
@@ -63,7 +84,7 @@ $this->headTitle($title);
 	    </div>
 	    <div class="span6">
 	    	<h3>Conditions générales</h3>
-	    	<div style="height:400px; overflow:auto; border-style:solid; border-width:1px;padding:5px">
+	    	<div class="conditionsG" >
 	    		<?php echo $this->ConditionsGenerales(); ?>
 	    	</div>
 	    </div>

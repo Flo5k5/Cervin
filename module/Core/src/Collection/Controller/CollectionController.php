@@ -99,19 +99,19 @@ class CollectionController extends AbstractActionController
 	    		$params["sSortDir_0"] = 'ASC';
 	    	}
 	    	
-	    	$entityManager = $this->getEntityManager()
-	    					      ->getRepository('Collection\Entity\Element');
-	 
+	    	
+	    	$entityManager = $this->getEntityManager()->getRepository('Collection\Entity\Element');
+	    	
 	    	$dataTable = new \Collection\Model\ElementDataTable($params);
 	    	$dataTable->setEntityManager($entityManager);
-	    
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-		        'description',
-	    	    'nom',
-	    		'type'
-	    	));
-	    
+
+    		$dataTable->setConfiguration(array(
+    				'titre',
+			        'description',
+		    	    'nom',
+    				'public'
+    		));
+	    	
 	    	$aaData = array();
 	    	
 	    	$paginator = null;
@@ -125,21 +125,25 @@ class CollectionController extends AbstractActionController
 	    		
 	    	foreach ($paginator as $element) {
 	    		
-	    		$titre = '';
-	    		if($element->type_element->type == 'artefact'){
-	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
-	    		} elseif($element->type_element->type == 'media'){
-	    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+	    		if ($element->public) {
+	    			$visibilite = 'Public';
 	    		} else {
-	    			$titre = $escapeHtml($element->titre);
+	    			$visibilite = '<p class="muted"> Brouillon </p>';
 	    		}
 	    		
-	    		$aaData[] = array(
-	    				$titre,
+
+	    		if($element->type_element->type == 'artefact'){
+	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+	    		} else {
+	    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+	    		}
+
+    			$aaData[] = array(
+    					$titre,
 	    				$dataTable->truncate($element->description, 250, ' ...', false, true),
 	    				$element->type_element->nom,
-	    				$element->type_element->type
-	    		);
+    					$visibilite
+    			);
 	    	}
 	    	
 	    	$dataTable->setAaData($aaData);
@@ -154,38 +158,4 @@ class CollectionController extends AbstractActionController
     	}
     }
 
-    /**
-     * Met en ligne ou hors-ligne un élément
-     *
-     * Cette action récupère l'id de l'élément passé en paramètre
-     * puis va chercher en base de donnée l'élément correspondant.
-     * Une fois l'objet récupéré, on change la valeur de "onLine"
-     * par son opposé (booléen) et on persiste l'information.
-     */
-    public function onLineAction()
-    {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-
-            $id      = (int) $this->params('id', null);
-            $element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$id));
-            
-            if ($element === null or $id === null) {
-                $this->getResponse()->setStatusCode(404);
-                return; 
-            }
-            
-            $post = $this->params()->fromPost();
-            
-            $element->onLine = ($post['onLine'] == 'true') ?  1 : 0 ;
-
-            $this->getEntityManager()->persist($element);
-            $this->getEntityManager()->flush();
-
-            return $this->getResponse()->setContent(Json::encode(true));
-        } else {
-        	$this->getResponse()->setStatusCode(404);
-        	return;
-        }
-    }
-    
 }

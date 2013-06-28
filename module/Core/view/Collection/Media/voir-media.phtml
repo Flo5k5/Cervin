@@ -41,18 +41,41 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 	</div>
 	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
+	
+		<?php if ($media->public) :?>
+			<p><strong><i class="icon-eye-open"></i> Ce média est public</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-close"></i> Passer en brouillon'; ?>
+		<?php else :?>
+			<p><strong><i class="icon-eye-close"></i> Ce média est un brouillon</strong></p>
+			<?php $btn_visibilite = '<i class="icon-eye-open"></i> Passer en public'; ?>
+		<?php endif;?>
+	
 		<?php if ($media->utilisateur === null) :?>
-			<a href="<?php echo $this->url('chantier/demarrerChantierElement',array(
-					'idElement' => $media->id,
-					'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-cogs"> </i> Commencer un chantier sur ce média
-			</a>
-			<a href="#confirmModal" 
-				data-toggle="modal" 
-				class="btn btn-danger btn-block">
-				<i class="icon-trash"> </i>  Supprimer ce média
-			</a>
+		    <div class="btn-group btn-block">
+    			<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    				Actions 
+    				<span class="caret"></span>
+    			</a>
+    			<ul class="dropdown-menu">
+	   				<li>
+						<a href="<?php echo $this->url('chantier/demarrerChantierElement',array(
+								'idElement' => $media->id,
+								'idUser' => $this->zfcUserIdentity()->getId())); ?>">
+							<span class="text-warning"><i class="icon-cogs"> </i></span> Commencer un chantier sur ce média
+						</a>
+					</li>
+					<li>
+						<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $media->id, 'return'=>'voir')); ?>">
+							<?php echo $btn_visibilite; ?>
+						</a>
+					</li>
+					<li>
+						<a href="#confirmModal" data-toggle="modal">
+							<span class="text-error"><i class="icon-trash"> </i></span>  Supprimer ce média
+						</a>
+					</li>
+				</ul>
+    		</div>
 		<?php elseif ($media->utilisateur === $this->zfcUserIdentity()): ?>
 			<p class="text-warning">
 				<em> <i class="icon-cogs"></i> 
@@ -60,22 +83,38 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				<a href="<?php echo $this->url('chantier'); ?>" class="text-warning"> vos chantiers en cours </a>
 				</em>
 			</p>
-			<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
-					'idElement' => $media->id,
-					'idUser' => $this->zfcUserIdentity()->getId(),
-					'return'=>'perso')); ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-unlock"> </i> Terminer le chantier
-			</a>
-			<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>" 
-				class="btn btn-primary btn-block">
-				<i class="icon-pencil"> </i> Modifier ce média
-			</a>
-			<a href="#confirmModal" 
-				data-toggle="modal" 
-				class="btn btn-danger btn-block">
-				<i class="icon-trash"> </i>  Supprimer ce média
-			</a>
+			 <div class="btn-group btn-block">
+    			<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    				Actions 
+    				<span class="caret"></span>
+    			</a>
+    			<ul class="dropdown-menu">
+	   				<li>
+						<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
+								'idElement' => $media->id,
+								'idUser' => $this->zfcUserIdentity()->getId(),
+								'return'=>'element')); ?>">
+							<span class="text-warning"> <i class="icon-unlock"> </i></span> Terminer le chantier
+						</a>
+					</li>
+					<li>
+						<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $media->id, 'return'=>'voir')); ?>">
+							<?php echo $btn_visibilite; ?>
+						</a>
+					</li>
+					<li>
+						<a href="<?php echo $this->url('media/editMedia',array('id' => $media->id)) ?>">
+							<span class="text-info"> <i class="icon-pencil"> </i></span> Modifier ce média
+						</a>
+					</li>
+					<li>
+						<a href="#confirmModal" data-toggle="modal">
+							<span class="text-error"> <i class="icon-trash"> </i></span>  Supprimer ce média
+						</a>
+					</li>
+				</ul>
+    		</div>
+
 		<?php else :?>
 			<p class="text-warning">
 				<em><i class="icon-cogs"></i>  Chantier en cours par : 
@@ -84,14 +123,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 				</a>
 				</em> 
 			</p>
-			<a href="#" 
-				class="btn btn-primary btn-block disabled">
-					Média en chantier - Modification impossible
-			</a>
-			<a href="#" 
-				class="btn btn-danger btn-block disabled">
-					Média en chantier - Suppression impossible
-			</a>
+    		<div class="btn-group btn-block">
+    			<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    				Actions 
+    				<span class="caret"></span>
+    			</a>
+    			<ul class="dropdown-menu">
+					<li>
+						<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $media->id, 'return'=>'voir')); ?>">
+							<?php echo $btn_visibilite; ?>
+						</a>
+					</li>
+				</ul>
+    		</div>
 		<?php endif;?>
     <?php endif; ?>
     </div>

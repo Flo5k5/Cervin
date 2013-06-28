@@ -87,26 +87,13 @@ class ParcoursController extends AbstractActionController
  
     	$dataTable = new \Parcours\Model\ParcoursDataTable($params);
     	$dataTable->setEntityManager($entityManager);
-    	if (!$this->isAllowed('Utilisateur')) {
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-		        'description'
-	    	));
-	    } elseif ($this->isAllowed('Parcours')) {
-    		$dataTable->setConfiguration(array(
-    			'titre',
-    			'description',
-    			'public'
-    		));
-	    } else {
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-	    		'description',
-	    		'public'
-	    	));
-	    }
 
-    
+    	$dataTable->setConfiguration(array(
+    		'titre',
+    		'description',
+    		'public'
+    	));
+
     	$aaData = array();
     	
     	$paginator = null;
@@ -120,51 +107,23 @@ class ParcoursController extends AbstractActionController
     		
     	foreach ($paginator as $parcours) {
     		
-			$titre = '<a href="'
-							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id)).'">'
-							.$escapeHtml($parcours->titre).'
-						</a>';
-    		
-			$etat = '';
-			$action = '';
-			// Si on a les droits parcours, on ajoute un bouton pour changer la visibilité
 			if ($parcours->public) {
 				$etat = 'Public';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'" 
-		    		class="btn btn-danger">
-						<i class="icon-ban-circle"></i> Passer en brouillon
-					</a>';
 			} else {
-				$etat = 'Brouillon';
-				$action = '<a href="'. $this->url()->fromRoute('parcours/changerVisibilite', array('id'=>$parcours->id)) .'"
-					data-url="#"
-		    		class="btn btn-danger">
-						<i class="icon-share"></i> Passer en public
-					</a>';
+				$etat = '<p class="muted"> Brouillon</p>';
 			}
+			
+			$titre = '<a href="'
+						.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id, 'return'=>'')).'">'
+						.$escapeHtml($parcours->titre).'
+					</a>';
 
-			if (!$this->isAllowed('Utilisateur') && $parcours->public) {
-				// Pour un visiteur, on affiche que les parcours publics
-				$aaData[] = array(
-						$titre,
-						$dataTable->truncate($parcours->description, 250, ' ...', false, true)
-				);
-			} elseif ($this->isAllowed('Parcours')) {
-				// Si on a les droits parcours, on affiche un bouton pour changer la visibilité
-	    		$aaData[] = array(
-	    				$titre,
-	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
-	    				$etat,
-	    				$action
-	    		);
-			} else {
-				// Contributeur qui n'a pas les droits parcours
-	    		$aaData[] = array(
-	    				$titre,
-	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
-	    				$etat
-	    		);
-			}
+			// Contributeur qui n'a pas les droits parcours
+    		$aaData[] = array(
+    				$titre,
+    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+    				$etat
+    		);
 	    	
     	}
     	
@@ -246,8 +205,8 @@ class ParcoursController extends AbstractActionController
         }
         
         if (!$Parcours->public && !$this->isAllowed('Utilisateur')) {
-        	$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public'));
-        	return $this->redirect()->toRoute('parcours');
+        	$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public, vous devez vous connecter pour pouvoir le consulter.'));
+        	return $this->redirect()->toRoute('zfcuser/login');
         }
         
         $SemantiqueTransitions = $this->getEntityManager()
@@ -723,7 +682,12 @@ class ParcoursController extends AbstractActionController
     	$parcours->public = !$parcours->public;
     	$this->getEntityManager()->flush();
     	$this->flashMessenger()->addSuccessMessage(sprintf('La visibilité du parcours <em>'. $escapeHtml($parcours->titre) .'</em> a bien été changée'));
-    	return $this->redirect()->toRoute('parcours');
+    	$return = $this->params()->fromRoute('return', 0);
+    	if ($return == 'voir') {
+    		return $this->redirect()->toRoute('parcours/voir', array('id' => $id));
+    	} else {
+    		return $this->redirect()->toRoute('parcours');
+    	}
     }
     
 }

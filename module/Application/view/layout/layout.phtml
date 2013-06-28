@@ -170,7 +170,7 @@ echo $this->headScript();
 									
 									</ul>
 								</li>
-                            <?php elseif ($this->isAllowed('Utilisateur') === true) :?>
+                            <?php else :?>
                             	<li><a href="<?php echo $this->url('collection/consulter'); ?>"><i class="icon-save"></i>  Collection Numérique</a></li>
                            		<!--  <li class="divider-vertical"></li> -->
 	                        <?php endif; ?>
@@ -178,10 +178,8 @@ echo $this->headScript();
 	                        <li class="divider-vertical"></li>
 	                        
 	                        <!-- PARCOURS -->
-	                        <?php if ($this->isAllowed('Utilisateur') === true) :?>
 	                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
 	                            <li class="divider-vertical"></li>
-	                        <?php endif; ?>
 	                        </ul>
 	                        
 	                        <ul class="nav pull-right">

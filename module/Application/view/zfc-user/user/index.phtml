@@ -1,8 +1,5 @@
 <?php 
 if($this->statut):
-	if($this->source == "email"): ?>
-		<div class="alert alert-success">L'adresse Email a été modifiée avec succès.</div>
-	<?php endif;
 	if($this->source == "password"): ?>
 		<div class="alert alert-success">Le mot de passe a été modifié avec succès.</div>
 	<?php endif;
@@ -10,7 +7,11 @@ endif;
 
 $title = 'Mon compte';
 $this->headTitle($title);
+
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
+
+<div class="message"></div>
 
 <div class="page-header">
     <h1><?php echo $this->escapeHtml($title); ?> <!-- <small>Subtext for header</small> --></h1>
@@ -26,10 +27,66 @@ $this->headTitle($title);
 		    	<i class="icon-off"></i>  Déconnexion</a>
 		    </div>
 		    <div class="span6">
-		    	<p>
-		    		<strong><?php echo $this->zfcUserDisplayName() ?></strong> (<?php echo $this->zfcUserIdentity()->getEmail(); ?>)
-		    	</p>
-				<a href="<?php echo $this->url('zfcuser/changeemail'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mail </a>			
+	    		<blockquote>
+		    		<address>
+						<strong>
+							<i class="icon-user"></i> 
+							<span id="displayName" class="text CursorPointer" 
+		                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+		                        data-value="<?php echo $this->escapeHtml($this->zfcUserDisplayName()); ?>" data-placement="right" data-type="text" data-pk="1">
+		                        <?php echo $this->escapeHtml($this->zfcUserDisplayName()); ?>
+                    		</span>
+						</strong>
+						<br/>
+						
+						<i class="icon-globe"></i> 
+						<span id="adresse" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getAdresse()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getAdresse()); ?>
+                    	</span>
+                    	<br/>
+                    	
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="code_postal" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getCodePostal()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getCodePostal()); ?>
+	                    </span>
+                    	
+                    	&nbsp;
+						<span id="ville" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getVille()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getVille()); ?>
+                    	</span>
+                    	<br/>
+                    	
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="pays" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getPays()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getPays()); ?>
+                    	</span>
+                    	<br/>
+						
+						<i class="icon-phone"></i> 
+						<span id="telephone" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getTelephone()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getTelephone()); ?>
+                    	</span>
+                    	<br/>
+						
+						<i class="icon-envelope"></i>
+						<span id="email" class="text CursorPointer" 
+	                        data-url="<?php echo $this->url("admin/changeProfileInfosAjax"); ?>" 
+	                        data-value="<?php echo $this->escapeHtml($this->zfcUserIdentity()->getEmail()); ?>" data-placement="right" data-type="text" data-pk="1">
+	                        <?php echo $this->escapeHtml($this->zfcUserIdentity()->getEmail()); ?>
+                    	</span>
+
+					</address>
+				</blockquote>		
 				<a href="<?php echo $this->url('zfcuser/changepassword'); ?>" role="button" class="btn btn-primary btn-block"> <i class="icon-pencil"></i>  Changer mon mot de passe </a>
 		    </div>
 	    </div>
@@ -87,3 +144,28 @@ $this->headTitle($title);
 </div>
 
 <div style="clear:both;"></div>
+
+<?php $this->inlineScript()->captureStart(); ?>
+	var table;
+	$(function() {
+	
+		$('.text').editable({ 
+   		  	emptytext: "Vide",
+			success: function(e) {
+				var resp = jQuery.parseJSON(e);
+						
+				if(resp.status === 'error'){
+					return resp.message;
+				} else {
+					$('.message').showInfos(resp.message, "success");
+				}				
+
+			}
+		});
+
+	});
+<?php
+$this->inlineScript()->captureEnd();
+
+$this->headScript()->appendFile($this->basePath() . '/js/bootstrap-editable.js');
+?>

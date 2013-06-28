@@ -89,6 +89,13 @@ class Element implements InputFilterAwareInterface
     protected $utilisateur;
     
     /**
+     * Etat de l'élément : brouillon ou public
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $public;
+    
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property
@@ -133,7 +140,6 @@ class Element implements InputFilterAwareInterface
         $this->titre = $data['titre'];
         $this->description = $data['description'];
         $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
-        
         foreach ($this->type_element->champs as $champ) {
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {

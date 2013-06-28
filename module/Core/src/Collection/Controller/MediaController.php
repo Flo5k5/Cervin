@@ -146,6 +146,12 @@ class MediaController extends AbstractActionController
             $this->getResponse()->setStatusCode(404);
             return;
         }
+        
+        if (!$Media->public && !$this->isAllowed('Utilisateur')) {
+        	$this->flashMessenger()->addErrorMessage(sprintf('Ce média n\'est pas accessible au public, vous devez vous connecter pour pouvoir le consulter.'));
+        	return $this->redirect()->toRoute('zfcuser/login');
+        }
+        
         $ChampsDatasElement = $this->getEntityManager()
                 ->getRepository('Collection\Entity\Champ')
                 ->getChampsDatasElement($Media,$Media->type_element);
@@ -505,4 +511,5 @@ class MediaController extends AbstractActionController
 			return;
 		}
 	}
+
 }

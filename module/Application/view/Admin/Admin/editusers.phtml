@@ -71,13 +71,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                             <th>Login</th>
                             <th>Nom / Prenom</th>
                             <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Adresse</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="5">En cours de téléchargement</td>
+                            <td colspan="7">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,10 +102,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 		           	           	null,
 		           	           	null, 
 		           	        	null,
+		                     	{ "bSortable": false  },
+		                     	{ "bSortable": false  },
 		                     	null,
 		                     	{ "bSortable": false  }
 	           	           	 ],
-	           	"iColumns": 5,
+	           	"iColumns": 7,
 	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
@@ -121,20 +125,22 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 						}
 					});
 	
-					$(".ResetPassword").popover({placement:'top', trigger:'hover'}); 
+					$(".ResetPassword").popover({placement:'top', trigger:'hover'});
+					
+					$(".SupprimerUser").popover({placement:'top', trigger:'hover'});
 	
 	                $('.text').editable({ 
 	                	emptytext: "Vide",
 		                success: function(e) {
 						    var resp = jQuery.parseJSON(e);
-															
-							if(resp.success === true){
-								//location.reload();
-								$('.messageEditUsers').showInfos(resp.message, "success");
+							
+							if(resp.status === 'error'){
+								return resp.message;
 							} else {
-								//location.reload();
-								$('.messageEditUsers').showInfos(resp.error, "error");
-							}
+								$('.messageEditUsers').showInfos(resp.message, "success");
+							}				
+							
+							//table.fnDraw();
 						}
 	                 });
 					 
@@ -167,11 +173,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 						dateURL,
 						{ name: "supprimer" },
 						function(e) {
-							table.fnDraw();
-							                                   
+						                           
 							var resp = jQuery.parseJSON(e);
 															
-							if(resp.success === true){
+							if(resp.status === true){
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.message, "success");
 								$('body').css('cursor', 'auto');
@@ -180,6 +185,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								$('.messageEditUsers').showInfos(resp.error, "error");
 								$('body').css('cursor', 'auto');
 							}
+							
+							table.fnDraw();
 						}
 					);
 				}
@@ -198,11 +205,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 						dateURL,
 						{ name: "password" },
 						function(e) {
-							table.fnDraw();
-							                                   
+													                                   
 							var resp = jQuery.parseJSON(e);
 															
-							if(resp.success === true){
+							if(resp.status === true){
 								//location.reload();
 								$('.messageEditUsers').showInfos(resp.message, "success");
 								$('body').css('cursor', 'auto');
@@ -211,6 +217,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 								$('.messageEditUsers').showInfos(resp.error, "error");
 								$('body').css('cursor', 'auto');
 							}
+							
+							table.fnDraw();
 						}
 					);
 				}
