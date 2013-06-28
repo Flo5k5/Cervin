@@ -124,9 +124,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				</a>
 				</em> 
 			</p>
-    		<a class="btn btn-primary btn-block disabled" data-toggle="dropdown" href="#">
-    			Aucune action disponible
-    		</a>
+    		<div class="btn-group btn-block">
+    			<a class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+    				Actions 
+    				<span class="caret"></span>
+    			</a>
+    			<ul class="dropdown-menu">
+					<li>
+						<a href="<?php echo $this->url('element/changerVisibilite', array('id' => $artefact->id, 'return'=>'voir')); ?>">
+							<?php echo $btn_visibilite; ?>
+						</a>
+					</li>
+				</ul>
+    		</div>
 		<?php endif;?>
     <?php endif; ?>
     </div>

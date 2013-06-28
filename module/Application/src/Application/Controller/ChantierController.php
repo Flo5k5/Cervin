@@ -58,10 +58,10 @@ class ChantierController extends AbstractActionController
 		$this->getEntityManager()->flush();
 		if ($element instanceOf \Collection\Entity\Artefact) {
 			$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
-			return $this->redirect()->toRoute('artefact/voirArtefact', array('id'=>$idElement));
+			return $this->redirect()->toRoute('artefact/editArtefact', array('id'=>$idElement));
     	} else {
     		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
-    		return $this->redirect()->toRoute('media/voirMedia', array('id'=>$idElement));
+    		return $this->redirect()->toRoute('media/editMedia', array('id'=>$idElement));
     	}
     }
     
