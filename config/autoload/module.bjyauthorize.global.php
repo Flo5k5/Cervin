@@ -182,6 +182,7 @@ return array(
                 array('route' => 'admin', 'roles' => array('Admin')),
                 array('route' => 'admin/gestion-users', 'roles' => array('Admin')),
                 array('route' => 'admin/changeUserAjax', 'roles' => array('Admin')),
+				array('route' => 'admin/changeProfileInfosAjax', 'roles' => array('Utilisateur')),
                 array('route' => 'admin/demandeRole', 'roles' => array('Utilisateur')),
                 array('route' => 'admin/refueRole', 'roles' => array('Admin')),
                 array('route' => 'admin/logs', 'roles' => array('Admin')),

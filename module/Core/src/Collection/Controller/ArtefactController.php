@@ -508,8 +508,6 @@ class ArtefactController extends AbstractActionController
 			$escapeHtml        = $viewHelperManager->get('escapeHtml');
 			
 			$params            = $this->params()->fromPost();
-	
-			 
 			if(!isset($params["iSortCol_0"])){
 				$params["iSortCol_0"] = '0';
 			}
@@ -583,18 +581,20 @@ class ArtefactController extends AbstractActionController
 	public function addRelationArtefactMediaAction()
 	{
 		if ($this->getRequest()->isXmlHttpRequest()) {
-
+			
+			$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+			$escapeHtml = $viewHelperManager->get('escapeHtml');
 			$idMedia    = (int) $this->params()->fromRoute('idMedia', 0);
 			$idArtefact = (int) $this->params()->fromPost('idArtefact', 0);
 	
 			if (!$idMedia) {
 				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour le média.'));
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour le média' )));
 			}
 				
 			if (!$idArtefact) {
 				$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Id manquant pour l\'artefact.'));
-				return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+				return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Id manquant pour l\'artefact')));
 			}
 	
 			$artefact = $this->getEntityManager()
@@ -613,7 +613,7 @@ class ArtefactController extends AbstractActionController
 			foreach($artefact->medias as $mediaArt){
 				if($mediaArt->id === $media->id ){
 					$this->flashMessenger()->addErrorMessage(sprintf('<i class="icon-warning-sign"></i> Cette relation existe déjà.'));
-					return $this->getResponse()->setContent(Json::encode(array( 'success' => false)));
+					return $this->getResponse()->setContent(Json::encode(array( 'success' => false, 'error' => 'Cette relation existe déjà')));
 				}
 			}
 	
@@ -625,7 +625,7 @@ class ArtefactController extends AbstractActionController
 				return $this->getResponse()->setContent(Json::encode( array( 'success' => false, 'error' => 'Erreur durant l\'insertion en base de donnée' ) ));
 			}
 			$this->flashMessenger()->addSuccessMessage(sprintf('La relation a bien été ajoutée.'));
-			return $this->getResponse()->setContent(Json::encode( array( 'success' => true)));
+			return $this->getResponse()->setContent(Json::encode( array( 'success' => true, 'message' => 'La relation a bien été ajoutée')));
 	
 		} else {
 			$this->getResponse()->setStatusCode(404);
@@ -648,8 +648,11 @@ class ArtefactController extends AbstractActionController
 		$params = null;
 	
 		if ($this->getRequest()->isXmlHttpRequest()) {
+			
+			$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+			$escapeHtml = $viewHelperManager->get('escapeHtml');
+			
 			$params = $this->params()->fromPost();
-	
 	
 			if(!isset($params["iSortCol_0"])){
 				$params["iSortCol_0"] = '0';

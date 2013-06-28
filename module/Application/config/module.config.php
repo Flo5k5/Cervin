@@ -178,6 +178,16 @@ return array(
                             ),
                         ),
                     ),
+                    'changeProfileInfosAjax' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route' => '/changeProfileInfosAjax',
+                            'defaults' => array(
+                                'controller' => 'Admin',
+                                'action'     => 'changeProfileInfosAjax',
+                            ),
+                        ),
+                    ),
                     'demandeRole' => array(
                         'type' => 'segment',
                         'options' => array(
