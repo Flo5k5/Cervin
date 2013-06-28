@@ -29,6 +29,18 @@ class DataDate extends Data
 	protected $date;
 	
 	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 * 	0 : jour
+	 * 	1 : mois
+	 * 	2 : année
+	 */
+	protected $precision;
+	
+	public function __construct($nom = '', $type) {
+		$this->precision = 2;
+	}
+	
+	/**
 	 * Magic getter to expose protected properties.
 	 *
 	 * @param string $property

@@ -67,11 +67,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 	?>
 	
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span6">
 
 			<?php foreach ($form as $element):
 		 	if (!$element instanceof Zend\Form\Element\Button && 
 				!$element instanceof Zend\Form\Element\Hidden &&
+				!($element->getAttribute('type') == 'hidden') &&
 				$element->getName() != 'description'): ?>
 		 		<!-- Label du champ -->
 		        <div class="control-group">
@@ -80,24 +81,38 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 			        </label>
 			    	<div class="controls">
 			    		<!-- Element du formulaire -->
-			    		<?php if ($element instanceof Zend\Form\Element\File) { 
-			    			echo $this->formFile($element);
-			    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
-							echo $this->formTextarea($element);
-						} elseif ($element instanceof Zend\Form\Element\Date) {
-							echo $this->formDate($element);
-						} else {
-		        			echo $this->formInput($element); 
-						} ?> 
-		        		<!-- Bulle d'information sur le champ -->
-			        	<?php if ($element->getAttribute('description') != null) { ?>
-				        	<a href="#" 
-			        			id="<?php echo $element->getAttribute('name'); ?>"
-			        			class="description"
-			        			rel="popover"
-			        			data-content="<?php echo $this->escapeHtml($element->getAttribute('description')); ?>"
-			        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
-			        	<?php } ?>
+			    		<div class="row-fluid">
+			    			<div class="span11">
+					    		<?php if ($element instanceof Zend\Form\Element\File) { 
+					    			echo $this->formFile($element);
+					    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
+									echo $this->formTextarea($element);
+								} elseif ($element->getAttribute('besoin_precision')) {
+									echo '
+										<div class="row-fluid">
+										<div class="span6">';
+									$precision = $form->get('precision'.$element->getAttribute('name'));
+									echo $this->formSelect($precision);
+									echo '</div>
+										<div class="span6">';
+									echo $this->formInput($element);
+									echo '</div></div>';
+								} else {
+				        			echo $this->formInput($element); 
+								} ?> 
+							</div>
+							<div class="span1">
+				        		<!-- Bulle d'information sur le champ -->
+					        	<?php if ($element->getAttribute('description') != null) { ?>
+						        	<a href="#" 
+					        			id="<?php echo $element->getAttribute('name'); ?>"
+					        			class="description"
+					        			rel="popover"
+					        			data-content="<?php echo $this->escapeHtml($element->getAttribute('description')); ?>"
+					        			data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
+					        	<?php } ?>
+					        </div>
+			        	</div>
 				        <!-- Erreurs de validation du formulaire -->
 				        <?php echo $this->formElementErrors($element); ?>
 			        </div> <!-- /controls -->
@@ -108,7 +123,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 		</div>
 		
 		<!-- Description -->
-		<div class="span8 well">
+		<div class="span6 well">
 		<?php foreach ($form as $element):
 			if ($element->getName() == 'description'): ?>
 	        	<!-- Editeur pour la description -->
@@ -164,7 +179,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 		});
 
 		// Gestion du date picker
-
 	    $('.datepicker').datepicker({
 	        language:'fr-FR',
 	        format:'yyyy-dd-mm',
@@ -184,6 +198,40 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 				"load": function() { 
 					$(editor.composer.iframe).wysihtml5_size_matters();
 				}
+			}
+		});
+		
+		// Gestion de la précision des dates (jour, mois, année)
+		$('.precision_date').change(function() {
+			var name = $(this).attr('data-input-name');
+			$('input[name='+name+']').datepicker('remove');
+			$('input[name='+name+']').val('');
+		
+			var precision = $(this).val();
+			if (precision == 0) {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy-mm-dd',
+			        autoclose:true,
+			        minViewMode:0,
+			        startView:0,
+			    });
+			} else if (precision == 1) {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy-mm',
+			        autoclose:true,
+			        minViewMode:1,
+			        startView:1,
+			    });
+			} else {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy',
+			        autoclose:true,
+			        minViewMode:2,
+			        startView:2,
+			    });
 			}
 		});
 		

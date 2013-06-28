@@ -25,7 +25,7 @@ class ChampTypeElementForm extends Form
 		$hidden->setName('id')
 			->setAttributes(array(
 				'type'  => 'hidden',
-				'class' => 'span11'
+				'class' => 'span12'
 			));
 		$this->add($hidden);
 		
@@ -34,7 +34,7 @@ class ChampTypeElementForm extends Form
 			->setLabel('Titre')
 			->setAttributes(array(
 				'description' => 'Le titre de l\'élément',
-				'class' => 'span11'
+				'class' => 'span12'
 			));
 		$this->add($titre);
 		
@@ -57,7 +57,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11'
+							'class' => 'span12'
 						));
 					$this->add($text);
 					break;
@@ -67,7 +67,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11',
+							'class' => 'span12',
 							'rows' => '6'
 						));
 					$this->add($textarea);
@@ -79,12 +79,27 @@ class ChampTypeElementForm extends Form
 						->setAttributes(array(
 							'type'  => 'text',
 							'description' => $champ->description,
-							'class' => 'datepicker span11'
+							'class' => 'datepicker span12',
+							'besoin_precision' => true
 						))
 						->setOptions(array(
 							'format' => 'Y-m-d'
 						));
 					$this->add($date);
+					
+					$select = new Element\Select();
+					$select->setName('precision'.$name)
+							->setAttributes(array(
+							'class' => 'precision_date',
+							'data-input-name' => $name,
+							'type'  => 'hidden'
+					));
+					$select->setValueOptions(array(
+							'0' => 'Jour',
+							'1' => 'Mois',
+							'2' => 'Année',
+					));
+					$this->add($select);
 					break;
 				case 'nombre':
 					$number = new Element\Number();
@@ -92,7 +107,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11'
+							'class' => 'span12'
 						));
 					$this->add($number);
 					break;
@@ -112,7 +127,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span11'
+							'class' => 'span12'
 						));
 					$this->add($url);
 					break;
