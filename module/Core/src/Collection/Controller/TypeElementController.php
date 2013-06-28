@@ -25,7 +25,9 @@ use Collection\Entity\DataTexte;
 use Collection\Entity\DataUrl;
 use Collection\Entity\DataTextarea;
 use Collection\Entity\Champ;
+use Collection\Entity\ChampSelect;
 use Collection\Form\ChampForm;
+use Collection\Form\ChampSelectForm;
 use Collection\Form\TypeElementForm;
 
 /**
@@ -203,59 +205,71 @@ class TypeElementController extends AbstractActionController
                     break;
                     
             	case 'ajChamp':
-                    $form = new ChampForm();
+                    $formChamp = new ChampForm();
+                    $selects = $this->getEntityManager()->getRepository('Collection\Entity\Select')->findAll();
+                    $selectsArray = array();
+                    $selectsArray2 = array();
+                    foreach ($selects as $select) {
+                        $selectsArray[$select->id] = $select->label;
+                        $selectsArray2[]=$select->id;
+                    }
+
+                    $formChampSelect = new ChampSelectForm($selectsArray);
                     if ($postData['submit'] != 'false')
                     {
                         $request = $this->getRequest();
-                        $champ = new Champ();
-                        $form->setInputFilter($champ->getInputFilter());
-                        $form->setData($request->getPost());
-                        if ($form->isValid()) {
-                            $champ->label = $request->getPost('label');
-                            $champ->format = $request->getPost('format');
-                            $champ->description = $request->getPost('description');
-                            $champ->type_element = $TypeElement;
+                        if ($request->getPost('typeChamp') == 'classique') {
 
-                            $this->getEntityManager()->persist($champ);
-                            $this->getEntityManager()->flush();
-                            
-                            $elements_existants = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findBy(array('type_element' => $TypeElement));
-                            $data = null;
-                            foreach ($elements_existants as $element) {
-                            	switch ($champ->format) {
-                            		case 'texte':
-                            			$data = new DataTexte($element, $champ);
-                            			break;
-                            		case 'textarea':
-                            			$data = new DataTextarea($element, $champ);
-                            			break;
-                            		case 'nombre':
-                            			$data = new DataNombre($element, $champ);
-                            			break;
-                            		case 'url':
-                            			$data = new DataUrl($element, $champ);
-                            			break;
-                            		case 'date':
-                            			$data = new DataDate($element, $champ);
-                            			break;
-                            		case 'fichier':
-                            			$data = new DataFichier($element, $champ);
-                            			break;
-                            	}
-        						$element->datas->add($data);
-        						$this->getEntityManager()->persist($element);
+                            $champ = new Champ();
+                            $formChamp->setInputFilter($champ->getInputFilter());
+                            $formChamp->setData($request->getPost());
+                            if ($formChamp->isValid()) {
+                                $champ->label = $request->getPost('label');
+                                $champ->format = $request->getPost('format');
+                                $champ->description = $request->getPost('description');
+                                $champ->type_element = $TypeElement;
+
+                                $this->getEntityManager()->persist($champ);
+                                $this->getEntityManager()->flush();
+                                
+                                
+                                $this->getEntityManager()->flush();
+                                $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien été ajouté.', $escapeHtml($champ->label)));
+                                return $this->getResponse()->setContent(Json::encode(true));
+                            } else {
+                            	// Form non valide
+                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'active','ChampSelect'=>''));
+                                $viewModel->setTerminal(true);
+                                return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                             }
-                            $this->getEntityManager()->flush();
-                            $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien ete ajouté.', $escapeHtml($champ->label)));
-                            return $this->getResponse()->setContent(Json::encode(true));
-                        } else {
-                        	// Form non valide
-                            $viewModel = new ViewModel(array('form' => $form));
-                            $viewModel->setTerminal(true);
-                            return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+
+                        } elseif ($request->getPost('typeChamp') == 'champSelect') {
+                            $champSelect = new ChampSelect();
+                            $formChampSelect->setInputFilter($champSelect->getInputFilter($selectsArray2));
+                            $formChampSelect->setData($request->getPost());
+                            if ($formChampSelect->isValid()) {
+                                $idSelect = (int) $request->getPost('select');
+                                $select = $this->getEntityManager()->getRepository('Collection\Entity\Select')->findOneBy(array('id'=>$idSelect));
+
+                                $champSelect->label = $request->getPost('label');
+                                $champSelect->format = 'select';
+                                $champSelect->description = $request->getPost('description');
+                                $champSelect->select = $select;
+                                $champSelect->type_element = $TypeElement;
+
+                                $this->getEntityManager()->persist($champSelect);
+                                $this->getEntityManager()->flush();
+                                $this->flashMessenger()->addSuccessMessage(sprintf('Le Champ "%1$s" a bien été ajouté.', $escapeHtml($champSelect->label)));
+                                return $this->getResponse()->setContent(Json::encode(true));
+                            } else {
+                                // Form non valide
+                                $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'','ChampSelect'=>'active'));
+                                $viewModel->setTerminal(true);
+                                return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
+                            }
                         }
                     } 
-                    $viewModel = new ViewModel(array('form' => $form));
+                    $viewModel = new ViewModel(array('formChamp' => $formChamp,'formChampSelect' => $formChampSelect,'Champ'=>'active','ChampSelect'=>''));
                     $viewModel->setTerminal(true);
                     return $viewModel->setTemplate('Collection/Type-Element/addChampModal.phtml');
                     break; // end case ajChamp

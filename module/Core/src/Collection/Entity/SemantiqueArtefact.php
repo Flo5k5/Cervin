@@ -138,7 +138,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                         'options' => array(
                             'haystack' => $typeElementsArtefactArray,
                             'messages' => array(
-                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Please select your gender !'  
+                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Le type d\'élément na pas été trouvé'  
                             ),
                         ),
                     ),
@@ -152,7 +152,7 @@ class SemantiqueArtefact implements InputFilterAwareInterface
                         'options' => array(
                             'haystack' => $typeElementsArtefactArray,
                             'messages' => array(
-                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Please select your gender !'  
+                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Le type d\'élément na pas été trouvé'  
                             ),
                         ),
                     ),

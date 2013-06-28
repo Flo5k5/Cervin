@@ -51,5 +51,89 @@ class ChampSelect extends Champ
 		$this->$property = $value;
 	}
 
+	    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+
+    public function getInputFilter($select = null)
+    {
+    	if (!$this->inputFilter) {
+    		$inputFilter = new InputFilter();
+    		$factory = new InputFactory();
+    		
+    		$inputFilter->add($factory->createInput(array(
+    				'name' => 'id',
+    				'required' => true,
+    				'filters' => array(array('name' => 'Int')),
+    		)));
+    	
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'select',
+    			'required' => true,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    			'validators' => array(
+    				array(
+    					'name' => 'StringLength',
+    					'options' => array(
+    						'encoding' => 'UTF-8',
+    						'min' => 1,
+    						'max' => 200,
+    					),
+    				),
+    			),
+    		)));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'label',
+                'required' => true,
+                'filters' => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name' => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min' => 1,
+                            'max' => 200,
+                        ),
+                    ),
+                ),
+            )));
+    		$inputFilter->add($factory->createInput(array(
+                'name'     => 'select',
+                'validators' => array(
+                    array(
+                        'name'    => 'InArray',
+                        'options' => array(
+                            'haystack' => $select,
+                            'messages' => array(
+                                \Zend\Validator\InArray::NOT_IN_ARRAY => 'Le select na pas été trouvé'  
+                            ),
+                        ),
+                    ),
+                ),
+            )));
+    	
+    		$inputFilter->add($factory->createInput(array(
+    			'name' => 'description',
+                'required' => false,
+    			'filters' => array(
+    				array('name' => 'StripTags'),
+    				array('name' => 'StringTrim'),
+    			),
+    		)));
+    	
+    		$this->inputFilter = $inputFilter;
+    	}
+    		
+    	return $this->inputFilter;
+    }
+
 
 }

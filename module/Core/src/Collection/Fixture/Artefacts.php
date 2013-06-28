@@ -10,30 +10,6 @@ class Artefacts implements FixtureInterface
 	{
 
 
-		/* ************************************ *
-		 * Ajout d'un Select et de c'est Valeur *
-		 * ************************************ */
-
-		$select = new Collection\Entity\Select();
-		$select->__set('description', 'Liste des pays du monde');
-		$select->__set('label', 'Pays');
-		
-		$select_value =  new Collection\Entity\SelectValue($select);
-		$select_value->__set('text','France');
-
-		$select_value2 =  new Collection\Entity\SelectValue($select);
-		$select_value2->__set('text','Espagne');
-
-		$select_value3 =  new Collection\Entity\SelectValue($select);
-		$select_value3->__set('text','Italie');
-
-
-		$manager->persist($select);
-		$manager->persist($select_value);
-		$manager->persist($select_value2);
-		$manager->persist($select_value3);
-
-
 
 		/* *********************************** *
 		 * TYPES D'ARTEFACTS + CHAMPS ASSOCIES *

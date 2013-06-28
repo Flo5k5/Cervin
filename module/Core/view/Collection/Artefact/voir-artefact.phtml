@@ -181,12 +181,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 
 					<?php foreach( ($ChampsDatasElement) as $champData) : ?>
 						<dt>
-							<?php echo $this->escapeHtml($champData['label']); ?> 
-							<?php if ($champData['description'] != null) : ?>
+							<?php echo $this->escapeHtml($champData['champ']->label); ?> 
+							<?php if ($champData['champ']->description != null) : ?>
 					       	<a href="#" 
 				        		class="description"
 				        		rel="popover"
-				        		data-content="<?php echo $this->escapeHtml($champData['description']); ?>"
+				        		data-content="<?php echo $this->escapeHtml($champData['champ']->description); ?>"
 				        		data-original-title="Description du champ"><i class="icon-question-sign"></i></a>  
 				        	<?php endif; ?>
 						</dt>
@@ -195,7 +195,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							// Valeur si le data n'est pas renseigné
 							$null = 'Non renseigné';
 
-							switch ($champData['format']) :
+							switch ($champData['champ']->format) :
+								case 'select':
+									if ($champData['data']) {
+										echo ($champData['data']->value) ? $this->escapeHtml($champData['data']->value->text) : $null ;
+									} else {
+										echo $null;
+									}
+									echo '</br></br>';
+									break;
 	        					case 'texte':
 									if ($champData['data']) {
 										echo ($champData['data']->texte) ? $this->escapeHtml($champData['data']->texte) : $null ;
