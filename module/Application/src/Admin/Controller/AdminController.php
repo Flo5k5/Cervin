@@ -123,8 +123,11 @@ class AdminController extends AbstractActionController
 	            	$btn_supprimer = '<a href="#" 
 	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
 	            			data-value="'.$user->username.'" 
-	            			class="btn btn-danger SupprimerUser">
-	            				<i class="icon-trash"></i> Supprimer
+	            			class="btn btn-danger SupprimerUser"
+	            			data-toggle="popover"
+	            			data-content="L\'utilisateur sera supprimé de la base de donnée"
+	            			data-title="Supprimer l\'utilisateur">
+	            				<i class="icon-trash"></i>
 	            			</a>';
 	            	$btn_reset_password = '<a href="#" 
 	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
@@ -143,18 +146,46 @@ class AdminController extends AbstractActionController
                     '<span id="username" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1">'.$escapeHtml($user->username).'
+                        data-value="'.$escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->username).'
                     </span>',
+                		
                     '<span id="displayName" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->displayName).'" data-type="text" data-pk="1">'.$escapeHtml($user->displayName).'
+                        data-value="'.$escapeHtml($user->displayName).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->displayName).'
                     </span>',
+                		
                     '<span id="email" 
                         class="text CursorPointer" 
                         data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1">'.$escapeHtml($user->email).'
+                        data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->email).'
                     </span>',
+                		
+                    '<span id="telephone" class="text CursorPointer" 
+                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$escapeHtml($user->telephone).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->telephone).'</span>',
+                		
+                    '<span id="adresse" class="text CursorPointer" 
+                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$escapeHtml($user->adresse).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->adresse).'</span><br/>
+                	 <span id="code_postal" class="text CursorPointer" 
+                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$escapeHtml($user->code_postal).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->code_postal).'</span>&nbsp;
+                	 <span id="ville" class="text CursorPointer" 
+                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$escapeHtml($user->ville).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->ville).' </span><br/>
+                	 <span id="pays" class="text CursorPointer" 
+                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+                        data-value="'.$escapeHtml($user->pays).'" data-type="text" data-pk="1"
+                		>'.$escapeHtml($user->pays).' </span>',
+                		
                     $editable_role,
                 	$btn_reset_password.$btn_supprimer
                 );
@@ -177,14 +208,13 @@ class AdminController extends AbstractActionController
     {
         if ($this->getRequest()->isXmlHttpRequest())
         {
-        
             $postData = $this->params()->fromPost();
 
             $id = (int) $this->params()->fromRoute('id', 0);
             
             if (!$id) {
                 //return $this->redirect()->toRoute('');
-                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Pas d'id spécifié en paramètre")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Pas d'id spécifié en paramètre")));
             }
             
 			$user = null;
@@ -194,7 +224,7 @@ class AdminController extends AbstractActionController
             }
             catch (\Exception $ex) {
                 //return $this->redirect()->toRoute('');
-                return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver l'utilisateur")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Impossible de trouver l'utilisateur")));
             }
 
             if ($postData['name'] == 'username')
@@ -206,10 +236,10 @@ class AdminController extends AbstractActionController
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le login a été mis à jour")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le login a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'displayName')
@@ -221,26 +251,132 @@ class AdminController extends AbstractActionController
             		$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le nom d'utilisateur a été mis à jour")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom d'utilisateur a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'email')
             {
+            	$validator = new \Zend\Validator\EmailAddress();
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "L'email est invalide")));
+            	}
+            		
             	try {
             		$user->setEmail($postData['value']);
                 	$this->getEntityManager()->persist($user);
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
                 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'email a été mis à jour")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'email a été mis à jour")));
 
             } 
+            elseif ($postData['name'] == 'telephone')
+            {
+            	$validator = new \Zend\Validator\Regex('#^0[1-68]([-. ]?\d{2}){4}$#');
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le numéro de téléphone est invalide")));
+            	}
+            		
+            	try {
+            		$user->setTelephone($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le numéro de téléphone a été mis à jour")));
+
+            } 
+            elseif ($postData['name'] == 'adresse')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 5, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "L'adresse est invalide")));
+            	}
+            		
+            	try {
+            		$user->setAdresse($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'adresse a été mis à jour")));
+
+            } 
+            elseif ($postData['name'] == 'code_postal')
+            {
+            	$validator = new \Zend\Validator\PostCode('fr_FR');
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le code postal est invalide")));
+            	}
+            		
+            	try {
+            		$user->setCodePostal($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le code postal a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'ville')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 1, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le nom de la ville est invalide")));
+            	}
+            		
+            	try {
+            		$user->setVille($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom de la ville a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'pays')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 1, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le nom du pays est invalide")));
+            	}
+            		
+            	try {
+            		$user->setPays($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom du pays a été mis à jour")));
+
+            }
             elseif ($postData['name'] == 'password')
             {
             	try {
@@ -272,10 +408,10 @@ class AdminController extends AbstractActionController
 	                $transport->send($message);
             	}
             	catch (\Exception $ex) {
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le mot de passe a été réinitialisé")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le mot de passe a été réinitialisé")));
 
             } 
             elseif ($postData['name'] == 'role')
@@ -286,7 +422,7 @@ class AdminController extends AbstractActionController
                 }
                 catch (\Exception $ex) {
                     //return $this->redirect()->toRoute('');
-                	return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Impossible de trouver le role")));
+                	return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Impossible de trouver le role")));
                 }
                 
                 if($user->attenteRole != null ){
@@ -303,7 +439,7 @@ class AdminController extends AbstractActionController
                 $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
                 $this->getRequest()->getPost('value');
                 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "Le role a été mis à jour")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le role a été mis à jour")));
 
             }
             elseif ($postData['name'] == 'supprimer')
@@ -314,12 +450,190 @@ class AdminController extends AbstractActionController
             	}
             	catch (\Exception $ex) {
             		//return $this->redirect()->toRoute('page');
-            		return $this->getResponse()->setContent(Json::encode(array( "success" => false, "error" => "Une erreur est survenue")));
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
                 
-                return $this->getResponse()->setContent(Json::encode(array( "success" => true, "message" => "L'utilisateur a été supprimé")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été supprimé")));
 
             }
+           
+        } else {
+            $this->getResponse()->setStatusCode(404);
+			return;
+        }
+    }
+    
+    
+    /**
+     * Permet à l'utilisateur de modifier ses propres données en AJAX
+     **/
+    public function changeProfileInfosAjaxAction()
+    {
+        if ($this->getRequest()->isXmlHttpRequest())
+        {
+        
+            $postData = $this->params()->fromPost();
+
+            $id = (int) $this->zfcUserAuthentication()->getIdentity()->getId();
+            
+            if (!$id) {
+                //return $this->redirect()->toRoute('');
+                return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Pas d'id spécifié en paramètre")));
+            }
+            
+			$user = $this->zfcUserAuthentication()->getIdentity();
+			
+            if ($postData['name'] == 'username')
+            {
+
+            	try {
+            		$user->setUsername($postData['value']);
+               		$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le login a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'displayName')
+            {
+
+            	try {
+            		$user->setDisplayName($postData['value']);
+            		$this->getEntityManager()->persist($user);
+            		$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom d'utilisateur a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'email')
+            {
+            	$validator = new \Zend\Validator\EmailAddress();
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "L'email est invalide")));
+            	}
+            		
+            	try {
+            		$user->setEmail($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'email a été mis à jour")));
+
+            } 
+            elseif ($postData['name'] == 'telephone')
+            {
+            	$validator = new \Zend\Validator\Regex('#^0[1-68]([-. ]?\d{2}){4}$#');
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le numéro de téléphone est invalide")));
+            	}
+            		
+            	try {
+            		$user->setTelephone($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le numéro de téléphone a été mis à jour")));
+
+            } 
+            elseif ($postData['name'] == 'adresse')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 5, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "L'adresse est invalide")));
+            	}
+            		
+            	try {
+            		$user->setAdresse($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'adresse a été mis à jour")));
+
+            } 
+            elseif ($postData['name'] == 'code_postal')
+            {
+            	$validator = new \Zend\Validator\PostCode('fr_FR');
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le code postal est invalide")));
+            	}
+            		
+            	try {
+            		$user->setCodePostal($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le code postal a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'ville')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 1, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le nom de la ville est invalide")));
+            	}
+            		
+            	try {
+            		$user->setVille($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom de la ville a été mis à jour")));
+
+            }
+            elseif ($postData['name'] == 'pays')
+            {
+            	$validator = new \Zend\Validator\StringLength(array( 'min' => 1, 'max' => 255 ));
+            	
+            	if (!$validator->isValid($postData['value'])) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le nom du pays est invalide")));
+            	}
+            		
+            	try {
+            		$user->setPays($postData['value']);
+                	$this->getEntityManager()->persist($user);
+                	$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+                
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom du pays a été mis à jour")));
+
+            }
+
            
         } else {
             $this->getResponse()->setStatusCode(404);

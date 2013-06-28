@@ -61,62 +61,148 @@ class Module implements AutoloaderProviderInterface,
 
         $events->attach('ZfcUser\Form\Register','init', function($e) {
         	$form = $e->getTarget();
-        	 /*$form->add(array(
-                'type' => 'Zend\Form\Element\Checkbox',
-                'name' => 'terms',
-                'options' => array(
-                     'label' => 'Agree to Terms and Conditions',
-                     'use_hidden_element' => true,
-                     'checked_value' => 1,
-                     'unchecked_value' => 'no'
-                )
-            ));*/
-             
+
         	$form->add(array(
-        			'name' => 'checkboxAgreement',
-        			'type' => 'Zend\Form\Element\Checkbox',
+        			'name' => 'telephone',
+        			'type' => 'Zend\Form\Element\Text',
         			'options' => array(
-        					//'label' => "J'accepte les <a href='".$this->url('page/modifier',array('slug'=>'conditions-generales'))."'>conditions générales</a> du projet CERVIN",
-        					'label' => 'J\'accepte les conditions générales du projet CERVIN',
-        					'use_hidden_element' => true,
-        					'checked_value' => 1,
-                     		'unchecked_value' => 'no'
+        					'label' => 'Téléphone',
+        					'size'  => '12'
         			)
+        	));
+        	 
+        	$form->add(array(
+        		'name' => 'adresse',
+        		'type' => 'Zend\Form\Element\Textarea',
+        		'options' => array(
+        				'label' => 'Adresse',
+        				'size'  => '255'
+        		)
+        	));
+        	
+        	$form->add(array(
+        		'name' => 'code_postal',
+        		'type' => 'Zend\Form\Element\Text',
+        		'options' => array(
+        				'label' => 'Code Postal',
+        				'size'  => '5'
+        		)
+        	));
+        	
+        	$form->add(array(
+        		'name' => 'ville',
+        		'type' => 'Zend\Form\Element\Text',
+        		'options' => array(
+        				'label' => 'Ville',
+        				'size'  => '255'
+        		)
+        	));
+        	
+        	$form->add(array(
+        		'name' => 'pays',
+        		'type' => 'Zend\Form\Element\Text',
+        		'options' => array(
+        				'label' => 'Pays',
+        				'size'  => '255'
+        		)
+        	));
+        	
+        	$form->add(array(
+        		'name' => 'checkboxAgreement',
+        		'type' => 'Zend\Form\Element\Checkbox',
+        		'options' => array(
+        				//'label' => "J'accepte les <a href='".$this->url('page/modifier',array('slug'=>'conditions-generales'))."'>conditions générales</a> du projet CERVIN",
+        				'label' => 'J\'accepte les conditions générales du projet CERVIN',
+        				'use_hidden_element' => true,
+        				'checked_value' => 1,
+                   		'unchecked_value' => 'no'
+        		)
         	));
         	
         });
         
         $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
         	$filter = $e->getTarget();
-            /*$filter->add(array(
-                'name'     => 'terms',
-                'validators' => array(
-                    array(
-                        'name'    => 'InArray',
-                        'options' => array(
-                            'haystack' => array(1),
-                            'messages' => array(
-                                'notInArray' => 'Please select your gender !' 
-                            ),
-                        ),
-                    )
-                )
-            ));
-    		$filter->add(array(
-    				'name' => 'checkboxAgreement',
-    				'validators' => array(
-    						array(
-    								'name' => 'Identical',
-    								'options' => array(
-    										'token' => true,
-    										'messages' => array(
-    												\Zend\Validator\Identical::NOT_SAME => 'Vous devez accepter les conditions générales',
-    										),
-    								),
-    						),
-    				),
-    		));*/
-	
+        	
+        	$filter->add(array(
+        		'name'     => 'telephone',
+        		'required'   => true,
+        		'allowEmpty' => false,
+        		'validators' => array(
+        			array(
+        				'name' => 'Regex',
+        				'break_chain_on_failure' => true,
+        				'options' => array(
+        					'pattern' => '#^0[1-68]([-. ]?\d{2}){4}$#'
+        				),
+        			),
+        		),
+        	));
+        	
+			$filter->add(array(
+				'name'     => 'adresse',
+				'required'   => true,
+				'allowEmpty' => false,
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+							'min' => 5,
+							'max' => 255
+						),
+					),
+				),
+			));
+			
+			$filter->add(array(
+				'name'     => 'code_postal',
+				'required'   => true,
+				'allowEmpty' => false,
+				'validators' => array(
+					array(
+						'name' => 'PostCode',
+						'break_chain_on_failure' => true,
+						'options' => array(
+							'locale' => 'fr_FR'
+						),
+					),
+				),
+			));
+			
+			$filter->add(array(
+				'name'     => 'ville',
+				'required'   => true,
+				'allowEmpty' => false,
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+							'min' => 1,
+							'max' => 255
+						),
+					),
+				),
+			));
+			
+			
+			$filter->add(array(
+				'name'     => 'pays',
+				'required'   => true,
+				'allowEmpty' => false,
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+							'min' => 1,
+							'max' => 255
+						),
+					),
+				),
+			));
+			
 			$filter->add(array(
 				'name'     => 'checkboxAgreement',
 				'required'   => true,
@@ -132,7 +218,8 @@ class Module implements AutoloaderProviderInterface,
 						),
 					),
 				),
-			)); 
+			));
+			
 		});
         
         $zfcServiceEvents  = $sm->get('zfcuser_user_service')->getEventManager();

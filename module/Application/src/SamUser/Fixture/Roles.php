@@ -54,9 +54,19 @@ class Roles implements FixtureInterface
 		 * Utilisateurs
 		 */
 
+		$adresse     = '12 rue Joseph REY';
+		$code_postal  = '38000';
+		$ville        = 'Grenoble';
+		$pays         = 'France';
+		
 		$admin = new SamUser\Entity\User();
 		$admin->setUsername('adminlogin');
 		$admin->setEmail('admin@mail.fr');
+		$admin->setTelephone('0600000000');
+		$admin->setAdresse($adresse);
+		$admin->setCodePostal($code_postal);
+		$admin->setVille($ville);
+		$admin->setPays($pays);
 		$admin->setDisplayName('Administrateur Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
@@ -66,6 +76,11 @@ class Roles implements FixtureInterface
 		$utilisateur = new SamUser\Entity\User();
 		$utilisateur->setUsername('utilisateurlogin');
 		$utilisateur->setEmail('utilisateur@mail.fr');
+		$utilisateur->setTelephone('0600000001');
+		$utilisateur->setAdresse($adresse);
+		$utilisateur->setCodePostal($code_postal);
+		$utilisateur->setVille($ville);
+		$utilisateur->setPays($pays);
 		$utilisateur->setDisplayName('Utilisateur Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
@@ -75,6 +90,11 @@ class Roles implements FixtureInterface
 		$collection = new SamUser\Entity\User();
 		$collection->setUsername('collectionlogin');
 		$collection->setEmail('collection@mail.fr');
+		$collection->setTelephone('0600000002');
+		$collection->setAdresse($adresse);
+		$collection->setCodePostal($code_postal);
+		$collection->setVille($ville);
+		$collection->setPays($pays);
 		$collection->setDisplayName('Collection Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
@@ -84,6 +104,11 @@ class Roles implements FixtureInterface
 		$parcours = new SamUser\Entity\User();
 		$parcours->setUsername('parcourslogin');
 		$parcours->setEmail('parcours@mail.fr');
+		$parcours->setTelephone('0600000003');
+		$parcours->setAdresse($adresse);
+		$parcours->setCodePostal($code_postal);
+		$parcours->setVille($ville);
+		$parcours->setPays($pays);
 		$parcours->setDisplayName('Parcours Test');
 		$bcrypt = new Bcrypt;
         $bcrypt->setCost(14);
@@ -93,6 +118,11 @@ class Roles implements FixtureInterface
 		$modeleur = new SamUser\Entity\User();
 		$modeleur->setUsername('modeleurlogin');
 		$modeleur->setEmail('modeleur@mail.fr');
+		$modeleur->setTelephone('0600000004');
+		$modeleur->setAdresse($adresse);
+		$modeleur->setCodePostal($code_postal);
+		$modeleur->setVille($ville);
+		$modeleur->setPays($pays);
 		$modeleur->setDisplayName('Modeleur Test');
 		$bcrypt = new Bcrypt;
 		$bcrypt->setCost(14);

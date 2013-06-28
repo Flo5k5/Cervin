@@ -158,38 +158,4 @@ class CollectionController extends AbstractActionController
     	}
     }
 
-    /**
-     * Met en ligne ou hors-ligne un élément
-     *
-     * Cette action récupère l'id de l'élément passé en paramètre
-     * puis va chercher en base de donnée l'élément correspondant.
-     * Une fois l'objet récupéré, on change la valeur de "onLine"
-     * par son opposé (booléen) et on persiste l'information.
-     */
-    public function onLineAction()
-    {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-
-            $id      = (int) $this->params('id', null);
-            $element = $this->getEntityManager()->getRepository('Collection\Entity\Element')->findOneBy(array('id'=>$id));
-            
-            if ($element === null or $id === null) {
-                $this->getResponse()->setStatusCode(404);
-                return; 
-            }
-            
-            $post = $this->params()->fromPost();
-            
-            $element->onLine = ($post['onLine'] == 'true') ?  1 : 0 ;
-
-            $this->getEntityManager()->persist($element);
-            $this->getEntityManager()->flush();
-
-            return $this->getResponse()->setContent(Json::encode(true));
-        } else {
-        	$this->getResponse()->setStatusCode(404);
-        	return;
-        }
-    }
-    
 }
