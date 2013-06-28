@@ -319,7 +319,8 @@ class AdminController extends AbstractActionController
             } 
             elseif ($postData['name'] == 'code_postal')
             {
-            	$validator = new \Zend\Validator\PostCode('fr_FR');
+            	//$validator = new \Zend\Validator\PostCode('fr_FR');
+            	$validator = new \Zend\Validator\Regex('#^(([0-8][0-9])|(9[0-5]))[0-9]{3}$#');
             	
             	if (!$validator->isValid($postData['value'])) {
             		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le code postal est invalide")));
@@ -575,7 +576,8 @@ class AdminController extends AbstractActionController
             } 
             elseif ($postData['name'] == 'code_postal')
             {
-            	$validator = new \Zend\Validator\PostCode('fr_FR');
+            	//$validator = new \Zend\Validator\PostCode('fr_FR');
+            	$validator = new \Zend\Validator\Regex('#^(([0-8][0-9])|(9[0-5]))[0-9]{3}$#');
             	
             	if (!$validator->isValid($postData['value'])) {
             		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Le code postal est invalide")));
