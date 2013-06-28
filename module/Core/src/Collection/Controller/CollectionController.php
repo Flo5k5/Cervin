@@ -99,26 +99,18 @@ class CollectionController extends AbstractActionController
 	    		$params["sSortDir_0"] = 'ASC';
 	    	}
 	    	
-	    	$entityManager = $this->getEntityManager()
-	    					      ->getRepository('Collection\Entity\Element');
-	 
+	    	
+	    	$entityManager = $this->getEntityManager()->getRepository('Collection\Entity\Element');
+	    	
 	    	$dataTable = new \Collection\Model\ElementDataTable($params);
 	    	$dataTable->setEntityManager($entityManager);
-	    
-	    	if (!$this->isAllowed('Utilisateur')) {
-	    		$dataTable->setConfiguration(array(
-	    				'titre',
-	    				'description',
-	    	    		'nom',
-	    		));
-	    	} else {
-	    		$dataTable->setConfiguration(array(
-	    				'titre',
-				        'description',
-			    	    'nom',
-	    				'public'
-	    		));
-	    	}
+
+    		$dataTable->setConfiguration(array(
+    				'titre',
+			        'description',
+		    	    'nom',
+    				'public'
+    		));
 	    	
 	    	$aaData = array();
 	    	
@@ -136,34 +128,22 @@ class CollectionController extends AbstractActionController
 	    		if ($element->public) {
 	    			$visibilite = 'Public';
 	    		} else {
-	    			$visibilite = 'Brouillon';
+	    			$visibilite = '<p class="muted"> Brouillon </p>';
 	    		}
 	    		
-	    		$titre = '';
+
 	    		if($element->type_element->type == 'artefact'){
 	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('artefact/voirArtefact', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
-	    		} elseif($element->type_element->type == 'media'){
+	    		} else {
 	    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('media/voirMedia', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
-	    		} else {
-	    			$titre = $escapeHtml($element->titre);
 	    		}
-	    		
-	    		if (!$this->isAllowed('Utilisateur') && $parcours->public) {
-	    			// Pour un visiteur, on affiche que les éléments publics
-	    			$aaData[] = array(
-	    					$titre,
-	    					$dataTable->truncate($element->description, 250, ' ...', false, true),
-	    					$element->type_element->nom,
-	    			);
-	    		} else {
-	    			// Contributeur qui n'a pas les droits collection
-	    			$aaData[] = array(
-	    					$titre,
-		    				$dataTable->truncate($element->description, 250, ' ...', false, true),
-		    				$element->type_element->nom,
-	    					$visibilite
-	    			);
-	    		}
+
+    			$aaData[] = array(
+    					$titre,
+	    				$dataTable->truncate($element->description, 250, ' ...', false, true),
+	    				$element->type_element->nom,
+    					$visibilite
+    			);
 	    	}
 	    	
 	    	$dataTable->setAaData($aaData);

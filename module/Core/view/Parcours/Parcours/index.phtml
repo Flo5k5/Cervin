@@ -50,14 +50,9 @@ $this->headTitle($title);
             <table class="table table-striped table-bordered data">
                 <thead>
                     <tr>
-                    	<?php if (!$this->isAllowed('Utilisateur')) : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        <?php else : ?>
-                        	<th>Titre</th>
-                        	<th>Description</th>
-                        	<th>Visibilité</th>
-                        <?php endif; ?>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Visibilité</th>
                         <!-- <th> </th>  -->
                     </tr>
                 </thead>
@@ -84,18 +79,11 @@ $this->headScript()->appendFile($this->basePath() . '/js/ResultSet.js');?>
 	    tableParcours = ResultSet.paginate(
 	    	$('.data'),
 			{
-			<?php if (!$this->isAllowed('Utilisateur')) : ?>
-	           	"aoColumns": [
-		           	            null,
-		           	           	{ "bSortable": false  },
-	           	           	 ],
-	         <?php else : ?>
 	         	"aoColumns": [
 		           	           	null,
 		           	           	{ "bSortable": false  },
 		           	           	null,
 	           	           	 ],
-	         <?php endif; ?>
 	           	"iColumns": 3,
 	           	"bAutoWidth": false,
 				"bSortClasses":false,

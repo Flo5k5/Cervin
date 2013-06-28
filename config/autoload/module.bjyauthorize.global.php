@@ -109,6 +109,7 @@ return array(
                     'action' => 'refueRole', 
                     'roles' => array('Admin')
                 ),
+            		
                 array(
                     'controller' => 'typeElement',
                     'roles' => array('Modeleur')
@@ -121,27 +122,16 @@ return array(
 
             	array(
             		'controller' => 'Collection',
-            		'roles' => array('Utilisateur')
+            		'roles' => array('Visiteur')
             	),
-            	array(
-                    'controller' => 'Admin',
-                    'action' => 'onLine', 
-                    'roles' => array('Collection')
-                ),
-
                 array(
                     'controller' => 'Artefact',
-                    'roles' => array('Utilisateur')
+                    'roles' => array('Visiteur')
                 ),
-                array(
-                    'controller' => 'Artefact',
-                    'action' => 'voirArtefact', 
-                    'roles' => array('Utilisateur')
-                ),
-
+            		
                 array(
                     'controller' => 'Media',
-                    'roles' => array('Utilisateur')
+                    'roles' => array('Visiteur')
                 ),
             		
             	array(
@@ -151,12 +141,12 @@ return array(
                 
                 array(
                     'controller' => 'Parcours',
-                    'roles' => array('Utilisateur')
+                    'roles' => array('Visiteur')
                 ),
 
                 array(
                     'controller' => 'Scene',
-                    'roles' => array('Utilisateur')
+                    'roles' => array('Visiteur')
                 ),
 
                 array(
@@ -174,7 +164,7 @@ return array(
 
                 array(
                     'controller' => 'Semantique',
-                    'roles' => array('Admin')
+                    'roles' => array('Modeleur')
                 ),
             		
             	array(
@@ -223,14 +213,13 @@ return array(
                 array('route' => 'champSelect/ajouter', 'roles' => array('Modeleur')),
                 array('route' => 'champSelect/modifier', 'roles' => array('Modeleur')),
                 array('route' => 'champSelect/modifierValueAjax', 'roles' => array('Modeleur')),
-            		
-				array('route' => 'collection', 'roles' => array('Utilisateur')),
-				array('route' => 'collection/consulter', 'roles' => array('Utilisateur')),
-                array('route' => 'collection/onLine', 'roles' => array('Collection')),
 
-                array('route' => 'artefact', 'roles' => array('Collection')),
+            	array('route' => 'collection', 'roles' => array('Visiteur')),
+				array('route' => 'collection/consulter', 'roles' => array('Visiteur')),
+
+                array('route' => 'artefact', 'roles' => array('Visiteur')),
                 array('route' => 'artefact/ajouter', 'roles' => array('Collection')),
-                array('route' => 'artefact/voirArtefact', 'roles' => array('Utilisateur')),
+                array('route' => 'artefact/voirArtefact', 'roles' => array('Visiteur')),
                 array('route' => 'artefact/editArtefact', 'roles' => array('Collection')),
                 array('route' => 'artefact/removeArtefact', 'roles' => array('Collection')),
             	array('route' => 'artefact/supprimerRelationArtefactSemantique', 'roles' => array('Collection')),
@@ -239,9 +228,9 @@ return array(
             	array('route' => 'artefact/addRelationArtefactMedia', 'roles' => array('Collection')),
             	array('route' => 'artefact/getAllMedia', 'roles' => array('Utilisateur')),
 
-                array('route' => 'media', 'roles' => array('Collection')),
+                array('route' => 'media', 'roles' => array('Visiteur')),
                 array('route' => 'media/ajouter', 'roles' => array('Collection')),
-                array('route' => 'media/voirMedia', 'roles' => array('Utilisateur')),
+                array('route' => 'media/voirMedia', 'roles' => array('Visiteur')),
                 array('route' => 'media/editMedia', 'roles' => array('Collection')),
                 array('route' => 'media/removeMedia', 'roles' => array('Collection')),
             	array('route' => 'media/addRelationMediaArtefact', 'roles' => array('Collection')),
@@ -269,8 +258,8 @@ return array(
                 array('route' => 'fileupload/progress/session_partial', 'roles' => array('Visiteur')),
                 array('route' => 'fileupload/progress/session-progress', 'roles' => array('Visiteur')),
 
-                array('route' => 'parcours', 'roles' => array('Utilisateur')),
-                array('route' => 'parcours/voir', 'roles' => array('Utilisateur')),
+                array('route' => 'parcours', 'roles' => array('Visiteur')),
+                array('route' => 'parcours/voir', 'roles' => array('Visiteur')),
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
                 array('route' => 'parcours/supprimer', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifierTransition', 'roles' => array('Parcours')),
@@ -278,7 +267,7 @@ return array(
                 array('route' => 'parcours/ajouterTransitionSec', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifier', 'roles' => array('Parcours')),
 
-                array('route' => 'parcours/voirParcourHalviz', 'roles' => array('Parcours')),
+                array('route' => 'parcours/voirParcourHalviz', 'roles' => array('Visiteur')),
                 array('route' => 'parcours/ajouterSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/supprimerSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/editSousParcours', 'roles' => array('Parcours')),
@@ -289,8 +278,8 @@ return array(
             	array('route' => 'semantiquetransition/modifier', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/supprimer', 'roles' => array('Admin')),
 
-                array('route' => 'scene', 'roles' => array('Utilisateur')),
-                array('route' => 'scene/voirScene', 'roles' => array('Utilisateur')),
+                array('route' => 'scene', 'roles' => array('Visiteur')),
+                array('route' => 'scene/voirScene', 'roles' => array('Visiteur')),
                 array('route' => 'scene/retirerSceneSecondaire', 'roles' => array('Parcours')),
                 array('route' => 'scene/removeScene', 'roles' => array('Parcours')),
                 array('route' => 'scene/creerSceneSecondaire', 'roles' => array('Parcours')),

@@ -87,18 +87,12 @@ class ParcoursController extends AbstractActionController
  
     	$dataTable = new \Parcours\Model\ParcoursDataTable($params);
     	$dataTable->setEntityManager($entityManager);
-    	if (!$this->isAllowed('Utilisateur')) {
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-		        'description'
-	    	));
-	    } else {
-	    	$dataTable->setConfiguration(array(
-	    		'titre',
-	    		'description',
-	    		'public'
-	    	));
-	    }
+
+    	$dataTable->setConfiguration(array(
+    		'titre',
+    		'description',
+    		'public'
+    	));
 
     	$aaData = array();
     	
@@ -113,32 +107,23 @@ class ParcoursController extends AbstractActionController
     		
     	foreach ($paginator as $parcours) {
     		
-			$titre = '<a href="'
-							.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id, 'return'=>'')).'">'
-							.$escapeHtml($parcours->titre).'
-						</a>';
-    		
-			// Si on a les droits parcours, on ajoute un bouton pour changer la visibilité
 			if ($parcours->public) {
 				$etat = 'Public';
 			} else {
-				$etat = 'Brouillon';
+				$etat = '<p class="muted"> Brouillon</p>';
 			}
+			
+			$titre = '<a href="'
+						.$this->url()->fromRoute('parcours/voir', array('id' => $parcours->id, 'return'=>'')).'">'
+						.$escapeHtml($parcours->titre).'
+					</a>';
 
-			if (!$this->isAllowed('Utilisateur') && $parcours->public) {
-				// Pour un visiteur, on affiche que les parcours publics
-				$aaData[] = array(
-						$titre,
-						$dataTable->truncate($parcours->description, 250, ' ...', false, true)
-				);
-			} else {
-				// Contributeur qui n'a pas les droits parcours
-	    		$aaData[] = array(
-	    				$titre,
-	    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
-	    				$etat
-	    		);
-			}
+			// Contributeur qui n'a pas les droits parcours
+    		$aaData[] = array(
+    				$titre,
+    				$dataTable->truncate($parcours->description, 250, ' ...', false, true),
+    				$etat
+    		);
 	    	
     	}
     	
@@ -220,8 +205,8 @@ class ParcoursController extends AbstractActionController
         }
         
         if (!$Parcours->public && !$this->isAllowed('Utilisateur')) {
-        	$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public'));
-        	return $this->redirect()->toRoute('parcours');
+        	$this->flashMessenger()->addErrorMessage(sprintf('Ce parcours n\'est pas accessible au public, vous devez vous connecter pour pouvoir le consulter.'));
+        	return $this->redirect()->toRoute('zfcuser/login');
         }
         
         $SemantiqueTransitions = $this->getEntityManager()

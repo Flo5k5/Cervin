@@ -154,7 +154,12 @@ class ArtefactController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
             return;
 		}
-
+		
+		if (!$Artefact->public && !$this->isAllowed('Utilisateur')) {
+			$this->flashMessenger()->addErrorMessage(sprintf('Cet artefact n\'est pas accessible au public, vous devez vous connecter pour pouvoir le consulter.'));
+			return $this->redirect()->toRoute('zfcuser/login');
+		}
+		
 		$ChampsDatasElement = $this->getEntityManager()
 				->getRepository('Collection\Entity\Champ')
 				->getChampsDatasElement($Artefact,$Artefact->type_element);
