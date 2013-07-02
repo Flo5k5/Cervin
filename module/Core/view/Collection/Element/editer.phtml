@@ -234,6 +234,30 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 								break;
 
 							case 'date':
+								echo '<div class="row-fluid"> <div class="span3">';
+								if ($champData['data'] != null) {
+									$format = $champData['data']->format;
+									echo '<select class="format_date input-block-level"
+											name="select_'. $champData['champ']->id .'"
+											data-input-name="date_'. $champData['champ']->id .'">';
+									if ($format == null || $format == 0) {
+										echo'<option value="0" selected>Jour</option>
+											 <option value="1">Mois</option>
+											 <option value="2">Année</option>
+										</select>';
+									} elseif ($format == 1) {
+										echo '<option value="0">Jour</option>
+											 <option value="1" selected>Mois</option>
+											 <option value="2">Année</option>
+										</select>';
+									} elseif ($format == 2) {
+										echo '<option value="0">Jour</option>
+											 <option value="1">Mois</option>
+											 <option value="2" selected>Année</option>
+										</select>';
+									}
+								}
+								echo '</div> <div class="span9">';
 								if($champData['data'] == null or $champData['data']->date == null){
 									$date = null;
 								} else {
@@ -250,13 +274,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									endswitch;
 								}
 								echo '<span class="picker CursorPointer" 
+											name="date_'. $champData['champ']->id .'"
+											data-select-name="select_'. $champData['champ']->id .'"
     										data-name="data" 
     										data-type="date" 
     										data-pk="'.$champData['champ']->id.'" 
 	    									data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 										'.$date.'
 									</span>';
-								echo '</br></br>';
+								echo '</div> </div>';
+								echo '</br>';
 								break;
 							
 							case 'nombre':
@@ -505,8 +532,62 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			viewformat: 'yyyy-dd-mm',
 			 datepicker: {
 				language:'fr',
+				autoclose:true,
 			},
 			emptytext: 'Vide'
+		});
+		
+		// Gestion de la précision des dates (jour, mois, année)
+		$('.format_date').change(function() {
+			var name = $(this).attr('data-input-name');
+			var format = $(this).val();
+			if (format == 0) {
+				$('input[name='+name+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm-dd',
+					viewformat: 'yyyy-dd-mm',
+					 datepicker: {
+						language:'fr',
+				        format:'yyyy-dd-mm',
+				        autoclose:true,
+				        minViewMode:0,
+				        startView:0,
+					},
+					emptytext: 'Vide'
+				});
+			} else if (format == 1) {
+				$('input[name='+name+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm',
+					viewformat: 'yyyy-mm',
+					 datepicker: {
+						language:'fr',
+				        format:'yyyy-mm',
+				        autoclose:true,
+				        minViewMode:1,
+				        startView:1,
+					},
+					emptytext: 'Vide'
+				});
+				
+			} else {
+				$('input[name='+name+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy',
+					viewformat: 'yyyy',
+					 datepicker: {
+						language:'fr',
+				        format:'yyyy',
+				        autoclose:true,
+				        minViewMode:2,
+				        startView:2,
+					},
+					emptytext: 'Vide'
+				});
+			}
 		});
 		
 		// Gestion de X-Editable
