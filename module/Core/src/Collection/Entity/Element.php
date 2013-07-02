@@ -127,7 +127,7 @@ class Element implements InputFilterAwareInterface
     {
         return get_object_vars($this);
     }
-
+    
     /**
      * Populate from an array.
      * 
@@ -136,7 +136,7 @@ class Element implements InputFilterAwareInterface
      *
      * @param array $data
      */
-    public function populate($data = array(),EntityManager $em)
+    public function populate(EntityManager $em, $data = array())
     {
         $this->titre = $data['titre'];
         $this->description = $data['description'];
@@ -148,20 +148,20 @@ class Element implements InputFilterAwareInterface
                     if ($data[$index]) {
 
                         if ($data[$index] != null) {
-                            $select_value = $em
-                                ->getRepository('Collection\Entity\SelectValue')
+                            $select_option = $em
+                                ->getRepository('Collection\Entity\SelectOption')
                                 ->findOneBy(array('id'=>$data[$index]));
-                            if ($select_value === null) {
+                            if ($select_option === null) {
                                 $this->getResponse()->setStatusCode(404);
                                 return;
                             }
                         } else {
-                            $select_value = null;
+                            $select_option = null;
                         }
 
 
                         $databd = new DataSelect($this, $champ);
-                        $databd->value = $select_value;
+                        $databd->option = $select_option;
                         $this->datas->add($databd);
                     }
                     break;
@@ -195,8 +195,16 @@ class Element implements InputFilterAwareInterface
         			break;
         		case 'date':
         			if ($data[$index] != null) {
+        				$format = $data['format'.$index];
         				$databd = new DataDate($this, $champ);
-        				$databd->date = \DateTime::createFromFormat('Y-d-m', $data[$index]);
+        				$databd->format = (int) $format;
+        				if ($format == 0) {
+        					$databd->date = \DateTime::createFromFormat('Y-d-m', $data[$index]);
+        				} elseif ($format == 1) {
+        					$databd->date = \DateTime::createFromFormat('Y-m-d', $data[$index].'-01');
+        				} else {
+        					$databd->date = \DateTime::createFromFormat('Y-d-m', $data[$index].'-01-01');
+        				}
         				$this->datas->add($databd);
         			}
         			break;
@@ -395,7 +403,7 @@ class Element implements InputFilterAwareInterface
 			    					array(
 				    					'name' => 'regex',
 				    					'options'=>array(
-				    					'pattern' => '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/',
+				    					'pattern' => '/^[0-9]{4}(-[0-9]{2}){0,2}$/',
 				    					'messages'=> array('regexNotMatch'=>'L\'entrée ne semble pas être une date valide'),
 			    					),
 		    					),

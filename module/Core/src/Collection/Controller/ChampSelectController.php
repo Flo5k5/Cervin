@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
-use Collection\Entity\SelectValue;
+use Collection\Entity\SelectOption;
 use Collection\Entity\Select;
 use Doctrine\DBAL\DriverManager;
 use Zend\Json\Json;
@@ -87,22 +87,22 @@ class ChampSelectController extends AbstractActionController
             foreach ($dataTable->getPaginator() as $select) {
 
             	$apercu = '<select id="select2_'.$select->id.'" class="select">';
-			    foreach ($select->select_values as $select_value) {
-			    	$apercu .= '<option value="'.$select_value->id.'">'.$escapeHtml($select_value->text).'</option>';
+			    foreach ($select->select_options as $select_option) {
+			    	$apercu .= '<option value="'.$select_option->id.'">'.$escapeHtml($select_option->text).'</option>';
 			    }
 			    $apercu .= '</select>';
 
 
                 $action = '<a href="#" 
-	            			data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id)).'" 
-	            			class="btn btn-primary modifierValue"
+	            			data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id)).'" 
+	            			class="btn btn-primary modifierOption"
 	            			data-toggle="popover"
 	            			data-content="Ajouter / Modifier une valeur">
 	            				<i class="icon-folder-open-alt"></i>
 	            			</a>
 	            			<a href="#ajouterCSVModal" 
 	            			data-toggle="modal"
-	            			data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id)).'" 
+	            			data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id)).'" 
 	            			class="btn btn-primary ajouterCSV classPopover"
 	            			data-content="Ajouter une liste CSV">
 	            				<i class="icon-download"></i>
@@ -225,7 +225,7 @@ class ChampSelectController extends AbstractActionController
 	 *
      * @return \Zend\View\Model\ViewModel
      */
-    public function modifierValueAjaxAction()
+    public function modifierOptionAjaxAction()
     {
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $escapeHtml = $viewHelperManager->get('escapeHtml');
@@ -244,18 +244,18 @@ class ChampSelectController extends AbstractActionController
 				case 'voirListe':
 					$viewModel = new ViewModel(array('select' => $select));
                     $viewModel->setTerminal(true);
-                    return $viewModel->setTemplate('Collection/Champ-Select/modifierValueAjax.phtml');
+                    return $viewModel->setTemplate('Collection/Champ-Select/modifierOptionAjax.phtml');
 					break;
 
-				case 'ajouterValueCSV':
+				case 'ajouterOptionCSV':
 					if(!empty($postData['delimiteur']) and !empty($postData['liste']))
 					{
 
 						$ListeCSV = str_getcsv($postData['liste'],$postData['delimiteur']);
 						foreach ($ListeCSV as $key => $value) {
-							$newValue = new SelectValue($select);
-							$newValue->text = $value ;
-		                    $this->getEntityManager()->persist($newValue);
+							$newOption = new SelectOption($select);
+							$newOption->text = $value ;
+		                    $this->getEntityManager()->persist($newOption);
 						}
 	                    $this->getEntityManager()->flush();
 	                	return $this->getResponse()->setContent(Json::encode(array('message'=>'La liste CSV a bien été ajoutée','type'=>'success')));
@@ -263,60 +263,60 @@ class ChampSelectController extends AbstractActionController
 	                return $this->getResponse()->setContent(Json::encode(array('message'=>"Erreur lors de l'importation de la liste CSV",'type'=>'error')));
 	                	
 					break;
-				case 'ajouterValue':
-					$newValue = new SelectValue($select);
-					$newValue->text = $postData['value'];
-                    $this->getEntityManager()->persist($newValue);
+				case 'ajouterOption':
+					$newOption = new SelectOption($select);
+					$newOption->text = $postData['value'];
+                    $this->getEntityManager()->persist($newOption);
                     $this->getEntityManager()->flush();
-                    $addTable = '<td id="'.$newValue->id.'">
+                    $addTable = '<td id="'.$newOption->id.'">
 	                    <span id="label" 
 	                        class="text CursorPointer" 
-	                        data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $newValue->id)).'" 
-	                        data-value="'.$escapeHtml($newValue->text).'" 
+	                        data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id, "idOption" => $newOption->id)).'" 
+	                        data-value="'.$escapeHtml($newOption->text).'" 
 	                        data-name="modifierTexte" 
 	                        data-placement="right" 
 	                        data-type="text" 
-	                        data-pk="1">'.$escapeHtml($newValue->text).'
+	                        data-pk="1">'.$escapeHtml($newOption->text).'
 	                    </span>
                     </td>
                     <td>
-			            <a class="btn btn-danger SupprimerValue" 
-			            data-url="'.$this->url()->fromRoute("champSelect/modifierValueAjax", array("id" => $select->id, "idValue" => $newValue->id)).'"
+			            <a class="btn btn-danger SupprimerOption" 
+			            data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id, "idOption" => $newOption->id)).'"
 			            href="#">
 			                <i class="icon-trash "></i> 
 			            </a>
                 	</td>
                     ';
 
-                    return $this->getResponse()->setContent(Json::encode(array('message'=>'La valeur à bien été ajoutée','type'=>'success','addTable'=>$addTable,'id'=>$newValue->id)));
+                    return $this->getResponse()->setContent(Json::encode(array('message'=>'L\'Option à bien été ajoutée','type'=>'success','addTable'=>$addTable,'id'=>$newOption->id)));
 					break;
 
 				case 'modifierTexte':
-					$idValue = (int) $this->params('idValue', null);
-					$selectValue = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$idValue));
-					if ($selectValue == null or $id == null) {
+					$idOption = (int) $this->params('idOption', null);
+					$SelectOption = $this->getEntityManager()->getRepository('Collection\Entity\SelectOption')->findOneBy(array('id'=>$idOption));
+					if ($SelectOption == null or $id == null) {
 						$this->getResponse()->setStatusCode(404);
 						return; 
 					}
 
-					$selectValue->text = $postData['value'];
+					$SelectOption->text = $postData['value'];
                     $this->getEntityManager()->flush();
                     return $this->getResponse()->setContent(Json::encode(true));
 					break;
-				case 'supprimerValue':
-					$idValue = (int) $this->params('idValue', null);
-					$selectValue = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$idValue));
-					if ($selectValue == null or $id == null) {
+				case 'supprimerOption':
+					$idOption = (int) $this->params('idOption', null);
+					$SelectOption = $this->getEntityManager()->getRepository('Collection\Entity\SelectOption')->findOneBy(array('id'=>$idOption));
+					if ($SelectOption == null or $id == null) {
 						$this->getResponse()->setStatusCode(404);
 						return; 
 					}
-					// si la value du select n'est pas utilisé dans un element alors on a supprime
-					if ($selectValue->datas->isEmpty()) {
-	                    $this->getEntityManager()->remove($selectValue);
+					// si l'Option du select n'est pas utilisé dans un element alors on a supprime
+					if ($SelectOption->datas->isEmpty()) {
+	                    $this->getEntityManager()->remove($SelectOption);
 	                    $this->getEntityManager()->flush();
-	                    return $this->getResponse()->setContent(Json::encode(array('message'=>'La valeur "'.$selectValue->text.'" à bien été supprimée','type'=>'success')));
+	                    return $this->getResponse()->setContent(Json::encode(array('message'=>'L\'Option "'.$SelectOption->text.'" à bien été supprimée','type'=>'success')));
 					}
-	                return $this->getResponse()->setContent(Json::encode(array('message'=> 'La valeur "'.$selectValue->text.'" ne peut étre supprimée car elle est utilisée dans un element.','type'=>'error')));
+	                return $this->getResponse()->setContent(Json::encode(array('message'=> 'L\'Option "'.$SelectOption->text.'" ne peut étre supprimée car elle est utilisée dans un element.','type'=>'error')));
 					break;
 				
 				default:

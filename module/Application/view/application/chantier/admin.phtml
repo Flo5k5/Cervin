@@ -58,32 +58,21 @@ $this->headTitle($title);
 				</tr>
 				<?php foreach ($elements as $element) :?>
 				<tr>
-					
-					<?php if ($element instanceOf \Collection\Entity\Artefact) : ?>
 					<td>
-						<a href="<?php echo $this->url('artefact/voirArtefact', array('id'=>$element->id));?>">
+						<a href="<?php echo $this->url('element/voir', array('id'=>$element->id));?>">
 							<i class="icon-tag"></i> <?php echo $element->titre; ?>	
 						</a>
 					</td>
-					<td>Artefact</td>
+					<?php if ($element instanceOf \Collection\Entity\Artefact) : ?>
+						<td>Artefact</td>
+					<?php  else : ?>
+						<td>Média</td>
+					<?php endif; ?>
 					<td>
 						<a href="mailto:<?php echo $element->utilisateur->email; ?>"> 
 							<?php echo $element->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
 						</a>
 					</td>
-				    <?php  else : ?>
-				    <td>
-				    	<a href="<?php echo $this->url('media/voirMedia', array('id'=>$element->id));?>">
-							<i class="icon-picture"></i> <?php echo $element->titre; ?>	
-						</a>
-					</td>
-					<td>Média</td>
-					<td>
-						<a href="mailto:<?php echo $element->utilisateur->email; ?>"> 
-							<?php echo $element->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
-						</a>
-					</td>
-				    <?php endif; ?>
 					<td>
 						<p class="text-right">
 						<a href="<?php echo $this->url('chantier/terminerChantierElement',array(

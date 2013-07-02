@@ -9,17 +9,17 @@ use Zend\InputFilter\InputFilterInterface;
 use Gedmo\Mapping\Annotation as Gedmo; 
 
 /**
-* Liste des selects
+* Valeurs de la liste des selects
 *
 * @ORM\Entity
 * @Gedmo\Loggable
-* @ORM\Table(name="mbo_select")
+* @ORM\Table(name="mbo_selectoption",options={"collate"="utf8_general_ci"})
 * @property int $id Identifiant unique du champ select
-* @property string $label Label du select
-* @property string $description Description du select (sert d'aide à la saisie pour l'utilisateur)
-* @property Collection\Entity\ChampSelect $champs_select L'ensemble des champs select qui utilise ce select
+* @property string $text text de l'option
+* @property Collection\Entity\Select $select Select de la valeur
+* @property Collection\Entity\DataSelect $datas L'ensemble des data qui utilise cette valeur 
 */
-class Select implements InputFilterAwareInterface
+class SelectOption implements InputFilterAwareInterface
 {
 	protected $inputFilter;
 	 
@@ -29,27 +29,36 @@ class Select implements InputFilterAwareInterface
 	 * @ORM\GeneratedValue(strategy="AUTO"))
 	 */
 	protected $id;
-	 
+
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $label;
+	protected $text;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Select", inversedBy="select_options")
+     **/
+    protected $select;
 
 	/**
-     * @ORM\Column(type="string", length=200, nullable=true)
-     */
-    protected $description;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\ChampSelect", mappedBy="select")
+     * @ORM\OneToMany(targetEntity="Collection\Entity\DataSelect", mappedBy="option")
      **/
-    protected $champs_select;
+    protected $datas;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\SelectOption", mappedBy="select", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"text" = "ASC"})
-     **/
-    protected $select_options;
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function __construct($select = null) {
+    	$this->select = $select;
+    }
 
 	/**
 	 * Magic getter to expose protected properties.

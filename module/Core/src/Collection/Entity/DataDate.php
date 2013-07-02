@@ -34,11 +34,7 @@ class DataDate extends Data
 	 * 	1 : mois
 	 * 	2 : année
 	 */
-	protected $precision;
-	
-	public function __construct($nom = '', $type) {
-		$this->precision = 2;
-	}
+	protected $format;
 	
 	/**
 	 * Magic getter to expose protected properties.

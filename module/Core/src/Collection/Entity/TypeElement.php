@@ -21,7 +21,7 @@ use \Doctrine\ORM\Query;
  * 
  * @property int $id Identifiant unique de type d'élément
  * @property string $nom Le nom du type d'élément
- * @property string $type Le type d'u type d'élément : 'média' ou 'artefact'
+ * @property string $type Le type d'un type d'élément : 'media' ou 'artefact'
  * @property \Collection\Entity\Champ $champs Les champs qui décrivent tout élément de ce type d'élémént
  * @property \Collection\Entity\Element $elements Les éléments de ce type d'élément
  * @property bool $valide Booléen qui décrit si le type d'élément est validé ou brouillon

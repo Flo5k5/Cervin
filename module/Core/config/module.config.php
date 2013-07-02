@@ -7,11 +7,9 @@ return array(
         'invokables' => array(
             'typeElement' => 'Collection\Controller\TypeElementController',
             'Collection' => 'Collection\Controller\CollectionController',
-            'Artefact' => 'Collection\Controller\ArtefactController',
-            'Media' => 'Collection\Controller\MediaController',
         	'Element' => 'Collection\Controller\ElementController',
+        	'Relation' => 'Collection\Controller\RelationController',
             'Semantique' => 'Collection\Controller\SemantiqueController',
-            'Relation' => 'Collection\Controller\RelationController',
             'Parcours' => 'Parcours\Controller\ParcoursController',
             'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
             'Scene' => 'Parcours\Controller\SceneController',
@@ -20,7 +18,7 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-                
+            
             'typeElement' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -96,17 +94,17 @@ return array(
                             ),
                         ),
                     ),
-                    'modifierValueAjax' => array(
+                    'modifierOptionAjax' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/modifierValueAjax/[:id][/:idValue]',
+                            'route' => '/modifierOptionAjax/[:id][/:idOption]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idValue'     => '[0-9]+',
+                                'idOption'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'ChampSelect',
-                                'action'     => 'modifierValueAjax',
+                                'action'     => 'modifierOptionAjax',
                             ),
                         ),
                     ),
@@ -137,84 +135,31 @@ return array(
                 ),
             ),
             
-            'artefact' => array(
+            'relation' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/artefact',
+                    'route' => '/relation',
                     'defaults' => array(
-                        'controller' => 'Artefact',
+                        'controller' => 'Relation',
                         'action'     => 'index',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'ajouter' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/ajouter[/:type_element_id]',
-                            'constraints' => array(
-                                'type_element_id' => '[0-9]+'
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'ajouter',
-                            ),
-                        ),
-                    ),
-                    'voirArtefact' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/voir/:id',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'voirArtefact',
-                            ),
-                        ),
-                    ),
-                    'editArtefact' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/edit/:id[/:idData]',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                                'idData' => '([0-9]+|new)',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'editArtefact',
-                            ),
-                        ),
-                    ),
-                    'removeArtefact' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/remove/:id',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Artefact',
-                                'action'     => 'removeArtefact',
-                            ),
-                        ),
-                    ),
                 	'addRelationArtefactSemantique' => array(
-                			'type' => 'segment',
-                			'options' => array(
-                					'route' => '/addRelationArtefactSemantique[/:idDestination][/:idOrigine][/:idSemantique]',
-                					'constraints' => array(
-                							'idSemantique'  => '[0-9]+',
-                							'idDestination' => '[0-9]+',
-                							'idOrigine'     => '[0-9]+'
-                					),
-                					'defaults' => array(
-                							'controller' => 'Artefact',
-                							'action'     => 'addRelationArtefactSemantique',
-                					),
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/addRelationArtefactSemantique/[:idOrigine]/[:idDestination]/[:idSemantique]',
+                			'constraints' => array(
+                				'idSemantique'  => '[0-9]+',
+                				'idDestination' => '[0-9]+',
+                				'idOrigine'     => '[0-9]+'
                 			),
+                			'defaults' => array(
+                				'controller' => 'Relation',
+                				'action'     => 'addRelationArtefactSemantique',
+                			),
+                		),
                 	),
                 	'supprimerRelationArtefactSemantique' => array(
                 		'type' => 'segment',
@@ -224,154 +169,81 @@ return array(
                 				'idRelation'  => '[0-9]+'
                 			),
                 			'defaults' => array(
-                				'controller' => 'Artefact',
+                				'controller' => 'Relation',
                 				'action'     => 'supprimerRelationArtefactSemantique',
                 			),
                 		),
                 	),
-                	'getAllArtefact' => array(
-                			'type' => 'Zend\Mvc\Router\Http\Literal',
-                			'options' => array(
-                					'route' => '/getAllArtefact',
-                					'defaults' => array(
-                							'controller' => 'Artefact',
-                							'action'     => 'getAllArtefact',
-                					),
-                			),
-                	),
                 	'addRelationArtefactMedia' => array(
-                			'type' => 'segment',
-                			'options' => array(
-                					'route' => '/addRelationArtefactMedia[/:idMedia]',
-                					'constraints' => array(
-                							'idMedia' => '[0-9]+'
-                					),
-                					'defaults' => array(
-                							'controller' => 'Artefact',
-                							'action'     => 'addRelationArtefactMedia',
-                					),
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/addRelationArtefactMedia/:idMedia',
+                			'constraints' => array(
+                				'idMedia' => '[0-9]+'
                 			),
-                	),
-                	'getAllMedia' => array(
-                			'type' => 'Zend\Mvc\Router\Http\Literal',
-                			'options' => array(
-                					'route' => '/getAllMedia',
-                					'defaults' => array(
-                							'controller' => 'Artefact',
-                							'action'     => 'getAllMedia',
-                					),
+                			'defaults' => array(
+                				'controller' => 'Relation',
+                				'action'     => 'addRelationArtefactMedia',
                 			),
+                		),
                 	),
-                ),
-            ),
-
-            'media' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route' => '/media',
-                    'defaults' => array(
-                        'controller' => 'Media',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'ajouter' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/ajouter[/:type_element_id]',
-                            'constraints' => array(
-                                'type_element_id' => '[0-9]+'
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Media',
-                                'action'     => 'ajouter',
-                            ),
-                        ),
-                    ),
-                    'voirMedia' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/voir/:id',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Media',
-                                'action'     => 'voirMedia',
-                            ),
-                        ),
-                    ),
-                    'editMedia' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/edit/:id[/:idData]',
-                            'constraints' => array(
-                                'idData'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Media',
-                                'action'     => 'editMedia',
-                            ),
-                        ),
-                    ),
-                    'removeMedia' => array(
-                        'type' => 'segment',
-                        'options' => array(
-                            'route' => '/remove/:id',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Media',
-                                'action'     => 'removeMedia',
-                            ),
-                        ),
-                    ),
                 	'addRelationMediaArtefact' => array(
-                			'type' => 'segment',
-                			'options' => array(
-                					'route' => '/addRelationMediaArtefact[/:idArtefact]',
-                					'constraints' => array(
-                							'idArtefact' => '[0-9]+'
-                					),
-                					'defaults' => array(
-                							'controller' => 'Media',
-                							'action'     => 'addRelationMediaArtefact',
-                					),
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/addRelationMediaArtefact/:idArtefact',
+                			'constraints' => array(
+                				'idArtefact' => '[0-9]+'
                 			),
+                			'defaults' => array(
+                				'controller' => 'Relation',
+                				'action'     => 'addRelationMediaArtefact',
+                			),
+                		),
                 	),
                 	'supprimerRelationMediaArtefact' => array(
                 		'type' => 'segment',
                 		'options' => array(
-                			'route' => '/supprimerRelationMediaArtefact/:idMedia/:idArtefact',
+                			'route' => '/supprimerRelationMediaArtefact/:idArtefact/:idMedia',
                 			'constraints' => array(
                 				'idArtefact' => '[0-9]+',
                 				'idMedia' => '[0-9]+'
                 			),
                 			'defaults' => array(
-                				'controller' => 'Media',
+                				'controller' => 'Relation',
                 				'action'     => 'supprimerRelationMediaArtefact',
                 			),
                 		),
                 	),
                 	'getAllArtefact' => array(
-                			'type' => 'Zend\Mvc\Router\Http\Literal',
-                			'options' => array(
-                					'route' => '/getAllArtefact',
-                					'defaults' => array(
-                							'controller' => 'Media',
-                							'action'     => 'getAllArtefact',
-                					),
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/getAllArtefact/:type_origine',
+                			'constraints' => array(
+                				'type_origine' => 'media|artefact'
                 			),
+                			'defaults' => array(
+                				'controller' => 'Relation',
+                				'action'     => 'getAllArtefact',
+                			),
+                		),
+                	),
+                	'getAllMedia' => array(
+                		'type' => 'Zend\Mvc\Router\Http\Literal',
+                		'options' => array(
+                			'route' => '/getAllMedia',
+                			'defaults' => array(
+                				'controller' => 'Relation',
+                				'action'     => 'getAllMedia',
+                			),
+                		),
                 	),
                 ),
             ),
-        		
+
         	'element' => array(
         		'type' => 'Zend\Mvc\Router\Http\Literal',
         		'options' => array(
-        			'route' => '/artefact',
+        			'route' => '/element',
         			'defaults' => array(
         				'controller' => 'Element',
         				'action'     => 'index',
@@ -385,11 +257,65 @@ return array(
         					'route' => '/changerVisibilite/:id/:return',
         					'constraints' => array(
         						'id'     => '[0-9]+',
-        						'return' => 'index|voir'
+        						'return' => 'editer|voir'
         					),
         					'defaults' => array(
         						'controller' => 'Element',
         						'action'     => 'changerVisibilite',
+        					),
+        				),
+        			),
+        			'ajouter' => array(
+        				'type' => 'segment',
+        				'options' => array(
+        					'route' => '/ajouter/:type[/:type_element_id]',
+        					'constraints' => array(
+        						'type'				=> 'media|artefact',
+        						'type_element_id' 	=> '[0-9]+'
+        					),
+        					'defaults' => array(
+        						'controller' => 'Element',
+        						'action'     => 'ajouter',
+        					),
+        				),
+        			),
+        			'voir' => array(
+        				'type' => 'segment',
+        				'options' => array(
+        					'route' => '/voir/:id',
+        					'constraints' => array(
+        						'id'     => '[0-9]+',
+        					),
+        					'defaults' => array(
+        						'controller' => 'Element',
+        						'action'     => 'voir',
+        					),
+        				),
+        			),
+        			'editer' => array(
+        				'type' => 'segment',
+        				'options' => array(
+        					'route' => '/editer/:id[/:idData]',
+        					'constraints' => array(
+        						'id'     => '[0-9]+',
+        						'idData' => '([0-9]+|new)',
+        					),
+        					'defaults' => array(
+        						'controller' => 'Element',
+        						'action'     => 'editer',
+        					),
+        				),
+        			),
+        			'supprimer' => array(
+        				'type' => 'segment',
+        				'options' => array(
+        					'route' => '/supprimer/:id',
+        					'constraints' => array(
+        						'id'     => '[0-9]+',
+        					),
+        					'defaults' => array(
+        						'controller' => 'Element',
+        						'action'     => 'supprimer',
         					),
         				),
         			),
@@ -830,14 +756,10 @@ return array(
         'template_map' => array(
             
             'collection/collection/consulter'    => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
-                
-            'collection/artefact/ajouter'        => __DIR__ . '/../view/Collection/Artefact/ajouter.phtml',
-            'collection/artefact/edit-artefact'  => __DIR__ . '/../view/Collection/Artefact/edit-artefact.phtml',
-            'collection/artefact/voir-artefact'  => __DIR__ . '/../view/Collection/Artefact/voir-artefact.phtml',
 
-            'collection/media/ajouter'           => __DIR__ . '/../view/Collection/Media/ajouter.phtml',
-            'collection/media/edit-media'        => __DIR__ . '/../view/Collection/Media/edit-media.phtml',
-            'collection/media/voir-media'        => __DIR__ . '/../view/Collection/Media/voir-media.phtml',
+            'collection/element/ajouter'           => __DIR__ . '/../view/Collection/Element/ajouter.phtml',
+            'collection/element/editer'        => __DIR__ . '/../view/Collection/Element/editer.phtml',
+            'collection/element/voir'        => __DIR__ . '/../view/Collection/Element/voir.phtml',
                 
             'collection/semantique/index'        => __DIR__ . '/../view/Collection/Semantique/index.phtml',
             'collection/semantique/ajouter'      => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
