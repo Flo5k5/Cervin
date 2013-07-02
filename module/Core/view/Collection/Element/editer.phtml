@@ -208,7 +208,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									$source[] = array( "id" => $select_option->id, "text" => $this->escapeHtml($select_option->text) );
 								}
 								echo '<span class="Xselect2 CursorPointer" 
-										data-name="data" 
+										data-name="data"
 										data-type="select2" 
 										data-pk="'.$champData['champ']->id.'" 
 										data-source=\''.json_encode($source).'\'
@@ -234,6 +234,30 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 								break;
 
 							case 'date':
+								echo '<div class="row-fluid"> <div class="span3">';
+								if ($champData['data'] != null) {
+									$format = $champData['data']->format;
+									echo '<select class="format_date input-block-level"
+											name="select_'. $champData['champ']->id .'"
+											data-input-name="date_'. $champData['champ']->id .'">';
+									if ($format == null || $format == 0) {
+										echo'<option value="0" selected>Jour</option>
+											 <option value="1">Mois</option>
+											 <option value="2">Année</option>
+										</select>';
+									} elseif ($format == 1) {
+										echo '<option value="0">Jour</option>
+											 <option value="1" selected>Mois</option>
+											 <option value="2">Année</option>
+										</select>';
+									} elseif ($format == 2) {
+										echo '<option value="0">Jour</option>
+											 <option value="1">Mois</option>
+											 <option value="2" selected>Année</option>
+										</select>';
+									}
+								}
+								echo '</div> <div class="span9">';
 								if($champData['data'] == null or $champData['data']->date == null){
 									$date = null;
 								} else {
@@ -250,13 +274,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									endswitch;
 								}
 								echo '<span class="picker CursorPointer" 
+											name="date_'. $champData['champ']->id .'"
+											data-select-name="select_'. $champData['champ']->id .'"
     										data-name="data" 
     										data-type="date" 
     										data-pk="'.$champData['champ']->id.'" 
 	    									data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 										'.$date.'
 									</span>';
-								echo '</br></br>';
+								echo '</div> </div>';
+								echo '</br>';
 								break;
 							
 							case 'nombre':
@@ -498,18 +525,112 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
             });
 	    });
 
-	    // Gestion du date picker
-		$('.picker').editable({
-			mode: 'popup',
-			placement: 'top',
-			format: 'yyyy-mm-dd',
-			viewformat: 'yyyy-dd-mm',
-			 datepicker: {
-				language:'fr',
-			},
-			emptytext: 'Vide'
+	    // Initialisation des datepickers
+	    $('.picker').each(function(){
+	    	var selectname = $(this).attr('data-select-name');
+	    	var format = $('select[name='+selectname+']').val();
+	    	if (format == 0) {
+				$(this).editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm-dd',
+					viewformat: 'yyyy-dd-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-dd-mm',
+				        autoclose:true,
+				        minViewMode:0,
+				        startView:0,
+					},
+					emptytext: 'Vide'
+				});
+			} else if (format == 1) {
+				$(this).editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm',
+					viewformat: 'yyyy-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-mm',
+				        autoclose:true,
+				        minViewMode:1,
+				        startView:1,
+					},
+					emptytext: 'Vide'
+				});
+			} else {
+				$(this).editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy',
+					viewformat: 'yyyy',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy',
+				        autoclose:true,
+				        minViewMode:2,
+				        startView:2,
+					},
+					emptytext: 'Vide'
+				});
+			}
+	    });
+	    
+	    // Maj des datepickers lors de changement jour/mois/année
+		$('.format_date').change(function() {
+			var inputname = $(this).attr('data-input-name');
+			var format = $(this).val();
+			var date = $('span[name='+inputname+']').text();
+			
+			if (format == 0) {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm-dd',
+					viewformat: 'yyyy-dd-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-dd-mm',
+				        autoclose:true,
+				        minViewMode:0,
+				        startView:0,
+					},
+					emptytext: 'Vide'
+				});
+			} else if (format == 1) {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm',
+					viewformat: 'yyyy-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-mm',
+				        autoclose:true,
+				        minViewMode:1,
+				        startView:1,
+					},
+					emptytext: 'Vide'
+				});
+			} else {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy',
+					viewformat: 'yyyy',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy',
+				        autoclose:true,
+				        minViewMode:2,
+				        startView:2,
+					},
+					emptytext: 'Vide'
+				});
+			}
 		});
-		
+	   
 		// Gestion de X-Editable
 		$('.edit').editable({
 			mode: 'inline',
