@@ -68,25 +68,22 @@ class DatatableWidget extends AbstractHelper
      */
     public function __invoke($view = null, $params = null)
     {
-
     	$js_table = null;
-    	
     	if(isset($params)){
     		foreach ($params as $param){
     			$js_table .= ' data.push('.json_encode($param, JSON_FORCE_OBJECT).'); ';
     		}
     	}
-    	
     	$viewFile = null;
 		
     	if($view === "scene"){
     		$viewFile = 'Parcours/Scene/RelationSceneElementWidget.phtml';
     	} else if($view === "semantique"){
-    		$viewFile = 'Collection/Artefact/RelationArtefactSemantiqueWidget.phtml';
+    		$viewFile = 'Collection/Element/RelationArtefactSemantiqueWidget.phtml';
     	} else if($view === "artefact"){
-    		$viewFile = 'Collection/Artefact/RelationArtefactMediaWidget.phtml';
+    		$viewFile = 'Collection/Element/RelationArtefactMediaWidget.phtml';
     	} else if($view === "media"){
-    		$viewFile = 'Collection/Media/RelationMediaArtefactWidget.phtml';
+    		$viewFile = 'Collection/Element/RelationMediaArtefactWidget.phtml';
     	} else {
     		$viewFile = 'Collection/Collection/CollectionWidget.phtml';
     	}

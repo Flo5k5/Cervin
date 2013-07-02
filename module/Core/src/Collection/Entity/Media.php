@@ -63,7 +63,7 @@ class Media extends Element
 	 * @throws InvalidArgumentException Si $type_elemnt n'est pas de type média
 	 */
 	public function __construct($titre, $type_element) {
-		if ($type_element->__get('type') != 'media') {
+		if ($type_element->type != 'media') {
 			throw new InvalidArgumentException('Tentative de création d\'un média avec un type élément caractérisant un artefact => INTERDIT');
 		}
 		$this->titre = $titre;

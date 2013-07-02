@@ -72,16 +72,20 @@ class Artefact extends Element
 	
 	/**
 	 * Constructeur
-	 **/
-	public function __construct($titre = null, $type_element) {
-		if ($type_element->__get('type') != 'artefact') {
-			throw new InvalidArgumentException('Tentative de création d\'un artefact avec un type élément caractérisant un média => INTERDIT');
+	 *
+	 * @param string $titre
+	 * @param Collection\Entity\TypeElement $type_element
+	 * @throws InvalidArgumentException Si $type_elemnt n'est pas de type média
+	 */
+	public function __construct($titre, $type_element) {
+		if ($type_element->type != 'artefact') {
+			throw new InvalidArgumentException('Tentative de création d\'un média avec un type élément caractérisant un artefact => INTERDIT');
 		}
 		$this->titre = $titre;
 		$this->type_element = $type_element;
 		$this->public = false;
 	}
-
+	
 }
 
 /**

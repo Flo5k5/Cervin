@@ -80,7 +80,7 @@ class ChampTypeElementForm extends Form
 							'type'  => 'text',
 							'description' => $champ->description,
 							'class' => 'datepicker span12',
-							'besoin_precision' => true
+							'besoin_format' => true
 						))
 						->setOptions(array(
 							'format' => 'Y-m-d'
@@ -88,9 +88,9 @@ class ChampTypeElementForm extends Form
 					$this->add($date);
 					
 					$select = new Element\Select();
-					$select->setName('precision'.$name)
+					$select->setName('format'.$name)
 							->setAttributes(array(
-							'class' => 'precision_date',
+							'class' => 'format_date',
 							'data-input-name' => $name,
 							'type'  => 'hidden'
 					));

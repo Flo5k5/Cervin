@@ -48,8 +48,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 	</div>
 	<div class="span3">
 	<?php if ($this->isAllowed('Collection') === true) :?>
-		<a href="<?php echo $this->url('artefact/ajouter') ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un artefact</a>
-		<a href="<?php echo $this->url('media/ajouter') ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un média&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		<a href="<?php echo $this->url('element/ajouter', array('type'=>'artefact')) ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un artefact</a>
+		<a href="<?php echo $this->url('element/ajouter', array('type'=>'media')) ?>" class="btn btn-primary btn-block"> <i class="icon-white icon-plus"></i> &nbsp;Ajouter un média</a>
 	<?php endif; ?>
 	</div>
 </div>
