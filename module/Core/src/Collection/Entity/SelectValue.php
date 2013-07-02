@@ -13,7 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 *
 * @ORM\Entity
 * @Gedmo\Loggable
-* @ORM\Table(name="mbo_selectvalue")
+* @ORM\Table(name="mbo_selectvalue",options={"collate"="utf8_general_ci"})
 * @property int $id Identifiant unique du champ select
 * @property string $text text de la value
 * @property Collection\Entity\Select $select Select de la valeur
@@ -45,6 +45,16 @@ class SelectValue implements InputFilterAwareInterface
      **/
     protected $datas;
 
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function __construct($select = null) {
     	$this->select = $select;

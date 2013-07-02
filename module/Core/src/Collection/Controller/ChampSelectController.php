@@ -58,15 +58,8 @@ class ChampSelectController extends AbstractActionController
 	}
 
 	/**
-	 * Affiche la Datatable de la collection ou retourne une liste de tous les éléments à la Datatable
+	 * Affiche la Datatable avec la liste des Select
 	 *
-	 * Si la page est appelé en GET elle affiche la vue consulter.phtml.
-	 * Si c'est une requête AJAX, elle prend en paramètre les conditions 
-	 * renvoyées par le widget Datatable et précisés au moment de 
-	 * l'instanciation du widget. Ces paramètres sont ensuite envoyé à la classe
-	 * Datatable qui se charge de renvoyer les données récupérées en 
-	 * base de donnée. Ces données sont ensuite passées à la Datatable qui 
-	 * se chargera de les afficher.
 	 *
      * @return \Zend\View\Model\ViewModel
      */
@@ -148,9 +141,9 @@ class ChampSelectController extends AbstractActionController
     }
 
     /**
-	 * 
+	 * Ajouter un nouveaux formulaire 
 	 *
-	 * 
+	 * Enregistre un nouveaux select 
 	 *
      * @return \Zend\View\Model\ViewModel
      */
@@ -179,7 +172,7 @@ class ChampSelectController extends AbstractActionController
     }
 
     /**
-	 * 
+	 * Permet de podifier le nom, la descitpion d'un select. Permet aussi de supprimer un sélect avec ces options si celui ci n’est pas utilisé par un champSelect. 
 	 *
 	 * 
 	 *
