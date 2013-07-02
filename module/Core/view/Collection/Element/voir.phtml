@@ -219,7 +219,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							switch ($champData['champ']->format) :
 								case 'select':
 									if ($champData['data']) {
-										echo ($champData['data']->value) ? $this->escapeHtml($champData['data']->value->text) : $null ;
+										echo ($champData['data']->option) ? $this->escapeHtml($champData['data']->option->text) : $null ;
 									} else {
 										echo $null;
 									}

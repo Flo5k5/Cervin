@@ -100,6 +100,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 										<div class="span6">';
 									echo $this->formInput($element);
 									echo '</div></div>';
+								} elseif ($element instanceof DoctrineModule\Form\Element\ObjectSelect ) {
+					    			echo $this->formSelect($element);
 								} else {
 				        			echo $this->formInput($element); 
 								} ?> 

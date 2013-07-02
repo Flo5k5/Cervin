@@ -22,9 +22,9 @@ class Select implements FixtureInterface
 		$select->__set('label', 'Pays');
 
 		foreach ($liste_des_pays as $key => $pays) {
-			$select_value =  new Collection\Entity\SelectValue($select);
-			$select_value->__set('text',$pays);
-			$manager->persist($select_value);
+			$select_option =  new Collection\Entity\SelectOption($select);
+			$select_option->__set('text',$pays);
+			$manager->persist($select_option);
 
 		}
 		

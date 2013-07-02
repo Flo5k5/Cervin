@@ -209,7 +209,7 @@ return array(
                 array('route' => 'champSelect', 'roles' => array('Modeleur')),
                 array('route' => 'champSelect/ajouter', 'roles' => array('Modeleur')),
                 array('route' => 'champSelect/modifier', 'roles' => array('Modeleur')),
-                array('route' => 'champSelect/modifierValueAjax', 'roles' => array('Modeleur')),
+                array('route' => 'champSelect/modifierOptionAjax', 'roles' => array('Modeleur')),
 
             	array('route' => 'collection', 'roles' => array('Visiteur')),
 				array('route' => 'collection/consulter', 'roles' => array('Visiteur')),

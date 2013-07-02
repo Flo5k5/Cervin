@@ -6,14 +6,14 @@ use Zend\Form\Form;
 use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
-
+use Doctrine\ORM\EntityManager;
 /**
  * Formulaire utilisé pour la création d'un nouvel élément de la collection
  *
  */
 class ChampTypeElementForm extends Form
 {
-	public function __construct($type_element, $name = null)
+	public function __construct(EntityManager $em, $type_element, $name = null)
 	{
 		if (!$type_element instanceof TypeElement) {
 			throw new InvalidArgumentException('Construction d\'un formulaire ChampTypeElementForm avec un param�tre qui n\'est pas de type TypeElement');
@@ -51,6 +51,30 @@ class ChampTypeElementForm extends Form
 		foreach ($type_element->champs as $champ) {
 			$name = 'champ_'.strval($champ->id);
 			switch ($champ->format) {
+				case 'select':
+
+					 $this->add(array(
+					            'name' => $name,
+					            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+					            'options' => array(
+					                'label' => $champ->label,
+					                'empty_option'    => '',
+					                'object_manager' => $em,
+					                'target_class' => 'Collection\Entity\SelectOption',
+					                'property' => 'text',
+					                'find_method'    => array(
+						                'name'   => 'findBy',
+						                'params' => array(
+						                    'criteria' => array('select' => $champ->select),
+						                    'orderBy'  => array('text' => 'ASC'),
+						                ),
+						            ),
+					            ),
+					            'attributes' => array(
+					                'class' => 'span12 select'
+					            )
+					        ));
+ 					break;
 				case 'texte':
 					$text = new Element\Text();
 					$text->setName($name)
@@ -90,7 +114,7 @@ class ChampTypeElementForm extends Form
 					$select = new Element\Select();
 					$select->setName('format'.$name)
 							->setAttributes(array(
-							'class' => 'format_date',
+							'class' => 'format_date span12',
 							'data-input-name' => $name,
 							'type'  => 'hidden'
 					));

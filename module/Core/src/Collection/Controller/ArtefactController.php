@@ -97,7 +97,7 @@ class ArtefactController extends AbstractActionController
     				->getRepository('Collection\Entity\TypeElement')
     				->findOneBy(array('type'=>'artefact', 'id'=>$type_element_id));
     		if ($type_element) {
-    			$form = new ChampTypeElementForm($type_element);
+    			$form = new ChampTypeElementForm($this->getEntityManager(), $type_element);
     		} else {
     			echo "<script>alert(\"Erreur : Type d'artefact non trouvé\")</script>";
     			return new ViewModel(array('types' => $TEartefacts, 'form' => $form, 'type_element_id'=>$type_element_id));
@@ -114,7 +114,7 @@ class ArtefactController extends AbstractActionController
     			);
     			$form->setData($data);
     			if ($form->isValid()) {
-    				$artefact->populate($data);
+    				$artefact->populate($data, $this->getEntityManager());
     				$this->getEntityManager()->persist($artefact);
     				$this->getEntityManager()->flush();
     				$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact "%1$s" a bien ete créé.', $escapeHtml($artefact->titre)));

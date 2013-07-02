@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityRepository;
  * @ORM\Entity
  * @ORM\Table(name="mbo_dataselect")
  * 
- * @property Collection\Entity\SelectValue $value valeur du Data Select
+ * @property Collection\Entity\SelectOption $option es l'option choisie du Data Select
  * 
  */
 class DataSelect extends Data
@@ -25,9 +25,9 @@ class DataSelect extends Data
     /**
      * Valeur du select
      * 
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\SelectValue", inversedBy="datas")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\SelectOption", inversedBy="datas")
      **/
-    protected $value;
+    protected $option;
 	
 	/**
 	 * Magic getter to expose protected properties.

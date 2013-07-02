@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityRepository;
 use Collection\Entity\Artefact;
 use Collection\Entity\Media;
 
+use Doctrine\ORM\EntityManager;
 /**
  * Entité d'un élément de la collection numérique (artefact ou média)
  *
@@ -135,7 +136,7 @@ class Element implements InputFilterAwareInterface
      *
      * @param array $data
      */
-    public function populate($data = array())
+    public function populate(EntityManager $em, $data = array())
     {
         $this->titre = $data['titre'];
         $this->description = $data['description'];
@@ -143,6 +144,27 @@ class Element implements InputFilterAwareInterface
         foreach ($this->type_element->champs as $champ) {
         	$index = 'champ_'.$champ->id;
         	switch ($champ->format) {
+                case 'select':
+                    if ($data[$index]) {
+
+                        if ($data[$index] != null) {
+                            $select_option = $em
+                                ->getRepository('Collection\Entity\SelectOption')
+                                ->findOneBy(array('id'=>$data[$index]));
+                            if ($select_option === null) {
+                                $this->getResponse()->setStatusCode(404);
+                                return;
+                            }
+                        } else {
+                            $select_option = null;
+                        }
+
+
+                        $databd = new DataSelect($this, $champ);
+                        $databd->option = $select_option;
+                        $this->datas->add($databd);
+                    }
+                    break;
         		case 'texte':
         			if ($data[$index]) {
         				$databd = new DataTexte($this, $champ);
@@ -322,16 +344,32 @@ class Element implements InputFilterAwareInterface
     
     		foreach ($this->type_element->champs as $champ) {
     			switch ($champ->format) {
-    				case 'texte':
+                    case 'texte':
+                        $inputFilter->add($factory->createInput(
+                            array(
+                                'name' => 'champ_'.strval($champ->id),
+                                'required' => false,
+                                'filters' => array(
+                                    array('name' => 'StripTags'),
+                                    array('name' => 'StringTrim'),
+                            ),
+                        )));
+                        break;
+    				case 'select':
     					$inputFilter->add($factory->createInput(
 	    					array(
 		    					'name' => 'champ_'.strval($champ->id),
 		    					'required' => false,
-		    					'filters' => array(
-		    						array('name' => 'StripTags'),
-		    						array('name' => 'StringTrim'),
-	    					),
-    					)));
+		    					'validators' => array(
+                                    array(
+                                        'name' => 'regex',
+                                        'options'=>array(
+                                            'pattern' => '/^[0-9]+$/',
+                                            'messages'=> array('regexNotMatch'=>'Ce n\'est pas une id valide'),
+                                        ),
+                                    ),
+                                ),
+        					)));
     					break;
     				case 'textarea':
     					$inputFilter->add($factory->createInput(

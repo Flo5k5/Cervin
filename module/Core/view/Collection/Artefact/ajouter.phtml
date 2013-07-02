@@ -4,6 +4,7 @@ $this->headTitle($title);
 
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
 <ul class="breadcrumb">
@@ -97,6 +98,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 										<div class="span6">';
 									echo $this->formInput($element);
 									echo '</div></div>';
+
+					    		} elseif ($element instanceof DoctrineModule\Form\Element\ObjectSelect ) {
+					    			echo $this->formSelect($element);
 								} else {
 				        			echo $this->formInput($element); 
 								} ?> 
@@ -164,6 +168,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 <?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () { 
+
+		$(".select").select2({
+			placeholder: "Non renseigné",
+			allowClear: true
+		});
 
 		// Modification de la valeur du select des types d'artefacts
 		// On rappelle l'action artefact/ajouter pour récupérer le formulaire correspondant
@@ -247,4 +256,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js'
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js');
+$this->headScript()->appendFile($this->basePath() . '/js/select2.js');
+$this->headScript()->appendFile($this->basePath() . '/js/locales/select2_locale_fr.js') ;
 ?>

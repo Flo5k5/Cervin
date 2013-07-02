@@ -197,15 +197,15 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 								echo '</br></br>';
 								break;
 							case 'select':
-								if($champData['data'] == null or $champData['data']->value == null){
+								if($champData['data'] == null or $champData['data']->option == null){
 				    				$initSelection = '';
 								} else {
-				    				$initSelection = $champData['data']->value->id;
+				    				$initSelection = $champData['data']->option->id;
 								}
-								$select_values = $champData['champ']->select->select_values;
+								$select_options = $champData['champ']->select->select_options;
 								$source = array();
-								foreach ($select_values as  $key => $select_value) {
-									$source[] = array( "id" => $select_value->id, "text" => $this->escapeHtml($select_value->text) );
+								foreach ($select_options as  $key => $select_option) {
+									$source[] = array( "id" => $select_option->id, "text" => $this->escapeHtml($select_option->text) );
 								}
 								echo '<span class="Xselect2 CursorPointer" 
 										data-name="data" 

@@ -94,17 +94,17 @@ return array(
                             ),
                         ),
                     ),
-                    'modifierValueAjax' => array(
+                    'modifierOptionAjax' => array(
                         'type' => 'segment',
                         'options' => array(
-                            'route' => '/modifierValueAjax/[:id][/:idValue]',
+                            'route' => '/modifierOptionAjax/[:id][/:idOption]',
                             'constraints' => array(
                                 'id'     => '[0-9]+',
-                                'idValue'     => '[0-9]+',
+                                'idOption'     => '[0-9]+',
                             ),
                             'defaults' => array(
                                 'controller' => 'ChampSelect',
-                                'action'     => 'modifierValueAjax',
+                                'action'     => 'modifierOptionAjax',
                             ),
                         ),
                     ),

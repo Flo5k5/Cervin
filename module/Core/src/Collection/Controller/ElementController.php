@@ -122,7 +122,7 @@ class ElementController extends AbstractActionController
 				->getRepository('Collection\Entity\TypeElement')
 				->findOneBy(array('id'=>$type_element_id));
 			if ($type_element) {
-				$form = new ChampTypeElementForm($type_element);
+				$form = new ChampTypeElementForm($this->getEntityManager(), $type_element);
 			} else {
 				$this->getResponse()->setStatusCode(404);
 				return;
@@ -143,14 +143,14 @@ class ElementController extends AbstractActionController
 				);
 				$form->setData($data);
 				if ($form->isValid()) {
-					$element->populate($data);
+					$element->populate($this->getEntityManager(), $data);
 					$this->getEntityManager()->persist($element);
 					$this->getEntityManager()->flush();
 					$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément "%1$s" a bien ete créé.', $escapeHtml($element->titre)));
 					//return $this->redirect()->toRoute('element/voirElement', array('id'=>$element->id));
 					return $this->redirect()->toRoute('element/voir', array('id'=>$element->id));
 				} else {
-					return new ViewModel(array('types' => $types_elements, 'form' => $form, 'type_element_id'=>$type_element_id));
+					return new ViewModel(array('type'=>$type, 'types_elements' => $types_elements, 'form' => $form, 'type_element_id'=>$type_element_id));
 				}
 			}
 		}
@@ -245,19 +245,19 @@ class ElementController extends AbstractActionController
 					switch ($champData['champ']->format) {
 						case 'select':
 							if ($data == 'new') {
-								$data = new \Collection\Entity\DataSelect($artefact,$champ);
+								$data = new \Collection\Entity\DataSelect($element,$champ);
 								$element->datas->add($data);
 							}
 							if ($request['value'] != null) {
-								$select_value = $this->getEntityManager()->getRepository('Collection\Entity\SelectValue')->findOneBy(array('id'=>$request['value']));
-								if ($select_value === null) {
+								$select_option = $this->getEntityManager()->getRepository('Collection\Entity\SelectOption')->findOneBy(array('id'=>$request['value']));
+								if ($select_option === null) {
 									$this->getResponse()->setStatusCode(404);
 									return;
 								}
 							} else {
-								$select_value = null;
+								$select_option = null;
 							}
-							$data->value = $select_value;
+							$data->option = $select_option;
 							break;
 						case 'texte':
 							if ($data == 'new') {

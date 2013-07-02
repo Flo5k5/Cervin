@@ -13,13 +13,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 *
 * @ORM\Entity
 * @Gedmo\Loggable
-* @ORM\Table(name="mbo_selectvalue",options={"collate"="utf8_general_ci"})
+* @ORM\Table(name="mbo_selectoption",options={"collate"="utf8_general_ci"})
 * @property int $id Identifiant unique du champ select
-* @property string $text text de la value
+* @property string $text text de l'option
 * @property Collection\Entity\Select $select Select de la valeur
 * @property Collection\Entity\DataSelect $datas L'ensemble des data qui utilise cette valeur 
 */
-class SelectValue implements InputFilterAwareInterface
+class SelectOption implements InputFilterAwareInterface
 {
 	protected $inputFilter;
 	 
@@ -36,12 +36,12 @@ class SelectValue implements InputFilterAwareInterface
 	protected $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Collection\Entity\Select", inversedBy="select_values")
+     * @ORM\ManyToOne(targetEntity="Collection\Entity\Select", inversedBy="select_options")
      **/
     protected $select;
 
 	/**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\DataSelect", mappedBy="value")
+     * @ORM\OneToMany(targetEntity="Collection\Entity\DataSelect", mappedBy="option")
      **/
     protected $datas;
 

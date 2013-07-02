@@ -19,7 +19,7 @@ class FixtureParcours implements FixtureInterface
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Personne'));
 		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
-		$jean_kuntzmann->populate(null);
+		$jean_kuntzmann->populate(null,$manager);
 		$jean_kuntzmann->titre = 'Jean Kutzmann';
 		$jean_kuntzmann->description = "Jean Kuntzmann (1912-1992) fut un mathématicien français qui joua un rôle décisif dans le développement de l'informatique et des mathématiques appliquées dans la recherche et l'enseignement supérieur en France.
 				<br>
@@ -46,7 +46,7 @@ class FixtureParcours implements FixtureInterface
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
 		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
-		$gamma_3->populate(null);
+		$gamma_3->populate(null,$manager);
 		$gamma_3->titre = 'Gamma 3';
 		$gamma_3->description = "Le calculateur Bull Gamma 3A symbolise la transition entre mécanographie et informatique. Cette machine est composée d’une tabulatrice dont l’organe de calcul est un calculateur électronique, qui est donc “esclave” de la tabulatrice. Ce calculateur est programmable au moyen d’un tableau de connexion, ce qui lui permet d’enchaîner plusieurs opérations en vue de calculs complexes.
 				<br>
@@ -58,7 +58,7 @@ class FixtureParcours implements FixtureInterface
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Personne'));
 		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
-		$rene_perret->populate(null);
+		$rene_perret->populate(null,$manager);
 		$rene_perret->titre = 'René Perret';
 		$rene_perret->description = "René Perret (1924-2003) a été l’un des pionniers de l'enseignement et de la recherche universitaire en automatique en France. En 1957, il a fondé le Laboratoire de Servomécanismes qui deviendra le Laboratoire d'Automatique de Grenoble (LAG), puis le Gipsa-Lab. Il a été le directeur de ce laboratoire de 1957 à 1982, puis directeur honoraire de 1983 à 1994. Il a été à l'origine du premier calculateur industriel issu d'une université française (MAT 01) ; un des premiers calculateurs au monde utilisant la technologie des circuits intégrés. Ce calculateur, construit par la société Mors, était la version industrielle d'un calculateur conçu par deux thésards du LAG dirigés par R. Perret. Ce calculateur a permis au LAG d'entreprendre des recherches sur les méthodes de contrôle/commande de procédés par calculateur et à la société Mors de réaliser les premières installations industrielles de contrôle/commande.
 				<br>
@@ -67,13 +67,13 @@ class FixtureParcours implements FixtureInterface
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
 		$MAT_01 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
-		$MAT_01->populate(null);
+		$MAT_01->populate(null,$manager);
 		$MAT_01->titre = 'Calculateur MAT 01';
 		$manager->persist($MAT_01);
 		
 		$type_artefact_document = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Document'));
 		$cours = new Collection\Entity\Artefact(null, $type_artefact_document);
-		$cours->populate(null);
+		$cours->populate(null,$manager);
 		$cours->titre = 'Cours "Calculateurs Electroniques" de René Perret';
 		$cours->description = "En 1961-62, René Perret inaugure un cours sur les calculateurs électroniques, en 3-ème année de l'EIEG (École d'Ingénieurs Électroniciens de Grenoble). C'est l'un des tout premiers enseignements délivrés en France sur ce sujet. Il est notamment alimenté par les recherches menées au LAG (Laboratoire d'Automatique de Grenoble).
 				<br>
@@ -1641,7 +1641,7 @@ class FixtureParcours implements FixtureInterface
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Institution'));
 		$jean_kuntzmann = new Collection\Entity\Artefact(null, $type_artefact_personne);
-		$jean_kuntzmann->populate(null);
+		$jean_kuntzmann->populate(null,$manager);
 		$jean_kuntzmann->titre = 'La machine de Schickard';
 		$jean_kuntzmann->description = "Wilhelm Schickard (1592-1635) était un pasteur luthérien allemand, qui devint professeur d'hébreu, puis d’astronomie à l’université de Tübingen. En 1623 et 1624, il décrit, dans des lettres adressées à Kepler, une machine à calculer de son invention, capable de faire des additions et des soustractions sur des nombres jusqu’à 6 chiffres. La multiplication et la division étaient réalisées à l’aide de bâtons de Napier, mais l'opérateur devait gérer lui-même le stockage de résultats intermédiaires.
 <br>
@@ -1651,7 +1651,7 @@ Schickard fit construire en 1624 un prototype de sa machine, mais celui-ci fut d
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
 		$gamma_3 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
-		$gamma_3->populate(null);
+		$gamma_3->populate(null,$manager);
 		$gamma_3->titre = 'La Pascaline';
 		$gamma_3->description = "
 				La pascaline est une machine à calculer mécanique inventée en 1642 par Blaise Pascal (1623-1662). Cette machine, qui pouvait faire les additions et les soustractions, fut construite en une vingtaine d’exemplaires, dont neuf ont survécu jusqu’à nos jours (quatre d’entre eux sont exposés au Musée des Arts et Métiers, à Paris).
@@ -1664,7 +1664,7 @@ La pascaline est considérée comme la première machine à calculer mécanique 
 		
 		$type_artefact_personne = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
 		$rene_perret = new Collection\Entity\Artefact(null, $type_artefact_personne);
-		$rene_perret->populate(null);
+		$rene_perret->populate(null,$manager);
 		$rene_perret->titre = 'La machine de Leibniz';
 		$rene_perret->description = "
 				En 1672, lors d’un voyage à Paris, Leibniz découvre la pascaline, calculateur mécanique pouvant faire les additions et soustractions. Il conçoit alors l’idée d’une machine pouvant également réaliser les multiplications et divisions. On pense que deux machines seulement ont été construites à l’époque de Leibniz, l’une entre 1686 et 1694, l’autre entre 1690 et 1720. Cette dernière a survécu et se trouve à la Niedersächsische Landesbibliothek à Hanovre. Des répliques fonctionnelles en ont été réalisées (ci contre, copie conservée au Technische Sammlungen Museum à Dresde). La complexité du mécanisme était à la limite des capacités de réalisation mécanique de l’époque.
@@ -1675,7 +1675,7 @@ La machine de Leibniz, et en particulier le mécanisme du cylindre, est la sourc
 		
 		$type_artefact_materiel = $manager->getRepository('Collection\Entity\TypeElement')->findOneBy(array("nom"=>'Matériel'));
 		$MAT_01 = new Collection\Entity\Artefact(null, $type_artefact_materiel);
-		$MAT_01->populate(null);
+		$MAT_01->populate(null,$manager);
 		$MAT_01->titre = 'Arithmomètres et calculatrices';
 		$MAT_01->description = "Au cours du 18ème siècle, plusieurs inventeurs (Poleni, Hahn, Stanhope et d’autres) développèrent des calculateurs mécaniques, en utilisant le cylindre de Leibniz ou des mécanismes équivalents. Mais ces expériences eurent peu de retombées. Il fallut attendre 1820 pour une avancée décisive, l’arithmomètre de Thomas de Colmar. On peut noter qu’à la même époque Charles Babbage travaillait sur sa machine à différences, qui, trop en avance sur son époque, ne put être réalisée.
 <br>

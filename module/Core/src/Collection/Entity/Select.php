@@ -46,10 +46,10 @@ class Select implements InputFilterAwareInterface
     protected $champs_select;
 
     /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\SelectValue", mappedBy="select", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Collection\Entity\SelectOption", mappedBy="select", cascade={"remove", "persist"})
      * @ORM\OrderBy({"text" = "ASC"})
      **/
-    protected $select_values;
+    protected $select_options;
 
 	/**
 	 * Magic getter to expose protected properties.
