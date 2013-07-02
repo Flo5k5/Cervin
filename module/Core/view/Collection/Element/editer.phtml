@@ -208,7 +208,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									$source[] = array( "id" => $select_option->id, "text" => $this->escapeHtml($select_option->text) );
 								}
 								echo '<span class="Xselect2 CursorPointer" 
-										data-name="data" 
+										data-name="data"
 										data-type="select2" 
 										data-pk="'.$champData['champ']->id.'" 
 										data-source=\''.json_encode($source).'\'
@@ -524,30 +524,17 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
             });
 	    });
 
-	    // Gestion du date picker
-		$('.picker').editable({
-			mode: 'popup',
-			placement: 'top',
-			format: 'yyyy-mm-dd',
-			viewformat: 'yyyy-dd-mm',
-			 datepicker: {
-				language:'fr',
-				autoclose:true,
-			},
-			emptytext: 'Vide'
-		});
-		
-		// Gestion de la précision des dates (jour, mois, année)
-		$('.format_date').change(function() {
-			var name = $(this).attr('data-input-name');
-			var format = $(this).val();
-			if (format == 0) {
-				$('input[name='+name+']').editable({
+	    // Initialisation des datepickers
+	    $('.picker').each(function(){
+	    	var selectname = $(this).attr('data-select-name');
+	    	var format = $('select[name='+selectname+']').val();
+	    	if (format == 0) {
+				$(this).editable({
 					mode: 'popup',
 					placement: 'top',
 					format: 'yyyy-mm-dd',
 					viewformat: 'yyyy-dd-mm',
-					 datepicker: {
+					datepicker: {
 						language:'fr',
 				        format:'yyyy-dd-mm',
 				        autoclose:true,
@@ -557,12 +544,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					emptytext: 'Vide'
 				});
 			} else if (format == 1) {
-				$('input[name='+name+']').editable({
+				$(this).editable({
 					mode: 'popup',
 					placement: 'top',
 					format: 'yyyy-mm',
 					viewformat: 'yyyy-mm',
-					 datepicker: {
+					datepicker: {
 						language:'fr',
 				        format:'yyyy-mm',
 				        autoclose:true,
@@ -571,14 +558,67 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					},
 					emptytext: 'Vide'
 				});
-				
 			} else {
-				$('input[name='+name+']').editable({
+				$(this).editable({
 					mode: 'popup',
 					placement: 'top',
 					format: 'yyyy',
 					viewformat: 'yyyy',
-					 datepicker: {
+					datepicker: {
+						language:'fr',
+				        format:'yyyy',
+				        autoclose:true,
+				        minViewMode:2,
+				        startView:2,
+					},
+					emptytext: 'Vide'
+				});
+			}
+	    });
+	    
+	    // Maj des datepickers lors de changement jour/mois/année
+		$('.format_date').change(function() {
+			var inputname = $(this).attr('data-input-name');
+			var format = $(this).val();
+			var date = $('span[name='+inputname+']').text();
+			
+			if (format == 0) {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm-dd',
+					viewformat: 'yyyy-dd-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-dd-mm',
+				        autoclose:true,
+				        minViewMode:0,
+				        startView:0,
+					},
+					emptytext: 'Vide'
+				});
+			} else if (format == 1) {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy-mm',
+					viewformat: 'yyyy-mm',
+					datepicker: {
+						language:'fr',
+				        format:'yyyy-mm',
+				        autoclose:true,
+				        minViewMode:1,
+				        startView:1,
+					},
+					emptytext: 'Vide'
+				});
+			} else {
+				$('span[name='+inputname+']').editable({
+					mode: 'popup',
+					placement: 'top',
+					format: 'yyyy',
+					viewformat: 'yyyy',
+					datepicker: {
 						language:'fr',
 				        format:'yyyy',
 				        autoclose:true,
@@ -589,7 +629,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 				});
 			}
 		});
-		
+	   
 		// Gestion de X-Editable
 		$('.edit').editable({
 			mode: 'inline',

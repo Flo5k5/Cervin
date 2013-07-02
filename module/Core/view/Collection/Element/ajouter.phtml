@@ -209,7 +209,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 			var name = $(this).attr('data-input-name');
 			$('input[name='+name+']').datepicker('remove');
 			$('input[name='+name+']').val('');
-		
 			var format = $(this).val();
 			if (format == 0) {
 				$('input[name='+name+']').datepicker({
