@@ -279,8 +279,18 @@ class ElementController extends AbstractActionController
 								$element->datas->add($data);
 								$data->element = $element;
 							}
-							$data->format = 0; 								// A CHANGER
-							$data->date = new \DateTime($request['value']);	// A CHANGER
+							$data->format = $request['format'];
+							switch ($request['format']) :
+								case 2:
+									$data->date = \DateTime::createFromFormat('Y', $request['value']);
+									break;
+								case 1:
+									$data->date = \DateTime::createFromFormat('Y-m', $request['value']);
+									break;
+								case 0:
+									$data->date = \DateTime::createFromFormat('Y-d-m', $request['value']);
+									break;
+							endswitch;
 							break;
 						case 'nombre':
 							if ($data == 'new') {
