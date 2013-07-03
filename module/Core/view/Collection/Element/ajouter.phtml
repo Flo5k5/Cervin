@@ -87,7 +87,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			    		<!-- Element du formulaire -->
 			    		<div class="row-fluid">
 			    			<div class="span11">
-					    		<?php if ($element instanceof Zend\Form\Element\File) { 
+					    		<?php
+					    		 if ($element instanceof Zend\Form\Element\File) { 
 					    			echo $this->formFile($element);
 					    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
 									echo $this->formTextarea($element);
@@ -103,6 +104,23 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									echo '</div></div>';
 								} elseif ($element instanceof DoctrineModule\Form\Element\ObjectSelect ) {
 					    			echo $this->formSelect($element);
+								} elseif ($element instanceof Zend\Form\Form && $element->getAttribute('type') == 'geoposition') {
+									echo '<div class="row-fluid">
+										<div class="span10"><blockquote>';
+									foreach ( $element->getElements() as $element2 ):
+               							 if ($element2 instanceof Zend\Form\Element\Textarea) {
+                							echo $this->formLabel( $element2 ) ;
+											echo $this->formTextarea($element2);
+										} elseif ($element2 instanceof Zend\Form\Element\Text ) {
+                							echo $this->formLabel( $element2 ) ;
+											echo $this->formInput($element2);
+
+										}
+										echo $this->formElementErrors( $element2 ) ;
+           							endforeach ;
+           							echo '</blockquote></div><div class="span2">';
+           							echo '<a href="" class="btn " ><i class="icon-map-marker"></i> </a>';
+           							echo '</div></div>';
 								} else {
 				        			echo $this->formInput($element); 
 								} ?> 
