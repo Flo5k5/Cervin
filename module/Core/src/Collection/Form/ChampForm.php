@@ -46,7 +46,8 @@ class ChampForm extends Form
                     'date' => 'Date',
                     'nombre' => 'Nombre',
                     'fichier' => 'Fichier',
-                    'url' => 'URL'
+                    'url' => 'URL',
+                    'geoposition' => 'Position géographique'
                 ),
             ),
             'attributes' => array(

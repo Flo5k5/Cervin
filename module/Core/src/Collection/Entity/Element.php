@@ -213,6 +213,14 @@ class Element implements InputFilterAwareInterface
         				$this->addFile(new DataFichier($this, $champ), $data[$index]['tmp_name'], $data[$index]['name'], $data[$index]['type']);
         			}
         			break;
+                case 'geoposition':
+                    if ($data[$index]) {
+                        $databd = new DataGeoposition($this, $champ);
+                        $databd->latitude = $data[$index]['latitude'];
+                        $databd->longitude = $data[$index]['longitude'];
+                        $this->datas->add($databd);
+                    }
+                    break;
         	}
         }
     }
