@@ -75,14 +75,14 @@ class ElementDataTable extends DataTable
 
 			if(isset($conditions)){
 				
-				//Tableau de types autoris�s
+				//Tableau de types autorisés
 				$allowedType = array("type", "titre", "description", "id");
 
 				$arrayOfType = array();
 
-				//On traite les �l�ments pass�s en POST
+				//On traite les éléments passés en POST
 				foreach ($conditions as $condition) {
-					//V�rifie que le type est bien autoris�
+					//Vérifie que le type est bien autorisé
 					if(in_array($condition["type"], $allowedType)) {
 						//On ajoute le type dans le tableau et on ajoute la valeur dans un sous tableau
 						$arrayOfType[$condition["type"]][] = $condition["value"];

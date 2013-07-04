@@ -155,6 +155,17 @@ class ChampTypeElementForm extends Form
 						));
 					$this->add($url);
 					break;
+				case 'geoposition':
+					$geopos = new Element\Text();
+					$geopos->setName($name)
+					->setLabel($champ->label)
+					->setAttributes(array(
+							'type'  => 'text',
+							'description' => $champ->description,
+							'class' => 'gmaps span11'
+					));
+					$this->add($geopos);
+					break;
 			} // end switch
 			
 		} // end foreach

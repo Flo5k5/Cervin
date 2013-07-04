@@ -85,7 +85,10 @@ class Champ implements InputFilterAwareInterface
     			&& $format != "date"
     			&& $format != "fichier"
     			&& $format != "nombre"
-    			&& $format != "url") {
+    			&& $format != "url"
+				&& $format != "geoposition"
+				&& $format != "select"
+			) {
     		throw new InvalidArgumentException("Construction d'un objet Champ avec un format interdit");
     	}
     	$this->format = $format;

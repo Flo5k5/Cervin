@@ -25,7 +25,9 @@ use Zend\InputFilter\InputFilterInterface;
  *                        "DataTexte" = "DataTexte", 
  *                        "DataUrl" = "DataUrl", 
  *                        "DataSelect" = "DataSelect", 
- *                        "DataTextarea" = "DataTextarea"})
+ *                        "DataTextarea" = "DataTextarea",
+ *                        "DataGeoposition" = "DataGeoposition"
+ *                        })
  * 
  * @property int $id Identifiant unique du data
  * @property \Collection\Entity\Element $element L'élément de la collection auquel se rapporte le data
