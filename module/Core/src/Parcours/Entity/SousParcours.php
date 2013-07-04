@@ -41,11 +41,6 @@ class SousParcours implements InputFilterAwareInterface
     protected $titre;
     
     /**
-     * @ORM\Column(type="text")
-     */
-    protected $description;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\Parcours", inversedBy="sous_parcours")
      **/
     protected $parcours;

@@ -37,7 +37,7 @@ class Artefact extends Element
 	/**
 	 * L'ensemble des relations entre artefacts (marqués d'une sémantique) qui ont pour origine l'artefact
 	 * 
-	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine")
+	 * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine", cascade={"remove"})
 	 **/
 	protected $relations_origine;
 	

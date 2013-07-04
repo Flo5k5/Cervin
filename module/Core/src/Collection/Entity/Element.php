@@ -75,16 +75,6 @@ class Element implements InputFilterAwareInterface
     protected $datas;
 
     /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="origine", cascade={"remove"})
-     */
-    protected $relation_origine;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="destination", cascade={"remove"})
-     */
-    protected $relation_destination;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="elements_chantier")
      */
     protected $utilisateur;

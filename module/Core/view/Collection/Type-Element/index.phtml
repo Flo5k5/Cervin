@@ -67,7 +67,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                         <div class="accordion-inner">
                             <h4>
                             	<a href="#" data-name="supprimerTypeElement"
-                            		data-value="Si vous supprimez ce Type d'Element [<?php echo $this->escapeHtml($TEartefact->nom); ?>], <strong>toutes les données associées pour chaque champs de ce type seront supprimées</strong>."
+                            		data-value="Si vous supprimez le Type d'Element [<?php echo $this->escapeHtml($TEartefact->nom); ?>], <strong> tous les éléments de ce type seront supprimés</strong>."
                             		data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id));?>"
                             		class="confirmDiv">
                             		<i class="icon-white icon-trash"></i>
@@ -90,7 +90,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
                                 <dt>
                                     <a href="#" 
                                         data-name="supprimerChamp" 
-                                        data-value="Si vous supprimez ce champ [<?php echo $this->escapeHtml($champ->label); ?>], <strong>toutes les données associées pour tous les artefacts de ce type seront supprimées</strong>." 
+                                        data-value="Si vous supprimez ce champ [<?php echo $this->escapeHtml($champ->label); ?>], <strong>toutes les données associées pour tous les éléments de ce type seront supprimées</strong>." 
                                         data-url="<?php echo $this->url("typeElement/editTypeElementAjax",array('id'=>$TEartefact->id,'idChamp'=>$champ->id)) ?>" 
                                         class="confirmDiv">
                                         <i class="icon-white icon-trash"></i>
@@ -218,7 +218,7 @@ $this->inlineScript()->captureStart();
 		    var ThisParent = $(this).closest('div.parent');
 		    $("#modalDiv").confirmModal({
 		    heading:'Confirmation',
-		    body:'<div class="container-fluid"><div class="row-fluid"><div class="span2"><i class="icon-warning-sign icon-4x"></i></div><div class="span8"><p>'+datavalue+'</p><p>Êtes-vous sur de vouloir effectuer cette action ?</p></div><div class="span2"><i class="icon-warning-sign icon-4x"></i></div></div></div>',
+		    body:'<div class="container-fluid"><div class="row-fluid"><div class="span2"><center><i class="icon-warning-sign icon-4x"></i></center></div><div class="span8"><p>'+datavalue+'</p><p>Êtes-vous sur de vouloir effectuer cette action ?</p></div><div class="span2"><center><i class="icon-warning-sign icon-4x"></i></center></div></div></div>',
 		    callback: function() {
 		        $.post( 
 		            URL,
@@ -229,7 +229,7 @@ $this->inlineScript()->captureStart();
 		               // location.reload();
 		
 		            } else {
-		                alert('Impossible de supprimer ce champ')
+		                alert('Impossible de supprimer')
 		            }
 		            });
 		    	}
@@ -237,12 +237,14 @@ $this->inlineScript()->captureStart();
 		});
 		
 		$(".ajChamp").on("click", function(e){
+			$('body').css('cursor', 'wait');
 		    var URL = $(this).attr('data-url');
 		    $.ajax({
 		        url: URL,
 		        type: "POST",
 		        data:{ name:'ajChamp', submit:'false' }, 
 		        success:function(response){
+		        	$('body').css('cursor', 'auto');
 		            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 		
 		            $('form.ajChampForm').attr('action', URL);
@@ -271,7 +273,6 @@ $this->inlineScript()->captureStart();
 		            if(response == 'true') {
 		                location.reload();
 		            } else {
-		
 		                $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 		                $('form.ajChampForm').attr('action', URL);
                         $('form.ajChampSelectForm').attr('action', URL);
@@ -312,12 +313,14 @@ $this->inlineScript()->captureStart();
         });
 		
 		$(".ajTypeMedia").on("click", function(e){
+			$('body').css('cursor', 'wait');
 		    var URL = $(this).attr('data-url');
 		    $.ajax({
 		        url: URL,
 		        type: "POST",
 		        data:{ name:'ajTypeMedia', submit:'false' }, 
 		        success:function(response){
+		        	$('body').css('cursor', 'auto');
 		            $('#modalDiv').html('<div id="ChampModal" class="modal">' + response + '</div>').modal();
 		
 		            $('form.ajTypeMediaForm').attr('action', URL);
