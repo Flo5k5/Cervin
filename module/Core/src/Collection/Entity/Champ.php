@@ -63,12 +63,7 @@ class Champ implements InputFilterAwareInterface
      * @ORM\ManyToOne(targetEntity="Collection\Entity\TypeElement", inversedBy="champs")
      **/
     protected $type_element;
-
-    /**
-     * @ORM\Column(type="boolean")
-     **/
-    protected $valide = false;
-
+    
     /**
      * Constructeur
      * 

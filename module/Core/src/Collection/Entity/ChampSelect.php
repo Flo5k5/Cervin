@@ -23,8 +23,6 @@ class ChampSelect extends Champ
 {
 
     /**
-     * 
-     * 
      * @ORM\ManyToOne(targetEntity="Collection\Entity\Select", inversedBy="champs_select")
      **/
     protected $select;

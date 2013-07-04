@@ -75,13 +75,6 @@ class TypeElement implements InputFilterAwareInterface
     protected $semantique_destination;
 
     /**
-     * Booléen qui décrit si le type d'élément est validé ou brouillon
-     * 
-     * @ORM\Column(type="boolean")
-     **/
-    protected $valide = false;
-
-    /**
      * Constructeur
      **/
     public function __construct($nom = '', $type) {

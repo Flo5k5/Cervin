@@ -89,10 +89,10 @@ class ElementController extends AbstractActionController
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('La visibilité de l\'élément <em>'. $escapeHtml($artefact->titre) .'</em> a bien été changée'));
 		$return = $this->params()->fromRoute('return', 0);
-		if ($return == 'voir') {
-			return $this->redirect()->toRoute('element/voir', array('id' => $id));
+		if ($return == 'editer') {
+			return $this->redirect()->toRoute('element/editer', array('id' => $id));
 		} else {
-			return $this->redirect()->toRoute('collection');
+			return $this->redirect()->toRoute('element/voir', array('id' => $id));
 		}
 	}
 	
