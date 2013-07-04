@@ -121,7 +121,7 @@ class SemantiqueController extends AbstractActionController
 		    	.$escapeHtml($semantique->semantique).' ['
 		    	.$escapeHtml($semantique->type_destination->nom).']" 
 		    	class="btn btn-danger SupprimerSemantique"
-		    	><i class="icon-trash"></i> Supprimer</a>';
+		    	><i class="icon-trash"></i></a>';
 	
 	            $aaData[] = array(
 	                '<span> '. $semantique->type_origine->nom .' </span>',

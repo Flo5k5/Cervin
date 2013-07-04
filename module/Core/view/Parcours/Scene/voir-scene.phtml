@@ -180,13 +180,13 @@ $this->headTitle($title); ?>
 							<?php foreach( ($scene->elements) as $element) : ?>
 								<?php if($element instanceof Collection\Entity\Artefact): ?>
 									<li>
-										<a href="<?php echo $this->url('artefact/voirArtefact',array('id' => $element->id)); ?>">
+										<a href="<?php echo $this->url('element/voir',array('id' => $element->id)); ?>">
 										<i class="icon-tag"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
 										</a>
 									</li>
 								<?php else : ?>
 									<li class="">
-										<a href="<?php echo $this->url('media/voirMedia',array('id' => $element->id)); ?>">
+										<a href="<?php echo $this->url('element/voir',array('id' => $element->id)); ?>">
 										<i class="icon-picture"></i>  <?php echo $this->escapeHtml($element->titre); ?> 
 										</a>
 									</li>

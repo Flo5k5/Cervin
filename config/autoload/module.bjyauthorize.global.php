@@ -127,7 +127,7 @@ return array(
             		
             	array(
             		'controller' => 'Element',
-            		'roles' => array('Collection')
+            		'roles' => array('Visiteur')
             	),
             		
             	array(
