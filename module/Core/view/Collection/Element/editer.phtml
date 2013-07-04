@@ -329,6 +329,17 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 									<input title="Parcourir" name="file-input" id="'.$champData['champ']->id.'" type="file">
 									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>
     							</form>';
+    							break;
+									
+							case 'geoposition':
+
+
+								echo 'Adresse : '.$this->escapeHtml($champData['data']->adresse).'' ;
+								echo '</br>';
+								echo 'Latutude : '.$this->escapeHtml($champData['data']->latitude).'<br>'; 
+								echo 'Longitude : '.$this->escapeHtml($champData['data']->longitude).'';
+
+
 								break;
 
 						endswitch ;?>
@@ -488,6 +499,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		$('.Xselect2').editable({
 			mode: 'inline',
 			emptytext: 'Vide',
+			inputclass: 'input-large',
 			select2:{allowClear: true,placeholder:"Non renseigné"}
 		});
 

@@ -283,6 +283,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									}
 									echo '</br></br>';
 								break;
+								case 'geoposition':
+									if ($champData['data']) {
+										echo ($champData['data']->adresse) ? 'Adresse : '.$this->escapeHtml($champData['data']->adresse).'' : $null ;
+										echo '</br>';
+										echo ($champData['data']->latitude && 
+											$champData['data']->longitude) ? 
+										'Latutude : '.$this->escapeHtml($champData['data']->latitude).'<br> Longitude : '.$this->escapeHtml($champData['data']->longitude).'' : $null ;
+									} else {
+										echo $null;
+									}
+									echo '</br></br>';
+								break;
 								?>
 							<?php endswitch ;?>
 						</dd>

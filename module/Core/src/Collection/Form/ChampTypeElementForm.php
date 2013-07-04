@@ -3,6 +3,7 @@
 namespace Collection\Form;
 
 use Zend\Form\Form;
+use Zend\Form\SubForm;
 use Zend\Form\Element;
 use InvalidArgumentException;
 use Collection\Entity\TypeElement;
@@ -156,15 +157,45 @@ class ChampTypeElementForm extends Form
 					$this->add($url);
 					break;
 				case 'geoposition':
-					$geopos = new Element\Text();
-					$geopos->setName($name)
-					->setLabel($champ->label)
-					->setAttributes(array(
-							'type'  => 'text',
+
+				$text = new Element\Text();
+					$text->setName($name)
+						->setLabel($champ->label)
+						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'gmaps span11'
+							'class' => 'span12',
+							'geoposition' => true
+						));
+					$this->add($text);
+
+					// Champ Latitude Longitude Adresse 
+				$latitude = new Element\Number();
+					$latitude->setName('latitude_'.$name)
+					->setLabel('Latitude')
+					->setAttributes(array(
+							'class' => 'latitude span11',
+							'type'  => 'hidden'
 					));
-					$this->add($geopos);
+				$longitude = new Element\Number();
+					$longitude->setName('longitude_'.$name)
+					->setLabel('Longitude')
+					->setAttributes(array(
+							'class' => 'longitude span11',
+							'type'  => 'hidden'
+					));
+				$adresse = new Element\Textarea();
+					$adresse->setName('adresse_'.$name)
+						->setLabel('Adresse')
+						->setAttributes(array(
+							'class' => 'adresse span11 ',
+							'rows' => '2',
+							'type'  => 'hidden'
+						));
+
+				$this->add($adresse);
+				$this->add($latitude);
+				$this->add($longitude);
+
 					break;
 			} // end switch
 			

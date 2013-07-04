@@ -4,6 +4,7 @@
 $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/datepicker.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtml5.css');
+$this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
 <ul class="breadcrumb">
@@ -86,7 +87,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 			    		<!-- Element du formulaire -->
 			    		<div class="row-fluid">
 			    			<div class="span11">
-					    		<?php if ($element instanceof Zend\Form\Element\File) { 
+					    		<?php
+					    		 if ($element instanceof Zend\Form\Element\File) { 
 					    			echo $this->formFile($element);
 					    		} elseif ($element instanceof Zend\Form\Element\Textarea) {
 									echo $this->formTextarea($element);
@@ -102,6 +104,23 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 									echo '</div></div>';
 								} elseif ($element instanceof DoctrineModule\Form\Element\ObjectSelect ) {
 					    			echo $this->formSelect($element);
+								} elseif ($element->getAttribute('geoposition')) {
+									echo '<div class="row-fluid">
+										<div class="span10"><blockquote>';
+										 echo $this->formLabel($form->get('adresse_'.$element->getAttribute('name')));
+										echo $this->formTextarea($form->get('adresse_'.$element->getAttribute('name')));
+										echo $this->formElementErrors($form->get('adresse_'.$element->getAttribute('name')));
+
+										 echo $this->formLabel($form->get('latitude_'.$element->getAttribute('name')));
+										echo $this->formText($form->get('latitude_'.$element->getAttribute('name'))); 
+										echo $this->formElementErrors($form->get('latitude_'.$element->getAttribute('name')));
+
+										 echo $this->formLabel($form->get('longitude_'.$element->getAttribute('name')));
+										echo $this->formText($form->get('longitude_'.$element->getAttribute('name'))); 
+										echo $this->formElementErrors($form->get('longitude_'.$element->getAttribute('name')));
+           							echo '</blockquote></div><div class="span2">';
+           							echo '<a href="" class="btn " ><i class="icon-map-marker"></i> </a>';
+           							echo '</div></div>';
 								} else {
 				        			echo $this->formInput($element); 
 								} ?> 
@@ -167,6 +186,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-wysihtm
 <?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () { 
+
+		$(".select").select2({
+			placeholder: "Non renseigné",
+			allowClear: true
+		});
 
 		// Modification de la valeur du select des types d'élément
 		// On rappelle l'action element/ajouter pour récupérer le formulaire correspondant
@@ -249,4 +273,6 @@ $this->headScript()->appendFile($this->basePath() . '/js/wysihtml5-0.3.0.min.js'
 $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-wysihtml5.js') ; 
 $this->headScript()->appendFile($this->basePath() . '/js/locales/bootstrap-wysihtml5.fr-FR.js') ;
 $this->headScript()->appendFile($this->basePath() . '/js/jquery.wysihtml5_size_matters.js');
+$this->headScript()->appendFile($this->basePath() . '/js/select2.js');
+$this->headScript()->appendFile($this->basePath() . '/js/locales/select2_locale_fr.js') ;
 ?>
