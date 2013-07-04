@@ -136,7 +136,8 @@ class ElementController extends AbstractActionController
 				} else {
 					$element = new \Collection\Entity\Media(null, $type_element);
 				}
-				$form->setInputFilter($element->getInputFilter());
+				$form->setInputFilter($element->getInputFilter($form));
+				
 				$data = array_merge_recursive(
 						$this->getRequest()->getPost()->toArray(),
 						$this->getRequest()->getFiles()->toArray()

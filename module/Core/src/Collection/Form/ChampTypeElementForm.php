@@ -158,43 +158,44 @@ class ChampTypeElementForm extends Form
 					break;
 				case 'geoposition':
 
-					// Champ Latitude Longitude Adresse 
-				$geoForm = new Form();
-				$geoForm->setName($name)
+				$text = new Element\Text();
+					$text->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
-							'type'  => 'geoposition',
 							'description' => $champ->description,
-					));
+							'class' => 'span12',
+							'geoposition' => true
+						));
+					$this->add($text);
 
-				$latitude = new Element\Text();
-					$latitude->setName('latitude')
+					// Champ Latitude Longitude Adresse 
+				$latitude = new Element\Number();
+					$latitude->setName('latitude_'.$name)
 					->setLabel('Latitude')
 					->setAttributes(array(
-							'type'  => 'text',
-							'class' => 'latitude span11'
+							'class' => 'latitude span11',
+							'type'  => 'hidden'
 					));
-				$longitude = new Element\Text();
-					$longitude->setName('longitude')
+				$longitude = new Element\Number();
+					$longitude->setName('longitude_'.$name)
 					->setLabel('Longitude')
 					->setAttributes(array(
-							'type'  => 'text',
-							'class' => 'longitude span11'
+							'class' => 'longitude span11',
+							'type'  => 'hidden'
 					));
 				$adresse = new Element\Textarea();
-					$adresse->setName('adresse')
+					$adresse->setName('adresse_'.$name)
 						->setLabel('Adresse')
 						->setAttributes(array(
-							'type'  => 'textarea',
 							'class' => 'adresse span11 ',
-							'rows' => '2'
+							'rows' => '2',
+							'type'  => 'hidden'
 						));
 
-				$geoForm->add($adresse);
-				$geoForm->add($latitude);
-				$geoForm->add($longitude);
+				$this->add($adresse);
+				$this->add($latitude);
+				$this->add($longitude);
 
-					$this->add($geoForm);
 					break;
 			} // end switch
 			

@@ -12,6 +12,9 @@ use Zend\Filter;
 use Exception;
 use Doctrine\ORM\EntityRepository;
 
+use Zend\Form\Form as Form;
+use Zend\Form\Element as FormElement;
+
 use Collection\Entity\Artefact;
 use Collection\Entity\Media;
 
@@ -214,10 +217,11 @@ class Element implements InputFilterAwareInterface
         			}
         			break;
                 case 'geoposition':
-                    if ($data[$index]) {
+                    if ($data['latitude_'.$index] || $data['longitude_'.$index] || $data['adresse_'.$index]) {
                         $databd = new DataGeoposition($this, $champ);
-                        $databd->latitude = $data[$index]['latitude'];
-                        $databd->longitude = $data[$index]['longitude'];
+                        $databd->latitude = $data['latitude_'.$index];
+                        $databd->longitude = $data['longitude_'.$index];
+                        $databd->adresse = $data['adresse_'.$index];
                         $this->datas->add($databd);
                     }
                     break;
@@ -310,7 +314,7 @@ class Element implements InputFilterAwareInterface
     	throw new \Exception("Not used");
     }
     
-    public function getInputFilter()
+    public function getInputFilter($form =null)
     {
     	if (!$this->inputFilter) {
     		$inputFilter = new InputFilter();
@@ -427,6 +431,46 @@ class Element implements InputFilterAwareInterface
 	    					)
     					));
     					break;
+                    case 'geoposition':
+
+                    //$form->add( $geoFilter = new Form(), array( 'name' => 'champ_'.strval($champ->id) ) );
+                   // $geoFilter->setInputFilter( $geoFilter = new InputFilter() );
+            
+                        /*$inputFilter->add($factory->createInput(
+                            array(
+                                'name' => 'champ_'.strval($champ->id),
+                                'required' => false
+                            )
+                        ));*/
+
+
+                        
+
+                        $inputFilter->add($factory->createInput(
+                            array(
+                                'name' => 'adresse_champ_'.strval($champ->id),
+                                'required' => false,
+                                'filters' => array(
+                                    array('name' => 'StripTags'),
+                                    array('name' => 'StringTrim'),
+                            ),
+                            )
+                        ));
+                        $inputFilter->add($factory->createInput(
+                            array(
+                                'name' => 'latitude_champ_'.strval($champ->id),
+                                'required' => false
+                            )
+                        ));
+                        $inputFilter->add($factory->createInput(
+                            array(
+                                'name' => 'longitude_champ_'.strval($champ->id),
+                                'required' => false
+                            )
+                        ));
+
+                        //$inputFilter->add($geoFilter, 'champ_'.strval($champ->id));
+                        break;
     			}
     		}
     		$this->inputFilter = $inputFilter;

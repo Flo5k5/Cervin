@@ -19,6 +19,7 @@ use Collection\Entity\Element;
  * 
  * @property decimal $latitude La latitude de la position
  * @property decimal $longitude La longitude de la position
+ * @property text $adresse adresse de la position
  */
 class DataGeoposition extends Data
 {
@@ -32,6 +33,11 @@ class DataGeoposition extends Data
 	 * @ORM\Column(type="decimal", scale=8)
 	 */
 	protected $longitude;
+
+	/**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $adresse;
 
 	/**
 	 * Magic getter to expose protected properties.
