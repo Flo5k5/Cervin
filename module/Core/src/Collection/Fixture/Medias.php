@@ -7,7 +7,7 @@ class Medias implements FixtureInterface
 {
 	/*
 	 * Initialisation des types de bases d'artefacts
-	 * et des champs qui les d�crivent
+	 * et des champs qui les décrivent
 	 */
 	public function load(ObjectManager $manager)
 	{
@@ -17,7 +17,7 @@ class Medias implements FixtureInterface
 		* ********************************* */
 		
 		/*
-		 * M�dia : Image
+		 * Média : Image
 		 */
 		$type_media_image = new Collection\Entity\TypeElement('Image', 'media');
 		
@@ -32,7 +32,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		/*
-		 * M�dia : Video
+		 * Média : Video
 		*/
 		$type_media_video = new Collection\Entity\TypeElement('Vidéo', 'media');
 		
@@ -47,7 +47,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		/*
-		 * M�dia : Son
+		 * Média : Son
 		*/
 		$type_media_son = new Collection\Entity\TypeElement('Son', 'media');
 		
@@ -62,7 +62,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		/*
-		 * M�dia : Logiciel
+		 * Média : Logiciel
 		*/
 		$type_media_logiciel = new Collection\Entity\TypeElement('Logiciel', 'media');
 		
@@ -81,7 +81,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		/*
-		 * M�dia : Modele 3D
+		 * Média : Modèle 3D
 		*/
 		$type_media_modele3d = new Collection\Entity\TypeElement('Modèle 3D', 'media');
 		
@@ -96,7 +96,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		
 		/*
-		 * M�dia : Jeu de donn�es
+		 * Média : Jeu de données
 		*/
 		$type_media_jeudonnees = new Collection\Entity\TypeElement('Jeu de données', 'media');
 		
@@ -135,6 +135,9 @@ class Medias implements FixtureInterface
 		$champ_url = new Collection\Entity\Champ('Label url', $type_media_test, 'url');
 		$champ_url->__set('description', 'Description du champ url');
 		
+		$champ_geoposition = new Collection\Entity\Champ('Label géoposition', $type_media_test, 'geoposition');
+		$champ_geoposition->__set('description', 'Description du champ géoposition');
+		
 		$manager->persist($type_media_test);
 		$manager->persist($champ_texte);
 		$manager->persist($champ_textarea);
@@ -142,6 +145,7 @@ class Medias implements FixtureInterface
 		$manager->persist($champ_date);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_url);
+		$manager->persist($champ_geoposition);
 		
 		$manager->flush();
 

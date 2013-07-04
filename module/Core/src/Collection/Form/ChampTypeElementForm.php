@@ -168,7 +168,7 @@ class ChampTypeElementForm extends Form
 						));
 					$this->add($text);
 
-					// Champ Latitude Longitude Adresse 
+				// Champ Latitude Longitude Adresse 
 				$latitude = new Element\Number();
 					$latitude->setName('latitude_'.$name)
 					->setLabel('Latitude')

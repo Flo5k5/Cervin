@@ -43,3 +43,7 @@ body {
 	border-width: 1px;
 	padding: 5px;
 }
+
+#modalDiv .form-geo {
+	margin: 10px 0;
+}

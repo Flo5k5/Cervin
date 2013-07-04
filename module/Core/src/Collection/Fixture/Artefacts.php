@@ -264,6 +264,9 @@ $liste_states = array(
 		
 		$champ_url = new Collection\Entity\Champ('Label url', $type_artefact_test, 'url');
 		$champ_url->__set('description', 'Description du champ url');
+
+		$champ_geoposition = new Collection\Entity\Champ('Label géoposition', $type_artefact_test, 'geoposition');
+		$champ_geoposition->__set('description', 'Description du champ géoposition');
 		
 		$manager->persist($type_artefact_test);
 		$manager->persist($champ_texte);
@@ -272,6 +275,7 @@ $liste_states = array(
 		$manager->persist($champ_date);
 		$manager->persist($champ_fichier);
 		$manager->persist($champ_url);
+		$manager->persist($champ_geoposition);
 		
 		$manager->flush();
 		
