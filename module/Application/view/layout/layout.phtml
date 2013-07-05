@@ -141,11 +141,9 @@ echo $this->headScript();
 	                    </a>
 	                    
 	                    <!-- ACCUEIL -->
-	                    <a class="brand" href="<?php echo $this->url('page'); ?>">Cervin</a>
+	                    <a class="brand" href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i> Cervin</a>
 	                    <div class="nav-collapse collapse">
 	                        <ul class="nav">
-	                            <li class="divider-vertical"></li>
-	                            <li><a href="<?php echo $this->url('page'); ?>"><i class="icon-home"></i>  Accueil</a></li>
 	                            <li class="divider-vertical"></li>
 	                            
 	                    <!-- COLLECTION NUMERIQUE -->
@@ -179,7 +177,7 @@ echo $this->headScript();
 	                        
 	                        <!-- PARCOURS -->
 	                            <li><a href="<?php echo $this->url('parcours'); ?>"><i class="icon-road"></i>  Parcours</a></li>
-	                            <li class="divider-vertical"></li>
+	                            
 	                        </ul>
 	                        
 	                        <ul class="nav pull-right">
@@ -214,7 +212,7 @@ echo $this->headScript();
 												
 										<li><a href="<?php echo $this->url('admin/logs'); ?>"><i class="icon-flag"></i>  Logs</a></li>
                                                
-                                        <li class="divider"></li>
+                                        <!-- <li class="divider"></li> -->
                                                
                                         <li class="dropdown-submenu">
 											<a tabindex="-1" href="#"><i class="icon-road"></i>  Parcours</a>
