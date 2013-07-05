@@ -119,7 +119,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										echo $this->formText($form->get('longitude_'.$element->getAttribute('name'))); 
 										echo $this->formElementErrors($form->get('longitude_'.$element->getAttribute('name')));
            							echo '</blockquote></div><div class="span2">';
-           							echo '<a href="#" class="btn showGMapsModal" ><i class="icon-map-marker"></i> </a>';
+           							echo '<a href="#" data-id="'.$element->getAttribute('name').'" class="btn showGMapsModal" ><i class="icon-map-marker"></i> </a>';
            							echo '</div></div>';
 								} else {
 				        			echo $this->formInput($element); 
@@ -229,7 +229,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			_elJq : $("#gmaps"),
 		
 			init : function(el) {
-		
+
 				if(typeof el != 'undefined'){
 		            GMaps._el =  document.getElementById(el);
 		            GMaps._elJq =  $("#"+el);
@@ -242,7 +242,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=weather&callback=GMaps.load';
 					document.body.appendChild(script);
 				} else {
-					GMaps.load();
+					if($("#modalDiv .addressInput").val() != ''){
+						$("#modalDiv .placeMarker").click();
+					} else {
+						GMaps.load();
+					}
 				}
 			},
 		
@@ -502,6 +506,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		
 		$(document).on( 'click', '.showGMapsModal', function(e){
 			$('#modalDiv').modal();
+			$('#modalDiv .save').data('id', $(this).data('id'));
 			e.preventDefault();
 		});
 		
@@ -531,16 +536,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		});
 		
 		$(document).on( 'click', '#modalDiv .save', function(e){
+			var champsId = $(this).data('id');
+			
 			var adresse   = $("#modalDiv .addressInput").val();
 			var latitude  = $("#modalDiv .latitudeInput").val();
 			var longitude = $("#modalDiv .longitudeInput").val();
 
 			if( adresse != "" && latitude != "" && longitude != "" ){
-				console.log($(".geoposition input[class^='adresse_'] "));
-				$(".geoposition textarea[name^='adresse_'] ").val(adresse);
-				$(".geoposition input[name^='latitude_'] ").val( parseFloat(latitude) );
-				$(".geoposition input[name^='longitude_'] ").val( parseFloat(longitude) );
+				$(".geoposition textarea[name='adresse_"+champsId+"'] ").val(adresse);
+				$(".geoposition input[name='latitude_"+champsId+"'] ").val( parseFloat(latitude) );
+				$(".geoposition input[name='longitude_"+champsId+"'] ").val( parseFloat(longitude) );
 			}
+			$(this).data('id', '');
 			$('#modalDiv').modal('hide')
 		});
 
