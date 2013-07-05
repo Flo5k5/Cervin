@@ -54,6 +54,11 @@ class ChantierController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
+		if ($element->utilisateur != null) {
+			$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$element->utilisateur->id));
+			$this->flashMessenger()->addErrorMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->display_name) .'.'));
+			return $this->redirect()->toRoute('element/editer', array('id'=>$idElement));
+		}
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
@@ -98,6 +103,11 @@ class ChantierController extends AbstractActionController
     	if (!$idUser || !$idSousParcours || $user == null || $sous_parcours == null) {
     		$this->getResponse()->setStatusCode(404);
     		return;
+    	}
+    	if ($sous_parcours->utilisateur != null) {
+    		$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$sous_parcours->utilisateur->id));
+    		$this->flashMessenger()->addErrorMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->display_name) .'.'));
+    		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
     	}
     	$sous_parcours->utilisateur = $user;
     	$this->getEntityManager()->flush();

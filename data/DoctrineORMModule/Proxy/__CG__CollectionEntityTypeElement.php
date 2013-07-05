@@ -83,10 +83,10 @@ class TypeElement extends \Collection\Entity\TypeElement implements \Doctrine\OR
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'inputFilter', 'id', 'nom', 'type', 'champs', 'elements', 'semantique_origine', 'semantique_destination', 'valide');
+            return array('__isInitialized__', 'inputFilter', 'id', 'nom', 'type', 'champs', 'elements', 'semantique_origine', 'semantique_destination');
         }
 
-        return array('__isInitialized__', 'inputFilter', 'id', 'nom', 'type', 'champs', 'elements', 'semantique_origine', 'semantique_destination', 'valide');
+        return array('__isInitialized__', 'inputFilter', 'id', 'nom', 'type', 'champs', 'elements', 'semantique_origine', 'semantique_destination');
     }
 
     /**

@@ -174,7 +174,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 							<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(
 									'idSousParcours' => $sous_parcours->id,
 									'idUser' => $this->zfcUserIdentity()->getId(),
-									'return'=>'perso')); ?>" 
+									'return'=>'sousparcours')); ?>" 
 								class="btn btn-warning btn-block">
 								<i class="icon-unlock"> </i> Terminer le chantier
 							</a>
