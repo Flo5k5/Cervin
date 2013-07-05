@@ -56,8 +56,8 @@ class ChantierController extends AbstractActionController
 		}
 		if ($element->utilisateur != null) {
 			$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$element->utilisateur->id));
-			$this->flashMessenger()->addErrorMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->display_name) .'.'));
-			return $this->redirect()->toRoute('element/editer', array('id'=>$idElement));
+			$this->flashMessenger()->addErrorMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->displayName) .'.'));
+			return $this->redirect()->toRoute('element/voir', array('id'=>$idElement));
 		}
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
