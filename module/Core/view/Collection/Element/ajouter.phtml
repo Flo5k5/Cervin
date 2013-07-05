@@ -106,7 +106,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					    			echo $this->formSelect($element);
 								} elseif ($element->getAttribute('geoposition')) {
 									echo '<div class="row-fluid">
-										<div class="span10"><blockquote>';
+										<div class="span10 geoposition"><blockquote>';
 										 echo $this->formLabel($form->get('adresse_'.$element->getAttribute('name')));
 										echo $this->formTextarea($form->get('adresse_'.$element->getAttribute('name')));
 										echo $this->formElementErrors($form->get('adresse_'.$element->getAttribute('name')));
@@ -119,7 +119,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										echo $this->formText($form->get('longitude_'.$element->getAttribute('name'))); 
 										echo $this->formElementErrors($form->get('longitude_'.$element->getAttribute('name')));
            							echo '</blockquote></div><div class="span2">';
-           							echo '<a href="" class="btn " ><i class="icon-map-marker"></i> </a>';
+           							echo '<a href="#" class="btn showGMapsModal" ><i class="icon-map-marker"></i> </a>';
            							echo '</div></div>';
 								} else {
 				        			echo $this->formInput($element); 
@@ -183,6 +183,30 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 <?php } ?>
 </div>
 
+<div id="modalDiv" class="modal hide fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Carte</h3>
+	</div>
+	<div class="modal-body">
+		<div id="gmaps"></div>
+		<form class="form-inline form-geo">
+			<div>
+				<div class="input-append ">
+					<input class="input-large addressInput" type="text" placeholder="Adresse">
+					<button class="btn placeMarker" type="button"><i class="icon-map-marker"></i></button>
+				</div>
+				&nbsp;
+				<input type="text" class="input-small latitudeInput" placeholder="Latitude" readonly="readonly" >&nbsp;
+				<input type="text" class="input-small longitudeInput" placeholder="Longitude" readonly="readonly" >&nbsp;
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+		<button class="btn btn-primary save">Sauvegarder</button>
+	</div>
+</div>
 <?php $this->inlineScript()->captureStart(); ?>
 
 	$(function () { 
@@ -192,6 +216,220 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			allowClear: true
 		});
 
+		window.GMaps = {
+			_position : "",
+			_lat : "48.85806239999999",
+			_lng : "2.295147199999974",
+			_kml : "https://maps.google.fr/maps/ms?ie=UTF8&t=h&oe=UTF8&authuser=0&msa=0&output=kml&msid=212676093823261248407.000465792f3231179dcb6",
+			_marker : "",
+			_map : "",
+			_geocoder : "",
+			_api_key : "",
+			_el : document.getElementById("gmaps"),
+			_elJq : $("#gmaps"),
+		
+			init : function(el) {
+		
+				if(typeof el != 'undefined'){
+		            GMaps._el =  document.getElementById(el);
+		            GMaps._elJq =  $("#"+el);
+		        }
+		
+				if(typeof google === 'undefined'){
+					var script = document.createElement("script");
+					script.type = "text/javascript";
+					//script.src = "https://maps.googleapis.com/maps/api/js?key="+GMaps._api_key+"&sensor=false&callback=GMaps.load";
+					script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=weather&callback=GMaps.load';
+					document.body.appendChild(script);
+				} else {
+					GMaps.load();
+				}
+			},
+		
+			load : function() {
+		
+				GMaps._position = new google.maps.LatLng(GMaps._lat, GMaps._lng);
+		
+				var mapOptions = {
+					zoom: 7,
+					center: GMaps._position,
+					disableDefaultUI: true,
+					mapTypeControl: true,
+					mapTypeId: google.maps.MapTypeId.HYBRID
+				}
+				
+				GMaps.drawMap(mapOptions);
+			},
+		
+			drawMap : function(mapOptions){
+			    GMaps._map = new google.maps.Map(GMaps._el, mapOptions);
+		
+			    GMaps._marker = new google.maps.Marker({
+			        map: GMaps._map,
+			        draggable: true,
+			        animation: google.maps.Animation.DROP,
+			        title: "Drag me",
+			        position: GMaps._position
+			    });
+		
+			    google.maps.event.addListener(GMaps._marker, 'dragend', function(){
+			        GMaps.geocodePosition(GMaps._marker.getPosition());
+			    });
+		
+			    GMaps._geocoder = new google.maps.Geocoder();
+			},
+		
+			centerMap : function(position){
+				GMaps._map.setCenter(position);
+			},
+		
+			setKmlLayer : function(){
+			    var ctaLayer = new google.maps.KmlLayer(
+			        GMaps._kml,
+			        {   
+			            preserveViewport: true,
+			            suppressInfoWindows: false
+			        }
+			    );
+		
+			    ctaLayer.setMap(GMaps._map);
+			},
+		
+			setWeatherLayer : function(){
+			    var weatherLayer = new google.maps.weather.WeatherLayer({
+		    		temperatureUnits: google.maps.weather.TemperatureUnit.CELSIUS
+		  		});
+		
+			    weatherLayer.setMap(GMaps._map);
+			},
+		
+			setTransitLayer : function(){
+			    var transitLayer = new google.maps.TransitLayer();
+			    transitLayer.setMap(GMaps._map);
+			},
+		
+			setBikeLayer : function(){
+			    var bikeLayer = new google.maps.BicyclingLayer();
+		  		bikeLayer.setMap(GMaps._map);
+			},
+		
+			setTrafficLayer : function(){
+			    var trafficLayer = new google.maps.TrafficLayer();
+		  		trafficLayer.setMap(GMaps._map);
+			},
+		
+			setCloudLayer : function(){
+			    var cloudLayer = new google.maps.weather.CloudLayer();
+		  		cloudLayer.setMap(GMaps._map);
+			},
+		
+			geocodePosition : function(markerPos){
+			    
+			    GMaps._geocoder.geocode(
+			        {
+			            latLng: markerPos
+			        }, 
+			        function(results, status){
+			            if (status == google.maps.GeocoderStatus.OK){
+			            
+			            	$("#modalDiv .addressInput").val(results[0].formatted_address);
+							$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
+							$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
+			            
+			                /*console.log("Results : ", results);
+			                console.log("Adresse : ", results[0].formatted_address);
+			                console.log("Latitude : ", results[0].geometry.location.lat());
+			                console.log("Longitude : ", results[0].geometry.location.lng());*/
+
+			            } else {
+			                console.error("Cannot determine address at this location "+status);
+			            }
+			        }
+			    );
+			},
+		
+			changeZoom : function(zoomValue){
+				/*console.log("Zoom : ", GMaps._map.getZoom());
+		
+				if(GMaps._map.getZoom() > zoomValue){
+					for (var i = GMaps._map.getZoom(); i >= zoomValue; i--) {
+						window.setTimeout( 
+							( function(zoom){ 
+								return function(){ 
+									GMaps._map.setZoom(zoom);
+									console.log(zoom);
+								}; 
+							} )( i ),
+							5000
+						);
+					}
+				} else if(GMaps._map.getZoom() < zoomValue){
+					for (var i = GMaps._map.getZoom(); i <= zoomValue; i++) {
+						window.setTimeout( 
+							( function(zoom){ 
+								return function(){ 
+									GMaps._map.setZoom(zoom);
+									console.log(zoom);
+								}; 
+							} )( i ),
+							5000
+						);
+					}
+				}
+				console.log("Zoom : ", GMaps._map.getZoom());*/
+		
+				GMaps._map.setZoom(zoomValue);
+			},
+		
+			geocodeAddress : function(address) {
+		
+				/* Appel au service de geocodage avec l'adresse en paramètre */
+				GMaps._geocoder.geocode( { 'address': address}, function(results, status) {
+					/* Si l'adresse a pu être géolocalisée */
+					if (status == google.maps.GeocoderStatus.OK) {
+						/* Récupération de sa latitude et de sa longitude */
+						
+						/*console.log("Result : ", results);
+						console.log("Latitude : ", results[0].geometry.location.lat());
+			            console.log("Longitude : ", results[0].geometry.location.lng());*/
+		
+						$("#modalDiv .addressInput").val(results[0].formatted_address);
+						$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
+						$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
+
+						GMaps.centerMap(results[0].geometry.location);
+		
+						GMaps.changeZoom(14);
+		
+						GMaps._marker.setMap(null);
+		
+						/* Affichage du marker */
+						GMaps._marker = new google.maps.Marker({
+							map: GMaps._map,
+							draggable: true,
+			       			animation: google.maps.Animation.DROP,
+							position: results[0].geometry.location
+						});
+		
+						google.maps.event.addListener(GMaps._marker, 'dragend', function(){
+					        GMaps.geocodePosition(GMaps._marker.getPosition());
+					    });
+		
+					} else {
+						console.error("Cannot find this address "+status);
+					}
+
+				});
+			},
+			
+			resizeInModal : function(){
+				GMaps._elJq.height( ( $(window).height() - ( $('#modalDiv').outerHeight() - $('#modalDiv .modal-body').height() ) ) );
+				if( GMaps._elJq.height() >= $('#modalDiv .modal-body').height() ){
+					GMaps._elJq.height( ( $('#modalDiv .modal-body').height() - $('.form-geo').outerHeight() ) - 65 );
+				}
+				GMaps._elJq.width( $('#modalDiv .modal-body').width() );
+			}
+		}
 		// Modification de la valeur du select des types d'élément
 		// On rappelle l'action element/ajouter pour récupérer le formulaire correspondant
 		$(".target").change(function() {
@@ -259,6 +497,55 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			        startView:2,
 			    });
 			}
+		});
+		
+		
+		$(document).on( 'click', '.showGMapsModal', function(e){
+			$('#modalDiv').modal();
+			e.preventDefault();
+		});
+		
+		$('#modalDiv').on('shown', function (e) {
+    		GMaps.resizeInModal();
+    		GMaps.init();
+    		GMaps.resizeInModal();
+		});
+		
+		$(document).on( 'click', '#modalDiv .placeMarker', function(e){
+			GMaps.geocodeAddress( $("#modalDiv .addressInput").val() );
+		});
+		
+		$(document).on( 'keypress', '#modalDiv .addressInput', function(e){
+			if( e.which == 13 ){ // Code touche entrée = 13
+				$("#modalDiv .placeMarker").click();
+				$(this).blur();
+			}
+		});
+		
+		$(document).on( 'mouseup', '#modalDiv .addressInput', function(e){
+			e.preventDefault();
+		});
+		
+		$(document).on( 'focus', '#modalDiv .addressInput', function(e){
+			$(this).select();
+		});
+		
+		$(document).on( 'click', '#modalDiv .save', function(e){
+			var adresse   = $("#modalDiv .addressInput").val();
+			var latitude  = $("#modalDiv .latitudeInput").val();
+			var longitude = $("#modalDiv .longitudeInput").val();
+
+			if( adresse != "" && latitude != "" && longitude != "" ){
+				console.log($(".geoposition input[class^='adresse_'] "));
+				$(".geoposition textarea[name^='adresse_'] ").val(adresse);
+				$(".geoposition input[name^='latitude_'] ").val( parseFloat(latitude) );
+				$(".geoposition input[name^='longitude_'] ").val( parseFloat(longitude) );
+			}
+			$('#modalDiv').modal('hide')
+		});
+
+		$(window).resize(function() {
+			GMaps.resizeInModal();
 		});
 		
     });
