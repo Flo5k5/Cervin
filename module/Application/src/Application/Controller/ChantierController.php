@@ -106,7 +106,7 @@ class ChantierController extends AbstractActionController
     	}
     	if ($sous_parcours->utilisateur != null) {
     		$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$sous_parcours->utilisateur->id));
-    		$this->flashMessenger()->addErrorMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->display_name) .'.'));
+    		$this->flashMessenger()->addErrorMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->displayName) .'.'));
     		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
     	}
     	$sous_parcours->utilisateur = $user;
