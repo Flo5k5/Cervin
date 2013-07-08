@@ -449,13 +449,23 @@ class Element implements InputFilterAwareInterface
                         $inputFilter->add($factory->createInput(
                             array(
                                 'name' => 'latitude_champ_'.strval($champ->id),
-                                'required' => false
+                                'required' => false,
+		    					'validators' => array(
+                                    array(
+                                        'name' => '\Zend\I18n\Validator\Float',
+                                    ),
+                                ),
                             )
                         ));
                         $inputFilter->add($factory->createInput(
                             array(
                                 'name' => 'longitude_champ_'.strval($champ->id),
-                                'required' => false
+                                'required' => false,
+		    					'validators' => array(
+                                    array(
+                                        'name' => '\Zend\I18n\Validator\Float',
+                                    ),
+                                ),
                             )
                         ));
 

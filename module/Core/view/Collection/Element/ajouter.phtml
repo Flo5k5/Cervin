@@ -192,13 +192,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		<div id="gmaps"></div>
 		<form class="form-inline form-geo">
 			<div>
-				<div class="input-append ">
+				<div class="input-append pull-left">
 					<input class="input-large addressInput" type="text" placeholder="Adresse">
-					<button class="btn placeMarker" type="button"><i class="icon-map-marker"></i></button>
+					<button class="btn searchAddress" type="button"><i class="icon-map-marker"></i></button>
 				</div>
 				&nbsp;
-				<input type="text" class="input-small latitudeInput" placeholder="Latitude" readonly="readonly" >&nbsp;
-				<input type="text" class="input-small longitudeInput" placeholder="Longitude" readonly="readonly" >&nbsp;
+				<div class="input-append pull-right">
+					<input type="text" class="input-small latitudeInput" placeholder="Latitude" >
+					<input type="text" class="input-small longitudeInput" placeholder="Longitude" >
+					<button class="btn placeMarker" type="button"><i class="icon-screenshot"></i></button>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -253,7 +256,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			load : function() {
 		
 				GMaps._position = new google.maps.LatLng(GMaps._lat, GMaps._lng);
-		
+				
+				GMaps._geocoder = new google.maps.Geocoder();
+				
 				var mapOptions = {
 					zoom: 7,
 					center: GMaps._position,
@@ -263,24 +268,23 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 				}
 				
 				GMaps.drawMap(mapOptions);
+				
+				GMaps.setMarker();
 			},
 		
 			drawMap : function(mapOptions){
+				
+				if( typeof mapOptions == 'undefined' && mapOptions == null ){
+					mapOptions = {
+						zoom: 7,
+						center: GMaps._position,
+						disableDefaultUI: true,
+						mapTypeControl: true,
+						mapTypeId: google.maps.MapTypeId.HYBRID
+					}
+				}
+				
 			    GMaps._map = new google.maps.Map(GMaps._el, mapOptions);
-		
-			    GMaps._marker = new google.maps.Marker({
-			        map: GMaps._map,
-			        draggable: true,
-			        animation: google.maps.Animation.DROP,
-			        //title: "Drag me",
-			        position: GMaps._position
-			    });
-		
-			    google.maps.event.addListener(GMaps._marker, 'dragend', function(){
-			        GMaps.geocodePosition(GMaps._marker.getPosition());
-			    });
-		
-			    GMaps._geocoder = new google.maps.Geocoder();
 			},
 		
 			centerMap : function(position){
@@ -326,7 +330,28 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			    var cloudLayer = new google.maps.weather.CloudLayer();
 		  		cloudLayer.setMap(GMaps._map);
 			},
-		
+			
+			searchPosition : function(lat, lng, callback){
+			
+				if( ( typeof lat != 'undefined' && parseFloat(lat) != NaN ) && ( typeof lng != 'undefined' && parseFloat(lng) != NaN ) ){
+					GMaps._position = new google.maps.LatLng(lat, lng);
+				} else {
+					console.error("Vous devez spécifier une latitude et une longitude");
+				}
+						
+				GMaps.centerMap( GMaps._position );
+
+				GMaps.changeZoom(14);
+
+				GMaps.setMarker();
+				
+				GMaps.geocodePosition( GMaps._position );
+				
+				if(typeof callback != 'undefined'){
+			    	callback;
+			    }
+			},
+			
 			geocodePosition : function(markerPos){
 			    
 			    GMaps._geocoder.geocode(
@@ -347,9 +372,43 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 
 			            } else {
 			                console.error("Cannot determine address at this location "+status);
+			                $("#modalDiv .addressInput").val("N/A");
+			                $("#modalDiv .latitudeInput").val( GMaps._marker.getPosition().lat() );
+			                $("#modalDiv .longitudeInput").val( GMaps._marker.getPosition().lng() );
 			            }
 			        }
 			    );
+			},
+
+			geocodeAddress : function(address) {
+		
+				/* Appel au service de geocodage avec l'adresse en paramètre */
+				GMaps._geocoder.geocode( { 'address': address}, function(results, status) {
+					/* Si l'adresse a pu être géolocalisée */
+					if (status == google.maps.GeocoderStatus.OK) {
+						/* Récupération de sa latitude et de sa longitude */
+						
+						/*console.log("Result : ", results);
+						console.log("Latitude : ", results[0].geometry.location.lat());
+			            console.log("Longitude : ", results[0].geometry.location.lng());*/
+		
+						$("#modalDiv .addressInput").val(results[0].formatted_address);
+						$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
+						$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
+
+						GMaps._position = results[0].geometry.location;
+						
+						GMaps.centerMap( GMaps._position );
+		
+						GMaps.changeZoom(14);
+
+						GMaps.setMarker();
+		
+					} else {
+						console.error("Cannot find this address "+status);
+					}
+
+				});
 			},
 		
 			changeZoom : function(zoomValue){
@@ -384,46 +443,32 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		
 				GMaps._map.setZoom(zoomValue);
 			},
-		
-			geocodeAddress : function(address) {
-		
-				/* Appel au service de geocodage avec l'adresse en paramètre */
-				GMaps._geocoder.geocode( { 'address': address}, function(results, status) {
-					/* Si l'adresse a pu être géolocalisée */
-					if (status == google.maps.GeocoderStatus.OK) {
-						/* Récupération de sa latitude et de sa longitude */
-						
-						/*console.log("Result : ", results);
-						console.log("Latitude : ", results[0].geometry.location.lat());
-			            console.log("Longitude : ", results[0].geometry.location.lng());*/
-		
-						$("#modalDiv .addressInput").val(results[0].formatted_address);
-						$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
-						$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
 
-						GMaps.centerMap(results[0].geometry.location);
-		
-						GMaps.changeZoom(14);
-		
-						GMaps._marker.setMap(null);
-		
-						/* Affichage du marker */
-						GMaps._marker = new google.maps.Marker({
-							map: GMaps._map,
-							draggable: true,
-			       			animation: google.maps.Animation.DROP,
-							position: results[0].geometry.location
-						});
-		
-						google.maps.event.addListener(GMaps._marker, 'dragend', function(){
-					        GMaps.geocodePosition(GMaps._marker.getPosition());
-					    });
-		
-					} else {
-						console.error("Cannot find this address "+status);
-					}
-
+			setMarker : function(lat, lng, callback){
+				
+				if( ( typeof lat != 'undefined' && lat != null ) && ( typeof lng != 'undefined' && lng != null ) ){
+					GMaps._position = new google.maps.LatLng(lat, lng);
+				}
+			
+				if( GMaps._marker != "" ){
+					GMaps._marker.setMap(null);
+				}
+				
+				/* Affichage du marker */
+				GMaps._marker = new google.maps.Marker({
+					map: GMaps._map,
+					draggable: true,
+	       			animation: google.maps.Animation.DROP,
+					position: GMaps._position
 				});
+
+				google.maps.event.addListener(GMaps._marker, 'dragend', function(){
+			        GMaps.geocodePosition(GMaps._marker.getPosition());
+			    });
+			    
+			    if(typeof callback != 'undefined'){
+			    	callback;
+			    }
 			},
 			
 			resizeInModal : function(){
@@ -433,7 +478,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 				}
 				GMaps._elJq.width( $('#modalDiv .modal-body').width() );
 			}
-		}
+			
+		};
+		
+		
 		// Modification de la valeur du select des types d'élément
 		// On rappelle l'action element/ajouter pour récupérer le formulaire correspondant
 		$(".target").change(function() {
@@ -516,17 +564,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
     		GMaps.resizeInModal();
 		});
 		
-		$(document).on( 'click', '#modalDiv .placeMarker', function(e){
+		
+		//Gestion du champ adresse dans la minimap
+		$(document).on( 'click', '#modalDiv .searchAddress', function(e){
 			GMaps.geocodeAddress( $("#modalDiv .addressInput").val() );
 		});
 		
 		$(document).on( 'keypress', '#modalDiv .addressInput', function(e){
 			if( e.which == 13 ){ // Code touche entrée = 13
-				$("#modalDiv .placeMarker").click();
+				$("#modalDiv .searchAddress").click();
 				$(this).blur();
 			}
 		});
-		
+				
 		$(document).on( 'mouseup', '#modalDiv .addressInput', function(e){
 			e.preventDefault();
 		});
@@ -535,6 +585,45 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			$(this).select();
 		});
 		
+		// Fin Gestion du champ adresse dans la minimap
+		
+		//Gestion des champs latitude et longitude dans la minimap
+		$(document).on( 'click', '#modalDiv .placeMarker', function(e){
+			GMaps.searchPosition( $("#modalDiv .latitudeInput").val(), $("#modalDiv .longitudeInput").val() );
+		});
+		
+		$(document).on( 'keypress', '#modalDiv .latitudeInput', function(e){
+			if( e.which == 13 ){ // Code touche entrée = 13
+				$("#modalDiv .placeMarker").click();
+				$(this).blur();
+			}
+		});
+				
+		$(document).on( 'mouseup', '#modalDiv .latitudeInput', function(e){
+			e.preventDefault();
+		});
+		
+		$(document).on( 'focus', '#modalDiv .latitudeInput', function(e){
+			$(this).select();
+		});
+		
+		$(document).on( 'keypress', '#modalDiv .longitudeInput', function(e){
+			if( e.which == 13 ){ // Code touche entrée = 13
+				$("#modalDiv .placeMarker").click();
+				$(this).blur();
+			}
+		});
+				
+		$(document).on( 'mouseup', '#modalDiv .longitudeInput', function(e){
+			e.preventDefault();
+		});
+		
+		$(document).on( 'focus', '#modalDiv .longitudeInput', function(e){
+			$(this).select();
+		});
+		
+		//Fin Gestion des champs latitude et longitude dans la minimap
+
 		$(document).on( 'click', '#modalDiv .save', function(e){
 			var champsId = $(this).data('id');
 			
