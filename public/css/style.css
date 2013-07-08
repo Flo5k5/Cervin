@@ -47,3 +47,9 @@ body {
 #modalDiv .form-geo {
 	margin: 10px 0;
 }
+
+/* Correction du bug d'affichage du curseur de la carte GMaps
+ à cause de boostrap */
+#gmaps img {
+	max-width: none;
+}
