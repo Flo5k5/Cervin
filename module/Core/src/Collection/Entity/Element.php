@@ -454,7 +454,7 @@ class Element implements InputFilterAwareInterface
                                     array(
                                         'name' => 'regex',
                                         'options'=>array(
-                                            'pattern' => '/^[0-9-]{1,2}.[0-9]{0,15}+$/',
+                                            'pattern' => '/^[0-9-.]+$/',
                                             'messages'=> array('regexNotMatch'=>'Ce n\'est pas une latitude valide'),
                                         ),
                                     ),
@@ -469,7 +469,7 @@ class Element implements InputFilterAwareInterface
                                     array(
                                         'name' => 'regex',
                                         'options'=>array(
-                                            'pattern' => '/^[0-9-]{1,2}.[0-9]{0,15}+$/',
+                                            'pattern' => '/^[0-9-.]+$/',
                                             'messages'=> array('regexNotMatch'=>'Ce n\'est pas une longitude valide'),
                                         ),
                                     ),
