@@ -452,7 +452,11 @@ class Element implements InputFilterAwareInterface
                                 'required' => false,
 		    					'validators' => array(
                                     array(
-                                        'name' => '\Zend\I18n\Validator\Float',
+                                        'name' => 'regex',
+                                        'options'=>array(
+                                            'pattern' => '/^[0-9]{1,2}.[0-9]{0,15}+$/',
+                                            'messages'=> array('regexNotMatch'=>'Ce n\'est pas une latitude valide'),
+                                        ),
                                     ),
                                 ),
                             )
@@ -463,7 +467,11 @@ class Element implements InputFilterAwareInterface
                                 'required' => false,
 		    					'validators' => array(
                                     array(
-                                        'name' => '\Zend\I18n\Validator\Float',
+                                        'name' => 'regex',
+                                        'options'=>array(
+                                            'pattern' => '/^[0-9]{1,2}.[0-9]{0,15}+$/',
+                                            'messages'=> array('regexNotMatch'=>'Ce n\'est pas une longitude valide'),
+                                        ),
                                     ),
                                 ),
                             )
