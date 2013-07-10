@@ -72,7 +72,8 @@ class ChampTypeElementForm extends Form
 						            ),
 					            ),
 					            'attributes' => array(
-					                'class' => 'span12 select'
+					                'class' => 'span12 select',
+					                'description' => $champ->description,
 					            )
 					        ));
  					break;
