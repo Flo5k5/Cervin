@@ -349,13 +349,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 								echo '<div class="row-fluid">
 									<div class="span5 geoposition">
 										<label for="adresse_champ">Adresse</label>
-										<textarea name="adresse_champ_'.$id.'" class="adresse span11 " rows="2">'.$adresse.'</textarea>
-			        				</div>
-			        				<div class="span5">
-										<label for="latitude_champ">Latitude</label>
-										<input type="text" name="latitude_champ_'.$id.'" class="latitude span11" value="'.$latitude.'">
+										<textarea name="adresse_champ_'.$id.'" readonly="readonly" class="adresse span11 " rows="2">'.$adresse.'</textarea>
+									</div>
+			        				<div class="span5 geoposition">
+			        					<label for="latitude_champ">Latitude</label>
+										<input type="text" name="latitude_champ_'.$id.'" readonly="readonly" class="latitude span11" value="'.$latitude.'">
 										<label for="longitude_champ">Longitude</label>
-										<input type="text" name="longitude_champ_'.$id.'" class="longitude span11" value="'.$longitude.'">
+										<input type="text" name="longitude_champ_'.$id.'" readonly="readonly" class="longitude span11" value="'.$longitude.'">
 									</div>
 									<div class="span2">
 										<a href="#" data-id="champ_'.$id.'" data-url="'.$url.'" class="btn showGMapsModal"><i class="icon-map-marker"></i> </a>
@@ -1064,12 +1064,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			var longitude = parseFloat($("#modalDiv .longitudeInput").val());
 
 			if( adresse != "" && latitude != "" && longitude != "" ){
+				$('body').css('cursor', 'wait');
 				$.ajax({
 				url: url,
 				type: "POST",
 				data:{ 'name' : 'data', 'adresse' : adresse, 'latitude' : latitude, 'longitude' : longitude }, 
 				}).done(function(e){
-					console.log(e);
 					$('body').css('cursor', 'auto');
 					$(".geoposition textarea[name='adresse_"+champsId+"'] ").val(adresse);
 					$(".geoposition input[name='latitude_"+champsId+"'] ").val( latitude );
