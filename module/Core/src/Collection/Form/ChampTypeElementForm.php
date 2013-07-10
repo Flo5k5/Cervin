@@ -55,24 +55,24 @@ class ChampTypeElementForm extends Form
 				case 'select':
 
 					 $this->add(array(
-					            'name' => $name,
-					            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+					            'name'    => $name,
+					            'type'    => 'DoctrineModule\Form\Element\ObjectSelect',
 					            'options' => array(
-					                'label' => $champ->label,
-					                'empty_option'    => '',
+					                'label'          => $champ->label,
+					                'empty_option'   => '',
 					                'object_manager' => $em,
-					                'target_class' => 'Collection\Entity\SelectOption',
-					                'property' => 'text',
+					                'target_class'   => 'Collection\Entity\SelectOption',
+					                'property'       => 'text',
 					                'find_method'    => array(
 						                'name'   => 'findBy',
 						                'params' => array(
 						                    'criteria' => array('select' => $champ->select),
-						                    'orderBy'  => array('text' => 'ASC'),
+						                    'orderBy'  => array('text'   => 'ASC'),
 						                ),
 						            ),
 					            ),
 					            'attributes' => array(
-					                'class' => 'span12 select'
+					                'class'  => 'span12 select'
 					            )
 					        ));
  					break;
@@ -82,7 +82,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span12'
+							'class'       => 'span12'
 						));
 					$this->add($text);
 					break;
@@ -92,8 +92,8 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span12',
-							'rows' => '6'
+							'class'       => 'span12',
+							'rows'        => '6'
 						));
 					$this->add($textarea);
 					break;
@@ -102,9 +102,9 @@ class ChampTypeElementForm extends Form
 					$date->setName($name)
 						->setLabel($champ->label)
 						->setAttributes(array(
-							'type'  => 'text',
-							'description' => $champ->description,
-							'class' => 'datepicker span12',
+							'type'          => 'text',
+							'description'   => $champ->description,
+							'class'         => 'datepicker span12',
 							'besoin_format' => true
 						))
 						->setOptions(array(
@@ -115,9 +115,9 @@ class ChampTypeElementForm extends Form
 					$select = new Element\Select();
 					$select->setName('format'.$name)
 							->setAttributes(array(
-							'class' => 'format_date span12',
+							'class'           => 'format_date span12',
 							'data-input-name' => $name,
-							'type'  => 'hidden'
+							'type'            => 'hidden'
 					));
 					$select->setValueOptions(array(
 							'0' => 'Jour',
@@ -132,7 +132,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span12'
+							'class'       => 'span12'
 						));
 					$this->add($number);
 					break;
@@ -142,7 +142,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'title' => 'Parcourir'
+							'title'       => 'Parcourir'
 					));
 					$this->add($file);
 					break;
@@ -152,7 +152,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span12'
+							'class'       => 'span12'
 						));
 					$this->add($url);
 					break;
@@ -163,7 +163,7 @@ class ChampTypeElementForm extends Form
 						->setLabel($champ->label)
 						->setAttributes(array(
 							'description' => $champ->description,
-							'class' => 'span12',
+							'class'       => 'span12',
 							'geoposition' => true
 						));
 					$this->add($text);
@@ -173,23 +173,26 @@ class ChampTypeElementForm extends Form
 					$latitude->setName('latitude_'.$name)
 					->setLabel('Latitude')
 					->setAttributes(array(
-							'class' => 'latitude span11',
-							'type'  => 'hidden'
+							'class'    => 'latitude span11',
+							'type'     => 'hidden',
+							'readonly' => 'readonly'
 					));
 				$longitude = new Element\Text();
 					$longitude->setName('longitude_'.$name)
 					->setLabel('Longitude')
 					->setAttributes(array(
-							'class' => 'longitude span11',
-							'type'  => 'hidden'
+							'class'    => 'longitude span11',
+							'type'     => 'hidden',
+							'readonly' => 'readonly'
 					));
 				$adresse = new Element\Textarea();
 					$adresse->setName('adresse_'.$name)
 						->setLabel('Adresse')
 						->setAttributes(array(
-							'class' => 'adresse span11 ',
-							'rows' => '2',
-							'type'  => 'hidden'
+							'class'    => 'adresse span11 ',
+							'rows'     => '2',
+							'type'     => 'hidden',
+							'readonly' => 'readonly'
 						));
 
 				$this->add($adresse);
@@ -207,7 +210,7 @@ class ChampTypeElementForm extends Form
 				->setAttributes(array(
 					'type'  => 'submit',
 					'value' => 'Valider',
-					'id' => 'submitbutton',
+					'id'    => 'submitbutton',
 					'class' => 'btn btn-primary',
 				));
 		$this->add($button);
