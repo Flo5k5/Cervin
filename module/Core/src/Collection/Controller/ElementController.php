@@ -319,6 +319,16 @@ class ElementController extends AbstractActionController
 							}
 							$data->url = $request['value'];
 							break;
+						case 'geoposition':
+							if ($data == 'new') {
+								$data = new \Collection\Entity\DataGeoposition($element,$champ);
+								$element->datas->add($data);
+							}
+							$data->adresse = $request['adresse'];
+							$data->latitude = $request['latitude'];
+							$data->longitude = $request['longitude'];
+							//return $this->getResponse()->setContent(Json::encode($request));
+							break;
 						default:
 							return $this->getResponse()->setContent(Json::encode(false));
 							break;

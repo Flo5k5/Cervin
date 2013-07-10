@@ -218,7 +218,76 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			placeholder: "Non renseigné",
 			allowClear: true
 		});
+		
+		// Modification de la valeur du select des types d'élément
+		// On rappelle l'action element/ajouter pour récupérer le formulaire correspondant
+		$(".target").change(function() {
+		    if($("select option:selected").val()=='none') {
+		    	var url="<?php echo $this->url('element/ajouter', array('type'=>$type))?>";
+				$(location).attr('href',url);
+		    } else {
+			    var id = $("select option:selected").val();
+		    	var url = '<?php echo $this->url('element/ajouter', array('type'=>$type, 'type_element_id' => '\'+id+\''))?>';
+				$(location).attr('href',url);
+		    }
+		});
 
+		// Gestion du date picker
+	    $('.datepicker').datepicker({
+	        language:'fr-FR',
+	        format:'yyyy-dd-mm',
+	        autoclose:true
+	    });
+    	
+
+    	// Gestion des popover pour la description des champs
+    	$(".description").popover({placement:'top', trigger:'hover'}); 
+    	
+    	// Gestion du wysihtml5
+    	$('.wysihtml5-textarea').wysihtml5({
+			locale: "fr-FR",
+			image: false,
+			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
+			"events": {
+				"load": function() { 
+					$(editor.composer.iframe).wysihtml5_size_matters();
+				}
+			}
+		});
+		
+		// Gestion de la précision des dates (jour, mois, année)
+		$('.format_date').change(function() {
+			var name = $(this).attr('data-input-name');
+			$('input[name='+name+']').datepicker('remove');
+			$('input[name='+name+']').val('');
+			var format = $(this).val();
+			if (format == 0) {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy-dd-mm',
+			        autoclose:true,
+			        minViewMode:0,
+			        startView:0,
+			    });
+			} else if (format == 1) {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy-mm',
+			        autoclose:true,
+			        minViewMode:1,
+			        startView:1,
+			    });
+			} else {
+				$('input[name='+name+']').datepicker({
+			        language:'fr-FR',
+			        format:'yyyy',
+			        autoclose:true,
+			        minViewMode:2,
+			        startView:2,
+			    });
+			}
+		});
+		
 		window.GMaps = {
 			_position : "",
 			_lat : "48.85806239999999",
@@ -245,18 +314,24 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=weather&callback=GMaps.load';
 					document.body.appendChild(script);
 				} else {
-					if($("#modalDiv .addressInput").val() != ''){
-						$("#modalDiv .placeMarker").click();
-					} else {
-						GMaps.load();
-					}
+					GMaps.load();
 				}
 			},
 		
 			load : function() {
-		
-				GMaps._position = new google.maps.LatLng(GMaps._lat, GMaps._lng);
+
+				var champsId = $('#modalDiv .save').data('id');
+				var champLat = $(".geoposition input[name='latitude_"+champsId+"'] ").val();
+				var champLng = $(".geoposition input[name='longitude_"+champsId+"'] ").val();
 				
+				if( champLat != '' && champLng != '' ){
+					$("#modalDiv .latitudeInput").val( champLat );
+		            $("#modalDiv .longitudeInput").val( champLng );
+					GMaps._position = new google.maps.LatLng(champLat, champLng);
+				} else {
+					GMaps._position = new google.maps.LatLng(GMaps._lat, GMaps._lng);
+				}
+
 				GMaps._geocoder = new google.maps.Geocoder();
 				
 				var mapOptions = {
@@ -268,8 +343,14 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 				}
 				
 				GMaps.drawMap(mapOptions);
-				
+
 				GMaps.setMarker();
+				
+				GMaps.geocodePosition( GMaps._position );
+				
+				$(window).resize(function() {
+					GMaps.resizeInModal();
+				});
 			},
 		
 			drawMap : function(mapOptions){
@@ -362,8 +443,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			            if (status == google.maps.GeocoderStatus.OK){
 			            
 			            	$("#modalDiv .addressInput").val(results[0].formatted_address);
-							$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
-							$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
+							//$("#modalDiv .latitudeInput").val(results[0].geometry.location.lat());
+							//$("#modalDiv .longitudeInput").val(results[0].geometry.location.lng());
+							$("#modalDiv .latitudeInput").val( GMaps._marker.getPosition().lat() );
+							$("#modalDiv .longitudeInput").val( GMaps._marker.getPosition().lng() );
 			            
 			                /*console.log("Results : ", results);
 			                console.log("Adresse : ", results[0].formatted_address);
@@ -480,78 +563,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			}
 			
 		};
-		
-		
-		// Modification de la valeur du select des types d'élément
-		// On rappelle l'action element/ajouter pour récupérer le formulaire correspondant
-		$(".target").change(function() {
-		    if($("select option:selected").val()=='none') {
-		    	var url="<?php echo $this->url('element/ajouter', array('type'=>$type))?>";
-				$(location).attr('href',url);
-		    } else {
-			    var id = $("select option:selected").val();
-		    	var url = '<?php echo $this->url('element/ajouter', array('type'=>$type, 'type_element_id' => '\'+id+\''))?>';
-				$(location).attr('href',url);
-		    }
-		});
-
-		// Gestion du date picker
-	    $('.datepicker').datepicker({
-	        language:'fr-FR',
-	        format:'yyyy-dd-mm',
-	        autoclose:true
-	    });
-    	
-
-    	// Gestion des popover pour la description des champs
-    	$(".description").popover({placement:'top', trigger:'hover'}); 
-    	
-    	// Gestion du wysihtml5
-    	$('.wysihtml5-textarea').wysihtml5({
-			locale: "fr-FR",
-			image: false,
-			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
-			"events": {
-				"load": function() { 
-					$(editor.composer.iframe).wysihtml5_size_matters();
-				}
-			}
-		});
-		
-		// Gestion de la précision des dates (jour, mois, année)
-		$('.format_date').change(function() {
-			var name = $(this).attr('data-input-name');
-			$('input[name='+name+']').datepicker('remove');
-			$('input[name='+name+']').val('');
-			var format = $(this).val();
-			if (format == 0) {
-				$('input[name='+name+']').datepicker({
-			        language:'fr-FR',
-			        format:'yyyy-dd-mm',
-			        autoclose:true,
-			        minViewMode:0,
-			        startView:0,
-			    });
-			} else if (format == 1) {
-				$('input[name='+name+']').datepicker({
-			        language:'fr-FR',
-			        format:'yyyy-mm',
-			        autoclose:true,
-			        minViewMode:1,
-			        startView:1,
-			    });
-			} else {
-				$('input[name='+name+']').datepicker({
-			        language:'fr-FR',
-			        format:'yyyy',
-			        autoclose:true,
-			        minViewMode:2,
-			        startView:2,
-			    });
-			}
-		});
-		
-		
+				
+		//Gestion de la modale contenant la minimap
 		$(document).on( 'click', '.showGMapsModal', function(e){
 			$('#modalDiv').modal();
 			$('#modalDiv .save').data('id', $(this).data('id'));
@@ -564,6 +577,22 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
     		GMaps.resizeInModal();
 		});
 		
+		$(document).on( 'click', '#modalDiv .save', function(e){
+			var champsId = $(this).data('id');
+			
+			var adresse   = $("#modalDiv .addressInput").val();
+			var latitude  = $("#modalDiv .latitudeInput").val();
+			var longitude = $("#modalDiv .longitudeInput").val();
+
+			if( adresse != "" && latitude != "" && longitude != "" ){
+				$(".geoposition textarea[name='adresse_"+champsId+"'] ").val(adresse);
+				$(".geoposition input[name='latitude_"+champsId+"'] ").val( parseFloat(latitude) );
+				$(".geoposition input[name='longitude_"+champsId+"'] ").val( parseFloat(longitude) );
+			}
+			$(this).data('id', '');
+			$('#modalDiv').modal('hide')
+		});
+		//Fin Gestion de la modale contenant la minimap
 		
 		//Gestion du champ adresse dans la minimap
 		$(document).on( 'click', '#modalDiv .searchAddress', function(e){
@@ -584,7 +613,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		$(document).on( 'focus', '#modalDiv .addressInput', function(e){
 			$(this).select();
 		});
-		
 		// Fin Gestion du champ adresse dans la minimap
 		
 		//Gestion des champs latitude et longitude dans la minimap
@@ -621,29 +649,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 		$(document).on( 'focus', '#modalDiv .longitudeInput', function(e){
 			$(this).select();
 		});
-		
 		//Fin Gestion des champs latitude et longitude dans la minimap
 
-		$(document).on( 'click', '#modalDiv .save', function(e){
-			var champsId = $(this).data('id');
-			
-			var adresse   = $("#modalDiv .addressInput").val();
-			var latitude  = $("#modalDiv .latitudeInput").val();
-			var longitude = $("#modalDiv .longitudeInput").val();
-
-			if( adresse != "" && latitude != "" && longitude != "" ){
-				$(".geoposition textarea[name='adresse_"+champsId+"'] ").val(adresse);
-				$(".geoposition input[name='latitude_"+champsId+"'] ").val( parseFloat(latitude) );
-				$(".geoposition input[name='longitude_"+champsId+"'] ").val( parseFloat(longitude) );
-			}
-			$(this).data('id', '');
-			$('#modalDiv').modal('hide')
-		});
-
-		$(window).resize(function() {
-			GMaps.resizeInModal();
-		});
-		
     });
 
 <?php 
