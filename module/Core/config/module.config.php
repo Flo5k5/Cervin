@@ -768,8 +768,8 @@ return array(
             'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
             'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml',
         		
-            'collection/champ-select/index'                     => __DIR__ . '/../view/Collection/champ-select/index.phtml',
-            'collection/champ-select/modifierOptionAjax'        => __DIR__ . '/../view/Collection/champ-select/modifierOptionAjax.phtml',
+            'collection/champ-select/index'                     => __DIR__ . '/../view/Collection/Champ-Select/index.phtml',
+            'collection/champ-select/modifierOptionAjax'        => __DIR__ . '/../view/Collection/Champ-Select/modifierOptionAjax.phtml',
 
         	'parcours/semantique-transition/index'	=> __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml',
         	'parcours/semantique-transition/ajouter'=> __DIR__ . '/../view/Parcours/Semantique-Transition/ajouter.phtml',
