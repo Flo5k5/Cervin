@@ -603,6 +603,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			if( e.which == 13 ){ // Code touche entrée = 13
 				$("#modalDiv .searchAddress").click();
 				$(this).blur();
+				e.preventDefault();
 			}
 		});
 				
@@ -624,6 +625,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			if( e.which == 13 ){ // Code touche entrée = 13
 				$("#modalDiv .placeMarker").click();
 				$(this).blur();
+				e.preventDefault();
 			}
 		});
 				
@@ -639,6 +641,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			if( e.which == 13 ){ // Code touche entrée = 13
 				$("#modalDiv .placeMarker").click();
 				$(this).blur();
+				e.preventDefault();
 			}
 		});
 				
