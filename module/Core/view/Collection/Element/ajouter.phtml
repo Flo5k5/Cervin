@@ -107,11 +107,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 								} elseif ($element->getAttribute('geoposition')) {
 									echo '<div class="row-fluid">
 										<div class="span10 geoposition"><blockquote>';
-										 echo $this->formLabel($form->get('adresse_'.$element->getAttribute('name')));
+										echo $this->formLabel($form->get('adresse_'.$element->getAttribute('name')));
 										echo $this->formTextarea($form->get('adresse_'.$element->getAttribute('name')));
 										echo $this->formElementErrors($form->get('adresse_'.$element->getAttribute('name')));
 
-										 echo $this->formLabel($form->get('latitude_'.$element->getAttribute('name')));
+										echo $this->formLabel($form->get('latitude_'.$element->getAttribute('name')));
 										echo $this->formText($form->get('latitude_'.$element->getAttribute('name'))); 
 										echo $this->formElementErrors($form->get('latitude_'.$element->getAttribute('name')));
 
