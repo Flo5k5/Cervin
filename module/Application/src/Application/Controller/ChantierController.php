@@ -54,7 +54,7 @@ class ChantierController extends AbstractActionController
 			$this->getResponse()->setStatusCode(404);
 			return;
 		}
-		if ($element->utilisateur != null) {
+		if ($element->utilisateur != null && $element->utilisateur != $idUser) {
 			$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$element->utilisateur->id));
 			$this->flashMessenger()->addErrorMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->displayName) .'.'));
 			return $this->redirect()->toRoute('element/voir', array('id'=>$idElement));
@@ -104,7 +104,7 @@ class ChantierController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	if ($sous_parcours->utilisateur != null) {
+    	if ($sous_parcours->utilisateur != null  && $sous_parcours->utilisateur != $idUser) {
     		$user_chantier = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('id'=>$sous_parcours->utilisateur->id));
     		$this->flashMessenger()->addErrorMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est déjà en chantier par '. $escapeHtml($user_chantier->displayName) .'.'));
     		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
@@ -113,9 +113,13 @@ class ChantierController extends AbstractActionController
     	$this->getEntityManager()->flush();
     	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
 
-    	$idScene = (int) $this->params()->fromRoute('idScene', 0);
-    	$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>$idScene));
-    	return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
+    	$return = $this->params()->fromRoute('return');
+    	if ($return == 'parcours') {
+    		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
+    	} else {
+    		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>(int)$return));
+    		return $this->redirect()->toRoute('scene/editScene', array('id'=>(int)$return));
+    	} 
     }
     
     public function terminerChantierSousParcoursAction() {

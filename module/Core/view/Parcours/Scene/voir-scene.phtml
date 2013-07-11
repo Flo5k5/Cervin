@@ -84,7 +84,8 @@ $this->headTitle($title); ?>
 			   				<li>
 								<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
 										'idSousParcours' => $sous_parcours->id,
-										'idUser' => $this->zfcUserIdentity()->getId())); ?>">
+										'idUser' => $this->zfcUserIdentity()->getId(),
+										'return' => $scene->id)); ?>">
 									<span class="text-warning"><i class="icon-cogs"> </i></span> Commencer un chantier sur ce sous-parcours
 								</a>
 							</li>
