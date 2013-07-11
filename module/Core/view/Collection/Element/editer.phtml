@@ -164,7 +164,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 					<dd>
 						<?php 
 							echo $this->escapeHtml($element->type_element->nom); 
-							echo '</br></br>';
+							echo '<br/><br/>';
 						?>
 					</dd>
 					<?php foreach($ChampsDatasElement as $champData) :?>
@@ -194,7 +194,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 									'.$this->escapeHtml($texte).'
 								</span>';
-								echo '</br></br>';
+								echo '<br/><br/>';
 								break;
 							case 'select':
 								if($champData['data'] == null or $champData['data']->option == null){
@@ -215,7 +215,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										data-value=\''.$initSelection.'\'
 										data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 										</span>';
-								echo '</br></br>';
+								echo '<br/><br/>';
 								break;
 							case 'textarea':
 								if($champData['data'] == null or $champData['data']->textarea == null){
@@ -230,7 +230,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 	    							'.$this->escapeHtml($textarea).'
     							</span>';
-								echo '</br></br>';
+								echo '<br/><br/>';
 								break;
 
 							case 'date':
@@ -288,7 +288,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 										'.$date.'
 									</span>';
 								echo '</div> </div>';
-								echo '</br>';
+								echo '<br/>';
 								break;
 							
 							case 'nombre':
@@ -304,7 +304,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 											data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 										'.$this->escapeHtml($nombre).'
 									</span>';
-								echo '</br></br>';
+								echo '<br/><br/>';
 								break;
 
 							case 'url':
@@ -320,11 +320,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 	    								data-url="'.$this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)).'">
 	    							'.$this->escapeHtml($url).'
     							</span>';
-								echo '</br></br>';
+								echo '<br/><br/>';
 								break;
 									
 							case 'fichier':
-								echo 'Fichier actuel : <a href="' . ROOT_DIR . $champData['data']->fichier.'">'. $this->escapeHtml(basename($champData['data']->fichier)) .'</a></br>';
+								echo 'Fichier actuel : <a href="' . ROOT_DIR . $champData['data']->fichier.'">'. $this->escapeHtml(basename($champData['data']->fichier)) .'</a><br/>';
 								echo '<form class="file-input-form" method="POST" action = "'. $this->url("element/editer",array('id'=> $element->id,'idData'=>$champData['champ']->id)) .'">
 									<input title="Parcourir" name="file-input" id="'.$champData['champ']->id.'" type="file">
 									<button class="btn btn-primary" type="submit"><i class="icon-ok"> </i> Modifier</button>

@@ -194,7 +194,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					<dd>
 						<?php 
 							echo $this->escapeHtml($element->type_element->nom); 
-							echo '</br></br>';
+							echo '<br/><br/>';
 						?>
 					</dd>
 
@@ -223,7 +223,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 									break;
 	        					case 'texte':
 									if ($champData['data']) {
@@ -231,7 +231,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'textarea':
 									if ($champData['data']) {
@@ -239,7 +239,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'date':
 									if ($champData['data']) {
@@ -257,7 +257,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'nombre':
 									if ($champData['data']) {
@@ -265,7 +265,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'fichier':
 									if ($champData['data']) {
@@ -273,7 +273,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'url':
 									if ($champData['data']) {
@@ -281,19 +281,19 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								case 'geoposition':
 									if ($champData['data']) {
 										echo ($champData['data']->adresse) ? 'Adresse : '.$this->escapeHtml($champData['data']->adresse).'' : $null ;
-										echo '</br>';
+										echo '<br/>';
 										echo ($champData['data']->latitude && 
 											$champData['data']->longitude) ? 
 										'Latitude : '.$this->escapeHtml($champData['data']->latitude).'<br> Longitude : '.$this->escapeHtml($champData['data']->longitude).'' : $null ;
 									} else {
 										echo $null;
 									}
-									echo '</br></br>';
+									echo '<br/><br/>';
 								break;
 								?>
 							<?php endswitch ;?>
