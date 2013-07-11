@@ -25,12 +25,12 @@ class DataGeoposition extends Data
 {
 
 	/**
-	 * @ORM\Column(type="decimal", scale=8)
+	 * @ORM\Column(type="decimal", precision=18, scale=15)
 	 */
 	protected $latitude;
 	
 	/**
-	 * @ORM\Column(type="decimal", scale=8)
+	 * @ORM\Column(type="decimal", precision=18, scale=15)
 	 */
 	protected $longitude;
 
