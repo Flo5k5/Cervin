@@ -191,7 +191,7 @@ class ChampTypeElementForm extends Form
 						->setLabel('Adresse')
 						->setAttributes(array(
 							'class'    => 'adresse span11 ',
-							'rows'     => '2',
+							'rows'     => '4',
 							'type'     => 'hidden',
 							'readonly' => 'readonly'
 						));
