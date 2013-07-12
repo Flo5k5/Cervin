@@ -56,7 +56,7 @@ php "%bin_doctrine%" orm:schema-tool:update --force
 echo.
 echo Importing fixtures...
 echo.
-php "%bin_doctrine%" data-fixture:import
+php "%bin_doctrine%" data-fixture:import > fixtures.log
 goto EXIT
 
 :EXIT
