@@ -147,8 +147,9 @@ class AdminController extends AbstractActionController
                             data-toggle="popover"
                             data-html="true"
                             data-content="Dernière connexion : '.
-                            (($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').'<br>
-                            Date de création : '.(($user->derniereConnexion) ? $user->created->format('Y-m-d à h:i') : 'N/A').'
+                            (($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').' <br>
+                            Date de création : '.
+                            (($user->created) ? $user->created->format('Y-m-d') : 'N/A').'
                             "
                             >
                                 <i class="icon-time"></i>
