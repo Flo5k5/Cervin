@@ -83,6 +83,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							<?php echo $is_artefact ? 'Supprimer cet artefact' : 'Supprimer ce média'; ?>
 						</a>
 					</li>
+					 <li class="divider"></li>
+					<li class="disabled"><a tabindex="-1" href="#">Crée le <?php echo $element->created->format('Y-d-m');?></a></li>
+					<li class="disabled"><a tabindex="-1" href="#">Modifié le <?php echo $element->updated->format('Y-d-m');?></a></li>
 				</ul>
     		</div>
 		<?php elseif ($element->utilisateur === $this->zfcUserIdentity()): ?>
@@ -124,6 +127,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 							<?php echo $is_artefact ? 'Supprimer cet artefact' : 'Supprimer ce média'; ?>
 						</a>
 					</li>
+					 <li class="divider"></li>
+					<li class="disabled"><a tabindex="-1" href="#">Crée le <?php echo $element->created->format('Y-d-m');?></a></li>
+					<li class="disabled"><a tabindex="-1" href="#">Modifié le <?php echo $element->updated->format('Y-d-m');?></a></li>
 				</ul>
     		</div>
 

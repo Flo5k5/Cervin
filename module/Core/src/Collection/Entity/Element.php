@@ -83,7 +83,7 @@ class Element implements InputFilterAwareInterface
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
-    private $created;
+    protected $created;
 
     /**
      * @var date $updated
@@ -91,7 +91,7 @@ class Element implements InputFilterAwareInterface
      * @ORM\Column(type="date", nullable=true)
      * @Gedmo\Timestampable
      */
-    private $updated;
+    protected $updated;
 
     /**
      * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="elements_chantier")

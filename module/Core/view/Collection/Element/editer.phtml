@@ -111,6 +111,9 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 						<?php echo $is_artefact ? 'Supprimer cet artefact' : 'Supprimer ce média'; ?>
 					</a>
 				</li>
+				 <li class="divider"></li>
+				<li class="disabled"><a tabindex="-1" href="#">Crée le <?php echo $element->created->format('Y-d-m');?></a></li>
+					<li class="disabled"><a tabindex="-1" href="#">Modifié le <?php echo $element->updated->format('Y-d-m');?></a></li>
 			</ul>
     	</div>
     </div>

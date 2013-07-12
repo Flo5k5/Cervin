@@ -74,7 +74,7 @@ $this->headTitle($title);
 							<?php echo $element->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
 						</a>
 					</td>
-		   			<td><?php echo $element->utilisateurChange->format('Y-m-d à h:i'); ?></td>
+		   			<td><?php echo $element->utilisateurChange->format('Y-d-m à h:i'); ?></td>
 					<td>
 						<p class="text-right">
 						<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
@@ -119,7 +119,7 @@ $this->headTitle($title);
 							<?php echo $sous_parcour->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
 						</a>
 					</td>
-		    		<td><?php echo $sous_parcour->utilisateurChange->format('Y-m-d à h:i'); ?></td>
+		    		<td><?php echo $sous_parcour->utilisateurChange->format('Y-d-m à h:i'); ?></td>
 					<td>
 						<p class="text-right">
 						<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(

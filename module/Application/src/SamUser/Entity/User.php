@@ -19,12 +19,13 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityRepository;
 
 /**
  * An example of how to implement a role aware user entity.
  *
- * @Gedmo\Mapping\Annotation\Loggable
+ * @Gedmo\Loggable
  * @ORM\Entity(repositoryClass="SamUser\Entity\UserRepository")
  * @ORM\Table(name="mbo_users")
  * 
@@ -65,6 +66,14 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      * @ORM\Column(type="string", length=128)
      */
     protected $password;
+
+    /**
+     * @var date $created
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $created;
 
     /**
      * @var int
@@ -126,6 +135,12 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      * @ORM\Column(type="string", length=100)
      */
     protected $pays;
+
+    /**
+     * @var datetime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $derniereConnexion;
     
     /**
      * Initialies the roles variable.

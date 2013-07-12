@@ -141,6 +141,18 @@ class AdminController extends AbstractActionController
 	            } else {
 	            	$editable_role = ' <span id="role" > '.$role.' </span> ';
 	            }
+
+                $info_date = '<a href="#" 
+                            class="btn btn-info Info"
+                            data-toggle="popover"
+                            data-html="true"
+                            data-content="Derniére connexion : '.
+                            (($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').'<br>
+                            Date de creation : '.(($user->derniereConnexion) ? $user->create->format('Y-m-d à h:i') : 'N/A').'
+                            "
+                            >
+                                <i class="icon-time"></i>
+                            </a>';
 	            
                 $aaData[] = array(
                     '<span id="username" 
@@ -187,7 +199,7 @@ class AdminController extends AbstractActionController
                 		>'.$escapeHtml($user->pays).' </span>',
                 		
                     $editable_role,
-                	$btn_reset_password.$btn_supprimer
+                	$btn_reset_password.$btn_supprimer.$info_date
                 );
             }
             $dataTable->setAaData($aaData);
