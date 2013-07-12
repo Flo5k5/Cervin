@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilterInterface;
 use Zend\Filter;
 use Exception;
 use Doctrine\ORM\EntityRepository;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 use Zend\Form\Form as Form;
 use Zend\Form\Element as FormElement;
 
@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Entité d'un élément de la collection numérique (artefact ou média)
  *
- * @Gedmo\Mapping\Annotation\Loggable
+ * @Gedmo\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_element")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -54,7 +54,7 @@ class Element implements InputFilterAwareInterface
     /**
      * Titre de l'élément
      * 
-     * @Gedmo\Mapping\Annotation\Versioned
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $titre;
@@ -62,7 +62,7 @@ class Element implements InputFilterAwareInterface
     /**
      * Descritpion de l'élément
      * 
-     * @Gedmo\Mapping\Annotation\Versioned
+     * @Gedmo\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
@@ -78,9 +78,33 @@ class Element implements InputFilterAwareInterface
     protected $datas;
 
     /**
+     * @var date $created
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Timestampable
+     */
+    private $updated;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="elements_chantier")
      */
     protected $utilisateur;
+
+    /**
+     * @var datetime $utilisateurChange
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"utilisateur"})
+     */
+    protected $utilisateurChange;
     
     /**
      * Etat de l'élément : brouillon ou public
