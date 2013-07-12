@@ -34,6 +34,7 @@ $this->headTitle($title);
 		<tr>
 			<th>Elément</th>
 			<th>Type</th>
+			<th>Commencé le</th>
 			<th></th>
 		</tr>
 		<?php foreach ($user->elements_chantier as $element) :?>
@@ -50,6 +51,7 @@ $this->headTitle($title);
 		    <?php  else : ?>
 		    	<td>Média</td>
 		    <?php endif; ?>
+		    <td><?php echo $element->utilisateurChange->format('Y-m-d à h:m'); ?></td>
 			<td>
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
@@ -80,8 +82,8 @@ $this->headTitle($title);
 		<tr>
 			<th>Sous-parcours</th>
 			<th>Parcours</th>
+			<th>Commencé le</th>
 			<th></th>
-		</tr>
 		<?php foreach ($user->sous_parcours_chantier as $sous_parcours) :?>
 		<tr>
 			<td><?php echo $sous_parcours->titre; ?></td>
@@ -90,6 +92,7 @@ $this->headTitle($title);
 				<?php echo $sous_parcours->parcours->titre; ?>
 				</a>
 			</td>
+		    <td><?php echo $sous_parcours->utilisateurChange->format('Y-m-d à h:m'); ?></td>
 		   
 			<td>
 				<p class="text-right">
