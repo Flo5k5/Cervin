@@ -146,9 +146,9 @@ class AdminController extends AbstractActionController
                             class="btn btn-info Info"
                             data-toggle="popover"
                             data-html="true"
-                            data-content="Derniére connexion : '.
+                            data-content="Dernière connexion : '.
                             (($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').'<br>
-                            Date de creation : '.(($user->derniereConnexion) ? $user->create->format('Y-m-d à h:i') : 'N/A').'
+                            Date de création : '.(($user->derniereConnexion) ? $user->created->format('Y-m-d à h:i') : 'N/A').'
                             "
                             >
                                 <i class="icon-time"></i>
