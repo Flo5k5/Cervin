@@ -104,7 +104,7 @@ return array(
             		'demarrerChantierSousParcours' => array(
             			'type' => 'Segment',
             			'options' => array(
-            				'route' => '/demarrerChantierSousParcours/:idSousParcours/:idUser',
+            				'route' => '/demarrerChantierSousParcours/:idSousParcours/:idUser/:return',
             				'constraints' => array(
             					'idSousParcours'    => '[0-9]+',
             					'idUser'     		=> '[0-9]+',
@@ -112,6 +112,7 @@ return array(
             				'defaults' => array(
             					'controller' => 'Chantier',
             					'action'     => 'demarrerChantierSousParcours',
+            					'return'     => 'parcours|[0-9]+',
             				),
             			),
             		),
@@ -282,6 +283,8 @@ return array(
             'admin/admin/show-logs'           => __DIR__ . '/../view/Admin/Admin/show-logs.phtml',
             'application/page/voir'           => __DIR__ . '/../view/application/page/voir.phtml',
             'application/page/modifier'       => __DIR__ . '/../view/application/page/modifier.phtml',
+            'chantier'						  => __DIR__ . '/../view/application/chantier/index.phtml',
+            'chantier/admin'				  => __DIR__ . '/../view/application/chantier/admin.phtml',
         ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',

@@ -159,7 +159,8 @@ $this->headScript()->appendFile($this->basePath() . '/js/jquery.panzoom.js');
 							<!-- PAS EN CHANTIER -->
 							<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
 									'idSousParcours' => $sous_parcours->id,
-									'idUser' => $this->zfcUserIdentity()->getId())); ?>" 
+									'idUser' => $this->zfcUserIdentity()->getId(),
+									'return' => 'parcours')); ?>" 
 								class="btn btn-warning btn-block">
 								<i class="icon-cogs"> </i> Commencer un chantier sur ce sous-parcours
 							</a>
