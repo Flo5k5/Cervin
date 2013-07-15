@@ -153,7 +153,6 @@ class ElementController extends AbstractActionController
 					//return $this->redirect()->toRoute('element/voirElement', array('id'=>$element->id));
 					return $this->redirect()->toRoute('element/voir', array('id'=>$element->id));
 				} else {
-					$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la création de l\'élément'));
 					return new ViewModel(array('type'=>$type, 'types_elements' => $types_elements, 'form' => $form, 'type_element_id'=>$type_element_id));
 				}
 			}
