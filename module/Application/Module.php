@@ -38,12 +38,12 @@ class Module implements AutoloaderProviderInterface,
         // standard annotation reader
         $annotationReader = new \Doctrine\Common\Annotations\AnnotationReader;
 
+        $app  = $e  ->getParam('application');
+        $sm   = $e  ->getApplication()->getServiceManager();
+        $em   = $sm ->get('doctrine.entitymanager.orm_default');
+        $evm  = $em ->getEventManager();
+        $evsm = $app->getEventManager()->getSharedManager(); 
 
-        $sm = $e->getApplication()->getServiceManager();
-        $em = $sm->get('doctrine.entitymanager.orm_default');
-        $evm = $em->getEventManager();
-
-        
         //$tablePrefix = new TablePrefix('mbo_');
         //$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
       	
@@ -124,85 +124,6 @@ class Module implements AutoloaderProviderInterface,
         
         $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
         	$filter = $e->getTarget();
-        	
-        	$filter->add(array(
-        		'name'     => 'telephone',
-        		'required'   => true,
-        		'allowEmpty' => false,
-        		'validators' => array(
-        			array(
-        				'name' => 'Regex',
-        				'break_chain_on_failure' => true,
-        				'options' => array(
-        					'pattern' => '#^0[1-68]([-. ]?\d{2}){4}$#'
-        				),
-        			),
-        		),
-        	));
-        	
-			$filter->add(array(
-				'name'     => 'adresse',
-				'required'   => true,
-				'allowEmpty' => false,
-				'validators' => array(
-					array(
-						'name' => 'StringLength',
-						'break_chain_on_failure' => true,
-						'options' => array(
-							'min' => 5,
-							'max' => 255
-						),
-					),
-				),
-			));
-			
-			$filter->add(array(
-				'name'     => 'code_postal',
-				'required'   => true,
-				'allowEmpty' => false,
-				'validators' => array(
-					array(
-						'name' => 'PostCode',
-						'break_chain_on_failure' => true,
-						'options' => array(
-							'locale' => 'fr_FR'
-						),
-					),
-				),
-			));
-			
-			$filter->add(array(
-				'name'     => 'ville',
-				'required'   => true,
-				'allowEmpty' => false,
-				'validators' => array(
-					array(
-						'name' => 'StringLength',
-						'break_chain_on_failure' => true,
-						'options' => array(
-							'min' => 1,
-							'max' => 255
-						),
-					),
-				),
-			));
-			
-			
-			$filter->add(array(
-				'name'     => 'pays',
-				'required'   => true,
-				'allowEmpty' => false,
-				'validators' => array(
-					array(
-						'name' => 'StringLength',
-						'break_chain_on_failure' => true,
-						'options' => array(
-							'min' => 1,
-							'max' => 255
-						),
-					),
-				),
-			));
 			
 			$filter->add(array(
 				'name'     => 'checkboxAgreement',
@@ -223,34 +144,22 @@ class Module implements AutoloaderProviderInterface,
 			
 		});
         
-        $zfcServiceEvents  = $sm->get('zfcuser_user_service')->getEventManager();
+        //$zfcServiceEvents  = $sm->get('zfcuser_user_service')->getEventManager();
         
-        $zfcServiceEvents->attach('register', function($e) {
+        /*$zfcServiceEvents->attach('register', function($e) {
         	$form = $e->getParam('form');
         	//$user = $e->getParam('user');
-        });
-        
-
-
-                $app = $e->getParam('application');
-                $evm  = $app->getEventManager()->getSharedManager(); 
-
-
-      
+        });*/
 
         // adding action for user login
-                $evm->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate', function($e) use ($em) { 
-        			//$user = $e->getParam('user');  // User account object
-        			//$id = $user->getId(); // get user id
+        $evsm->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate', function($e) use ($em) { 
+            //$user = $e->getParam('user');  // User account object
+            //$id = $user->getId(); // get user id
 
-                    $user = $em->find('SamUser\Entity\User', $e->getIdentity());
-                    $user->__set('derniereConnexion', new \DateTime('NOW') );
-                    $em->flush();
-                    
-
-                    
-        		}
-        );
+            $user = $em->find('SamUser\Entity\User', $e->getIdentity());
+            $user->setDerniereConnexion( new \DateTime('NOW') );
+            $em->flush();
+        });
         
         /*$translator = new Translator();
         $translator->addTranslationFile(

@@ -144,11 +144,11 @@ class Champ implements InputFilterAwareInterface
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
     		
-    		$inputFilter->add($factory->createInput(array(
+    		/*$inputFilter->add($factory->createInput(array(
     				'name' => 'id',
     				'required' => true,
     				'filters' => array(array('name' => 'Int')),
-    		)));
+    		)));*/
     	
     		$inputFilter->add($factory->createInput(array(
     			'name' => 'label',
