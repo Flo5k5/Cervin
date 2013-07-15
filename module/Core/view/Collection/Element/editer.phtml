@@ -563,7 +563,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
 			"events": {
 				"load": function() { 
-					$(editor.composer.iframe).wysihtml5_size_matters();
+					$("editor.composer.iframe").wysihtml5_size_matters();
 				}
 			}
 		});

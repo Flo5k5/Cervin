@@ -250,7 +250,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			stylesheets: ["<?php echo $this->basePath() . '/css/bootstrap.css';?>"],
 			"events": {
 				"load": function() { 
-					$(editor.composer.iframe).wysihtml5_size_matters();
+					$("editor.composer.iframe").wysihtml5_size_matters();
 				}
 			}
 		});
@@ -267,7 +267,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			        format:'yyyy-dd-mm',
 			        autoclose:true,
 			        minViewMode:0,
-			        startView:0,
+			        startView:0
 			    });
 			} else if (format == 1) {
 				$('input[name='+name+']').datepicker({
@@ -275,7 +275,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			        format:'yyyy-mm',
 			        autoclose:true,
 			        minViewMode:1,
-			        startView:1,
+			        startView:1
 			    });
 			} else {
 				$('input[name='+name+']').datepicker({
@@ -283,7 +283,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 			        format:'yyyy',
 			        autoclose:true,
 			        minViewMode:2,
-			        startView:2,
+			        startView:2
 			    });
 			}
 		});
