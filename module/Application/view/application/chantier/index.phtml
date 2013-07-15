@@ -51,7 +51,7 @@ $this->headTitle($title);
 		    <?php  else : ?>
 		    	<td>Média</td>
 		    <?php endif; ?>
-		    <td><?php echo $element->utilisateurChange->format('Y-m-d à h:i'); ?></td>
+		    <td><?php echo (($element->utilisateurChange) ? $element->utilisateurChange->format('Y-m-d à H:i') : 'N/A'); ?></td>
 			<td>
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
@@ -92,7 +92,7 @@ $this->headTitle($title);
 				<?php echo $sous_parcours->parcours->titre; ?>
 				</a>
 			</td>
-		    <td><?php echo $sous_parcours->utilisateurChange->format('Y-m-d à h:i'); ?></td>
+		    <td><?php echo (($sous_parcours->utilisateurChange) ? $sous_parcours->utilisateurChange->format('Y-m-d à H:i') : 'N/A'); ?></td>
 		   
 			<td>
 				<p class="text-right">

@@ -15,6 +15,9 @@
 //define('PREFIX', (string) 'mbo_');
 define('PREFIX', (string) '');
 
+//Force the server to use this timezone
+date_default_timezone_set('Europe/Paris');  
+
 return array(
     'service_manager' => array(
 	    'factories' => array(
