@@ -22,13 +22,7 @@ class ChampTypeElementForm extends Form
 		parent::__construct('champtypeelement');
 		$this->setAttribute('method', 'post');
 		
-		$hidden = new Element\Hidden();
-		$hidden->setName('id')
-			->setAttributes(array(
-				'type'  => 'hidden',
-				'class' => 'span12'
-			));
-		$this->add($hidden);
+
 		
 		$titre = new Element\Text();
 		$titre->setName('titre')
