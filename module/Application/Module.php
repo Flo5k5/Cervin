@@ -38,6 +38,7 @@ class Module implements AutoloaderProviderInterface,
         // standard annotation reader
         $annotationReader = new \Doctrine\Common\Annotations\AnnotationReader;
 
+
         $sm = $e->getApplication()->getServiceManager();
         $em = $sm->get('doctrine.entitymanager.orm_default');
         $evm = $em->getEventManager();
@@ -229,12 +230,25 @@ class Module implements AutoloaderProviderInterface,
         	//$user = $e->getParam('user');
         });
         
+
+
+                $app = $e->getParam('application');
+                $evm  = $app->getEventManager()->getSharedManager(); 
+
+
+      
+
         // adding action for user login
-        $zfcServiceEvents->attach('authenticate.post', function($e){
-        			$user = $e->getParam('user');  // User account object
-        			$id = $user->getId(); // get user id
-        			\Doctrine\Common\Util\Debug::dump($user);
-					
+                $evm->attach('ZfcUser\Authentication\Adapter\AdapterChain', 'authenticate', function($e) use ($em) { 
+        			//$user = $e->getParam('user');  // User account object
+        			//$id = $user->getId(); // get user id
+
+                    $user = $em->find('SamUser\Entity\User', $e->getIdentity());
+                    $user->__set('derniereConnexion', new \DateTime('NOW') );
+                    $em->flush();
+                    
+
+                    
         		}
         );
         

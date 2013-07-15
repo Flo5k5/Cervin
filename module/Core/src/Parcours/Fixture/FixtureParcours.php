@@ -1102,7 +1102,7 @@ class FixtureParcours implements FixtureInterface
 		
 		$sous_parcours_changement->scene_depart = $scene10;
 		$sous_parcours_changement->addScene($scene10);
-		$manager->flush();
+		
 		
 		//
 		// Transition entre deux sous-parcours

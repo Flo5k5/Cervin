@@ -11,3 +11,4 @@ composer.lock
 push_github.bat
 bat.push_github.bat
 .externalToolBuilders/
+fixtures.log

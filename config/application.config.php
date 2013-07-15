@@ -19,8 +19,7 @@ return array(
         //'AssetManager',
         //'Album',
         'Core',
-        'DataTable',
-        'ZF2FileUploadExamples'
+        'DataTable'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

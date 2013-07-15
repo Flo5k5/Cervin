@@ -2,6 +2,7 @@
 
 namespace Parcours\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
@@ -11,7 +12,7 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * Entité d'un sous-parcours
  *
- * @Gedmo\Mapping\Annotation\Loggable
+ * @Gedmo\Loggable
  * @ORM\Entity
  * @ORM\Table(name="mbo_sousparcours")
  * 
@@ -64,12 +65,37 @@ class SousParcours implements InputFilterAwareInterface
      * @ORM\OneToOne(targetEntity="Parcours\Entity\SousParcours", cascade={"persist"})
      **/
     protected $sous_parcours_suivant;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="SamUser\Entity\User", inversedBy="sous_parcours_chantier")
      */
     protected $utilisateur;
-    
+
+    /**
+     * @var date $created
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Gedmo\Timestampable
+     */
+    private $updated;
+
+    /**
+     * @var datetime $utilisateurChange
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"utilisateur"})
+     */
+    protected $utilisateurChange;
+
+
     /**
      * Ajout d'une transition au sous-parcours
      * 
