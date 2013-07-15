@@ -68,9 +68,9 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     protected $password;
 
     /**
-     * @var date $created
+     * @var datetime
      *
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
     protected $created;
@@ -442,7 +442,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      */
     public function getPays()
     {
-    	return $this->pays;
+        return $this->pays;
     }
     
     /**
@@ -454,7 +454,51 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      */
     public function setPays($pays)
     {
-    	$this->pays = $pays;
+        $this->pays = $pays;
+    }
+        
+    /**
+     * Retourne la date de création.
+     *
+     * @return Datetime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+    
+    /**
+     * Modifie la date de création.
+     *
+     * @param Datetime $created
+     *
+     * @return void
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+            
+    /**
+     * Retourne la date de dernière connexion.
+     *
+     * @return Datetime
+     */
+    public function getDerniereConnexion()
+    {
+    	return $this->derniereConnexion;
+    }
+    
+    /**
+     * Modifie la date de dernière connexion.
+     *
+     * @param Datetime $derniereConnexion
+     *
+     * @return void
+     */
+    public function setDerniereConnexion($derniereConnexion)
+    {
+    	$this->derniereConnexion = $derniereConnexion;
     }
     
     public function removeRoles(Array $elements)
@@ -470,11 +514,11 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
     		 
-    		$inputFilter->add($factory->createInput(array(
+    		/*$inputFilter->add($factory->createInput(array(
     			'name' => 'id',
     			'required' => true,
     			'filters' => array(array('name' => 'Int')),
-    		)));
+    		)));*/
     		 
     		$inputFilter->add($factory->createInput(array(
     			'name' => 'username',
@@ -522,6 +566,84 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     			),
     		)));
     		
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'telephone',
+                'required'   => true,
+                'allowEmpty' => false,
+                'validators' => array(
+                    array(
+                        'name' => 'Regex',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'pattern' => '#^0[1-68]([-. ]?\d{2}){4}$#'
+                        ),
+                    ),
+                ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'adresse',
+                'required'   => true,
+                'allowEmpty' => false,
+                'validators' => array(
+                    array(
+                        'name' => 'StringLength',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'min' => 5,
+                            'max' => 255
+                        ),
+                    ),
+                ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'code_postal',
+                'required'   => true,
+                'allowEmpty' => false,
+                'validators' => array(
+                    array(
+                        'name' => 'PostCode',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'locale' => 'fr_FR'
+                        ),
+                    ),
+                ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'ville',
+                'required'   => true,
+                'allowEmpty' => false,
+                'validators' => array(
+                    array(
+                        'name' => 'StringLength',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'min' => 1,
+                            'max' => 255
+                        ),
+                    ),
+                ),
+            )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'pays',
+                'required'   => true,
+                'allowEmpty' => false,
+                'validators' => array(
+                    array(
+                        'name' => 'StringLength',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'min' => 1,
+                            'max' => 255
+                        ),
+                    ),
+                ),
+            )));
+
     		$this->inputFilter = $inputFilter;
     
     	}

@@ -146,12 +146,9 @@ class AdminController extends AbstractActionController
                             class="btn btn-info Info"
                             data-toggle="popover"
                             data-html="true"
-                            data-content="Dernière connexion : '.
-                            (($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').' <br>
-                            Date de création : '.
-                            (($user->created) ? $user->created->format('Y-m-d') : 'N/A').'
-                            "
-                            >
+                            data-content="
+                			Dernière connexion : '.(($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à h:i') : 'N/A').'<br>
+                            Date de création : '.(($user->created) ? $user->created->format('Y-m-d à h:i') : 'N/A').'">
                                 <i class="icon-time"></i>
                             </a>';
 	            
@@ -780,13 +777,15 @@ class AdminController extends AbstractActionController
     	
     		if ($form->isValid()) {
     			
-    			$username = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('username'=>$user->getUsername()));
-    			$email    = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
+    			$username  = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('username'=>$user->getUsername()));
+    			$email     = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
+    			$telephone = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('telephone'=>$user->getTelephone()));
 
-    			if($username !== null || $email !== null){
+    			if($username !== null || $email !== null || $telephone !== null){
     				
-    				if($username !== null){ $this->flashMessenger()->addErrorMessage("Le nom d'utilisateur est déjà utilisé"); }
-    				if($email    !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
+    				if($username  !== null){ $this->flashMessenger()->addErrorMessage("Le nom d'utilisateur est déjà utilisé"); }
+    				if($email     !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
+    				if($telephone !== null){ $this->flashMessenger()->addErrorMessage("Le numéro de téléphone doit être unique"); }
 
     				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
     			}
@@ -800,17 +799,33 @@ class AdminController extends AbstractActionController
     			
     				//On hash le mot de passe avec bcrypt puis on l'enregistre
     				$user->setPassword( $bcrypt->create( $password ) );
-    			
-    				//On récupère le role 'Utilisateur'
-    				$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array(roleId=>'Utilisateur'));
+    			 
+                    //On ajoute la date de création de l'utilisateur
+                    //$user->setCreated( new \DateTime('NOW') );
+        			
+                    //On récupère le role 'Utilisateur'
+    				$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array('roleId'=>'Utilisateur'));
     				
     				//Et on l'ajoute à l'utilisateur
     				$user->addRole($role);
-    				
+    			 } catch (\Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage("Une erreur est survenue durant la création de l'utilisateur");
+                    //$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
+                    return $this->redirect()->toRoute('admin/ajouter-utilisateur');
+                }
+
+                try {
     				//On persiste les données en base de donnée
     				$this->getEntityManager()->persist($user);
     				$this->getEntityManager()->flush();
     				
+                } catch (\Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage("Une erreur est survenue durant l'insertion en base de donnée");
+                    //$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
+                    return $this->redirect()->toRoute('admin/ajouter-utilisateur');
+                }
+
+                try {
     				//On envoie un mail contenant le nouveau mot de passe
     				$message = new Message();
     				$message->addTo( $user->getEmail() )
@@ -826,11 +841,11 @@ Bonne journée! ")
     				 
     				$transport = new SendmailTransport();
     				$transport->send($message);
-    			} catch (\Exception $ex) {
-    				$this->flashMessenger()->addErrorMessage("Une erreur est survenue");
-    				//$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
-    				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
-    			}
+                } catch (\Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage("Une erreur est survenue durant l'envoi du mail");
+                    //$this->flashMessenger()->addErrorMessage($escapeHtml($ex->getMessage()));
+                    return $this->redirect()->toRoute('admin/ajouter-utilisateur');
+                }
     			
     			$this->flashMessenger()->addSuccessMessage(sprintf('L\'utilisateur %1$s a bien été créé.', $escapeHtml($user->getDisplayName())));
     			return $this->redirect()->toRoute('admin/gestion-users');
