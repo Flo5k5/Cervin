@@ -335,7 +335,6 @@ class Element implements InputFilterAwareInterface
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
 
-    		 
     		$inputFilter->add($factory->createInput(array(
     				'name' => 'titre',
     				'required' => true,
