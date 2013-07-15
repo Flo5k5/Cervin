@@ -136,12 +136,15 @@ class ElementController extends AbstractActionController
 				} else {
 					$element = new \Collection\Entity\Media(null, $type_element);
 				}
+
 				$form->setInputFilter($element->getInputFilter($form));
 				
 				$data = array_merge_recursive(
 						$this->getRequest()->getPost()->toArray(),
 						$this->getRequest()->getFiles()->toArray()
 				);
+				$data = $this->getRequest()->getPost();
+				var_dump($data);
 				$form->setData($data);
 				if ($form->isValid()) {
 					$element->populate($this->getEntityManager(), $data);
@@ -151,6 +154,7 @@ class ElementController extends AbstractActionController
 					//return $this->redirect()->toRoute('element/voirElement', array('id'=>$element->id));
 					return $this->redirect()->toRoute('element/voir', array('id'=>$element->id));
 				} else {
+					$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la création de l\'élément'));
 					return new ViewModel(array('type'=>$type, 'types_elements' => $types_elements, 'form' => $form, 'type_element_id'=>$type_element_id));
 				}
 			}

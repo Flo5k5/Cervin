@@ -131,6 +131,7 @@ class Element implements InputFilterAwareInterface
      */
     public function populate(EntityManager $em, $data = array())
     {
+    	$this->id = $data['id']; 
         $this->titre = $data['titre'];
         $this->description = $data['description'];
         $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
@@ -309,12 +310,7 @@ class Element implements InputFilterAwareInterface
     	if (!$this->inputFilter) {
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
-    		 
-    		$inputFilter->add($factory->createInput(array(
-    				'name' => 'id',
-    				'required' => true,
-    				'filters' => array(array('name' => 'Int')),
-    		)));
+
     		 
     		$inputFilter->add($factory->createInput(array(
     				'name' => 'titre',
@@ -422,20 +418,6 @@ class Element implements InputFilterAwareInterface
     					));
     					break;
                     case 'geoposition':
-
-                    //$form->add( $geoFilter = new Form(), array( 'name' => 'champ_'.strval($champ->id) ) );
-                   // $geoFilter->setInputFilter( $geoFilter = new InputFilter() );
-            
-                        /*$inputFilter->add($factory->createInput(
-                            array(
-                                'name' => 'champ_'.strval($champ->id),
-                                'required' => false
-                            )
-                        ));*/
-
-
-                        
-
                         $inputFilter->add($factory->createInput(
                             array(
                                 'name' => 'adresse_champ_'.strval($champ->id),
@@ -476,8 +458,6 @@ class Element implements InputFilterAwareInterface
                                 ),
                             )
                         ));
-
-                        //$inputFilter->add($geoFilter, 'champ_'.strval($champ->id));
                         break;
     			}
     		}
