@@ -779,13 +779,11 @@ class AdminController extends AbstractActionController
     			
     			$username  = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('username'=>$user->getUsername()));
     			$email     = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
-    			$telephone = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('telephone'=>$user->getTelephone()));
 
-    			if($username !== null || $email !== null || $telephone !== null){
+    			if($username !== null || $email !== null ){
     				
     				if($username  !== null){ $this->flashMessenger()->addErrorMessage("Le nom d'utilisateur est déjà utilisé"); }
     				if($email     !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
-    				if($telephone !== null){ $this->flashMessenger()->addErrorMessage("Le numéro de téléphone doit être unique"); }
 
     				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
     			}

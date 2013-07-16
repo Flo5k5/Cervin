@@ -108,7 +108,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     
     /**
      * @var string
-     * @ORM\Column(type="string", unique=true, length=12)
+     * @ORM\Column(type="string", length=12)
      */
     protected $telephone;
     

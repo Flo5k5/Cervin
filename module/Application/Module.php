@@ -126,81 +126,81 @@ class Module implements AutoloaderProviderInterface,
         	$filter = $e->getTarget();
         	
         	$filter->add(array(
-        			'name'     => 'telephone',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'Regex',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'pattern' => '#^0[1-68]([-. ]?\d{2}){4}$#'
-        							),
-        					),
-        			),
+    			'name'     => 'telephone',
+                'required'   => true,
+                'allowEmpty' => false,
+    			'validators' => array(
+					array(
+						'name' => 'Regex',
+						'break_chain_on_failure' => true,
+						'options' => array(
+								'pattern' => '#^0[1-68]([-. ]?\d{2}){4}$#'
+						),
+					),
+    			),
         	));
         	
         	$filter->add(array(
-        			'name'     => 'adresse',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'StringLength',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'min' => 5,
-        									'max' => 255
-        							),
-        					),
-        			),
+    			'name'     => 'adresse',
+    			'required'   => true,
+    			'allowEmpty' => false,
+    			'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+								'min' => 5,
+								'max' => 255
+						),
+					),
+    			),
         	));
         	
         	$filter->add(array(
-        			'name'     => 'code_postal',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'PostCode',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'locale' => 'fr_FR'
-        							),
-        					),
-        			),
+    			'name'     => 'code_postal',
+    			'required'   => true,
+    			'allowEmpty' => false,
+    			'validators' => array(
+					array(
+						'name' => 'PostCode',
+						'break_chain_on_failure' => true,
+						'options' => array(
+								'locale' => 'fr_FR'
+						),
+					),
+    			),
         	));
         	
         	$filter->add(array(
-        			'name'     => 'ville',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'StringLength',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'min' => 1,
-        									'max' => 255
-        							),
-        					),
-        			),
+    			'name'     => 'ville',
+    			'required'   => true,
+    			'allowEmpty' => false,
+    			'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+								'min' => 1,
+								'max' => 255
+						),
+					),
+    			),
         	));
         	
         	$filter->add(array(
-        			'name'     => 'pays',
-        			'required'   => true,
-        			'allowEmpty' => false,
-        			'validators' => array(
-        					array(
-        							'name' => 'StringLength',
-        							'break_chain_on_failure' => true,
-        							'options' => array(
-        									'min' => 1,
-        									'max' => 255
-        							),
-        					),
-        			),
+    			'name'     => 'pays',
+    			'required'   => true,
+    			'allowEmpty' => false,
+    			'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'break_chain_on_failure' => true,
+						'options' => array(
+								'min' => 1,
+								'max' => 255
+						),
+					),
+    			),
         	));
         	 
 			$filter->add(array(
