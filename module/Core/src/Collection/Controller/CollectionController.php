@@ -133,9 +133,9 @@ class CollectionController extends AbstractActionController
 	    		
 
 	    		if($element->type_element->type == 'artefact'){
-	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="href-type-element text-success" href="'.$this->url()->fromRoute('element/voir', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+	    			$titre = '<p class="text-success"><i class="icon-tag"> </i><a class="text-success" href="'.$this->url()->fromRoute('element/voir', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 	    		} else {
-	    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="href-type-element text-warning" href="'.$this->url()->fromRoute('element/voir', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
+	    			$titre = '<p class="text-warning"><i class="icon-picture"> </i><a class="text-warning" href="'.$this->url()->fromRoute('element/voir', array('id' => $element->id)).'">'.$escapeHtml($element->titre).'</a></p>';
 	    		}
 
     			$aaData[] = array(

@@ -36,7 +36,7 @@ class Artefacts implements FixtureInterface
 
 		$select_departements_fr = new Collection\Entity\Select();
 		$select_departements_fr->__set('description', 'Liste des départements français');
-		$select_departements_fr->__set('label', 'Pays');
+		$select_departements_fr->__set('label', 'Départements');
 
 		foreach ($liste_des_departements_fr as $key => $dp) {
 			$select_option =  new Collection\Entity\SelectOption($select_departements_fr);
@@ -53,7 +53,7 @@ $liste_states = array(
 
 		$states = new Collection\Entity\Select();
 		$states->__set('description', 'Liste des régions français');
-		$states->__set('label', 'Pays');
+		$states->__set('label', 'Régions');
 
 		foreach ($liste_states as $key => $dp) {
 			$select_option =  new Collection\Entity\SelectOption($states);
