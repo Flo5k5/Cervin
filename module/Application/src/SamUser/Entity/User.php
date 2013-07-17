@@ -45,31 +45,69 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 
     /**
      * @var string
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     protected $username;
 
     /**
      * @var string
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", unique=true, length=255)
      */
     protected $email;
 
     /**
      * @var string
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $displayName;
     
     /**
      * @var string
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=128)
      */
     protected $password;
 
     /**
+     * @var string
+     * @Gedmo\Versioned
+     * @ORM\Column(type="string", length=12)
+     */
+    protected $telephone;
+    
+    /**
+     * @var string
+     * @Gedmo\Versioned
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $adresse;
+    
+    /**
+     * @var integer
+     * @Gedmo\Versioned
+     * @ORM\Column(type="integer", length=5)
+     */
+    protected $code_postal;
+    
+    /**
+     * @var string
+     * @Gedmo\Versioned
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $ville;
+    
+    /**
+     * @var string
+     * @Gedmo\Versioned
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $pays;
+    
+    /**
      * @var datetime
-     *
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
@@ -77,6 +115,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 
     /**
      * @var int
+     * @Gedmo\Versioned
      * @ORM\Column(type="integer", length=1)
      */
     protected $state;
@@ -93,6 +132,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * @Gedmo\Versioned
      * @ORM\ManyToOne(targetEntity="SamUser\Entity\Role")
      **/
     protected $attenteRole;
@@ -107,35 +147,6 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
      */
     protected $sous_parcours_chantier;
     
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=12)
-     */
-    protected $telephone;
-    
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $adresse;
-    
-    /**
-     * @var integer
-     * @ORM\Column(type="integer", length=5)
-     */
-    protected $code_postal;
-    
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $ville;
-    
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=100)
-     */
-    protected $pays;
 
     /**
      * @var datetime

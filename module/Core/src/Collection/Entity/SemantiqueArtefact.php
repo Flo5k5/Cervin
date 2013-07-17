@@ -49,11 +49,13 @@ class SemantiqueArtefact implements InputFilterAwareInterface
     protected $type_destination;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $semantique;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;

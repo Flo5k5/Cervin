@@ -31,6 +31,7 @@ class SelectOption implements InputFilterAwareInterface
 	protected $id;
 
 	/**
+     * @Gedmo\Versioned
 	 * @ORM\Column(type="string")
 	 */
 	protected $text;

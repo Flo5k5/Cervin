@@ -25,6 +25,7 @@ class DataSelect extends Data
     /**
      * Valeur du select
      * 
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\ManyToOne(targetEntity="Collection\Entity\SelectOption", inversedBy="datas")
      **/
     protected $option;

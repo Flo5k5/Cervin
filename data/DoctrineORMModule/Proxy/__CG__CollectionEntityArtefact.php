@@ -83,10 +83,10 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'type_element', 'datas', 'relation_origine', 'relation_destination', 'utilisateur', 'public');
+            return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'type_element', 'datas', 'created', 'updated', 'utilisateur', 'utilisateurChange', 'public');
         }
 
-        return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'type_element', 'datas', 'relation_origine', 'relation_destination', 'utilisateur', 'public');
+        return array('__isInitialized__', 'inputFilter', 'medias', 'relations_origine', 'relations_destination', 'id', 'titre', 'description', 'type_element', 'datas', 'created', 'updated', 'utilisateur', 'utilisateurChange', 'public');
     }
 
     /**
@@ -206,13 +206,13 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
     /**
      * {@inheritDoc}
      */
-    public function populate($data = array (
+    public function populate(\Doctrine\ORM\EntityManager $em, $data = array (
 ))
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'populate', array($data));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'populate', array($em, $data));
 
-        return parent::populate($data);
+        return parent::populate($em, $data);
     }
 
     /**
@@ -262,12 +262,12 @@ class Artefact extends \Collection\Entity\Artefact implements \Doctrine\ORM\Prox
     /**
      * {@inheritDoc}
      */
-    public function getInputFilter()
+    public function getInputFilter($form = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInputFilter', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInputFilter', array($form));
 
-        return parent::getInputFilter();
+        return parent::getInputFilter($form);
     }
 
 }

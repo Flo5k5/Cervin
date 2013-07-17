@@ -38,11 +38,13 @@ class Transition implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text")
      */
     protected $narration;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\ManyToOne(targetEntity="Parcours\Entity\SemantiqueTransition")
      **/
     protected $semantique;

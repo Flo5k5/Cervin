@@ -24,11 +24,13 @@ class DataDate extends Data
 {
 
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
 	 * @ORM\Column(type="date", nullable=true)
 	 */
 	protected $date;
 	
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
 	 * @ORM\Column(type="integer", nullable=true)
 	 * 	0 : jour
 	 * 	1 : mois

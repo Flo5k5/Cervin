@@ -26,6 +26,7 @@ class DataTexte extends Data
     /**
      * Champ contenant du texte
      * 
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $texte;

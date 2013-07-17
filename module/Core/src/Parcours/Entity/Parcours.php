@@ -36,11 +36,13 @@ class Parcours implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $titre;
 
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text")
      */
     protected $description;
@@ -63,6 +65,7 @@ class Parcours implements InputFilterAwareInterface
     /**
      * Etat du parcours : brouillon ou public
      *
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="boolean")
      */
     protected $public;

@@ -23,6 +23,7 @@ class DataNombre extends Data
 {
 
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected $nombre;

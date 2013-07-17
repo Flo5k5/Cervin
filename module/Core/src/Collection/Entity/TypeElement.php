@@ -38,11 +38,13 @@ class TypeElement implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $nom;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $type;

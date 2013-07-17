@@ -31,11 +31,13 @@ class Select implements InputFilterAwareInterface
 	protected $id;
 	 
 	/**
+     * @Gedmo\Versioned
 	 * @ORM\Column(type="string")
 	 */
 	protected $label;
 
 	/**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $description;

@@ -44,6 +44,7 @@ class RelationArtefacts implements InputFilterAwareInterface
     protected $destination;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\ManyToOne(targetEntity="Collection\Entity\SemantiqueArtefact", inversedBy="relations")
      * @ORM\JoinColumn(name="semantique_id", referencedColumnName="id", nullable=false)
      **/

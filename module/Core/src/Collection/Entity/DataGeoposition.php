@@ -25,16 +25,19 @@ class DataGeoposition extends Data
 {
 
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
 	 * @ORM\Column(type="decimal", precision=18, scale=15)
 	 */
 	protected $latitude;
 	
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
 	 * @ORM\Column(type="decimal", precision=18, scale=15)
 	 */
 	protected $longitude;
 
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $adresse;

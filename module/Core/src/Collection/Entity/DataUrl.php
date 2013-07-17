@@ -26,6 +26,7 @@ class DataUrl extends Data
     /**
      * Champs contenant l'url
      * 
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", nullable=true)
      */
     protected $url;

@@ -40,16 +40,19 @@ class Champ implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $label;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $description;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $format;

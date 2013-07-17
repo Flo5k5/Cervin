@@ -24,11 +24,13 @@ class DataFichier extends Data
 {
 
 	/**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $fichier;
     
     /**
+     * @Gedmo\Mapping\Annotation\Versioned
      * @ORM\Column(type="text", nullable=true)
      */
     protected $format_fichier;

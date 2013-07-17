@@ -37,6 +37,7 @@ class SousParcours implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=200)
      */
     protected $titre;
