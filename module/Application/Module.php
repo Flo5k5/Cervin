@@ -50,7 +50,7 @@ class Module implements AutoloaderProviderInterface,
       	//  $evm = new \Doctrine\Common\EventManager();
         $auth = $sm->get('zfcuser_auth_service');
 
-        $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'DEV' ;
+        $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'PUBLIC' ;
         
         $loggableListener = new LoggableListener;
         //$loggableListener->setAnnotationReader($cachedAnnotationReader);
@@ -234,9 +234,11 @@ class Module implements AutoloaderProviderInterface,
             //$user = $e->getParam('user');  // User account object
             //$id = $user->getId(); // get user id
 
-            $user = $em->find('SamUser\Entity\User', $e->getIdentity());
-            $user->setDerniereConnexion( new \DateTime('NOW') );
-            $em->flush();
+            if( $e->getIdentity() != null ){
+                $user = $em->find('SamUser\Entity\User', $e->getIdentity());
+                $user->setDerniereConnexion( new \DateTime('NOW') );
+                $em->flush();
+            }
         });
         
         /*$translator = new Translator();

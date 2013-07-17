@@ -36,27 +36,44 @@ goto IMPORT
 
 
 :IMPORT
+rem echo.
+rem echo Deleting database: %db%
+rem echo.
+rem echo DROP DATABASE IF EXISTS %db% > %file%
+rem mysql -h %host% -u %user% < %file%
+
 echo.
-echo Deleting database: %db%
-echo.
-echo DROP DATABASE IF EXISTS %db% > %file%
-mysql -h %host% -u %user% < %file%
-echo.
-echo Creating database: %db%
+echo - Create database %db% if not exists -
 echo.
 echo CREATE DATABASE IF NOT EXISTS %db% > %file%
 mysql -h %host% -u %user% < %file%
 del /F /Q %file%
+
 echo.
-echo SQL dump to import:
+echo - Delete database schema -
 echo.
-php "%bin_doctrine%" orm:schema-tool:create --dump-sql
+php "%bin_doctrine%" orm:schema-tool:drop --force
+
+rem echo.
+rem echo SQL dump to import:
+rem echo.
+rem php "%bin_doctrine%" orm:schema-tool:create --dump-sql
+
+echo.
+echo - Import database schema -
 echo.
 php "%bin_doctrine%" orm:schema-tool:update --force
+
 echo.
-echo Importing fixtures...
+echo - Import fixtures -
 echo.
 php "%bin_doctrine%" data-fixture:import > fixtures.log
+
+echo.
+echo - Deleting fixtures logs -
+echo.
+php "%bin_doctrine%" dbal:run-sql "TRUNCATE `ext_log_entries`"
+
 goto EXIT
 
 :EXIT
