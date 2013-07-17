@@ -62,13 +62,6 @@ class SemantiqueArtefact implements InputFilterAwareInterface
      * @ORM\OneToMany(targetEntity="Collection\Entity\RelationArtefacts", mappedBy="semantique", cascade={"remove"})
      **/
     protected $relations;
-
-    /**
-     * Booléen qui décrit si la sémantique est validée ou brouillon
-     * 
-     * @ORM\Column(type="boolean")
-     **/
-    protected $valide = false;
     
     /**
      * Magic getter to expose protected properties.

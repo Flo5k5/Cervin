@@ -678,9 +678,10 @@ $this->headTitle($title);
             var body = new String('<form id="semantiqueTransitions" action="'+dataURL+'"><dl><?php foreach ($SemantiqueTransitions as $semantique) { ?><label class="radio"><dt><input type="radio" name="SemantiqueTransitions" id="SemantiqueTransitions<?php echo $this->escapeHtml($semantique->id) ;?>" value="<?php echo $this->escapeHtml($semantique->id) ;?>" ><?php echo $this->escapeHtml($semantique->semantique) ;?></dt><dd><?php echo $this->escapeHtml($semantique->description) ;?></dd></label><?php } ?></dl></form>');
             body = body.replace('id="SemantiqueTransitions'+dataValue+'"', 'id="SemantiqueTransitions'+dataValue+'" checked="checked"' );
             $('#confirmDiv').confirmModal({
-                heading:"Sélectionner le type de Semantique",
+                heading:"Sélectionner la sémantique",
                 body:body,
                 callback: function() {
+               		$('body').css('cursor', 'wait');
                     var $form = $('#semantiqueTransitions');
                     var inputVal = $form.find( 'input[name="SemantiqueTransitions"]:checked' ).val();
                     var URL = $form.attr( 'action' );

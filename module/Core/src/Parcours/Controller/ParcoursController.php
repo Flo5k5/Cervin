@@ -168,20 +168,6 @@ class ParcoursController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	/*try {
-    		$parcours->sous_parcours_depart = null;
-    		foreach ($parcours->sous_parcours as $sous_parcours) {
-    			$sous_parcours->sous_parcours_suivant = null;
-    			$sous_parcours->scene_depart = null;
-    			$sous_parcours->parcours = null;
-    			//$this->getEntityManager()->remove($sous_parcours);
-    		}
-    		$this->getEntityManager()->remove($parcours);
-    		$this->getEntityManager()->flush();
-    	} catch (\Exception $e) {
-    		$this->flashMessenger()->addErrorMessage(sprintf('Erreur lors de la suppression du parcours.'));
-    		return $this->getResponse()->setContent(Json::encode(true));
-    	}*/
     	$this->flashMessenger()->addErrorMessage(sprintf('La suppression d\'un parcours n\'est pas encore implémentée.'));
     	return $this->getResponse()->setContent(Json::encode(true));
     }
@@ -227,7 +213,11 @@ class ParcoursController extends AbstractActionController
         	// Transitions inter-sous-parcours
         	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
         	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
-        	$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue"];' . "\n";
+        	if ($this->isAllowed('Parcours')) {
+        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue",URL="'.$this->url()->fromRoute('parcours/modifierTransition', array('id' => $transition->id)).'"];' . "\n";
+        	} else {
+        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue"];' . "\n";
+        	}
         }
         foreach ($Parcours->sous_parcours as $sous_parcours) {
         	// Sous-parcours
@@ -239,13 +229,17 @@ class ParcoursController extends AbstractActionController
         	$dot .= 'fontsize="20";';
         	$dot .= 'style="dashed";' . "\n";
         	foreach ( $sous_parcours->transitions as $transition) {
-        		// Transition
+        		// Transitions
         		$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
         		$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="3", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="2"' ;
-        		$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.', edgetooltip="'.$escapeHtml($semantique).'"];' . "\n";
+        		if ($this->isAllowed('Parcours')) {
+        			$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.',edgetooltip="'.$escapeHtml($semantique).'",URL="'.$this->url()->fromRoute('parcours/modifierTransition', array('id' => $transition->id)).'"];' . "\n";
+        		} else {
+        			$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.',edgetooltip="'.$escapeHtml($semantique).'"];' . "\n";
+        		}
         	}
         	foreach ( $sous_parcours->scenes as $scene) {
-        		// Scene
+        		// Scenes
         		if ($scene instanceOf \Parcours\Entity\SceneRecommandee) {
         			$style = 'color="blue", style=bold, fontcolor="darkblue"';
         		} elseif ($scene->transitions_secondaires_entrantes == null 
@@ -254,7 +248,6 @@ class ParcoursController extends AbstractActionController
         		} else {
         			$style = 'color="grey", fontcolor="grey"';
         		}
-        		//$style = ($scene instanceOf \Parcours\Entity\SceneRecommandee) ? 'color="blue", style=bold, fontcolor="darkblue"' : 'color="grey", fontcolor="grey"' ;
         		$dot .= 's'.$scene->id.'[id="s'.$scene->id.'", label="'.$escapeHtml($scene->titre).'", '.$style.', shape="box", URL="'.$this->url()->fromRoute('scene/voirScene', array('id' => $scene->id)).'"];' . "\n";
         	}
         	$dot .= '}' . "\n";
@@ -311,42 +304,56 @@ class ParcoursController extends AbstractActionController
      */
     public function modifierTransitionAction()
     {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtml');
+    	$id = (int) $this->params('id', null);
+    	$Transition = $this->getEntityManager()
+	    	->getRepository('Parcours\Entity\Transition')
+	    	->findOneBy(array('id'=>$id));
+    	if ($Transition === null || $id === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$parcours = ($Transition->parcours) ? $Transition->parcours : $Transition->sous_parcours->parcours;
+    	if ($Transition->sous_parcours) {
+	    	if ($Transition->sous_parcours->utilisateur != $this->zfcUserAuthentication()->getIdentity()) {
+	    		$this->flashMessenger()->addErrorMessage(sprintf('Le sous-parcours <em>'. $escapeHtml($Transition->sous_parcours->titre) .'</em> doit faire partie de vos chantiers en cours pour que vous puissiez modifier cette transition.'));
+	    		return $this->redirect()->toRoute('parcours/voir', array('id'=>$parcours->id));
+	    	}
+    	}
+    	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {
-            $id = (int) $this->params('id', null);
-            $Transition = $this->getEntityManager()
-	            ->getRepository('Parcours\Entity\Transition')
-	            ->findOneBy(array('id'=>$id));
-	            
-            if ($Transition === null || $id === null) {
-                $this->getResponse()->setStatusCode(404);
-                return;
-            }
-            
             $request = $this->params()->fromPost();
             switch ($request['name']) {
                 case 'semantique':
-                $SemantiqueTransition = $this->getEntityManager()
-                ->getRepository('Parcours\Entity\SemantiqueTransition')
-                ->findOneBy(array('id'=>$request['value']));
-                $Transition->semantique = $SemantiqueTransition;
-                $this->getEntityManager()->flush();
-                $this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été modifiée'));
-                return $this->getResponse()->setContent(Json::encode(array('return'=>$Transition->semantique->semantique)));
-                break;
+	                $SemantiqueTransition = $this->getEntityManager()
+		                ->getRepository('Parcours\Entity\SemantiqueTransition')
+		                ->findOneBy(array('id'=>$request['value']));
+	                $Transition->semantique = $SemantiqueTransition;
+	                $this->getEntityManager()->flush();
+	                $this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été modifiée'));
+	                return $this->getResponse()->setContent(Json::encode(true));
+	                break;
 
                 case 'narration':
-                $Transition->narration = $request['value'];
-                $this->getEntityManager()->flush();
-                return $this->getResponse()->setContent(Json::encode(true));
-                break;
+	                $Transition->narration = $request['value'];
+	                $this->getEntityManager()->flush();
+	                return $this->getResponse()->setContent(Json::encode(true));
+	                break;
 
                 default:
                 	$this->getResponse()->setStatusCode(404);
                 	break;
             }
         } else {
-        	$this->getResponse()->setStatusCode(404);
+        	$SemantiqueTransitions = $this->getEntityManager()
+	        	->getRepository('Parcours\Entity\SemantiqueTransition')
+	        	->findBy(array(), array('semantique'=>'asc'));
+        	return new ViewModel(array(
+        			'transition' => $Transition,
+        			'SemantiqueTransitions' => $SemantiqueTransitions
+        	));
         }
     }
     
