@@ -168,7 +168,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			var dateValue = $(this).attr('data-value');
 			$('#confirmDiv').confirmModal({
 				heading:'Confirmation',
-				body:"Êtes-vous sûr de vouloir supprimer définitivement l'utilisateur : "+dateValue+" ?",
+				body:"Êtes-vous sûr de vouloir désactiver l'utilisateur : "+dateValue+" ?",
 				callback: function() {
       				$('body').css('cursor', 'wait');
 					$.post(

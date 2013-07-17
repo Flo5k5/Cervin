@@ -81,6 +81,8 @@ class AdminController extends AbstractActionController
             $aaData = array();
 
             foreach ($dataTable->getPaginator() as $user) {
+
+                if( $user->state != 1 ){ continue; }
 				
 	            if(!isset( $user->roles['0']) )
 	            {
@@ -125,8 +127,8 @@ class AdminController extends AbstractActionController
 	            			data-value="'.$user->username.'" 
 	            			class="btn btn-danger SupprimerUser"
 	            			data-toggle="popover"
-	            			data-content="L\'utilisateur sera supprimé de la base de donnée"
-	            			data-title="Supprimer l\'utilisateur">
+	            			data-content="L\'utilisateur sera désactivé et ne pourra plus se loguer"
+	            			data-title="Désactiver l\'utilisateur">
 	            				<i class="icon-trash"></i>
 	            			</a>';
 	            	$btn_reset_password = '<a href="#" 
@@ -447,8 +449,8 @@ class AdminController extends AbstractActionController
                 $this->getEntityManager()->flush();
 
 
-                $entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
-                $this->getRequest()->getPost('value');
+                //$entityManager = $this->getEntityManager()->getRepository('SamUser\Entity\Role');
+                //$this->getRequest()->getPost('value');
                 
                 return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le role a été mis à jour")));
 
@@ -456,7 +458,14 @@ class AdminController extends AbstractActionController
             elseif ($postData['name'] == 'supprimer')
             {
             	try {
-            		$this->getEntityManager()->remove($user);
+            		//$this->getEntityManager()->remove($user);
+                    $role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array('roleId'=>'Visiteur'));
+                    
+                    $user->removeRoles($user->getRoles());
+                    $user->addRole($role);
+                    $user->setState(0);
+
+                    $this->getEntityManager()->persist($user);
                 	$this->getEntityManager()->flush();
             	}
             	catch (\Exception $ex) {
@@ -464,7 +473,7 @@ class AdminController extends AbstractActionController
             		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
             	}
                 
-                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été supprimé")));
+                return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été désactivé")));
 
             }
            

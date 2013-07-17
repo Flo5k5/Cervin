@@ -72,6 +72,7 @@ class Roles implements FixtureInterface
         $bcrypt->setCost(14);
 		$admin->setPassword($bcrypt->create('toto123'));
 		$admin->addRole($role_Admin);
+		$admin->setState(1);
 
 		$utilisateur = new SamUser\Entity\User();
 		$utilisateur->setUsername('utilisateurlogin');
@@ -86,6 +87,7 @@ class Roles implements FixtureInterface
         $bcrypt->setCost(14);
 		$utilisateur->setPassword($bcrypt->create('toto123'));
 		$utilisateur->addRole($role_Utilisateur);
+		$utilisateur->setState(1);
 
 		$collection = new SamUser\Entity\User();
 		$collection->setUsername('collectionlogin');
@@ -100,6 +102,7 @@ class Roles implements FixtureInterface
         $bcrypt->setCost(14);
 		$collection->setPassword($bcrypt->create('toto123'));
 		$collection->addRole($role_Collection);
+		$collection->setState(1);
 
 		$parcours = new SamUser\Entity\User();
 		$parcours->setUsername('parcourslogin');
@@ -114,6 +117,7 @@ class Roles implements FixtureInterface
         $bcrypt->setCost(14);
 		$parcours->setPassword($bcrypt->create('toto123'));
 		$parcours->addRole($role_Parcours);
+		$parcours->setState(1);
 
 		$modeleur = new SamUser\Entity\User();
 		$modeleur->setUsername('modeleurlogin');
@@ -128,6 +132,7 @@ class Roles implements FixtureInterface
 		$bcrypt->setCost(14);
 		$modeleur->setPassword($bcrypt->create('toto123'));
 		$modeleur->addRole($role_Modeleur);
+		$modeleur->setState(1);
 
 		$manager->persist($admin);
 		$manager->persist($utilisateur);

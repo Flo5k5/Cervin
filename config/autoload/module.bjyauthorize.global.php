@@ -196,7 +196,7 @@ return array(
             	array('route' => 'chantier/terminerChantierSousParcours', 'roles' => array('Parcours')),
             		
                 array('route' => 'zfcuser', 'roles' => array('Utilisateur')),
-                array('route' => 'zfcuser/logout', 'roles' => array('Utilisateur')),
+                array('route' => 'zfcuser/logout', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/login', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/register', 'roles' => array('Visiteur')),
                 array('route' => 'zfcuser/changepassword', 'roles' => array('Utilisateur')),

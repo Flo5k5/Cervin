@@ -77,6 +77,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
 
     /**
      * @var int
+     * @ORM\Column(type="integer", length=1)
      */
     protected $state;
 
