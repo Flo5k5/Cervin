@@ -819,8 +819,8 @@ class AdminController extends AbstractActionController
             $dataTable->setEntityManager($entityManager);
             
             $dataTable->setConfiguration(array(
-                'action',
                 'loggedAt',
+                'action',
                 'objectClass',
                 'objectId',
                 'username'
@@ -840,8 +840,8 @@ class AdminController extends AbstractActionController
             foreach ($dataTable->getPaginator() as $log) {
                 
                 $aaData[] = array(
-                        $escapeHtml($log->getAction()),
                         $escapeHtml($log->getLoggedAt()->format('Y-m-d H:i:s')),
+                        $escapeHtml($log->getAction()),
                         $escapeHtml($log->getObjectClass()),
                         $escapeHtml($log->getObjectId()),
                         $escapeHtml($log->getUsername()),

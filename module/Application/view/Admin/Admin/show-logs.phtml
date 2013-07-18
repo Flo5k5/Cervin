@@ -38,51 +38,45 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
     <form id="form-multi" name="form-multi" class="">
         <div class="row-fluid">
     
-            <div class="span3">
-                <div class="input-prepend input-append">
-                    <span class="add-on"><i class="icon-wrench"> </i></span>
-                    <select class="form-type span9">
-                        <?php 
-                            foreach ($selectActions as $select){
-                                echo '<option data-type="action">'.$select['action'].'</option>';
-                            }
-                        ?>
-                    </select>
-                    <button class="btn btn-info form-plus-type" type="button"><i class="icon-plus"> </i></button>
-                </div>
+            <div class="span3 input-prepend input-append input-block-level">
+                <span class="add-on"><p class="text-info"><i class="icon-wrench"> </i></p></span>
+                <select class="form-type">
+                    <?php 
+                        foreach ($selectActions as $select){
+                            echo '<option data-type="action">'.$select['action'].'</option>';
+                        }
+                    ?>
+                </select>
+                <button class="btn btn-info form-plus-type" type="button"><i class="icon-plus"> </i></button>
             </div>
                 
-            <div class="span3">
-                <div class="input-prepend input-append">
-                    <span class="add-on"><i class="icon-briefcase"> </i></span>
-                    <select class="form-type span9">
-                        <?php 
-                            foreach ($selectObjectClass as $select){
-                                echo '<option data-type="objectClass">'.$select['objectClass'].'</option>';
-                            }
-                        ?>
-                    </select>
-                    <button class="btn btn-warning form-plus-type" type="button"><i class="icon-plus"> </i></button>
-                </div>
+            <div class="span3 input-prepend input-append input-block-level">
+                <span class="add-on"><p class="text-warning"><i class="icon-briefcase"> </i></p></span>
+                <select class="form-type ">
+                    <?php 
+                        foreach ($selectObjectClass as $select){
+                            echo '<option data-type="objectClass">'.$select['objectClass'].'</option>';
+                        }
+                    ?>
+                </select>
+                <button class="btn btn-warning form-plus-type" type="button"><i class="icon-plus"> </i></button>
             </div>
                     
-            <div class="span3 input-append">
-                <input class="form-id span9" type="number" min="1" placeholder="Id" data-type="objectId" />
+            <div class="span3 input-append input-block-level">
+                <input class="form-id" type="number" min="1" placeholder="Id" data-type="objectId" />
                 <button class="btn btn-danger form-plus-id" type="button"><i class="icon-plus"> </i></button>
             </div>
 
-            <div class="span3">
-                <div class="input-prepend input-append">
-                    <span class="add-on"><i class="icon-user"> </i></span>
-                    <select class="form-type span9">
-                        <?php 
-                            foreach ($selectUsers as $select){
-                                echo '<option data-type="username">'.$select['username'].'</option>';
-                            }
-                        ?>
-                    </select>
-                    <button class="btn btn-success form-plus-type" type="button"><i class="icon-plus"> </i></button>
-                </div>
+            <div class="span3 input-prepend input-append input-block-level">
+                <span class="add-on"><p class="text-success"><i class="icon-user"> </i></p> </span>
+                <select class="form-type">
+                    <?php 
+                        foreach ($selectUsers as $select){
+                            echo '<option data-type="username">'.$select['username'].'</option>';
+                         }
+                    ?>
+                </select>
+                <button class="btn btn-success form-plus-type" type="button"><i class="icon-plus"> </i></button>
             </div>
 
         </div> <!-- /row-fluid -->
@@ -107,11 +101,11 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
                 <table class="table table-striped table-bordered data">
                     <thead>
                         <tr>
-                            <th>Action</th>
                             <th>Date</th>
-                            <th>Objet</th>
-                            <th>Id Objet</th>
-                            <th>Utilisateur</th>
+                            <th><p class="text-info"><i class="icon-wrench"> </i> Action</p></th>
+                            <th><p class="text-warning"><i class="icon-briefcase"> </i> Objet</p></th>
+                            <th><p class="text-error">Id Objet</p></th>
+                            <th><p class="text-success"><i class="icon-user"> </i> Utilisateur</p></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,7 +129,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 	    table = ResultSet.paginate(
 	    	$('.data'),
 			{
-				"aaSorting": [ [1,'desc'] ],
+				"aaSorting": [ [0,'desc'] ],
 				"aoColumns": [
 		           	           	null,
 		           	           	null, 
