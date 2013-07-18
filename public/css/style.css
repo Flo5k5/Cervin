@@ -44,6 +44,13 @@ body {
 	padding: 5px;
 }
 
+.narration_scrollable {
+	height: 300px; 
+	overflow: auto; 
+	border-width: 1px;
+	padding: 5px;
+}
+
 #modalDiv .form-geo {
 	margin: 10px 0;
 }

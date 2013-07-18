@@ -121,8 +121,12 @@ class ChantierController extends AbstractActionController
     	if ($return == 'parcours') {
     		return $this->redirect()->toRoute('parcours/voir', array('id'=>$sous_parcours->parcours->id));
     	} else {
-    		$scene = $this->getEntityManager()->getRepository('Parcours\Entity\Scene')->findOneBy(array('id'=>(int)$return));
-    		return $this->redirect()->toRoute('scene/editScene', array('id'=>(int)$return));
+    		$idReturn = $this->params()->fromRoute('idReturn');
+    		if ($return == 'scene') {
+	    		return $this->redirect()->toRoute('scene/editScene', array('id'=>(int)$idReturn));
+    		} else {
+    			return $this->redirect()->toRoute('transition/modifier', array('id'=>(int)$idReturn));
+    		}
     	} 
     }
     

@@ -234,12 +234,9 @@ $this->headTitle($title);
 						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $scene->transition_recommandee_entrante->id)) ?>">
 						                <i class="icon-pencil"></i>  
 						            </a>]
-						            <span class="edit CursorPointer"
-							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $scene->transition_recommandee_entrante->id)); ?>"
-							            data-name="narration" 
-							            data-type="text" 
-							            data-pk="1"><?php echo $this->escapeHtml($scene->transition_recommandee_entrante->narration); ?>
-							        </span>
+						            <a href="<?php echo $this->url('transition/modifier', array('id' => $scene->transition_recommandee_entrante->id)) ?>"> 
+										(modifier)
+									</a>
 							        </p>
 								</td>
 							</tr>
@@ -287,12 +284,9 @@ $this->headTitle($title);
 						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
 						                <i class="icon-pencil"></i> 
 						            </a>]
-						            <span class="edit CursorPointer"
-							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-							            data-name="narration" 
-							            data-type="text" 
-							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-							        </span>
+						             <a href="<?php echo $this->url('transition/modifier', array('id' => $transition->id)) ?>"> 
+										(modifier)
+									</a>
 							        </p>
 								</td>
 						        <td>
@@ -366,22 +360,19 @@ $this->headTitle($title);
 									<a href="#" 
 						            	class="selectSemantiques" 
 						            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+						                data-url="<?php echo $this->url('transition/modifier', array('id' => $transition->id)) ?>">
 						                <i class="icon-pencil"></i>  
 						            </a>]
-						            <span class="edit CursorPointer"
-							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-							            data-name="narration" 
-							            data-type="text" 
-							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-							        </span>
+						             <a href="<?php echo $this->url('transition/modifier', array('id' => $transition->id)) ?>"> 
+										(modifier)
+									</a>
 							        </p>
 								</td>
 								<td>
 									<a href="#" 
 										data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
 										class="deleteTransition"
-										data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+										data-url="<?php echo $this->url('transition/supprimerTransitionSec', array('id' => $transition->id)); ?>">
 									<p class="text-error"><i class="icon-trash"></i></p>
 									</a>
 								</td>
@@ -426,15 +417,12 @@ $this->headTitle($title);
 									<a href="#" 
 						            	class="selectSemantiques" 
 						            	data-value="<?php echo ($transition->semantique) ? $transition->semantique->id : 'null' ; ?>"
-						                data-url="<?php echo $this->url('parcours/modifierTransition', array('id' => $transition->id)) ?>">
+						                data-url="<?php echo $this->url('transition/modifier', array('id' => $transition->id)) ?>">
 						                <i class="icon-pencil"></i> 
 						            </a>]
-						            <span class="edit CursorPointer"
-							        	data-url="<?php echo $this->url("parcours/modifierTransition", array("id" => $transition->id)); ?>"
-							            data-name="narration" 
-							            data-type="text" 
-							            data-pk="1"><?php echo $this->escapeHtml($transition->narration); ?>
-							        </span>
+						             <a href="<?php echo $this->url('transition/modifier', array('id' => $transition->id)) ?>"> 
+										(modifier)
+									</a>
 							        </p>
 								</td>
 						        <td>
@@ -454,7 +442,7 @@ $this->headTitle($title);
 									<a href="#" 
 										data-value=" <?php echo $this->escapeHtml($transition->narration); ?>" 
 										class="deleteTransition"
-										data-url="<?php echo $this->url('parcours/supprimerTransitionSec', array('id' => $transition->id)); ?>">
+										data-url="<?php echo $this->url('transition/supprimerTransitionSec', array('id' => $transition->id)); ?>">
 									<p class="text-error"><i class="icon-trash"></i></p>
 									</a>
 								</td>
@@ -604,7 +592,7 @@ $this->headTitle($title);
       		selectElmt = document.getElementById('selectSceneDestination');
       		idSceneDest = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
-				url: "<?php echo $this->url('parcours/ajouterTransitionSec'); ?>",
+				url: "<?php echo $this->url('transition/ajouterTransitionSec'); ?>",
 				type: "POST",
 				data:{
 					idSceneOrigine: <?php echo $scene->id;?>,
@@ -621,7 +609,7 @@ $this->headTitle($title);
       		selectElmt = document.getElementById('selectSceneOrigine');
       		idSceneOrigine = selectElmt.options[selectElmt.selectedIndex].value;
             $.ajax({
-				url: "<?php echo $this->url('parcours/ajouterTransitionSec'); ?>",
+				url: "<?php echo $this->url('transition/ajouterTransitionSec'); ?>",
 				type: "POST",
 				data:{
 					idSceneOrigine: idSceneOrigine,

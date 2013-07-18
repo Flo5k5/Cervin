@@ -13,6 +13,7 @@ return array(
             'Parcours' => 'Parcours\Controller\ParcoursController',
             'SemantiqueTransition' => 'Parcours\Controller\SemantiqueTransitionController',
             'Scene' => 'Parcours\Controller\SceneController',
+            'Transition' => 'Parcours\Controller\TransitionController',
             'ChampSelect' => 'Collection\Controller\ChampSelectController',
         ),
     ),
@@ -730,6 +731,73 @@ return array(
                 	),
                 ),
             ),
+        		
+        		
+        		'transition' => array(
+        				'type' => 'Zend\Mvc\Router\Http\Literal',
+        				'options' => array(
+        						'route' => '/transition',
+        						'defaults' => array(
+        								'controller' => 'Transition',
+        								'action'     => 'index',
+        						),
+        				),
+        				'may_terminate' => true,
+        				'child_routes' => array(
+        						'voir' => array(
+        								'type' => 'segment',
+        								'options' => array(
+        										'route' => '/voir[/:id]',
+        										'constraints' => array(
+        												'id'     => '[0-9]+',
+        										),
+        										'defaults' => array(
+        												'controller' => 'Transition',
+        												'action'     => 'voir',
+        										),
+        								),
+        						),
+        						'modifier' => array(
+        								'type' => 'segment',
+        								'options' => array(
+        										'route' => '/modifier/:id',
+        										'constraints' => array(
+        												'id'     => '[0-9]+',
+        										),
+        										'defaults' => array(
+        												'controller' => 'Transition',
+        												'action'     => 'modifier',
+        										),
+        								),
+        						),
+        						'supprimerTransitionSec' => array(
+        								'type' => 'segment',
+        								'options' => array(
+        										'route' => '/supprimerTransitionSec/:id',
+        										'constraints' => array(
+        												'id'     => '[0-9]+',
+        										),
+        										'defaults' => array(
+        												'controller' => 'Transition',
+        												'action'     => 'supprimerTransitionSec',
+        										),
+        								),
+        						),
+        						'ajouterTransitionSec' => array(
+        								'type' => 'segment',
+        								'options' => array(
+        										'route' => '/ajouterTransitionSec',
+        										'constraints' => array(
+        										),
+        										'defaults' => array(
+        												'controller' => 'Transition',
+        												'action'     => 'ajouterTransitionSec',
+        										),
+        								),
+        						),
+        				),
+        		),
+        		
         ),
     ),
     'navigation' => array(

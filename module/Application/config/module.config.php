@@ -104,7 +104,7 @@ return array(
             		'demarrerChantierSousParcours' => array(
             			'type' => 'Segment',
             			'options' => array(
-            				'route' => '/demarrerChantierSousParcours/:idSousParcours/:idUser/:return',
+            				'route' => '/demarrerChantierSousParcours/:idSousParcours/:idUser/:return[/:idReturn]',
             				'constraints' => array(
             					'idSousParcours'    => '[0-9]+',
             					'idUser'     		=> '[0-9]+',
@@ -112,7 +112,8 @@ return array(
             				'defaults' => array(
             					'controller' => 'Chantier',
             					'action'     => 'demarrerChantierSousParcours',
-            					'return'     => 'parcours|[0-9]+',
+            					'return'     => 'parcours|scene|transition',
+            					'idReturn'	 => '[0-9]+'
             				),
             			),
             		),

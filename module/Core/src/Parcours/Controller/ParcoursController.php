@@ -214,9 +214,9 @@ class ParcoursController extends AbstractActionController
         	$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
         	$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id;
         	if ($this->isAllowed('Parcours')) {
-        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue",URL="'.$this->url()->fromRoute('parcours/modifierTransition', array('id' => $transition->id)).'"];' . "\n";
+        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="4",fontcolor="darkblue",URL="'.$this->url()->fromRoute('transition/voir', array('id' => $transition->id)).'"];' . "\n";
         	} else {
-        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="3",fontcolor="darkblue"];' . "\n";
+        		$dot .= '[edgetooltip="'.$escapeHtml($semantique).'",color="darkblue",penwidth="4",fontcolor="darkblue"];' . "\n";
         	}
         }
         foreach ($Parcours->sous_parcours as $sous_parcours) {
@@ -231,9 +231,9 @@ class ParcoursController extends AbstractActionController
         	foreach ( $sous_parcours->transitions as $transition) {
         		// Transitions
         		$semantique = ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ;
-        		$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="3", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="2"' ;
+        		$style = ($transition instanceOf \Parcours\Entity\TransitionRecommandee) ? 'color="blue", penwidth="4", fontcolor="blue"' : 'color="grey", fontcolor="grey", penwidth="4"' ;
         		if ($this->isAllowed('Parcours')) {
-        			$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.',edgetooltip="'.$escapeHtml($semantique).'",URL="'.$this->url()->fromRoute('parcours/modifierTransition', array('id' => $transition->id)).'"];' . "\n";
+        			$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.',edgetooltip="'.$escapeHtml($semantique).'",URL="'.$this->url()->fromRoute('transition/voir', array('id' => $transition->id)).'"];' . "\n";
         		} else {
         			$dot .='s'.$transition->scene_origine->id.' -> '.'s'.$transition->scene_destination->id.'['.$style.',edgetooltip="'.$escapeHtml($semantique).'"];' . "\n";
         		}
@@ -297,124 +297,6 @@ class ParcoursController extends AbstractActionController
         } else {
             $this->getResponse()->setStatusCode(404);
         }
-    }
-    
-    /**  
-     * Modifie la sémantique ou la narration d'une transition 
-     */
-    public function modifierTransitionAction()
-    {
-    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
-    	$escapeHtml = $viewHelperManager->get('escapeHtml');
-    	$id = (int) $this->params('id', null);
-    	$Transition = $this->getEntityManager()
-	    	->getRepository('Parcours\Entity\Transition')
-	    	->findOneBy(array('id'=>$id));
-    	if ($Transition === null || $id === null) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
-    	
-        if ($this->getRequest()->isXmlHttpRequest()) 
-        {
-            $request = $this->params()->fromPost();
-            switch ($request['name']) {
-                case 'semantique':
-	                $SemantiqueTransition = $this->getEntityManager()
-		                ->getRepository('Parcours\Entity\SemantiqueTransition')
-		                ->findOneBy(array('id'=>$request['value']));
-	                $Transition->semantique = $SemantiqueTransition;
-	                $this->getEntityManager()->flush();
-	                $this->flashMessenger()->addSuccessMessage(sprintf('La sémantique a bien été modifiée'));
-	                return $this->getResponse()->setContent(Json::encode(true));
-	                break;
-
-                case 'narration':
-	                $Transition->narration = $request['value'];
-	                $this->getEntityManager()->flush();
-	                return $this->getResponse()->setContent(Json::encode(true));
-	                break;
-
-                default:
-                	$this->getResponse()->setStatusCode(404);
-                	break;
-            }
-        } else {
-        	$SemantiqueTransitions = $this->getEntityManager()
-	        	->getRepository('Parcours\Entity\SemantiqueTransition')
-	        	->findBy(array(), array('semantique'=>'asc'));
-        	return new ViewModel(array(
-        			'transition' => $Transition,
-        			'SemantiqueTransitions' => $SemantiqueTransitions
-        	));
-        }
-    }
-    
-    public function supprimerTransitionSecAction()
-    {
-    	$id = (int) $this->params('id', null);
-    	$transition = $this->getEntityManager()
-    		->getRepository('Parcours\Entity\Transition')
-    		->findOneBy(array('id'=>$id));
-    	if ($transition === null || $id === null) {
-    		$this->getResponse()->setStatusCode(404);
-    		return;
-    	}
-    	$this->getEntityManager()->remove($transition);
-    	$this->getEntityManager()->flush();
-    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été supprimée.'));
-    	return $this->getResponse()->setContent(Json::encode(true));
-    }
-
-    public function ajouterTransitionSecAction()
-    {
-    	if ($this->getRequest()->isXmlHttpRequest()) {
-    		$request = $this->params()->fromPost();
-    		
-	    	$idSceneOrigine = $request['idSceneOrigine'];
-	    	$sceneOrigine = $this->getEntityManager()
-		    	->getRepository('Parcours\Entity\Scene')
-		    	->findOneBy(array('id'=>$idSceneOrigine));
-	    	if ($sceneOrigine === null || $idSceneOrigine === null ) {
-	    		$this->getResponse()->setStatusCode(404);
-	    		return;
-	    	}
-	    	
-	    	$idSceneDestination = $request['idSceneDestination'];
-	    	if ($idSceneDestination == 0) {
-	    		// Pas de scène destination précisée pour la nouvelle transition secondaire
-	    		// On doit en créer une
-	    		$sceneDestination = new \Parcours\Entity\SceneSecondaire();
-	    		$sceneDestination->titre = "Nouvelle scène secondaire";
-	    		$sceneDestination->narration = "";
-	    		$sceneDestination->elements = new \Doctrine\Common\Collections\ArrayCollection();
-	    		$sceneOrigine->sous_parcours->addScene($sceneDestination);
-	    		$this->getEntityManager()->persist($sceneDestination);
-	    		//$manager->flush();
-	    	} else {
-	    		$sceneDestination = $this->getEntityManager()
-	    			->getRepository('Parcours\Entity\Scene')
-	    			->findOneBy(array('id'=>$idSceneDestination));
-	    	}
-	    	if ($sceneDestination === null || $idSceneDestination === null ) {
-	    		$this->getResponse()->setStatusCode(404);
-	    		return;
-	    	}
-	    	
-	    	$transition = new \Parcours\Entity\TransitionSecondaire();
-	    	$transition->narration = "Nouvelle transition";
-	    	$transition->scene_origine = $sceneOrigine;
-	    	$transition->scene_destination = $sceneDestination;
-	    	
-	    	$sceneOrigine->sous_parcours->addTransition($transition);
-	    	$this->getEntityManager()->persist($transition);
-	    	$this->getEntityManager()->flush();
-	    	
-	    	$this->flashMessenger()->addSuccessMessage(sprintf('La transition a bien été ajoutée.'));
-	    	return $this->redirect()->toRoute('scene/editScene', array('id' => $idSceneOrigine));
-    	} else {
-    		$this->getResponse()->setStatusCode(404);
-    	}
     }
     
     /**

@@ -144,6 +144,11 @@ return array(
                     'controller' => 'Scene',
                     'roles' => array('Visiteur')
                 ),
+            		
+            	array(
+            		'controller' => 'Transition',
+            		'roles' => array('Visiteur')
+            	),
 
                 array(
                     'controller' => 'fileupload_examples',
@@ -251,9 +256,6 @@ return array(
                 array('route' => 'parcours/voir', 'roles' => array('Visiteur')),
                 array('route' => 'parcours/ajouter', 'roles' => array('Parcours')),
                 array('route' => 'parcours/supprimer', 'roles' => array('Parcours')),
-                array('route' => 'parcours/modifierTransition', 'roles' => array('Parcours')),
-                array('route' => 'parcours/supprimerTransitionSec', 'roles' => array('Parcours')),
-                array('route' => 'parcours/ajouterTransitionSec', 'roles' => array('Parcours')),
                 array('route' => 'parcours/modifier', 'roles' => array('Parcours')),
 
                 array('route' => 'parcours/voirParcourHalviz', 'roles' => array('Visiteur')),
@@ -278,6 +280,12 @@ return array(
                 array('route' => 'scene/deleteElement', 'roles' => array('Parcours')),
                 array('route' => 'scene/getAllElement', 'roles' => array('Parcours')),
                 array('route' => 'scene/addRelationSceneElement', 'roles' => array('Parcours')),
+            		
+
+            	array('route' => 'transition/voir', 'roles' => array('Visiteur')),
+            	array('route' => 'transition/modifier', 'roles' => array('Parcours')),
+            	array('route' => 'transition/supprimerTransitionSec', 'roles' => array('Parcours')),
+            	array('route' => 'transition/ajouterTransitionSec', 'roles' => array('Parcours')),
             ),
         ), 
     ),

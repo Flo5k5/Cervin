@@ -85,7 +85,8 @@ $this->headTitle($title); ?>
 								<a href="<?php echo $this->url('chantier/demarrerChantierSousParcours',array(
 										'idSousParcours' => $sous_parcours->id,
 										'idUser' => $this->zfcUserIdentity()->getId(),
-										'return' => $scene->id)); ?>">
+										'return' => 'scene',
+										'idReturn' => $scene->id)); ?>">
 									<span class="text-warning"><i class="icon-cogs"> </i></span> Commencer un chantier sur ce sous-parcours
 								</a>
 							</li>
@@ -228,8 +229,10 @@ $this->headTitle($title); ?>
 									</td>
 									<td>
 										<p class="text-info">
-										[<?php echo ($scene->transition_recommandee_entrante->semantique) ? $scene->transition_recommandee_entrante->semantique->semantique : 'Sémantique inconnue' ; ?>]
-							           	<?php echo $this->escapeHtml($scene->transition_recommandee_entrante->narration); ?>
+										<?php echo ($scene->transition_recommandee_entrante->semantique) ? $scene->transition_recommandee_entrante->semantique->semantique : 'Sémantique inconnue' ; ?>
+							           	<a href="<?php echo $this->url('transition/voir', array('id' => $scene->transition_recommandee_entrante->id)) ?>"> 
+											(voir détail)
+										</a>
 								        </p>
 									</td>
 								</tr>
@@ -248,8 +251,10 @@ $this->headTitle($title); ?>
 								<tr>
 									<td>
 										<p class="text-info">
-										[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>]
-							            <?php echo $this->escapeHtml($transition->narration); ?>
+										<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+							            <a href="<?php echo $this->url('transition/voir', array('id' => $transition->id)) ?>"> 
+											(voir détail)
+										</a>
 								        </p>
 									</td>
 							        <td>
@@ -297,8 +302,10 @@ $this->headTitle($title); ?>
 										</td>
 										<td>
 											<p class="muted">
-											[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>]
-											"<?php echo $this->escapeHtml($transition->narration); ?>"
+											<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+											<a href="<?php echo $this->url('transition/voir', array('id' => $transition->id)) ?>"> 
+												(voir détail)
+											</a>
 											</p>
 										</ul>
 										</td>
@@ -320,8 +327,10 @@ $this->headTitle($title); ?>
 									<tr>
 										<td>
 											<p class="muted">
-											[<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>]
-											"<?php echo $this->escapeHtml($transition->narration); ?>"
+											<?php echo ($transition->semantique) ? $transition->semantique->semantique : 'Sémantique inconnue' ; ?>
+											<a href="<?php echo $this->url('transition/voir', array('id' => $transition->id)) ?>"> 
+												(voir détail)
+											</a>
 											</p>
 										</td>
 										<td>
