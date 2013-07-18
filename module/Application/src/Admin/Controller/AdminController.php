@@ -827,7 +827,16 @@ class AdminController extends AbstractActionController
             ));
 
             $aaData = array();
-
+            
+            $paginator = null;
+            
+            if(isset($params["conditions"])){
+                $conditions = json_decode($params["conditions"], true);
+                $paginator = $dataTable->getPaginator($conditions);
+            } else {
+                $paginator = $dataTable->getPaginator();
+            }
+                
             foreach ($dataTable->getPaginator() as $log) {
                 
                 $aaData[] = array(
@@ -842,8 +851,19 @@ class AdminController extends AbstractActionController
             
             return $this->getResponse()->setContent($dataTable->findAll());
         } else {
-            return new ViewModel();
 
+            $em                = $this->getEntityManager();
+
+            $queryActions      = $em->createQuery('SELECT DISTINCT l.action FROM Gedmo\Loggable\Entity\LogEntry l');
+            $selectActions     = $queryActions->getResult();
+
+            $queryObjectClass  = $em->createQuery('SELECT DISTINCT l.objectClass FROM Gedmo\Loggable\Entity\LogEntry l');
+            $selectObjectClass = $queryObjectClass->getResult();
+
+            $queryUsers        = $em->createQuery('SELECT DISTINCT l.username FROM Gedmo\Loggable\Entity\LogEntry l');
+            $selectUsers       = $queryUsers->getResult();
+
+            return new ViewModel( array( "selectObjectClass" => $selectObjectClass, "selectUsers" => $selectUsers, "selectActions" => $selectActions ) );
         }
     }
     
@@ -885,6 +905,9 @@ class AdminController extends AbstractActionController
     			 
                     //On ajoute la date de création de l'utilisateur
                     //$user->setCreated( new \DateTime('NOW') );
+
+                    //On "active" l'utilisateur
+                    $user->setState(1);
         			
                     //On récupère le role 'Utilisateur'
     				$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array('roleId'=>'Utilisateur'));

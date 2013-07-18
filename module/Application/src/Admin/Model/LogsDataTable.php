@@ -55,7 +55,6 @@ class LogsDataTable extends DataTable
 	 * @param array  $conditions Tableau de conditions
 	 * @return \Doctrine\ORM\Tools\Pagination\Paginator Résultats paginés
 	 */
-	/*
 	public function getPaginator($conditions = null)
 	{
 		if (! $this->paginator) {
@@ -68,7 +67,7 @@ class LogsDataTable extends DataTable
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
-				$allowedType = array("id", "action", "loggedAt", "objectClass", "username");
+				$allowedType = array("action", "loggedAt", "objectClass", "objectId", "username");
 
 				$arrayOfType = array();
 				$arrayOfTe = array();
@@ -88,37 +87,27 @@ class LogsDataTable extends DataTable
 				foreach($arrayOfType as $key => $type){
 					
 					$requete = "eq";
-					$key1 = null;
-					if( $key === "type_destination" || $key === "type_origine" ){
 
-						$query->leftJoin($alias.'.'.$key, $key)
-			                       ->addSelect($key);
-						$key1 = $key.'.id';
-					} else if( $key === "semantique" ){
-						$key1 = $alias.'.'.$key;
-						$requete = "like";
-					} else {
-						$key1 = $alias.'.'.$key;
-					}
+					$key = $alias.'.'.$key;
 
 					//Si il y a plus de 1 valeur pour un type, on les ajoute au tableau de OR
 					if( count($type) > 1 ){
-						
-						$andx = $query->expr()->andx();
+
+						$orX = $query->expr()->orX();
 						
 						foreach($type as $value){
 							if($requete === "like"){ $value = '%'.$value.'%'; }
 							
-							$andx->add($query->expr()->$requete( $key1,  $query->expr()->literal($value) ));
+							$orX->add($query->expr()->$requete( $key,  $query->expr()->literal($value) ));
 						}
 						
-						$andX->add($andx);
+						$andX->add($orX);
 						
 					//Sinon on les ajoute au tableau de AND
 					} else {
 						if($requete === "like"){ $type[0] = '%'.$type[0].'%'; }
 						
-						$andX->add($query->expr()->$requete( $key1,  $query->expr()->literal($type[0]) ));
+						$andX->add($query->expr()->$requete( $key,  $query->expr()->literal($type[0]) ));
 						
 					}
 				}
@@ -139,7 +128,7 @@ class LogsDataTable extends DataTable
 
 			$iSortCol_0 = !isset($this->iSortCol_0) ? 0 : $this->iSortCol_0;
 
-			//$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
+			$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
 
 
 			if ($this->getSSearch() != null) {
@@ -180,7 +169,5 @@ class LogsDataTable extends DataTable
 	
 		return $this->paginator;
 	}
-	*/
-
 	
 }

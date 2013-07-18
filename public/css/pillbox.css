@@ -70,3 +70,7 @@
 .pillbox li.status-info {
   background-color: #3a87ad;
 }
+
+.pillbox li.status-error {
+  background-color: #bd362f;
+}

@@ -78,12 +78,6 @@
 	        			"data": aoData,
 	        			"success": fnCallback
 	     			});
-	     		},
-	     		"fnDrawCallback": function(oSettings, json){
-	     			$(".href-type-element").unbind("click").bind("click", function(e) {
-						window.open($(this).attr("href"), "_blank");
-						e.preventDefault();
-					});
 	     		}
 			}
 		);

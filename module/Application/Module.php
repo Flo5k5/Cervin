@@ -50,7 +50,7 @@ class Module implements AutoloaderProviderInterface,
       	//  $evm = new \Doctrine\Common\EventManager();
         $auth = $sm->get('zfcuser_auth_service');
 
-        $user = ($auth->getIdentity()) ? $auth->getIdentity() : 'PUBLIC' ;
+        $user = ($auth->getIdentity()) ? $auth->getIdentity()->id.' : '.$auth->getIdentity()->displayName : 'PUBLIC' ;
         
         $loggableListener = new LoggableListener;
         //$loggableListener->setAnnotationReader($cachedAnnotationReader);
