@@ -10,6 +10,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 $this->headLink()->prependStylesheet($this->basePath() . '/css/select2.css');
 ?>
 
+<?php if ($element->public) :?>
+	<div class="alert alert-error">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <h2><i class="icon-warning-sign"></i> Attention ! <i class="icon-warning-sign"></i></h2> Cet élément est <strong>public</strong>, pensez à le passer en brouillon si vous ne voulez pas que vos modifications soit immédiatement visibles (bouton 'Actions' à droite de l'écran).
+	</div>
+<?php endif;?>
+
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('collection') ?>">Collection Numérique</a> <span class="divider">/</span></li>

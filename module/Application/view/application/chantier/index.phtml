@@ -35,6 +35,7 @@ $this->headTitle($title);
 			<th>Elément</th>
 			<th>Type</th>
 			<th>Commencé le</th>
+			<th>Visibilité</th>
 			<th></th>
 		</tr>
 		<?php foreach ($user->elements_chantier as $element) :?>
@@ -52,6 +53,13 @@ $this->headTitle($title);
 		    	<td>Média</td>
 		    <?php endif; ?>
 		    <td><?php echo (($element->utilisateurChange) ? $element->utilisateurChange->format('Y-m-d à H:i') : 'N/A'); ?></td>
+			<td>
+			<?php if ($element->public) :?>
+				<p class="text-error"><i class="icon-warning-sign"></i> Public <i class="icon-warning-sign"></i> </p>
+			<?php else :?>
+				Brouillon
+			<?php endif; ?>
+			</td>
 			<td>
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierElement',array(
@@ -83,6 +91,7 @@ $this->headTitle($title);
 			<th>Sous-parcours</th>
 			<th>Parcours</th>
 			<th>Commencé le</th>
+			<th>Visibilité</th>
 			<th></th>
 		<?php foreach ($user->sous_parcours_chantier as $sous_parcours) :?>
 		<tr>
@@ -93,7 +102,13 @@ $this->headTitle($title);
 				</a>
 			</td>
 		    <td><?php echo (($sous_parcours->utilisateurChange) ? $sous_parcours->utilisateurChange->format('Y-m-d à H:i') : 'N/A'); ?></td>
-		   
+		   <td>
+			<?php if ($sous_parcours->parcours->public) :?>
+				<p class="text-error"><i class="icon-warning-sign"></i> Public <i class="icon-warning-sign"></i> </p>
+			<?php else :?>
+				Brouillon
+			<?php endif; ?>
+			</td>
 			<td>
 				<p class="text-right">
 				<a href="<?php echo $this->url('chantier/terminerChantierSousParcours',array(

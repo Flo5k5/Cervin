@@ -62,6 +62,7 @@ class ChantierController extends AbstractActionController
 		$element->utilisateur = $user;
 		$this->getEntityManager()->flush();
 		$this->flashMessenger()->addSuccessMessage(sprintf('L\'élément <em> '. $escapeHtml($element->titre) .'</em> fait maintenant partie de vos chantiers en cours.'));
+		
 		return $this->redirect()->toRoute('element/editer', array('id'=>$idElement));
     }
     
@@ -82,6 +83,9 @@ class ChantierController extends AbstractActionController
     		$this->flashMessenger()->addSuccessMessage(sprintf('L\'artefact <em>'. $escapeHtml($element->titre) .'</em> n\'est plus en chantier.'));
     	} else {
     		$this->flashMessenger()->addSuccessMessage(sprintf('Le média <em>'. $escapeHtml($element->titre) .'</em> n\'est plus en chantier.'));
+    	}
+    	if (!$element->public) {
+    		$this->flashMessenger()->addInfoMessage(sprintf('<i class="info-sign"></i> Cet élément est un <strong>Brouillon</strong>, si vos modifications sont terminées et vérifiées, pensez à le passer en public pour les rendre visibles (depuis la fiche de l\'élément).'));
     	}
     	$return = $this->params()->fromRoute('return', 0);
     	if ($return == 'admin') {
@@ -136,6 +140,20 @@ class ChantierController extends AbstractActionController
     	$sous_parcours->utilisateur = null;
     	$this->getEntityManager()->flush();
     	$this->flashMessenger()->addSuccessMessage(sprintf('Le sous parcours <em>'. $escapeHtml($sous_parcours->titre) .'</em> du parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> n\'est plus en chantier.'));
+    	
+    	/* Si aucun sous-parcours n'est en chantier
+    	 * et que le parcours est brouillon
+    	 * on affiche une notif pour passer le parcours en public*/
+    	$aucun_chantier = true;
+    	foreach ($sous_parcours->parcours->sous_parcours as $sous_parcours) {
+    		if ($sous_parcours->utilisateur != null) {
+    			$aucun_chantier = false;
+    			break;
+    		}
+    	}
+    	if ($aucun_chantier && !$sous_parcours->parcours->public) {
+    		$this->flashMessenger()->addInfoMessage(sprintf('<i class="info-sign"></i> Aucun sous-parcours du parcours n\'est maintenant en chantier, pourtant le parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est un <strong>Brouillon</strong>. <br/> Si vos modifications sont terminées et vérifiées, pensez à le passer en public pour les rendre visibles (depuis la page d\'accueil du parcours).'));
+    	}
     	$return = $this->params()->fromRoute('return');
     	if ($return == 'admin') {
     		return $this->redirect()->toRoute('chantier/admin');

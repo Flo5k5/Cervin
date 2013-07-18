@@ -11,6 +11,15 @@ $this->headTitle($title);
 
 <?php $sous_parcours = $scene->sous_parcours; ?>
 <?php $parcours = $sous_parcours->parcours; ?>
+
+<?php if ($parcours->public) :?>
+	<div class="alert alert-error">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <h2><i class="icon-warning-sign"></i> Attention ! <i class="icon-warning-sign"></i></h2> Ce parcours est <strong>public</strong>, pensez à le passer en brouillon si vous ne voulez pas que vos modifications soit immédiatement visibles
+	  (depuis <a href="<?php echo $this->url('parcours/voir', array('id'=>$parcours->id)) ?>">la page d'accueil du parcours</a>).
+	</div>
+<?php endif;?>
+
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>"> Accueil </a> <span class="divider">/</span></li>
     <li><a href="<?php echo $this->url('parcours') ?>">Parcours</a> <span class="divider">/</span></li>

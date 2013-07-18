@@ -314,13 +314,6 @@ class ParcoursController extends AbstractActionController
     		$this->getResponse()->setStatusCode(404);
     		return;
     	}
-    	$parcours = ($Transition->parcours) ? $Transition->parcours : $Transition->sous_parcours->parcours;
-    	if ($Transition->sous_parcours) {
-	    	if ($Transition->sous_parcours->utilisateur != $this->zfcUserAuthentication()->getIdentity()) {
-	    		$this->flashMessenger()->addErrorMessage(sprintf('Le sous-parcours <em>'. $escapeHtml($Transition->sous_parcours->titre) .'</em> doit faire partie de vos chantiers en cours pour que vous puissiez modifier cette transition.'));
-	    		return $this->redirect()->toRoute('parcours/voir', array('id'=>$parcours->id));
-	    	}
-    	}
     	
         if ($this->getRequest()->isXmlHttpRequest()) 
         {

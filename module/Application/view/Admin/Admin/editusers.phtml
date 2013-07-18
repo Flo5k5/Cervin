@@ -128,6 +128,10 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 					$(".ResetPassword").popover({placement:'top', trigger:'hover'});
 					
 					$(".SupprimerUser").popover({placement:'top', trigger:'hover'});
+					
+					$(".DesactiverUser").popover({placement:'top', trigger:'hover'});
+					
+					$(".ReactiverUser").popover({placement:'top', trigger:'hover'});
 
 					$(".Info").popover({placement:'top', trigger:'hover'});
 	
@@ -163,12 +167,76 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			}
 		);
 		
+		$(document).on( 'click', '.DesactiverUser', function(e){
+			var dateURL = $(this).attr('data-url');
+			var dateValue = $(this).attr('data-value');
+			$('#confirmDiv').confirmModal({
+				heading:'Confirmation',
+				body:"Êtes-vous sûr de vouloir désactiver l'utilisateur "+dateValue+" ?",
+				callback: function() {
+      				$('body').css('cursor', 'wait');
+					$.post(
+						dateURL,
+						{ name: "desactiver" },
+						function(e) {
+						                           
+							var resp = jQuery.parseJSON(e);
+															
+							if(resp.status === true){
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.message, "success");
+								$('body').css('cursor', 'auto');
+							} else {
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.error, "error");
+								$('body').css('cursor', 'auto');
+							}
+							
+							table.fnDraw();
+						}
+					);
+				}
+			});   
+		});
+		
+		$(document).on( 'click', '.ReactiverUser', function(e){
+			var dateURL = $(this).attr('data-url');
+			var dateValue = $(this).attr('data-value');
+			$('#confirmDiv').confirmModal({
+				heading:'Confirmation',
+				body:"Êtes-vous sûr de vouloir réactiver l'utilisateur "+dateValue+" ?",
+				callback: function() {
+      				$('body').css('cursor', 'wait');
+					$.post(
+						dateURL,
+						{ name: "reactiver" },
+						function(e) {
+						                           
+							var resp = jQuery.parseJSON(e);
+															
+							if(resp.status === true){
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.message, "success");
+								$('body').css('cursor', 'auto');
+							} else {
+								//location.reload();
+								$('.messageEditUsers').showInfos(resp.error, "error");
+								$('body').css('cursor', 'auto');
+							}
+							
+							table.fnDraw();
+						}
+					);
+				}
+			});   
+		});
+		
 		$(document).on( 'click', '.SupprimerUser', function(e){
 			var dateURL = $(this).attr('data-url');
 			var dateValue = $(this).attr('data-value');
 			$('#confirmDiv').confirmModal({
 				heading:'Confirmation',
-				body:"Êtes-vous sûr de vouloir désactiver l'utilisateur : "+dateValue+" ?",
+				body:"Êtes-vous sûr de vouloir supprimer l'utilisateur "+dateValue+" de la base de données ?",
 				callback: function() {
       				$('body').css('cursor', 'wait');
 					$.post(

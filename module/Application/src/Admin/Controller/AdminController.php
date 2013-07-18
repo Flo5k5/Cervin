@@ -82,8 +82,6 @@ class AdminController extends AbstractActionController
 
             foreach ($dataTable->getPaginator() as $user) {
 
-                if( $user->state != 1 ){ continue; }
-				
 	            if(!isset( $user->roles['0']) )
 	            {
 	                $role = 'null';
@@ -93,114 +91,161 @@ class AdminController extends AbstractActionController
 	                $roleId = $user->roles['0']->getId();
 	            }
 	            
-                if($user->attenteRole === null )
-                {
-                    $attenteRole = '';
-                    $attenteRoleDataOriginalTitle = '';
-                } else {
-                    $attenteRole = '<span class="text-error">
-                                    <i class="icon-comment"></i></span>
-                                    ';
- $attenteRoleDataOriginalTitle = ' data-html="true" data-original-title="Demande le droit :<b>
- '.$user->attenteRole->getRoleId().'</b>  
- <a href=\'#\' class=\'refueRole btn btn-mini btn-danger\' data-url=\''.$this->url()->fromRoute("admin/refueRole", array("id" => $user->id)).'\'><i class=\'icon-remove\'></i> Refuser</a>"';
-
-                }
-				
-				$editable_role      = "";
-	            $btn_reset_password = "";
-	            $btn_supprimer      = "";
-				
-	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
-	            	$editable_role = '<span
-	                        id="role"
-	                        class="status CursorPointer"
-	                        data-type="select"
-	                        data-pk="'. $user->id.'"
-	                        '.$attenteRoleDataOriginalTitle.'
-	                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
-	                        data-value="'.$roleId.'">
-	                            '.$role.' '.$attenteRole.'
-	                    	</span>';
-	            	$btn_supprimer = '<a href="#" 
-	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-	            			data-value="'.$user->username.'" 
-	            			class="btn btn-danger SupprimerUser"
-	            			data-toggle="popover"
-	            			data-content="L\'utilisateur sera désactivé et ne pourra plus se loguer"
-	            			data-title="Désactiver l\'utilisateur">
-	            				<i class="icon-trash"></i>
-	            			</a>';
-	            	$btn_reset_password = '<a href="#" 
-	            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-	            			data-value="'.$user->username.'" 
-	            			class="btn btn-primary ResetPassword"
-	            			data-toggle="popover"
-	            			data-content="Un nouveau mot de passe sera généré et envoyé par mail"
-	            			data-title="Réinitialiser le mot de passe de l\'utilisateur">
-	            				<i class="icon-unlock"></i>
-	            			</a>';
-	            } else {
-	            	$editable_role = ' <span id="role" > '.$role.' </span> ';
-	            }
-
-                $info_date = '<a href="#" 
-                            class="btn btn-info Info"
-                            data-toggle="popover"
-                			data-html="true" 
-                            data-content="
-                			Dernière connexion : '.(($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à H:i') : 'N/A').'<br/>
-                            Date de création : '.(($user->created) ? $user->created->format('Y-m-d à H:i') : 'N/A').'">
-                                <i class="icon-time"></i>
-                            </a>';
+	            $info_date = '<a href="#"
+	                            class="Info"
+	                            data-toggle="popover"
+	                			data-html="true"
+	                            data-content="
+	                			Dernière connexion : '.(($user->derniereConnexion) ? $user->derniereConnexion->format('Y-m-d à H:i') : 'N/A').'<br/>
+	                            Date de création : '.(($user->created) ? $user->created->format('Y-m-d à H:i') : 'N/A').'">
+	                                <i class="icon-time"></i>
+	                            </a>';
 	            
-                $aaData[] = array(
-                    '<span id="username" 
-                        class="text CursorPointer" 
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->username).'
-                    </span>',
-                		
-                    '<span id="displayName" 
-                        class="text CursorPointer" 
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->displayName).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->displayName).'
-                    </span>',
-                		
-                    '<span id="email" 
-                        class="text CursorPointer" 
-                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->email).'
-                    </span>',
-                		
-                    '<span id="telephone" class="text CursorPointer" 
-                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->telephone).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->telephone).'</span>',
-                		
-                    '<span id="adresse" class="text CursorPointer" 
-                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->adresse).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->adresse).'</span><br/>
-                	 <span id="code_postal" class="text CursorPointer" 
-                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->code_postal).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->code_postal).'</span>&nbsp;
-                	 <span id="ville" class="text CursorPointer" 
-                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->ville).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->ville).' </span><br/>
-                	 <span id="pays" class="text CursorPointer" 
-                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
-                        data-value="'.$escapeHtml($user->pays).'" data-type="text" data-pk="1"
-                		>'.$escapeHtml($user->pays).' </span>',
-                		
-                    $editable_role,
-                	$btn_reset_password.$btn_supprimer.$info_date
-                );
+	            $btn_supprimer = "";
+	            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
+	            	$btn_supprimer = '<a href="#"
+		            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+		            			data-value="'.$user->username.'"
+		            			class="btn btn-danger SupprimerUser"
+		            			data-toggle="popover"
+		            			data-content="L\'utilisateur sera supprimé de la base de données"
+		            			data-title="Supprimer l\'utilisateur">
+		            				<i class="icon-trash"></i>
+		            			</a>';
+	            }
+	            
+	            
+	            // UTILISATEUR ACTIF
+	            if( $user->state ) {
+
+	                if($user->attenteRole === null )
+	                {
+	                    $attenteRole = '';
+	                    $attenteRoleDataOriginalTitle = '';
+	                } else {
+	                	$attenteRole = '<span class="text-error">
+	                    	<i class="icon-comment"></i></span>';
+	 					$attenteRoleDataOriginalTitle = ' data-html="true" data-original-title="Demande le droit :<b>
+	 						'.$user->attenteRole->getRoleId().'</b>  
+	 						<a href=\'#\' class=\'refueRole btn btn-mini btn-danger\' 
+	 						data-url=\''.$this->url()->fromRoute("admin/refueRole", array("id" => $user->id)).'\'>
+	 						<i class=\'icon-remove\'></i> Refuser</a>"';
+	                }
+					
+					$editable_role      = "";
+		            $btn_reset_password = "";
+		            $btn_desactiver      = "";
+					
+		            if ($user->id != $this->zfcUserAuthentication()->getIdentity()->getId()) {
+		            	$editable_role = '<span
+		                        id="role"
+		                        class="status CursorPointer"
+		                        data-type="select"
+		                        data-pk="'. $user->id.'"
+		                        '.$attenteRoleDataOriginalTitle.'
+		                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+		                        data-value="'.$roleId.'">
+		                            '.$role.' '.$attenteRole.'
+		                    	</span>';
+		            	$btn_desactiver = '<a href="#" 
+		            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+		            			data-value="'.$user->username.'" 
+		            			class="btn btn-danger DesactiverUser"
+		            			data-toggle="popover"
+		            			data-content="L\'utilisateur sera désactivé et ne pourra plus se loguer. Ses coordonnées seront conservées en base."
+		            			data-title="Désactiver l\'utilisateur">
+		            				<i class="icon-lock"></i>
+		            			</a>';
+		            	$btn_reset_password = '<a href="#" 
+		            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+		            			data-value="'.$user->username.'" 
+		            			class="btn btn-primary ResetPassword"
+		            			data-toggle="popover"
+		            			data-content="Un nouveau mot de passe sera généré et envoyé par mail"
+		            			data-title="Réinitialiser le mot de passe de l\'utilisateur">
+		            				<i class="icon-key"></i>
+		            			</a>';
+		            } else {
+		            	$editable_role = ' <span id="role" > '.$role.' </span> ';
+		            }
+	
+	                $aaData[] = array(
+	                    '<span id="username" 
+	                        class="text CursorPointer" 
+	                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->username).'" data-placement="right" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->username).'
+	                    </span>',
+	                		
+	                    '<span id="displayName" 
+	                        class="text CursorPointer" 
+	                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->displayName).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->displayName).'
+	                    </span>',
+	                		
+	                    '<span id="email" 
+	                        class="text CursorPointer" 
+	                        data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->email).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->email).'
+	                    </span>',
+	                		
+	                    '<span id="telephone" class="text CursorPointer" 
+	                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->telephone).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->telephone).'</span>',
+	                		
+	                    '<span id="adresse" class="text CursorPointer" 
+	                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->adresse).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->adresse).'</span><br/>
+	                	 <span id="code_postal" class="text CursorPointer" 
+	                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->code_postal).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->code_postal).'</span>&nbsp;
+	                	 <span id="ville" class="text CursorPointer" 
+	                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->ville).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->ville).' </span><br/>
+	                	 <span id="pays" class="text CursorPointer" 
+	                		data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'" 
+	                        data-value="'.$escapeHtml($user->pays).'" data-type="text" data-pk="1"
+	                		>'.$escapeHtml($user->pays).' </span>',
+	                		
+	                    $editable_role,
+	                		
+	                	'<div class="pull-left">'.$btn_desactiver.$btn_supprimer.$btn_reset_password.'</div>		
+	                	<div class="pull-right">'.$info_date.'</div>',
+	                	
+	                );
+	                
+	            // UTILISATEUR DESACTIVE
+            	} else {
+            		$btn_reactiver = '<a href="#"
+		            			data-url="'.$this->url()->fromRoute("admin/changeUserAjax", array("id" => $user->id)).'"
+		            			data-value="'.$user->username.'"
+		            			class="btn btn-danger ReactiverUser"
+		            			data-toggle="popover"
+		            			data-content="L\'utilisateur sera réactivé"
+		            			data-title="Réactiver l\'utilisateur">
+		            				<i class="icon-unlock"></i>
+		            			</a>';
+            		$aaData[] = array(
+            				'<p class="muted">'.$escapeHtml($user->username).'</p>',
+            				'<p class="muted">'.$escapeHtml($user->displayName).'</p>',
+            				'<p class="muted">'.$escapeHtml($user->email).'</p>',
+            				'<p class="muted">'.$escapeHtml($user->telephone).'</p>',
+            				'<p class="muted">'.
+            					$escapeHtml($user->adresse).'<br/>'.
+            					$escapeHtml($user->code_postal).' '.$escapeHtml($user->ville).'<br/>'.
+            					$escapeHtml($user->pays).
+            				'</p>',
+							'<p class="muted">'.$escapeHtml($role).'</p>',
+            				'<div class="pull-left">'.$btn_reactiver.$btn_supprimer.'</div>
+	                		<div class="pull-right">'.$info_date.'</div>',
+            		);
+            	}
             }
             $dataTable->setAaData($aaData);
             
@@ -455,7 +500,7 @@ class AdminController extends AbstractActionController
                 return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le role a été mis à jour")));
 
             }
-            elseif ($postData['name'] == 'supprimer')
+            elseif ($postData['name'] == 'desactiver')
             {
             	try {
             		//$this->getEntityManager()->remove($user);
@@ -475,6 +520,37 @@ class AdminController extends AbstractActionController
                 
                 return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été désactivé")));
 
+            }
+            elseif ($postData['name'] == 'reactiver')
+            {
+            	try {
+            		$role = $this->getEntityManager()->getRepository('SamUser\Entity\Role')->findOneBy(array('roleId'=>'Utilisateur'));
+            		$user->removeRoles($user->getRoles());
+            		$user->addRole($role);
+            		$user->setState(1);
+            
+            		$this->getEntityManager()->persist($user);
+            		$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		//return $this->redirect()->toRoute('page');
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+            
+            	return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été désactivé")));
+            
+            }
+            elseif ($postData['name'] == 'supprimer')
+            {
+            	try {
+            		$this->getEntityManager()->remove($user);
+            		$this->getEntityManager()->flush();
+            	}
+            	catch (\Exception $ex) {
+            		return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            	}
+            	return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'utilisateur a été supprimé")));
+            
             }
            
         } else {
