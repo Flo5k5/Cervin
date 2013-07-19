@@ -156,7 +156,7 @@ class ChantierController extends AbstractActionController
     		}
     	}
     	if ($aucun_chantier && !$sous_parcours->parcours->public) {
-    		$this->flashMessenger()->addInfoMessage(sprintf('<i class="info-sign"></i> Aucun sous-parcours du parcours n\'est maintenant en chantier, pourtant le parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est un <strong>Brouillon</strong>. <br/> Si vos modifications sont terminées et vérifiées, pensez à le passer en public pour les rendre visibles (depuis la page d\'accueil du parcours).'));
+    		$this->flashMessenger()->addInfoMessage(sprintf('<i class="icon-info-sign"></i> Aucun sous-parcours n\'est maintenant en chantier, pourtant le parcours <em>'. $escapeHtml($sous_parcours->parcours->titre) .'</em> est un <strong>Brouillon</strong>. <br/> Si vos modifications sont terminées et vérifiées, pensez à le passer en public pour les rendre visibles (depuis la page d\'accueil du parcours).'));
     	}
     	$return = $this->params()->fromRoute('return');
     	if ($return == 'admin') {

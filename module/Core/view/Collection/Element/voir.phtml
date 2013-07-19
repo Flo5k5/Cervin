@@ -137,7 +137,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 			<!-- En chantier par un autre utilisateur -->
 			<p class="text-warning">
 				<em><i class="icon-cogs"></i>  Chantier en cours par : 
-				<a class="text-warning" href="mailto:<?php echo $artefact->utilisateur->email; ?>"> 
+				<a class="text-warning" href="mailto:<?php echo $element->utilisateur->email; ?>"> 
 					<?php echo $element->utilisateur->displayName; ?>  <i class="icon-envelope"></i>
 				</a>
 				</em> 
