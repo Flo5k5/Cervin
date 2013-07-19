@@ -23,6 +23,8 @@ class LogsDataTable extends DataTable
     				'action',
     				'loggedAt',
     				'objectClass',
+    				'objectId',
+    				'version',
     				'username'
 	        );
 	        $this->setConfiguration($configuration);
@@ -34,6 +36,8 @@ class LogsDataTable extends DataTable
                     $log->getAction(),
                     $log->getLoggedAt(),
                     $log->getObjectClass(),
+                    $log->getObjectId(),
+                    $log->getVersion(),
                     $log->getUsername()
 			    );
 			    $aaData[] = $data;
@@ -67,7 +71,7 @@ class LogsDataTable extends DataTable
 			if(isset($conditions)){
 				
 				//Tableau de types autorisés
-				$allowedType = array("action", "loggedAt", "objectClass", "objectId", "username");
+				$allowedType = array("action", "loggedAt", "objectClass", "objectId", "username", "version");
 
 				$arrayOfType = array();
 				$arrayOfTe = array();
@@ -130,34 +134,7 @@ class LogsDataTable extends DataTable
 
 			$query->add("orderBy", "{$alias}.{$this->configuration[$iSortCol_0]} {$this->sSortDir_0}");
 
-
-			if ($this->getSSearch() != null) {
-				$sSearch = strtoupper($this->getSSearch());
-				$sSearch = preg_replace('/[^[:ascii:]]/', '%', $sSearch);
-				$sSearch = preg_replace('/[%]{1,}/', '%', $sSearch);
-				$sSearch = '%'.$sSearch.'%';
-
-				$this->setSSearch($sSearch);
-				
-				$andX = $query->expr()->andX();
-				
-				$orX = $query->expr()->orX();
-				
-				//for ($i = 0; $i < 2; $i++) {
-
-					$column = $this->configuration[1];
-					
-					$orX->add($query->expr()->like( $query->expr()->upper("{$alias}.{$column}"), $query->expr()->literal($this->getSSearch()) ));
-
-				//}
-				
-				$andX->add($orX);
-				
-				//$query->add('where', $andX);
-				$query->andWhere($andX);
-			}
-			
-			//echo $query->getQuery()->getSQL();
+			//var_dump($query->getQuery()->getSQL());
 			
 			$paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 

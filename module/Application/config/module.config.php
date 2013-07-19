@@ -231,12 +231,22 @@ return array(
                     		),
                     ),
                     'ajouter-utilisateur' => array(
+                            'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'options' => array(
+                                    'route' => '/ajouter-utilisateur',
+                                    'defaults' => array(
+                                            'controller' => 'Admin',
+                                            'action'     => 'AjouterUtilisateur',
+                                    ),
+                            ),
+                    ),                    
+                    'revert-object' => array(
                     		'type' => 'Zend\Mvc\Router\Http\Literal',
                     		'options' => array(
-                    				'route' => '/ajouter-utilisateur',
+                    				'route' => '/revert-object',
                     				'defaults' => array(
                     						'controller' => 'Admin',
-                    						'action'     => 'AjouterUtilisateur',
+                    						'action'     => 'RevertObjectAjax',
                     				),
                     		),
                     ),
