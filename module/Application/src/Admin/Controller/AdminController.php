@@ -730,7 +730,6 @@ class AdminController extends AbstractActionController
                 return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "Le nom du pays a été mis à jour")));
 
             }
-
            
         } else {
             $this->getResponse()->setStatusCode(404);
@@ -823,6 +822,7 @@ class AdminController extends AbstractActionController
                 'action',
                 'objectClass',
                 'objectId',
+                'version',
                 'username'
             ));
 
@@ -838,15 +838,50 @@ class AdminController extends AbstractActionController
             }
                 
             foreach ($dataTable->getPaginator() as $log) {
-                
+                //var_dump($log->getData());
+                $revertButton = '<a href="#" 
+                    data-url="'.$this->url()->fromRoute("admin/revert-object").'"
+                    data-version="'.$log->getVersion().'"
+                    data-object="'.$log->getObjectClass().'"
+                    data-id="'.$log->getObjectId().'"
+                    class="btn btn-danger revertObject popoverTop"
+                    data-toggle="popover"
+                    data-content="Revenir à cette version">
+                        <i class="icon-undo"></i>
+                </a>';
+
+                $popoverDatasModified = null;
+
+                foreach($log->getData() as $name => $data){
+                    if(is_array($data)){ $data = json_encode($data); }
+
+                    $popoverDatasModified .= ucfirst($name).' : "'.$data.'"<br/>';
+                }
+
+                $popoverDatasModified = str_replace("\"", "'", $popoverDatasModified);
+
+                $datasModified = '<a href="#"
+                                class="Info popoverLeft"
+                                data-toggle="popover"
+                                data-html="true"
+                                data-content="'.$popoverDatasModified.'"
+                                data-title="Donnée(s) modifiée(s)">
+                                    <i class="icon-copy"></i>
+                                </a>';
+
+                $action = '<div class="pull-left">'.$revertButton.'</div><div class="pull-right">'.$datasModified.'</div>';
+
                 $aaData[] = array(
                         $escapeHtml($log->getLoggedAt()->format('Y-m-d H:i:s')),
                         $escapeHtml($log->getAction()),
                         $escapeHtml($log->getObjectClass()),
                         $escapeHtml($log->getObjectId()),
+                        $escapeHtml($log->getVersion()),
                         $escapeHtml($log->getUsername()),
+                        $action
                 );
             }
+
             $dataTable->setAaData($aaData);
             
             return $this->getResponse()->setContent($dataTable->findAll());
@@ -864,6 +899,53 @@ class AdminController extends AbstractActionController
             $selectUsers       = $queryUsers->getResult();
 
             return new ViewModel( array( "selectObjectClass" => $selectObjectClass, "selectUsers" => $selectUsers, "selectActions" => $selectActions ) );
+        }
+    }
+
+    public function RevertObjectAjaxAction(){
+        if ($this->getRequest()->isXmlHttpRequest()){
+
+            $postData      = $this->params()->fromPost();
+
+            $objectId      = $postData['objectId'];
+            $objectClass   = $postData['objectClass'];
+            $objectVersion = $postData['version'];
+
+            $em            = $this->getEntityManager();
+
+            $query = $em->createQueryBuilder()
+                        ->select('MAX(l.version)')
+                        ->from('Gedmo\Loggable\Entity\LogEntry', 'l')
+                        ->where('l.objectId = :objectId')
+                        ->andWhere('l.objectClass = :objectClass') 
+                        ->setParameters(array( 'objectId' => $objectId, 'objectClass' => $objectClass ));
+
+            $lastVersionNumber = $query->getQuery()->getSingleResult();
+
+            if( $lastVersionNumber[1] == $objectVersion || $lastVersionNumber[1] < $objectVersion ){ 
+                return $this->getResponse()->setContent(
+                    Json::encode(array( "status" => 'error', "message" => "L'object est déjà à la dernière version"))
+                ); 
+            }
+
+            try {
+                $repo    = $em  ->getRepository('Gedmo\Loggable\Entity\LogEntry'); 
+                $object  = $em  ->find($objectClass, $objectId);
+                $logs    = $repo->getLogEntries($object);
+
+                $repo->revert($object, $objectVersion);
+                $em  ->persist($object);
+                $em  ->flush();
+            }
+            catch (\Exception $ex) {
+                return $this->getResponse()->setContent(Json::encode(array( "status" => "error", "message" => "Une erreur est survenue")));
+            }
+                
+            return $this->getResponse()->setContent(Json::encode(array( "status" => true, "message" => "L'object est revenu à une version précédente")));
+
+        } else {
+            $this->getResponse()->setStatusCode(404);
+            return;
         }
     }
     

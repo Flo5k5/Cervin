@@ -188,6 +188,7 @@ return array(
                 array('route' => 'admin/refueRole', 'roles' => array('Admin')),
                 array('route' => 'admin/logs', 'roles' => array('Admin')),
                 array('route' => 'admin/ajouter-utilisateur', 'roles' => array('Admin')),
+                array('route' => 'admin/revert-object', 'roles' => array('Admin')),
 
                 array('route' => 'page', 'roles' => array('Visiteur')),
                 array('route' => 'page/voir', 'roles' => array('Visiteur')),

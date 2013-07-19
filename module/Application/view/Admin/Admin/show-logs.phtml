@@ -94,6 +94,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
     </form>
 </div>
 
+<div class="infos"></div> 
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -101,16 +103,18 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
                 <table class="table table-striped table-bordered data">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th><p class="text-info"><i class="icon-wrench"> </i> Action</p></th>
-                            <th><p class="text-warning"><i class="icon-briefcase"> </i> Objet</p></th>
-                            <th><p class="text-error">Id Objet</p></th>
-                            <th><p class="text-success"><i class="icon-user"> </i> Utilisateur</p></th>
+                            <th><span class="">Date</span></th>
+                            <th><span class="text-info"><i class="icon-wrench"> </i> Action</span></th>
+                            <th><span class="text-warning"><i class="icon-briefcase"> </i> Objet</span></th>
+                            <th><span class="text-error">Id Objet</span></th>
+                            <th><span class="">Version</span></th>
+                            <th><span class="text-success"><i class="icon-user"> </i> Utilisateur</span></th>
+                            <th><span class=""></span></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="5">En cours de téléchargement</td>
+                            <td colspan="7">En cours de téléchargement</td>
                         </tr>
                     </tbody>
                 </table>
@@ -134,10 +138,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 		           	           	null,
 		           	           	null, 
 		           	        	null,
+                                null,
+                                null,
 		           	        	null,
 		                     	null
 	           	           	 ],
-	           	"iColumns": 5,
+	           	"iColumns": 7,
 	           	"bAutoWidth": false,
 				"bSortClasses":false,
 	           	"bProcessing": true,
@@ -159,6 +165,43 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
                     if (data.length > 0) {
                         aoData.push( { "name": "conditions", "value": JSON.stringify(data) } );
                     }
+                },
+                "fnDrawCallback": function () {
+                    $(".popoverTop").popover({placement:'top', trigger:'hover'});
+                    $(".popoverLeft").popover({placement:'left', trigger:'hover'});
+
+                    $('.data td').on('click', '.revertObject', function(e){
+                        var url         = $(this).attr('data-url');
+
+                        var version     = $(this).attr('data-version');
+                        var objectClass = $(this).attr('data-object');
+                        var objectId    = $(this).attr('data-id');
+
+                        var data        = { "objectId" : objectId, "objectClass" : objectClass, "version" : version };
+
+                        $.post( 
+                            url,
+                            data,
+                            function(response) {
+
+                                var response = JSON.parse(response);
+
+                                if( typeof response.status != 'undefined' ){
+                                    if( response.status == true ){
+                                        $('.infos').showInfos(response.message, "success");
+                                    } else {
+                                        $('.infos').showInfos(response.message, "error");
+                                    }
+                                } else {
+                                    $('.infos').showInfos("Une erreur est survenue", "error");
+                                }
+
+                                table.fnDraw();
+                            }
+                        );
+
+                        e.preventDefault();
+                    }); 
                 }
 			}
 		);
@@ -167,6 +210,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
             table.fnDraw();
             return false;
         });
+
+        
 
         // INITIALIZING PILLBOX
 
