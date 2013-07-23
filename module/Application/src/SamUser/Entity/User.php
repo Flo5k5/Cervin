@@ -53,7 +53,7 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     /**
      * @var string
      * @Gedmo\Versioned
-     * @ORM\Column(type="string", unique=true, length=255)
+     * @ORM\Column(type="string", length=255)
      */
     protected $email;
 
@@ -526,12 +526,6 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
     		 
-    		/*$inputFilter->add($factory->createInput(array(
-    			'name' => 'id',
-    			'required' => true,
-    			'filters' => array(array('name' => 'Int')),
-    		)));*/
-    		 
     		$inputFilter->add($factory->createInput(array(
     			'name' => 'username',
     			'required' => true,
@@ -575,6 +569,9 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     			'required' => true,
     			'attributes' => array(
     				'type' => 'email'
+    			),
+    			'validators' => array(
+    				array('name' => 'Zend\Validator\EmailAddress'),
     			),
     		)));
     		
