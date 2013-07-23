@@ -260,8 +260,9 @@ class Element implements InputFilterAwareInterface
     	} else {
     		throw new \Exception("Error Processing Request");
     	}
-    	mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
-    	
+    	if (!is_dir($_SERVER['DOCUMENT_ROOT'] . $champ_dir)) {
+    		mkdir($_SERVER['DOCUMENT_ROOT'] . $champ_dir);
+    	}
     	$dest_dir = $champ_dir . "/" . date("Y-m-d-H-i-s");
     	mkdir($_SERVER['DOCUMENT_ROOT'] . $dest_dir);
     	
