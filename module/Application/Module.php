@@ -62,7 +62,9 @@ class Module implements AutoloaderProviderInterface,
 
         $events->attach('ZfcUser\Form\Register','init', function($e) {
         	$form = $e->getTarget();
-
+        	
+        	//$form->get('email')->clearValidators();
+        	
         	$form->add(array(
         			'name' => 'telephone',
         			'type' => 'Zend\Form\Element\Text',
@@ -124,6 +126,23 @@ class Module implements AutoloaderProviderInterface,
         
         $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
         	$filter = $e->getTarget();
+        	
+        	/* On enlève le validator sur l'email de zfc-user 
+			 * qui vérifie l'unicité de l'email
+			 */ 
+        	$filter->remove('email');
+        	
+        	$filter->add(array(
+    			'name' => 'email',
+    			'required' => true,
+                'allowEmpty' => false,
+    			'attributes' => array(
+    				'type' => 'email'
+    			),
+        		'validators' => array(
+        			array('name' => 'Zend\Validator\EmailAddress'),
+        		),
+        	));
         	
         	$filter->add(array(
     			'name'     => 'telephone',

@@ -848,6 +848,9 @@ return array(
         		
         	'parcours/scene/voir-scene'		=> __DIR__ . '/../view/Parcours/Scene/voir-scene.phtml',
         	'parcours/scene/edit-scene'		=> __DIR__ . '/../view/Parcours/Scene/edit-scene.phtml',
+        	
+        	'parcours/transition/voir'		=> __DIR__ . '/../view/Parcours/Transition/voir.phtml',
+        	'parcours/transition/modifier'		=> __DIR__ . '/../view/Parcours/Transition/modifier.phtml',
         ),
         'template_path_stack' => array(
             'Collection' => __DIR__ . '/../view',

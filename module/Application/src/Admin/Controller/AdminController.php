@@ -838,37 +838,40 @@ class AdminController extends AbstractActionController
             }
                 
             foreach ($dataTable->getPaginator() as $log) {
-                //var_dump($log->getData());
-                $revertButton = '<a href="#" 
-                    data-url="'.$this->url()->fromRoute("admin/revert-object").'"
-                    data-version="'.$log->getVersion().'"
-                    data-object="'.$log->getObjectClass().'"
-                    data-id="'.$log->getObjectId().'"
-                    class="btn btn-danger revertObject popoverTop"
-                    data-toggle="popover"
-                    data-content="Revenir à cette version">
-                        <i class="icon-undo"></i>
-                </a>';
-
-                $popoverDatasModified = null;
-
-                foreach($log->getData() as $name => $data){
-                    if(is_array($data)){ $data = json_encode($data); }
-
-                    $popoverDatasModified .= ucfirst($name).' : "'.$data.'"<br/>';
+            	$datasModified = "";
+            	$revertButton = "";
+            	if ($log->getAction() != 'remove') {
+	                //var_dump($log->getData());
+	                $revertButton = '<a href="#" 
+	                    data-url="'.$this->url()->fromRoute("admin/revert-object").'"
+	                    data-version="'.$log->getVersion().'"
+	                    data-object="'.$log->getObjectClass().'"
+	                    data-id="'.$log->getObjectId().'"
+	                    class="btn btn-danger revertObject popoverTop"
+	                    data-toggle="popover"
+	                    data-content="Revenir à cette version">
+	                        <i class="icon-undo"></i>
+	                </a>';
+	
+	                $popoverDatasModified = null;
+					
+	                if ($log->getData()) {
+		                foreach($log->getData() as $name => $data){
+		                    if(is_array($data) || is_object($data)){ $data = json_encode($data); }
+		                    $popoverDatasModified .= ucfirst($name).' : "'.$data.'"<br/>';
+		                }
+	                
+	                	$popoverDatasModified = str_replace("\"", "'", $popoverDatasModified);
+	                }
+	                $datasModified = '<a href="#"
+	                                class="Info popoverLeft"
+	                                data-toggle="popover"
+	                                data-html="true"
+	                                data-content="'.$popoverDatasModified.'"
+	                                data-title="Donnée(s) modifiée(s)">
+	                                    <i class="icon-copy"></i>
+	                                </a>';
                 }
-
-                $popoverDatasModified = str_replace("\"", "'", $popoverDatasModified);
-
-                $datasModified = '<a href="#"
-                                class="Info popoverLeft"
-                                data-toggle="popover"
-                                data-html="true"
-                                data-content="'.$popoverDatasModified.'"
-                                data-title="Donnée(s) modifiée(s)">
-                                    <i class="icon-copy"></i>
-                                </a>';
-
                 $action = '<div class="pull-left">'.$revertButton.'</div><div class="pull-right">'.$datasModified.'</div>';
 
                 $aaData[] = array(
@@ -965,12 +968,12 @@ class AdminController extends AbstractActionController
     		if ($form->isValid()) {
     			
     			$username  = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('username'=>$user->getUsername()));
-    			$email     = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
+    			//$email     = $this->getEntityManager()->getRepository('SamUser\Entity\User')->findOneBy(array('email'=>$user->getEmail()));
 
     			if($username !== null || $email !== null ){
     				
     				if($username  !== null){ $this->flashMessenger()->addErrorMessage("Le nom d'utilisateur est déjà utilisé"); }
-    				if($email     !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
+    				//if($email     !== null){ $this->flashMessenger()->addErrorMessage("L'email est déjà utilisé"); }
 
     				return $this->redirect()->toRoute('admin/ajouter-utilisateur');
     			}
