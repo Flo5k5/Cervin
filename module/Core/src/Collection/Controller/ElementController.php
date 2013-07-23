@@ -143,7 +143,6 @@ class ElementController extends AbstractActionController
 						$this->getRequest()->getPost()->toArray(),
 						$this->getRequest()->getFiles()->toArray()
 				);
-				$data = $this->getRequest()->getPost();
 				$form->setData($data);
 				if ($form->isValid()) {
 					$element->populate($this->getEntityManager(), $data);
