@@ -66,7 +66,6 @@ class User extends ModelAbstract implements UserInterface, ProviderInterface
     
     /**
      * @var string
-     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=128)
      */
     protected $password;
