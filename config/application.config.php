@@ -18,6 +18,7 @@ return array(
     	'DoctrineDataFixtureModule',
         //'AssetManager',
         //'Album',
+        'ZF2FileUploadExamples' ,
         'Core',
         'DataTable'
         ),
