@@ -313,13 +313,21 @@ echo $this->headScript();
 			<div class="pull-left" >
 				<span class="text-left">
 					<?php echo date("Y"); ?> - Cervin
-					<br>
+					<br/>
 					<a href="<?php echo $this->url('page/voir',array('slug'=>'conditions-generales'));?>">Conditions générales</a>
 				</span>
 			</div>
 			
 			<div class="pull-right" >
-				<span class="text-right"><a href="#top"><i class="icon-arrow-up"></i> Haut de page</a></span>
+				<span class="text-right">
+				<?php 
+					$message = urlencode(" Titre de la page : ".substr($this->headTitle(), 7, -8));
+					$message .= urlencode("\n Url de la page : ".$_SERVER['HTTP_HOST'].$this->url());
+					$url = "https://tuleap.cervin.org/plugins/tracker/?tracker=27&func=new-artifact&artifact[901]=".$message;
+				?>
+				<a href="<?php echo $url;?>" target="_blank" class="btn btn-small">Soumettre un bug</a>
+				<a href="#top"><i class="icon-arrow-up"></i> Haut de page</a>
+				</span>
 			</div>
 
 	    </div>
