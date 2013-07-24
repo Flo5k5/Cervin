@@ -87,11 +87,12 @@ class ChampSelectController extends AbstractActionController
             foreach ($dataTable->getPaginator() as $select) {
 
             	$apercu = '<select id="select2_'.$select->id.'" class="select">';
+
 			    foreach ($select->select_options as $select_option) {
 			    	$apercu .= '<option value="'.$select_option->id.'">'.$escapeHtml($select_option->text).'</option>';
 			    }
-			    $apercu .= '</select>';
 
+			    $apercu .= '</select>';
 
                 $action = '<a href="#" 
 	            			data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id)).'" 
@@ -105,6 +106,13 @@ class ChampSelectController extends AbstractActionController
 	            			data-url="'.$this->url()->fromRoute("champSelect/modifierOptionAjax", array("id" => $select->id)).'" 
 	            			class="btn btn-primary ajouterCSV classPopover"
 	            			data-content="Ajouter une liste CSV">
+	            				<i class="icon-upload"></i>
+	            			</a>
+	            			<a href="#" 
+	            			data-toggle="modal"
+	            			data-id="'.$select->id.'" 
+	            			class="btn btn-primary exportCSV classPopover"
+	            			data-content="Exporter la liste au format CSV">
 	            				<i class="icon-download"></i>
 	            			</a>
 	            			<a href="#" 
@@ -258,11 +266,11 @@ class ChampSelectController extends AbstractActionController
 		                    $this->getEntityManager()->persist($newOption);
 						}
 	                    $this->getEntityManager()->flush();
-	                	return $this->getResponse()->setContent(Json::encode(array('message'=>'La liste CSV a bien été ajoutée','type'=>'success')));
+	                	return $this->getResponse()->setContent(Json::encode(array('message'=>'La liste CSV a bien été importée','type'=>'success')));
 	                }
-	                return $this->getResponse()->setContent(Json::encode(array('message'=>"Erreur lors de l'importation de la liste CSV",'type'=>'error')));
-	                	
-					break;
+	                return $this->getResponse()->setContent(Json::encode(array('message'=>"Erreur lors de l'import de la liste CSV",'type'=>'error')));
+	                break;
+
 				case 'ajouterOption':
 					$newOption = new SelectOption($select);
 					$newOption->text = $postData['value'];
