@@ -123,7 +123,16 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
     </div>
 </div>
 
-<div id="confirmDiv" >
+<div id="modalDiv" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
 </div> 
 
 <?php $this->inlineScript()->captureStart(); ?>
@@ -206,6 +215,34 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 			}
 		);
 
+        $(document).on( 'click', '.InfoObject', function(e){
+            var datas = $(this).data('data');
+            var table = $('<table>');
+            var thead = table.append('<thead>').children('thead').append('<tr />').children('tr').append('<th>Champ</th><th>Valeur</th>');
+            var tbody = table.append('<tbody />').children('tbody');
+
+            table.addClass('table table-striped table-bordered');
+
+            $.each( datas , function(index, value){
+                var tr = tbody.append('<tr />').children('tr:last');
+
+                if(typeof value == 'object'){ value = JSON.stringify(value); }
+
+                tr.append('<td>'+index.ucFirst()+'</td>');
+                tr.append('<td>'+value+'</td>');
+            });
+
+            $("#modalDiv .modal-title").text("Données modifiées");
+            $("#modalDiv .modal-body").html('');
+
+            table.appendTo('#modalDiv .modal-body');
+
+            $('#modalDiv').modal();
+
+            e.preventDefault();
+
+        });
+        
         $("#submit").click( function () {
             table.fnDraw();
             return false;
