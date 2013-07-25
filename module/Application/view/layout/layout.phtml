@@ -321,8 +321,8 @@ echo $this->headScript();
 			<div class="pull-right" >
 				<span class="text-right">
 				<?php 
-					$message = urlencode(" Titre de la page : ".substr($this->headTitle(), 7, -8));
-					$message .= urlencode("\n Url de la page : ".$_SERVER['HTTP_HOST'].$this->url());
+					$message = urlencode(" Titre de la page : ".substr($this->headTitle(), 7, -19));
+					$message .= urlencode("\n Url de la page : ".strtolower(dirname($_SERVER['SERVER_PROTOCOL'])).'://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI']);
 					$url = "https://tuleap.cervin.org/plugins/tracker/?tracker=27&func=new-artifact&artifact[901]=".$message;
 				?>
 				<a href="<?php echo $url;?>" target="_blank" class="btn btn-small">Soumettre un bug</a>
