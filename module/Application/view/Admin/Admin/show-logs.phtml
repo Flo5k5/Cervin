@@ -216,7 +216,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
 		);
 
         $(document).on( 'click', '.InfoObject', function(e){
+            e.preventDefault();
+
             var datas = $(this).data('data');
+ 
+            if( datas == null ){ return false; }
+
             var table = $('<table>');
             var thead = table.append('<thead>').children('thead').append('<tr />').children('tr').append('<th>Champ</th><th>Valeur</th>');
             var tbody = table.append('<tbody />').children('tbody');
@@ -238,9 +243,6 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/pillbox.css');
             table.appendTo('#modalDiv .modal-body');
 
             $('#modalDiv').modal();
-
-            e.preventDefault();
-
         });
         
         $("#submit").click( function () {
