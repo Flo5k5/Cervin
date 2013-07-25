@@ -374,7 +374,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 }
             });
 
-            $('#exportModalDiv .listeSelect').text(listeCSV);
+            $('#exportModalDiv .listeSelect').val(listeCSV);
         });
 
         $(document).on( 'keypress', '#exportModalDiv .delimiteurSelect', function(e){
