@@ -122,9 +122,38 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
     </div>
 </div>
 
-<div id="confirmDiv" >
-</div> 
-<div id="modalDiv"></div>
+<div id="confirmDiv" > </div>
+
+<div id="modalDiv"> </div>
+
+<div id="exportModalDiv" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exportCSVLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="exportCSVLabel">Export CSV de la liste d'options</h3>
+    </div>
+    <div class="modal-body">
+    <div class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="nom">Delimiteur ex:","</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="text" name="delimiteurSelect" class="delimiteurSelect input-medium" value=",">
+                    <button class="btn changeDelimiteurSelect"  type="button"><i class="icon-caret-right"> </i></button>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="nom">Liste d'élément</label>
+            <div class="controls">
+                <textarea name="listeSelect" class="listeSelect input-large" rows="6"></textarea>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Retour</button>
+    </div>
+</div>
 
 <?php $this->inlineScript()->captureStart(); ?>
 	var table;
@@ -137,8 +166,8 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
 				"aoColumns": [
 		           	           	null,
 		           	           	null, 
-                                { "bSortable": false  },
-		           	        	{ "bSortable": false  },
+                                { "bSortable": false },
+		           	        	{ "bSortable": false },
 	           	           	 ],
 	           	"iColumns": 4,
 	           	"bAutoWidth": false,
@@ -190,6 +219,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 }
 			}
 		);
+
         // ajouter un select
         $(document).on( 'click', '.ajouterSelectSubmit', function(e){
             var label = $('input[name="labelSelect"]');
@@ -212,6 +242,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 $('body').css('cursor', 'auto');
             });
         });
+
         // supprimer un select
         $(document).on( 'click', '.supprimerSelect', function(e){
             var dataURL = $(this).attr('data-url');
@@ -234,11 +265,13 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
             });
             
         });
+
         // on passe l'url du select a la modal 
         $(document).on( 'click', '.ajouterCSV', function(e){
             var dataURL = $(this).attr('data-url');
             $('a.ajouterCSVSubmit').attr('data-url', dataURL);
         });
+
         // ajouter un une liste d'option ( CSV )
         $(document).on( 'click', '.ajouterCSVSubmit', function(e){
             var dataURL = $(this).attr('data-url');
@@ -262,6 +295,7 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 $('body').css('cursor', 'auto');
             });
         });
+
         // supprimer une valeur d'un select 
         $(document).on( 'click', '.SupprimerOption', function(e){
             var dataURL = $(this).attr('data-url');
@@ -280,10 +314,12 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 $('body').css('cursor', 'auto');
             });
         });
+
         // on recharge le tableu quand on ferme la modal SelectOptionsModal
         $('#modalDiv').on('hidden', function () {
             table.fnDraw();
         })
+
         // ajouter une valeur a un select
         $(document).on( 'click', '.AjouterOption', function(e){
             var dataURL = $(this).attr('data-url');
@@ -311,6 +347,58 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/datatable.css');
                 }
 
             });
+        });
+        
+        //Export de la liste en CSV
+        $(document).on( 'click', '.exportCSV', function(e){
+            var id = $(this).data('id');
+
+            $('#exportModalDiv .changeDelimiteurSelect').data('id', id);
+            $("#exportModalDiv .changeDelimiteurSelect").click();
+            $('#exportModalDiv').modal();
+            e.preventDefault();
+        });
+
+        $(document).on( 'click', '#exportModalDiv .changeDelimiteurSelect', function(e){
+            var id           = $(this).data('id');
+            var listeCSV     = '';
+            var listeOptions = $("#select2_"+id+" option");
+            var delim        = ( $('#exportModalDiv .delimiteurSelect').val() !== 'undefined' && $('#exportModalDiv .delimiteurSelect').val() !== '' ? $('#exportModalDiv .delimiteurSelect').val() : ',' );
+
+            $.each( listeOptions, function(index, option){
+
+                listeCSV += $.trim( $(option).text() );
+
+                if( index < listeOptions.length-1 ){
+                    listeCSV += delim;
+                }
+            });
+
+            $('#exportModalDiv .listeSelect').text(listeCSV);
+        });
+
+        $(document).on( 'keypress', '#exportModalDiv .delimiteurSelect', function(e){
+            if( e.which == 13 ){ // Code touche entrée = 13
+                $("#exportModalDiv .changeDelimiteurSelect").click();
+                $(this).blur();
+                e.preventDefault();
+            }
+        });
+        
+        $(document).on( 'focus', '#exportModalDiv .delimiteurSelect', function(e){
+            $(this).select();
+        });
+                
+        $(document).on( 'mouseup', '#exportModalDiv .delimiteurSelect', function(e){
+            e.preventDefault();
+        });
+        
+        $(document).on( 'focus', '#exportModalDiv .listeSelect', function(e){
+            $(this).select();
+        });
+                
+        $(document).on( 'mouseup', '#exportModalDiv .listeSelect', function(e){
+            e.preventDefault();
         });
         
 	});
