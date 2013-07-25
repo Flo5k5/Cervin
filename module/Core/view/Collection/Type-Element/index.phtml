@@ -5,6 +5,8 @@ $this->headTitle($title);
 $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editable.css');
 ?>
 
+<div class="messageEditUsers"></div>
+
 <ul class="breadcrumb">
 	<li><a href="<?php echo $this->url('page') ?>">Accueil</a> <span class="divider">/</span></li>
 	<li><a href="<?php echo $this->url('collection') ?>">Collection Numérique</a> <span class="divider">/</span></li>
@@ -224,8 +226,10 @@ $this->inlineScript()->captureStart();
 		            URL,
 		            { name: dataName },
 		            function(response) {
-		                if(response == 'true') {
+                        var resp = jQuery.parseJSON(response);
+		                if(resp.success == true) {
 		                    ThisParent.remove();
+                            $('.messageEditUsers').showInfos(resp.message, resp.type);
 		               // location.reload();
 		
 		            } else {

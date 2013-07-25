@@ -187,7 +187,7 @@ class TypeElementController extends AbstractActionController
 						}
 						$this->getEntityManager()->remove($Champ);
 						$this->getEntityManager()->flush();
-                        return $this->getResponse()->setContent(Json::encode(true));
+                        return $this->getResponse()->setContent(Json::encode(array('success'=>true,'message'=>'Le champ a bien été supprimé', 'type'=>'success')));
                         break;
             		default:
             			return $this->getResponse()->setContent(Json::encode(array('success'=>false,'error'=>'name inconu')));

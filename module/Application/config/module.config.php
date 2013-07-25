@@ -14,6 +14,7 @@ return array(
             'Page' => 'Application\Controller\PageController',
             'Admin' => 'Admin\Controller\AdminController',
         	'Chantier' => 'Application\Controller\ChantierController',
+            'Export' => 'Application\Controller\ExportController',
         ),
     ),
     'router' => array(
@@ -54,6 +55,33 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Page',
                                 'action'     => 'modifier',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'export' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/export',
+                    'defaults' => array(
+                        'controller' => 'Export',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'parcours' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/parcours/:idParcours',
+                            'constraints' => array(
+                                'idParcours'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Export',
+                                'action'     => 'parcours',
                             ),
                         ),
                     ),

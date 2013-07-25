@@ -78,6 +78,11 @@ return array(
                     'controller' => 'Page',
                     'roles' => array('Admin')
                 ),
+
+                array(
+                    'controller' => 'Export',
+                    'roles' => array('Visiteur')
+                ),
             		
             	array(
             		'controller' => 'Chantier',
@@ -193,6 +198,9 @@ return array(
                 array('route' => 'page', 'roles' => array('Visiteur')),
                 array('route' => 'page/voir', 'roles' => array('Visiteur')),
                 array('route' => 'page/modifier', 'roles' => array('Admin')),
+
+                array('route' => 'export', 'roles' => array('Visiteur')),
+                array('route' => 'export/parcours', 'roles' => array('Visiteur')),
 
             	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/admin', 'roles' => array('Admin')),
