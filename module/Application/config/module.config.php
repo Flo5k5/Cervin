@@ -11,10 +11,11 @@ namespace Application;
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Page' => 'Application\Controller\PageController',
-            'Admin' => 'Admin\Controller\AdminController',
-        	'Chantier' => 'Application\Controller\ChantierController',
-            'Export' => 'Application\Controller\ExportController',
+            'Page'       => 'Application\Controller\PageController',
+            'Admin'      => 'Admin\Controller\AdminController',
+        	'Chantier'   => 'Application\Controller\ChantierController',
+            'Export'     => 'Application\Controller\ExportController',
+            'ExportREST' => 'Application\Controller\ExportRESTController',
         ),
     ),
     'router' => array(
@@ -84,6 +85,19 @@ return array(
                                 'action'     => 'parcours',
                             ),
                         ),
+                    ),
+                ),
+            ),
+
+            'rest' => array(
+                'type'    => 'Segment',
+                'options' => array(
+                    'route'    => '/rest[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'ExportREST',
                     ),
                 ),
             ),
@@ -325,6 +339,9 @@ return array(
             'application/page/modifier'       => __DIR__ . '/../view/application/page/modifier.phtml',
             'chantier'						  => __DIR__ . '/../view/application/chantier/index.phtml',
             'chantier/admin'				  => __DIR__ . '/../view/application/chantier/admin.phtml',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',

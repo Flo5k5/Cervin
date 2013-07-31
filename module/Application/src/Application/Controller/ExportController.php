@@ -17,12 +17,9 @@ use Zend\Soap\AutoDiscover;
 
 class ExportController extends AbstractActionController
 {
-	private $_options;
-	//private $serverUrl = strtolower(dirname($_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT'];
-	 //
+	private $_options  = array('soap_version' => SOAP_1_2);
     private $_URI      = '/export';
     private $_WSDL_URI = '/export?wsdl';
-    //private $_WSDL_URI = $serverUrl.'/export?wsdl';
 
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -67,25 +64,13 @@ class ExportController extends AbstractActionController
                      ->setUri($serverUrl.$this->_URI);
 
         $autodiscover->handle();
-
-        /*
-		$serverUrl = 'http://time-tracker.com/application/soap';
-        $soapAutoDiscover = new AutoDiscover();
-	    $soapAutoDiscover->setBindingStyle(array('style' => 'document'));
-	    $soapAutoDiscover->setOperationBodyStyle(array('use' => 'literal'));
-	    $soapAutoDiscover->setClass('\Application\Service\Tracker');
-	    $soapAutoDiscover->setUri($serverUrl);
-	    $wsdl = $soapAutoDiscover->generate();
-	    $wsdl = $wsdl->toDomDocument();
-	    //so this is:
-	    header("Content-Type: text/xml");
-	    echo $wsdl->saveXML();
-	    exit;*/
+        //header("Content-Type: text/xml");
+        //echo $autodiscover->toXml();
     }
 
     private function handleSOAP() {
     	$serverUrl = strtolower(dirname($_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT'];
-        $soap      = new Server($serverUrl.$this->_WSDL_URI);
+        $soap      = new Server($serverUrl.$this->_WSDL_URI, $this->_options);
 
         $soap->setClass('Application\WebService\ExportClass');
 
