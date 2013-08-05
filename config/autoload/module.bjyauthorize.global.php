@@ -83,6 +83,11 @@ return array(
                     'controller' => 'Export',
                     'roles' => array('Visiteur')
                 ),
+                    
+                array(
+                    'controller' => 'ExportREST',
+                    'roles' => array('Visiteur')
+                ),
             		
             	array(
             		'controller' => 'ClientTest',
@@ -208,6 +213,8 @@ return array(
                 array('route' => 'export/parcours', 'roles' => array('Visiteur')),
                 array('route' => 'client-test', 'roles' => array('Visiteur')),
 
+                array('route' => 'rest', 'roles' => array('Visiteur')),
+
             	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/admin', 'roles' => array('Admin')),
             	array('route' => 'chantier/demarrerChantierElement', 'roles' => array('Collection')),
@@ -297,7 +304,6 @@ return array(
                 array('route' => 'scene/getAllElement', 'roles' => array('Parcours')),
                 array('route' => 'scene/addRelationSceneElement', 'roles' => array('Parcours')),
             		
-
             	array('route' => 'transition/voir', 'roles' => array('Visiteur')),
             	array('route' => 'transition/modifier', 'roles' => array('Parcours')),
             	array('route' => 'transition/supprimerTransitionSec', 'roles' => array('Parcours')),
