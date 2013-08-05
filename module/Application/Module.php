@@ -307,6 +307,12 @@ class Module implements AutoloaderProviderInterface,
                 	$viewHelper = new ConditionsGenerales();
                 	$viewHelper->setServiceLocator($serviceLocator);
                 	return $viewHelper;
+                },
+                'ExportClass' => function ($helperPluginManager) {
+                	$serviceLocator = $helperPluginManager->getServiceLocator();
+                	$classManager = new ExportClass();
+                	$classManager->setServiceLocator($serviceLocator);
+                	return $classManager;
                 }
             ),
         );

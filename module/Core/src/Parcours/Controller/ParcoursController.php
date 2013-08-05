@@ -572,4 +572,159 @@ class ParcoursController extends AbstractActionController
     	}
     }
     
+    public function exportAction() {
+    	$viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+    	$escapeHtml = $viewHelperManager->get('escapeHtmlAttr');
+    	$id = (int) $this->params()->fromRoute('id', 0);
+    	$parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+    	if (!$id or $parcours === null) {
+    		$this->getResponse()->setStatusCode(404);
+    		return;
+    	}
+    	$result = array();
+    	$result['elements'] = array();
+    	$result['transitions'] = array();
+    	$result['sous_parcours'] = array();
+    	
+    	foreach ( $parcours->transitions as $transition) {
+    		// Transitions inter-sous-parcours
+    		$result['transitions'][$transition->id] = array(
+    				'scene_origine'		=> $transition->scene_origine->id,
+    				'scene_destination'	=> $transition->scene_destination->id,
+    				'semantique'		=> htmlentities($escapeHtml($transition->semantique->semantique)),
+    				'narration'			=> htmlentities($escapeHtml($transition->narration))
+    		);
+    	}
+    	foreach ($parcours->sous_parcours as $sous_parcours) {
+    		// Sous-parcours
+    		$suivant_id = $sous_parcours->sous_parcours_suivant ? $sous_parcours->sous_parcours_suivant->id : null;
+    		$result['sous_parcours'][$sous_parcours->id] = array(
+    			'scene_depart' 				=> $sous_parcours->scene_depart->id,
+    			'sous_parcours_suivant' 	=> $suivant_id,
+    			'titre' 					=> $sous_parcours->titre,
+    			'scenes_recommandees'		=> array(),
+    			'transitions_recommandees'	=> array(),
+    			'scenes_secondaires'		=> array(),
+    			'transitions_secondaires'	=> array()
+    		);
+    		foreach ( $sous_parcours->transitions as $transition) {
+    			// Transitions
+    			if ($transition InstanceOf \Parcours\Entity\TransitionRecommandee) {
+    				$result['sous_parcours'][$sous_parcours->id]['transitions_recommandees'][$transition->id] = array(
+    					'scene_origine'		=> $transition->scene_origine->id,
+    					'scene_destination'	=> $transition->scene_destination->id,
+    					'semantique'		=> htmlentities($escapeHtml($transition->semantique->semantique)),
+    					'narration'			=> htmlentities($escapeHtml($transition->narration))
+    				); 
+    			} else {
+    				$result['sous_parcours'][$sous_parcours->id]['transitions_secondaires'][$transition->id] = array(
+    					'scene_origine'		=> $transition->scene_origine->id,
+    					'scene_destination'	=> $transition->scene_destination->id,
+    					'semantique'		=> htmlentities($escapeHtml($transition->semantique->semantique)),
+    					'narration'			=> htmlentities($escapeHtml($transition->narration))
+    				);
+    			}
+
+    		}
+    		foreach ($sous_parcours->scenes as $scene) {
+    			// Scenes
+    			if ($scene InstanceOf \Parcours\Entity\SceneRecommandee) {
+    				$result['sous_parcours'][$sous_parcours->id]['scenes_recommandees'][$scene->id] = array(
+    						'titre'			=>  htmlentities($escapeHtml($scene->titre)),
+    						'narration'		=>  htmlentities($escapeHtml($scene->narration)),
+    						'elements'		=> array()
+    				);
+    			} else {
+    				$result['sous_parcours'][$sous_parcours->id]['scenes_secondaires'][$scene->id] = array(
+    						'titre'			=> htmlentities($escapeHtml( $scene->titre)),
+    						'narration'		=> htmlentities($escapeHtml($scene->narration)),
+    						'elements'		=> array()
+    				);
+    			}
+    			foreach ($scene->elements as $element) {
+    				// Elements
+    				if ($scene InstanceOf \Parcours\Entity\SceneRecommandee) {
+    					array_push($result['sous_parcours'][$sous_parcours->id]['scenes_recommandees'][$scene->id]['elements'], $element->id);
+    				} else {
+    					array_push($result['sous_parcours'][$sous_parcours->id]['scenes_secondaires'][$scene->id]['elements'], $element->id);
+    				}
+    				$result['elements'][$element->id] = array(
+    					'titre'			=> htmlentities($escapeHtml($element->titre)),
+    					'description'	=> htmlentities($escapeHtml($element->description)),
+    					'type'			=> ($element InstanceOf \Collection\Entity\Artefact) ? 'artefact' : 'media',
+    					'type_element'	=> htmlentities($escapeHtml($element->type_element->nom)),
+    					'datas'			=> array()
+    				);
+    				foreach ($element->datas as $data) {
+    					$result['elements'][$element->id]['datas'][$data->id] = array(
+    						'label'		=> htmlentities($escapeHtml($data->champ->label)),
+    						'format'	=> htmlentities($escapeHtml($data->champ->format))    						
+    					);
+    					switch ($data->champ->format) {
+    						case 'select':
+								$result['elements'][$element->id]['datas'][$data->id]['option'] 
+									= ($data->option) ? htmlentities($escapeHtml($data->option->text)) : null;
+        						break;
+        					case 'texte':
+        						$result['elements'][$element->id]['datas'][$data->id]['texte'] 
+        							= ($data->texte) ? htmlentities($escapeHtml($data->texte)) : null;
+								break;
+							case 'textarea':
+								$result['elements'][$element->id]['datas'][$data->id]['textarea']
+									= ($data->textarea) ? htmlentities($escapeHtml($data->textarea)) : null;
+								break;
+							break;
+							case 'date':
+								switch ($data->format) {
+									case 2:
+										$result['elements'][$element->id]['datas'][$data->id]['date']
+											= ($data->date) ? $data->date->format('Y') : null;
+										$result['elements'][$element->id]['datas'][$data->id]['format'] = '2';
+										break;
+									case 1:
+										$result['elements'][$element->id]['datas'][$data->id]['date']
+											= ($data->date) ? $data->date->format('Y-m') : null;
+										$result['elements'][$element->id]['datas'][$data->id]['format'] = '1';
+										break;
+									default:
+										$result['elements'][$element->id]['datas'][$data->id]['date']
+											= ($data->date) ? $data->date->format('Y-d-m') : null;
+										$result['elements'][$element->id]['datas'][$data->id]['format'] = '0';
+										break;
+    							}
+								break;
+							case 'nombre':
+								$result['elements'][$element->id]['datas'][$data->id]['nombre']
+									= ($data->nombre) ? $data->nombre : null;
+								break;
+							break;
+							case 'fichier':
+								$result['elements'][$element->id]['datas'][$data->id]['fichier']
+									= ($data->fichier) ? htmlentities($escapeHtml($data->fichier)) : null;
+								$result['elements'][$element->id]['datas'][$data->id]['format_fichier']
+									= ($data->format_fichier) ? htmlentities($escapeHtml($data->format_fichier)) : null;
+								break;
+							case 'url':
+								$result['elements'][$element->id]['datas'][$data->id]['url']
+									= ($data->url) ? htmlentities($escapeHtml($data->url)) : null;
+								break;
+							break;
+							case 'geoposition':
+								$result['elements'][$element->id]['datas'][$data->id]['latitude']
+									= ($data->latitude) ? $data->latitude : null;
+								$result['elements'][$element->id]['datas'][$data->id]['longitude']
+									= ($data->longitude) ? $data->longitude : null;
+								$result['elements'][$element->id]['datas'][$data->id]['adresse']
+									= ($data->adresse) ? htmlentities($escapeHtml($data->adresse)) : null;
+								break;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	$view = new ViewModel(array('result'=>$result));
+    	$view->setTerminal(true);
+    	return $view;
+    }
+    
 }

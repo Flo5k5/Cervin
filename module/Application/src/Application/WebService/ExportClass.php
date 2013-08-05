@@ -9,56 +9,50 @@
 
 namespace Application\WebService;
 
-//use Zend\Mvc\Controller\AbstractActionController;
-//use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Doctrine\ORM\EntityManager;
 use Zend\Json\Json;
 
-class ExportClass
+class ExportClass implements ServiceLocatorAwareInterface
 {
-	/**
-	 * @var Doctrine\ORM\EntityManager
-	 */
+	
 	protected $em;
+	protected $serviceLocator;
 	
-	private function setEntityManager(EntityManager $em)
-	{
-		$this->em = $em;
-	}
-	
-	/**
-	 * Return a EntityManager
-	 *
-	 * @return Doctrine\ORM\EntityManager
-	 */
-	private function getEntityManager()
-	{
-		if ($this->em === null) {
-			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-		}
-
-		return $this->em;
-	}
-
-	/**
-	 * Affiche un parcours
-	 *
-	 * @param int  $id Id du parcours
-	 * 
-	 * @return array
-	 */
-    public function parcoursAction($id){
-
-    	//$id = (int) $this->params('idParcours', null);
-        if (null === $id) {
-            $this->getResponse()->setStatusCode(404);
-            return; 
-        }
-        $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-        if ($Parcours === null) {
-            $this->getResponse()->setStatusCode(404);
-            return; 
-        }
-
-        return $this->getResponse()->setContent(Json::encode());
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) 
+    { 
+        $this->serviceLocator = $serviceLocator; 
+        return $this; 
     }
+
+    public function getServiceLocator()
+    { 
+        return $this->serviceLocator; 
+    }
+
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
+        }
+        return $this->em;
+    }
+
+	/**
+	 * Retourne le titre d'un parcours
+	 * 
+	 * @param integer $id
+	 * @return string
+	 */
+    public function getParcours($id){
+       // $parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
+        return "coucou";
+    }
+
 }

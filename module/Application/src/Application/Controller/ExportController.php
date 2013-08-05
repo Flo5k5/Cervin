@@ -91,22 +91,5 @@ class ExportController extends AbstractActionController
 
         $soap->handle();
     }
-
-    public function parcoursAction() {
-
-    	$id = (int) $this->params('idParcours', null);
-        if (null === $id) {
-            $this->getResponse()->setStatusCode(404);
-            return; 
-        }
-        $Parcours = $this->getEntityManager()->getRepository('Parcours\Entity\Parcours')->findOneBy(array('id'=>$id));
-        if ($Parcours === null) {
-            $this->getResponse()->setStatusCode(404);
-            return; 
-        }
-
-
-
-        return $this->getResponse()->setContent(Json::encode());
-    }
+    
 }

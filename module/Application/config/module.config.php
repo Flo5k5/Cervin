@@ -15,6 +15,8 @@ return array(
             'Admin' => 'Admin\Controller\AdminController',
         	'Chantier' => 'Application\Controller\ChantierController',
             'Export' => 'Application\Controller\ExportController',
+            'ClientTest' => 'Application\Controller\ClientTestController',
+        	'ExportClass' => 'Application\WebService\ExportClass'
         ),
     ),
     'router' => array(
@@ -75,18 +77,27 @@ return array(
                     'parcours' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/parcours/:idParcours',
-                            'constraints' => array(
-                                'idParcours'     => '[0-9]+',
-                            ),
+                            'route' => '/export',
                             'defaults' => array(
                                 'controller' => 'Export',
-                                'action'     => 'parcours',
+                                'action'     => 'index',
                             ),
                         ),
                     ),
                 ),
             ),
+            
+            'client-test' => array(
+            	'type' => 'Zend\Mvc\Router\Http\Literal',
+            	'options' => array(
+            		'route' => '/client-test',
+            		'defaults' => array(
+            			'controller' => 'ClientTest',
+            			'action'     => 'index',
+            		),
+            	),
+            	'may_terminate' => true,
+           	),
             
             'chantier' => array(
             	'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -324,7 +335,7 @@ return array(
             'application/page/voir'           => __DIR__ . '/../view/application/page/voir.phtml',
             'application/page/modifier'       => __DIR__ . '/../view/application/page/modifier.phtml',
             'chantier'						  => __DIR__ . '/../view/application/chantier/index.phtml',
-            'chantier/admin'				  => __DIR__ . '/../view/application/chantier/admin.phtml',
+            'chantier/admin'				  => __DIR__ . '/../view/application/chantier/admin.phtml'
         ),
         'template_path_stack' => array(
             'Admin' => __DIR__ . '/../view',

@@ -553,6 +553,19 @@ return array(
                 			),
                 		),
                 	),
+                	'export' => array(
+                		'type' => 'segment',
+                		'options' => array(
+                			'route' => '/export/:id',
+                			'constraints' => array(
+                				'id'     => '[0-9]+',
+                			),
+                			'defaults' => array(
+                				'controller' => 'Parcours',
+                				'action'     => 'export',
+                			),
+                		),
+                	),
                 ),
             ),
 

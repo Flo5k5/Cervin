@@ -85,6 +85,11 @@ return array(
                 ),
             		
             	array(
+            		'controller' => 'ClientTest',
+            		'roles' => array('Visiteur')
+            	),
+            		
+            	array(
             		'controller' => 'Chantier',
             		'roles' => array('Collection')
             	),
@@ -201,6 +206,7 @@ return array(
 
                 array('route' => 'export', 'roles' => array('Visiteur')),
                 array('route' => 'export/parcours', 'roles' => array('Visiteur')),
+                array('route' => 'client-test', 'roles' => array('Visiteur')),
 
             	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/admin', 'roles' => array('Admin')),
@@ -272,6 +278,7 @@ return array(
                 array('route' => 'parcours/supprimerSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/editSousParcours', 'roles' => array('Parcours')),
                 array('route' => 'parcours/changerVisibilite', 'roles' => array('Parcours')),
+                array('route' => 'parcours/export', 'roles' => array('Parcours')),
 
             	array('route' => 'semantiquetransition', 'roles' => array('Admin')),
             	array('route' => 'semantiquetransition/ajouter', 'roles' => array('Admin')),
