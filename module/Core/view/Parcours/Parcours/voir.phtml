@@ -78,9 +78,21 @@ $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-editabl
 		</div>
 		<div class="span2">
 			<a href="<?php echo $this->url('parcours/export', array('id' => $Parcours->id));?>"
-				class="btn btn-block">
+				target="_blank"
+				class="btn">
 				<i class="icon-download"></i> Export Json
 			</a>
+			&nbsp;&nbsp;
+			<a href="#" 
+        		class="info-export"
+        		rel="popover"
+        		data-original-title="Export Json d'un parcours"
+        		data-html = "true"
+        		data-content="La documentation du format Json utilisé pour exporter un parcours est disponible sur
+        			<a target='_blank' href='https://tuleap.cervin.org/wiki/index.php?pagename=Export%20Json%20d%27un%20parcours&action=BackLinks&group_id=105'>
+        			le wiki de Tuleap.</a>">
+        		<i class="icon-question-sign"></i>
+        	</a>  
 		</div>
 	</div>
     <?php else : ?>
@@ -346,5 +358,7 @@ $(".afficherDot").click(function(e){
 $(".refresh").click(function(e){
 	document.location.reload();
 });
+
+$(".info-export").popover({placement:'left', trigger:'click'}); 
 
 <?php $this->inlineScript()->captureEnd();?>
