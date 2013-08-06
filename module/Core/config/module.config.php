@@ -836,34 +836,36 @@ return array(
     'view_manager' => array(
         'template_map' => array(
             
-            'collection/collection/consulter'       => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
+            'collection/collection/consulter'            => __DIR__ . '/../view/Collection/Collection/consulter.phtml',
 
-            'collection/element/ajouter'            => __DIR__ . '/../view/Collection/Element/ajouter.phtml',
-            'collection/element/editer'             => __DIR__ . '/../view/Collection/Element/editer.phtml',
-            'collection/element/voir'               => __DIR__ . '/../view/Collection/Element/voir.phtml',
+            'collection/element/ajouter'                 => __DIR__ . '/../view/Collection/Element/ajouter.phtml',
+            'collection/element/editer'                  => __DIR__ . '/../view/Collection/Element/editer.phtml',
+            'collection/element/voir'                    => __DIR__ . '/../view/Collection/Element/voir.phtml',
                 
-            'collection/semantique/index'        => __DIR__ . '/../view/Collection/Semantique/index.phtml',
-            'collection/semantique/ajouter'      => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
-            'collection/semantique/modifier'     => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
+            'collection/semantique/index'                => __DIR__ . '/../view/Collection/Semantique/index.phtml',
+            'collection/semantique/ajouter'              => __DIR__ . '/../view/Collection/Semantique/ajouter.phtml',
+            'collection/semantique/modifier'             => __DIR__ . '/../view/Collection/Semantique/modifier.phtml',
                 
-            'collection/type-element/index'      => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
-            'collection/type-element/add'        => __DIR__ . '/../view/Collection/Type-Element/add.phtml',
+            'collection/type-element/index'              => __DIR__ . '/../view/Collection/Type-Element/index.phtml',
+            'collection/type-element/add'                => __DIR__ . '/../view/Collection/Type-Element/add.phtml',
         		
-            'collection/champ-select/index'                     => __DIR__ . '/../view/Collection/Champ-Select/index.phtml',
-            'collection/champ-select/modifierOptionAjax'        => __DIR__ . '/../view/Collection/Champ-Select/modifierOptionAjax.phtml',
+            'collection/champ-select/index'              => __DIR__ . '/../view/Collection/Champ-Select/index.phtml',
+            'collection/champ-select/modifierOptionAjax' => __DIR__ . '/../view/Collection/Champ-Select/modifierOptionAjax.phtml',
 
-        	'parcours/semantique-transition/index'	=> __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml',
-        	'parcours/semantique-transition/ajouter'=> __DIR__ . '/../view/Parcours/Semantique-Transition/ajouter.phtml',
+        	'parcours/semantique-transition/index'	     => __DIR__ . '/../view/Parcours/Semantique-Transition/index.phtml',
+        	'parcours/semantique-transition/ajouter'     => __DIR__ . '/../view/Parcours/Semantique-Transition/ajouter.phtml',
         		
-        	'parcours/parcours/index'		=> __DIR__ . '/../view/Parcours/Parcours/index.phtml',
-        	'parcours/parcours/voir'		=> __DIR__ . '/../view/Parcours/Parcours/voir.phtml',
-        	'parcours/parcours/ajouter'		=> __DIR__ . '/../view/Parcours/Parcours/ajouter.phtml',
+        	'parcours/parcours/index'		             => __DIR__ . '/../view/Parcours/Parcours/index.phtml',
+        	'parcours/parcours/voir'		             => __DIR__ . '/../view/Parcours/Parcours/voir.phtml',
+        	'parcours/parcours/ajouter'		             => __DIR__ . '/../view/Parcours/Parcours/ajouter.phtml',
         		
-        	'parcours/scene/voir-scene'		=> __DIR__ . '/../view/Parcours/Scene/voir-scene.phtml',
-        	'parcours/scene/edit-scene'		=> __DIR__ . '/../view/Parcours/Scene/edit-scene.phtml',
+        	'parcours/scene/voir-scene'		             => __DIR__ . '/../view/Parcours/Scene/voir-scene.phtml',
+        	'parcours/scene/edit-scene'		             => __DIR__ . '/../view/Parcours/Scene/edit-scene.phtml',
         	
-        	'parcours/transition/voir'		=> __DIR__ . '/../view/Parcours/Transition/voir.phtml',
-        	'parcours/transition/modifier'		=> __DIR__ . '/../view/Parcours/Transition/modifier.phtml',
+        	'parcours/transition/voir'		             => __DIR__ . '/../view/Parcours/Transition/voir.phtml',
+            'parcours/transition/modifier'               => __DIR__ . '/../view/Parcours/Transition/modifier.phtml',
+
+        	'parcours/parcours/export'		             => __DIR__ . '/../view/Parcours/Parcours/export.phtml',
         ),
         'template_path_stack' => array(
             'Collection' => __DIR__ . '/../view',

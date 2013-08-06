@@ -209,11 +209,11 @@ return array(
                 array('route' => 'page/voir', 'roles' => array('Visiteur')),
                 array('route' => 'page/modifier', 'roles' => array('Admin')),
 
-                array('route' => 'export', 'roles' => array('Visiteur')),
-                array('route' => 'export/parcours', 'roles' => array('Visiteur')),
-                array('route' => 'client-test', 'roles' => array('Visiteur')),
+                //array('route' => 'export', 'roles' => array('Visiteur')),
+                //array('route' => 'export/parcours', 'roles' => array('Visiteur')),
+                //array('route' => 'client-test', 'roles' => array('Visiteur')),
 
-                array('route' => 'rest', 'roles' => array('Visiteur')),
+                //array('route' => 'rest', 'roles' => array('Visiteur')),
 
             	array('route' => 'chantier', 'roles' => array('Collection')),
             	array('route' => 'chantier/admin', 'roles' => array('Admin')),
